@@ -8,153 +8,146 @@
 | Site               | Site               | Identical |       |
 | SitesSourcecontrol | SitesSourcecontrol | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20220301/storage                         | v20250501/storage                               |  Status   | Notes |
-|:------------------------------------------|:------------------------------------------------|:---------:|:------|
-| ApiDefinitionInfo                         | ApiDefinitionInfo                               | Identical |       |
-| ApiDefinitionInfo_STATUS                  | ApiDefinitionInfo_STATUS                        | Identical |       |
-| ApiManagementConfig                       | ApiManagementConfig                             | Identical |       |
-| ApiManagementConfig_STATUS                | ApiManagementConfig_STATUS                      | Identical |       |
-| AutoHealActions                           | AutoHealActions                                 | Identical |       |
-| AutoHealActions_STATUS                    | AutoHealActions_STATUS                          | Identical |       |
-| AutoHealCustomAction                      | AutoHealCustomAction                            | Identical |       |
-| AutoHealCustomAction_STATUS               | AutoHealCustomAction_STATUS                     | Identical |       |
-| AutoHealRules                             | AutoHealRules                                   | Identical |       |
-| AutoHealRules_STATUS                      | AutoHealRules_STATUS                            | Identical |       |
-| AutoHealTriggers                          | AutoHealTriggers                                | Identical |       |
-| AutoHealTriggers_STATUS                   | AutoHealTriggers_STATUS                         | Identical |       |
-| AzureStorageInfoValue                     | AzureStorageInfoValue                           | Extended  |       |
-| AzureStorageInfoValue_STATUS              | AzureStorageInfoValue_STATUS                    | Extended  |       |
-| Capability                                | Capability                                      | Identical |       |
-| Capability_STATUS                         | Capability_STATUS                               | Identical |       |
-| CloningInfo                               | CloningInfo                                     | Identical |       |
-| CloningInfo_STATUS                        | CloningInfo_STATUS                              | Identical |       |
-| ConnStringInfo                            | ConnStringInfo                                  | Identical |       |
-| ConnStringInfo_STATUS                     | ConnStringInfo_STATUS                           | Identical |       |
-| CorsSettings                              | CorsSettings                                    | Identical |       |
-| CorsSettings_STATUS                       | CorsSettings_STATUS                             | Identical |       |
-|                                           | DaprConfig                                      |    New    |       |
-|                                           | DaprConfig_STATUS                               |    New    |       |
-|                                           | DefaultIdentity                                 |    New    |       |
-|                                           | DefaultIdentity_STATUS                          |    New    |       |
-| Experiments                               | Experiments                                     | Identical |       |
-| Experiments_STATUS                        | Experiments_STATUS                              | Identical |       |
-| ExtendedLocation                          | ExtendedLocation                                | Identical |       |
-| ExtendedLocation_STATUS                   | ExtendedLocation_STATUS                         | Identical |       |
-|                                           | FunctionAppConfig                               |    New    |       |
-|                                           | FunctionAppConfig_STATUS                        |    New    |       |
-|                                           | FunctionsAlwaysReadyConfig                      |    New    |       |
-|                                           | FunctionsAlwaysReadyConfig_STATUS               |    New    |       |
-|                                           | FunctionsDeployment                             |    New    |       |
-|                                           | FunctionsDeploymentStorage                      |    New    |       |
-|                                           | FunctionsDeploymentStorageAuthentication        |    New    |       |
-|                                           | FunctionsDeploymentStorageAuthentication_STATUS |    New    |       |
-|                                           | FunctionsDeploymentStorage_STATUS               |    New    |       |
-|                                           | FunctionsDeployment_STATUS                      |    New    |       |
-|                                           | FunctionsRuntime                                |    New    |       |
-|                                           | FunctionsRuntime_STATUS                         |    New    |       |
-|                                           | FunctionsScaleAndConcurrency                    |    New    |       |
-|                                           | FunctionsScaleAndConcurrencyTriggers            |    New    |       |
-|                                           | FunctionsScaleAndConcurrencyTriggersHttp        |    New    |       |
-|                                           | FunctionsScaleAndConcurrencyTriggersHttp_STATUS |    New    |       |
-|                                           | FunctionsScaleAndConcurrencyTriggers_STATUS     |    New    |       |
-|                                           | FunctionsScaleAndConcurrency_STATUS             |    New    |       |
-|                                           | FunctionsSiteUpdateStrategy                     |    New    |       |
-|                                           | FunctionsSiteUpdateStrategy_STATUS              |    New    |       |
-| GitHubActionCodeConfiguration             | GitHubActionCodeConfiguration                   | Identical |       |
-| GitHubActionCodeConfiguration_STATUS      | GitHubActionCodeConfiguration_STATUS            | Identical |       |
-| GitHubActionConfiguration                 | GitHubActionConfiguration                       | Identical |       |
-| GitHubActionConfiguration_STATUS          | GitHubActionConfiguration_STATUS                | Identical |       |
-| GitHubActionContainerConfiguration        | GitHubActionContainerConfiguration              | Identical |       |
-| GitHubActionContainerConfiguration_STATUS | GitHubActionContainerConfiguration_STATUS       | Identical |       |
-| HandlerMapping                            | HandlerMapping                                  | Identical |       |
-| HandlerMapping_STATUS                     | HandlerMapping_STATUS                           | Identical |       |
-| HostNameSslState                          | HostNameSslState                                | Identical |       |
-| HostNameSslState_STATUS                   | HostNameSslState_STATUS                         | Identical |       |
-| HostingEnvironmentProfile                 | HostingEnvironmentProfile                       | Identical |       |
-| HostingEnvironmentProfile_STATUS          | HostingEnvironmentProfile_STATUS                | Identical |       |
-|                                           | InstallScript                                   |    New    |       |
-|                                           | InstallScriptSource                             |    New    |       |
-|                                           | InstallScriptSource_STATUS                      |    New    |       |
-|                                           | InstallScript_STATUS                            |    New    |       |
-| IpSecurityRestriction                     | IpSecurityRestriction                           | Identical |       |
-| IpSecurityRestriction_STATUS              | IpSecurityRestriction_STATUS                    | Identical |       |
-|                                           | KeyVaultReferenceWithStatus                     |    New    |       |
-|                                           | KeyVaultReferenceWithStatus_STATUS              |    New    |       |
-| KubeEnvironmentProfile                    | KubeEnvironmentProfile                          | Identical |       |
-| KubeEnvironmentProfile_STATUS             | KubeEnvironmentProfile_STATUS                   | Identical |       |
-|                                           | ManagedServiceIdentity                          |    New    |       |
-| ManagedServiceIdentity                    | ManagedServiceIdentity                          | Identical |       |
-|                                           | ManagedServiceIdentity_STATUS                   |    New    |       |
-| ManagedServiceIdentity_STATUS             | ManagedServiceIdentity_STATUS                   | Identical |       |
-| NameValuePair                             | NameValuePair                                   | Identical |       |
-| NameValuePair_STATUS                      | NameValuePair_STATUS                            | Identical |       |
-|                                           | OutboundVnetRouting                             |    New    |       |
-|                                           | OutboundVnetRouting_STATUS                      |    New    |       |
-| PushSettings                              | PushSettings                                    | Identical |       |
-| PushSettings_STATUS                       | PushSettings_STATUS                             | Identical |       |
-| RampUpRule                                | RampUpRule                                      | Identical |       |
-| RampUpRule_STATUS                         | RampUpRule_STATUS                               | Identical |       |
-|                                           | RegistryAdapter                                 |    New    |       |
-|                                           | RegistryAdapter_STATUS                          |    New    |       |
-| RequestsBasedTrigger                      | RequestsBasedTrigger                            | Identical |       |
-| RequestsBasedTrigger_STATUS               | RequestsBasedTrigger_STATUS                     | Identical |       |
-|                                           | ResourceConfig                                  |    New    |       |
-|                                           | ResourceConfig_STATUS                           |    New    |       |
-|                                           | ServerFarmNetworkSettings                       |    New    |       |
-|                                           | ServerFarmNetworkSettings_STATUS                |    New    |       |
-| ServerFarmOperatorSpec                    | ServerFarmOperatorSpec                          | Identical |       |
-| ServerFarm_STATUS                         | ServerFarm_STATUS                               | Extended  |       |
-| ServerFarm_Spec                           | ServerFarm_Spec                                 | Extended  |       |
-| SiteConfig                                | SiteConfig                                      | Extended  |       |
-| SiteConfig_STATUS                         | SiteConfig_STATUS                               | Extended  |       |
-|                                           | SiteDnsConfig                                   |    New    |       |
-|                                           | SiteDnsConfig_STATUS                            |    New    |       |
-| SiteLimits                                | SiteLimits                                      | Identical |       |
-| SiteLimits_STATUS                         | SiteLimits_STATUS                               | Identical |       |
-| SiteMachineKey_STATUS                     | SiteMachineKey_STATUS                           | Identical |       |
-| SiteOperatorSpec                          | SiteOperatorSpec                                | Identical |       |
-| Site_STATUS                               | Site_STATUS                                     | Modified  |       |
-| Site_Spec                                 | Site_Spec                                       | Modified  |       |
-| SitesSourcecontrolOperatorSpec            | SitesSourcecontrolOperatorSpec                  | Identical |       |
-| SitesSourcecontrol_STATUS                 | SitesSourcecontrol_STATUS                       | Extended  |       |
-| SitesSourcecontrol_Spec                   | SitesSourcecontrol_Spec                         | Identical |       |
-| SkuCapacity                               | SkuCapacity                                     | Identical |       |
-| SkuCapacity_STATUS                        | SkuCapacity_STATUS                              | Identical |       |
-| SkuDescription                            | SkuDescription                                  | Identical |       |
-| SkuDescription_STATUS                     | SkuDescription_STATUS                           | Identical |       |
-| SlotSwapStatus_STATUS                     | SlotSwapStatus_STATUS                           | Identical |       |
-| SlowRequestsBasedTrigger                  | SlowRequestsBasedTrigger                        | Identical |       |
-| SlowRequestsBasedTrigger_STATUS           | SlowRequestsBasedTrigger_STATUS                 | Identical |       |
-| StatusCodesBasedTrigger                   | StatusCodesBasedTrigger                         | Identical |       |
-| StatusCodesBasedTrigger_STATUS            | StatusCodesBasedTrigger_STATUS                  | Identical |       |
-| StatusCodesRangeBasedTrigger              | StatusCodesRangeBasedTrigger                    | Identical |       |
-| StatusCodesRangeBasedTrigger_STATUS       | StatusCodesRangeBasedTrigger_STATUS             | Identical |       |
-|                                           | StorageMount                                    |    New    |       |
-|                                           | StorageMount_STATUS                             |    New    |       |
-|                                           | SystemData_STATUS                               |    New    |       |
-|                                           | UserAssignedIdentityDetails                     |    New    |       |
-| UserAssignedIdentityDetails               | UserAssignedIdentityDetails                     | Identical |       |
-|                                           | UserAssignedIdentity_STATUS                     |    New    |       |
-| UserAssignedIdentity_STATUS               | UserAssignedIdentity_STATUS                     | Identical |       |
-| VirtualApplication                        | VirtualApplication                              | Identical |       |
-| VirtualApplication_STATUS                 | VirtualApplication_STATUS                       | Identical |       |
-| VirtualDirectory                          | VirtualDirectory                                | Identical |       |
-| VirtualDirectory_STATUS                   | VirtualDirectory_STATUS                         | Identical |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20220301/storage                         | v20250501/storage                               |  Status   | Notes                                                                                                                                               |
+|:------------------------------------------|:------------------------------------------------|:---------:|:----------------------------------------------------------------------------------------------------------------------------------------------------|
+| ApiDefinitionInfo                         | ApiDefinitionInfo                               | Identical |                                                                                                                                                     |
+| ApiDefinitionInfo_STATUS                  | ApiDefinitionInfo_STATUS                        | Identical |                                                                                                                                                     |
+| ApiManagementConfig                       | ApiManagementConfig                             | Identical |                                                                                                                                                     |
+| ApiManagementConfig_STATUS                | ApiManagementConfig_STATUS                      | Identical |                                                                                                                                                     |
+| AutoHealActions                           | AutoHealActions                                 | Identical |                                                                                                                                                     |
+| AutoHealActions_STATUS                    | AutoHealActions_STATUS                          | Identical |                                                                                                                                                     |
+| AutoHealCustomAction                      | AutoHealCustomAction                            | Identical |                                                                                                                                                     |
+| AutoHealCustomAction_STATUS               | AutoHealCustomAction_STATUS                     | Identical |                                                                                                                                                     |
+| AutoHealRules                             | AutoHealRules                                   | Identical |                                                                                                                                                     |
+| AutoHealRules_STATUS                      | AutoHealRules_STATUS                            | Identical |                                                                                                                                                     |
+| AutoHealTriggers                          | AutoHealTriggers                                | Identical |                                                                                                                                                     |
+| AutoHealTriggers_STATUS                   | AutoHealTriggers_STATUS                         | Identical |                                                                                                                                                     |
+| AzureStorageInfoValue                     | AzureStorageInfoValue                           | Extended  | +Protocol                                                                                                                                           |
+| AzureStorageInfoValue_STATUS              | AzureStorageInfoValue_STATUS                    | Extended  | +Protocol                                                                                                                                           |
+| Capability                                | Capability                                      | Identical |                                                                                                                                                     |
+| Capability_STATUS                         | Capability_STATUS                               | Identical |                                                                                                                                                     |
+| CloningInfo                               | CloningInfo                                     | Identical |                                                                                                                                                     |
+| CloningInfo_STATUS                        | CloningInfo_STATUS                              | Identical |                                                                                                                                                     |
+| ConnStringInfo                            | ConnStringInfo                                  | Identical |                                                                                                                                                     |
+| ConnStringInfo_STATUS                     | ConnStringInfo_STATUS                           | Identical |                                                                                                                                                     |
+| CorsSettings                              | CorsSettings                                    | Identical |                                                                                                                                                     |
+| CorsSettings_STATUS                       | CorsSettings_STATUS                             | Identical |                                                                                                                                                     |
+|                                           | DaprConfig                                      |    New    |                                                                                                                                                     |
+|                                           | DaprConfig_STATUS                               |    New    |                                                                                                                                                     |
+|                                           | DefaultIdentity                                 |    New    |                                                                                                                                                     |
+|                                           | DefaultIdentity_STATUS                          |    New    |                                                                                                                                                     |
+| Experiments                               | Experiments                                     | Identical |                                                                                                                                                     |
+| Experiments_STATUS                        | Experiments_STATUS                              | Identical |                                                                                                                                                     |
+| ExtendedLocation                          | ExtendedLocation                                | Identical |                                                                                                                                                     |
+| ExtendedLocation_STATUS                   | ExtendedLocation_STATUS                         | Identical |                                                                                                                                                     |
+|                                           | FunctionAppConfig                               |    New    |                                                                                                                                                     |
+|                                           | FunctionAppConfig_STATUS                        |    New    |                                                                                                                                                     |
+|                                           | FunctionsAlwaysReadyConfig                      |    New    |                                                                                                                                                     |
+|                                           | FunctionsAlwaysReadyConfig_STATUS               |    New    |                                                                                                                                                     |
+|                                           | FunctionsDeployment                             |    New    |                                                                                                                                                     |
+|                                           | FunctionsDeploymentStorage                      |    New    |                                                                                                                                                     |
+|                                           | FunctionsDeploymentStorageAuthentication        |    New    |                                                                                                                                                     |
+|                                           | FunctionsDeploymentStorageAuthentication_STATUS |    New    |                                                                                                                                                     |
+|                                           | FunctionsDeploymentStorage_STATUS               |    New    |                                                                                                                                                     |
+|                                           | FunctionsDeployment_STATUS                      |    New    |                                                                                                                                                     |
+|                                           | FunctionsRuntime                                |    New    |                                                                                                                                                     |
+|                                           | FunctionsRuntime_STATUS                         |    New    |                                                                                                                                                     |
+|                                           | FunctionsScaleAndConcurrency                    |    New    |                                                                                                                                                     |
+|                                           | FunctionsScaleAndConcurrencyTriggers            |    New    |                                                                                                                                                     |
+|                                           | FunctionsScaleAndConcurrencyTriggersHttp        |    New    |                                                                                                                                                     |
+|                                           | FunctionsScaleAndConcurrencyTriggersHttp_STATUS |    New    |                                                                                                                                                     |
+|                                           | FunctionsScaleAndConcurrencyTriggers_STATUS     |    New    |                                                                                                                                                     |
+|                                           | FunctionsScaleAndConcurrency_STATUS             |    New    |                                                                                                                                                     |
+|                                           | FunctionsSiteUpdateStrategy                     |    New    |                                                                                                                                                     |
+|                                           | FunctionsSiteUpdateStrategy_STATUS              |    New    |                                                                                                                                                     |
+| GitHubActionCodeConfiguration             | GitHubActionCodeConfiguration                   | Identical |                                                                                                                                                     |
+| GitHubActionCodeConfiguration_STATUS      | GitHubActionCodeConfiguration_STATUS            | Identical |                                                                                                                                                     |
+| GitHubActionConfiguration                 | GitHubActionConfiguration                       | Identical |                                                                                                                                                     |
+| GitHubActionConfiguration_STATUS          | GitHubActionConfiguration_STATUS                | Identical |                                                                                                                                                     |
+| GitHubActionContainerConfiguration        | GitHubActionContainerConfiguration              | Identical |                                                                                                                                                     |
+| GitHubActionContainerConfiguration_STATUS | GitHubActionContainerConfiguration_STATUS       | Identical |                                                                                                                                                     |
+| HandlerMapping                            | HandlerMapping                                  | Identical |                                                                                                                                                     |
+| HandlerMapping_STATUS                     | HandlerMapping_STATUS                           | Identical |                                                                                                                                                     |
+| HostNameSslState                          | HostNameSslState                                | Identical |                                                                                                                                                     |
+| HostNameSslState_STATUS                   | HostNameSslState_STATUS                         | Identical |                                                                                                                                                     |
+| HostingEnvironmentProfile                 | HostingEnvironmentProfile                       | Identical |                                                                                                                                                     |
+| HostingEnvironmentProfile_STATUS          | HostingEnvironmentProfile_STATUS                | Identical |                                                                                                                                                     |
+|                                           | InstallScript                                   |    New    |                                                                                                                                                     |
+|                                           | InstallScriptSource                             |    New    |                                                                                                                                                     |
+|                                           | InstallScriptSource_STATUS                      |    New    |                                                                                                                                                     |
+|                                           | InstallScript_STATUS                            |    New    |                                                                                                                                                     |
+| IpSecurityRestriction                     | IpSecurityRestriction                           | Identical |                                                                                                                                                     |
+| IpSecurityRestriction_STATUS              | IpSecurityRestriction_STATUS                    | Identical |                                                                                                                                                     |
+|                                           | KeyVaultReferenceWithStatus                     |    New    |                                                                                                                                                     |
+|                                           | KeyVaultReferenceWithStatus_STATUS              |    New    |                                                                                                                                                     |
+| KubeEnvironmentProfile                    | KubeEnvironmentProfile                          | Identical |                                                                                                                                                     |
+| KubeEnvironmentProfile_STATUS             | KubeEnvironmentProfile_STATUS                   | Identical |                                                                                                                                                     |
+|                                           | ManagedServiceIdentity                          |    New    |                                                                                                                                                     |
+| ManagedServiceIdentity                    | ManagedServiceIdentity                          | Identical |                                                                                                                                                     |
+|                                           | ManagedServiceIdentity_STATUS                   |    New    |                                                                                                                                                     |
+| ManagedServiceIdentity_STATUS             | ManagedServiceIdentity_STATUS                   | Identical |                                                                                                                                                     |
+| NameValuePair                             | NameValuePair                                   | Identical |                                                                                                                                                     |
+| NameValuePair_STATUS                      | NameValuePair_STATUS                            | Identical |                                                                                                                                                     |
+|                                           | OutboundVnetRouting                             |    New    |                                                                                                                                                     |
+|                                           | OutboundVnetRouting_STATUS                      |    New    |                                                                                                                                                     |
+| PushSettings                              | PushSettings                                    | Identical |                                                                                                                                                     |
+| PushSettings_STATUS                       | PushSettings_STATUS                             | Identical |                                                                                                                                                     |
+| RampUpRule                                | RampUpRule                                      | Identical |                                                                                                                                                     |
+| RampUpRule_STATUS                         | RampUpRule_STATUS                               | Identical |                                                                                                                                                     |
+|                                           | RegistryAdapter                                 |    New    |                                                                                                                                                     |
+|                                           | RegistryAdapter_STATUS                          |    New    |                                                                                                                                                     |
+| RequestsBasedTrigger                      | RequestsBasedTrigger                            | Identical |                                                                                                                                                     |
+| RequestsBasedTrigger_STATUS               | RequestsBasedTrigger_STATUS                     | Identical |                                                                                                                                                     |
+|                                           | ResourceConfig                                  |    New    |                                                                                                                                                     |
+|                                           | ResourceConfig_STATUS                           |    New    |                                                                                                                                                     |
+|                                           | ServerFarmNetworkSettings                       |    New    |                                                                                                                                                     |
+|                                           | ServerFarmNetworkSettings_STATUS                |    New    |                                                                                                                                                     |
+| ServerFarmOperatorSpec                    | ServerFarmOperatorSpec                          | Identical |                                                                                                                                                     |
+| ServerFarm_STATUS                         | ServerFarm_STATUS                               | Extended  | +AsyncScalingEnabled +Identity +InstallScripts +IsCustomMode +Network +PlanDefaultIdentity +RdpEnabled +RegistryAdapters +StorageMounts +SystemData |
+| ServerFarm_Spec                           | ServerFarm_Spec                                 | Extended  | +AsyncScalingEnabled +Identity +InstallScripts +IsCustomMode +Network +PlanDefaultIdentity +RdpEnabled +RegistryAdapters +StorageMounts             |
+| SiteConfig                                | SiteConfig                                      | Extended  | +ElasticWebAppScaleLimit +Http20ProxyFlag +IpSecurityRestrictionsDefaultAction +Metadata +MinTlsCipherSuite +ScmIpSecurityRestrictionsDefaultAction |
+| SiteConfig_STATUS                         | SiteConfig_STATUS                               | Extended  | +ElasticWebAppScaleLimit +Http20ProxyFlag +IpSecurityRestrictionsDefaultAction +Metadata +MinTlsCipherSuite +ScmIpSecurityRestrictionsDefaultAction |
+|                                           | SiteDnsConfig                                   |    New    |                                                                                                                                                     |
+|                                           | SiteDnsConfig_STATUS                            |    New    |                                                                                                                                                     |
+| SiteLimits                                | SiteLimits                                      | Identical |                                                                                                                                                     |
+| SiteLimits_STATUS                         | SiteLimits_STATUS                               | Identical |                                                                                                                                                     |
+| SiteMachineKey_STATUS                     | SiteMachineKey_STATUS                           | Identical |                                                                                                                                                     |
+| SiteOperatorSpec                          | SiteOperatorSpec                                | Identical |                                                                                                                                                     |
+| Site_STATUS                               | Site_STATUS                                     | Modified  |                                                                                                                                                     |
+| Site_Spec                                 | Site_Spec                                       | Modified  |                                                                                                                                                     |
+| SitesSourcecontrolOperatorSpec            | SitesSourcecontrolOperatorSpec                  | Identical |                                                                                                                                                     |
+| SitesSourcecontrol_STATUS                 | SitesSourcecontrol_STATUS                       | Extended  | +SystemData                                                                                                                                         |
+| SitesSourcecontrol_Spec                   | SitesSourcecontrol_Spec                         | Identical |                                                                                                                                                     |
+| SkuCapacity                               | SkuCapacity                                     | Identical |                                                                                                                                                     |
+| SkuCapacity_STATUS                        | SkuCapacity_STATUS                              | Identical |                                                                                                                                                     |
+| SkuDescription                            | SkuDescription                                  | Identical |                                                                                                                                                     |
+| SkuDescription_STATUS                     | SkuDescription_STATUS                           | Identical |                                                                                                                                                     |
+| SlotSwapStatus_STATUS                     | SlotSwapStatus_STATUS                           | Identical |                                                                                                                                                     |
+| SlowRequestsBasedTrigger                  | SlowRequestsBasedTrigger                        | Identical |                                                                                                                                                     |
+| SlowRequestsBasedTrigger_STATUS           | SlowRequestsBasedTrigger_STATUS                 | Identical |                                                                                                                                                     |
+| StatusCodesBasedTrigger                   | StatusCodesBasedTrigger                         | Identical |                                                                                                                                                     |
+| StatusCodesBasedTrigger_STATUS            | StatusCodesBasedTrigger_STATUS                  | Identical |                                                                                                                                                     |
+| StatusCodesRangeBasedTrigger              | StatusCodesRangeBasedTrigger                    | Identical |                                                                                                                                                     |
+| StatusCodesRangeBasedTrigger_STATUS       | StatusCodesRangeBasedTrigger_STATUS             | Identical |                                                                                                                                                     |
+|                                           | StorageMount                                    |    New    |                                                                                                                                                     |
+|                                           | StorageMount_STATUS                             |    New    |                                                                                                                                                     |
+|                                           | SystemData_STATUS                               |    New    |                                                                                                                                                     |
+|                                           | UserAssignedIdentityDetails                     |    New    |                                                                                                                                                     |
+| UserAssignedIdentityDetails               | UserAssignedIdentityDetails                     | Identical |                                                                                                                                                     |
+|                                           | UserAssignedIdentity_STATUS                     |    New    |                                                                                                                                                     |
+| UserAssignedIdentity_STATUS               | UserAssignedIdentity_STATUS                     | Identical |                                                                                                                                                     |
+| VirtualApplication                        | VirtualApplication                              | Identical |                                                                                                                                                     |
+| VirtualApplication_STATUS                 | VirtualApplication_STATUS                       | Identical |                                                                                                                                                     |
+| VirtualDirectory                          | VirtualDirectory                                | Identical |                                                                                                                                                     |
+| VirtualDirectory_STATUS                   | VirtualDirectory_STATUS                         | Identical |                                                                                                                                                     |
 
 ### AzureStorageInfoValue
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v20220301/storage |                             | v20250501/storage |                             |  Status   | Notes |
 |:------------------|:----------------------------|:------------------|:----------------------------|:---------:|:------|
@@ -168,7 +161,7 @@
 
 ### AzureStorageInfoValue_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v20220301/storage |                        | v20250501/storage |                        |  Status   | Notes |
 |:------------------|:-----------------------|:------------------|:-----------------------|:---------:|:------|
@@ -182,7 +175,7 @@
 
 ### ServerFarm_STATUS
 
-33 x Identical, 10 x New
+Properties: 33 x Identical, 10 x New
 
 | v20220301/storage         |                                   | v20250501/storage         |                                   |  Status   | Notes |
 |:--------------------------|:----------------------------------|:--------------------------|:----------------------------------|:---------:|:------|
@@ -232,7 +225,7 @@
 
 ### ServerFarm_Spec
 
-25 x Identical, 9 x New
+Properties: 25 x Identical, 9 x New
 
 | v20220301/storage         |                                    | v20250501/storage         |                                    |  Status   | Notes |
 |:--------------------------|:-----------------------------------|:--------------------------|:-----------------------------------|:---------:|:------|
@@ -273,7 +266,7 @@
 
 ### SiteConfig
 
-67 x Identical, 6 x New
+Properties: 67 x Identical, 6 x New
 
 | v20220301/storage                      |                                  | v20250501/storage                      |                                  |  Status   | Notes |
 |:---------------------------------------|:---------------------------------|:---------------------------------------|:---------------------------------|:---------:|:------|
@@ -353,7 +346,7 @@
 
 ### SiteConfig_STATUS
 
-68 x Identical, 6 x New
+Properties: 68 x Identical, 6 x New
 
 | v20220301/storage                      |                                         | v20250501/storage                      |                                         |  Status   | Notes |
 |:---------------------------------------|:----------------------------------------|:---------------------------------------|:----------------------------------------|:---------:|:------|
@@ -434,7 +427,7 @@
 
 ### Site_STATUS
 
-52 x Identical, 15 x New, 3 x Retired
+Properties: 52 x Identical, 15 x New, 3 x Retired
 
 | v20220301/storage           |                                   | v20250501/storage                 |                                   |  Status   | Notes |
 |:----------------------------|:----------------------------------|:----------------------------------|:----------------------------------|:---------:|:------|
@@ -511,7 +504,7 @@
 
 ### Site_Spec
 
-34 x Identical, 13 x New, 3 x Retired
+Properties: 34 x Identical, 13 x New, 3 x Retired
 
 | v20220301/storage             |                                    | v20250501/storage                 |                                    |  Status   | Notes |
 |:------------------------------|:-----------------------------------|:----------------------------------|:-----------------------------------|:---------:|:------|
@@ -568,7 +561,7 @@
 
 ### SitesSourcecontrol_STATUS
 
-13 x Identical, 1 x New
+Properties: 13 x Identical, 1 x New
 
 | v20220301/storage         |                                   | v20250501/storage         |                                   |  Status   | Notes |
 |:--------------------------|:----------------------------------|:--------------------------|:----------------------------------|:---------:|:------|
@@ -586,3 +579,12 @@
 | RepoUrl                   | *string                           | RepoUrl                   | *string                           | Identical |       |
 |                           |                                   | SystemData                | *SystemData_STATUS                |    New    |       |
 | Type                      | *string                           | Type                      | *string                           | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

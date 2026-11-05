@@ -6,76 +6,69 @@
 |:--------------|:----------------------|:---------:|:------|
 | IotHub        | IotHub                | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20210702                                   | v1api20210702/storage                           |  Status  | Notes |
-|:------------------------------------------------|:------------------------------------------------|:--------:|:------|
-| ArmIdentity                                     | ArmIdentity                                     | Modified |       |
-| ArmIdentity_STATUS                              | ArmIdentity_STATUS                              | Modified |       |
-| ArmUserIdentity_STATUS                          | ArmUserIdentity_STATUS                          | Extended |       |
-| CloudToDeviceProperties                         | CloudToDeviceProperties                         | Modified |       |
-| CloudToDeviceProperties_STATUS                  | CloudToDeviceProperties_STATUS                  | Extended |       |
-| EnrichmentProperties                            | EnrichmentProperties                            | Modified |       |
-| EnrichmentProperties_STATUS                     | EnrichmentProperties_STATUS                     | Extended |       |
-| EventHubProperties                              | EventHubProperties                              | Extended |       |
-| EventHubProperties_STATUS                       | EventHubProperties_STATUS                       | Extended |       |
-| FallbackRouteProperties                         | FallbackRouteProperties                         | Modified |       |
-| FallbackRouteProperties_STATUS                  | FallbackRouteProperties_STATUS                  | Modified |       |
-| FeedbackProperties                              | FeedbackProperties                              | Modified |       |
-| FeedbackProperties_STATUS                       | FeedbackProperties_STATUS                       | Extended |       |
-| IotHubLocationDescription_STATUS                | IotHubLocationDescription_STATUS                | Modified |       |
-| IotHubOperatorSecrets                           | IotHubOperatorSecrets                           | Extended |       |
-| IotHubOperatorSpec                              | IotHubOperatorSpec                              | Extended |       |
-| IotHubProperties                                | IotHubProperties                                | Modified |       |
-| IotHubProperties_STATUS                         | IotHubProperties_STATUS                         | Modified |       |
-| IotHubSkuInfo                                   | IotHubSkuInfo                                   | Modified |       |
-| IotHubSkuInfo_STATUS                            | IotHubSkuInfo_STATUS                            | Modified |       |
-| IotHub_STATUS                                   | IotHub_STATUS                                   | Extended |       |
-| IotHub_Spec                                     | IotHub_Spec                                     | Extended |       |
-| IpFilterRule                                    | IpFilterRule                                    | Modified |       |
-| IpFilterRule_STATUS                             | IpFilterRule_STATUS                             | Modified |       |
-| ManagedIdentity                                 | ManagedIdentity                                 | Extended |       |
-| ManagedIdentity_STATUS                          | ManagedIdentity_STATUS                          | Extended |       |
-| MessagingEndpointProperties                     | MessagingEndpointProperties                     | Modified |       |
-| MessagingEndpointProperties_STATUS              | MessagingEndpointProperties_STATUS              | Extended |       |
-| NetworkRuleSetIpRule                            | NetworkRuleSetIpRule                            | Modified |       |
-| NetworkRuleSetIpRule_STATUS                     | NetworkRuleSetIpRule_STATUS                     | Modified |       |
-| NetworkRuleSetProperties                        | NetworkRuleSetProperties                        | Modified |       |
-| NetworkRuleSetProperties_STATUS                 | NetworkRuleSetProperties_STATUS                 | Modified |       |
-| PrivateEndpointConnection_STATUS                | PrivateEndpointConnection_STATUS                | Extended |       |
-| RouteProperties                                 | RouteProperties                                 | Modified |       |
-| RouteProperties_STATUS                          | RouteProperties_STATUS                          | Modified |       |
-| RoutingEndpoints                                | RoutingEndpoints                                | Extended |       |
-| RoutingEndpoints_STATUS                         | RoutingEndpoints_STATUS                         | Extended |       |
-| RoutingEventHubProperties                       | RoutingEventHubProperties                       | Modified |       |
-| RoutingEventHubProperties_STATUS                | RoutingEventHubProperties_STATUS                | Modified |       |
-| RoutingProperties                               | RoutingProperties                               | Extended |       |
-| RoutingProperties_STATUS                        | RoutingProperties_STATUS                        | Extended |       |
-| RoutingServiceBusQueueEndpointProperties        | RoutingServiceBusQueueEndpointProperties        | Modified |       |
-| RoutingServiceBusQueueEndpointProperties_STATUS | RoutingServiceBusQueueEndpointProperties_STATUS | Modified |       |
-| RoutingServiceBusTopicEndpointProperties        | RoutingServiceBusTopicEndpointProperties        | Modified |       |
-| RoutingServiceBusTopicEndpointProperties_STATUS | RoutingServiceBusTopicEndpointProperties_STATUS | Modified |       |
-| RoutingStorageContainerProperties               | RoutingStorageContainerProperties               | Modified |       |
-| RoutingStorageContainerProperties_STATUS        | RoutingStorageContainerProperties_STATUS        | Modified |       |
-| SharedAccessSignatureAuthorizationRule          | SharedAccessSignatureAuthorizationRule          | Modified |       |
-| SharedAccessSignatureAuthorizationRule_STATUS   | SharedAccessSignatureAuthorizationRule_STATUS   | Modified |       |
-| StorageEndpointProperties                       | StorageEndpointProperties                       | Modified |       |
-| StorageEndpointProperties_STATUS                | StorageEndpointProperties_STATUS                | Modified |       |
-| SystemData_STATUS                               | SystemData_STATUS                               | Modified |       |
-| UserAssignedIdentityDetails                     | UserAssignedIdentityDetails                     | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20210702                                   | v1api20210702/storage                           |  Status  | Notes                         |
+|:------------------------------------------------|:------------------------------------------------|:--------:|:------------------------------|
+| ArmIdentity                                     | ArmIdentity                                     | Modified |                               |
+| ArmIdentity_STATUS                              | ArmIdentity_STATUS                              | Modified |                               |
+| ArmUserIdentity_STATUS                          | ArmUserIdentity_STATUS                          | Extended | +PropertyBag                  |
+| CloudToDeviceProperties                         | CloudToDeviceProperties                         | Extended | +PropertyBag                  |
+| CloudToDeviceProperties_STATUS                  | CloudToDeviceProperties_STATUS                  | Extended | +PropertyBag                  |
+| EnrichmentProperties                            | EnrichmentProperties                            | Modified |                               |
+| EnrichmentProperties_STATUS                     | EnrichmentProperties_STATUS                     | Extended | +PropertyBag                  |
+| EventHubProperties                              | EventHubProperties                              | Extended | +PropertyBag                  |
+| EventHubProperties_STATUS                       | EventHubProperties_STATUS                       | Extended | +PropertyBag                  |
+| FallbackRouteProperties                         | FallbackRouteProperties                         | Modified |                               |
+| FallbackRouteProperties_STATUS                  | FallbackRouteProperties_STATUS                  | Modified |                               |
+| FeedbackProperties                              | FeedbackProperties                              | Extended | +PropertyBag                  |
+| FeedbackProperties_STATUS                       | FeedbackProperties_STATUS                       | Extended | +PropertyBag                  |
+| IotHubLocationDescription_STATUS                | IotHubLocationDescription_STATUS                | Modified |                               |
+| IotHubOperatorSecrets                           | IotHubOperatorSecrets                           | Extended | +PropertyBag                  |
+| IotHubOperatorSpec                              | IotHubOperatorSpec                              | Extended | +PropertyBag                  |
+| IotHubProperties                                | IotHubProperties                                | Modified |                               |
+| IotHubProperties_STATUS                         | IotHubProperties_STATUS                         | Modified |                               |
+| IotHubSkuInfo                                   | IotHubSkuInfo                                   | Modified |                               |
+| IotHubSkuInfo_STATUS                            | IotHubSkuInfo_STATUS                            | Modified |                               |
+| IotHub_STATUS                                   | IotHub_STATUS                                   | Extended | +PropertyBag                  |
+| IotHub_Spec                                     | IotHub_Spec                                     | Extended | +OriginalVersion +PropertyBag |
+| IpFilterRule                                    | IpFilterRule                                    | Modified |                               |
+| IpFilterRule_STATUS                             | IpFilterRule_STATUS                             | Modified |                               |
+| ManagedIdentity                                 | ManagedIdentity                                 | Extended | +PropertyBag                  |
+| ManagedIdentity_STATUS                          | ManagedIdentity_STATUS                          | Extended | +PropertyBag                  |
+| MessagingEndpointProperties                     | MessagingEndpointProperties                     | Extended | +PropertyBag                  |
+| MessagingEndpointProperties_STATUS              | MessagingEndpointProperties_STATUS              | Extended | +PropertyBag                  |
+| NetworkRuleSetIpRule                            | NetworkRuleSetIpRule                            | Modified |                               |
+| NetworkRuleSetIpRule_STATUS                     | NetworkRuleSetIpRule_STATUS                     | Modified |                               |
+| NetworkRuleSetProperties                        | NetworkRuleSetProperties                        | Modified |                               |
+| NetworkRuleSetProperties_STATUS                 | NetworkRuleSetProperties_STATUS                 | Modified |                               |
+| PrivateEndpointConnection_STATUS                | PrivateEndpointConnection_STATUS                | Extended | +PropertyBag                  |
+| RouteProperties                                 | RouteProperties                                 | Modified |                               |
+| RouteProperties_STATUS                          | RouteProperties_STATUS                          | Modified |                               |
+| RoutingEndpoints                                | RoutingEndpoints                                | Extended | +PropertyBag                  |
+| RoutingEndpoints_STATUS                         | RoutingEndpoints_STATUS                         | Extended | +PropertyBag                  |
+| RoutingEventHubProperties                       | RoutingEventHubProperties                       | Modified |                               |
+| RoutingEventHubProperties_STATUS                | RoutingEventHubProperties_STATUS                | Modified |                               |
+| RoutingProperties                               | RoutingProperties                               | Extended | +PropertyBag                  |
+| RoutingProperties_STATUS                        | RoutingProperties_STATUS                        | Extended | +PropertyBag                  |
+| RoutingServiceBusQueueEndpointProperties        | RoutingServiceBusQueueEndpointProperties        | Modified |                               |
+| RoutingServiceBusQueueEndpointProperties_STATUS | RoutingServiceBusQueueEndpointProperties_STATUS | Modified |                               |
+| RoutingServiceBusTopicEndpointProperties        | RoutingServiceBusTopicEndpointProperties        | Modified |                               |
+| RoutingServiceBusTopicEndpointProperties_STATUS | RoutingServiceBusTopicEndpointProperties_STATUS | Modified |                               |
+| RoutingStorageContainerProperties               | RoutingStorageContainerProperties               | Modified |                               |
+| RoutingStorageContainerProperties_STATUS        | RoutingStorageContainerProperties_STATUS        | Modified |                               |
+| SharedAccessSignatureAuthorizationRule          | SharedAccessSignatureAuthorizationRule          | Modified |                               |
+| SharedAccessSignatureAuthorizationRule_STATUS   | SharedAccessSignatureAuthorizationRule_STATUS   | Modified |                               |
+| StorageEndpointProperties                       | StorageEndpointProperties                       | Modified |                               |
+| StorageEndpointProperties_STATUS                | StorageEndpointProperties_STATUS                | Modified |                               |
+| SystemData_STATUS                               | SystemData_STATUS                               | Modified |                               |
+| UserAssignedIdentityDetails                     | UserAssignedIdentityDetails                     | Extended | +PropertyBag                  |
 
 ### ArmIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210702          |                               | v1api20210702/storage  |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -85,7 +78,7 @@
 
 ### ArmIdentity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20210702          |                                   | v1api20210702/storage  |                                   |  Status   | Notes |
 |:-----------------------|:----------------------------------|:-----------------------|:----------------------------------|:---------:|:------|
@@ -97,7 +90,7 @@
 
 ### ArmUserIdentity_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210702 |         | v1api20210702/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -107,18 +100,18 @@
 
 ### CloudToDeviceProperties
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New
 
 | v1api20210702       |                           | v1api20210702/storage |                        |  Status   | Notes |
 |:--------------------|:--------------------------|:----------------------|:-----------------------|:---------:|:------|
 | DefaultTtlAsIso8601 | *string                   | DefaultTtlAsIso8601   | *string                | Identical |       |
 | Feedback            | *FeedbackProperties       | Feedback              | *FeedbackProperties    | Identical |       |
-| MaxDeliveryCount    | Validated<*int> (2 rules) | MaxDeliveryCount      | *int                   | Modified  |       |
+| MaxDeliveryCount    | Validated<*int> (2 rules) | MaxDeliveryCount      | *int                   | Identical |       |
 |                     |                           | PropertyBag           | genruntime.PropertyBag |    New    |       |
 
 ### CloudToDeviceProperties_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20210702       |                            | v1api20210702/storage |                            |  Status   | Notes |
 |:--------------------|:---------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -129,7 +122,7 @@
 
 ### EnrichmentProperties
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20210702 |                              | v1api20210702/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -140,7 +133,7 @@
 
 ### EnrichmentProperties_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20210702 |          | v1api20210702/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -151,7 +144,7 @@
 
 ### EventHubProperties
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210702       |      | v1api20210702/storage |                        |  Status   | Notes |
 |:--------------------|:-----|:----------------------|:-----------------------|:---------:|:------|
@@ -161,7 +154,7 @@
 
 ### EventHubProperties_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20210702       |          | v1api20210702/storage |                        |  Status   | Notes |
 |:--------------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -174,7 +167,7 @@
 
 ### FallbackRouteProperties
 
-3 x Identical, 1 x New, 2 x Modified
+Properties: 3 x Identical, 1 x New, 2 x Modified
 
 | v1api20210702 |                                 | v1api20210702/storage |                        |  Status   | Notes |
 |:--------------|:--------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -187,7 +180,7 @@
 
 ### FallbackRouteProperties_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20210702 |                                        | v1api20210702/storage |                        |  Status   | Notes |
 |:--------------|:---------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -200,18 +193,18 @@
 
 ### FeedbackProperties
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New
 
 | v1api20210702         |                           | v1api20210702/storage |                        |  Status   | Notes |
 |:----------------------|:--------------------------|:----------------------|:-----------------------|:---------:|:------|
 | LockDurationAsIso8601 | *string                   | LockDurationAsIso8601 | *string                | Identical |       |
-| MaxDeliveryCount      | Validated<*int> (2 rules) | MaxDeliveryCount      | *int                   | Modified  |       |
+| MaxDeliveryCount      | Validated<*int> (2 rules) | MaxDeliveryCount      | *int                   | Identical |       |
 |                       |                           | PropertyBag           | genruntime.PropertyBag |    New    |       |
 | TtlAsIso8601          | *string                   | TtlAsIso8601          | *string                | Identical |       |
 
 ### FeedbackProperties_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20210702         |         | v1api20210702/storage |                        |  Status   | Notes |
 |:----------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -222,7 +215,7 @@
 
 ### IotHubLocationDescription_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210702 |                                        | v1api20210702/storage |                        |  Status   | Notes |
 |:--------------|:---------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -232,7 +225,7 @@
 
 ### IotHubOperatorSecrets
 
-10 x Identical, 1 x New
+Properties: 10 x Identical, 1 x New
 
 | v1api20210702                 |                               | v1api20210702/storage         |                               |  Status   | Notes |
 |:------------------------------|:------------------------------|:------------------------------|:------------------------------|:---------:|:------|
@@ -250,7 +243,7 @@
 
 ### IotHubOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20210702        |                               | v1api20210702/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -261,7 +254,7 @@
 
 ### IotHubProperties
 
-17 x Identical, 1 x New, 2 x Modified
+Properties: 17 x Identical, 1 x New, 2 x Modified
 
 | v1api20210702                 |                                          | v1api20210702/storage         |                                          |  Status   | Notes |
 |:------------------------------|:-----------------------------------------|:------------------------------|:-----------------------------------------|:---------:|:------|
@@ -288,7 +281,7 @@
 
 ### IotHubProperties_STATUS
 
-22 x Identical, 1 x New, 2 x Modified
+Properties: 22 x Identical, 1 x New, 2 x Modified
 
 | v1api20210702                 |                                                 | v1api20210702/storage         |                                                 |  Status   | Notes |
 |:------------------------------|:------------------------------------------------|:------------------------------|:------------------------------------------------|:---------:|:------|
@@ -320,7 +313,7 @@
 
 ### IotHubSkuInfo
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210702 |                     | v1api20210702/storage |                        |  Status   | Notes |
 |:--------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -330,7 +323,7 @@
 
 ### IotHubSkuInfo_STATUS
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v1api20210702 |                            | v1api20210702/storage |                        |  Status   | Notes |
 |:--------------|:---------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -341,7 +334,7 @@
 
 ### IotHub_STATUS
 
-11 x Identical, 1 x New
+Properties: 11 x Identical, 1 x New
 
 | v1api20210702 |                          | v1api20210702/storage |                          |  Status   | Notes |
 |:--------------|:-------------------------|:----------------------|:-------------------------|:---------:|:------|
@@ -360,7 +353,7 @@
 
 ### IotHub_Spec
 
-8 x Identical, 2 x New
+Properties: 8 x Identical, 2 x New
 
 | v1api20210702 |                                    | v1api20210702/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -377,7 +370,7 @@
 
 ### IpFilterRule
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20210702 |                      | v1api20210702/storage |                        |  Status   | Notes |
 |:--------------|:---------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -388,7 +381,7 @@
 
 ### IpFilterRule_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20210702 |                             | v1api20210702/storage |                        |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -399,7 +392,7 @@
 
 ### ManagedIdentity
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210702        |         | v1api20210702/storage |                        |  Status   | Notes |
 |:---------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -408,7 +401,7 @@
 
 ### ManagedIdentity_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210702        |         | v1api20210702/storage |                        |  Status   | Notes |
 |:---------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -417,18 +410,18 @@
 
 ### MessagingEndpointProperties
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New
 
 | v1api20210702         |                           | v1api20210702/storage |                        |  Status   | Notes |
 |:----------------------|:--------------------------|:----------------------|:-----------------------|:---------:|:------|
 | LockDurationAsIso8601 | *string                   | LockDurationAsIso8601 | *string                | Identical |       |
-| MaxDeliveryCount      | Validated<*int> (2 rules) | MaxDeliveryCount      | *int                   | Modified  |       |
+| MaxDeliveryCount      | Validated<*int> (2 rules) | MaxDeliveryCount      | *int                   | Identical |       |
 |                       |                           | PropertyBag           | genruntime.PropertyBag |    New    |       |
 | TtlAsIso8601          | *string                   | TtlAsIso8601          | *string                | Identical |       |
 
 ### MessagingEndpointProperties_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20210702         |         | v1api20210702/storage |                        |  Status   | Notes |
 |:----------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -439,7 +432,7 @@
 
 ### NetworkRuleSetIpRule
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20210702 |                              | v1api20210702/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -450,7 +443,7 @@
 
 ### NetworkRuleSetIpRule_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20210702 |                                     | v1api20210702/storage |                        |  Status   | Notes |
 |:--------------|:------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -461,7 +454,7 @@
 
 ### NetworkRuleSetProperties
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20210702                  |                                         | v1api20210702/storage          |                        |  Status   | Notes |
 |:-------------------------------|:----------------------------------------|:-------------------------------|:-----------------------|:---------:|:------|
@@ -472,7 +465,7 @@
 
 ### NetworkRuleSetProperties_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20210702                  |                                                | v1api20210702/storage          |                               |  Status   | Notes |
 |:-------------------------------|:-----------------------------------------------|:-------------------------------|:------------------------------|:---------:|:------|
@@ -483,7 +476,7 @@
 
 ### PrivateEndpointConnection_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210702 |         | v1api20210702/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -492,20 +485,20 @@
 
 ### RouteProperties
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 3 x Identical, 1 x New, 2 x Modified
 
 | v1api20210702 |                               | v1api20210702/storage |                        |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:-----------------------|:---------:|:------|
 | Condition     | *string                       | Condition             | *string                | Identical |       |
 | EndpointNames | Validated<string[]> (2 rules) | EndpointNames         | string[]               | Modified  |       |
 | IsEnabled     | *bool                         | IsEnabled             | *bool                  | Identical |       |
-| Name          | Validated<*string> (1 rule)   | Name                  | *string                | Modified  |       |
+| Name          | Validated<*string> (1 rule)   | Name                  | *string                | Identical |       |
 |               |                               | PropertyBag           | genruntime.PropertyBag |    New    |       |
 | Source        | *RouteProperties_Source       | Source                | *string                | Modified  |       |
 
 ### RouteProperties_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20210702 |                                | v1api20210702/storage |                        |  Status   | Notes |
 |:--------------|:-------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -518,7 +511,7 @@
 
 ### RoutingEndpoints
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20210702     |                                            | v1api20210702/storage |                                            |  Status   | Notes |
 |:------------------|:-------------------------------------------|:----------------------|:-------------------------------------------|:---------:|:------|
@@ -530,7 +523,7 @@
 
 ### RoutingEndpoints_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20210702     |                                                   | v1api20210702/storage |                                                   |  Status   | Notes |
 |:------------------|:--------------------------------------------------|:----------------------|:--------------------------------------------------|:---------:|:------|
@@ -542,7 +535,7 @@
 
 ### RoutingEventHubProperties
 
-7 x Identical, 1 x New, 2 x Modified
+Properties: 8 x Identical, 1 x New, 1 x Modified
 
 | v1api20210702      |                                               | v1api20210702/storage |                               |  Status   | Notes |
 |:-------------------|:----------------------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -551,7 +544,7 @@
 | EndpointUri        | *string                                       | EndpointUri           | *string                       | Identical |       |
 | EntityPath         | *string                                       | EntityPath            | *string                       | Identical |       |
 | Identity           | *ManagedIdentity                              | Identity              | *ManagedIdentity              | Identical |       |
-| Name               | Validated<*string> (1 rule)                   | Name                  | *string                       | Modified  |       |
+| Name               | Validated<*string> (1 rule)                   | Name                  | *string                       | Identical |       |
 |                    |                                               | PropertyBag           | genruntime.PropertyBag        |    New    |       |
 | Reference          | *genruntime.ResourceReference                 | Reference             | *genruntime.ResourceReference | Identical |       |
 | ResourceGroup      | *string                                       | ResourceGroup         | *string                       | Identical |       |
@@ -559,7 +552,7 @@
 
 ### RoutingEventHubProperties_STATUS
 
-7 x Identical, 1 x New, 1 x Modified
+Properties: 7 x Identical, 1 x New, 1 x Modified
 
 | v1api20210702      |                                                      | v1api20210702/storage |                         |  Status   | Notes |
 |:-------------------|:-----------------------------------------------------|:----------------------|:------------------------|:---------:|:------|
@@ -575,7 +568,7 @@
 
 ### RoutingProperties
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20210702 |                          | v1api20210702/storage |                          |  Status   | Notes |
 |:--------------|:-------------------------|:----------------------|:-------------------------|:---------:|:------|
@@ -587,7 +580,7 @@
 
 ### RoutingProperties_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20210702 |                                 | v1api20210702/storage |                                 |  Status   | Notes |
 |:--------------|:--------------------------------|:----------------------|:--------------------------------|:---------:|:------|
@@ -599,7 +592,7 @@
 
 ### RoutingServiceBusQueueEndpointProperties
 
-7 x Identical, 1 x New, 2 x Modified
+Properties: 8 x Identical, 1 x New, 1 x Modified
 
 | v1api20210702      |                                                              | v1api20210702/storage |                               |  Status   | Notes |
 |:-------------------|:-------------------------------------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -608,7 +601,7 @@
 | EndpointUri        | *string                                                      | EndpointUri           | *string                       | Identical |       |
 | EntityPath         | *string                                                      | EntityPath            | *string                       | Identical |       |
 | Identity           | *ManagedIdentity                                             | Identity              | *ManagedIdentity              | Identical |       |
-| Name               | Validated<*string> (1 rule)                                  | Name                  | *string                       | Modified  |       |
+| Name               | Validated<*string> (1 rule)                                  | Name                  | *string                       | Identical |       |
 |                    |                                                              | PropertyBag           | genruntime.PropertyBag        |    New    |       |
 | Reference          | *genruntime.ResourceReference                                | Reference             | *genruntime.ResourceReference | Identical |       |
 | ResourceGroup      | *string                                                      | ResourceGroup         | *string                       | Identical |       |
@@ -616,7 +609,7 @@
 
 ### RoutingServiceBusQueueEndpointProperties_STATUS
 
-7 x Identical, 1 x New, 1 x Modified
+Properties: 7 x Identical, 1 x New, 1 x Modified
 
 | v1api20210702      |                                                                     | v1api20210702/storage |                         |  Status   | Notes |
 |:-------------------|:--------------------------------------------------------------------|:----------------------|:------------------------|:---------:|:------|
@@ -632,7 +625,7 @@
 
 ### RoutingServiceBusTopicEndpointProperties
 
-7 x Identical, 1 x New, 2 x Modified
+Properties: 8 x Identical, 1 x New, 1 x Modified
 
 | v1api20210702      |                                                              | v1api20210702/storage |                               |  Status   | Notes |
 |:-------------------|:-------------------------------------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -641,7 +634,7 @@
 | EndpointUri        | *string                                                      | EndpointUri           | *string                       | Identical |       |
 | EntityPath         | *string                                                      | EntityPath            | *string                       | Identical |       |
 | Identity           | *ManagedIdentity                                             | Identity              | *ManagedIdentity              | Identical |       |
-| Name               | Validated<*string> (1 rule)                                  | Name                  | *string                       | Modified  |       |
+| Name               | Validated<*string> (1 rule)                                  | Name                  | *string                       | Identical |       |
 |                    |                                                              | PropertyBag           | genruntime.PropertyBag        |    New    |       |
 | Reference          | *genruntime.ResourceReference                                | Reference             | *genruntime.ResourceReference | Identical |       |
 | ResourceGroup      | *string                                                      | ResourceGroup         | *string                       | Identical |       |
@@ -649,7 +642,7 @@
 
 ### RoutingServiceBusTopicEndpointProperties_STATUS
 
-7 x Identical, 1 x New, 1 x Modified
+Properties: 7 x Identical, 1 x New, 1 x Modified
 
 | v1api20210702      |                                                                     | v1api20210702/storage |                         |  Status   | Notes |
 |:-------------------|:--------------------------------------------------------------------|:----------------------|:------------------------|:---------:|:------|
@@ -665,20 +658,20 @@
 
 ### RoutingStorageContainerProperties
 
-8 x Identical, 1 x New, 5 x Modified
+Properties: 11 x Identical, 1 x New, 2 x Modified
 
 | v1api20210702           |                                                       | v1api20210702/storage   |                               |  Status   | Notes |
 |:------------------------|:------------------------------------------------------|:------------------------|:------------------------------|:---------:|:------|
 | AuthenticationType      | *RoutingStorageContainerProperties_AuthenticationType | AuthenticationType      | *string                       | Modified  |       |
-| BatchFrequencyInSeconds | Validated<*int> (2 rules)                             | BatchFrequencyInSeconds | *int                          | Modified  |       |
+| BatchFrequencyInSeconds | Validated<*int> (2 rules)                             | BatchFrequencyInSeconds | *int                          | Identical |       |
 | ConnectionString        | *genruntime.SecretReference                           | ConnectionString        | *genruntime.SecretReference   | Identical |       |
 | ContainerName           | *string                                               | ContainerName           | *string                       | Identical |       |
 | Encoding                | *RoutingStorageContainerProperties_Encoding           | Encoding                | *string                       | Modified  |       |
 | EndpointUri             | *string                                               | EndpointUri             | *string                       | Identical |       |
 | FileNameFormat          | *string                                               | FileNameFormat          | *string                       | Identical |       |
 | Identity                | *ManagedIdentity                                      | Identity                | *ManagedIdentity              | Identical |       |
-| MaxChunkSizeInBytes     | Validated<*int> (2 rules)                             | MaxChunkSizeInBytes     | *int                          | Modified  |       |
-| Name                    | Validated<*string> (1 rule)                           | Name                    | *string                       | Modified  |       |
+| MaxChunkSizeInBytes     | Validated<*int> (2 rules)                             | MaxChunkSizeInBytes     | *int                          | Identical |       |
+| Name                    | Validated<*string> (1 rule)                           | Name                    | *string                       | Identical |       |
 |                         |                                                       | PropertyBag             | genruntime.PropertyBag        |    New    |       |
 | Reference               | *genruntime.ResourceReference                         | Reference               | *genruntime.ResourceReference | Identical |       |
 | ResourceGroup           | *string                                               | ResourceGroup           | *string                       | Identical |       |
@@ -686,7 +679,7 @@
 
 ### RoutingStorageContainerProperties_STATUS
 
-10 x Identical, 1 x New, 2 x Modified
+Properties: 10 x Identical, 1 x New, 2 x Modified
 
 | v1api20210702           |                                                              | v1api20210702/storage   |                         |  Status   | Notes |
 |:------------------------|:-------------------------------------------------------------|:------------------------|:------------------------|:---------:|:------|
@@ -706,7 +699,7 @@
 
 ### SharedAccessSignatureAuthorizationRule
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210702 |                                                | v1api20210702/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -716,7 +709,7 @@
 
 ### SharedAccessSignatureAuthorizationRule_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210702 |                                                       | v1api20210702/storage |                        |  Status   | Notes |
 |:--------------|:------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -726,7 +719,7 @@
 
 ### StorageEndpointProperties
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20210702      |                                               | v1api20210702/storage |                             |  Status   | Notes |
 |:-------------------|:----------------------------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -739,7 +732,7 @@
 
 ### StorageEndpointProperties_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20210702      |                                                      | v1api20210702/storage |                         |  Status   | Notes |
 |:-------------------|:-----------------------------------------------------|:----------------------|:------------------------|:---------:|:------|
@@ -751,7 +744,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20210702      |                                       | v1api20210702/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -765,9 +758,18 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210702 |                              | v1api20210702/storage |                              |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
 |               |                              | PropertyBag           | genruntime.PropertyBag       |    New    |       |
 | Reference     | genruntime.ResourceReference | Reference             | genruntime.ResourceReference | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

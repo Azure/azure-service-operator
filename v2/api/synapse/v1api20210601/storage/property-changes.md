@@ -7,6 +7,8 @@
 | Workspace             | Workspace             | Identical |       |
 | WorkspacesBigDataPool | WorkspacesBigDataPool | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
 | v1api20210601/storage                   | v20210601/storage                       |  Status   | Notes |
@@ -57,7 +59,7 @@
 
 ## Legend
 
-* **Identical**: No properties changed.
+* **Identical**: No properties changed (or the differences are trivial).
 * **New**: The type or property exists only in the newer version.
 * **Retired**: The type or property exists only in the older version.
 * **Renamed**: A configured rename links the old and new names.

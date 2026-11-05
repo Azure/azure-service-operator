@@ -8,57 +8,50 @@
 | RedisEnterpriseDatabase                       | RedisEnterpriseDatabase                       | Identical |       |
 | RedisEnterpriseDatabaseAccessPolicyAssignment | RedisEnterpriseDatabaseAccessPolicyAssignment | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20250401/storage                                                                         | v20250701/storage                                                                               |  Status   | Notes |
-|:------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------|:---------:|:------|
-| AccessPolicyAssignmentProperties_User                                                     | AccessPolicyAssignmentProperties_User                                                           | Identical |       |
-| AccessPolicyAssignmentProperties_User_STATUS                                              | AccessPolicyAssignmentProperties_User_STATUS                                                    | Identical |       |
-| ClusterProperties_Encryption                                                              | ClusterCreateProperties_Encryption                                                              |  Renamed  |       |
-| ClusterProperties_Encryption_CustomerManagedKeyEncryption                                 | ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption                                 |  Renamed  |       |
-| ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity        | ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity        |  Renamed  |       |
-| ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS | ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS |  Renamed  |       |
-| ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS                          | ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_STATUS                          |  Renamed  |       |
-| ClusterProperties_Encryption_STATUS                                                       | ClusterCreateProperties_Encryption_STATUS                                                       |  Renamed  |       |
-| DatabaseProperties_GeoReplication                                                         | DatabaseCreateProperties_GeoReplication                                                         |  Renamed  |       |
-| DatabaseProperties_GeoReplication_STATUS                                                  | DatabaseCreateProperties_GeoReplication_STATUS                                                  |  Renamed  |       |
-| LinkedDatabase                                                                            | LinkedDatabase                                                                                  | Identical |       |
-| LinkedDatabase_STATUS                                                                     | LinkedDatabase_STATUS                                                                           | Identical |       |
-| ManagedServiceIdentity                                                                    | ManagedServiceIdentity                                                                          | Identical |       |
-| ManagedServiceIdentity_STATUS                                                             | ManagedServiceIdentity_STATUS                                                                   | Identical |       |
-| Module                                                                                    | Module                                                                                          | Identical |       |
-| Module_STATUS                                                                             | Module_STATUS                                                                                   | Identical |       |
-| Persistence                                                                               | Persistence                                                                                     | Identical |       |
-| Persistence_STATUS                                                                        | Persistence_STATUS                                                                              | Identical |       |
-| PrivateEndpointConnection_STATUS                                                          | PrivateEndpointConnection_STATUS                                                                | Identical |       |
-| RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec                                 | RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec                                       | Identical |       |
-| RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS                                      | RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS                                            | Identical |       |
-| RedisEnterpriseDatabaseAccessPolicyAssignment_Spec                                        | RedisEnterpriseDatabaseAccessPolicyAssignment_Spec                                              | Identical |       |
-| RedisEnterpriseDatabaseOperatorSecrets                                                    | RedisEnterpriseDatabaseOperatorSecrets                                                          | Identical |       |
-| RedisEnterpriseDatabaseOperatorSpec                                                       | RedisEnterpriseDatabaseOperatorSpec                                                             | Identical |       |
-| RedisEnterpriseDatabase_STATUS                                                            | RedisEnterpriseDatabase_STATUS                                                                  | Identical |       |
-| RedisEnterpriseDatabase_Spec                                                              | RedisEnterpriseDatabase_Spec                                                                    | Identical |       |
-| RedisEnterpriseOperatorSpec                                                               | RedisEnterpriseOperatorSpec                                                                     | Identical |       |
-| RedisEnterprise_STATUS                                                                    | RedisEnterprise_STATUS                                                                          | Extended  |       |
-| RedisEnterprise_Spec                                                                      | RedisEnterprise_Spec                                                                            | Extended  |       |
-| Sku                                                                                       | Sku                                                                                             | Identical |       |
-| Sku_STATUS                                                                                | Sku_STATUS                                                                                      | Identical |       |
-| SystemData_STATUS                                                                         | SystemData_STATUS                                                                               | Identical |       |
-| UserAssignedIdentityDetails                                                               | UserAssignedIdentityDetails                                                                     | Identical |       |
-| UserAssignedIdentity_STATUS                                                               | UserAssignedIdentity_STATUS                                                                     | Identical |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20250401/storage                                                                         | v20250701/storage                                                                               |  Status   | Notes                |
+|:------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------|:---------:|:---------------------|
+| AccessPolicyAssignmentProperties_User                                                     | AccessPolicyAssignmentProperties_User                                                           | Identical |                      |
+| AccessPolicyAssignmentProperties_User_STATUS                                              | AccessPolicyAssignmentProperties_User_STATUS                                                    | Identical |                      |
+| ClusterProperties_Encryption                                                              | ClusterCreateProperties_Encryption                                                              |  Renamed  |                      |
+| ClusterProperties_Encryption_CustomerManagedKeyEncryption                                 | ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption                                 |  Renamed  |                      |
+| ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity        | ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity        |  Renamed  |                      |
+| ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS | ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS |  Renamed  |                      |
+| ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS                          | ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_STATUS                          |  Renamed  |                      |
+| ClusterProperties_Encryption_STATUS                                                       | ClusterCreateProperties_Encryption_STATUS                                                       |  Renamed  |                      |
+| DatabaseProperties_GeoReplication                                                         | DatabaseCreateProperties_GeoReplication                                                         |  Renamed  |                      |
+| DatabaseProperties_GeoReplication_STATUS                                                  | DatabaseCreateProperties_GeoReplication_STATUS                                                  |  Renamed  |                      |
+| LinkedDatabase                                                                            | LinkedDatabase                                                                                  | Identical |                      |
+| LinkedDatabase_STATUS                                                                     | LinkedDatabase_STATUS                                                                           | Identical |                      |
+| ManagedServiceIdentity                                                                    | ManagedServiceIdentity                                                                          | Identical |                      |
+| ManagedServiceIdentity_STATUS                                                             | ManagedServiceIdentity_STATUS                                                                   | Identical |                      |
+| Module                                                                                    | Module                                                                                          | Identical |                      |
+| Module_STATUS                                                                             | Module_STATUS                                                                                   | Identical |                      |
+| Persistence                                                                               | Persistence                                                                                     | Identical |                      |
+| Persistence_STATUS                                                                        | Persistence_STATUS                                                                              | Identical |                      |
+| PrivateEndpointConnection_STATUS                                                          | PrivateEndpointConnection_STATUS                                                                | Identical |                      |
+| RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec                                 | RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec                                       | Identical |                      |
+| RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS                                      | RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS                                            | Identical |                      |
+| RedisEnterpriseDatabaseAccessPolicyAssignment_Spec                                        | RedisEnterpriseDatabaseAccessPolicyAssignment_Spec                                              | Identical |                      |
+| RedisEnterpriseDatabaseOperatorSecrets                                                    | RedisEnterpriseDatabaseOperatorSecrets                                                          | Identical |                      |
+| RedisEnterpriseDatabaseOperatorSpec                                                       | RedisEnterpriseDatabaseOperatorSpec                                                             | Identical |                      |
+| RedisEnterpriseDatabase_STATUS                                                            | RedisEnterpriseDatabase_STATUS                                                                  | Identical |                      |
+| RedisEnterpriseDatabase_Spec                                                              | RedisEnterpriseDatabase_Spec                                                                    | Identical |                      |
+| RedisEnterpriseOperatorSpec                                                               | RedisEnterpriseOperatorSpec                                                                     | Identical |                      |
+| RedisEnterprise_STATUS                                                                    | RedisEnterprise_STATUS                                                                          | Extended  | +PublicNetworkAccess |
+| RedisEnterprise_Spec                                                                      | RedisEnterprise_Spec                                                                            | Extended  | +PublicNetworkAccess |
+| Sku                                                                                       | Sku                                                                                             | Identical |                      |
+| Sku_STATUS                                                                                | Sku_STATUS                                                                                      | Identical |                      |
+| SystemData_STATUS                                                                         | SystemData_STATUS                                                                               | Identical |                      |
+| UserAssignedIdentityDetails                                                               | UserAssignedIdentityDetails                                                                     | Identical |                      |
+| UserAssignedIdentity_STATUS                                                               | UserAssignedIdentity_STATUS                                                                     | Identical |                      |
 
 ### RedisEnterprise_STATUS
 
-20 x Identical, 1 x New
+Properties: 20 x Identical, 1 x New
 
 | v20250401/storage          |                                      | v20250701/storage          |                                            |  Status   | Notes                                                                                     |
 |:---------------------------|:-------------------------------------|:---------------------------|:-------------------------------------------|:---------:|:------------------------------------------------------------------------------------------|
@@ -86,7 +79,7 @@
 
 ### RedisEnterprise_Spec
 
-14 x Identical, 1 x New
+Properties: 14 x Identical, 1 x New
 
 | v20250401/storage |                                    | v20250701/storage   |                                     |  Status   | Notes                                                                       |
 |:------------------|:-----------------------------------|:--------------------|:------------------------------------|:---------:|:----------------------------------------------------------------------------|
@@ -105,3 +98,12 @@
 | Sku               | *Sku                               | Sku                 | *Sku                                | Identical |                                                                             |
 | Tags              | map[string]string                  | Tags                | map[string]string                   | Identical |                                                                             |
 | Zones             | string[]                           | Zones               | string[]                            | Identical |                                                                             |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

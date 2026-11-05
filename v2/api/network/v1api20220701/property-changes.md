@@ -18,187 +18,180 @@
 | PrivateLinkService                      | PrivateLinkService                      | Identical |       |
 | PublicIPPrefix                          | PublicIPPrefix                          | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20220701                                                                   | v1api20220701/storage                                                           |  Status  | Notes |
-|:--------------------------------------------------------------------------------|:--------------------------------------------------------------------------------|:--------:|:------|
-| ApplicationGatewayAuthenticationCertificate                                     | ApplicationGatewayAuthenticationCertificate                                     | Extended |       |
-| ApplicationGatewayAuthenticationCertificate_STATUS                              | ApplicationGatewayAuthenticationCertificate_STATUS                              | Extended |       |
-| ApplicationGatewayAutoscaleConfiguration                                        | ApplicationGatewayAutoscaleConfiguration                                        | Modified |       |
-| ApplicationGatewayAutoscaleConfiguration_STATUS                                 | ApplicationGatewayAutoscaleConfiguration_STATUS                                 | Extended |       |
-| ApplicationGatewayBackendAddress                                                | ApplicationGatewayBackendAddress                                                | Extended |       |
-| ApplicationGatewayBackendAddressPool                                            | ApplicationGatewayBackendAddressPool                                            | Extended |       |
-| ApplicationGatewayBackendAddressPool_STATUS                                     | ApplicationGatewayBackendAddressPool_STATUS                                     | Extended |       |
-| ApplicationGatewayBackendHttpSettings                                           | ApplicationGatewayBackendHttpSettings                                           | Modified |       |
-| ApplicationGatewayBackendHttpSettings_STATUS                                    | ApplicationGatewayBackendHttpSettings_STATUS                                    | Extended |       |
-| ApplicationGatewayBackendSettings                                               | ApplicationGatewayBackendSettings                                               | Modified |       |
-| ApplicationGatewayBackendSettings_STATUS                                        | ApplicationGatewayBackendSettings_STATUS                                        | Extended |       |
-| ApplicationGatewayClientAuthConfiguration                                       | ApplicationGatewayClientAuthConfiguration                                       | Modified |       |
-| ApplicationGatewayConnectionDraining                                            | ApplicationGatewayConnectionDraining                                            | Modified |       |
-| ApplicationGatewayCustomError                                                   | ApplicationGatewayCustomError                                                   | Modified |       |
-| ApplicationGatewayCustomError_STATUS                                            | ApplicationGatewayCustomError_STATUS                                            | Modified |       |
-| ApplicationGatewayFirewallDisabledRuleGroup                                     | ApplicationGatewayFirewallDisabledRuleGroup                                     | Extended |       |
-| ApplicationGatewayFirewallDisabledRuleGroup_STATUS                              | ApplicationGatewayFirewallDisabledRuleGroup_STATUS                              | Extended |       |
-| ApplicationGatewayFirewallExclusion                                             | ApplicationGatewayFirewallExclusion                                             | Extended |       |
-| ApplicationGatewayFirewallExclusion_STATUS                                      | ApplicationGatewayFirewallExclusion_STATUS                                      | Extended |       |
-| ApplicationGatewayFrontendIPConfiguration                                       | ApplicationGatewayFrontendIPConfiguration                                       | Modified |       |
-| ApplicationGatewayFrontendIPConfiguration_STATUS                                | ApplicationGatewayFrontendIPConfiguration_STATUS                                | Extended |       |
-| ApplicationGatewayFrontendPort                                                  | ApplicationGatewayFrontendPort                                                  | Extended |       |
-| ApplicationGatewayFrontendPort_STATUS                                           | ApplicationGatewayFrontendPort_STATUS                                           | Extended |       |
-| ApplicationGatewayGlobalConfiguration                                           | ApplicationGatewayGlobalConfiguration                                           | Extended |       |
-| ApplicationGatewayGlobalConfiguration_STATUS                                    | ApplicationGatewayGlobalConfiguration_STATUS                                    | Extended |       |
-| ApplicationGatewayHeaderConfiguration                                           | ApplicationGatewayHeaderConfiguration                                           | Extended |       |
-| ApplicationGatewayHttpListener                                                  | ApplicationGatewayHttpListener                                                  | Modified |       |
-| ApplicationGatewayHttpListener_STATUS                                           | ApplicationGatewayHttpListener_STATUS                                           | Extended |       |
-| ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded        | ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded        | Extended |       |
-| ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded | ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded | Extended |       |
-| ApplicationGatewayListener                                                      | ApplicationGatewayListener                                                      | Modified |       |
-| ApplicationGatewayListener_STATUS                                               | ApplicationGatewayListener_STATUS                                               | Extended |       |
-| ApplicationGatewayLoadDistributionPolicy                                        | ApplicationGatewayLoadDistributionPolicy                                        | Modified |       |
-| ApplicationGatewayLoadDistributionPolicy_STATUS                                 | ApplicationGatewayLoadDistributionPolicy_STATUS                                 | Extended |       |
-| ApplicationGatewayLoadDistributionTarget                                        | ApplicationGatewayLoadDistributionTarget                                        | Extended |       |
-| ApplicationGatewayOperatorSpec                                                  | ApplicationGatewayOperatorSpec                                                  | Extended |       |
-| ApplicationGatewayPathRule                                                      | ApplicationGatewayPathRule                                                      | Extended |       |
-| ApplicationGatewayPrivateEndpointConnection_STATUS                              | ApplicationGatewayPrivateEndpointConnection_STATUS                              | Extended |       |
-| ApplicationGatewayPrivateLinkConfiguration                                      | ApplicationGatewayPrivateLinkConfiguration                                      | Extended |       |
-| ApplicationGatewayPrivateLinkConfiguration_STATUS                               | ApplicationGatewayPrivateLinkConfiguration_STATUS                               | Modified |       |
-| ApplicationGatewayPrivateLinkIpConfiguration                                    | ApplicationGatewayPrivateLinkIpConfiguration                                    | Modified |       |
-| ApplicationGatewayPrivateLinkIpConfiguration_STATUS                             | ApplicationGatewayPrivateLinkIpConfiguration_STATUS                             | Modified |       |
-| ApplicationGatewayProbe                                                         | ApplicationGatewayProbe                                                         | Modified |       |
-| ApplicationGatewayProbeHealthResponseMatch                                      | ApplicationGatewayProbeHealthResponseMatch                                      | Extended |       |
-| ApplicationGatewayProbe_STATUS                                                  | ApplicationGatewayProbe_STATUS                                                  | Extended |       |
-| ApplicationGatewayRedirectConfiguration                                         | ApplicationGatewayRedirectConfiguration                                         | Modified |       |
-| ApplicationGatewayRedirectConfiguration_STATUS                                  | ApplicationGatewayRedirectConfiguration_STATUS                                  | Extended |       |
-| ApplicationGatewayRequestRoutingRule                                            | ApplicationGatewayRequestRoutingRule                                            | Modified |       |
-| ApplicationGatewayRequestRoutingRule_STATUS                                     | ApplicationGatewayRequestRoutingRule_STATUS                                     | Extended |       |
-| ApplicationGatewayRewriteRule                                                   | ApplicationGatewayRewriteRule                                                   | Extended |       |
-| ApplicationGatewayRewriteRuleActionSet                                          | ApplicationGatewayRewriteRuleActionSet                                          | Extended |       |
-| ApplicationGatewayRewriteRuleCondition                                          | ApplicationGatewayRewriteRuleCondition                                          | Extended |       |
-| ApplicationGatewayRewriteRuleSet                                                | ApplicationGatewayRewriteRuleSet                                                | Extended |       |
-| ApplicationGatewayRewriteRuleSet_STATUS                                         | ApplicationGatewayRewriteRuleSet_STATUS                                         | Extended |       |
-| ApplicationGatewayRoutingRule                                                   | ApplicationGatewayRoutingRule                                                   | Modified |       |
-| ApplicationGatewayRoutingRule_STATUS                                            | ApplicationGatewayRoutingRule_STATUS                                            | Extended |       |
-| ApplicationGatewaySku                                                           | ApplicationGatewaySku                                                           | Modified |       |
-| ApplicationGatewaySku_STATUS                                                    | ApplicationGatewaySku_STATUS                                                    | Modified |       |
-| ApplicationGatewaySslCertificate                                                | ApplicationGatewaySslCertificate                                                | Extended |       |
-| ApplicationGatewaySslCertificate_STATUS                                         | ApplicationGatewaySslCertificate_STATUS                                         | Extended |       |
-| ApplicationGatewaySslPolicy                                                     | ApplicationGatewaySslPolicy                                                     | Modified |       |
-| ApplicationGatewaySslPolicy_STATUS                                              | ApplicationGatewaySslPolicy_STATUS                                              | Modified |       |
-| ApplicationGatewaySslProfile                                                    | ApplicationGatewaySslProfile                                                    | Extended |       |
-| ApplicationGatewaySslProfile_STATUS                                             | ApplicationGatewaySslProfile_STATUS                                             | Extended |       |
-| ApplicationGatewayTrustedClientCertificate                                      | ApplicationGatewayTrustedClientCertificate                                      | Extended |       |
-| ApplicationGatewayTrustedClientCertificate_STATUS                               | ApplicationGatewayTrustedClientCertificate_STATUS                               | Extended |       |
-| ApplicationGatewayTrustedRootCertificate                                        | ApplicationGatewayTrustedRootCertificate                                        | Extended |       |
-| ApplicationGatewayTrustedRootCertificate_STATUS                                 | ApplicationGatewayTrustedRootCertificate_STATUS                                 | Extended |       |
-| ApplicationGatewayUrlConfiguration                                              | ApplicationGatewayUrlConfiguration                                              | Extended |       |
-| ApplicationGatewayUrlPathMap                                                    | ApplicationGatewayUrlPathMap                                                    | Extended |       |
-| ApplicationGatewayUrlPathMap_STATUS                                             | ApplicationGatewayUrlPathMap_STATUS                                             | Extended |       |
-| ApplicationGatewayWebApplicationFirewallConfiguration                           | ApplicationGatewayWebApplicationFirewallConfiguration                           | Modified |       |
-| ApplicationGatewayWebApplicationFirewallConfiguration_STATUS                    | ApplicationGatewayWebApplicationFirewallConfiguration_STATUS                    | Modified |       |
-| ApplicationGateway_STATUS                                                       | ApplicationGateway_STATUS                                                       | Modified |       |
-| ApplicationGateway_Spec                                                         | ApplicationGateway_Spec                                                         | Extended |       |
-| ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded                | ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded                | Extended |       |
-| ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded             | ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded             | Extended |       |
-| BastionHostIPConfiguration                                                      | BastionHostIPConfiguration                                                      | Modified |       |
-| BastionHostIPConfiguration_STATUS                                               | BastionHostIPConfiguration_STATUS                                               | Extended |       |
-| BastionHostOperatorSpec                                                         | BastionHostOperatorSpec                                                         | Extended |       |
-| BastionHost_STATUS                                                              | BastionHost_STATUS                                                              | Modified |       |
-| BastionHost_Spec                                                                | BastionHost_Spec                                                                | Modified |       |
-| CustomDnsConfigPropertiesFormat_STATUS                                          | CustomDnsConfigPropertiesFormat_STATUS                                          | Extended |       |
-| DnsForwardingRuleSetsForwardingRuleOperatorSpec                                 | DnsForwardingRuleSetsForwardingRuleOperatorSpec                                 | Extended |       |
-| DnsForwardingRuleSetsForwardingRule_STATUS                                      | DnsForwardingRuleSetsForwardingRule_STATUS                                      | Modified |       |
-| DnsForwardingRuleSetsForwardingRule_Spec                                        | DnsForwardingRuleSetsForwardingRule_Spec                                        | Modified |       |
-| DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec                             | DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec                             | Extended |       |
-| DnsForwardingRuleSetsVirtualNetworkLink_STATUS                                  | DnsForwardingRuleSetsVirtualNetworkLink_STATUS                                  | Modified |       |
-| DnsForwardingRuleSetsVirtualNetworkLink_Spec                                    | DnsForwardingRuleSetsVirtualNetworkLink_Spec                                    | Extended |       |
-| DnsForwardingRulesetOperatorSpec                                                | DnsForwardingRulesetOperatorSpec                                                | Extended |       |
-| DnsForwardingRuleset_STATUS                                                     | DnsForwardingRuleset_STATUS                                                     | Modified |       |
-| DnsForwardingRuleset_Spec                                                       | DnsForwardingRuleset_Spec                                                       | Extended |       |
-| DnsResolverOperatorSpec                                                         | DnsResolverOperatorSpec                                                         | Extended |       |
-| DnsResolver_STATUS                                                              | DnsResolver_STATUS                                                              | Modified |       |
-| DnsResolver_Spec                                                                | DnsResolver_Spec                                                                | Extended |       |
-| DnsResolversInboundEndpointOperatorSpec                                         | DnsResolversInboundEndpointOperatorSpec                                         | Extended |       |
-| DnsResolversInboundEndpoint_STATUS                                              | DnsResolversInboundEndpoint_STATUS                                              | Modified |       |
-| DnsResolversInboundEndpoint_Spec                                                | DnsResolversInboundEndpoint_Spec                                                | Extended |       |
-| DnsResolversOutboundEndpointOperatorSpec                                        | DnsResolversOutboundEndpointOperatorSpec                                        | Extended |       |
-| DnsResolversOutboundEndpoint_STATUS                                             | DnsResolversOutboundEndpoint_STATUS                                             | Modified |       |
-| DnsResolversOutboundEndpoint_Spec                                               | DnsResolversOutboundEndpoint_Spec                                               | Extended |       |
-| ExtendedLocation                                                                | ExtendedLocation                                                                | Modified |       |
-| ExtendedLocation_STATUS                                                         | ExtendedLocation_STATUS                                                         | Modified |       |
-| FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded                  | FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded                  | Extended |       |
-| FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded           | FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded           | Extended |       |
-| IpConfiguration                                                                 | IpConfiguration                                                                 | Modified |       |
-| IpConfiguration_STATUS                                                          | IpConfiguration_STATUS                                                          | Modified |       |
-| IpTag                                                                           | IpTag                                                                           | Extended |       |
-| IpTag_STATUS                                                                    | IpTag_STATUS                                                                    | Extended |       |
-| ManagedServiceIdentity                                                          | ManagedServiceIdentity                                                          | Modified |       |
-| ManagedServiceIdentity_STATUS                                                   | ManagedServiceIdentity_STATUS                                                   | Modified |       |
-| ManagedServiceIdentity_UserAssignedIdentities_STATUS                            | ManagedServiceIdentity_UserAssignedIdentities_STATUS                            | Extended |       |
-| NatGatewayOperatorSpec                                                          | NatGatewayOperatorSpec                                                          | Extended |       |
-| NatGatewaySku                                                                   | NatGatewaySku                                                                   | Modified |       |
-| NatGatewaySku_STATUS                                                            | NatGatewaySku_STATUS                                                            | Modified |       |
-| NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded                               | NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded                               | Extended |       |
-| NatGateway_STATUS                                                               | NatGateway_STATUS                                                               | Modified |       |
-| NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded                            | NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded                            | Extended |       |
-| NatGateway_Spec                                                                 | NatGateway_Spec                                                                 | Extended |       |
-| NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded                     | NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded                     | Extended |       |
-| NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded                  | NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded                  | Extended |       |
-| PrivateDnsZoneConfig                                                            | PrivateDnsZoneConfig                                                            | Extended |       |
-| PrivateDnsZoneConfig_STATUS                                                     | PrivateDnsZoneConfig_STATUS                                                     | Extended |       |
-| PrivateEndpointConnection_STATUS                                                | PrivateEndpointConnection_STATUS                                                | Extended |       |
-| PrivateEndpointIPConfiguration                                                  | PrivateEndpointIPConfiguration                                                  | Extended |       |
-| PrivateEndpointIPConfiguration_STATUS                                           | PrivateEndpointIPConfiguration_STATUS                                           | Extended |       |
-| PrivateEndpointOperatorConfigMaps                                               | PrivateEndpointOperatorConfigMaps                                               | Extended |       |
-| PrivateEndpointOperatorSpec                                                     | PrivateEndpointOperatorSpec                                                     | Extended |       |
-| PrivateEndpoint_STATUS                                                          | PrivateEndpoint_STATUS                                                          | Modified |       |
-| PrivateEndpoint_Spec                                                            | PrivateEndpoint_Spec                                                            | Extended |       |
-| PrivateEndpointsPrivateDnsZoneGroupOperatorSpec                                 | PrivateEndpointsPrivateDnsZoneGroupOperatorSpec                                 | Extended |       |
-| PrivateEndpointsPrivateDnsZoneGroup_STATUS                                      | PrivateEndpointsPrivateDnsZoneGroup_STATUS                                      | Modified |       |
-| PrivateEndpointsPrivateDnsZoneGroup_Spec                                        | PrivateEndpointsPrivateDnsZoneGroup_Spec                                        | Extended |       |
-| PrivateLinkServiceConnection                                                    | PrivateLinkServiceConnection                                                    | Extended |       |
-| PrivateLinkServiceConnectionState                                               | PrivateLinkServiceConnectionState                                               | Extended |       |
-| PrivateLinkServiceConnectionState_STATUS                                        | PrivateLinkServiceConnectionState_STATUS                                        | Extended |       |
-| PrivateLinkServiceConnection_STATUS                                             | PrivateLinkServiceConnection_STATUS                                             | Modified |       |
-| PrivateLinkServiceIpConfiguration                                               | PrivateLinkServiceIpConfiguration                                               | Modified |       |
-| PrivateLinkServiceIpConfiguration_STATUS                                        | PrivateLinkServiceIpConfiguration_STATUS                                        | Modified |       |
-| PrivateLinkServiceOperatorConfigMaps                                            | PrivateLinkServiceOperatorConfigMaps                                            | Extended |       |
-| PrivateLinkServiceOperatorSpec                                                  | PrivateLinkServiceOperatorSpec                                                  | Extended |       |
-| PrivateLinkService_STATUS                                                       | PrivateLinkService_STATUS                                                       | Modified |       |
-| PrivateLinkService_Spec                                                         | PrivateLinkService_Spec                                                         | Extended |       |
-| PublicIPPrefixOperatorSpec                                                      | PublicIPPrefixOperatorSpec                                                      | Extended |       |
-| PublicIPPrefixSku                                                               | PublicIPPrefixSku                                                               | Modified |       |
-| PublicIPPrefixSku_STATUS                                                        | PublicIPPrefixSku_STATUS                                                        | Modified |       |
-| PublicIPPrefix_STATUS                                                           | PublicIPPrefix_STATUS                                                           | Modified |       |
-| PublicIPPrefix_Spec                                                             | PublicIPPrefix_Spec                                                             | Modified |       |
-| RecordSet_STATUS                                                                | RecordSet_STATUS                                                                | Modified |       |
-| ReferencedPublicIpAddress_STATUS                                                | ReferencedPublicIpAddress_STATUS                                                | Extended |       |
-| ResourceSet                                                                     | ResourceSet                                                                     | Extended |       |
-| ResourceSet_STATUS                                                              | ResourceSet_STATUS                                                              | Extended |       |
-| Sku                                                                             | Sku                                                                             | Modified |       |
-| Sku_STATUS                                                                      | Sku_STATUS                                                                      | Modified |       |
-| SubResource                                                                     | SubResource                                                                     | Extended |       |
-| SubResource_STATUS                                                              | SubResource_STATUS                                                              | Extended |       |
-| Subnet_PrivateEndpoint_SubResourceEmbedded                                      | Subnet_PrivateEndpoint_SubResourceEmbedded                                      | Extended |       |
-| Subnet_PrivateLinkService_SubResourceEmbedded                                   | Subnet_PrivateLinkService_SubResourceEmbedded                                   | Extended |       |
-| Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded                               | Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded                               | Extended |       |
-| Subnet_STATUS_PrivateLinkService_SubResourceEmbedded                            | Subnet_STATUS_PrivateLinkService_SubResourceEmbedded                            | Extended |       |
-| SystemData_STATUS                                                               | SystemData_STATUS                                                               | Modified |       |
-| TargetDnsServer                                                                 | TargetDnsServer                                                                 | Extended |       |
-| TargetDnsServer_STATUS                                                          | TargetDnsServer_STATUS                                                          | Extended |       |
-| UserAssignedIdentityDetails                                                     | UserAssignedIdentityDetails                                                     | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20220701                                                                   | v1api20220701/storage                                                           |  Status  | Notes                         |
+|:--------------------------------------------------------------------------------|:--------------------------------------------------------------------------------|:--------:|:------------------------------|
+| ApplicationGatewayAuthenticationCertificate                                     | ApplicationGatewayAuthenticationCertificate                                     | Extended | +PropertyBag                  |
+| ApplicationGatewayAuthenticationCertificate_STATUS                              | ApplicationGatewayAuthenticationCertificate_STATUS                              | Extended | +PropertyBag                  |
+| ApplicationGatewayAutoscaleConfiguration                                        | ApplicationGatewayAutoscaleConfiguration                                        | Extended | +PropertyBag                  |
+| ApplicationGatewayAutoscaleConfiguration_STATUS                                 | ApplicationGatewayAutoscaleConfiguration_STATUS                                 | Extended | +PropertyBag                  |
+| ApplicationGatewayBackendAddress                                                | ApplicationGatewayBackendAddress                                                | Extended | +PropertyBag                  |
+| ApplicationGatewayBackendAddressPool                                            | ApplicationGatewayBackendAddressPool                                            | Extended | +PropertyBag                  |
+| ApplicationGatewayBackendAddressPool_STATUS                                     | ApplicationGatewayBackendAddressPool_STATUS                                     | Extended | +PropertyBag                  |
+| ApplicationGatewayBackendHttpSettings                                           | ApplicationGatewayBackendHttpSettings                                           | Modified |                               |
+| ApplicationGatewayBackendHttpSettings_STATUS                                    | ApplicationGatewayBackendHttpSettings_STATUS                                    | Extended | +PropertyBag                  |
+| ApplicationGatewayBackendSettings                                               | ApplicationGatewayBackendSettings                                               | Modified |                               |
+| ApplicationGatewayBackendSettings_STATUS                                        | ApplicationGatewayBackendSettings_STATUS                                        | Extended | +PropertyBag                  |
+| ApplicationGatewayClientAuthConfiguration                                       | ApplicationGatewayClientAuthConfiguration                                       | Modified |                               |
+| ApplicationGatewayConnectionDraining                                            | ApplicationGatewayConnectionDraining                                            | Extended | +PropertyBag                  |
+| ApplicationGatewayCustomError                                                   | ApplicationGatewayCustomError                                                   | Modified |                               |
+| ApplicationGatewayCustomError_STATUS                                            | ApplicationGatewayCustomError_STATUS                                            | Modified |                               |
+| ApplicationGatewayFirewallDisabledRuleGroup                                     | ApplicationGatewayFirewallDisabledRuleGroup                                     | Extended | +PropertyBag                  |
+| ApplicationGatewayFirewallDisabledRuleGroup_STATUS                              | ApplicationGatewayFirewallDisabledRuleGroup_STATUS                              | Extended | +PropertyBag                  |
+| ApplicationGatewayFirewallExclusion                                             | ApplicationGatewayFirewallExclusion                                             | Extended | +PropertyBag                  |
+| ApplicationGatewayFirewallExclusion_STATUS                                      | ApplicationGatewayFirewallExclusion_STATUS                                      | Extended | +PropertyBag                  |
+| ApplicationGatewayFrontendIPConfiguration                                       | ApplicationGatewayFrontendIPConfiguration                                       | Modified |                               |
+| ApplicationGatewayFrontendIPConfiguration_STATUS                                | ApplicationGatewayFrontendIPConfiguration_STATUS                                | Extended | +PropertyBag                  |
+| ApplicationGatewayFrontendPort                                                  | ApplicationGatewayFrontendPort                                                  | Extended | +PropertyBag                  |
+| ApplicationGatewayFrontendPort_STATUS                                           | ApplicationGatewayFrontendPort_STATUS                                           | Extended | +PropertyBag                  |
+| ApplicationGatewayGlobalConfiguration                                           | ApplicationGatewayGlobalConfiguration                                           | Extended | +PropertyBag                  |
+| ApplicationGatewayGlobalConfiguration_STATUS                                    | ApplicationGatewayGlobalConfiguration_STATUS                                    | Extended | +PropertyBag                  |
+| ApplicationGatewayHeaderConfiguration                                           | ApplicationGatewayHeaderConfiguration                                           | Extended | +PropertyBag                  |
+| ApplicationGatewayHttpListener                                                  | ApplicationGatewayHttpListener                                                  | Modified |                               |
+| ApplicationGatewayHttpListener_STATUS                                           | ApplicationGatewayHttpListener_STATUS                                           | Extended | +PropertyBag                  |
+| ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded        | ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded        | Extended | +PropertyBag                  |
+| ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded | ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded | Extended | +PropertyBag                  |
+| ApplicationGatewayListener                                                      | ApplicationGatewayListener                                                      | Modified |                               |
+| ApplicationGatewayListener_STATUS                                               | ApplicationGatewayListener_STATUS                                               | Extended | +PropertyBag                  |
+| ApplicationGatewayLoadDistributionPolicy                                        | ApplicationGatewayLoadDistributionPolicy                                        | Modified |                               |
+| ApplicationGatewayLoadDistributionPolicy_STATUS                                 | ApplicationGatewayLoadDistributionPolicy_STATUS                                 | Extended | +PropertyBag                  |
+| ApplicationGatewayLoadDistributionTarget                                        | ApplicationGatewayLoadDistributionTarget                                        | Extended | +PropertyBag                  |
+| ApplicationGatewayOperatorSpec                                                  | ApplicationGatewayOperatorSpec                                                  | Extended | +PropertyBag                  |
+| ApplicationGatewayPathRule                                                      | ApplicationGatewayPathRule                                                      | Extended | +PropertyBag                  |
+| ApplicationGatewayPrivateEndpointConnection_STATUS                              | ApplicationGatewayPrivateEndpointConnection_STATUS                              | Extended | +PropertyBag                  |
+| ApplicationGatewayPrivateLinkConfiguration                                      | ApplicationGatewayPrivateLinkConfiguration                                      | Extended | +PropertyBag                  |
+| ApplicationGatewayPrivateLinkConfiguration_STATUS                               | ApplicationGatewayPrivateLinkConfiguration_STATUS                               | Modified |                               |
+| ApplicationGatewayPrivateLinkIpConfiguration                                    | ApplicationGatewayPrivateLinkIpConfiguration                                    | Modified |                               |
+| ApplicationGatewayPrivateLinkIpConfiguration_STATUS                             | ApplicationGatewayPrivateLinkIpConfiguration_STATUS                             | Modified |                               |
+| ApplicationGatewayProbe                                                         | ApplicationGatewayProbe                                                         | Modified |                               |
+| ApplicationGatewayProbeHealthResponseMatch                                      | ApplicationGatewayProbeHealthResponseMatch                                      | Extended | +PropertyBag                  |
+| ApplicationGatewayProbe_STATUS                                                  | ApplicationGatewayProbe_STATUS                                                  | Extended | +PropertyBag                  |
+| ApplicationGatewayRedirectConfiguration                                         | ApplicationGatewayRedirectConfiguration                                         | Modified |                               |
+| ApplicationGatewayRedirectConfiguration_STATUS                                  | ApplicationGatewayRedirectConfiguration_STATUS                                  | Extended | +PropertyBag                  |
+| ApplicationGatewayRequestRoutingRule                                            | ApplicationGatewayRequestRoutingRule                                            | Modified |                               |
+| ApplicationGatewayRequestRoutingRule_STATUS                                     | ApplicationGatewayRequestRoutingRule_STATUS                                     | Extended | +PropertyBag                  |
+| ApplicationGatewayRewriteRule                                                   | ApplicationGatewayRewriteRule                                                   | Extended | +PropertyBag                  |
+| ApplicationGatewayRewriteRuleActionSet                                          | ApplicationGatewayRewriteRuleActionSet                                          | Extended | +PropertyBag                  |
+| ApplicationGatewayRewriteRuleCondition                                          | ApplicationGatewayRewriteRuleCondition                                          | Extended | +PropertyBag                  |
+| ApplicationGatewayRewriteRuleSet                                                | ApplicationGatewayRewriteRuleSet                                                | Extended | +PropertyBag                  |
+| ApplicationGatewayRewriteRuleSet_STATUS                                         | ApplicationGatewayRewriteRuleSet_STATUS                                         | Extended | +PropertyBag                  |
+| ApplicationGatewayRoutingRule                                                   | ApplicationGatewayRoutingRule                                                   | Modified |                               |
+| ApplicationGatewayRoutingRule_STATUS                                            | ApplicationGatewayRoutingRule_STATUS                                            | Extended | +PropertyBag                  |
+| ApplicationGatewaySku                                                           | ApplicationGatewaySku                                                           | Modified |                               |
+| ApplicationGatewaySku_STATUS                                                    | ApplicationGatewaySku_STATUS                                                    | Modified |                               |
+| ApplicationGatewaySslCertificate                                                | ApplicationGatewaySslCertificate                                                | Extended | +PropertyBag                  |
+| ApplicationGatewaySslCertificate_STATUS                                         | ApplicationGatewaySslCertificate_STATUS                                         | Extended | +PropertyBag                  |
+| ApplicationGatewaySslPolicy                                                     | ApplicationGatewaySslPolicy                                                     | Modified |                               |
+| ApplicationGatewaySslPolicy_STATUS                                              | ApplicationGatewaySslPolicy_STATUS                                              | Modified |                               |
+| ApplicationGatewaySslProfile                                                    | ApplicationGatewaySslProfile                                                    | Extended | +PropertyBag                  |
+| ApplicationGatewaySslProfile_STATUS                                             | ApplicationGatewaySslProfile_STATUS                                             | Extended | +PropertyBag                  |
+| ApplicationGatewayTrustedClientCertificate                                      | ApplicationGatewayTrustedClientCertificate                                      | Extended | +PropertyBag                  |
+| ApplicationGatewayTrustedClientCertificate_STATUS                               | ApplicationGatewayTrustedClientCertificate_STATUS                               | Extended | +PropertyBag                  |
+| ApplicationGatewayTrustedRootCertificate                                        | ApplicationGatewayTrustedRootCertificate                                        | Extended | +PropertyBag                  |
+| ApplicationGatewayTrustedRootCertificate_STATUS                                 | ApplicationGatewayTrustedRootCertificate_STATUS                                 | Extended | +PropertyBag                  |
+| ApplicationGatewayUrlConfiguration                                              | ApplicationGatewayUrlConfiguration                                              | Extended | +PropertyBag                  |
+| ApplicationGatewayUrlPathMap                                                    | ApplicationGatewayUrlPathMap                                                    | Extended | +PropertyBag                  |
+| ApplicationGatewayUrlPathMap_STATUS                                             | ApplicationGatewayUrlPathMap_STATUS                                             | Extended | +PropertyBag                  |
+| ApplicationGatewayWebApplicationFirewallConfiguration                           | ApplicationGatewayWebApplicationFirewallConfiguration                           | Modified |                               |
+| ApplicationGatewayWebApplicationFirewallConfiguration_STATUS                    | ApplicationGatewayWebApplicationFirewallConfiguration_STATUS                    | Modified |                               |
+| ApplicationGateway_STATUS                                                       | ApplicationGateway_STATUS                                                       | Modified |                               |
+| ApplicationGateway_Spec                                                         | ApplicationGateway_Spec                                                         | Extended | +OriginalVersion +PropertyBag |
+| ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded                | ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded                | Extended | +PropertyBag                  |
+| ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded             | ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded             | Extended | +PropertyBag                  |
+| BastionHostIPConfiguration                                                      | BastionHostIPConfiguration                                                      | Modified |                               |
+| BastionHostIPConfiguration_STATUS                                               | BastionHostIPConfiguration_STATUS                                               | Extended | +PropertyBag                  |
+| BastionHostOperatorSpec                                                         | BastionHostOperatorSpec                                                         | Extended | +PropertyBag                  |
+| BastionHost_STATUS                                                              | BastionHost_STATUS                                                              | Modified |                               |
+| BastionHost_Spec                                                                | BastionHost_Spec                                                                | Extended | +OriginalVersion +PropertyBag |
+| CustomDnsConfigPropertiesFormat_STATUS                                          | CustomDnsConfigPropertiesFormat_STATUS                                          | Extended | +PropertyBag                  |
+| DnsForwardingRuleSetsForwardingRuleOperatorSpec                                 | DnsForwardingRuleSetsForwardingRuleOperatorSpec                                 | Extended | +PropertyBag                  |
+| DnsForwardingRuleSetsForwardingRule_STATUS                                      | DnsForwardingRuleSetsForwardingRule_STATUS                                      | Modified |                               |
+| DnsForwardingRuleSetsForwardingRule_Spec                                        | DnsForwardingRuleSetsForwardingRule_Spec                                        | Modified |                               |
+| DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec                             | DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec                             | Extended | +PropertyBag                  |
+| DnsForwardingRuleSetsVirtualNetworkLink_STATUS                                  | DnsForwardingRuleSetsVirtualNetworkLink_STATUS                                  | Modified |                               |
+| DnsForwardingRuleSetsVirtualNetworkLink_Spec                                    | DnsForwardingRuleSetsVirtualNetworkLink_Spec                                    | Extended | +OriginalVersion +PropertyBag |
+| DnsForwardingRulesetOperatorSpec                                                | DnsForwardingRulesetOperatorSpec                                                | Extended | +PropertyBag                  |
+| DnsForwardingRuleset_STATUS                                                     | DnsForwardingRuleset_STATUS                                                     | Modified |                               |
+| DnsForwardingRuleset_Spec                                                       | DnsForwardingRuleset_Spec                                                       | Extended | +OriginalVersion +PropertyBag |
+| DnsResolverOperatorSpec                                                         | DnsResolverOperatorSpec                                                         | Extended | +PropertyBag                  |
+| DnsResolver_STATUS                                                              | DnsResolver_STATUS                                                              | Modified |                               |
+| DnsResolver_Spec                                                                | DnsResolver_Spec                                                                | Extended | +OriginalVersion +PropertyBag |
+| DnsResolversInboundEndpointOperatorSpec                                         | DnsResolversInboundEndpointOperatorSpec                                         | Extended | +PropertyBag                  |
+| DnsResolversInboundEndpoint_STATUS                                              | DnsResolversInboundEndpoint_STATUS                                              | Modified |                               |
+| DnsResolversInboundEndpoint_Spec                                                | DnsResolversInboundEndpoint_Spec                                                | Extended | +OriginalVersion +PropertyBag |
+| DnsResolversOutboundEndpointOperatorSpec                                        | DnsResolversOutboundEndpointOperatorSpec                                        | Extended | +PropertyBag                  |
+| DnsResolversOutboundEndpoint_STATUS                                             | DnsResolversOutboundEndpoint_STATUS                                             | Modified |                               |
+| DnsResolversOutboundEndpoint_Spec                                               | DnsResolversOutboundEndpoint_Spec                                               | Extended | +OriginalVersion +PropertyBag |
+| ExtendedLocation                                                                | ExtendedLocation                                                                | Modified |                               |
+| ExtendedLocation_STATUS                                                         | ExtendedLocation_STATUS                                                         | Modified |                               |
+| FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded                  | FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded                  | Extended | +PropertyBag                  |
+| FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded           | FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded           | Extended | +PropertyBag                  |
+| IpConfiguration                                                                 | IpConfiguration                                                                 | Modified |                               |
+| IpConfiguration_STATUS                                                          | IpConfiguration_STATUS                                                          | Modified |                               |
+| IpTag                                                                           | IpTag                                                                           | Extended | +PropertyBag                  |
+| IpTag_STATUS                                                                    | IpTag_STATUS                                                                    | Extended | +PropertyBag                  |
+| ManagedServiceIdentity                                                          | ManagedServiceIdentity                                                          | Modified |                               |
+| ManagedServiceIdentity_STATUS                                                   | ManagedServiceIdentity_STATUS                                                   | Modified |                               |
+| ManagedServiceIdentity_UserAssignedIdentities_STATUS                            | ManagedServiceIdentity_UserAssignedIdentities_STATUS                            | Extended | +PropertyBag                  |
+| NatGatewayOperatorSpec                                                          | NatGatewayOperatorSpec                                                          | Extended | +PropertyBag                  |
+| NatGatewaySku                                                                   | NatGatewaySku                                                                   | Modified |                               |
+| NatGatewaySku_STATUS                                                            | NatGatewaySku_STATUS                                                            | Modified |                               |
+| NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded                               | NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded                               | Extended | +PropertyBag                  |
+| NatGateway_STATUS                                                               | NatGateway_STATUS                                                               | Modified |                               |
+| NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded                            | NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded                            | Extended | +PropertyBag                  |
+| NatGateway_Spec                                                                 | NatGateway_Spec                                                                 | Extended | +OriginalVersion +PropertyBag |
+| NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded                     | NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded                     | Extended | +PropertyBag                  |
+| NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded                  | NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded                  | Extended | +PropertyBag                  |
+| PrivateDnsZoneConfig                                                            | PrivateDnsZoneConfig                                                            | Extended | +PropertyBag                  |
+| PrivateDnsZoneConfig_STATUS                                                     | PrivateDnsZoneConfig_STATUS                                                     | Extended | +PropertyBag                  |
+| PrivateEndpointConnection_STATUS                                                | PrivateEndpointConnection_STATUS                                                | Extended | +PropertyBag                  |
+| PrivateEndpointIPConfiguration                                                  | PrivateEndpointIPConfiguration                                                  | Extended | +PropertyBag                  |
+| PrivateEndpointIPConfiguration_STATUS                                           | PrivateEndpointIPConfiguration_STATUS                                           | Extended | +PropertyBag                  |
+| PrivateEndpointOperatorConfigMaps                                               | PrivateEndpointOperatorConfigMaps                                               | Extended | +PropertyBag                  |
+| PrivateEndpointOperatorSpec                                                     | PrivateEndpointOperatorSpec                                                     | Extended | +PropertyBag                  |
+| PrivateEndpoint_STATUS                                                          | PrivateEndpoint_STATUS                                                          | Modified |                               |
+| PrivateEndpoint_Spec                                                            | PrivateEndpoint_Spec                                                            | Extended | +OriginalVersion +PropertyBag |
+| PrivateEndpointsPrivateDnsZoneGroupOperatorSpec                                 | PrivateEndpointsPrivateDnsZoneGroupOperatorSpec                                 | Extended | +PropertyBag                  |
+| PrivateEndpointsPrivateDnsZoneGroup_STATUS                                      | PrivateEndpointsPrivateDnsZoneGroup_STATUS                                      | Modified |                               |
+| PrivateEndpointsPrivateDnsZoneGroup_Spec                                        | PrivateEndpointsPrivateDnsZoneGroup_Spec                                        | Extended | +OriginalVersion +PropertyBag |
+| PrivateLinkServiceConnection                                                    | PrivateLinkServiceConnection                                                    | Extended | +PropertyBag                  |
+| PrivateLinkServiceConnectionState                                               | PrivateLinkServiceConnectionState                                               | Extended | +PropertyBag                  |
+| PrivateLinkServiceConnectionState_STATUS                                        | PrivateLinkServiceConnectionState_STATUS                                        | Extended | +PropertyBag                  |
+| PrivateLinkServiceConnection_STATUS                                             | PrivateLinkServiceConnection_STATUS                                             | Modified |                               |
+| PrivateLinkServiceIpConfiguration                                               | PrivateLinkServiceIpConfiguration                                               | Modified |                               |
+| PrivateLinkServiceIpConfiguration_STATUS                                        | PrivateLinkServiceIpConfiguration_STATUS                                        | Modified |                               |
+| PrivateLinkServiceOperatorConfigMaps                                            | PrivateLinkServiceOperatorConfigMaps                                            | Extended | +PropertyBag                  |
+| PrivateLinkServiceOperatorSpec                                                  | PrivateLinkServiceOperatorSpec                                                  | Extended | +PropertyBag                  |
+| PrivateLinkService_STATUS                                                       | PrivateLinkService_STATUS                                                       | Modified |                               |
+| PrivateLinkService_Spec                                                         | PrivateLinkService_Spec                                                         | Extended | +OriginalVersion +PropertyBag |
+| PublicIPPrefixOperatorSpec                                                      | PublicIPPrefixOperatorSpec                                                      | Extended | +PropertyBag                  |
+| PublicIPPrefixSku                                                               | PublicIPPrefixSku                                                               | Modified |                               |
+| PublicIPPrefixSku_STATUS                                                        | PublicIPPrefixSku_STATUS                                                        | Modified |                               |
+| PublicIPPrefix_STATUS                                                           | PublicIPPrefix_STATUS                                                           | Modified |                               |
+| PublicIPPrefix_Spec                                                             | PublicIPPrefix_Spec                                                             | Modified |                               |
+| RecordSet_STATUS                                                                | RecordSet_STATUS                                                                | Modified |                               |
+| ReferencedPublicIpAddress_STATUS                                                | ReferencedPublicIpAddress_STATUS                                                | Extended | +PropertyBag                  |
+| ResourceSet                                                                     | ResourceSet                                                                     | Extended | +PropertyBag                  |
+| ResourceSet_STATUS                                                              | ResourceSet_STATUS                                                              | Extended | +PropertyBag                  |
+| Sku                                                                             | Sku                                                                             | Modified |                               |
+| Sku_STATUS                                                                      | Sku_STATUS                                                                      | Modified |                               |
+| SubResource                                                                     | SubResource                                                                     | Extended | +PropertyBag                  |
+| SubResource_STATUS                                                              | SubResource_STATUS                                                              | Extended | +PropertyBag                  |
+| Subnet_PrivateEndpoint_SubResourceEmbedded                                      | Subnet_PrivateEndpoint_SubResourceEmbedded                                      | Extended | +PropertyBag                  |
+| Subnet_PrivateLinkService_SubResourceEmbedded                                   | Subnet_PrivateLinkService_SubResourceEmbedded                                   | Extended | +PropertyBag                  |
+| Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded                               | Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded                               | Extended | +PropertyBag                  |
+| Subnet_STATUS_PrivateLinkService_SubResourceEmbedded                            | Subnet_STATUS_PrivateLinkService_SubResourceEmbedded                            | Extended | +PropertyBag                  |
+| SystemData_STATUS                                                               | SystemData_STATUS                                                               | Modified |                               |
+| TargetDnsServer                                                                 | TargetDnsServer                                                                 | Extended | +PropertyBag                  |
+| TargetDnsServer_STATUS                                                          | TargetDnsServer_STATUS                                                          | Extended | +PropertyBag                  |
+| UserAssignedIdentityDetails                                                     | UserAssignedIdentityDetails                                                     | Extended | +PropertyBag                  |
 
 ### ApplicationGatewayAuthenticationCertificate
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220701 |                             | v1api20220701/storage |                             |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -208,7 +201,7 @@
 
 ### ApplicationGatewayAuthenticationCertificate_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -217,17 +210,17 @@
 
 ### ApplicationGatewayAutoscaleConfiguration
 
-1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New
 
-| v1api20220701 |                          | v1api20220701/storage |                        |  Status  | Notes |
-|:--------------|:-------------------------|:----------------------|:-----------------------|:--------:|:------|
-| MaxCapacity   | Validated<*int> (1 rule) | MaxCapacity           | *int                   | Modified |       |
-| MinCapacity   | Validated<*int> (1 rule) | MinCapacity           | *int                   | Modified |       |
-|               |                          | PropertyBag           | genruntime.PropertyBag |   New    |       |
+| v1api20220701 |                          | v1api20220701/storage |                        |  Status   | Notes |
+|:--------------|:-------------------------|:----------------------|:-----------------------|:---------:|:------|
+| MaxCapacity   | Validated<*int> (1 rule) | MaxCapacity           | *int                   | Identical |       |
+| MinCapacity   | Validated<*int> (1 rule) | MinCapacity           | *int                   | Identical |       |
+|               |                          | PropertyBag           | genruntime.PropertyBag |    New    |       |
 
 ### ApplicationGatewayAutoscaleConfiguration_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220701 |      | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:-----|:----------------------|:-----------------------|:---------:|:------|
@@ -237,7 +230,7 @@
 
 ### ApplicationGatewayBackendAddress
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -247,7 +240,7 @@
 
 ### ApplicationGatewayBackendAddressPool
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220701    |                                    | v1api20220701/storage |                                    |  Status   | Notes |
 |:-----------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -257,7 +250,7 @@
 
 ### ApplicationGatewayBackendAddressPool_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -266,7 +259,7 @@
 
 ### ApplicationGatewayBackendHttpSettings
 
-12 x Identical, 1 x New, 2 x Modified
+Properties: 12 x Identical, 1 x New, 2 x Modified
 
 | v1api20220701                  |                                                                            | v1api20220701/storage          |                                       |  Status   | Notes |
 |:-------------------------------|:---------------------------------------------------------------------------|:-------------------------------|:--------------------------------------|:---------:|:------|
@@ -288,7 +281,7 @@
 
 ### ApplicationGatewayBackendHttpSettings_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -297,7 +290,7 @@
 
 ### ApplicationGatewayBackendSettings
 
-7 x Identical, 1 x New, 1 x Modified
+Properties: 7 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701                  |                             | v1api20220701/storage          |                        |  Status   | Notes |
 |:-------------------------------|:----------------------------|:-------------------------------|:-----------------------|:---------:|:------|
@@ -313,7 +306,7 @@
 
 ### ApplicationGatewayBackendSettings_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -322,7 +315,7 @@
 
 ### ApplicationGatewayClientAuthConfiguration
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701            |                                                                   | v1api20220701/storage    |                        |  Status   | Notes |
 |:-------------------------|:------------------------------------------------------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -332,17 +325,17 @@
 
 ### ApplicationGatewayConnectionDraining
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New
 
 | v1api20220701     |                           | v1api20220701/storage |                        |  Status   | Notes |
 |:------------------|:--------------------------|:----------------------|:-----------------------|:---------:|:------|
-| DrainTimeoutInSec | Validated<*int> (2 rules) | DrainTimeoutInSec     | *int                   | Modified  |       |
+| DrainTimeoutInSec | Validated<*int> (2 rules) | DrainTimeoutInSec     | *int                   | Identical |       |
 | Enabled           | *bool                     | Enabled               | *bool                  | Identical |       |
 |                   |                           | PropertyBag           | genruntime.PropertyBag |    New    |       |
 
 ### ApplicationGatewayCustomError
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701      |                                           | v1api20220701/storage |                        |  Status   | Notes |
 |:-------------------|:------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -352,7 +345,7 @@
 
 ### ApplicationGatewayCustomError_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701      |                                                  | v1api20220701/storage |                        |  Status   | Notes |
 |:-------------------|:-------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -362,7 +355,7 @@
 
 ### ApplicationGatewayFirewallDisabledRuleGroup
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -372,7 +365,7 @@
 
 ### ApplicationGatewayFirewallDisabledRuleGroup_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -382,7 +375,7 @@
 
 ### ApplicationGatewayFirewallExclusion
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220701         |         | v1api20220701/storage |                        |  Status   | Notes |
 |:----------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -393,7 +386,7 @@
 
 ### ApplicationGatewayFirewallExclusion_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220701         |         | v1api20220701/storage |                        |  Status   | Notes |
 |:----------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -404,7 +397,7 @@
 
 ### ApplicationGatewayFrontendIPConfiguration
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701             |                     | v1api20220701/storage     |                        |  Status   | Notes |
 |:--------------------------|:--------------------|:--------------------------|:-----------------------|:---------:|:------|
@@ -418,7 +411,7 @@
 
 ### ApplicationGatewayFrontendIPConfiguration_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -427,7 +420,7 @@
 
 ### ApplicationGatewayFrontendPort
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -437,7 +430,7 @@
 
 ### ApplicationGatewayFrontendPort_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -446,7 +439,7 @@
 
 ### ApplicationGatewayGlobalConfiguration
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220701           |       | v1api20220701/storage   |                        |  Status   | Notes |
 |:------------------------|:------|:------------------------|:-----------------------|:---------:|:------|
@@ -456,7 +449,7 @@
 
 ### ApplicationGatewayGlobalConfiguration_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220701           |       | v1api20220701/storage   |                        |  Status   | Notes |
 |:------------------------|:------|:------------------------|:-----------------------|:---------:|:------|
@@ -466,7 +459,7 @@
 
 ### ApplicationGatewayHeaderConfiguration
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -476,7 +469,7 @@
 
 ### ApplicationGatewayHttpListener
 
-10 x Identical, 1 x New, 1 x Modified
+Properties: 10 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701               |                                 | v1api20220701/storage       |                                 |  Status   | Notes |
 |:----------------------------|:--------------------------------|:----------------------------|:--------------------------------|:---------:|:------|
@@ -495,7 +488,7 @@
 
 ### ApplicationGatewayHttpListener_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -504,7 +497,7 @@
 
 ### ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220701 |              | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:-------------|:----------------------|:-----------------------|:---------:|:------|
@@ -514,7 +507,7 @@
 
 ### ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -523,7 +516,7 @@
 
 ### ApplicationGatewayListener
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701           |                             | v1api20220701/storage   |                        |  Status   | Notes |
 |:------------------------|:----------------------------|:------------------------|:-----------------------|:---------:|:------|
@@ -537,7 +530,7 @@
 
 ### ApplicationGatewayListener_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -546,7 +539,7 @@
 
 ### ApplicationGatewayLoadDistributionPolicy
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701             |                                                  | v1api20220701/storage     |                                            |  Status   | Notes |
 |:--------------------------|:-------------------------------------------------|:--------------------------|:-------------------------------------------|:---------:|:------|
@@ -557,7 +550,7 @@
 
 ### ApplicationGatewayLoadDistributionPolicy_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -566,7 +559,7 @@
 
 ### ApplicationGatewayLoadDistributionTarget
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |                               | v1api20220701/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -575,7 +568,7 @@
 
 ### ApplicationGatewayOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220701        |                               | v1api20220701/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -585,7 +578,7 @@
 
 ### ApplicationGatewayPathRule
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v1api20220701          |              | v1api20220701/storage  |                        |  Status   | Notes |
 |:-----------------------|:-------------|:-----------------------|:-----------------------|:---------:|:------|
@@ -601,7 +594,7 @@
 
 ### ApplicationGatewayPrivateEndpointConnection_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -610,7 +603,7 @@
 
 ### ApplicationGatewayPrivateLinkConfiguration
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220701    |                                                | v1api20220701/storage |                                                |  Status   | Notes |
 |:-----------------|:-----------------------------------------------|:----------------------|:-----------------------------------------------|:---------:|:------|
@@ -620,7 +613,7 @@
 
 ### ApplicationGatewayPrivateLinkConfiguration_STATUS
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701     |                                                       | v1api20220701/storage |                                                       |  Status   | Notes |
 |:------------------|:------------------------------------------------------|:----------------------|:------------------------------------------------------|:---------:|:------|
@@ -634,7 +627,7 @@
 
 ### ApplicationGatewayPrivateLinkIpConfiguration
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701             |                     | v1api20220701/storage     |                        |  Status   | Notes |
 |:--------------------------|:--------------------|:--------------------------|:-----------------------|:---------:|:------|
@@ -647,7 +640,7 @@
 
 ### ApplicationGatewayPrivateLinkIpConfiguration_STATUS
 
-7 x Identical, 1 x New, 2 x Modified
+Properties: 7 x Identical, 1 x New, 2 x Modified
 
 | v1api20220701             |                                             | v1api20220701/storage     |                        |  Status   | Notes |
 |:--------------------------|:--------------------------------------------|:--------------------------|:-----------------------|:---------:|:------|
@@ -664,7 +657,7 @@
 
 ### ApplicationGatewayProbe
 
-10 x Identical, 1 x New, 2 x Modified
+Properties: 11 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701                       |                                             | v1api20220701/storage               |                                             |  Status   | Notes |
 |:------------------------------------|:--------------------------------------------|:------------------------------------|:--------------------------------------------|:---------:|:------|
@@ -676,7 +669,7 @@
 | Path                                | *string                                     | Path                                | *string                                     | Identical |       |
 | PickHostNameFromBackendHttpSettings | *bool                                       | PickHostNameFromBackendHttpSettings | *bool                                       | Identical |       |
 | PickHostNameFromBackendSettings     | *bool                                       | PickHostNameFromBackendSettings     | *bool                                       | Identical |       |
-| Port                                | Validated<*int> (2 rules)                   | Port                                | *int                                        | Modified  |       |
+| Port                                | Validated<*int> (2 rules)                   | Port                                | *int                                        | Identical |       |
 |                                     |                                             | PropertyBag                         | genruntime.PropertyBag                      |    New    |       |
 | Protocol                            | *ApplicationGatewayProtocol                 | Protocol                            | *string                                     | Modified  |       |
 | Timeout                             | *int                                        | Timeout                             | *int                                        | Identical |       |
@@ -684,7 +677,7 @@
 
 ### ApplicationGatewayProbeHealthResponseMatch
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220701 |          | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -694,7 +687,7 @@
 
 ### ApplicationGatewayProbe_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -703,7 +696,7 @@
 
 ### ApplicationGatewayRedirectConfiguration
 
-8 x Identical, 1 x New, 1 x Modified
+Properties: 8 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701       |                   | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------------|:------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -720,7 +713,7 @@
 
 ### ApplicationGatewayRedirectConfiguration_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -729,7 +722,7 @@
 
 ### ApplicationGatewayRequestRoutingRule
 
-8 x Identical, 1 x New, 2 x Modified
+Properties: 9 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701          |                                                                | v1api20220701/storage  |                        |  Status   | Notes |
 |:-----------------------|:---------------------------------------------------------------|:-----------------------|:-----------------------|:---------:|:------|
@@ -738,7 +731,7 @@
 | HttpListener           | *SubResource                                                   | HttpListener           | *SubResource           | Identical |       |
 | LoadDistributionPolicy | *SubResource                                                   | LoadDistributionPolicy | *SubResource           | Identical |       |
 | Name                   | *string                                                        | Name                   | *string                | Identical |       |
-| Priority               | Validated<*int> (2 rules)                                      | Priority               | *int                   | Modified  |       |
+| Priority               | Validated<*int> (2 rules)                                      | Priority               | *int                   | Identical |       |
 |                        |                                                                | PropertyBag            | genruntime.PropertyBag |    New    |       |
 | RedirectConfiguration  | *SubResource                                                   | RedirectConfiguration  | *SubResource           | Identical |       |
 | RewriteRuleSet         | *SubResource                                                   | RewriteRuleSet         | *SubResource           | Identical |       |
@@ -747,7 +740,7 @@
 
 ### ApplicationGatewayRequestRoutingRule_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -756,7 +749,7 @@
 
 ### ApplicationGatewayRewriteRule
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20220701 |                                          | v1api20220701/storage |                                          |  Status   | Notes |
 |:--------------|:-----------------------------------------|:----------------------|:-----------------------------------------|:---------:|:------|
@@ -768,7 +761,7 @@
 
 ### ApplicationGatewayRewriteRuleActionSet
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220701                |                                         | v1api20220701/storage        |                                         |  Status   | Notes |
 |:-----------------------------|:----------------------------------------|:-----------------------------|:----------------------------------------|:---------:|:------|
@@ -779,7 +772,7 @@
 
 ### ApplicationGatewayRewriteRuleCondition
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -791,7 +784,7 @@
 
 ### ApplicationGatewayRewriteRuleSet
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220701 |                                 | v1api20220701/storage |                                 |  Status   | Notes |
 |:--------------|:--------------------------------|:----------------------|:--------------------------------|:---------:|:------|
@@ -801,7 +794,7 @@
 
 ### ApplicationGatewayRewriteRuleSet_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -810,7 +803,7 @@
 
 ### ApplicationGatewayRoutingRule
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701      |                                                         | v1api20220701/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -818,13 +811,13 @@
 | BackendSettings    | *SubResource                                            | BackendSettings       | *SubResource           | Identical |       |
 | Listener           | *SubResource                                            | Listener              | *SubResource           | Identical |       |
 | Name               | *string                                                 | Name                  | *string                | Identical |       |
-| Priority           | Validated<*int> (2 rules)                               | Priority              | *int                   | Modified  |       |
+| Priority           | Validated<*int> (2 rules)                               | Priority              | *int                   | Identical |       |
 |                    |                                                         | PropertyBag           | genruntime.PropertyBag |    New    |       |
 | RuleType           | *ApplicationGatewayRoutingRulePropertiesFormat_RuleType | RuleType              | *string                | Modified  |       |
 
 ### ApplicationGatewayRoutingRule_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -833,7 +826,7 @@
 
 ### ApplicationGatewaySku
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v1api20220701 |                             | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -844,7 +837,7 @@
 
 ### ApplicationGatewaySku_STATUS
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v1api20220701 |                                    | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -855,7 +848,7 @@
 
 ### ApplicationGatewaySslCertificate
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20220701    |                             | v1api20220701/storage |                             |  Status   | Notes |
 |:-----------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -867,7 +860,7 @@
 
 ### ApplicationGatewaySslCertificate_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -876,7 +869,7 @@
 
 ### ApplicationGatewaySslPolicy
 
-1 x New, 5 x Modified
+Properties: 1 x New, 5 x Modified
 
 | v1api20220701        |                                         | v1api20220701/storage |                        |  Status  | Notes |
 |:---------------------|:----------------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -889,7 +882,7 @@
 
 ### ApplicationGatewaySslPolicy_STATUS
 
-1 x New, 5 x Modified
+Properties: 1 x New, 5 x Modified
 
 | v1api20220701        |                                                | v1api20220701/storage |                        |  Status  | Notes |
 |:---------------------|:-----------------------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -902,7 +895,7 @@
 
 ### ApplicationGatewaySslProfile
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20220701             |                                            | v1api20220701/storage     |                                            |  Status   | Notes |
 |:--------------------------|:-------------------------------------------|:--------------------------|:-------------------------------------------|:---------:|:------|
@@ -914,7 +907,7 @@
 
 ### ApplicationGatewaySslProfile_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -923,7 +916,7 @@
 
 ### ApplicationGatewayTrustedClientCertificate
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220701 |                             | v1api20220701/storage |                             |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -933,7 +926,7 @@
 
 ### ApplicationGatewayTrustedClientCertificate_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -942,7 +935,7 @@
 
 ### ApplicationGatewayTrustedRootCertificate
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220701    |                             | v1api20220701/storage |                             |  Status   | Notes |
 |:-----------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -953,7 +946,7 @@
 
 ### ApplicationGatewayTrustedRootCertificate_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -962,7 +955,7 @@
 
 ### ApplicationGatewayUrlConfiguration
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220701       |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -973,7 +966,7 @@
 
 ### ApplicationGatewayUrlPathMap
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v1api20220701                 |                              | v1api20220701/storage         |                              |  Status   | Notes |
 |:------------------------------|:-----------------------------|:------------------------------|:-----------------------------|:---------:|:------|
@@ -988,7 +981,7 @@
 
 ### ApplicationGatewayUrlPathMap_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -997,17 +990,17 @@
 
 ### ApplicationGatewayWebApplicationFirewallConfiguration
 
-6 x Identical, 1 x New, 4 x Modified
+Properties: 9 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701          |                                                                     | v1api20220701/storage  |                                               |  Status   | Notes |
 |:-----------------------|:--------------------------------------------------------------------|:-----------------------|:----------------------------------------------|:---------:|:------|
 | DisabledRuleGroups     | ApplicationGatewayFirewallDisabledRuleGroup[]                       | DisabledRuleGroups     | ApplicationGatewayFirewallDisabledRuleGroup[] | Identical |       |
 | Enabled                | *bool                                                               | Enabled                | *bool                                         | Identical |       |
 | Exclusions             | ApplicationGatewayFirewallExclusion[]                               | Exclusions             | ApplicationGatewayFirewallExclusion[]         | Identical |       |
-| FileUploadLimitInMb    | Validated<*int> (1 rule)                                            | FileUploadLimitInMb    | *int                                          | Modified  |       |
+| FileUploadLimitInMb    | Validated<*int> (1 rule)                                            | FileUploadLimitInMb    | *int                                          | Identical |       |
 | FirewallMode           | *ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode | FirewallMode           | *string                                       | Modified  |       |
-| MaxRequestBodySize     | Validated<*int> (2 rules)                                           | MaxRequestBodySize     | *int                                          | Modified  |       |
-| MaxRequestBodySizeInKb | Validated<*int> (2 rules)                                           | MaxRequestBodySizeInKb | *int                                          | Modified  |       |
+| MaxRequestBodySize     | Validated<*int> (2 rules)                                           | MaxRequestBodySize     | *int                                          | Identical |       |
+| MaxRequestBodySizeInKb | Validated<*int> (2 rules)                                           | MaxRequestBodySizeInKb | *int                                          | Identical |       |
 |                        |                                                                     | PropertyBag            | genruntime.PropertyBag                        |    New    |       |
 | RequestBodyCheck       | *bool                                                               | RequestBodyCheck       | *bool                                         | Identical |       |
 | RuleSetType            | *string                                                             | RuleSetType            | *string                                       | Identical |       |
@@ -1015,7 +1008,7 @@
 
 ### ApplicationGatewayWebApplicationFirewallConfiguration_STATUS
 
-9 x Identical, 1 x New, 1 x Modified
+Properties: 9 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701          |                                                                            | v1api20220701/storage  |                                                      |  Status   | Notes |
 |:-----------------------|:---------------------------------------------------------------------------|:-----------------------|:-----------------------------------------------------|:---------:|:------|
@@ -1033,7 +1026,7 @@
 
 ### ApplicationGateway_STATUS
 
-42 x Identical, 1 x New, 2 x Modified
+Properties: 42 x Identical, 1 x New, 2 x Modified
 
 | v1api20220701                       |                                                                                   | v1api20220701/storage               |                                                                                   |  Status   | Notes |
 |:------------------------------------|:----------------------------------------------------------------------------------|:------------------------------------|:----------------------------------------------------------------------------------|:---------:|:------|
@@ -1085,7 +1078,7 @@
 
 ### ApplicationGateway_Spec
 
-38 x Identical, 2 x New
+Properties: 38 x Identical, 2 x New
 
 | v1api20220701                       |                                                                            | v1api20220701/storage               |                                                                            |  Status   | Notes |
 |:------------------------------------|:---------------------------------------------------------------------------|:------------------------------------|:---------------------------------------------------------------------------|:---------:|:------|
@@ -1132,7 +1125,7 @@
 
 ### ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |                               | v1api20220701/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1141,7 +1134,7 @@
 
 ### ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1150,7 +1143,7 @@
 
 ### BastionHostIPConfiguration
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701             |                     | v1api20220701/storage     |                        |  Status   | Notes |
 |:--------------------------|:--------------------|:--------------------------|:-----------------------|:---------:|:------|
@@ -1162,7 +1155,7 @@
 
 ### BastionHostIPConfiguration_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1171,7 +1164,7 @@
 
 ### BastionHostOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220701        |                               | v1api20220701/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1181,7 +1174,7 @@
 
 ### BastionHost_STATUS
 
-16 x Identical, 1 x New, 1 x Modified
+Properties: 16 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701       |                                      | v1api20220701/storage |                                     |  Status   | Notes |
 |:--------------------|:-------------------------------------|:----------------------|:------------------------------------|:---------:|:------|
@@ -1206,7 +1199,7 @@
 
 ### BastionHost_Spec
 
-13 x Identical, 2 x New, 1 x Modified
+Properties: 14 x Identical, 2 x New
 
 | v1api20220701       |                                    | v1api20220701/storage |                                    |  Status   | Notes |
 |:--------------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -1223,13 +1216,13 @@
 |                     |                                    | OriginalVersion       | string                             |    New    |       |
 | Owner               | *genruntime.KnownResourceReference | Owner                 | *genruntime.KnownResourceReference | Identical |       |
 |                     |                                    | PropertyBag           | genruntime.PropertyBag             |    New    |       |
-| ScaleUnits          | Validated<*int> (2 rules)          | ScaleUnits            | *int                               | Modified  |       |
+| ScaleUnits          | Validated<*int> (2 rules)          | ScaleUnits            | *int                               | Identical |       |
 | Sku                 | *Sku                               | Sku                   | *Sku                               | Identical |       |
 | Tags                | map[string]string                  | Tags                  | map[string]string                  | Identical |       |
 
 ### CustomDnsConfigPropertiesFormat_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220701 |          | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -1239,7 +1232,7 @@
 
 ### DnsForwardingRuleSetsForwardingRuleOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220701        |                               | v1api20220701/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1249,7 +1242,7 @@
 
 ### DnsForwardingRuleSetsForwardingRule_STATUS
 
-9 x Identical, 1 x New, 2 x Modified
+Properties: 9 x Identical, 1 x New, 2 x Modified
 
 | v1api20220701       |                                                      | v1api20220701/storage |                          |  Status   | Notes |
 |:--------------------|:-----------------------------------------------------|:----------------------|:-------------------------|:---------:|:------|
@@ -1268,7 +1261,7 @@
 
 ### DnsForwardingRuleSetsForwardingRule_Spec
 
-6 x Identical, 2 x New, 1 x Modified
+Properties: 6 x Identical, 2 x New, 1 x Modified
 
 | v1api20220701       |                                                  | v1api20220701/storage |                                                  |  Status   | Notes |
 |:--------------------|:-------------------------------------------------|:----------------------|:-------------------------------------------------|:---------:|:------|
@@ -1284,7 +1277,7 @@
 
 ### DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220701        |                               | v1api20220701/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1294,7 +1287,7 @@
 
 ### DnsForwardingRuleSetsVirtualNetworkLink_STATUS
 
-8 x Identical, 1 x New, 1 x Modified
+Properties: 8 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701     |                                      | v1api20220701/storage |                        |  Status   | Notes |
 |:------------------|:-------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1311,7 +1304,7 @@
 
 ### DnsForwardingRuleSetsVirtualNetworkLink_Spec
 
-5 x Identical, 2 x New
+Properties: 5 x Identical, 2 x New
 
 | v1api20220701  |                                                      | v1api20220701/storage |                                                      |  Status   | Notes |
 |:---------------|:-----------------------------------------------------|:----------------------|:-----------------------------------------------------|:---------:|:------|
@@ -1325,7 +1318,7 @@
 
 ### DnsForwardingRulesetOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220701        |                               | v1api20220701/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1335,7 +1328,7 @@
 
 ### DnsForwardingRuleset_STATUS
 
-10 x Identical, 1 x New, 1 x Modified
+Properties: 10 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701                |                                      | v1api20220701/storage        |                        |  Status   | Notes |
 |:-----------------------------|:-------------------------------------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -1354,7 +1347,7 @@
 
 ### DnsForwardingRuleset_Spec
 
-6 x Identical, 2 x New
+Properties: 6 x Identical, 2 x New
 
 | v1api20220701                |                                    | v1api20220701/storage        |                                    |  Status   | Notes |
 |:-----------------------------|:-----------------------------------|:-----------------------------|:-----------------------------------|:---------:|:------|
@@ -1369,7 +1362,7 @@
 
 ### DnsResolverOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220701        |                               | v1api20220701/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1379,7 +1372,7 @@
 
 ### DnsResolver_STATUS
 
-10 x Identical, 1 x New, 2 x Modified
+Properties: 10 x Identical, 1 x New, 2 x Modified
 
 | v1api20220701     |                                                | v1api20220701/storage |                        |  Status   | Notes |
 |:------------------|:-----------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1399,7 +1392,7 @@
 
 ### DnsResolver_Spec
 
-6 x Identical, 2 x New
+Properties: 6 x Identical, 2 x New
 
 | v1api20220701  |                                    | v1api20220701/storage |                                    |  Status   | Notes |
 |:---------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -1414,7 +1407,7 @@
 
 ### DnsResolversInboundEndpointOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220701        |                               | v1api20220701/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1424,7 +1417,7 @@
 
 ### DnsResolversInboundEndpoint_STATUS
 
-10 x Identical, 1 x New, 1 x Modified
+Properties: 10 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701     |                                      | v1api20220701/storage |                          |  Status   | Notes |
 |:------------------|:-------------------------------------|:----------------------|:-------------------------|:---------:|:------|
@@ -1443,7 +1436,7 @@
 
 ### DnsResolversInboundEndpoint_Spec
 
-6 x Identical, 2 x New
+Properties: 6 x Identical, 2 x New
 
 | v1api20220701    |                                          | v1api20220701/storage |                                          |  Status   | Notes |
 |:-----------------|:-----------------------------------------|:----------------------|:-----------------------------------------|:---------:|:------|
@@ -1458,7 +1451,7 @@
 
 ### DnsResolversOutboundEndpointOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220701        |                               | v1api20220701/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1468,7 +1461,7 @@
 
 ### DnsResolversOutboundEndpoint_STATUS
 
-10 x Identical, 1 x New, 1 x Modified
+Properties: 10 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701     |                                      | v1api20220701/storage |                        |  Status   | Notes |
 |:------------------|:-------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1487,7 +1480,7 @@
 
 ### DnsResolversOutboundEndpoint_Spec
 
-6 x Identical, 2 x New
+Properties: 6 x Identical, 2 x New
 
 | v1api20220701 |                                           | v1api20220701/storage |                                           |  Status   | Notes |
 |:--------------|:------------------------------------------|:----------------------|:------------------------------------------|:---------:|:------|
@@ -1502,7 +1495,7 @@
 
 ### ExtendedLocation
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701 |                       | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1512,7 +1505,7 @@
 
 ### ExtendedLocation_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701 |                              | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1522,7 +1515,7 @@
 
 ### FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |                               | v1api20220701/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1531,7 +1524,7 @@
 
 ### FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1540,7 +1533,7 @@
 
 ### IpConfiguration
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701             |                                            | v1api20220701/storage     |                        |  Status   | Notes |
 |:--------------------------|:-------------------------------------------|:--------------------------|:-----------------------|:---------:|:------|
@@ -1551,7 +1544,7 @@
 
 ### IpConfiguration_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701             |                                                   | v1api20220701/storage     |                        |  Status   | Notes |
 |:--------------------------|:--------------------------------------------------|:--------------------------|:-----------------------|:---------:|:------|
@@ -1562,7 +1555,7 @@
 
 ### IpTag
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1572,7 +1565,7 @@
 
 ### IpTag_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1582,7 +1575,7 @@
 
 ### ManagedServiceIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701          |                               | v1api20220701/storage  |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -1592,7 +1585,7 @@
 
 ### ManagedServiceIdentity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701          |                                                                 | v1api20220701/storage  |                                                                 |  Status   | Notes |
 |:-----------------------|:----------------------------------------------------------------|:-----------------------|:----------------------------------------------------------------|:---------:|:------|
@@ -1604,7 +1597,7 @@
 
 ### ManagedServiceIdentity_UserAssignedIdentities_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1614,7 +1607,7 @@
 
 ### NatGatewayOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220701        |                               | v1api20220701/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1624,7 +1617,7 @@
 
 ### NatGatewaySku
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20220701 |                     | v1api20220701/storage |                        |  Status  | Notes |
 |:--------------|:--------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -1633,7 +1626,7 @@
 
 ### NatGatewaySku_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20220701 |                            | v1api20220701/storage |                        |  Status  | Notes |
 |:--------------|:---------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -1642,7 +1635,7 @@
 
 ### NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |                               | v1api20220701/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1651,7 +1644,7 @@
 
 ### NatGateway_STATUS
 
-14 x Identical, 1 x New, 1 x Modified
+Properties: 14 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701        |                                             | v1api20220701/storage |                        |  Status   | Notes |
 |:---------------------|:--------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1674,7 +1667,7 @@
 
 ### NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1683,7 +1676,7 @@
 
 ### NatGateway_Spec
 
-10 x Identical, 2 x New
+Properties: 10 x Identical, 2 x New
 
 | v1api20220701        |                                    | v1api20220701/storage |                                    |  Status   | Notes |
 |:---------------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -1702,7 +1695,7 @@
 
 ### NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1711,7 +1704,7 @@
 
 ### NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1720,7 +1713,7 @@
 
 ### PrivateDnsZoneConfig
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220701           |                               | v1api20220701/storage   |                               |  Status   | Notes |
 |:------------------------|:------------------------------|:------------------------|:------------------------------|:---------:|:------|
@@ -1730,7 +1723,7 @@
 
 ### PrivateDnsZoneConfig_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220701    |                    | v1api20220701/storage |                        |  Status   | Notes |
 |:-----------------|:-------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1741,7 +1734,7 @@
 
 ### PrivateEndpointConnection_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1750,7 +1743,7 @@
 
 ### PrivateEndpointIPConfiguration
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20220701    |         | v1api20220701/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1762,7 +1755,7 @@
 
 ### PrivateEndpointIPConfiguration_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20220701    |         | v1api20220701/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1776,7 +1769,7 @@
 
 ### PrivateEndpointOperatorConfigMaps
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701              |                                  | v1api20220701/storage      |                                  |  Status   | Notes |
 |:---------------------------|:---------------------------------|:---------------------------|:---------------------------------|:---------:|:------|
@@ -1785,7 +1778,7 @@
 
 ### PrivateEndpointOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220701        |                                    | v1api20220701/storage |                                    |  Status   | Notes |
 |:---------------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -1796,7 +1789,7 @@
 
 ### PrivateEndpoint_STATUS
 
-16 x Identical, 1 x New, 1 x Modified
+Properties: 16 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701                       |                                                                       | v1api20220701/storage               |                                                                       |  Status   | Notes |
 |:------------------------------------|:----------------------------------------------------------------------|:------------------------------------|:----------------------------------------------------------------------|:---------:|:------|
@@ -1821,7 +1814,7 @@
 
 ### PrivateEndpoint_Spec
 
-12 x Identical, 2 x New
+Properties: 12 x Identical, 2 x New
 
 | v1api20220701                       |                                                                    | v1api20220701/storage               |                                                                    |  Status   | Notes |
 |:------------------------------------|:-------------------------------------------------------------------|:------------------------------------|:-------------------------------------------------------------------|:---------:|:------|
@@ -1842,7 +1835,7 @@
 
 ### PrivateEndpointsPrivateDnsZoneGroupOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220701        |                               | v1api20220701/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1852,7 +1845,7 @@
 
 ### PrivateEndpointsPrivateDnsZoneGroup_STATUS
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701         |                                          | v1api20220701/storage |                               |  Status   | Notes |
 |:----------------------|:-----------------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1866,7 +1859,7 @@
 
 ### PrivateEndpointsPrivateDnsZoneGroup_Spec
 
-4 x Identical, 2 x New
+Properties: 4 x Identical, 2 x New
 
 | v1api20220701         |                                                  | v1api20220701/storage |                                                  |  Status   | Notes |
 |:----------------------|:-------------------------------------------------|:----------------------|:-------------------------------------------------|:---------:|:------|
@@ -1879,7 +1872,7 @@
 
 ### PrivateLinkServiceConnection
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20220701                     |                                        | v1api20220701/storage             |                                        |  Status   | Notes |
 |:----------------------------------|:---------------------------------------|:----------------------------------|:---------------------------------------|:---------:|:------|
@@ -1892,7 +1885,7 @@
 
 ### PrivateLinkServiceConnectionState
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220701   |         | v1api20220701/storage |                        |  Status   | Notes |
 |:----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1903,7 +1896,7 @@
 
 ### PrivateLinkServiceConnectionState_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220701   |         | v1api20220701/storage |                        |  Status   | Notes |
 |:----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1914,7 +1907,7 @@
 
 ### PrivateLinkServiceConnection_STATUS
 
-8 x Identical, 1 x New, 1 x Modified
+Properties: 8 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701                     |                                             | v1api20220701/storage             |                                           |  Status   | Notes |
 |:----------------------------------|:--------------------------------------------|:----------------------------------|:------------------------------------------|:---------:|:------|
@@ -1931,7 +1924,7 @@
 
 ### PrivateLinkServiceIpConfiguration
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20220701             |                                                | v1api20220701/storage     |                                                |  Status   | Notes |
 |:--------------------------|:-----------------------------------------------|:--------------------------|:-----------------------------------------------|:---------:|:------|
@@ -1945,7 +1938,7 @@
 
 ### PrivateLinkServiceIpConfiguration_STATUS
 
-7 x Identical, 1 x New, 3 x Modified
+Properties: 7 x Identical, 1 x New, 3 x Modified
 
 | v1api20220701             |                                                       | v1api20220701/storage     |                                                       |  Status   | Notes |
 |:--------------------------|:------------------------------------------------------|:--------------------------|:------------------------------------------------------|:---------:|:------|
@@ -1963,7 +1956,7 @@
 
 ### PrivateLinkServiceOperatorConfigMaps
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |                                  | v1api20220701/storage |                                  |  Status   | Notes |
 |:--------------|:---------------------------------|:----------------------|:---------------------------------|:---------:|:------|
@@ -1972,7 +1965,7 @@
 
 ### PrivateLinkServiceOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220701        |                                       | v1api20220701/storage |                                       |  Status   | Notes |
 |:---------------------|:--------------------------------------|:----------------------|:--------------------------------------|:---------:|:------|
@@ -1983,7 +1976,7 @@
 
 ### PrivateLinkService_STATUS
 
-17 x Identical, 1 x New, 1 x Modified
+Properties: 17 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701                        |                                                                         | v1api20220701/storage                |                                                                         |  Status   | Notes |
 |:-------------------------------------|:------------------------------------------------------------------------|:-------------------------------------|:------------------------------------------------------------------------|:---------:|:------|
@@ -2009,7 +2002,7 @@
 
 ### PrivateLinkService_Spec
 
-12 x Identical, 2 x New
+Properties: 12 x Identical, 2 x New
 
 | v1api20220701                        |                                                                  | v1api20220701/storage                |                                                                  |  Status   | Notes |
 |:-------------------------------------|:-----------------------------------------------------------------|:-------------------------------------|:-----------------------------------------------------------------|:---------:|:------|
@@ -2030,7 +2023,7 @@
 
 ### PublicIPPrefixOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220701        |                               | v1api20220701/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -2040,7 +2033,7 @@
 
 ### PublicIPPrefixSku
 
-1 x New, 2 x Modified
+Properties: 1 x New, 2 x Modified
 
 | v1api20220701 |                         | v1api20220701/storage |                        |  Status  | Notes |
 |:--------------|:------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -2050,7 +2043,7 @@
 
 ### PublicIPPrefixSku_STATUS
 
-1 x New, 2 x Modified
+Properties: 1 x New, 2 x Modified
 
 | v1api20220701 |                                | v1api20220701/storage |                        |  Status  | Notes |
 |:--------------|:-------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -2060,7 +2053,7 @@
 
 ### PublicIPPrefix_STATUS
 
-18 x Identical, 1 x New, 2 x Modified
+Properties: 18 x Identical, 1 x New, 2 x Modified
 
 | v1api20220701                       |                                                       | v1api20220701/storage               |                                                       |  Status   | Notes |
 |:------------------------------------|:------------------------------------------------------|:------------------------------------|:------------------------------------------------------|:---------:|:------|
@@ -2088,7 +2081,7 @@
 
 ### PublicIPPrefix_Spec
 
-12 x Identical, 2 x New, 1 x Modified
+Properties: 12 x Identical, 2 x New, 1 x Modified
 
 | v1api20220701          |                                                    | v1api20220701/storage  |                                                    |  Status   | Notes |
 |:-----------------------|:---------------------------------------------------|:-----------------------|:---------------------------------------------------|:---------:|:------|
@@ -2110,7 +2103,7 @@
 
 ### RecordSet_STATUS
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20220701     |                                          | v1api20220701/storage |                        |  Status   | Notes |
 |:------------------|:-----------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2124,7 +2117,7 @@
 
 ### ReferencedPublicIpAddress_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2133,7 +2126,7 @@
 
 ### ResourceSet
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |          | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -2142,7 +2135,7 @@
 
 ### ResourceSet_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |          | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -2151,7 +2144,7 @@
 
 ### Sku
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20220701 |           | v1api20220701/storage |                        |  Status  | Notes |
 |:--------------|:----------|:----------------------|:-----------------------|:--------:|:------|
@@ -2160,7 +2153,7 @@
 
 ### Sku_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20220701 |                  | v1api20220701/storage |                        |  Status  | Notes |
 |:--------------|:-----------------|:----------------------|:-----------------------|:--------:|:------|
@@ -2169,7 +2162,7 @@
 
 ### SubResource
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |                               | v1api20220701/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -2178,7 +2171,7 @@
 
 ### SubResource_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2187,7 +2180,7 @@
 
 ### Subnet_PrivateEndpoint_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |                               | v1api20220701/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -2196,7 +2189,7 @@
 
 ### Subnet_PrivateLinkService_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |                               | v1api20220701/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -2205,7 +2198,7 @@
 
 ### Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2214,7 +2207,7 @@
 
 ### Subnet_STATUS_PrivateLinkService_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2223,7 +2216,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20220701      |                                       | v1api20220701/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2237,7 +2230,7 @@
 
 ### TargetDnsServer
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220701       |                                | v1api20220701/storage |                                |  Status   | Notes |
 |:--------------------|:-------------------------------|:----------------------|:-------------------------------|:---------:|:------|
@@ -2248,7 +2241,7 @@
 
 ### TargetDnsServer_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220701 |         | v1api20220701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2258,9 +2251,18 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220701 |                              | v1api20220701/storage |                              |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
 |               |                              | PropertyBag           | genruntime.PropertyBag       |    New    |       |
 | Reference     | genruntime.ResourceReference | Reference             | genruntime.ResourceReference | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

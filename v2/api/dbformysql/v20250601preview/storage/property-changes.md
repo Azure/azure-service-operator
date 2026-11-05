@@ -10,6 +10,8 @@
 | FlexibleServersDatabase      | FlexibleServersDatabase      | Identical |       |
 | FlexibleServersFirewallRule  | FlexibleServersFirewallRule  | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
 | v20250601preview/storage                 | v20241230/storage                        |  Status   | Notes |
@@ -56,18 +58,9 @@
 | UserAssignedIdentityDetails              | UserAssignedIdentityDetails              | Identical |       |
 | UserAssignedIdentity_STATUS              | UserAssignedIdentity_STATUS              | Identical |       |
 
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
-
 ### FlexibleServer_STATUS
 
-31 x Identical, 1 x Retired
+Properties: 31 x Identical, 1 x Retired
 
 | v20250601preview/storage   |                                    | v20241230/storage          |                                    |  Status   | Notes |
 |:---------------------------|:-----------------------------------|:---------------------------|:-----------------------------------|:---------:|:------|
@@ -106,7 +99,7 @@
 
 ### FlexibleServer_Spec
 
-26 x Identical, 1 x Retired
+Properties: 26 x Identical, 1 x Retired
 
 | v20250601preview/storage      |                                    | v20241230/storage             |                                    |  Status   | Notes |
 |:------------------------------|:-----------------------------------|:------------------------------|:-----------------------------------|:---------:|:------|
@@ -140,7 +133,7 @@
 
 ### HighAvailability
 
-3 x Identical, 1 x Retired
+Properties: 3 x Identical, 1 x Retired
 
 | v20250601preview/storage |                        | v20241230/storage       |                        |  Status   | Notes |
 |:-------------------------|:-----------------------|:------------------------|:-----------------------|:---------:|:------|
@@ -151,7 +144,7 @@
 
 ### HighAvailability_STATUS
 
-4 x Identical, 1 x Retired
+Properties: 4 x Identical, 1 x Retired
 
 | v20250601preview/storage |                        | v20241230/storage       |                        |  Status   | Notes |
 |:-------------------------|:-----------------------|:------------------------|:-----------------------|:---------:|:------|
@@ -160,3 +153,12 @@
 | ReplicationMode          | *string                |                         |                        |  Retired  |       |
 | StandbyAvailabilityZone  | *string                | StandbyAvailabilityZone | *string                | Identical |       |
 | State                    | *string                | State                   | *string                | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

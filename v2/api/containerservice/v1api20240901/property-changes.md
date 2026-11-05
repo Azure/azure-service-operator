@@ -9,224 +9,217 @@
 | ManagedClustersAgentPool | ManagedClustersAgentPool | Identical |       |
 | TrustedAccessRoleBinding | TrustedAccessRoleBinding | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20240901                                                       | v1api20240901/storage                                               |  Status  | Notes |
-|:--------------------------------------------------------------------|:--------------------------------------------------------------------|:--------:|:------|
-| AbsoluteMonthlySchedule                                             | AbsoluteMonthlySchedule                                             | Modified |       |
-| AbsoluteMonthlySchedule_STATUS                                      | AbsoluteMonthlySchedule_STATUS                                      | Extended |       |
-| AdvancedNetworking                                                  | AdvancedNetworking                                                  | Extended |       |
-| AdvancedNetworkingObservability                                     | AdvancedNetworkingObservability                                     | Extended |       |
-| AdvancedNetworkingObservability_STATUS                              | AdvancedNetworkingObservability_STATUS                              | Extended |       |
-| AdvancedNetworkingSecurity                                          | AdvancedNetworkingSecurity                                          | Extended |       |
-| AdvancedNetworkingSecurity_STATUS                                   | AdvancedNetworkingSecurity_STATUS                                   | Extended |       |
-| AdvancedNetworking_STATUS                                           | AdvancedNetworking_STATUS                                           | Extended |       |
-| AgentPoolNetworkProfile                                             | AgentPoolNetworkProfile                                             | Extended |       |
-| AgentPoolNetworkProfile_STATUS                                      | AgentPoolNetworkProfile_STATUS                                      | Extended |       |
-| AgentPoolSecurityProfile                                            | AgentPoolSecurityProfile                                            | Extended |       |
-| AgentPoolSecurityProfile_STATUS                                     | AgentPoolSecurityProfile_STATUS                                     | Extended |       |
-| AgentPoolUpgradeSettings                                            | AgentPoolUpgradeSettings                                            | Modified |       |
-| AgentPoolUpgradeSettings_STATUS                                     | AgentPoolUpgradeSettings_STATUS                                     | Extended |       |
-| AgentPoolWindowsProfile                                             | AgentPoolWindowsProfile                                             | Extended |       |
-| AgentPoolWindowsProfile_STATUS                                      | AgentPoolWindowsProfile_STATUS                                      | Extended |       |
-| AzureKeyVaultKms                                                    | AzureKeyVaultKms                                                    | Modified |       |
-| AzureKeyVaultKms_STATUS                                             | AzureKeyVaultKms_STATUS                                             | Modified |       |
-| ClusterUpgradeSettings                                              | ClusterUpgradeSettings                                              | Extended |       |
-| ClusterUpgradeSettings_STATUS                                       | ClusterUpgradeSettings_STATUS                                       | Extended |       |
-| ContainerServiceLinuxProfile                                        | ContainerServiceLinuxProfile                                        | Modified |       |
-| ContainerServiceLinuxProfile_STATUS                                 | ContainerServiceLinuxProfile_STATUS                                 | Extended |       |
-| ContainerServiceNetworkProfile                                      | ContainerServiceNetworkProfile                                      | Modified |       |
-| ContainerServiceNetworkProfile_STATUS                               | ContainerServiceNetworkProfile_STATUS                               | Modified |       |
-| ContainerServiceSshConfiguration                                    | ContainerServiceSshConfiguration                                    | Extended |       |
-| ContainerServiceSshConfiguration_STATUS                             | ContainerServiceSshConfiguration_STATUS                             | Extended |       |
-| ContainerServiceSshPublicKey                                        | ContainerServiceSshPublicKey                                        | Extended |       |
-| ContainerServiceSshPublicKey_STATUS                                 | ContainerServiceSshPublicKey_STATUS                                 | Extended |       |
-| CreationData                                                        | CreationData                                                        | Extended |       |
-| CreationData_STATUS                                                 | CreationData_STATUS                                                 | Extended |       |
-| DailySchedule                                                       | DailySchedule                                                       | Modified |       |
-| DailySchedule_STATUS                                                | DailySchedule_STATUS                                                | Extended |       |
-| DateSpan                                                            | DateSpan                                                            | Extended |       |
-| DateSpan_STATUS                                                     | DateSpan_STATUS                                                     | Extended |       |
-| DelegatedResource                                                   | DelegatedResource                                                   | Modified |       |
-| DelegatedResource_STATUS                                            | DelegatedResource_STATUS                                            | Extended |       |
-| ExtendedLocation                                                    | ExtendedLocation                                                    | Modified |       |
-| ExtendedLocation_STATUS                                             | ExtendedLocation_STATUS                                             | Modified |       |
-| IPTag                                                               | IPTag                                                               | Extended |       |
-| IPTag_STATUS                                                        | IPTag_STATUS                                                        | Extended |       |
-| IstioCertificateAuthority                                           | IstioCertificateAuthority                                           | Extended |       |
-| IstioCertificateAuthority_STATUS                                    | IstioCertificateAuthority_STATUS                                    | Extended |       |
-| IstioComponents                                                     | IstioComponents                                                     | Extended |       |
-| IstioComponents_STATUS                                              | IstioComponents_STATUS                                              | Extended |       |
-| IstioEgressGateway                                                  | IstioEgressGateway                                                  | Extended |       |
-| IstioEgressGateway_STATUS                                           | IstioEgressGateway_STATUS                                           | Extended |       |
-| IstioIngressGateway                                                 | IstioIngressGateway                                                 | Modified |       |
-| IstioIngressGateway_STATUS                                          | IstioIngressGateway_STATUS                                          | Modified |       |
-| IstioPluginCertificateAuthority                                     | IstioPluginCertificateAuthority                                     | Extended |       |
-| IstioPluginCertificateAuthority_STATUS                              | IstioPluginCertificateAuthority_STATUS                              | Extended |       |
-| IstioServiceMesh                                                    | IstioServiceMesh                                                    | Modified |       |
-| IstioServiceMesh_STATUS                                             | IstioServiceMesh_STATUS                                             | Extended |       |
-| KubeletConfig                                                       | KubeletConfig                                                       | Modified |       |
-| KubeletConfig_STATUS                                                | KubeletConfig_STATUS                                                | Extended |       |
-| LinuxOSConfig                                                       | LinuxOSConfig                                                       | Extended |       |
-| LinuxOSConfig_STATUS                                                | LinuxOSConfig_STATUS                                                | Extended |       |
-| MaintenanceConfigurationOperatorSpec                                | MaintenanceConfigurationOperatorSpec                                | Extended |       |
-| MaintenanceConfiguration_STATUS                                     | MaintenanceConfiguration_STATUS                                     | Extended |       |
-| MaintenanceConfiguration_Spec                                       | MaintenanceConfiguration_Spec                                       | Extended |       |
-| MaintenanceWindow                                                   | MaintenanceWindow                                                   | Modified |       |
-| MaintenanceWindow_STATUS                                            | MaintenanceWindow_STATUS                                            | Extended |       |
-| ManagedClusterAADProfile                                            | ManagedClusterAADProfile                                            | Extended |       |
-| ManagedClusterAADProfile_STATUS                                     | ManagedClusterAADProfile_STATUS                                     | Extended |       |
-| ManagedClusterAPIServerAccessProfile                                | ManagedClusterAPIServerAccessProfile                                | Extended |       |
-| ManagedClusterAPIServerAccessProfile_STATUS                         | ManagedClusterAPIServerAccessProfile_STATUS                         | Extended |       |
-| ManagedClusterAddonProfile                                          | ManagedClusterAddonProfile                                          | Extended |       |
-| ManagedClusterAddonProfile_STATUS                                   | ManagedClusterAddonProfile_STATUS                                   | Extended |       |
-| ManagedClusterAgentPoolProfile                                      | ManagedClusterAgentPoolProfile                                      | Modified |       |
-| ManagedClusterAgentPoolProfile_STATUS                               | ManagedClusterAgentPoolProfile_STATUS                               | Modified |       |
-| ManagedClusterAutoUpgradeProfile                                    | ManagedClusterAutoUpgradeProfile                                    | Modified |       |
-| ManagedClusterAutoUpgradeProfile_STATUS                             | ManagedClusterAutoUpgradeProfile_STATUS                             | Modified |       |
-| ManagedClusterAzureMonitorProfile                                   | ManagedClusterAzureMonitorProfile                                   | Extended |       |
-| ManagedClusterAzureMonitorProfileKubeStateMetrics                   | ManagedClusterAzureMonitorProfileKubeStateMetrics                   | Extended |       |
-| ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS            | ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS            | Extended |       |
-| ManagedClusterAzureMonitorProfileMetrics                            | ManagedClusterAzureMonitorProfileMetrics                            | Extended |       |
-| ManagedClusterAzureMonitorProfileMetrics_STATUS                     | ManagedClusterAzureMonitorProfileMetrics_STATUS                     | Extended |       |
-| ManagedClusterAzureMonitorProfile_STATUS                            | ManagedClusterAzureMonitorProfile_STATUS                            | Extended |       |
-| ManagedClusterCostAnalysis                                          | ManagedClusterCostAnalysis                                          | Extended |       |
-| ManagedClusterCostAnalysis_STATUS                                   | ManagedClusterCostAnalysis_STATUS                                   | Extended |       |
-| ManagedClusterHTTPProxyConfig                                       | ManagedClusterHTTPProxyConfig                                       | Extended |       |
-| ManagedClusterHTTPProxyConfig_STATUS                                | ManagedClusterHTTPProxyConfig_STATUS                                | Extended |       |
-| ManagedClusterIdentity                                              | ManagedClusterIdentity                                              | Modified |       |
-| ManagedClusterIdentity_STATUS                                       | ManagedClusterIdentity_STATUS                                       | Modified |       |
-| ManagedClusterIdentity_UserAssignedIdentities_STATUS                | ManagedClusterIdentity_UserAssignedIdentities_STATUS                | Extended |       |
-| ManagedClusterIngressProfile                                        | ManagedClusterIngressProfile                                        | Extended |       |
-| ManagedClusterIngressProfileWebAppRouting                           | ManagedClusterIngressProfileWebAppRouting                           | Extended |       |
-| ManagedClusterIngressProfileWebAppRouting_STATUS                    | ManagedClusterIngressProfileWebAppRouting_STATUS                    | Extended |       |
-| ManagedClusterIngressProfile_STATUS                                 | ManagedClusterIngressProfile_STATUS                                 | Extended |       |
-| ManagedClusterLoadBalancerProfile                                   | ManagedClusterLoadBalancerProfile                                   | Modified |       |
-| ManagedClusterLoadBalancerProfile_ManagedOutboundIPs                | ManagedClusterLoadBalancerProfile_ManagedOutboundIPs                | Modified |       |
-| ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS         | ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS         | Extended |       |
-| ManagedClusterLoadBalancerProfile_OutboundIPPrefixes                | ManagedClusterLoadBalancerProfile_OutboundIPPrefixes                | Extended |       |
-| ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS         | ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS         | Extended |       |
-| ManagedClusterLoadBalancerProfile_OutboundIPs                       | ManagedClusterLoadBalancerProfile_OutboundIPs                       | Extended |       |
-| ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS                | ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS                | Extended |       |
-| ManagedClusterLoadBalancerProfile_STATUS                            | ManagedClusterLoadBalancerProfile_STATUS                            | Modified |       |
-| ManagedClusterManagedOutboundIPProfile                              | ManagedClusterManagedOutboundIPProfile                              | Modified |       |
-| ManagedClusterManagedOutboundIPProfile_STATUS                       | ManagedClusterManagedOutboundIPProfile_STATUS                       | Extended |       |
-| ManagedClusterMetricsProfile                                        | ManagedClusterMetricsProfile                                        | Extended |       |
-| ManagedClusterMetricsProfile_STATUS                                 | ManagedClusterMetricsProfile_STATUS                                 | Extended |       |
-| ManagedClusterNATGatewayProfile                                     | ManagedClusterNATGatewayProfile                                     | Modified |       |
-| ManagedClusterNATGatewayProfile_STATUS                              | ManagedClusterNATGatewayProfile_STATUS                              | Extended |       |
-| ManagedClusterNodeResourceGroupProfile                              | ManagedClusterNodeResourceGroupProfile                              | Modified |       |
-| ManagedClusterNodeResourceGroupProfile_STATUS                       | ManagedClusterNodeResourceGroupProfile_STATUS                       | Modified |       |
-| ManagedClusterOIDCIssuerProfile                                     | ManagedClusterOIDCIssuerProfile                                     | Extended |       |
-| ManagedClusterOIDCIssuerProfile_STATUS                              | ManagedClusterOIDCIssuerProfile_STATUS                              | Extended |       |
-| ManagedClusterOperatorConfigMaps                                    | ManagedClusterOperatorConfigMaps                                    | Extended |       |
-| ManagedClusterOperatorSecrets                                       | ManagedClusterOperatorSecrets                                       | Extended |       |
-| ManagedClusterOperatorSpec                                          | ManagedClusterOperatorSpec                                          | Extended |       |
-| ManagedClusterPodIdentity                                           | ManagedClusterPodIdentity                                           | Extended |       |
-| ManagedClusterPodIdentityException                                  | ManagedClusterPodIdentityException                                  | Extended |       |
-| ManagedClusterPodIdentityException_STATUS                           | ManagedClusterPodIdentityException_STATUS                           | Extended |       |
-| ManagedClusterPodIdentityProfile                                    | ManagedClusterPodIdentityProfile                                    | Extended |       |
-| ManagedClusterPodIdentityProfile_STATUS                             | ManagedClusterPodIdentityProfile_STATUS                             | Extended |       |
-| ManagedClusterPodIdentityProvisioningErrorBody_STATUS               | ManagedClusterPodIdentityProvisioningErrorBody_STATUS               | Extended |       |
-| ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled      | ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled      | Extended |       |
-| ManagedClusterPodIdentityProvisioningError_STATUS                   | ManagedClusterPodIdentityProvisioningError_STATUS                   | Extended |       |
-| ManagedClusterPodIdentity_ProvisioningInfo_STATUS                   | ManagedClusterPodIdentity_ProvisioningInfo_STATUS                   | Extended |       |
-| ManagedClusterPodIdentity_STATUS                                    | ManagedClusterPodIdentity_STATUS                                    | Modified |       |
-| ManagedClusterProperties_AutoScalerProfile                          | ManagedClusterProperties_AutoScalerProfile                          | Modified |       |
-| ManagedClusterProperties_AutoScalerProfile_STATUS                   | ManagedClusterProperties_AutoScalerProfile_STATUS                   | Modified |       |
-| ManagedClusterSKU                                                   | ManagedClusterSKU                                                   | Modified |       |
-| ManagedClusterSKU_STATUS                                            | ManagedClusterSKU_STATUS                                            | Modified |       |
-| ManagedClusterSecurityProfile                                       | ManagedClusterSecurityProfile                                       | Extended |       |
-| ManagedClusterSecurityProfileDefender                               | ManagedClusterSecurityProfileDefender                               | Extended |       |
-| ManagedClusterSecurityProfileDefenderSecurityMonitoring             | ManagedClusterSecurityProfileDefenderSecurityMonitoring             | Extended |       |
-| ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS      | ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS      | Extended |       |
-| ManagedClusterSecurityProfileDefender_STATUS                        | ManagedClusterSecurityProfileDefender_STATUS                        | Extended |       |
-| ManagedClusterSecurityProfileImageCleaner                           | ManagedClusterSecurityProfileImageCleaner                           | Extended |       |
-| ManagedClusterSecurityProfileImageCleaner_STATUS                    | ManagedClusterSecurityProfileImageCleaner_STATUS                    | Extended |       |
-| ManagedClusterSecurityProfileWorkloadIdentity                       | ManagedClusterSecurityProfileWorkloadIdentity                       | Extended |       |
-| ManagedClusterSecurityProfileWorkloadIdentity_STATUS                | ManagedClusterSecurityProfileWorkloadIdentity_STATUS                | Extended |       |
-| ManagedClusterSecurityProfile_STATUS                                | ManagedClusterSecurityProfile_STATUS                                | Extended |       |
-| ManagedClusterServicePrincipalProfile                               | ManagedClusterServicePrincipalProfile                               | Extended |       |
-| ManagedClusterServicePrincipalProfile_STATUS                        | ManagedClusterServicePrincipalProfile_STATUS                        | Extended |       |
-| ManagedClusterStorageProfile                                        | ManagedClusterStorageProfile                                        | Extended |       |
-| ManagedClusterStorageProfileBlobCSIDriver                           | ManagedClusterStorageProfileBlobCSIDriver                           | Extended |       |
-| ManagedClusterStorageProfileBlobCSIDriver_STATUS                    | ManagedClusterStorageProfileBlobCSIDriver_STATUS                    | Extended |       |
-| ManagedClusterStorageProfileDiskCSIDriver                           | ManagedClusterStorageProfileDiskCSIDriver                           | Extended |       |
-| ManagedClusterStorageProfileDiskCSIDriver_STATUS                    | ManagedClusterStorageProfileDiskCSIDriver_STATUS                    | Extended |       |
-| ManagedClusterStorageProfileFileCSIDriver                           | ManagedClusterStorageProfileFileCSIDriver                           | Extended |       |
-| ManagedClusterStorageProfileFileCSIDriver_STATUS                    | ManagedClusterStorageProfileFileCSIDriver_STATUS                    | Extended |       |
-| ManagedClusterStorageProfileSnapshotController                      | ManagedClusterStorageProfileSnapshotController                      | Extended |       |
-| ManagedClusterStorageProfileSnapshotController_STATUS               | ManagedClusterStorageProfileSnapshotController_STATUS               | Extended |       |
-| ManagedClusterStorageProfile_STATUS                                 | ManagedClusterStorageProfile_STATUS                                 | Extended |       |
-| ManagedClusterWindowsProfile                                        | ManagedClusterWindowsProfile                                        | Modified |       |
-| ManagedClusterWindowsProfile_STATUS                                 | ManagedClusterWindowsProfile_STATUS                                 | Modified |       |
-| ManagedClusterWorkloadAutoScalerProfile                             | ManagedClusterWorkloadAutoScalerProfile                             | Extended |       |
-| ManagedClusterWorkloadAutoScalerProfileKeda                         | ManagedClusterWorkloadAutoScalerProfileKeda                         | Extended |       |
-| ManagedClusterWorkloadAutoScalerProfileKeda_STATUS                  | ManagedClusterWorkloadAutoScalerProfileKeda_STATUS                  | Extended |       |
-| ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler        | ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler        | Extended |       |
-| ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS | ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS | Extended |       |
-| ManagedClusterWorkloadAutoScalerProfile_STATUS                      | ManagedClusterWorkloadAutoScalerProfile_STATUS                      | Extended |       |
-| ManagedCluster_STATUS                                               | ManagedCluster_STATUS                                               | Modified |       |
-| ManagedCluster_Spec                                                 | ManagedCluster_Spec                                                 | Modified |       |
-| ManagedClustersAgentPoolOperatorSpec                                | ManagedClustersAgentPoolOperatorSpec                                | Extended |       |
-| ManagedClustersAgentPool_STATUS                                     | ManagedClustersAgentPool_STATUS                                     | Modified |       |
-| ManagedClustersAgentPool_Spec                                       | ManagedClustersAgentPool_Spec                                       | Modified |       |
-| PortRange                                                           | PortRange                                                           | Modified |       |
-| PortRange_STATUS                                                    | PortRange_STATUS                                                    | Modified |       |
-| PowerState                                                          | PowerState                                                          | Modified |       |
-| PowerState_STATUS                                                   | PowerState_STATUS                                                   | Modified |       |
-| PrivateLinkResource                                                 | PrivateLinkResource                                                 | Extended |       |
-| PrivateLinkResource_STATUS                                          | PrivateLinkResource_STATUS                                          | Extended |       |
-| RelativeMonthlySchedule                                             | RelativeMonthlySchedule                                             | Modified |       |
-| RelativeMonthlySchedule_STATUS                                      | RelativeMonthlySchedule_STATUS                                      | Modified |       |
-| ResourceReference                                                   | ResourceReference                                                   | Extended |       |
-| ResourceReference_STATUS                                            | ResourceReference_STATUS                                            | Extended |       |
-| Schedule                                                            | Schedule                                                            | Extended |       |
-| Schedule_STATUS                                                     | Schedule_STATUS                                                     | Extended |       |
-| ServiceMeshProfile                                                  | ServiceMeshProfile                                                  | Modified |       |
-| ServiceMeshProfile_STATUS                                           | ServiceMeshProfile_STATUS                                           | Modified |       |
-| SysctlConfig                                                        | SysctlConfig                                                        | Modified |       |
-| SysctlConfig_STATUS                                                 | SysctlConfig_STATUS                                                 | Extended |       |
-| SystemData_STATUS                                                   | SystemData_STATUS                                                   | Modified |       |
-| TimeInWeek                                                          | TimeInWeek                                                          | Modified |       |
-| TimeInWeek_STATUS                                                   | TimeInWeek_STATUS                                                   | Modified |       |
-| TimeSpan                                                            | TimeSpan                                                            | Extended |       |
-| TimeSpan_STATUS                                                     | TimeSpan_STATUS                                                     | Extended |       |
-| TrustedAccessRoleBindingOperatorSpec                                | TrustedAccessRoleBindingOperatorSpec                                | Extended |       |
-| TrustedAccessRoleBinding_STATUS                                     | TrustedAccessRoleBinding_STATUS                                     | Modified |       |
-| TrustedAccessRoleBinding_Spec                                       | TrustedAccessRoleBinding_Spec                                       | Modified |       |
-| UpgradeOverrideSettings                                             | UpgradeOverrideSettings                                             | Extended |       |
-| UpgradeOverrideSettings_STATUS                                      | UpgradeOverrideSettings_STATUS                                      | Extended |       |
-| UserAssignedIdentity                                                | UserAssignedIdentity                                                | Extended |       |
-| UserAssignedIdentityDetails                                         | UserAssignedIdentityDetails                                         | Extended |       |
-| UserAssignedIdentity_STATUS                                         | UserAssignedIdentity_STATUS                                         | Extended |       |
-| WeeklySchedule                                                      | WeeklySchedule                                                      | Modified |       |
-| WeeklySchedule_STATUS                                               | WeeklySchedule_STATUS                                               | Modified |       |
-| WindowsGmsaProfile                                                  | WindowsGmsaProfile                                                  | Extended |       |
-| WindowsGmsaProfile_STATUS                                           | WindowsGmsaProfile_STATUS                                           | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20240901                                                       | v1api20240901/storage                                               |  Status  | Notes                         |
+|:--------------------------------------------------------------------|:--------------------------------------------------------------------|:--------:|:------------------------------|
+| AbsoluteMonthlySchedule                                             | AbsoluteMonthlySchedule                                             | Extended | +PropertyBag                  |
+| AbsoluteMonthlySchedule_STATUS                                      | AbsoluteMonthlySchedule_STATUS                                      | Extended | +PropertyBag                  |
+| AdvancedNetworking                                                  | AdvancedNetworking                                                  | Extended | +PropertyBag                  |
+| AdvancedNetworkingObservability                                     | AdvancedNetworkingObservability                                     | Extended | +PropertyBag                  |
+| AdvancedNetworkingObservability_STATUS                              | AdvancedNetworkingObservability_STATUS                              | Extended | +PropertyBag                  |
+| AdvancedNetworkingSecurity                                          | AdvancedNetworkingSecurity                                          | Extended | +PropertyBag                  |
+| AdvancedNetworkingSecurity_STATUS                                   | AdvancedNetworkingSecurity_STATUS                                   | Extended | +PropertyBag                  |
+| AdvancedNetworking_STATUS                                           | AdvancedNetworking_STATUS                                           | Extended | +PropertyBag                  |
+| AgentPoolNetworkProfile                                             | AgentPoolNetworkProfile                                             | Extended | +PropertyBag                  |
+| AgentPoolNetworkProfile_STATUS                                      | AgentPoolNetworkProfile_STATUS                                      | Extended | +PropertyBag                  |
+| AgentPoolSecurityProfile                                            | AgentPoolSecurityProfile                                            | Extended | +PropertyBag                  |
+| AgentPoolSecurityProfile_STATUS                                     | AgentPoolSecurityProfile_STATUS                                     | Extended | +PropertyBag                  |
+| AgentPoolUpgradeSettings                                            | AgentPoolUpgradeSettings                                            | Extended | +PropertyBag                  |
+| AgentPoolUpgradeSettings_STATUS                                     | AgentPoolUpgradeSettings_STATUS                                     | Extended | +PropertyBag                  |
+| AgentPoolWindowsProfile                                             | AgentPoolWindowsProfile                                             | Extended | +PropertyBag                  |
+| AgentPoolWindowsProfile_STATUS                                      | AgentPoolWindowsProfile_STATUS                                      | Extended | +PropertyBag                  |
+| AzureKeyVaultKms                                                    | AzureKeyVaultKms                                                    | Modified |                               |
+| AzureKeyVaultKms_STATUS                                             | AzureKeyVaultKms_STATUS                                             | Modified |                               |
+| ClusterUpgradeSettings                                              | ClusterUpgradeSettings                                              | Extended | +PropertyBag                  |
+| ClusterUpgradeSettings_STATUS                                       | ClusterUpgradeSettings_STATUS                                       | Extended | +PropertyBag                  |
+| ContainerServiceLinuxProfile                                        | ContainerServiceLinuxProfile                                        | Extended | +PropertyBag                  |
+| ContainerServiceLinuxProfile_STATUS                                 | ContainerServiceLinuxProfile_STATUS                                 | Extended | +PropertyBag                  |
+| ContainerServiceNetworkProfile                                      | ContainerServiceNetworkProfile                                      | Modified |                               |
+| ContainerServiceNetworkProfile_STATUS                               | ContainerServiceNetworkProfile_STATUS                               | Modified |                               |
+| ContainerServiceSshConfiguration                                    | ContainerServiceSshConfiguration                                    | Extended | +PropertyBag                  |
+| ContainerServiceSshConfiguration_STATUS                             | ContainerServiceSshConfiguration_STATUS                             | Extended | +PropertyBag                  |
+| ContainerServiceSshPublicKey                                        | ContainerServiceSshPublicKey                                        | Extended | +PropertyBag                  |
+| ContainerServiceSshPublicKey_STATUS                                 | ContainerServiceSshPublicKey_STATUS                                 | Extended | +PropertyBag                  |
+| CreationData                                                        | CreationData                                                        | Extended | +PropertyBag                  |
+| CreationData_STATUS                                                 | CreationData_STATUS                                                 | Extended | +PropertyBag                  |
+| DailySchedule                                                       | DailySchedule                                                       | Extended | +PropertyBag                  |
+| DailySchedule_STATUS                                                | DailySchedule_STATUS                                                | Extended | +PropertyBag                  |
+| DateSpan                                                            | DateSpan                                                            | Extended | +PropertyBag                  |
+| DateSpan_STATUS                                                     | DateSpan_STATUS                                                     | Extended | +PropertyBag                  |
+| DelegatedResource                                                   | DelegatedResource                                                   | Extended | +PropertyBag                  |
+| DelegatedResource_STATUS                                            | DelegatedResource_STATUS                                            | Extended | +PropertyBag                  |
+| ExtendedLocation                                                    | ExtendedLocation                                                    | Modified |                               |
+| ExtendedLocation_STATUS                                             | ExtendedLocation_STATUS                                             | Modified |                               |
+| IPTag                                                               | IPTag                                                               | Extended | +PropertyBag                  |
+| IPTag_STATUS                                                        | IPTag_STATUS                                                        | Extended | +PropertyBag                  |
+| IstioCertificateAuthority                                           | IstioCertificateAuthority                                           | Extended | +PropertyBag                  |
+| IstioCertificateAuthority_STATUS                                    | IstioCertificateAuthority_STATUS                                    | Extended | +PropertyBag                  |
+| IstioComponents                                                     | IstioComponents                                                     | Extended | +PropertyBag                  |
+| IstioComponents_STATUS                                              | IstioComponents_STATUS                                              | Extended | +PropertyBag                  |
+| IstioEgressGateway                                                  | IstioEgressGateway                                                  | Extended | +PropertyBag                  |
+| IstioEgressGateway_STATUS                                           | IstioEgressGateway_STATUS                                           | Extended | +PropertyBag                  |
+| IstioIngressGateway                                                 | IstioIngressGateway                                                 | Modified |                               |
+| IstioIngressGateway_STATUS                                          | IstioIngressGateway_STATUS                                          | Modified |                               |
+| IstioPluginCertificateAuthority                                     | IstioPluginCertificateAuthority                                     | Extended | +PropertyBag                  |
+| IstioPluginCertificateAuthority_STATUS                              | IstioPluginCertificateAuthority_STATUS                              | Extended | +PropertyBag                  |
+| IstioServiceMesh                                                    | IstioServiceMesh                                                    | Modified |                               |
+| IstioServiceMesh_STATUS                                             | IstioServiceMesh_STATUS                                             | Extended | +PropertyBag                  |
+| KubeletConfig                                                       | KubeletConfig                                                       | Extended | +PropertyBag                  |
+| KubeletConfig_STATUS                                                | KubeletConfig_STATUS                                                | Extended | +PropertyBag                  |
+| LinuxOSConfig                                                       | LinuxOSConfig                                                       | Extended | +PropertyBag                  |
+| LinuxOSConfig_STATUS                                                | LinuxOSConfig_STATUS                                                | Extended | +PropertyBag                  |
+| MaintenanceConfigurationOperatorSpec                                | MaintenanceConfigurationOperatorSpec                                | Extended | +PropertyBag                  |
+| MaintenanceConfiguration_STATUS                                     | MaintenanceConfiguration_STATUS                                     | Extended | +PropertyBag                  |
+| MaintenanceConfiguration_Spec                                       | MaintenanceConfiguration_Spec                                       | Extended | +OriginalVersion +PropertyBag |
+| MaintenanceWindow                                                   | MaintenanceWindow                                                   | Extended | +PropertyBag                  |
+| MaintenanceWindow_STATUS                                            | MaintenanceWindow_STATUS                                            | Extended | +PropertyBag                  |
+| ManagedClusterAADProfile                                            | ManagedClusterAADProfile                                            | Extended | +PropertyBag                  |
+| ManagedClusterAADProfile_STATUS                                     | ManagedClusterAADProfile_STATUS                                     | Extended | +PropertyBag                  |
+| ManagedClusterAPIServerAccessProfile                                | ManagedClusterAPIServerAccessProfile                                | Extended | +PropertyBag                  |
+| ManagedClusterAPIServerAccessProfile_STATUS                         | ManagedClusterAPIServerAccessProfile_STATUS                         | Extended | +PropertyBag                  |
+| ManagedClusterAddonProfile                                          | ManagedClusterAddonProfile                                          | Extended | +PropertyBag                  |
+| ManagedClusterAddonProfile_STATUS                                   | ManagedClusterAddonProfile_STATUS                                   | Extended | +PropertyBag                  |
+| ManagedClusterAgentPoolProfile                                      | ManagedClusterAgentPoolProfile                                      | Modified |                               |
+| ManagedClusterAgentPoolProfile_STATUS                               | ManagedClusterAgentPoolProfile_STATUS                               | Modified |                               |
+| ManagedClusterAutoUpgradeProfile                                    | ManagedClusterAutoUpgradeProfile                                    | Modified |                               |
+| ManagedClusterAutoUpgradeProfile_STATUS                             | ManagedClusterAutoUpgradeProfile_STATUS                             | Modified |                               |
+| ManagedClusterAzureMonitorProfile                                   | ManagedClusterAzureMonitorProfile                                   | Extended | +PropertyBag                  |
+| ManagedClusterAzureMonitorProfileKubeStateMetrics                   | ManagedClusterAzureMonitorProfileKubeStateMetrics                   | Extended | +PropertyBag                  |
+| ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS            | ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS            | Extended | +PropertyBag                  |
+| ManagedClusterAzureMonitorProfileMetrics                            | ManagedClusterAzureMonitorProfileMetrics                            | Extended | +PropertyBag                  |
+| ManagedClusterAzureMonitorProfileMetrics_STATUS                     | ManagedClusterAzureMonitorProfileMetrics_STATUS                     | Extended | +PropertyBag                  |
+| ManagedClusterAzureMonitorProfile_STATUS                            | ManagedClusterAzureMonitorProfile_STATUS                            | Extended | +PropertyBag                  |
+| ManagedClusterCostAnalysis                                          | ManagedClusterCostAnalysis                                          | Extended | +PropertyBag                  |
+| ManagedClusterCostAnalysis_STATUS                                   | ManagedClusterCostAnalysis_STATUS                                   | Extended | +PropertyBag                  |
+| ManagedClusterHTTPProxyConfig                                       | ManagedClusterHTTPProxyConfig                                       | Extended | +PropertyBag                  |
+| ManagedClusterHTTPProxyConfig_STATUS                                | ManagedClusterHTTPProxyConfig_STATUS                                | Extended | +PropertyBag                  |
+| ManagedClusterIdentity                                              | ManagedClusterIdentity                                              | Modified |                               |
+| ManagedClusterIdentity_STATUS                                       | ManagedClusterIdentity_STATUS                                       | Modified |                               |
+| ManagedClusterIdentity_UserAssignedIdentities_STATUS                | ManagedClusterIdentity_UserAssignedIdentities_STATUS                | Extended | +PropertyBag                  |
+| ManagedClusterIngressProfile                                        | ManagedClusterIngressProfile                                        | Extended | +PropertyBag                  |
+| ManagedClusterIngressProfileWebAppRouting                           | ManagedClusterIngressProfileWebAppRouting                           | Extended | +PropertyBag                  |
+| ManagedClusterIngressProfileWebAppRouting_STATUS                    | ManagedClusterIngressProfileWebAppRouting_STATUS                    | Extended | +PropertyBag                  |
+| ManagedClusterIngressProfile_STATUS                                 | ManagedClusterIngressProfile_STATUS                                 | Extended | +PropertyBag                  |
+| ManagedClusterLoadBalancerProfile                                   | ManagedClusterLoadBalancerProfile                                   | Modified |                               |
+| ManagedClusterLoadBalancerProfile_ManagedOutboundIPs                | ManagedClusterLoadBalancerProfile_ManagedOutboundIPs                | Extended | +PropertyBag                  |
+| ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS         | ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS         | Extended | +PropertyBag                  |
+| ManagedClusterLoadBalancerProfile_OutboundIPPrefixes                | ManagedClusterLoadBalancerProfile_OutboundIPPrefixes                | Extended | +PropertyBag                  |
+| ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS         | ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS         | Extended | +PropertyBag                  |
+| ManagedClusterLoadBalancerProfile_OutboundIPs                       | ManagedClusterLoadBalancerProfile_OutboundIPs                       | Extended | +PropertyBag                  |
+| ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS                | ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS                | Extended | +PropertyBag                  |
+| ManagedClusterLoadBalancerProfile_STATUS                            | ManagedClusterLoadBalancerProfile_STATUS                            | Modified |                               |
+| ManagedClusterManagedOutboundIPProfile                              | ManagedClusterManagedOutboundIPProfile                              | Extended | +PropertyBag                  |
+| ManagedClusterManagedOutboundIPProfile_STATUS                       | ManagedClusterManagedOutboundIPProfile_STATUS                       | Extended | +PropertyBag                  |
+| ManagedClusterMetricsProfile                                        | ManagedClusterMetricsProfile                                        | Extended | +PropertyBag                  |
+| ManagedClusterMetricsProfile_STATUS                                 | ManagedClusterMetricsProfile_STATUS                                 | Extended | +PropertyBag                  |
+| ManagedClusterNATGatewayProfile                                     | ManagedClusterNATGatewayProfile                                     | Extended | +PropertyBag                  |
+| ManagedClusterNATGatewayProfile_STATUS                              | ManagedClusterNATGatewayProfile_STATUS                              | Extended | +PropertyBag                  |
+| ManagedClusterNodeResourceGroupProfile                              | ManagedClusterNodeResourceGroupProfile                              | Modified |                               |
+| ManagedClusterNodeResourceGroupProfile_STATUS                       | ManagedClusterNodeResourceGroupProfile_STATUS                       | Modified |                               |
+| ManagedClusterOIDCIssuerProfile                                     | ManagedClusterOIDCIssuerProfile                                     | Extended | +PropertyBag                  |
+| ManagedClusterOIDCIssuerProfile_STATUS                              | ManagedClusterOIDCIssuerProfile_STATUS                              | Extended | +PropertyBag                  |
+| ManagedClusterOperatorConfigMaps                                    | ManagedClusterOperatorConfigMaps                                    | Extended | +PropertyBag                  |
+| ManagedClusterOperatorSecrets                                       | ManagedClusterOperatorSecrets                                       | Extended | +PropertyBag                  |
+| ManagedClusterOperatorSpec                                          | ManagedClusterOperatorSpec                                          | Extended | +PropertyBag                  |
+| ManagedClusterPodIdentity                                           | ManagedClusterPodIdentity                                           | Extended | +PropertyBag                  |
+| ManagedClusterPodIdentityException                                  | ManagedClusterPodIdentityException                                  | Extended | +PropertyBag                  |
+| ManagedClusterPodIdentityException_STATUS                           | ManagedClusterPodIdentityException_STATUS                           | Extended | +PropertyBag                  |
+| ManagedClusterPodIdentityProfile                                    | ManagedClusterPodIdentityProfile                                    | Extended | +PropertyBag                  |
+| ManagedClusterPodIdentityProfile_STATUS                             | ManagedClusterPodIdentityProfile_STATUS                             | Extended | +PropertyBag                  |
+| ManagedClusterPodIdentityProvisioningErrorBody_STATUS               | ManagedClusterPodIdentityProvisioningErrorBody_STATUS               | Extended | +PropertyBag                  |
+| ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled      | ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled      | Extended | +PropertyBag                  |
+| ManagedClusterPodIdentityProvisioningError_STATUS                   | ManagedClusterPodIdentityProvisioningError_STATUS                   | Extended | +PropertyBag                  |
+| ManagedClusterPodIdentity_ProvisioningInfo_STATUS                   | ManagedClusterPodIdentity_ProvisioningInfo_STATUS                   | Extended | +PropertyBag                  |
+| ManagedClusterPodIdentity_STATUS                                    | ManagedClusterPodIdentity_STATUS                                    | Modified |                               |
+| ManagedClusterProperties_AutoScalerProfile                          | ManagedClusterProperties_AutoScalerProfile                          | Modified |                               |
+| ManagedClusterProperties_AutoScalerProfile_STATUS                   | ManagedClusterProperties_AutoScalerProfile_STATUS                   | Modified |                               |
+| ManagedClusterSKU                                                   | ManagedClusterSKU                                                   | Modified |                               |
+| ManagedClusterSKU_STATUS                                            | ManagedClusterSKU_STATUS                                            | Modified |                               |
+| ManagedClusterSecurityProfile                                       | ManagedClusterSecurityProfile                                       | Extended | +PropertyBag                  |
+| ManagedClusterSecurityProfileDefender                               | ManagedClusterSecurityProfileDefender                               | Extended | +PropertyBag                  |
+| ManagedClusterSecurityProfileDefenderSecurityMonitoring             | ManagedClusterSecurityProfileDefenderSecurityMonitoring             | Extended | +PropertyBag                  |
+| ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS      | ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS      | Extended | +PropertyBag                  |
+| ManagedClusterSecurityProfileDefender_STATUS                        | ManagedClusterSecurityProfileDefender_STATUS                        | Extended | +PropertyBag                  |
+| ManagedClusterSecurityProfileImageCleaner                           | ManagedClusterSecurityProfileImageCleaner                           | Extended | +PropertyBag                  |
+| ManagedClusterSecurityProfileImageCleaner_STATUS                    | ManagedClusterSecurityProfileImageCleaner_STATUS                    | Extended | +PropertyBag                  |
+| ManagedClusterSecurityProfileWorkloadIdentity                       | ManagedClusterSecurityProfileWorkloadIdentity                       | Extended | +PropertyBag                  |
+| ManagedClusterSecurityProfileWorkloadIdentity_STATUS                | ManagedClusterSecurityProfileWorkloadIdentity_STATUS                | Extended | +PropertyBag                  |
+| ManagedClusterSecurityProfile_STATUS                                | ManagedClusterSecurityProfile_STATUS                                | Extended | +PropertyBag                  |
+| ManagedClusterServicePrincipalProfile                               | ManagedClusterServicePrincipalProfile                               | Extended | +PropertyBag                  |
+| ManagedClusterServicePrincipalProfile_STATUS                        | ManagedClusterServicePrincipalProfile_STATUS                        | Extended | +PropertyBag                  |
+| ManagedClusterStorageProfile                                        | ManagedClusterStorageProfile                                        | Extended | +PropertyBag                  |
+| ManagedClusterStorageProfileBlobCSIDriver                           | ManagedClusterStorageProfileBlobCSIDriver                           | Extended | +PropertyBag                  |
+| ManagedClusterStorageProfileBlobCSIDriver_STATUS                    | ManagedClusterStorageProfileBlobCSIDriver_STATUS                    | Extended | +PropertyBag                  |
+| ManagedClusterStorageProfileDiskCSIDriver                           | ManagedClusterStorageProfileDiskCSIDriver                           | Extended | +PropertyBag                  |
+| ManagedClusterStorageProfileDiskCSIDriver_STATUS                    | ManagedClusterStorageProfileDiskCSIDriver_STATUS                    | Extended | +PropertyBag                  |
+| ManagedClusterStorageProfileFileCSIDriver                           | ManagedClusterStorageProfileFileCSIDriver                           | Extended | +PropertyBag                  |
+| ManagedClusterStorageProfileFileCSIDriver_STATUS                    | ManagedClusterStorageProfileFileCSIDriver_STATUS                    | Extended | +PropertyBag                  |
+| ManagedClusterStorageProfileSnapshotController                      | ManagedClusterStorageProfileSnapshotController                      | Extended | +PropertyBag                  |
+| ManagedClusterStorageProfileSnapshotController_STATUS               | ManagedClusterStorageProfileSnapshotController_STATUS               | Extended | +PropertyBag                  |
+| ManagedClusterStorageProfile_STATUS                                 | ManagedClusterStorageProfile_STATUS                                 | Extended | +PropertyBag                  |
+| ManagedClusterWindowsProfile                                        | ManagedClusterWindowsProfile                                        | Modified |                               |
+| ManagedClusterWindowsProfile_STATUS                                 | ManagedClusterWindowsProfile_STATUS                                 | Modified |                               |
+| ManagedClusterWorkloadAutoScalerProfile                             | ManagedClusterWorkloadAutoScalerProfile                             | Extended | +PropertyBag                  |
+| ManagedClusterWorkloadAutoScalerProfileKeda                         | ManagedClusterWorkloadAutoScalerProfileKeda                         | Extended | +PropertyBag                  |
+| ManagedClusterWorkloadAutoScalerProfileKeda_STATUS                  | ManagedClusterWorkloadAutoScalerProfileKeda_STATUS                  | Extended | +PropertyBag                  |
+| ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler        | ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler        | Extended | +PropertyBag                  |
+| ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS | ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS | Extended | +PropertyBag                  |
+| ManagedClusterWorkloadAutoScalerProfile_STATUS                      | ManagedClusterWorkloadAutoScalerProfile_STATUS                      | Extended | +PropertyBag                  |
+| ManagedCluster_STATUS                                               | ManagedCluster_STATUS                                               | Modified |                               |
+| ManagedCluster_Spec                                                 | ManagedCluster_Spec                                                 | Modified |                               |
+| ManagedClustersAgentPoolOperatorSpec                                | ManagedClustersAgentPoolOperatorSpec                                | Extended | +PropertyBag                  |
+| ManagedClustersAgentPool_STATUS                                     | ManagedClustersAgentPool_STATUS                                     | Modified |                               |
+| ManagedClustersAgentPool_Spec                                       | ManagedClustersAgentPool_Spec                                       | Modified |                               |
+| PortRange                                                           | PortRange                                                           | Modified |                               |
+| PortRange_STATUS                                                    | PortRange_STATUS                                                    | Modified |                               |
+| PowerState                                                          | PowerState                                                          | Modified |                               |
+| PowerState_STATUS                                                   | PowerState_STATUS                                                   | Modified |                               |
+| PrivateLinkResource                                                 | PrivateLinkResource                                                 | Extended | +PropertyBag                  |
+| PrivateLinkResource_STATUS                                          | PrivateLinkResource_STATUS                                          | Extended | +PropertyBag                  |
+| RelativeMonthlySchedule                                             | RelativeMonthlySchedule                                             | Modified |                               |
+| RelativeMonthlySchedule_STATUS                                      | RelativeMonthlySchedule_STATUS                                      | Modified |                               |
+| ResourceReference                                                   | ResourceReference                                                   | Extended | +PropertyBag                  |
+| ResourceReference_STATUS                                            | ResourceReference_STATUS                                            | Extended | +PropertyBag                  |
+| Schedule                                                            | Schedule                                                            | Extended | +PropertyBag                  |
+| Schedule_STATUS                                                     | Schedule_STATUS                                                     | Extended | +PropertyBag                  |
+| ServiceMeshProfile                                                  | ServiceMeshProfile                                                  | Modified |                               |
+| ServiceMeshProfile_STATUS                                           | ServiceMeshProfile_STATUS                                           | Modified |                               |
+| SysctlConfig                                                        | SysctlConfig                                                        | Extended | +PropertyBag                  |
+| SysctlConfig_STATUS                                                 | SysctlConfig_STATUS                                                 | Extended | +PropertyBag                  |
+| SystemData_STATUS                                                   | SystemData_STATUS                                                   | Modified |                               |
+| TimeInWeek                                                          | TimeInWeek                                                          | Modified |                               |
+| TimeInWeek_STATUS                                                   | TimeInWeek_STATUS                                                   | Modified |                               |
+| TimeSpan                                                            | TimeSpan                                                            | Extended | +PropertyBag                  |
+| TimeSpan_STATUS                                                     | TimeSpan_STATUS                                                     | Extended | +PropertyBag                  |
+| TrustedAccessRoleBindingOperatorSpec                                | TrustedAccessRoleBindingOperatorSpec                                | Extended | +PropertyBag                  |
+| TrustedAccessRoleBinding_STATUS                                     | TrustedAccessRoleBinding_STATUS                                     | Modified |                               |
+| TrustedAccessRoleBinding_Spec                                       | TrustedAccessRoleBinding_Spec                                       | Modified |                               |
+| UpgradeOverrideSettings                                             | UpgradeOverrideSettings                                             | Extended | +PropertyBag                  |
+| UpgradeOverrideSettings_STATUS                                      | UpgradeOverrideSettings_STATUS                                      | Extended | +PropertyBag                  |
+| UserAssignedIdentity                                                | UserAssignedIdentity                                                | Extended | +PropertyBag                  |
+| UserAssignedIdentityDetails                                         | UserAssignedIdentityDetails                                         | Extended | +PropertyBag                  |
+| UserAssignedIdentity_STATUS                                         | UserAssignedIdentity_STATUS                                         | Extended | +PropertyBag                  |
+| WeeklySchedule                                                      | WeeklySchedule                                                      | Modified |                               |
+| WeeklySchedule_STATUS                                               | WeeklySchedule_STATUS                                               | Modified |                               |
+| WindowsGmsaProfile                                                  | WindowsGmsaProfile                                                  | Extended | +PropertyBag                  |
+| WindowsGmsaProfile_STATUS                                           | WindowsGmsaProfile_STATUS                                           | Extended | +PropertyBag                  |
 
 ### AbsoluteMonthlySchedule
 
-1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New
 
-| v1api20240901  |                           | v1api20240901/storage |                        |  Status  | Notes |
-|:---------------|:--------------------------|:----------------------|:-----------------------|:--------:|:------|
-| DayOfMonth     | Validated<*int> (2 rules) | DayOfMonth            | *int                   | Modified |       |
-| IntervalMonths | Validated<*int> (2 rules) | IntervalMonths        | *int                   | Modified |       |
-|                |                           | PropertyBag           | genruntime.PropertyBag |   New    |       |
+| v1api20240901  |                           | v1api20240901/storage |                        |  Status   | Notes |
+|:---------------|:--------------------------|:----------------------|:-----------------------|:---------:|:------|
+| DayOfMonth     | Validated<*int> (2 rules) | DayOfMonth            | *int                   | Identical |       |
+| IntervalMonths | Validated<*int> (2 rules) | IntervalMonths        | *int                   | Identical |       |
+|                |                           | PropertyBag           | genruntime.PropertyBag |    New    |       |
 
 ### AbsoluteMonthlySchedule_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901  |      | v1api20240901/storage |                        |  Status   | Notes |
 |:---------------|:-----|:----------------------|:-----------------------|:---------:|:------|
@@ -236,7 +229,7 @@
 
 ### AdvancedNetworking
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240901 |                                  | v1api20240901/storage |                                  |  Status   | Notes |
 |:--------------|:---------------------------------|:----------------------|:---------------------------------|:---------:|:------|
@@ -247,7 +240,7 @@
 
 ### AdvancedNetworkingObservability
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |       | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -256,7 +249,7 @@
 
 ### AdvancedNetworkingObservability_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |       | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -265,7 +258,7 @@
 
 ### AdvancedNetworkingSecurity
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |       | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -274,7 +267,7 @@
 
 ### AdvancedNetworkingSecurity_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |       | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -283,7 +276,7 @@
 
 ### AdvancedNetworking_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240901 |                                         | v1api20240901/storage |                                         |  Status   | Notes |
 |:--------------|:----------------------------------------|:----------------------|:----------------------------------------|:---------:|:------|
@@ -294,7 +287,7 @@
 
 ### AgentPoolNetworkProfile
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240901                       |                                | v1api20240901/storage               |                                |  Status   | Notes |
 |:------------------------------------|:-------------------------------|:------------------------------------|:-------------------------------|:---------:|:------|
@@ -305,7 +298,7 @@
 
 ### AgentPoolNetworkProfile_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240901             |                    | v1api20240901/storage     |                        |  Status   | Notes |
 |:--------------------------|:-------------------|:--------------------------|:-----------------------|:---------:|:------|
@@ -316,7 +309,7 @@
 
 ### AgentPoolSecurityProfile
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901    |       | v1api20240901/storage |                        |  Status   | Notes |
 |:-----------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -326,7 +319,7 @@
 
 ### AgentPoolSecurityProfile_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901    |       | v1api20240901/storage |                        |  Status   | Notes |
 |:-----------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -336,18 +329,18 @@
 
 ### AgentPoolUpgradeSettings
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 3 x Identical, 1 x New
 
 | v1api20240901             |                           | v1api20240901/storage     |                        |  Status   | Notes |
 |:--------------------------|:--------------------------|:--------------------------|:-----------------------|:---------:|:------|
-| DrainTimeoutInMinutes     | Validated<*int> (2 rules) | DrainTimeoutInMinutes     | *int                   | Modified  |       |
+| DrainTimeoutInMinutes     | Validated<*int> (2 rules) | DrainTimeoutInMinutes     | *int                   | Identical |       |
 | MaxSurge                  | *string                   | MaxSurge                  | *string                | Identical |       |
-| NodeSoakDurationInMinutes | Validated<*int> (2 rules) | NodeSoakDurationInMinutes | *int                   | Modified  |       |
+| NodeSoakDurationInMinutes | Validated<*int> (2 rules) | NodeSoakDurationInMinutes | *int                   | Identical |       |
 |                           |                           | PropertyBag               | genruntime.PropertyBag |    New    |       |
 
 ### AgentPoolUpgradeSettings_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240901             |         | v1api20240901/storage     |                        |  Status   | Notes |
 |:--------------------------|:--------|:--------------------------|:-----------------------|:---------:|:------|
@@ -358,7 +351,7 @@
 
 ### AgentPoolWindowsProfile
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901      |       | v1api20240901/storage |                        |  Status   | Notes |
 |:-------------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -367,7 +360,7 @@
 
 ### AgentPoolWindowsProfile_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901      |       | v1api20240901/storage |                        |  Status   | Notes |
 |:-------------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -376,7 +369,7 @@
 
 ### AzureKeyVaultKms
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20240901             |                                         | v1api20240901/storage     |                               |  Status   | Notes |
 |:--------------------------|:----------------------------------------|:--------------------------|:------------------------------|:---------:|:------|
@@ -388,7 +381,7 @@
 
 ### AzureKeyVaultKms_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20240901         |                                                | v1api20240901/storage |                        |  Status   | Notes |
 |:----------------------|:-----------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -400,7 +393,7 @@
 
 ### ClusterUpgradeSettings
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901    |                          | v1api20240901/storage |                          |  Status   | Notes |
 |:-----------------|:-------------------------|:----------------------|:-------------------------|:---------:|:------|
@@ -409,7 +402,7 @@
 
 ### ClusterUpgradeSettings_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901    |                                 | v1api20240901/storage |                                 |  Status   | Notes |
 |:-----------------|:--------------------------------|:----------------------|:--------------------------------|:---------:|:------|
@@ -418,17 +411,17 @@
 
 ### ContainerServiceLinuxProfile
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901 |                                   | v1api20240901/storage |                                   |  Status   | Notes |
 |:--------------|:----------------------------------|:----------------------|:----------------------------------|:---------:|:------|
-| AdminUsername | Validated<*string> (1 rule)       | AdminUsername         | *string                           | Modified  |       |
+| AdminUsername | Validated<*string> (1 rule)       | AdminUsername         | *string                           | Identical |       |
 |               |                                   | PropertyBag           | genruntime.PropertyBag            |    New    |       |
 | Ssh           | *ContainerServiceSshConfiguration | Ssh                   | *ContainerServiceSshConfiguration | Identical |       |
 
 ### ContainerServiceLinuxProfile_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901 |                                          | v1api20240901/storage |                                          |  Status   | Notes |
 |:--------------|:-----------------------------------------|:----------------------|:-----------------------------------------|:---------:|:------|
@@ -438,12 +431,12 @@
 
 ### ContainerServiceNetworkProfile
 
-5 x Identical, 1 x New, 11 x Modified
+Properties: 8 x Identical, 1 x New, 8 x Modified
 
 | v1api20240901       |                                                   | v1api20240901/storage |                                    |  Status   | Notes |
 |:--------------------|:--------------------------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
 | AdvancedNetworking  | *AdvancedNetworking                               | AdvancedNetworking    | *AdvancedNetworking                | Identical |       |
-| DnsServiceIP        | Validated<*string> (1 rule)                       | DnsServiceIP          | *string                            | Modified  |       |
+| DnsServiceIP        | Validated<*string> (1 rule)                       | DnsServiceIP          | *string                            | Identical |       |
 | IpFamilies          | ContainerServiceNetworkProfile_IpFamilies[]       | IpFamilies            | string[]                           | Modified  |       |
 | LoadBalancerProfile | *ManagedClusterLoadBalancerProfile                | LoadBalancerProfile   | *ManagedClusterLoadBalancerProfile | Identical |       |
 | LoadBalancerSku     | *ContainerServiceNetworkProfile_LoadBalancerSku   | LoadBalancerSku       | *string                            | Modified  |       |
@@ -454,15 +447,15 @@
 | NetworkPluginMode   | *ContainerServiceNetworkProfile_NetworkPluginMode | NetworkPluginMode     | *string                            | Modified  |       |
 | NetworkPolicy       | *ContainerServiceNetworkProfile_NetworkPolicy     | NetworkPolicy         | *string                            | Modified  |       |
 | OutboundType        | *ContainerServiceNetworkProfile_OutboundType      | OutboundType          | *string                            | Modified  |       |
-| PodCidr             | Validated<*string> (1 rule)                       | PodCidr               | *string                            | Modified  |       |
+| PodCidr             | Validated<*string> (1 rule)                       | PodCidr               | *string                            | Identical |       |
 | PodCidrs            | string[]                                          | PodCidrs              | string[]                           | Identical |       |
 |                     |                                                   | PropertyBag           | genruntime.PropertyBag             |    New    |       |
-| ServiceCidr         | Validated<*string> (1 rule)                       | ServiceCidr           | *string                            | Modified  |       |
+| ServiceCidr         | Validated<*string> (1 rule)                       | ServiceCidr           | *string                            | Identical |       |
 | ServiceCidrs        | string[]                                          | ServiceCidrs          | string[]                           | Identical |       |
 
 ### ContainerServiceNetworkProfile_STATUS
 
-8 x Identical, 1 x New, 8 x Modified
+Properties: 8 x Identical, 1 x New, 8 x Modified
 
 | v1api20240901       |                                                          | v1api20240901/storage |                                           |  Status   | Notes |
 |:--------------------|:---------------------------------------------------------|:----------------------|:------------------------------------------|:---------:|:------|
@@ -486,7 +479,7 @@
 
 ### ContainerServiceSshConfiguration
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |                                | v1api20240901/storage |                                |  Status   | Notes |
 |:--------------|:-------------------------------|:----------------------|:-------------------------------|:---------:|:------|
@@ -495,7 +488,7 @@
 
 ### ContainerServiceSshConfiguration_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |                                       | v1api20240901/storage |                                       |  Status   | Notes |
 |:--------------|:--------------------------------------|:----------------------|:--------------------------------------|:---------:|:------|
@@ -504,7 +497,7 @@
 
 ### ContainerServiceSshPublicKey
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |         | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -513,7 +506,7 @@
 
 ### ContainerServiceSshPublicKey_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |         | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -522,7 +515,7 @@
 
 ### CreationData
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901           |                               | v1api20240901/storage   |                               |  Status   | Notes |
 |:------------------------|:------------------------------|:------------------------|:------------------------------|:---------:|:------|
@@ -531,7 +524,7 @@
 
 ### CreationData_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901    |         | v1api20240901/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -540,16 +533,16 @@
 
 ### DailySchedule
 
-1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New
 
-| v1api20240901 |                           | v1api20240901/storage |                        |  Status  | Notes |
-|:--------------|:--------------------------|:----------------------|:-----------------------|:--------:|:------|
-| IntervalDays  | Validated<*int> (2 rules) | IntervalDays          | *int                   | Modified |       |
-|               |                           | PropertyBag           | genruntime.PropertyBag |   New    |       |
+| v1api20240901 |                           | v1api20240901/storage |                        |  Status   | Notes |
+|:--------------|:--------------------------|:----------------------|:-----------------------|:---------:|:------|
+| IntervalDays  | Validated<*int> (2 rules) | IntervalDays          | *int                   | Identical |       |
+|               |                           | PropertyBag           | genruntime.PropertyBag |    New    |       |
 
 ### DailySchedule_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |      | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:-----|:----------------------|:-----------------------|:---------:|:------|
@@ -558,7 +551,7 @@
 
 ### DateSpan
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901 |         | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -568,7 +561,7 @@
 
 ### DateSpan_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901 |         | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -578,7 +571,7 @@
 
 ### DelegatedResource
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New
 
 | v1api20240901     |                               | v1api20240901/storage |                               |  Status   | Notes |
 |:------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -586,11 +579,11 @@
 |                   |                               | PropertyBag           | genruntime.PropertyBag        |    New    |       |
 | ReferralResource  | *string                       | ReferralResource      | *string                       | Identical |       |
 | ResourceReference | *genruntime.ResourceReference | ResourceReference     | *genruntime.ResourceReference | Identical |       |
-| TenantId          | Validated<*string> (1 rule)   | TenantId              | *string                       | Modified  |       |
+| TenantId          | Validated<*string> (1 rule)   | TenantId              | *string                       | Identical |       |
 
 ### DelegatedResource_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240901    |         | v1api20240901/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -602,7 +595,7 @@
 
 ### ExtendedLocation
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240901 |                       | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -612,7 +605,7 @@
 
 ### ExtendedLocation_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240901 |                              | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -622,7 +615,7 @@
 
 ### IPTag
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901 |         | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -632,7 +625,7 @@
 
 ### IPTag_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901 |         | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -642,7 +635,7 @@
 
 ### IstioCertificateAuthority
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |                                  | v1api20240901/storage |                                  |  Status   | Notes |
 |:--------------|:---------------------------------|:----------------------|:---------------------------------|:---------:|:------|
@@ -651,7 +644,7 @@
 
 ### IstioCertificateAuthority_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |                                         | v1api20240901/storage |                                         |  Status   | Notes |
 |:--------------|:----------------------------------------|:----------------------|:----------------------------------------|:---------:|:------|
@@ -660,7 +653,7 @@
 
 ### IstioComponents
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901   |                       | v1api20240901/storage |                        |  Status   | Notes |
 |:----------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -670,7 +663,7 @@
 
 ### IstioComponents_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901   |                              | v1api20240901/storage |                              |  Status   | Notes |
 |:----------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -680,7 +673,7 @@
 
 ### IstioEgressGateway
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |       | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -689,7 +682,7 @@
 
 ### IstioEgressGateway_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |       | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -698,7 +691,7 @@
 
 ### IstioIngressGateway
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240901 |                           | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:--------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -708,7 +701,7 @@
 
 ### IstioIngressGateway_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240901 |                                  | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:---------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -718,7 +711,7 @@
 
 ### IstioPluginCertificateAuthority
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20240901       |                               | v1api20240901/storage |                               |  Status   | Notes |
 |:--------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -731,7 +724,7 @@
 
 ### IstioPluginCertificateAuthority_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20240901       |         | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -744,7 +737,7 @@
 
 ### IstioServiceMesh
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20240901        |                              | v1api20240901/storage |                            |  Status   | Notes |
 |:---------------------|:-----------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -755,7 +748,7 @@
 
 ### IstioServiceMesh_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240901        |                                   | v1api20240901/storage |                                   |  Status   | Notes |
 |:---------------------|:----------------------------------|:----------------------|:----------------------------------|:---------:|:------|
@@ -766,12 +759,12 @@
 
 ### KubeletConfig
 
-10 x Identical, 1 x New, 1 x Modified
+Properties: 11 x Identical, 1 x New
 
 | v1api20240901         |                          | v1api20240901/storage |                        |  Status   | Notes |
 |:----------------------|:-------------------------|:----------------------|:-----------------------|:---------:|:------|
 | AllowedUnsafeSysctls  | string[]                 | AllowedUnsafeSysctls  | string[]               | Identical |       |
-| ContainerLogMaxFiles  | Validated<*int> (1 rule) | ContainerLogMaxFiles  | *int                   | Modified  |       |
+| ContainerLogMaxFiles  | Validated<*int> (1 rule) | ContainerLogMaxFiles  | *int                   | Identical |       |
 | ContainerLogMaxSizeMB | *int                     | ContainerLogMaxSizeMB | *int                   | Identical |       |
 | CpuCfsQuota           | *bool                    | CpuCfsQuota           | *bool                  | Identical |       |
 | CpuCfsQuotaPeriod     | *string                  | CpuCfsQuotaPeriod     | *string                | Identical |       |
@@ -785,7 +778,7 @@
 
 ### KubeletConfig_STATUS
 
-11 x Identical, 1 x New
+Properties: 11 x Identical, 1 x New
 
 | v1api20240901         |          | v1api20240901/storage |                        |  Status   | Notes |
 |:----------------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -804,7 +797,7 @@
 
 ### LinuxOSConfig
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240901              |               | v1api20240901/storage      |                        |  Status   | Notes |
 |:---------------------------|:--------------|:---------------------------|:-----------------------|:---------:|:------|
@@ -816,7 +809,7 @@
 
 ### LinuxOSConfig_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240901              |                      | v1api20240901/storage      |                        |  Status   | Notes |
 |:---------------------------|:---------------------|:---------------------------|:-----------------------|:---------:|:------|
@@ -828,7 +821,7 @@
 
 ### MaintenanceConfigurationOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901        |                               | v1api20240901/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -838,7 +831,7 @@
 
 ### MaintenanceConfiguration_STATUS
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v1api20240901     |                           | v1api20240901/storage |                           |  Status   | Notes |
 |:------------------|:--------------------------|:----------------------|:--------------------------|:---------:|:------|
@@ -854,7 +847,7 @@
 
 ### MaintenanceConfiguration_Spec
 
-6 x Identical, 2 x New
+Properties: 6 x Identical, 2 x New
 
 | v1api20240901     |                                       | v1api20240901/storage |                                       |  Status   | Notes |
 |:------------------|:--------------------------------------|:----------------------|:--------------------------------------|:---------:|:------|
@@ -869,21 +862,21 @@
 
 ### MaintenanceWindow
 
-3 x Identical, 1 x New, 3 x Modified
+Properties: 6 x Identical, 1 x New
 
 | v1api20240901   |                             | v1api20240901/storage |                        |  Status   | Notes |
 |:----------------|:----------------------------|:----------------------|:-----------------------|:---------:|:------|
-| DurationHours   | Validated<*int> (2 rules)   | DurationHours         | *int                   | Modified  |       |
+| DurationHours   | Validated<*int> (2 rules)   | DurationHours         | *int                   | Identical |       |
 | NotAllowedDates | DateSpan[]                  | NotAllowedDates       | DateSpan[]             | Identical |       |
 |                 |                             | PropertyBag           | genruntime.PropertyBag |    New    |       |
 | Schedule        | *Schedule                   | Schedule              | *Schedule              | Identical |       |
 | StartDate       | *string                     | StartDate             | *string                | Identical |       |
-| StartTime       | Validated<*string> (1 rule) | StartTime             | *string                | Modified  |       |
-| UtcOffset       | Validated<*string> (1 rule) | UtcOffset             | *string                | Modified  |       |
+| StartTime       | Validated<*string> (1 rule) | StartTime             | *string                | Identical |       |
+| UtcOffset       | Validated<*string> (1 rule) | UtcOffset             | *string                | Identical |       |
 
 ### MaintenanceWindow_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20240901   |                   | v1api20240901/storage |                        |  Status   | Notes |
 |:----------------|:------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -897,7 +890,7 @@
 
 ### ManagedClusterAADProfile
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v1api20240901       |                             | v1api20240901/storage |                             |  Status   | Notes |
 |:--------------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -912,7 +905,7 @@
 
 ### ManagedClusterAADProfile_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20240901       |          | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -926,7 +919,7 @@
 
 ### ManagedClusterAPIServerAccessProfile
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20240901                  |          | v1api20240901/storage          |                        |  Status   | Notes |
 |:-------------------------------|:---------|:-------------------------------|:-----------------------|:---------:|:------|
@@ -939,7 +932,7 @@
 
 ### ManagedClusterAPIServerAccessProfile_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20240901                  |          | v1api20240901/storage          |                        |  Status   | Notes |
 |:-------------------------------|:---------|:-------------------------------|:-----------------------|:---------:|:------|
@@ -952,7 +945,7 @@
 
 ### ManagedClusterAddonProfile
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901 |                   | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -962,7 +955,7 @@
 
 ### ManagedClusterAddonProfile_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240901 |                              | v1api20240901/storage |                              |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -973,7 +966,7 @@
 
 ### ManagedClusterAgentPoolProfile
 
-30 x Identical, 1 x New, 13 x Modified
+Properties: 31 x Identical, 1 x New, 12 x Modified
 
 | v1api20240901                     |                               | v1api20240901/storage             |                               |  Status   | Notes |
 |:----------------------------------|:------------------------------|:----------------------------------|:------------------------------|:---------:|:------|
@@ -995,7 +988,7 @@
 | MaxPods                           | *int                          | MaxPods                           | *int                          | Identical |       |
 | MinCount                          | *int                          | MinCount                          | *int                          | Identical |       |
 | Mode                              | *AgentPoolMode                | Mode                              | *string                       | Modified  |       |
-| Name                              | Validated<*string> (1 rule)   | Name                              | *string                       | Modified  |       |
+| Name                              | Validated<*string> (1 rule)   | Name                              | *string                       | Identical |       |
 | NetworkProfile                    | *AgentPoolNetworkProfile      | NetworkProfile                    | *AgentPoolNetworkProfile      | Identical |       |
 | NodeLabels                        | map[string]string             | NodeLabels                        | map[string]string             | Identical |       |
 | NodePublicIPPrefixReference       | *genruntime.ResourceReference | NodePublicIPPrefixReference       | *genruntime.ResourceReference | Identical |       |
@@ -1024,7 +1017,7 @@
 
 ### ManagedClusterAgentPoolProfile_STATUS
 
-36 x Identical, 1 x New, 11 x Modified
+Properties: 36 x Identical, 1 x New, 11 x Modified
 
 | v1api20240901              |                                  | v1api20240901/storage      |                                  |  Status   | Notes |
 |:---------------------------|:---------------------------------|:---------------------------|:---------------------------------|:---------:|:------|
@@ -1079,7 +1072,7 @@
 
 ### ManagedClusterAutoUpgradeProfile
 
-1 x New, 2 x Modified
+Properties: 1 x New, 2 x Modified
 
 | v1api20240901        |                                                        | v1api20240901/storage |                        |  Status  | Notes |
 |:---------------------|:-------------------------------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -1089,7 +1082,7 @@
 
 ### ManagedClusterAutoUpgradeProfile_STATUS
 
-1 x New, 2 x Modified
+Properties: 1 x New, 2 x Modified
 
 | v1api20240901        |                                                               | v1api20240901/storage |                        |  Status  | Notes |
 |:---------------------|:--------------------------------------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -1099,7 +1092,7 @@
 
 ### ManagedClusterAzureMonitorProfile
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |                                           | v1api20240901/storage |                                           |  Status   | Notes |
 |:--------------|:------------------------------------------|:----------------------|:------------------------------------------|:---------:|:------|
@@ -1108,7 +1101,7 @@
 
 ### ManagedClusterAzureMonitorProfileKubeStateMetrics
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901              |         | v1api20240901/storage      |                        |  Status   | Notes |
 |:---------------------------|:--------|:---------------------------|:-----------------------|:---------:|:------|
@@ -1118,7 +1111,7 @@
 
 ### ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901              |         | v1api20240901/storage      |                        |  Status   | Notes |
 |:---------------------------|:--------|:---------------------------|:-----------------------|:---------:|:------|
@@ -1128,7 +1121,7 @@
 
 ### ManagedClusterAzureMonitorProfileMetrics
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901    |                                                    | v1api20240901/storage |                                                    |  Status   | Notes |
 |:-----------------|:---------------------------------------------------|:----------------------|:---------------------------------------------------|:---------:|:------|
@@ -1138,7 +1131,7 @@
 
 ### ManagedClusterAzureMonitorProfileMetrics_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901    |                                                           | v1api20240901/storage |                                                           |  Status   | Notes |
 |:-----------------|:----------------------------------------------------------|:----------------------|:----------------------------------------------------------|:---------:|:------|
@@ -1148,7 +1141,7 @@
 
 ### ManagedClusterAzureMonitorProfile_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |                                                  | v1api20240901/storage |                                                  |  Status   | Notes |
 |:--------------|:-------------------------------------------------|:----------------------|:-------------------------------------------------|:---------:|:------|
@@ -1157,7 +1150,7 @@
 
 ### ManagedClusterCostAnalysis
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |       | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1166,7 +1159,7 @@
 
 ### ManagedClusterCostAnalysis_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |       | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1175,7 +1168,7 @@
 
 ### ManagedClusterHTTPProxyConfig
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240901 |          | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -1187,7 +1180,7 @@
 
 ### ManagedClusterHTTPProxyConfig_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240901 |          | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -1199,7 +1192,7 @@
 
 ### ManagedClusterIdentity
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20240901          |                               | v1api20240901/storage  |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -1210,7 +1203,7 @@
 
 ### ManagedClusterIdentity_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20240901          |                                                                 | v1api20240901/storage  |                                                                 |  Status   | Notes |
 |:-----------------------|:----------------------------------------------------------------|:-----------------------|:----------------------------------------------------------------|:---------:|:------|
@@ -1223,7 +1216,7 @@
 
 ### ManagedClusterIdentity_UserAssignedIdentities_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901 |         | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1233,7 +1226,7 @@
 
 ### ManagedClusterIngressProfile
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |                                            | v1api20240901/storage |                                            |  Status   | Notes |
 |:--------------|:-------------------------------------------|:----------------------|:-------------------------------------------|:---------:|:------|
@@ -1242,7 +1235,7 @@
 
 ### ManagedClusterIngressProfileWebAppRouting
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901             |                                | v1api20240901/storage     |                                |  Status   | Notes |
 |:--------------------------|:-------------------------------|:--------------------------|:-------------------------------|:---------:|:------|
@@ -1252,7 +1245,7 @@
 
 ### ManagedClusterIngressProfileWebAppRouting_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240901      |                              | v1api20240901/storage |                              |  Status   | Notes |
 |:-------------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -1263,7 +1256,7 @@
 
 ### ManagedClusterIngressProfile_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |                                                   | v1api20240901/storage |                                                   |  Status   | Notes |
 |:--------------|:--------------------------------------------------|:----------------------|:--------------------------------------------------|:---------:|:------|
@@ -1272,15 +1265,15 @@
 
 ### ManagedClusterLoadBalancerProfile
 
-5 x Identical, 1 x New, 3 x Modified
+Properties: 7 x Identical, 1 x New, 1 x Modified
 
 | v1api20240901                       |                                                       | v1api20240901/storage               |                                                       |  Status   | Notes |
 |:------------------------------------|:------------------------------------------------------|:------------------------------------|:------------------------------------------------------|:---------:|:------|
-| AllocatedOutboundPorts              | Validated<*int> (2 rules)                             | AllocatedOutboundPorts              | *int                                                  | Modified  |       |
+| AllocatedOutboundPorts              | Validated<*int> (2 rules)                             | AllocatedOutboundPorts              | *int                                                  | Identical |       |
 | BackendPoolType                     | *ManagedClusterLoadBalancerProfile_BackendPoolType    | BackendPoolType                     | *string                                               | Modified  |       |
 | EffectiveOutboundIPs                | ResourceReference[]                                   | EffectiveOutboundIPs                | ResourceReference[]                                   | Identical |       |
 | EnableMultipleStandardLoadBalancers | *bool                                                 | EnableMultipleStandardLoadBalancers | *bool                                                 | Identical |       |
-| IdleTimeoutInMinutes                | Validated<*int> (2 rules)                             | IdleTimeoutInMinutes                | *int                                                  | Modified  |       |
+| IdleTimeoutInMinutes                | Validated<*int> (2 rules)                             | IdleTimeoutInMinutes                | *int                                                  | Identical |       |
 | ManagedOutboundIPs                  | *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs | ManagedOutboundIPs                  | *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs | Identical |       |
 | OutboundIPPrefixes                  | *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes | OutboundIPPrefixes                  | *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes | Identical |       |
 | OutboundIPs                         | *ManagedClusterLoadBalancerProfile_OutboundIPs        | OutboundIPs                         | *ManagedClusterLoadBalancerProfile_OutboundIPs        | Identical |       |
@@ -1288,17 +1281,17 @@
 
 ### ManagedClusterLoadBalancerProfile_ManagedOutboundIPs
 
-1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New
 
-| v1api20240901 |                           | v1api20240901/storage |                        |  Status  | Notes |
-|:--------------|:--------------------------|:----------------------|:-----------------------|:--------:|:------|
-| Count         | Validated<*int> (2 rules) | Count                 | *int                   | Modified |       |
-| CountIPv6     | Validated<*int> (2 rules) | CountIPv6             | *int                   | Modified |       |
-|               |                           | PropertyBag           | genruntime.PropertyBag |   New    |       |
+| v1api20240901 |                           | v1api20240901/storage |                        |  Status   | Notes |
+|:--------------|:--------------------------|:----------------------|:-----------------------|:---------:|:------|
+| Count         | Validated<*int> (2 rules) | Count                 | *int                   | Identical |       |
+| CountIPv6     | Validated<*int> (2 rules) | CountIPv6             | *int                   | Identical |       |
+|               |                           | PropertyBag           | genruntime.PropertyBag |    New    |       |
 
 ### ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901 |      | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:-----|:----------------------|:-----------------------|:---------:|:------|
@@ -1308,7 +1301,7 @@
 
 ### ManagedClusterLoadBalancerProfile_OutboundIPPrefixes
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901    |                     | v1api20240901/storage |                        |  Status   | Notes |
 |:-----------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1317,7 +1310,7 @@
 
 ### ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901    |                            | v1api20240901/storage |                            |  Status   | Notes |
 |:-----------------|:---------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -1326,7 +1319,7 @@
 
 ### ManagedClusterLoadBalancerProfile_OutboundIPs
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |                     | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1335,7 +1328,7 @@
 
 ### ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |                            | v1api20240901/storage |                            |  Status   | Notes |
 |:--------------|:---------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -1344,7 +1337,7 @@
 
 ### ManagedClusterLoadBalancerProfile_STATUS
 
-7 x Identical, 1 x New, 1 x Modified
+Properties: 7 x Identical, 1 x New, 1 x Modified
 
 | v1api20240901                       |                                                              | v1api20240901/storage               |                                                              |  Status   | Notes |
 |:------------------------------------|:-------------------------------------------------------------|:------------------------------------|:-------------------------------------------------------------|:---------:|:------|
@@ -1360,16 +1353,16 @@
 
 ### ManagedClusterManagedOutboundIPProfile
 
-1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New
 
-| v1api20240901 |                           | v1api20240901/storage |                        |  Status  | Notes |
-|:--------------|:--------------------------|:----------------------|:-----------------------|:--------:|:------|
-| Count         | Validated<*int> (2 rules) | Count                 | *int                   | Modified |       |
-|               |                           | PropertyBag           | genruntime.PropertyBag |   New    |       |
+| v1api20240901 |                           | v1api20240901/storage |                        |  Status   | Notes |
+|:--------------|:--------------------------|:----------------------|:-----------------------|:---------:|:------|
+| Count         | Validated<*int> (2 rules) | Count                 | *int                   | Identical |       |
+|               |                           | PropertyBag           | genruntime.PropertyBag |    New    |       |
 
 ### ManagedClusterManagedOutboundIPProfile_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |      | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:-----|:----------------------|:-----------------------|:---------:|:------|
@@ -1378,7 +1371,7 @@
 
 ### ManagedClusterMetricsProfile
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |                             | v1api20240901/storage |                             |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -1387,7 +1380,7 @@
 
 ### ManagedClusterMetricsProfile_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |                                    | v1api20240901/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -1396,18 +1389,18 @@
 
 ### ManagedClusterNATGatewayProfile
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New
 
 | v1api20240901            |                                         | v1api20240901/storage    |                                         |  Status   | Notes |
 |:-------------------------|:----------------------------------------|:-------------------------|:----------------------------------------|:---------:|:------|
 | EffectiveOutboundIPs     | ResourceReference[]                     | EffectiveOutboundIPs     | ResourceReference[]                     | Identical |       |
-| IdleTimeoutInMinutes     | Validated<*int> (2 rules)               | IdleTimeoutInMinutes     | *int                                    | Modified  |       |
+| IdleTimeoutInMinutes     | Validated<*int> (2 rules)               | IdleTimeoutInMinutes     | *int                                    | Identical |       |
 | ManagedOutboundIPProfile | *ManagedClusterManagedOutboundIPProfile | ManagedOutboundIPProfile | *ManagedClusterManagedOutboundIPProfile | Identical |       |
 |                          |                                         | PropertyBag              | genruntime.PropertyBag                  |    New    |       |
 
 ### ManagedClusterNATGatewayProfile_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240901            |                                                | v1api20240901/storage    |                                                |  Status   | Notes |
 |:-------------------------|:-----------------------------------------------|:-------------------------|:-----------------------------------------------|:---------:|:------|
@@ -1418,7 +1411,7 @@
 
 ### ManagedClusterNodeResourceGroupProfile
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20240901    |                                                          | v1api20240901/storage |                        |  Status  | Notes |
 |:-----------------|:---------------------------------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -1427,7 +1420,7 @@
 
 ### ManagedClusterNodeResourceGroupProfile_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20240901    |                                                                 | v1api20240901/storage |                        |  Status  | Notes |
 |:-----------------|:----------------------------------------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -1436,7 +1429,7 @@
 
 ### ManagedClusterOIDCIssuerProfile
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |       | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1445,7 +1438,7 @@
 
 ### ManagedClusterOIDCIssuerProfile_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901 |         | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1455,7 +1448,7 @@
 
 ### ManagedClusterOperatorConfigMaps
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901     |                                  | v1api20240901/storage |                                  |  Status   | Notes |
 |:------------------|:---------------------------------|:----------------------|:---------------------------------|:---------:|:------|
@@ -1465,7 +1458,7 @@
 
 ### ManagedClusterOperatorSecrets
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901    |                               | v1api20240901/storage |                               |  Status   | Notes |
 |:-----------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1475,7 +1468,7 @@
 
 ### ManagedClusterOperatorSpec
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240901        |                                   | v1api20240901/storage |                                   |  Status   | Notes |
 |:---------------------|:----------------------------------|:----------------------|:----------------------------------|:---------:|:------|
@@ -1487,7 +1480,7 @@
 
 ### ManagedClusterPodIdentity
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240901   |                       | v1api20240901/storage |                        |  Status   | Notes |
 |:----------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1499,7 +1492,7 @@
 
 ### ManagedClusterPodIdentityException
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240901 |                   | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1510,7 +1503,7 @@
 
 ### ManagedClusterPodIdentityException_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240901 |                   | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1521,7 +1514,7 @@
 
 ### ManagedClusterPodIdentityProfile
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240901                  |                                      | v1api20240901/storage          |                                      |  Status   | Notes |
 |:-------------------------------|:-------------------------------------|:-------------------------------|:-------------------------------------|:---------:|:------|
@@ -1533,7 +1526,7 @@
 
 ### ManagedClusterPodIdentityProfile_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240901                  |                                             | v1api20240901/storage          |                                             |  Status   | Notes |
 |:-------------------------------|:--------------------------------------------|:-------------------------------|:--------------------------------------------|:---------:|:------|
@@ -1545,7 +1538,7 @@
 
 ### ManagedClusterPodIdentityProvisioningErrorBody_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240901 |                                                                  | v1api20240901/storage |                                                                  |  Status   | Notes |
 |:--------------|:-----------------------------------------------------------------|:----------------------|:-----------------------------------------------------------------|:---------:|:------|
@@ -1557,7 +1550,7 @@
 
 ### ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240901 |         | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1568,7 +1561,7 @@
 
 ### ManagedClusterPodIdentityProvisioningError_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |                                                        | v1api20240901/storage |                                                        |  Status   | Notes |
 |:--------------|:-------------------------------------------------------|:----------------------|:-------------------------------------------------------|:---------:|:------|
@@ -1577,7 +1570,7 @@
 
 ### ManagedClusterPodIdentity_ProvisioningInfo_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |                                                    | v1api20240901/storage |                                                    |  Status   | Notes |
 |:--------------|:---------------------------------------------------|:----------------------|:---------------------------------------------------|:---------:|:------|
@@ -1586,7 +1579,7 @@
 
 ### ManagedClusterPodIdentity_STATUS
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20240901     |                                                     | v1api20240901/storage |                                                    |  Status   | Notes |
 |:------------------|:----------------------------------------------------|:----------------------|:---------------------------------------------------|:---------:|:------|
@@ -1600,7 +1593,7 @@
 
 ### ManagedClusterProperties_AutoScalerProfile
 
-19 x Identical, 1 x New, 1 x Modified
+Properties: 19 x Identical, 1 x New, 1 x Modified
 
 | v1api20240901                     |                                                      | v1api20240901/storage             |                        |  Status   | Notes |
 |:----------------------------------|:-----------------------------------------------------|:----------------------------------|:-----------------------|:---------:|:------|
@@ -1628,7 +1621,7 @@
 
 ### ManagedClusterProperties_AutoScalerProfile_STATUS
 
-19 x Identical, 1 x New, 1 x Modified
+Properties: 19 x Identical, 1 x New, 1 x Modified
 
 | v1api20240901                     |                                                             | v1api20240901/storage             |                        |  Status   | Notes |
 |:----------------------------------|:------------------------------------------------------------|:----------------------------------|:-----------------------|:---------:|:------|
@@ -1656,7 +1649,7 @@
 
 ### ManagedClusterSKU
 
-1 x New, 2 x Modified
+Properties: 1 x New, 2 x Modified
 
 | v1api20240901 |                         | v1api20240901/storage |                        |  Status  | Notes |
 |:--------------|:------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -1666,7 +1659,7 @@
 
 ### ManagedClusterSKU_STATUS
 
-1 x New, 2 x Modified
+Properties: 1 x New, 2 x Modified
 
 | v1api20240901 |                                | v1api20240901/storage |                        |  Status  | Notes |
 |:--------------|:-------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -1676,7 +1669,7 @@
 
 ### ManagedClusterSecurityProfile
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240901    |                                                | v1api20240901/storage |                                                |  Status   | Notes |
 |:-----------------|:-----------------------------------------------|:----------------------|:-----------------------------------------------|:---------:|:------|
@@ -1688,7 +1681,7 @@
 
 ### ManagedClusterSecurityProfileDefender
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901                          |                                                          | v1api20240901/storage                  |                                                          |  Status   | Notes |
 |:---------------------------------------|:---------------------------------------------------------|:---------------------------------------|:---------------------------------------------------------|:---------:|:------|
@@ -1698,7 +1691,7 @@
 
 ### ManagedClusterSecurityProfileDefenderSecurityMonitoring
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |       | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1707,7 +1700,7 @@
 
 ### ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |       | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1716,7 +1709,7 @@
 
 ### ManagedClusterSecurityProfileDefender_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901                   |                                                                 | v1api20240901/storage           |                                                                 |  Status   | Notes |
 |:--------------------------------|:----------------------------------------------------------------|:--------------------------------|:----------------------------------------------------------------|:---------:|:------|
@@ -1726,7 +1719,7 @@
 
 ### ManagedClusterSecurityProfileImageCleaner
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901 |       | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1736,7 +1729,7 @@
 
 ### ManagedClusterSecurityProfileImageCleaner_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901 |       | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1746,7 +1739,7 @@
 
 ### ManagedClusterSecurityProfileWorkloadIdentity
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |       | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1755,7 +1748,7 @@
 
 ### ManagedClusterSecurityProfileWorkloadIdentity_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |       | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1764,7 +1757,7 @@
 
 ### ManagedClusterSecurityProfile_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240901    |                                                       | v1api20240901/storage |                                                       |  Status   | Notes |
 |:-----------------|:------------------------------------------------------|:----------------------|:------------------------------------------------------|:---------:|:------|
@@ -1776,7 +1769,7 @@
 
 ### ManagedClusterServicePrincipalProfile
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901 |                             | v1api20240901/storage |                             |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -1786,7 +1779,7 @@
 
 ### ManagedClusterServicePrincipalProfile_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |         | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1795,7 +1788,7 @@
 
 ### ManagedClusterStorageProfile
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240901      |                                                 | v1api20240901/storage |                                                 |  Status   | Notes |
 |:-------------------|:------------------------------------------------|:----------------------|:------------------------------------------------|:---------:|:------|
@@ -1807,7 +1800,7 @@
 
 ### ManagedClusterStorageProfileBlobCSIDriver
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |       | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1816,7 +1809,7 @@
 
 ### ManagedClusterStorageProfileBlobCSIDriver_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |       | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1825,7 +1818,7 @@
 
 ### ManagedClusterStorageProfileDiskCSIDriver
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |       | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1834,7 +1827,7 @@
 
 ### ManagedClusterStorageProfileDiskCSIDriver_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |       | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1843,7 +1836,7 @@
 
 ### ManagedClusterStorageProfileFileCSIDriver
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |       | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1852,7 +1845,7 @@
 
 ### ManagedClusterStorageProfileFileCSIDriver_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |       | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1861,7 +1854,7 @@
 
 ### ManagedClusterStorageProfileSnapshotController
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |       | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1870,7 +1863,7 @@
 
 ### ManagedClusterStorageProfileSnapshotController_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |       | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1879,7 +1872,7 @@
 
 ### ManagedClusterStorageProfile_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240901      |                                                        | v1api20240901/storage |                                                        |  Status   | Notes |
 |:-------------------|:-------------------------------------------------------|:----------------------|:-------------------------------------------------------|:---------:|:------|
@@ -1891,7 +1884,7 @@
 
 ### ManagedClusterWindowsProfile
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20240901  |                                           | v1api20240901/storage |                             |  Status   | Notes |
 |:---------------|:------------------------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -1904,7 +1897,7 @@
 
 ### ManagedClusterWindowsProfile_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20240901  |                                                  | v1api20240901/storage |                            |  Status   | Notes |
 |:---------------|:-------------------------------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -1916,7 +1909,7 @@
 
 ### ManagedClusterWorkloadAutoScalerProfile
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901         |                                                               | v1api20240901/storage |                                                               |  Status   | Notes |
 |:----------------------|:--------------------------------------------------------------|:----------------------|:--------------------------------------------------------------|:---------:|:------|
@@ -1926,7 +1919,7 @@
 
 ### ManagedClusterWorkloadAutoScalerProfileKeda
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |       | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1935,7 +1928,7 @@
 
 ### ManagedClusterWorkloadAutoScalerProfileKeda_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |       | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1944,7 +1937,7 @@
 
 ### ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |       | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1953,7 +1946,7 @@
 
 ### ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |       | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1962,7 +1955,7 @@
 
 ### ManagedClusterWorkloadAutoScalerProfile_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901         |                                                                      | v1api20240901/storage |                                                                      |  Status   | Notes |
 |:----------------------|:---------------------------------------------------------------------|:----------------------|:---------------------------------------------------------------------|:---------:|:------|
@@ -1972,7 +1965,7 @@
 
 ### ManagedCluster_STATUS
 
-51 x Identical, 1 x New, 2 x Modified
+Properties: 51 x Identical, 1 x New, 2 x Modified
 
 | v1api20240901             |                                                      | v1api20240901/storage     |                                                    |  Status   | Notes |
 |:--------------------------|:-----------------------------------------------------|:--------------------------|:---------------------------------------------------|:---------:|:------|
@@ -2033,7 +2026,7 @@
 
 ### ManagedCluster_Spec
 
-39 x Identical, 2 x New, 3 x Modified
+Properties: 39 x Identical, 2 x New, 3 x Modified
 
 | v1api20240901              |                                               | v1api20240901/storage      |                                             |  Status   | Notes |
 |:---------------------------|:----------------------------------------------|:---------------------------|:--------------------------------------------|:---------:|:------|
@@ -2084,7 +2077,7 @@
 
 ### ManagedClustersAgentPoolOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901        |                               | v1api20240901/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -2094,7 +2087,7 @@
 
 ### ManagedClustersAgentPool_STATUS
 
-39 x Identical, 1 x New, 11 x Modified
+Properties: 39 x Identical, 1 x New, 11 x Modified
 
 | v1api20240901              |                                  | v1api20240901/storage      |                                  |  Status   | Notes |
 |:---------------------------|:---------------------------------|:---------------------------|:---------------------------------|:---------:|:------|
@@ -2152,7 +2145,7 @@
 
 ### ManagedClustersAgentPool_Spec
 
-32 x Identical, 2 x New, 13 x Modified
+Properties: 32 x Identical, 2 x New, 13 x Modified
 
 | v1api20240901                     |                                       | v1api20240901/storage             |                                       |  Status   | Notes |
 |:----------------------------------|:--------------------------------------|:----------------------------------|:--------------------------------------|:---------:|:------|
@@ -2206,18 +2199,18 @@
 
 ### PortRange
 
-1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
-| v1api20240901 |                           | v1api20240901/storage |                        |  Status  | Notes |
-|:--------------|:--------------------------|:----------------------|:-----------------------|:--------:|:------|
-| PortEnd       | Validated<*int> (2 rules) | PortEnd               | *int                   | Modified |       |
-| PortStart     | Validated<*int> (2 rules) | PortStart             | *int                   | Modified |       |
-|               |                           | PropertyBag           | genruntime.PropertyBag |   New    |       |
-| Protocol      | *PortRange_Protocol       | Protocol              | *string                | Modified |       |
+| v1api20240901 |                           | v1api20240901/storage |                        |  Status   | Notes |
+|:--------------|:--------------------------|:----------------------|:-----------------------|:---------:|:------|
+| PortEnd       | Validated<*int> (2 rules) | PortEnd               | *int                   | Identical |       |
+| PortStart     | Validated<*int> (2 rules) | PortStart             | *int                   | Identical |       |
+|               |                           | PropertyBag           | genruntime.PropertyBag |    New    |       |
+| Protocol      | *PortRange_Protocol       | Protocol              | *string                | Modified  |       |
 
 ### PortRange_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20240901 |                            | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:---------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2228,7 +2221,7 @@
 
 ### PowerState
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20240901 |                  | v1api20240901/storage |                        |  Status  | Notes |
 |:--------------|:-----------------|:----------------------|:-----------------------|:--------:|:------|
@@ -2237,7 +2230,7 @@
 
 ### PowerState_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20240901 |                         | v1api20240901/storage |                        |  Status  | Notes |
 |:--------------|:------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -2246,7 +2239,7 @@
 
 ### PrivateLinkResource
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20240901   |                               | v1api20240901/storage |                               |  Status   | Notes |
 |:----------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -2259,7 +2252,7 @@
 
 ### PrivateLinkResource_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20240901        |          | v1api20240901/storage |                        |  Status   | Notes |
 |:---------------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -2273,18 +2266,18 @@
 
 ### RelativeMonthlySchedule
 
-1 x New, 3 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
-| v1api20240901  |                                    | v1api20240901/storage |                        |  Status  | Notes |
-|:---------------|:-----------------------------------|:----------------------|:-----------------------|:--------:|:------|
-| DayOfWeek      | *WeekDay                           | DayOfWeek             | *string                | Modified |       |
-| IntervalMonths | Validated<*int> (2 rules)          | IntervalMonths        | *int                   | Modified |       |
-|                |                                    | PropertyBag           | genruntime.PropertyBag |   New    |       |
-| WeekIndex      | *RelativeMonthlySchedule_WeekIndex | WeekIndex             | *string                | Modified |       |
+| v1api20240901  |                                    | v1api20240901/storage |                        |  Status   | Notes |
+|:---------------|:-----------------------------------|:----------------------|:-----------------------|:---------:|:------|
+| DayOfWeek      | *WeekDay                           | DayOfWeek             | *string                | Modified  |       |
+| IntervalMonths | Validated<*int> (2 rules)          | IntervalMonths        | *int                   | Identical |       |
+|                |                                    | PropertyBag           | genruntime.PropertyBag |    New    |       |
+| WeekIndex      | *RelativeMonthlySchedule_WeekIndex | WeekIndex             | *string                | Modified  |       |
 
 ### RelativeMonthlySchedule_STATUS
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v1api20240901  |                                           | v1api20240901/storage |                        |  Status   | Notes |
 |:---------------|:------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2295,7 +2288,7 @@
 
 ### ResourceReference
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |                               | v1api20240901/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -2304,7 +2297,7 @@
 
 ### ResourceReference_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |         | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2313,7 +2306,7 @@
 
 ### Schedule
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240901   |                          | v1api20240901/storage |                          |  Status   | Notes |
 |:----------------|:-------------------------|:----------------------|:-------------------------|:---------:|:------|
@@ -2325,7 +2318,7 @@
 
 ### Schedule_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240901   |                                 | v1api20240901/storage |                                 |  Status   | Notes |
 |:----------------|:--------------------------------|:----------------------|:--------------------------------|:---------:|:------|
@@ -2337,7 +2330,7 @@
 
 ### ServiceMeshProfile
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240901 |                          | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:-------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2347,7 +2340,7 @@
 
 ### ServiceMeshProfile_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240901 |                                 | v1api20240901/storage |                          |  Status   | Notes |
 |:--------------|:--------------------------------|:----------------------|:-------------------------|:---------:|:------|
@@ -2357,7 +2350,7 @@
 
 ### SysctlConfig
 
-25 x Identical, 1 x New, 3 x Modified
+Properties: 28 x Identical, 1 x New
 
 | v1api20240901                  |                           | v1api20240901/storage          |                        |  Status   | Notes |
 |:-------------------------------|:--------------------------|:-------------------------------|:-----------------------|:---------:|:------|
@@ -2383,9 +2376,9 @@
 | NetIpv4TcpMaxSynBacklog        | *int                      | NetIpv4TcpMaxSynBacklog        | *int                   | Identical |       |
 | NetIpv4TcpMaxTwBuckets         | *int                      | NetIpv4TcpMaxTwBuckets         | *int                   | Identical |       |
 | NetIpv4TcpTwReuse              | *bool                     | NetIpv4TcpTwReuse              | *bool                  | Identical |       |
-| NetIpv4TcpkeepaliveIntvl       | Validated<*int> (2 rules) | NetIpv4TcpkeepaliveIntvl       | *int                   | Modified  |       |
-| NetNetfilterNfConntrackBuckets | Validated<*int> (2 rules) | NetNetfilterNfConntrackBuckets | *int                   | Modified  |       |
-| NetNetfilterNfConntrackMax     | Validated<*int> (2 rules) | NetNetfilterNfConntrackMax     | *int                   | Modified  |       |
+| NetIpv4TcpkeepaliveIntvl       | Validated<*int> (2 rules) | NetIpv4TcpkeepaliveIntvl       | *int                   | Identical |       |
+| NetNetfilterNfConntrackBuckets | Validated<*int> (2 rules) | NetNetfilterNfConntrackBuckets | *int                   | Identical |       |
+| NetNetfilterNfConntrackMax     | Validated<*int> (2 rules) | NetNetfilterNfConntrackMax     | *int                   | Identical |       |
 |                                |                           | PropertyBag                    | genruntime.PropertyBag |    New    |       |
 | VmMaxMapCount                  | *int                      | VmMaxMapCount                  | *int                   | Identical |       |
 | VmSwappiness                   | *int                      | VmSwappiness                   | *int                   | Identical |       |
@@ -2393,7 +2386,7 @@
 
 ### SysctlConfig_STATUS
 
-28 x Identical, 1 x New
+Properties: 28 x Identical, 1 x New
 
 | v1api20240901                  |         | v1api20240901/storage          |                        |  Status   | Notes |
 |:-------------------------------|:--------|:-------------------------------|:-----------------------|:---------:|:------|
@@ -2429,7 +2422,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20240901      |                                       | v1api20240901/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2443,7 +2436,7 @@
 
 ### TimeInWeek
 
-1 x New, 2 x Modified
+Properties: 1 x New, 2 x Modified
 
 | v1api20240901 |             | v1api20240901/storage |                        |  Status  | Notes |
 |:--------------|:------------|:----------------------|:-----------------------|:--------:|:------|
@@ -2453,7 +2446,7 @@
 
 ### TimeInWeek_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240901 |                 | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:----------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2463,7 +2456,7 @@
 
 ### TimeSpan
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901 |         | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2473,7 +2466,7 @@
 
 ### TimeSpan_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901 |         | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2483,7 +2476,7 @@
 
 ### TrustedAccessRoleBindingOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901        |                               | v1api20240901/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -2493,7 +2486,7 @@
 
 ### TrustedAccessRoleBinding_STATUS
 
-7 x Identical, 1 x New, 1 x Modified
+Properties: 7 x Identical, 1 x New, 1 x Modified
 
 | v1api20240901     |                                                              | v1api20240901/storage |                        |  Status   | Notes |
 |:------------------|:-------------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2509,7 +2502,7 @@
 
 ### TrustedAccessRoleBinding_Spec
 
-4 x Identical, 2 x New, 1 x Modified
+Properties: 4 x Identical, 2 x New, 1 x Modified
 
 | v1api20240901           |                                       | v1api20240901/storage   |                                       |  Status   | Notes |
 |:------------------------|:--------------------------------------|:------------------------|:--------------------------------------|:---------:|:------|
@@ -2523,7 +2516,7 @@
 
 ### UpgradeOverrideSettings
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901 |         | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2533,7 +2526,7 @@
 
 ### UpgradeOverrideSettings_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240901 |         | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2543,7 +2536,7 @@
 
 ### UserAssignedIdentity
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20240901      |                                | v1api20240901/storage |                                |  Status   | Notes |
 |:-------------------|:-------------------------------|:----------------------|:-------------------------------|:---------:|:------|
@@ -2556,7 +2549,7 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240901 |                              | v1api20240901/storage |                              |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -2565,7 +2558,7 @@
 
 ### UserAssignedIdentity_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240901 |         | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2576,17 +2569,17 @@
 
 ### WeeklySchedule
 
-1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
-| v1api20240901 |                           | v1api20240901/storage |                        |  Status  | Notes |
-|:--------------|:--------------------------|:----------------------|:-----------------------|:--------:|:------|
-| DayOfWeek     | *WeekDay                  | DayOfWeek             | *string                | Modified |       |
-| IntervalWeeks | Validated<*int> (2 rules) | IntervalWeeks         | *int                   | Modified |       |
-|               |                           | PropertyBag           | genruntime.PropertyBag |   New    |       |
+| v1api20240901 |                           | v1api20240901/storage |                        |  Status   | Notes |
+|:--------------|:--------------------------|:----------------------|:-----------------------|:---------:|:------|
+| DayOfWeek     | *WeekDay                  | DayOfWeek             | *string                | Modified  |       |
+| IntervalWeeks | Validated<*int> (2 rules) | IntervalWeeks         | *int                   | Identical |       |
+|               |                           | PropertyBag           | genruntime.PropertyBag |    New    |       |
 
 ### WeeklySchedule_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240901 |                 | v1api20240901/storage |                        |  Status   | Notes |
 |:--------------|:----------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2596,7 +2589,7 @@
 
 ### WindowsGmsaProfile
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240901  |         | v1api20240901/storage |                        |  Status   | Notes |
 |:---------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2607,7 +2600,7 @@
 
 ### WindowsGmsaProfile_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240901  |         | v1api20240901/storage |                        |  Status   | Notes |
 |:---------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2615,3 +2608,12 @@
 | Enabled        | *bool   | Enabled               | *bool                  | Identical |       |
 |                |         | PropertyBag           | genruntime.PropertyBag |    New    |       |
 | RootDomainName | *string | RootDomainName        | *string                | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

@@ -9,229 +9,222 @@
 | Job                | Job                | Identical |       |
 | ManagedEnvironment | ManagedEnvironment | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20240301/storage                                                        | v20250101/storage                                                        |  Status   | Notes |
-|:-------------------------------------------------------------------------|:-------------------------------------------------------------------------|:---------:|:------|
-| AllowedAudiencesValidation                                               | AllowedAudiencesValidation                                               | Identical |       |
-| AllowedAudiencesValidation_STATUS                                        | AllowedAudiencesValidation_STATUS                                        | Identical |       |
-| AllowedPrincipals                                                        | AllowedPrincipals                                                        | Identical |       |
-| AllowedPrincipals_STATUS                                                 | AllowedPrincipals_STATUS                                                 | Identical |       |
-| AppLogsConfiguration                                                     | AppLogsConfiguration                                                     | Identical |       |
-| AppLogsConfiguration_STATUS                                              | AppLogsConfiguration_STATUS                                              | Identical |       |
-| AppRegistration                                                          | AppRegistration                                                          | Identical |       |
-| AppRegistration_STATUS                                                   | AppRegistration_STATUS                                                   | Identical |       |
-| Apple                                                                    | Apple                                                                    | Identical |       |
-| AppleRegistration                                                        | AppleRegistration                                                        | Identical |       |
-| AppleRegistration_STATUS                                                 | AppleRegistration_STATUS                                                 | Identical |       |
-| Apple_STATUS                                                             | Apple_STATUS                                                             | Identical |       |
-| AuthConfigOperatorSpec                                                   | AuthConfigOperatorSpec                                                   | Identical |       |
-| AuthConfig_STATUS                                                        | AuthConfig_STATUS                                                        | Identical |       |
-| AuthConfig_Spec                                                          | AuthConfig_Spec                                                          | Identical |       |
-| AuthPlatform                                                             | AuthPlatform                                                             | Identical |       |
-| AuthPlatform_STATUS                                                      | AuthPlatform_STATUS                                                      | Identical |       |
-| AzureActiveDirectory                                                     | AzureActiveDirectory                                                     | Identical |       |
-| AzureActiveDirectoryLogin                                                | AzureActiveDirectoryLogin                                                | Identical |       |
-| AzureActiveDirectoryLogin_STATUS                                         | AzureActiveDirectoryLogin_STATUS                                         | Identical |       |
-| AzureActiveDirectoryRegistration                                         | AzureActiveDirectoryRegistration                                         | Identical |       |
-| AzureActiveDirectoryRegistration_STATUS                                  | AzureActiveDirectoryRegistration_STATUS                                  | Identical |       |
-| AzureActiveDirectoryValidation                                           | AzureActiveDirectoryValidation                                           | Identical |       |
-| AzureActiveDirectoryValidation_STATUS                                    | AzureActiveDirectoryValidation_STATUS                                    | Identical |       |
-| AzureActiveDirectory_STATUS                                              | AzureActiveDirectory_STATUS                                              | Identical |       |
-| AzureStaticWebApps                                                       | AzureStaticWebApps                                                       | Identical |       |
-| AzureStaticWebAppsRegistration                                           | AzureStaticWebAppsRegistration                                           | Identical |       |
-| AzureStaticWebAppsRegistration_STATUS                                    | AzureStaticWebAppsRegistration_STATUS                                    | Identical |       |
-| AzureStaticWebApps_STATUS                                                | AzureStaticWebApps_STATUS                                                | Identical |       |
-| BaseContainer                                                            | BaseContainer                                                            | Identical |       |
-| BaseContainer_STATUS                                                     | BaseContainer_STATUS                                                     | Identical |       |
-| BlobStorageTokenStore                                                    | BlobStorageTokenStore                                                    | Identical |       |
-| BlobStorageTokenStore_STATUS                                             | BlobStorageTokenStore_STATUS                                             | Identical |       |
-|                                                                          | CertificateKeyVaultProperties                                            |    New    |       |
-|                                                                          | CertificateKeyVaultProperties_STATUS                                     |    New    |       |
-| ClientRegistration                                                       | ClientRegistration                                                       | Identical |       |
-| ClientRegistration_STATUS                                                | ClientRegistration_STATUS                                                | Identical |       |
-| Configuration                                                            | Configuration                                                            | Extended  |       |
-| Configuration_STATUS                                                     | Configuration_STATUS                                                     | Extended  |       |
-| Container                                                                | Container                                                                | Identical |       |
-| ContainerAppOperatorConfigMaps                                           | ContainerAppOperatorConfigMaps                                           | Identical |       |
-| ContainerAppOperatorSpec                                                 | ContainerAppOperatorSpec                                                 | Identical |       |
-| ContainerAppProbe                                                        | ContainerAppProbe                                                        | Identical |       |
-| ContainerAppProbe_HttpGet                                                | ContainerAppProbe_HttpGet                                                | Identical |       |
-| ContainerAppProbe_HttpGet_HttpHeaders                                    | ContainerAppProbe_HttpGet_HttpHeaders                                    | Identical |       |
-| ContainerAppProbe_HttpGet_HttpHeaders_STATUS                             | ContainerAppProbe_HttpGet_HttpHeaders_STATUS                             | Identical |       |
-| ContainerAppProbe_HttpGet_STATUS                                         | ContainerAppProbe_HttpGet_STATUS                                         | Identical |       |
-| ContainerAppProbe_STATUS                                                 | ContainerAppProbe_STATUS                                                 | Identical |       |
-| ContainerAppProbe_TcpSocket                                              | ContainerAppProbe_TcpSocket                                              | Identical |       |
-| ContainerAppProbe_TcpSocket_STATUS                                       | ContainerAppProbe_TcpSocket_STATUS                                       | Identical |       |
-| ContainerApp_STATUS                                                      | ContainerApp_STATUS                                                      | Extended  |       |
-| ContainerApp_Spec                                                        | ContainerApp_Spec                                                        | Identical |       |
-| ContainerResources                                                       | ContainerResources                                                       | Identical |       |
-| ContainerResources_STATUS                                                | ContainerResources_STATUS                                                | Identical |       |
-| Container_STATUS                                                         | Container_STATUS                                                         | Identical |       |
-| CookieExpiration                                                         | CookieExpiration                                                         | Identical |       |
-| CookieExpiration_STATUS                                                  | CookieExpiration_STATUS                                                  | Identical |       |
-| CorsPolicy                                                               | CorsPolicy                                                               | Identical |       |
-| CorsPolicy_STATUS                                                        | CorsPolicy_STATUS                                                        | Identical |       |
-| CustomDomain                                                             | CustomDomain                                                             | Identical |       |
-| CustomDomainConfiguration                                                | CustomDomainConfiguration                                                | Extended  |       |
-| CustomDomainConfiguration_STATUS                                         | CustomDomainConfiguration_STATUS                                         | Extended  |       |
-| CustomDomain_STATUS                                                      | CustomDomain_STATUS                                                      | Identical |       |
-| CustomOpenIdConnectProvider                                              | CustomOpenIdConnectProvider                                              | Identical |       |
-| CustomOpenIdConnectProvider_STATUS                                       | CustomOpenIdConnectProvider_STATUS                                       | Identical |       |
-| CustomScaleRule                                                          | CustomScaleRule                                                          | Extended  |       |
-| CustomScaleRule_STATUS                                                   | CustomScaleRule_STATUS                                                   | Extended  |       |
-| Dapr                                                                     | Dapr                                                                     | Identical |       |
-| DaprConfiguration_STATUS                                                 | DaprConfiguration_STATUS                                                 | Identical |       |
-| Dapr_STATUS                                                              | Dapr_STATUS                                                              | Identical |       |
-| DefaultAuthorizationPolicy                                               | DefaultAuthorizationPolicy                                               | Identical |       |
-| DefaultAuthorizationPolicy_STATUS                                        | DefaultAuthorizationPolicy_STATUS                                        | Identical |       |
-| EncryptionSettings                                                       | EncryptionSettings                                                       | Identical |       |
-| EncryptionSettings_STATUS                                                | EncryptionSettings_STATUS                                                | Identical |       |
-| EnvironmentVar                                                           | EnvironmentVar                                                           | Identical |       |
-| EnvironmentVar_STATUS                                                    | EnvironmentVar_STATUS                                                    | Identical |       |
-| ExtendedLocation                                                         | ExtendedLocation                                                         | Identical |       |
-| ExtendedLocation_STATUS                                                  | ExtendedLocation_STATUS                                                  | Identical |       |
-| Facebook                                                                 | Facebook                                                                 | Identical |       |
-| Facebook_STATUS                                                          | Facebook_STATUS                                                          | Identical |       |
-| ForwardProxy                                                             | ForwardProxy                                                             | Identical |       |
-| ForwardProxy_STATUS                                                      | ForwardProxy_STATUS                                                      | Identical |       |
-| GitHub                                                                   | GitHub                                                                   | Identical |       |
-| GitHub_STATUS                                                            | GitHub_STATUS                                                            | Identical |       |
-| GlobalValidation                                                         | GlobalValidation                                                         | Identical |       |
-| GlobalValidation_STATUS                                                  | GlobalValidation_STATUS                                                  | Identical |       |
-| Google                                                                   | Google                                                                   | Identical |       |
-| Google_STATUS                                                            | Google_STATUS                                                            | Identical |       |
-| HttpScaleRule                                                            | HttpScaleRule                                                            | Extended  |       |
-| HttpScaleRule_STATUS                                                     | HttpScaleRule_STATUS                                                     | Extended  |       |
-| HttpSettings                                                             | HttpSettings                                                             | Identical |       |
-| HttpSettingsRoutes                                                       | HttpSettingsRoutes                                                       | Identical |       |
-| HttpSettingsRoutes_STATUS                                                | HttpSettingsRoutes_STATUS                                                | Identical |       |
-| HttpSettings_STATUS                                                      | HttpSettings_STATUS                                                      | Identical |       |
-| IdentityProviders                                                        | IdentityProviders                                                        | Identical |       |
-| IdentityProviders_STATUS                                                 | IdentityProviders_STATUS                                                 | Identical |       |
-|                                                                          | IdentitySettings                                                         |    New    |       |
-|                                                                          | IdentitySettings_STATUS                                                  |    New    |       |
-| Ingress                                                                  | Ingress                                                                  | Identical |       |
-| IngressPortMapping                                                       | IngressPortMapping                                                       | Identical |       |
-| IngressPortMapping_STATUS                                                | IngressPortMapping_STATUS                                                | Identical |       |
-| Ingress_STATUS                                                           | Ingress_STATUS                                                           | Identical |       |
-| Ingress_StickySessions                                                   | Ingress_StickySessions                                                   | Identical |       |
-| Ingress_StickySessions_STATUS                                            | Ingress_StickySessions_STATUS                                            | Identical |       |
-| IpSecurityRestrictionRule                                                | IpSecurityRestrictionRule                                                | Identical |       |
-| IpSecurityRestrictionRule_STATUS                                         | IpSecurityRestrictionRule_STATUS                                         | Identical |       |
-| JobConfiguration                                                         | JobConfiguration                                                         | Extended  |       |
-| JobConfiguration_EventTriggerConfig                                      | JobConfiguration_EventTriggerConfig                                      | Identical |       |
-| JobConfiguration_EventTriggerConfig_STATUS                               | JobConfiguration_EventTriggerConfig_STATUS                               | Identical |       |
-| JobConfiguration_ManualTriggerConfig                                     | JobConfiguration_ManualTriggerConfig                                     | Identical |       |
-| JobConfiguration_ManualTriggerConfig_STATUS                              | JobConfiguration_ManualTriggerConfig_STATUS                              | Identical |       |
-| JobConfiguration_STATUS                                                  | JobConfiguration_STATUS                                                  | Extended  |       |
-| JobConfiguration_ScheduleTriggerConfig                                   | JobConfiguration_ScheduleTriggerConfig                                   | Identical |       |
-| JobConfiguration_ScheduleTriggerConfig_STATUS                            | JobConfiguration_ScheduleTriggerConfig_STATUS                            | Identical |       |
-| JobOperatorSpec                                                          | JobOperatorSpec                                                          | Identical |       |
-| JobScale                                                                 | JobScale                                                                 | Identical |       |
-| JobScaleRule                                                             | JobScaleRule                                                             | Extended  |       |
-| JobScaleRule_STATUS                                                      | JobScaleRule_STATUS                                                      | Extended  |       |
-| JobScale_STATUS                                                          | JobScale_STATUS                                                          | Identical |       |
-| JobTemplate                                                              | JobTemplate                                                              | Identical |       |
-| JobTemplate_STATUS                                                       | JobTemplate_STATUS                                                       | Identical |       |
-| Job_STATUS                                                               | Job_STATUS                                                               | Identical |       |
-| Job_Spec                                                                 | Job_Spec                                                                 | Identical |       |
-| JwtClaimChecks                                                           | JwtClaimChecks                                                           | Identical |       |
-| JwtClaimChecks_STATUS                                                    | JwtClaimChecks_STATUS                                                    | Identical |       |
-| KedaConfiguration_STATUS                                                 | KedaConfiguration_STATUS                                                 | Identical |       |
-| LogAnalyticsConfiguration                                                | LogAnalyticsConfiguration                                                | Identical |       |
-| LogAnalyticsConfiguration_STATUS                                         | LogAnalyticsConfiguration_STATUS                                         | Identical |       |
-| Login                                                                    | Login                                                                    | Identical |       |
-| LoginRoutes                                                              | LoginRoutes                                                              | Identical |       |
-| LoginRoutes_STATUS                                                       | LoginRoutes_STATUS                                                       | Identical |       |
-| LoginScopes                                                              | LoginScopes                                                              | Identical |       |
-| LoginScopes_STATUS                                                       | LoginScopes_STATUS                                                       | Identical |       |
-| Login_STATUS                                                             | Login_STATUS                                                             | Identical |       |
-| ManagedEnvironmentOperatorSpec                                           | ManagedEnvironmentOperatorSpec                                           | Identical |       |
-| ManagedEnvironment_Properties_PeerAuthentication_STATUS                  | ManagedEnvironment_Properties_PeerAuthentication_STATUS                  | Identical |       |
-| ManagedEnvironment_Properties_PeerAuthentication_Spec                    | ManagedEnvironment_Properties_PeerAuthentication_Spec                    | Identical |       |
-| ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_STATUS | ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_STATUS | Identical |       |
-| ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_Spec   | ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_Spec   | Identical |       |
-| ManagedEnvironment_Properties_PeerTrafficConfiguration_STATUS            | ManagedEnvironment_Properties_PeerTrafficConfiguration_STATUS            | Identical |       |
-| ManagedEnvironment_Properties_PeerTrafficConfiguration_Spec              | ManagedEnvironment_Properties_PeerTrafficConfiguration_Spec              | Identical |       |
-| ManagedEnvironment_STATUS                                                | ManagedEnvironment_STATUS                                                | Extended  |       |
-| ManagedEnvironment_Spec                                                  | ManagedEnvironment_Spec                                                  | Extended  |       |
-|                                                                          | ManagedServiceIdentity                                                   |    New    |       |
-| ManagedServiceIdentity                                                   | ManagedServiceIdentity                                                   | Identical |       |
-|                                                                          | ManagedServiceIdentity_STATUS                                            |    New    |       |
-| ManagedServiceIdentity_STATUS                                            | ManagedServiceIdentity_STATUS                                            | Identical |       |
-| Mtls                                                                     | Mtls                                                                     | Identical |       |
-| Mtls_STATUS                                                              | Mtls_STATUS                                                              | Identical |       |
-| Nonce                                                                    | Nonce                                                                    | Identical |       |
-| Nonce_STATUS                                                             | Nonce_STATUS                                                             | Identical |       |
-| OpenIdConnectClientCredential                                            | OpenIdConnectClientCredential                                            | Identical |       |
-| OpenIdConnectClientCredential_STATUS                                     | OpenIdConnectClientCredential_STATUS                                     | Identical |       |
-| OpenIdConnectConfig                                                      | OpenIdConnectConfig                                                      | Identical |       |
-| OpenIdConnectConfig_STATUS                                               | OpenIdConnectConfig_STATUS                                               | Identical |       |
-| OpenIdConnectLogin                                                       | OpenIdConnectLogin                                                       | Identical |       |
-| OpenIdConnectLogin_STATUS                                                | OpenIdConnectLogin_STATUS                                                | Identical |       |
-| OpenIdConnectRegistration                                                | OpenIdConnectRegistration                                                | Identical |       |
-| OpenIdConnectRegistration_STATUS                                         | OpenIdConnectRegistration_STATUS                                         | Identical |       |
-| QueueScaleRule                                                           | QueueScaleRule                                                           | Extended  |       |
-| QueueScaleRule_STATUS                                                    | QueueScaleRule_STATUS                                                    | Extended  |       |
-| RegistryCredentials                                                      | RegistryCredentials                                                      | Identical |       |
-| RegistryCredentials_STATUS                                               | RegistryCredentials_STATUS                                               | Identical |       |
-|                                                                          | Runtime                                                                  |    New    |       |
-|                                                                          | Runtime_Java                                                             |    New    |       |
-|                                                                          | Runtime_Java_STATUS                                                      |    New    |       |
-|                                                                          | Runtime_STATUS                                                           |    New    |       |
-| Scale                                                                    | Scale                                                                    | Extended  |       |
-| ScaleRule                                                                | ScaleRule                                                                | Identical |       |
-| ScaleRuleAuth                                                            | ScaleRuleAuth                                                            | Identical |       |
-| ScaleRuleAuth_STATUS                                                     | ScaleRuleAuth_STATUS                                                     | Identical |       |
-| ScaleRule_STATUS                                                         | ScaleRule_STATUS                                                         | Identical |       |
-| Scale_STATUS                                                             | Scale_STATUS                                                             | Extended  |       |
-| Secret                                                                   | Secret                                                                   | Identical |       |
-| SecretVolumeItem                                                         | SecretVolumeItem                                                         | Identical |       |
-| SecretVolumeItem_STATUS                                                  | SecretVolumeItem_STATUS                                                  | Identical |       |
-| Secret_STATUS                                                            | Secret_STATUS                                                            | Identical |       |
-| Service                                                                  | Service                                                                  | Identical |       |
-| ServiceBind                                                              | ServiceBind                                                              | Identical |       |
-| ServiceBind_STATUS                                                       | ServiceBind_STATUS                                                       | Identical |       |
-| Service_STATUS                                                           | Service_STATUS                                                           | Identical |       |
-| SystemData_STATUS                                                        | SystemData_STATUS                                                        | Identical |       |
-| TcpScaleRule                                                             | TcpScaleRule                                                             | Extended  |       |
-| TcpScaleRule_STATUS                                                      | TcpScaleRule_STATUS                                                      | Extended  |       |
-| Template                                                                 | Template                                                                 | Identical |       |
-| Template_STATUS                                                          | Template_STATUS                                                          | Identical |       |
-| TokenStore                                                               | TokenStore                                                               | Identical |       |
-| TokenStore_STATUS                                                        | TokenStore_STATUS                                                        | Identical |       |
-| TrafficWeight                                                            | TrafficWeight                                                            | Identical |       |
-| TrafficWeight_STATUS                                                     | TrafficWeight_STATUS                                                     | Identical |       |
-| Twitter                                                                  | Twitter                                                                  | Identical |       |
-| TwitterRegistration                                                      | TwitterRegistration                                                      | Identical |       |
-| TwitterRegistration_STATUS                                               | TwitterRegistration_STATUS                                               | Identical |       |
-| Twitter_STATUS                                                           | Twitter_STATUS                                                           | Identical |       |
-|                                                                          | UserAssignedIdentityDetails                                              |    New    |       |
-| UserAssignedIdentityDetails                                              | UserAssignedIdentityDetails                                              | Identical |       |
-|                                                                          | UserAssignedIdentity_STATUS                                              |    New    |       |
-| UserAssignedIdentity_STATUS                                              | UserAssignedIdentity_STATUS                                              | Identical |       |
-| VnetConfiguration                                                        | VnetConfiguration                                                        | Identical |       |
-| VnetConfiguration_STATUS                                                 | VnetConfiguration_STATUS                                                 | Identical |       |
-| Volume                                                                   | Volume                                                                   | Identical |       |
-| VolumeMount                                                              | VolumeMount                                                              | Identical |       |
-| VolumeMount_STATUS                                                       | VolumeMount_STATUS                                                       | Identical |       |
-| Volume_STATUS                                                            | Volume_STATUS                                                            | Identical |       |
-| WorkloadProfile                                                          | WorkloadProfile                                                          | Identical |       |
-| WorkloadProfile_STATUS                                                   | WorkloadProfile_STATUS                                                   | Identical |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20240301/storage                                                        | v20250101/storage                                                        |  Status   | Notes                            |
+|:-------------------------------------------------------------------------|:-------------------------------------------------------------------------|:---------:|:---------------------------------|
+| AllowedAudiencesValidation                                               | AllowedAudiencesValidation                                               | Identical |                                  |
+| AllowedAudiencesValidation_STATUS                                        | AllowedAudiencesValidation_STATUS                                        | Identical |                                  |
+| AllowedPrincipals                                                        | AllowedPrincipals                                                        | Identical |                                  |
+| AllowedPrincipals_STATUS                                                 | AllowedPrincipals_STATUS                                                 | Identical |                                  |
+| AppLogsConfiguration                                                     | AppLogsConfiguration                                                     | Identical |                                  |
+| AppLogsConfiguration_STATUS                                              | AppLogsConfiguration_STATUS                                              | Identical |                                  |
+| AppRegistration                                                          | AppRegistration                                                          | Identical |                                  |
+| AppRegistration_STATUS                                                   | AppRegistration_STATUS                                                   | Identical |                                  |
+| Apple                                                                    | Apple                                                                    | Identical |                                  |
+| AppleRegistration                                                        | AppleRegistration                                                        | Identical |                                  |
+| AppleRegistration_STATUS                                                 | AppleRegistration_STATUS                                                 | Identical |                                  |
+| Apple_STATUS                                                             | Apple_STATUS                                                             | Identical |                                  |
+| AuthConfigOperatorSpec                                                   | AuthConfigOperatorSpec                                                   | Identical |                                  |
+| AuthConfig_STATUS                                                        | AuthConfig_STATUS                                                        | Identical |                                  |
+| AuthConfig_Spec                                                          | AuthConfig_Spec                                                          | Identical |                                  |
+| AuthPlatform                                                             | AuthPlatform                                                             | Identical |                                  |
+| AuthPlatform_STATUS                                                      | AuthPlatform_STATUS                                                      | Identical |                                  |
+| AzureActiveDirectory                                                     | AzureActiveDirectory                                                     | Identical |                                  |
+| AzureActiveDirectoryLogin                                                | AzureActiveDirectoryLogin                                                | Identical |                                  |
+| AzureActiveDirectoryLogin_STATUS                                         | AzureActiveDirectoryLogin_STATUS                                         | Identical |                                  |
+| AzureActiveDirectoryRegistration                                         | AzureActiveDirectoryRegistration                                         | Identical |                                  |
+| AzureActiveDirectoryRegistration_STATUS                                  | AzureActiveDirectoryRegistration_STATUS                                  | Identical |                                  |
+| AzureActiveDirectoryValidation                                           | AzureActiveDirectoryValidation                                           | Identical |                                  |
+| AzureActiveDirectoryValidation_STATUS                                    | AzureActiveDirectoryValidation_STATUS                                    | Identical |                                  |
+| AzureActiveDirectory_STATUS                                              | AzureActiveDirectory_STATUS                                              | Identical |                                  |
+| AzureStaticWebApps                                                       | AzureStaticWebApps                                                       | Identical |                                  |
+| AzureStaticWebAppsRegistration                                           | AzureStaticWebAppsRegistration                                           | Identical |                                  |
+| AzureStaticWebAppsRegistration_STATUS                                    | AzureStaticWebAppsRegistration_STATUS                                    | Identical |                                  |
+| AzureStaticWebApps_STATUS                                                | AzureStaticWebApps_STATUS                                                | Identical |                                  |
+| BaseContainer                                                            | BaseContainer                                                            | Identical |                                  |
+| BaseContainer_STATUS                                                     | BaseContainer_STATUS                                                     | Identical |                                  |
+| BlobStorageTokenStore                                                    | BlobStorageTokenStore                                                    | Identical |                                  |
+| BlobStorageTokenStore_STATUS                                             | BlobStorageTokenStore_STATUS                                             | Identical |                                  |
+|                                                                          | CertificateKeyVaultProperties                                            |    New    |                                  |
+|                                                                          | CertificateKeyVaultProperties_STATUS                                     |    New    |                                  |
+| ClientRegistration                                                       | ClientRegistration                                                       | Identical |                                  |
+| ClientRegistration_STATUS                                                | ClientRegistration_STATUS                                                | Identical |                                  |
+| Configuration                                                            | Configuration                                                            | Extended  | +IdentitySettings +Runtime       |
+| Configuration_STATUS                                                     | Configuration_STATUS                                                     | Extended  | +IdentitySettings +Runtime       |
+| Container                                                                | Container                                                                | Identical |                                  |
+| ContainerAppOperatorConfigMaps                                           | ContainerAppOperatorConfigMaps                                           | Identical |                                  |
+| ContainerAppOperatorSpec                                                 | ContainerAppOperatorSpec                                                 | Identical |                                  |
+| ContainerAppProbe                                                        | ContainerAppProbe                                                        | Identical |                                  |
+| ContainerAppProbe_HttpGet                                                | ContainerAppProbe_HttpGet                                                | Identical |                                  |
+| ContainerAppProbe_HttpGet_HttpHeaders                                    | ContainerAppProbe_HttpGet_HttpHeaders                                    | Identical |                                  |
+| ContainerAppProbe_HttpGet_HttpHeaders_STATUS                             | ContainerAppProbe_HttpGet_HttpHeaders_STATUS                             | Identical |                                  |
+| ContainerAppProbe_HttpGet_STATUS                                         | ContainerAppProbe_HttpGet_STATUS                                         | Identical |                                  |
+| ContainerAppProbe_STATUS                                                 | ContainerAppProbe_STATUS                                                 | Identical |                                  |
+| ContainerAppProbe_TcpSocket                                              | ContainerAppProbe_TcpSocket                                              | Identical |                                  |
+| ContainerAppProbe_TcpSocket_STATUS                                       | ContainerAppProbe_TcpSocket_STATUS                                       | Identical |                                  |
+| ContainerApp_STATUS                                                      | ContainerApp_STATUS                                                      | Extended  | +RunningStatus                   |
+| ContainerApp_Spec                                                        | ContainerApp_Spec                                                        | Identical |                                  |
+| ContainerResources                                                       | ContainerResources                                                       | Identical |                                  |
+| ContainerResources_STATUS                                                | ContainerResources_STATUS                                                | Identical |                                  |
+| Container_STATUS                                                         | Container_STATUS                                                         | Identical |                                  |
+| CookieExpiration                                                         | CookieExpiration                                                         | Identical |                                  |
+| CookieExpiration_STATUS                                                  | CookieExpiration_STATUS                                                  | Identical |                                  |
+| CorsPolicy                                                               | CorsPolicy                                                               | Identical |                                  |
+| CorsPolicy_STATUS                                                        | CorsPolicy_STATUS                                                        | Identical |                                  |
+| CustomDomain                                                             | CustomDomain                                                             | Identical |                                  |
+| CustomDomainConfiguration                                                | CustomDomainConfiguration                                                | Extended  | +CertificateKeyVaultProperties   |
+| CustomDomainConfiguration_STATUS                                         | CustomDomainConfiguration_STATUS                                         | Extended  | +CertificateKeyVaultProperties   |
+| CustomDomain_STATUS                                                      | CustomDomain_STATUS                                                      | Identical |                                  |
+| CustomOpenIdConnectProvider                                              | CustomOpenIdConnectProvider                                              | Identical |                                  |
+| CustomOpenIdConnectProvider_STATUS                                       | CustomOpenIdConnectProvider_STATUS                                       | Identical |                                  |
+| CustomScaleRule                                                          | CustomScaleRule                                                          | Extended  | +IdentityReference               |
+| CustomScaleRule_STATUS                                                   | CustomScaleRule_STATUS                                                   | Extended  | +Identity                        |
+| Dapr                                                                     | Dapr                                                                     | Identical |                                  |
+| DaprConfiguration_STATUS                                                 | DaprConfiguration_STATUS                                                 | Identical |                                  |
+| Dapr_STATUS                                                              | Dapr_STATUS                                                              | Identical |                                  |
+| DefaultAuthorizationPolicy                                               | DefaultAuthorizationPolicy                                               | Identical |                                  |
+| DefaultAuthorizationPolicy_STATUS                                        | DefaultAuthorizationPolicy_STATUS                                        | Identical |                                  |
+| EncryptionSettings                                                       | EncryptionSettings                                                       | Identical |                                  |
+| EncryptionSettings_STATUS                                                | EncryptionSettings_STATUS                                                | Identical |                                  |
+| EnvironmentVar                                                           | EnvironmentVar                                                           | Identical |                                  |
+| EnvironmentVar_STATUS                                                    | EnvironmentVar_STATUS                                                    | Identical |                                  |
+| ExtendedLocation                                                         | ExtendedLocation                                                         | Identical |                                  |
+| ExtendedLocation_STATUS                                                  | ExtendedLocation_STATUS                                                  | Identical |                                  |
+| Facebook                                                                 | Facebook                                                                 | Identical |                                  |
+| Facebook_STATUS                                                          | Facebook_STATUS                                                          | Identical |                                  |
+| ForwardProxy                                                             | ForwardProxy                                                             | Identical |                                  |
+| ForwardProxy_STATUS                                                      | ForwardProxy_STATUS                                                      | Identical |                                  |
+| GitHub                                                                   | GitHub                                                                   | Identical |                                  |
+| GitHub_STATUS                                                            | GitHub_STATUS                                                            | Identical |                                  |
+| GlobalValidation                                                         | GlobalValidation                                                         | Identical |                                  |
+| GlobalValidation_STATUS                                                  | GlobalValidation_STATUS                                                  | Identical |                                  |
+| Google                                                                   | Google                                                                   | Identical |                                  |
+| Google_STATUS                                                            | Google_STATUS                                                            | Identical |                                  |
+| HttpScaleRule                                                            | HttpScaleRule                                                            | Extended  | +IdentityReference               |
+| HttpScaleRule_STATUS                                                     | HttpScaleRule_STATUS                                                     | Extended  | +Identity                        |
+| HttpSettings                                                             | HttpSettings                                                             | Identical |                                  |
+| HttpSettingsRoutes                                                       | HttpSettingsRoutes                                                       | Identical |                                  |
+| HttpSettingsRoutes_STATUS                                                | HttpSettingsRoutes_STATUS                                                | Identical |                                  |
+| HttpSettings_STATUS                                                      | HttpSettings_STATUS                                                      | Identical |                                  |
+| IdentityProviders                                                        | IdentityProviders                                                        | Identical |                                  |
+| IdentityProviders_STATUS                                                 | IdentityProviders_STATUS                                                 | Identical |                                  |
+|                                                                          | IdentitySettings                                                         |    New    |                                  |
+|                                                                          | IdentitySettings_STATUS                                                  |    New    |                                  |
+| Ingress                                                                  | Ingress                                                                  | Identical |                                  |
+| IngressPortMapping                                                       | IngressPortMapping                                                       | Identical |                                  |
+| IngressPortMapping_STATUS                                                | IngressPortMapping_STATUS                                                | Identical |                                  |
+| Ingress_STATUS                                                           | Ingress_STATUS                                                           | Identical |                                  |
+| Ingress_StickySessions                                                   | Ingress_StickySessions                                                   | Identical |                                  |
+| Ingress_StickySessions_STATUS                                            | Ingress_StickySessions_STATUS                                            | Identical |                                  |
+| IpSecurityRestrictionRule                                                | IpSecurityRestrictionRule                                                | Identical |                                  |
+| IpSecurityRestrictionRule_STATUS                                         | IpSecurityRestrictionRule_STATUS                                         | Identical |                                  |
+| JobConfiguration                                                         | JobConfiguration                                                         | Extended  | +IdentitySettings                |
+| JobConfiguration_EventTriggerConfig                                      | JobConfiguration_EventTriggerConfig                                      | Identical |                                  |
+| JobConfiguration_EventTriggerConfig_STATUS                               | JobConfiguration_EventTriggerConfig_STATUS                               | Identical |                                  |
+| JobConfiguration_ManualTriggerConfig                                     | JobConfiguration_ManualTriggerConfig                                     | Identical |                                  |
+| JobConfiguration_ManualTriggerConfig_STATUS                              | JobConfiguration_ManualTriggerConfig_STATUS                              | Identical |                                  |
+| JobConfiguration_STATUS                                                  | JobConfiguration_STATUS                                                  | Extended  | +IdentitySettings                |
+| JobConfiguration_ScheduleTriggerConfig                                   | JobConfiguration_ScheduleTriggerConfig                                   | Identical |                                  |
+| JobConfiguration_ScheduleTriggerConfig_STATUS                            | JobConfiguration_ScheduleTriggerConfig_STATUS                            | Identical |                                  |
+| JobOperatorSpec                                                          | JobOperatorSpec                                                          | Identical |                                  |
+| JobScale                                                                 | JobScale                                                                 | Identical |                                  |
+| JobScaleRule                                                             | JobScaleRule                                                             | Extended  | +IdentityReference               |
+| JobScaleRule_STATUS                                                      | JobScaleRule_STATUS                                                      | Extended  | +Identity                        |
+| JobScale_STATUS                                                          | JobScale_STATUS                                                          | Identical |                                  |
+| JobTemplate                                                              | JobTemplate                                                              | Identical |                                  |
+| JobTemplate_STATUS                                                       | JobTemplate_STATUS                                                       | Identical |                                  |
+| Job_STATUS                                                               | Job_STATUS                                                               | Identical |                                  |
+| Job_Spec                                                                 | Job_Spec                                                                 | Identical |                                  |
+| JwtClaimChecks                                                           | JwtClaimChecks                                                           | Identical |                                  |
+| JwtClaimChecks_STATUS                                                    | JwtClaimChecks_STATUS                                                    | Identical |                                  |
+| KedaConfiguration_STATUS                                                 | KedaConfiguration_STATUS                                                 | Identical |                                  |
+| LogAnalyticsConfiguration                                                | LogAnalyticsConfiguration                                                | Identical |                                  |
+| LogAnalyticsConfiguration_STATUS                                         | LogAnalyticsConfiguration_STATUS                                         | Identical |                                  |
+| Login                                                                    | Login                                                                    | Identical |                                  |
+| LoginRoutes                                                              | LoginRoutes                                                              | Identical |                                  |
+| LoginRoutes_STATUS                                                       | LoginRoutes_STATUS                                                       | Identical |                                  |
+| LoginScopes                                                              | LoginScopes                                                              | Identical |                                  |
+| LoginScopes_STATUS                                                       | LoginScopes_STATUS                                                       | Identical |                                  |
+| Login_STATUS                                                             | Login_STATUS                                                             | Identical |                                  |
+| ManagedEnvironmentOperatorSpec                                           | ManagedEnvironmentOperatorSpec                                           | Identical |                                  |
+| ManagedEnvironment_Properties_PeerAuthentication_STATUS                  | ManagedEnvironment_Properties_PeerAuthentication_STATUS                  | Identical |                                  |
+| ManagedEnvironment_Properties_PeerAuthentication_Spec                    | ManagedEnvironment_Properties_PeerAuthentication_Spec                    | Identical |                                  |
+| ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_STATUS | ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_STATUS | Identical |                                  |
+| ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_Spec   | ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_Spec   | Identical |                                  |
+| ManagedEnvironment_Properties_PeerTrafficConfiguration_STATUS            | ManagedEnvironment_Properties_PeerTrafficConfiguration_STATUS            | Identical |                                  |
+| ManagedEnvironment_Properties_PeerTrafficConfiguration_Spec              | ManagedEnvironment_Properties_PeerTrafficConfiguration_Spec              | Identical |                                  |
+| ManagedEnvironment_STATUS                                                | ManagedEnvironment_STATUS                                                | Extended  | +Identity                        |
+| ManagedEnvironment_Spec                                                  | ManagedEnvironment_Spec                                                  | Extended  | +Identity                        |
+|                                                                          | ManagedServiceIdentity                                                   |    New    |                                  |
+| ManagedServiceIdentity                                                   | ManagedServiceIdentity                                                   | Identical |                                  |
+|                                                                          | ManagedServiceIdentity_STATUS                                            |    New    |                                  |
+| ManagedServiceIdentity_STATUS                                            | ManagedServiceIdentity_STATUS                                            | Identical |                                  |
+| Mtls                                                                     | Mtls                                                                     | Identical |                                  |
+| Mtls_STATUS                                                              | Mtls_STATUS                                                              | Identical |                                  |
+| Nonce                                                                    | Nonce                                                                    | Identical |                                  |
+| Nonce_STATUS                                                             | Nonce_STATUS                                                             | Identical |                                  |
+| OpenIdConnectClientCredential                                            | OpenIdConnectClientCredential                                            | Identical |                                  |
+| OpenIdConnectClientCredential_STATUS                                     | OpenIdConnectClientCredential_STATUS                                     | Identical |                                  |
+| OpenIdConnectConfig                                                      | OpenIdConnectConfig                                                      | Identical |                                  |
+| OpenIdConnectConfig_STATUS                                               | OpenIdConnectConfig_STATUS                                               | Identical |                                  |
+| OpenIdConnectLogin                                                       | OpenIdConnectLogin                                                       | Identical |                                  |
+| OpenIdConnectLogin_STATUS                                                | OpenIdConnectLogin_STATUS                                                | Identical |                                  |
+| OpenIdConnectRegistration                                                | OpenIdConnectRegistration                                                | Identical |                                  |
+| OpenIdConnectRegistration_STATUS                                         | OpenIdConnectRegistration_STATUS                                         | Identical |                                  |
+| QueueScaleRule                                                           | QueueScaleRule                                                           | Extended  | +AccountName +IdentityReference  |
+| QueueScaleRule_STATUS                                                    | QueueScaleRule_STATUS                                                    | Extended  | +AccountName +Identity           |
+| RegistryCredentials                                                      | RegistryCredentials                                                      | Identical |                                  |
+| RegistryCredentials_STATUS                                               | RegistryCredentials_STATUS                                               | Identical |                                  |
+|                                                                          | Runtime                                                                  |    New    |                                  |
+|                                                                          | Runtime_Java                                                             |    New    |                                  |
+|                                                                          | Runtime_Java_STATUS                                                      |    New    |                                  |
+|                                                                          | Runtime_STATUS                                                           |    New    |                                  |
+| Scale                                                                    | Scale                                                                    | Extended  | +CooldownPeriod +PollingInterval |
+| ScaleRule                                                                | ScaleRule                                                                | Identical |                                  |
+| ScaleRuleAuth                                                            | ScaleRuleAuth                                                            | Identical |                                  |
+| ScaleRuleAuth_STATUS                                                     | ScaleRuleAuth_STATUS                                                     | Identical |                                  |
+| ScaleRule_STATUS                                                         | ScaleRule_STATUS                                                         | Identical |                                  |
+| Scale_STATUS                                                             | Scale_STATUS                                                             | Extended  | +CooldownPeriod +PollingInterval |
+| Secret                                                                   | Secret                                                                   | Identical |                                  |
+| SecretVolumeItem                                                         | SecretVolumeItem                                                         | Identical |                                  |
+| SecretVolumeItem_STATUS                                                  | SecretVolumeItem_STATUS                                                  | Identical |                                  |
+| Secret_STATUS                                                            | Secret_STATUS                                                            | Identical |                                  |
+| Service                                                                  | Service                                                                  | Identical |                                  |
+| ServiceBind                                                              | ServiceBind                                                              | Identical |                                  |
+| ServiceBind_STATUS                                                       | ServiceBind_STATUS                                                       | Identical |                                  |
+| Service_STATUS                                                           | Service_STATUS                                                           | Identical |                                  |
+| SystemData_STATUS                                                        | SystemData_STATUS                                                        | Identical |                                  |
+| TcpScaleRule                                                             | TcpScaleRule                                                             | Extended  | +IdentityReference               |
+| TcpScaleRule_STATUS                                                      | TcpScaleRule_STATUS                                                      | Extended  | +Identity                        |
+| Template                                                                 | Template                                                                 | Identical |                                  |
+| Template_STATUS                                                          | Template_STATUS                                                          | Identical |                                  |
+| TokenStore                                                               | TokenStore                                                               | Identical |                                  |
+| TokenStore_STATUS                                                        | TokenStore_STATUS                                                        | Identical |                                  |
+| TrafficWeight                                                            | TrafficWeight                                                            | Identical |                                  |
+| TrafficWeight_STATUS                                                     | TrafficWeight_STATUS                                                     | Identical |                                  |
+| Twitter                                                                  | Twitter                                                                  | Identical |                                  |
+| TwitterRegistration                                                      | TwitterRegistration                                                      | Identical |                                  |
+| TwitterRegistration_STATUS                                               | TwitterRegistration_STATUS                                               | Identical |                                  |
+| Twitter_STATUS                                                           | Twitter_STATUS                                                           | Identical |                                  |
+|                                                                          | UserAssignedIdentityDetails                                              |    New    |                                  |
+| UserAssignedIdentityDetails                                              | UserAssignedIdentityDetails                                              | Identical |                                  |
+|                                                                          | UserAssignedIdentity_STATUS                                              |    New    |                                  |
+| UserAssignedIdentity_STATUS                                              | UserAssignedIdentity_STATUS                                              | Identical |                                  |
+| VnetConfiguration                                                        | VnetConfiguration                                                        | Identical |                                  |
+| VnetConfiguration_STATUS                                                 | VnetConfiguration_STATUS                                                 | Identical |                                  |
+| Volume                                                                   | Volume                                                                   | Identical |                                  |
+| VolumeMount                                                              | VolumeMount                                                              | Identical |                                  |
+| VolumeMount_STATUS                                                       | VolumeMount_STATUS                                                       | Identical |                                  |
+| Volume_STATUS                                                            | Volume_STATUS                                                            | Identical |                                  |
+| WorkloadProfile                                                          | WorkloadProfile                                                          | Identical |                                  |
+| WorkloadProfile_STATUS                                                   | WorkloadProfile_STATUS                                                   | Identical |                                  |
 
 ### Configuration
 
-8 x Identical, 2 x New
+Properties: 8 x Identical, 2 x New
 
 | v20240301/storage    |                        | v20250101/storage    |                        |  Status   | Notes |
 |:---------------------|:-----------------------|:---------------------|:-----------------------|:---------:|:------|
@@ -248,7 +241,7 @@
 
 ### Configuration_STATUS
 
-8 x Identical, 2 x New
+Properties: 8 x Identical, 2 x New
 
 | v20240301/storage    |                              | v20250101/storage    |                              |  Status   | Notes |
 |:---------------------|:-----------------------------|:---------------------|:-----------------------------|:---------:|:------|
@@ -265,7 +258,7 @@
 
 ### ContainerApp_STATUS
 
-23 x Identical, 1 x New
+Properties: 23 x Identical, 1 x New
 
 | v20240301/storage          |                                | v20250101/storage          |                                |  Status   | Notes |
 |:---------------------------|:-------------------------------|:---------------------------|:-------------------------------|:---------:|:------|
@@ -296,7 +289,7 @@
 
 ### CustomDomainConfiguration
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20240301/storage   |                             | v20250101/storage             |                                |  Status   | Notes |
 |:--------------------|:----------------------------|:------------------------------|:-------------------------------|:---------:|:------|
@@ -308,7 +301,7 @@
 
 ### CustomDomainConfiguration_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v20240301/storage          |                        | v20250101/storage             |                                       |  Status   | Notes |
 |:---------------------------|:-----------------------|:------------------------------|:--------------------------------------|:---------:|:------|
@@ -322,7 +315,7 @@
 
 ### CustomScaleRule
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20240301/storage |                        | v20250101/storage |                                        |  Status   | Notes |
 |:------------------|:-----------------------|:------------------|:---------------------------------------|:---------:|:------|
@@ -334,7 +327,7 @@
 
 ### CustomScaleRule_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20240301/storage |                        | v20250101/storage |                        |  Status   | Notes |
 |:------------------|:-----------------------|:------------------|:-----------------------|:---------:|:------|
@@ -346,7 +339,7 @@
 
 ### HttpScaleRule
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20240301/storage |                        | v20250101/storage |                                        |  Status   | Notes |
 |:------------------|:-----------------------|:------------------|:---------------------------------------|:---------:|:------|
@@ -357,7 +350,7 @@
 
 ### HttpScaleRule_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20240301/storage |                        | v20250101/storage |                        |  Status   | Notes |
 |:------------------|:-----------------------|:------------------|:-----------------------|:---------:|:------|
@@ -368,7 +361,7 @@
 
 ### JobConfiguration
 
-9 x Identical, 1 x New
+Properties: 9 x Identical, 1 x New
 
 | v20240301/storage     |                                         | v20250101/storage     |                                         |  Status   | Notes |
 |:----------------------|:----------------------------------------|:----------------------|:----------------------------------------|:---------:|:------|
@@ -385,7 +378,7 @@
 
 ### JobConfiguration_STATUS
 
-9 x Identical, 1 x New
+Properties: 9 x Identical, 1 x New
 
 | v20240301/storage     |                                                | v20250101/storage     |                                                |  Status   | Notes |
 |:----------------------|:-----------------------------------------------|:----------------------|:-----------------------------------------------|:---------:|:------|
@@ -402,7 +395,7 @@
 
 ### JobScaleRule
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v20240301/storage |                        | v20250101/storage |                                        |  Status   | Notes |
 |:------------------|:-----------------------|:------------------|:---------------------------------------|:---------:|:------|
@@ -415,7 +408,7 @@
 
 ### JobScaleRule_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v20240301/storage |                        | v20250101/storage |                        |  Status   | Notes |
 |:------------------|:-----------------------|:------------------|:-----------------------|:---------:|:------|
@@ -428,7 +421,7 @@
 
 ### ManagedEnvironment_STATUS
 
-24 x Identical, 1 x New
+Properties: 24 x Identical, 1 x New
 
 | v20240301/storage           |                                                                | v20250101/storage           |                                                                |  Status   | Notes |
 |:----------------------------|:---------------------------------------------------------------|:----------------------------|:---------------------------------------------------------------|:---------:|:------|
@@ -460,7 +453,7 @@
 
 ### ManagedEnvironment_Spec
 
-18 x Identical, 1 x New
+Properties: 18 x Identical, 1 x New
 
 | v20240301/storage           |                                                              | v20250101/storage           |                                                              |  Status   | Notes |
 |:----------------------------|:-------------------------------------------------------------|:----------------------------|:-------------------------------------------------------------|:---------:|:------|
@@ -486,7 +479,7 @@
 
 ### QueueScaleRule
 
-4 x Identical, 2 x New
+Properties: 4 x Identical, 2 x New
 
 | v20240301/storage |                        | v20250101/storage |                                        |  Status   | Notes |
 |:------------------|:-----------------------|:------------------|:---------------------------------------|:---------:|:------|
@@ -499,7 +492,7 @@
 
 ### QueueScaleRule_STATUS
 
-4 x Identical, 2 x New
+Properties: 4 x Identical, 2 x New
 
 | v20240301/storage |                        | v20250101/storage |                        |  Status   | Notes |
 |:------------------|:-----------------------|:------------------|:-----------------------|:---------:|:------|
@@ -512,7 +505,7 @@
 
 ### Scale
 
-4 x Identical, 2 x New
+Properties: 4 x Identical, 2 x New
 
 | v20240301/storage |                        | v20250101/storage |                        |  Status   | Notes |
 |:------------------|:-----------------------|:------------------|:-----------------------|:---------:|:------|
@@ -525,7 +518,7 @@
 
 ### Scale_STATUS
 
-4 x Identical, 2 x New
+Properties: 4 x Identical, 2 x New
 
 | v20240301/storage |                        | v20250101/storage |                        |  Status   | Notes |
 |:------------------|:-----------------------|:------------------|:-----------------------|:---------:|:------|
@@ -538,7 +531,7 @@
 
 ### TcpScaleRule
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20240301/storage |                        | v20250101/storage |                                        |  Status   | Notes |
 |:------------------|:-----------------------|:------------------|:---------------------------------------|:---------:|:------|
@@ -549,7 +542,7 @@
 
 ### TcpScaleRule_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20240301/storage |                        | v20250101/storage |                        |  Status   | Notes |
 |:------------------|:-----------------------|:------------------|:-----------------------|:---------:|:------|
@@ -557,3 +550,12 @@
 |                   |                        | Identity          | *string                |    New    |       |
 | Metadata          | map[string]string      | Metadata          | map[string]string      | Identical |       |
 | PropertyBag       | genruntime.PropertyBag | PropertyBag       | genruntime.PropertyBag | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

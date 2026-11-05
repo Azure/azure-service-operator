@@ -6,26 +6,19 @@
 |:--------------|:----------------------|:---------:|:------|
 | PricingPlan   | PricingPlan           | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20171001           | v1api20171001/storage   |  Status  | Notes |
-|:------------------------|:------------------------|:--------:|:------|
-| PricingPlanOperatorSpec | PricingPlanOperatorSpec | Extended |       |
-| PricingPlan_STATUS      | PricingPlan_STATUS      | Extended |       |
-| PricingPlan_Spec        | PricingPlan_Spec        | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20171001           | v1api20171001/storage   |  Status  | Notes                         |
+|:------------------------|:------------------------|:--------:|:------------------------------|
+| PricingPlanOperatorSpec | PricingPlanOperatorSpec | Extended | +PropertyBag                  |
+| PricingPlan_STATUS      | PricingPlan_STATUS      | Extended | +PropertyBag                  |
+| PricingPlan_Spec        | PricingPlan_Spec        | Extended | +OriginalVersion +PropertyBag |
 
 ### PricingPlanOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20171001        |                               | v1api20171001/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -35,7 +28,7 @@
 
 ### PricingPlan_STATUS
 
-11 x Identical, 1 x New
+Properties: 11 x Identical, 1 x New
 
 | v1api20171001                        |                        | v1api20171001/storage                |                        |  Status   | Notes |
 |:-------------------------------------|:-----------------------|:-------------------------------------|:-----------------------|:---------:|:------|
@@ -54,7 +47,7 @@
 
 ### PricingPlan_Spec
 
-7 x Identical, 2 x New
+Properties: 7 x Identical, 2 x New
 
 | v1api20171001                        |                                    | v1api20171001/storage                |                                    |  Status   | Notes |
 |:-------------------------------------|:-----------------------------------|:-------------------------------------|:-----------------------------------|:---------:|:------|
@@ -67,3 +60,12 @@
 | StopSendNotificationWhenHitCap       | *bool                              | StopSendNotificationWhenHitCap       | *bool                              | Identical |       |
 | StopSendNotificationWhenHitThreshold | *bool                              | StopSendNotificationWhenHitThreshold | *bool                              | Identical |       |
 | WarningThreshold                     | *int                               | WarningThreshold                     | *int                               | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

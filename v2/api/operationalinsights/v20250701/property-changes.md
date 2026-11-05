@@ -6,42 +6,35 @@
 |:----------|:------------------|:---------:|:------|
 | Workspace | Workspace         | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20250701                             | v20250701/storage                     |  Status  | Notes |
-|:--------------------------------------|:--------------------------------------|:--------:|:------|
-| Identity                              | Identity                              | Modified |       |
-| Identity_STATUS                       | Identity_STATUS                       | Modified |       |
-| PrivateLinkScopedResource_STATUS      | PrivateLinkScopedResource_STATUS      | Extended |       |
-| SystemData_STATUS                     | SystemData_STATUS                     | Modified |       |
-| UserAssignedIdentityDetails           | UserAssignedIdentityDetails           | Extended |       |
-| UserIdentityProperties_STATUS         | UserIdentityProperties_STATUS         | Extended |       |
-| WorkspaceCapping                      | WorkspaceCapping                      | Extended |       |
-| WorkspaceCapping_STATUS               | WorkspaceCapping_STATUS               | Modified |       |
-| WorkspaceFailoverProperties_STATUS    | WorkspaceFailoverProperties_STATUS    | Modified |       |
-| WorkspaceFeatures                     | WorkspaceFeatures                     | Extended |       |
-| WorkspaceFeatures_STATUS              | WorkspaceFeatures_STATUS              | Extended |       |
-| WorkspaceOperatorSecrets              | WorkspaceOperatorSecrets              | Extended |       |
-| WorkspaceOperatorSpec                 | WorkspaceOperatorSpec                 | Extended |       |
-| WorkspaceReplicationProperties        | WorkspaceReplicationProperties        | Extended |       |
-| WorkspaceReplicationProperties_STATUS | WorkspaceReplicationProperties_STATUS | Modified |       |
-| WorkspaceSku                          | WorkspaceSku                          | Modified |       |
-| WorkspaceSku_STATUS                   | WorkspaceSku_STATUS                   | Modified |       |
-| Workspace_STATUS                      | Workspace_STATUS                      | Modified |       |
-| Workspace_Spec                        | Workspace_Spec                        | Modified |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20250701                             | v20250701/storage                     |  Status  | Notes        |
+|:--------------------------------------|:--------------------------------------|:--------:|:-------------|
+| Identity                              | Identity                              | Modified |              |
+| Identity_STATUS                       | Identity_STATUS                       | Modified |              |
+| PrivateLinkScopedResource_STATUS      | PrivateLinkScopedResource_STATUS      | Extended | +PropertyBag |
+| SystemData_STATUS                     | SystemData_STATUS                     | Modified |              |
+| UserAssignedIdentityDetails           | UserAssignedIdentityDetails           | Extended | +PropertyBag |
+| UserIdentityProperties_STATUS         | UserIdentityProperties_STATUS         | Extended | +PropertyBag |
+| WorkspaceCapping                      | WorkspaceCapping                      | Extended | +PropertyBag |
+| WorkspaceCapping_STATUS               | WorkspaceCapping_STATUS               | Modified |              |
+| WorkspaceFailoverProperties_STATUS    | WorkspaceFailoverProperties_STATUS    | Modified |              |
+| WorkspaceFeatures                     | WorkspaceFeatures                     | Extended | +PropertyBag |
+| WorkspaceFeatures_STATUS              | WorkspaceFeatures_STATUS              | Extended | +PropertyBag |
+| WorkspaceOperatorSecrets              | WorkspaceOperatorSecrets              | Extended | +PropertyBag |
+| WorkspaceOperatorSpec                 | WorkspaceOperatorSpec                 | Extended | +PropertyBag |
+| WorkspaceReplicationProperties        | WorkspaceReplicationProperties        | Extended | +PropertyBag |
+| WorkspaceReplicationProperties_STATUS | WorkspaceReplicationProperties_STATUS | Modified |              |
+| WorkspaceSku                          | WorkspaceSku                          | Modified |              |
+| WorkspaceSku_STATUS                   | WorkspaceSku_STATUS                   | Modified |              |
+| Workspace_STATUS                      | Workspace_STATUS                      | Modified |              |
+| Workspace_Spec                        | Workspace_Spec                        | Modified |              |
 
 ### Identity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250701              |                               | v20250701/storage      |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -51,7 +44,7 @@
 
 ### Identity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v20250701              |                                          | v20250701/storage      |                                          |  Status   | Notes |
 |:-----------------------|:-----------------------------------------|:-----------------------|:-----------------------------------------|:---------:|:------|
@@ -63,7 +56,7 @@
 
 ### PrivateLinkScopedResource_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250701  |         | v20250701/storage |                        |  Status   | Notes |
 |:-----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -73,7 +66,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v20250701          |                                       | v20250701/storage  |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:-------------------|:-----------------------|:---------:|:------|
@@ -87,7 +80,7 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250701 |                              | v20250701/storage |                              |  Status   | Notes |
 |:----------|:-----------------------------|:------------------|:-----------------------------|:---------:|:------|
@@ -96,7 +89,7 @@
 
 ### UserIdentityProperties_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250701   |         | v20250701/storage |                        |  Status   | Notes |
 |:------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -106,7 +99,7 @@
 
 ### WorkspaceCapping
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250701    |          | v20250701/storage |                        |  Status   | Notes |
 |:-------------|:---------|:------------------|:-----------------------|:---------:|:------|
@@ -115,7 +108,7 @@
 
 ### WorkspaceCapping_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250701           |                             | v20250701/storage   |                        |  Status   | Notes |
 |:--------------------|:----------------------------|:--------------------|:-----------------------|:---------:|:------|
@@ -126,7 +119,7 @@
 
 ### WorkspaceFailoverProperties_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250701        |                                | v20250701/storage |                        |  Status   | Notes |
 |:-----------------|:-------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -136,7 +129,7 @@
 
 ### WorkspaceFeatures
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v20250701                                   |                               | v20250701/storage                           |                               |  Status   | Notes |
 |:--------------------------------------------|:------------------------------|:--------------------------------------------|:------------------------------|:---------:|:------|
@@ -150,7 +143,7 @@
 
 ### WorkspaceFeatures_STATUS
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v20250701                                   |                    | v20250701/storage                           |                        |  Status   | Notes |
 |:--------------------------------------------|:-------------------|:--------------------------------------------|:-----------------------|:---------:|:------|
@@ -166,7 +159,7 @@
 
 ### WorkspaceOperatorSecrets
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250701          |                               | v20250701/storage  |                               |  Status   | Notes |
 |:-------------------|:------------------------------|:-------------------|:------------------------------|:---------:|:------|
@@ -176,7 +169,7 @@
 
 ### WorkspaceOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250701            |                               | v20250701/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -187,7 +180,7 @@
 
 ### WorkspaceReplicationProperties
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250701 |         | v20250701/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -197,7 +190,7 @@
 
 ### WorkspaceReplicationProperties_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v20250701         |                                   | v20250701/storage |                        |  Status   | Notes |
 |:------------------|:----------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -210,7 +203,7 @@
 
 ### WorkspaceSku
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250701                |                   | v20250701/storage        |                        |  Status   | Notes |
 |:-------------------------|:------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -220,7 +213,7 @@
 
 ### WorkspaceSku_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250701                |                              | v20250701/storage        |                        |  Status   | Notes |
 |:-------------------------|:-----------------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -231,7 +224,7 @@
 
 ### Workspace_STATUS
 
-21 x Identical, 1 x New, 3 x Modified
+Properties: 21 x Identical, 1 x New, 3 x Modified
 
 | v20250701                           |                                                             | v20250701/storage                   |                                        |  Status   | Notes |
 |:------------------------------------|:------------------------------------------------------------|:------------------------------------|:---------------------------------------|:---------:|:------|
@@ -263,7 +256,7 @@
 
 ### Workspace_Spec
 
-13 x Identical, 2 x New, 3 x Modified
+Properties: 13 x Identical, 2 x New, 3 x Modified
 
 | v20250701                                  |                                    | v20250701/storage                          |                                    |  Status   | Notes |
 |:-------------------------------------------|:-----------------------------------|:-------------------------------------------|:-----------------------------------|:---------:|:------|
@@ -285,3 +278,12 @@
 | Sku                                        | *WorkspaceSku                      | Sku                                        | *WorkspaceSku                      | Identical |       |
 | Tags                                       | map[string]string                  | Tags                                       | map[string]string                  | Identical |       |
 | WorkspaceCapping                           | *WorkspaceCapping                  | WorkspaceCapping                           | *WorkspaceCapping                  | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

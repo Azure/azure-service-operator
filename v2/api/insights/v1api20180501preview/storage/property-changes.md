@@ -6,6 +6,8 @@
 |:-----------------------------|:----------------------|:---------:|:------|
 | Webtest                      | Webtest               | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
 | v1api20180501preview/storage                               | v1api20220615/storage                                    |      Status       | Notes |
@@ -26,18 +28,9 @@
 | Webtest_STATUS                                             | Webtest_STATUS                                           |     Identical     |       |
 | Webtest_Spec                                               | Webtest_Spec                                             |     Identical     |       |
 
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
-
 ### WebTestProperties_ValidationRules
 
-5 x Identical, 1 x New, 1 x Retired
+Properties: 5 x Identical, 1 x New, 1 x Retired
 
 | v1api20180501preview/storage  |                                                      | v1api20220615/storage         |                                                    |  Status   | Notes                                                                                                             |
 |:------------------------------|:-----------------------------------------------------|:------------------------------|:---------------------------------------------------|:---------:|:------------------------------------------------------------------------------------------------------------------|
@@ -51,7 +44,7 @@
 
 ### WebTestProperties_ValidationRules_STATUS
 
-5 x Identical, 1 x New, 1 x Retired
+Properties: 5 x Identical, 1 x New, 1 x Retired
 
 | v1api20180501preview/storage  |                                                             | v1api20220615/storage         |                                                           |  Status   | Notes                                                                                                                           |
 |:------------------------------|:------------------------------------------------------------|:------------------------------|:----------------------------------------------------------|:---------:|:--------------------------------------------------------------------------------------------------------------------------------|
@@ -62,3 +55,12 @@
 | PropertyBag                   | genruntime.PropertyBag                                      | PropertyBag                   | genruntime.PropertyBag                                    | Identical |                                                                                                                                 |
 | SSLCertRemainingLifetimeCheck | *int                                                        | SSLCertRemainingLifetimeCheck | *int                                                      | Identical |                                                                                                                                 |
 | SSLCheck                      | *bool                                                       | SSLCheck                      | *bool                                                     | Identical |                                                                                                                                 |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

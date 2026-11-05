@@ -27,116 +27,109 @@
 | ServersVirtualNetworkRule                       | ServersVirtualNetworkRule                       | Identical |       |
 | ServersVulnerabilityAssessment                  | ServersVulnerabilityAssessment                  | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20211101                                               | v1api20211101/storage                                       |  Status  | Notes |
-|:------------------------------------------------------------|:------------------------------------------------------------|:--------:|:------|
-| DatabaseIdentity                                            | DatabaseIdentity                                            | Modified |       |
-| DatabaseIdentity_STATUS                                     | DatabaseIdentity_STATUS                                     | Modified |       |
-| DatabaseUserIdentity_STATUS                                 | DatabaseUserIdentity_STATUS                                 | Extended |       |
-| ElasticPoolPerDatabaseSettings                              | ElasticPoolPerDatabaseSettings                              | Extended |       |
-| ElasticPoolPerDatabaseSettings_STATUS                       | ElasticPoolPerDatabaseSettings_STATUS                       | Extended |       |
-| FailoverGroupReadOnlyEndpoint                               | FailoverGroupReadOnlyEndpoint                               | Modified |       |
-| FailoverGroupReadOnlyEndpoint_STATUS                        | FailoverGroupReadOnlyEndpoint_STATUS                        | Modified |       |
-| FailoverGroupReadWriteEndpoint                              | FailoverGroupReadWriteEndpoint                              | Modified |       |
-| FailoverGroupReadWriteEndpoint_STATUS                       | FailoverGroupReadWriteEndpoint_STATUS                       | Modified |       |
-| PartnerInfo                                                 | PartnerInfo                                                 | Extended |       |
-| PartnerInfo_STATUS                                          | PartnerInfo_STATUS                                          | Modified |       |
-| PrivateEndpointConnectionProperties_STATUS                  | PrivateEndpointConnectionProperties_STATUS                  | Modified |       |
-| PrivateEndpointProperty_STATUS                              | PrivateEndpointProperty_STATUS                              | Extended |       |
-| PrivateLinkServiceConnectionStateProperty_STATUS            | PrivateLinkServiceConnectionStateProperty_STATUS            | Modified |       |
-| ResourceIdentity                                            | ResourceIdentity                                            | Modified |       |
-| ResourceIdentity_STATUS                                     | ResourceIdentity_STATUS                                     | Modified |       |
-| ServerExternalAdministrator                                 | ServerExternalAdministrator                                 | Modified |       |
-| ServerExternalAdministrator_STATUS                          | ServerExternalAdministrator_STATUS                          | Modified |       |
-| ServerOperatorConfigMaps                                    | ServerOperatorConfigMaps                                    | Extended |       |
-| ServerOperatorSpec                                          | ServerOperatorSpec                                          | Extended |       |
-| ServerPrivateEndpointConnection_STATUS                      | ServerPrivateEndpointConnection_STATUS                      | Extended |       |
-| Server_STATUS                                               | Server_STATUS                                               | Modified |       |
-| Server_Spec                                                 | Server_Spec                                                 | Modified |       |
-| ServersAdministratorOperatorSpec                            | ServersAdministratorOperatorSpec                            | Extended |       |
-| ServersAdministrator_STATUS                                 | ServersAdministrator_STATUS                                 | Modified |       |
-| ServersAdministrator_Spec                                   | ServersAdministrator_Spec                                   | Modified |       |
-| ServersAdvancedThreatProtectionSettingOperatorSpec          | ServersAdvancedThreatProtectionSettingOperatorSpec          | Extended |       |
-| ServersAdvancedThreatProtectionSetting_STATUS               | ServersAdvancedThreatProtectionSetting_STATUS               | Modified |       |
-| ServersAdvancedThreatProtectionSetting_Spec                 | ServersAdvancedThreatProtectionSetting_Spec                 | Modified |       |
-| ServersAuditingSettingOperatorSpec                          | ServersAuditingSettingOperatorSpec                          | Extended |       |
-| ServersAuditingSetting_STATUS                               | ServersAuditingSetting_STATUS                               | Modified |       |
-| ServersAuditingSetting_Spec                                 | ServersAuditingSetting_Spec                                 | Modified |       |
-| ServersAzureADOnlyAuthenticationOperatorSpec                | ServersAzureADOnlyAuthenticationOperatorSpec                | Extended |       |
-| ServersAzureADOnlyAuthentication_STATUS                     | ServersAzureADOnlyAuthentication_STATUS                     | Extended |       |
-| ServersAzureADOnlyAuthentication_Spec                       | ServersAzureADOnlyAuthentication_Spec                       | Extended |       |
-| ServersConnectionPolicyOperatorSpec                         | ServersConnectionPolicyOperatorSpec                         | Extended |       |
-| ServersConnectionPolicy_STATUS                              | ServersConnectionPolicy_STATUS                              | Modified |       |
-| ServersConnectionPolicy_Spec                                | ServersConnectionPolicy_Spec                                | Modified |       |
-| ServersDatabaseOperatorSpec                                 | ServersDatabaseOperatorSpec                                 | Extended |       |
-| ServersDatabase_STATUS                                      | ServersDatabase_STATUS                                      | Modified |       |
-| ServersDatabase_Spec                                        | ServersDatabase_Spec                                        | Modified |       |
-| ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec | ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec | Extended |       |
-| ServersDatabasesAdvancedThreatProtectionSetting_STATUS      | ServersDatabasesAdvancedThreatProtectionSetting_STATUS      | Modified |       |
-| ServersDatabasesAdvancedThreatProtectionSetting_Spec        | ServersDatabasesAdvancedThreatProtectionSetting_Spec        | Modified |       |
-| ServersDatabasesAuditingSettingOperatorSpec                 | ServersDatabasesAuditingSettingOperatorSpec                 | Extended |       |
-| ServersDatabasesAuditingSetting_STATUS                      | ServersDatabasesAuditingSetting_STATUS                      | Modified |       |
-| ServersDatabasesAuditingSetting_Spec                        | ServersDatabasesAuditingSetting_Spec                        | Modified |       |
-| ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec   | ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec   | Extended |       |
-| ServersDatabasesBackupLongTermRetentionPolicy_STATUS        | ServersDatabasesBackupLongTermRetentionPolicy_STATUS        | Extended |       |
-| ServersDatabasesBackupLongTermRetentionPolicy_Spec          | ServersDatabasesBackupLongTermRetentionPolicy_Spec          | Extended |       |
-| ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec  | ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec  | Extended |       |
-| ServersDatabasesBackupShortTermRetentionPolicy_STATUS       | ServersDatabasesBackupShortTermRetentionPolicy_STATUS       | Modified |       |
-| ServersDatabasesBackupShortTermRetentionPolicy_Spec         | ServersDatabasesBackupShortTermRetentionPolicy_Spec         | Modified |       |
-| ServersDatabasesSecurityAlertPolicyOperatorSpec             | ServersDatabasesSecurityAlertPolicyOperatorSpec             | Extended |       |
-| ServersDatabasesSecurityAlertPolicy_STATUS                  | ServersDatabasesSecurityAlertPolicy_STATUS                  | Modified |       |
-| ServersDatabasesSecurityAlertPolicy_Spec                    | ServersDatabasesSecurityAlertPolicy_Spec                    | Modified |       |
-| ServersDatabasesTransparentDataEncryptionOperatorSpec       | ServersDatabasesTransparentDataEncryptionOperatorSpec       | Extended |       |
-| ServersDatabasesTransparentDataEncryption_STATUS            | ServersDatabasesTransparentDataEncryption_STATUS            | Modified |       |
-| ServersDatabasesTransparentDataEncryption_Spec              | ServersDatabasesTransparentDataEncryption_Spec              | Modified |       |
-| ServersDatabasesVulnerabilityAssessmentOperatorSpec         | ServersDatabasesVulnerabilityAssessmentOperatorSpec         | Extended |       |
-| ServersDatabasesVulnerabilityAssessment_STATUS              | ServersDatabasesVulnerabilityAssessment_STATUS              | Extended |       |
-| ServersDatabasesVulnerabilityAssessment_Spec                | ServersDatabasesVulnerabilityAssessment_Spec                | Extended |       |
-| ServersElasticPoolOperatorSpec                              | ServersElasticPoolOperatorSpec                              | Extended |       |
-| ServersElasticPool_STATUS                                   | ServersElasticPool_STATUS                                   | Modified |       |
-| ServersElasticPool_Spec                                     | ServersElasticPool_Spec                                     | Modified |       |
-| ServersFailoverGroupOperatorSpec                            | ServersFailoverGroupOperatorSpec                            | Extended |       |
-| ServersFailoverGroup_STATUS                                 | ServersFailoverGroup_STATUS                                 | Modified |       |
-| ServersFailoverGroup_Spec                                   | ServersFailoverGroup_Spec                                   | Extended |       |
-| ServersFirewallRuleOperatorSpec                             | ServersFirewallRuleOperatorSpec                             | Extended |       |
-| ServersFirewallRule_STATUS                                  | ServersFirewallRule_STATUS                                  | Extended |       |
-| ServersFirewallRule_Spec                                    | ServersFirewallRule_Spec                                    | Extended |       |
-| ServersIPV6FirewallRuleOperatorSpec                         | ServersIPV6FirewallRuleOperatorSpec                         | Extended |       |
-| ServersIPV6FirewallRule_STATUS                              | ServersIPV6FirewallRule_STATUS                              | Extended |       |
-| ServersIPV6FirewallRule_Spec                                | ServersIPV6FirewallRule_Spec                                | Extended |       |
-| ServersOutboundFirewallRuleOperatorSpec                     | ServersOutboundFirewallRuleOperatorSpec                     | Extended |       |
-| ServersOutboundFirewallRule_STATUS                          | ServersOutboundFirewallRule_STATUS                          | Extended |       |
-| ServersOutboundFirewallRule_Spec                            | ServersOutboundFirewallRule_Spec                            | Extended |       |
-| ServersSecurityAlertPolicyOperatorSpec                      | ServersSecurityAlertPolicyOperatorSpec                      | Extended |       |
-| ServersSecurityAlertPolicy_STATUS                           | ServersSecurityAlertPolicy_STATUS                           | Modified |       |
-| ServersSecurityAlertPolicy_Spec                             | ServersSecurityAlertPolicy_Spec                             | Modified |       |
-| ServersVirtualNetworkRuleOperatorSpec                       | ServersVirtualNetworkRuleOperatorSpec                       | Extended |       |
-| ServersVirtualNetworkRule_STATUS                            | ServersVirtualNetworkRule_STATUS                            | Modified |       |
-| ServersVirtualNetworkRule_Spec                              | ServersVirtualNetworkRule_Spec                              | Extended |       |
-| ServersVulnerabilityAssessmentOperatorSpec                  | ServersVulnerabilityAssessmentOperatorSpec                  | Extended |       |
-| ServersVulnerabilityAssessment_STATUS                       | ServersVulnerabilityAssessment_STATUS                       | Extended |       |
-| ServersVulnerabilityAssessment_Spec                         | ServersVulnerabilityAssessment_Spec                         | Extended |       |
-| Sku                                                         | Sku                                                         | Extended |       |
-| Sku_STATUS                                                  | Sku_STATUS                                                  | Extended |       |
-| SystemData_STATUS                                           | SystemData_STATUS                                           | Modified |       |
-| UserAssignedIdentityDetails                                 | UserAssignedIdentityDetails                                 | Extended |       |
-| UserIdentity_STATUS                                         | UserIdentity_STATUS                                         | Extended |       |
-| VulnerabilityAssessmentRecurringScansProperties             | VulnerabilityAssessmentRecurringScansProperties             | Extended |       |
-| VulnerabilityAssessmentRecurringScansProperties_STATUS      | VulnerabilityAssessmentRecurringScansProperties_STATUS      | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20211101                                               | v1api20211101/storage                                       |  Status  | Notes                         |
+|:------------------------------------------------------------|:------------------------------------------------------------|:--------:|:------------------------------|
+| DatabaseIdentity                                            | DatabaseIdentity                                            | Modified |                               |
+| DatabaseIdentity_STATUS                                     | DatabaseIdentity_STATUS                                     | Modified |                               |
+| DatabaseUserIdentity_STATUS                                 | DatabaseUserIdentity_STATUS                                 | Extended | +PropertyBag                  |
+| ElasticPoolPerDatabaseSettings                              | ElasticPoolPerDatabaseSettings                              | Extended | +PropertyBag                  |
+| ElasticPoolPerDatabaseSettings_STATUS                       | ElasticPoolPerDatabaseSettings_STATUS                       | Extended | +PropertyBag                  |
+| FailoverGroupReadOnlyEndpoint                               | FailoverGroupReadOnlyEndpoint                               | Modified |                               |
+| FailoverGroupReadOnlyEndpoint_STATUS                        | FailoverGroupReadOnlyEndpoint_STATUS                        | Modified |                               |
+| FailoverGroupReadWriteEndpoint                              | FailoverGroupReadWriteEndpoint                              | Modified |                               |
+| FailoverGroupReadWriteEndpoint_STATUS                       | FailoverGroupReadWriteEndpoint_STATUS                       | Modified |                               |
+| PartnerInfo                                                 | PartnerInfo                                                 | Extended | +PropertyBag                  |
+| PartnerInfo_STATUS                                          | PartnerInfo_STATUS                                          | Modified |                               |
+| PrivateEndpointConnectionProperties_STATUS                  | PrivateEndpointConnectionProperties_STATUS                  | Modified |                               |
+| PrivateEndpointProperty_STATUS                              | PrivateEndpointProperty_STATUS                              | Extended | +PropertyBag                  |
+| PrivateLinkServiceConnectionStateProperty_STATUS            | PrivateLinkServiceConnectionStateProperty_STATUS            | Modified |                               |
+| ResourceIdentity                                            | ResourceIdentity                                            | Modified |                               |
+| ResourceIdentity_STATUS                                     | ResourceIdentity_STATUS                                     | Modified |                               |
+| ServerExternalAdministrator                                 | ServerExternalAdministrator                                 | Modified |                               |
+| ServerExternalAdministrator_STATUS                          | ServerExternalAdministrator_STATUS                          | Modified |                               |
+| ServerOperatorConfigMaps                                    | ServerOperatorConfigMaps                                    | Extended | +PropertyBag                  |
+| ServerOperatorSpec                                          | ServerOperatorSpec                                          | Extended | +PropertyBag                  |
+| ServerPrivateEndpointConnection_STATUS                      | ServerPrivateEndpointConnection_STATUS                      | Extended | +PropertyBag                  |
+| Server_STATUS                                               | Server_STATUS                                               | Modified |                               |
+| Server_Spec                                                 | Server_Spec                                                 | Modified |                               |
+| ServersAdministratorOperatorSpec                            | ServersAdministratorOperatorSpec                            | Extended | +PropertyBag                  |
+| ServersAdministrator_STATUS                                 | ServersAdministrator_STATUS                                 | Modified |                               |
+| ServersAdministrator_Spec                                   | ServersAdministrator_Spec                                   | Modified |                               |
+| ServersAdvancedThreatProtectionSettingOperatorSpec          | ServersAdvancedThreatProtectionSettingOperatorSpec          | Extended | +PropertyBag                  |
+| ServersAdvancedThreatProtectionSetting_STATUS               | ServersAdvancedThreatProtectionSetting_STATUS               | Modified |                               |
+| ServersAdvancedThreatProtectionSetting_Spec                 | ServersAdvancedThreatProtectionSetting_Spec                 | Modified |                               |
+| ServersAuditingSettingOperatorSpec                          | ServersAuditingSettingOperatorSpec                          | Extended | +PropertyBag                  |
+| ServersAuditingSetting_STATUS                               | ServersAuditingSetting_STATUS                               | Modified |                               |
+| ServersAuditingSetting_Spec                                 | ServersAuditingSetting_Spec                                 | Modified |                               |
+| ServersAzureADOnlyAuthenticationOperatorSpec                | ServersAzureADOnlyAuthenticationOperatorSpec                | Extended | +PropertyBag                  |
+| ServersAzureADOnlyAuthentication_STATUS                     | ServersAzureADOnlyAuthentication_STATUS                     | Extended | +PropertyBag                  |
+| ServersAzureADOnlyAuthentication_Spec                       | ServersAzureADOnlyAuthentication_Spec                       | Extended | +OriginalVersion +PropertyBag |
+| ServersConnectionPolicyOperatorSpec                         | ServersConnectionPolicyOperatorSpec                         | Extended | +PropertyBag                  |
+| ServersConnectionPolicy_STATUS                              | ServersConnectionPolicy_STATUS                              | Modified |                               |
+| ServersConnectionPolicy_Spec                                | ServersConnectionPolicy_Spec                                | Modified |                               |
+| ServersDatabaseOperatorSpec                                 | ServersDatabaseOperatorSpec                                 | Extended | +PropertyBag                  |
+| ServersDatabase_STATUS                                      | ServersDatabase_STATUS                                      | Modified |                               |
+| ServersDatabase_Spec                                        | ServersDatabase_Spec                                        | Modified |                               |
+| ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec | ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec | Extended | +PropertyBag                  |
+| ServersDatabasesAdvancedThreatProtectionSetting_STATUS      | ServersDatabasesAdvancedThreatProtectionSetting_STATUS      | Modified |                               |
+| ServersDatabasesAdvancedThreatProtectionSetting_Spec        | ServersDatabasesAdvancedThreatProtectionSetting_Spec        | Modified |                               |
+| ServersDatabasesAuditingSettingOperatorSpec                 | ServersDatabasesAuditingSettingOperatorSpec                 | Extended | +PropertyBag                  |
+| ServersDatabasesAuditingSetting_STATUS                      | ServersDatabasesAuditingSetting_STATUS                      | Modified |                               |
+| ServersDatabasesAuditingSetting_Spec                        | ServersDatabasesAuditingSetting_Spec                        | Modified |                               |
+| ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec   | ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec   | Extended | +PropertyBag                  |
+| ServersDatabasesBackupLongTermRetentionPolicy_STATUS        | ServersDatabasesBackupLongTermRetentionPolicy_STATUS        | Extended | +PropertyBag                  |
+| ServersDatabasesBackupLongTermRetentionPolicy_Spec          | ServersDatabasesBackupLongTermRetentionPolicy_Spec          | Extended | +OriginalVersion +PropertyBag |
+| ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec  | ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec  | Extended | +PropertyBag                  |
+| ServersDatabasesBackupShortTermRetentionPolicy_STATUS       | ServersDatabasesBackupShortTermRetentionPolicy_STATUS       | Modified |                               |
+| ServersDatabasesBackupShortTermRetentionPolicy_Spec         | ServersDatabasesBackupShortTermRetentionPolicy_Spec         | Modified |                               |
+| ServersDatabasesSecurityAlertPolicyOperatorSpec             | ServersDatabasesSecurityAlertPolicyOperatorSpec             | Extended | +PropertyBag                  |
+| ServersDatabasesSecurityAlertPolicy_STATUS                  | ServersDatabasesSecurityAlertPolicy_STATUS                  | Modified |                               |
+| ServersDatabasesSecurityAlertPolicy_Spec                    | ServersDatabasesSecurityAlertPolicy_Spec                    | Modified |                               |
+| ServersDatabasesTransparentDataEncryptionOperatorSpec       | ServersDatabasesTransparentDataEncryptionOperatorSpec       | Extended | +PropertyBag                  |
+| ServersDatabasesTransparentDataEncryption_STATUS            | ServersDatabasesTransparentDataEncryption_STATUS            | Modified |                               |
+| ServersDatabasesTransparentDataEncryption_Spec              | ServersDatabasesTransparentDataEncryption_Spec              | Modified |                               |
+| ServersDatabasesVulnerabilityAssessmentOperatorSpec         | ServersDatabasesVulnerabilityAssessmentOperatorSpec         | Extended | +PropertyBag                  |
+| ServersDatabasesVulnerabilityAssessment_STATUS              | ServersDatabasesVulnerabilityAssessment_STATUS              | Extended | +PropertyBag                  |
+| ServersDatabasesVulnerabilityAssessment_Spec                | ServersDatabasesVulnerabilityAssessment_Spec                | Extended | +OriginalVersion +PropertyBag |
+| ServersElasticPoolOperatorSpec                              | ServersElasticPoolOperatorSpec                              | Extended | +PropertyBag                  |
+| ServersElasticPool_STATUS                                   | ServersElasticPool_STATUS                                   | Modified |                               |
+| ServersElasticPool_Spec                                     | ServersElasticPool_Spec                                     | Modified |                               |
+| ServersFailoverGroupOperatorSpec                            | ServersFailoverGroupOperatorSpec                            | Extended | +PropertyBag                  |
+| ServersFailoverGroup_STATUS                                 | ServersFailoverGroup_STATUS                                 | Modified |                               |
+| ServersFailoverGroup_Spec                                   | ServersFailoverGroup_Spec                                   | Extended | +OriginalVersion +PropertyBag |
+| ServersFirewallRuleOperatorSpec                             | ServersFirewallRuleOperatorSpec                             | Extended | +PropertyBag                  |
+| ServersFirewallRule_STATUS                                  | ServersFirewallRule_STATUS                                  | Extended | +PropertyBag                  |
+| ServersFirewallRule_Spec                                    | ServersFirewallRule_Spec                                    | Extended | +OriginalVersion +PropertyBag |
+| ServersIPV6FirewallRuleOperatorSpec                         | ServersIPV6FirewallRuleOperatorSpec                         | Extended | +PropertyBag                  |
+| ServersIPV6FirewallRule_STATUS                              | ServersIPV6FirewallRule_STATUS                              | Extended | +PropertyBag                  |
+| ServersIPV6FirewallRule_Spec                                | ServersIPV6FirewallRule_Spec                                | Extended | +OriginalVersion +PropertyBag |
+| ServersOutboundFirewallRuleOperatorSpec                     | ServersOutboundFirewallRuleOperatorSpec                     | Extended | +PropertyBag                  |
+| ServersOutboundFirewallRule_STATUS                          | ServersOutboundFirewallRule_STATUS                          | Extended | +PropertyBag                  |
+| ServersOutboundFirewallRule_Spec                            | ServersOutboundFirewallRule_Spec                            | Extended | +OriginalVersion +PropertyBag |
+| ServersSecurityAlertPolicyOperatorSpec                      | ServersSecurityAlertPolicyOperatorSpec                      | Extended | +PropertyBag                  |
+| ServersSecurityAlertPolicy_STATUS                           | ServersSecurityAlertPolicy_STATUS                           | Modified |                               |
+| ServersSecurityAlertPolicy_Spec                             | ServersSecurityAlertPolicy_Spec                             | Modified |                               |
+| ServersVirtualNetworkRuleOperatorSpec                       | ServersVirtualNetworkRuleOperatorSpec                       | Extended | +PropertyBag                  |
+| ServersVirtualNetworkRule_STATUS                            | ServersVirtualNetworkRule_STATUS                            | Modified |                               |
+| ServersVirtualNetworkRule_Spec                              | ServersVirtualNetworkRule_Spec                              | Extended | +OriginalVersion +PropertyBag |
+| ServersVulnerabilityAssessmentOperatorSpec                  | ServersVulnerabilityAssessmentOperatorSpec                  | Extended | +PropertyBag                  |
+| ServersVulnerabilityAssessment_STATUS                       | ServersVulnerabilityAssessment_STATUS                       | Extended | +PropertyBag                  |
+| ServersVulnerabilityAssessment_Spec                         | ServersVulnerabilityAssessment_Spec                         | Extended | +OriginalVersion +PropertyBag |
+| Sku                                                         | Sku                                                         | Extended | +PropertyBag                  |
+| Sku_STATUS                                                  | Sku_STATUS                                                  | Extended | +PropertyBag                  |
+| SystemData_STATUS                                           | SystemData_STATUS                                           | Modified |                               |
+| UserAssignedIdentityDetails                                 | UserAssignedIdentityDetails                                 | Extended | +PropertyBag                  |
+| UserIdentity_STATUS                                         | UserIdentity_STATUS                                         | Extended | +PropertyBag                  |
+| VulnerabilityAssessmentRecurringScansProperties             | VulnerabilityAssessmentRecurringScansProperties             | Extended | +PropertyBag                  |
+| VulnerabilityAssessmentRecurringScansProperties_STATUS      | VulnerabilityAssessmentRecurringScansProperties_STATUS      | Extended | +PropertyBag                  |
 
 ### DatabaseIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20211101          |                               | v1api20211101/storage  |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -146,7 +139,7 @@
 
 ### DatabaseIdentity_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20211101          |                                        | v1api20211101/storage  |                                        |  Status   | Notes |
 |:-----------------------|:---------------------------------------|:-----------------------|:---------------------------------------|:---------:|:------|
@@ -157,7 +150,7 @@
 
 ### DatabaseUserIdentity_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211101 |         | v1api20211101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -167,7 +160,7 @@
 
 ### ElasticPoolPerDatabaseSettings
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211101 |          | v1api20211101/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -177,7 +170,7 @@
 
 ### ElasticPoolPerDatabaseSettings_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211101 |          | v1api20211101/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -187,7 +180,7 @@
 
 ### FailoverGroupReadOnlyEndpoint
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20211101  |                                               | v1api20211101/storage |                        |  Status  | Notes |
 |:---------------|:----------------------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -196,7 +189,7 @@
 
 ### FailoverGroupReadOnlyEndpoint_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20211101  |                                                      | v1api20211101/storage |                        |  Status  | Notes |
 |:---------------|:-----------------------------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -205,7 +198,7 @@
 
 ### FailoverGroupReadWriteEndpoint
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20211101                          |                                                | v1api20211101/storage                  |                        |  Status   | Notes |
 |:---------------------------------------|:-----------------------------------------------|:---------------------------------------|:-----------------------|:---------:|:------|
@@ -215,7 +208,7 @@
 
 ### FailoverGroupReadWriteEndpoint_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20211101                          |                                                       | v1api20211101/storage                  |                        |  Status   | Notes |
 |:---------------------------------------|:------------------------------------------------------|:---------------------------------------|:-----------------------|:---------:|:------|
@@ -225,7 +218,7 @@
 
 ### PartnerInfo
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20211101 |                               | v1api20211101/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -234,7 +227,7 @@
 
 ### PartnerInfo_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20211101   |                                     | v1api20211101/storage |                        |  Status   | Notes |
 |:----------------|:------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -245,7 +238,7 @@
 
 ### PrivateEndpointConnectionProperties_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20211101                     |                                                               | v1api20211101/storage             |                                                   |  Status   | Notes |
 |:----------------------------------|:--------------------------------------------------------------|:----------------------------------|:--------------------------------------------------|:---------:|:------|
@@ -257,7 +250,7 @@
 
 ### PrivateEndpointProperty_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20211101 |         | v1api20211101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -266,7 +259,7 @@
 
 ### PrivateLinkServiceConnectionStateProperty_STATUS
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v1api20211101   |                                                                   | v1api20211101/storage |                        |  Status   | Notes |
 |:----------------|:------------------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -277,7 +270,7 @@
 
 ### ResourceIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20211101          |                               | v1api20211101/storage  |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -287,7 +280,7 @@
 
 ### ResourceIdentity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20211101          |                                | v1api20211101/storage  |                                |  Status   | Notes |
 |:-----------------------|:-------------------------------|:-----------------------|:-------------------------------|:---------:|:------|
@@ -299,7 +292,7 @@
 
 ### ServerExternalAdministrator
 
-5 x Identical, 1 x New, 4 x Modified
+Properties: 7 x Identical, 1 x New, 2 x Modified
 
 | v1api20211101             |                                                | v1api20211101/storage     |                                |  Status   | Notes |
 |:--------------------------|:-----------------------------------------------|:--------------------------|:-------------------------------|:---------:|:------|
@@ -309,14 +302,14 @@
 | LoginFromConfig           | *genruntime.ConfigMapReference                 | LoginFromConfig           | *genruntime.ConfigMapReference | Identical |       |
 | PrincipalType             | *ServerExternalAdministrator_PrincipalType     | PrincipalType             | *string                        | Modified  |       |
 |                           |                                                | PropertyBag               | genruntime.PropertyBag         |    New    |       |
-| Sid                       | Validated<*string> (1 rule)                    | Sid                       | *string                        | Modified  |       |
+| Sid                       | Validated<*string> (1 rule)                    | Sid                       | *string                        | Identical |       |
 | SidFromConfig             | *genruntime.ConfigMapReference                 | SidFromConfig             | *genruntime.ConfigMapReference | Identical |       |
-| TenantId                  | Validated<*string> (1 rule)                    | TenantId                  | *string                        | Modified  |       |
+| TenantId                  | Validated<*string> (1 rule)                    | TenantId                  | *string                        | Identical |       |
 | TenantIdFromConfig        | *genruntime.ConfigMapReference                 | TenantIdFromConfig        | *genruntime.ConfigMapReference | Identical |       |
 
 ### ServerExternalAdministrator_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20211101             |                                                       | v1api20211101/storage     |                        |  Status   | Notes |
 |:--------------------------|:------------------------------------------------------|:--------------------------|:-----------------------|:---------:|:------|
@@ -330,7 +323,7 @@
 
 ### ServerOperatorConfigMaps
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20211101            |                                  | v1api20211101/storage    |                                  |  Status   | Notes |
 |:-------------------------|:---------------------------------|:-------------------------|:---------------------------------|:---------:|:------|
@@ -339,7 +332,7 @@
 
 ### ServerOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20211101        |                               | v1api20211101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -350,7 +343,7 @@
 
 ### ServerPrivateEndpointConnection_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211101 |                                             | v1api20211101/storage |                                             |  Status   | Notes |
 |:--------------|:--------------------------------------------|:----------------------|:--------------------------------------------|:---------:|:------|
@@ -360,7 +353,7 @@
 
 ### Server_STATUS
 
-18 x Identical, 1 x New, 3 x Modified
+Properties: 18 x Identical, 1 x New, 3 x Modified
 
 | v1api20211101                 |                                                        | v1api20211101/storage         |                                          |  Status   | Notes |
 |:------------------------------|:-------------------------------------------------------|:------------------------------|:-----------------------------------------|:---------:|:------|
@@ -389,7 +382,7 @@
 
 ### Server_Spec
 
-13 x Identical, 2 x New, 3 x Modified
+Properties: 14 x Identical, 2 x New, 2 x Modified
 
 | v1api20211101                        |                                                 | v1api20211101/storage                |                                    |  Status   | Notes |
 |:-------------------------------------|:------------------------------------------------|:-------------------------------------|:-----------------------------------|:---------:|:------|
@@ -397,7 +390,7 @@
 | AdministratorLoginPassword           | *genruntime.SecretReference                     | AdministratorLoginPassword           | *genruntime.SecretReference        | Identical |       |
 | Administrators                       | *ServerExternalAdministrator                    | Administrators                       | *ServerExternalAdministrator       | Identical |       |
 | AzureName                            | string                                          | AzureName                            | string                             | Identical |       |
-| FederatedClientId                    | Validated<*string> (1 rule)                     | FederatedClientId                    | *string                            | Modified  |       |
+| FederatedClientId                    | Validated<*string> (1 rule)                     | FederatedClientId                    | *string                            | Identical |       |
 | Identity                             | *ResourceIdentity                               | Identity                             | *ResourceIdentity                  | Identical |       |
 | KeyId                                | *string                                         | KeyId                                | *string                            | Identical |       |
 | Location                             | *string                                         | Location                             | *string                            | Identical |       |
@@ -414,7 +407,7 @@
 
 ### ServersAdministratorOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211101        |                               | v1api20211101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -424,7 +417,7 @@
 
 ### ServersAdministrator_STATUS
 
-8 x Identical, 1 x New, 1 x Modified
+Properties: 8 x Identical, 1 x New, 1 x Modified
 
 | v1api20211101             |                                                   | v1api20211101/storage     |                        |  Status   | Notes |
 |:--------------------------|:--------------------------------------------------|:--------------------------|:-----------------------|:---------:|:------|
@@ -441,7 +434,7 @@
 
 ### ServersAdministrator_Spec
 
-5 x Identical, 2 x New, 3 x Modified
+Properties: 7 x Identical, 2 x New, 1 x Modified
 
 | v1api20211101      |                                            | v1api20211101/storage |                                    |  Status   | Notes |
 |:-------------------|:-------------------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -451,14 +444,14 @@
 |                    |                                            | OriginalVersion       | string                             |    New    |       |
 | Owner              | *genruntime.KnownResourceReference         | Owner                 | *genruntime.KnownResourceReference | Identical |       |
 |                    |                                            | PropertyBag           | genruntime.PropertyBag             |    New    |       |
-| Sid                | Validated<*string> (1 rule)                | Sid                   | *string                            | Modified  |       |
+| Sid                | Validated<*string> (1 rule)                | Sid                   | *string                            | Identical |       |
 | SidFromConfig      | *genruntime.ConfigMapReference             | SidFromConfig         | *genruntime.ConfigMapReference     | Identical |       |
-| TenantId           | Validated<*string> (1 rule)                | TenantId              | *string                            | Modified  |       |
+| TenantId           | Validated<*string> (1 rule)                | TenantId              | *string                            | Identical |       |
 | TenantIdFromConfig | *genruntime.ConfigMapReference             | TenantIdFromConfig    | *genruntime.ConfigMapReference     | Identical |       |
 
 ### ServersAdvancedThreatProtectionSettingOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211101        |                               | v1api20211101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -468,7 +461,7 @@
 
 ### ServersAdvancedThreatProtectionSetting_STATUS
 
-6 x Identical, 1 x New, 1 x Modified
+Properties: 6 x Identical, 1 x New, 1 x Modified
 
 | v1api20211101 |                                                  | v1api20211101/storage |                        |  Status   | Notes |
 |:--------------|:-------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -483,7 +476,7 @@
 
 ### ServersAdvancedThreatProtectionSetting_Spec
 
-2 x Identical, 2 x New, 1 x Modified
+Properties: 2 x Identical, 2 x New, 1 x Modified
 
 | v1api20211101 |                                                     | v1api20211101/storage |                                                     |  Status   | Notes |
 |:--------------|:----------------------------------------------------|:----------------------|:----------------------------------------------------|:---------:|:------|
@@ -495,7 +488,7 @@
 
 ### ServersAuditingSettingOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211101        |                               | v1api20211101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -505,7 +498,7 @@
 
 ### ServersAuditingSetting_STATUS
 
-13 x Identical, 1 x New, 1 x Modified
+Properties: 13 x Identical, 1 x New, 1 x Modified
 
 | v1api20211101                |                                                  | v1api20211101/storage        |                        |  Status   | Notes |
 |:-----------------------------|:-------------------------------------------------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -527,7 +520,7 @@
 
 ### ServersAuditingSetting_Spec
 
-11 x Identical, 2 x New, 2 x Modified
+Properties: 12 x Identical, 2 x New, 1 x Modified
 
 | v1api20211101                |                                           | v1api20211101/storage        |                                     |  Status   | Notes |
 |:-----------------------------|:------------------------------------------|:-----------------------------|:------------------------------------|:---------:|:------|
@@ -544,12 +537,12 @@
 | RetentionDays                | *int                                      | RetentionDays                | *int                                | Identical |       |
 | State                        | *ServerBlobAuditingPolicyProperties_State | State                        | *string                             | Modified  |       |
 | StorageAccountAccessKey      | *genruntime.SecretReference               | StorageAccountAccessKey      | *genruntime.SecretReference         | Identical |       |
-| StorageAccountSubscriptionId | Validated<*string> (1 rule)               | StorageAccountSubscriptionId | *string                             | Modified  |       |
+| StorageAccountSubscriptionId | Validated<*string> (1 rule)               | StorageAccountSubscriptionId | *string                             | Identical |       |
 | StorageEndpoint              | *string                                   | StorageEndpoint              | *string                             | Identical |       |
 
 ### ServersAzureADOnlyAuthenticationOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211101        |                               | v1api20211101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -559,7 +552,7 @@
 
 ### ServersAzureADOnlyAuthentication_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20211101             |                        | v1api20211101/storage     |                        |  Status   | Notes |
 |:--------------------------|:-----------------------|:--------------------------|:-----------------------|:---------:|:------|
@@ -572,7 +565,7 @@
 
 ### ServersAzureADOnlyAuthentication_Spec
 
-3 x Identical, 2 x New
+Properties: 3 x Identical, 2 x New
 
 | v1api20211101             |                                               | v1api20211101/storage     |                                               |  Status   | Notes |
 |:--------------------------|:----------------------------------------------|:--------------------------|:----------------------------------------------|:---------:|:------|
@@ -584,7 +577,7 @@
 
 ### ServersConnectionPolicyOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211101        |                               | v1api20211101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -594,7 +587,7 @@
 
 ### ServersConnectionPolicy_STATUS
 
-6 x Identical, 1 x New, 1 x Modified
+Properties: 6 x Identical, 1 x New, 1 x Modified
 
 | v1api20211101  |                                                         | v1api20211101/storage |                        |  Status   | Notes |
 |:---------------|:--------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -609,7 +602,7 @@
 
 ### ServersConnectionPolicy_Spec
 
-2 x Identical, 2 x New, 1 x Modified
+Properties: 2 x Identical, 2 x New, 1 x Modified
 
 | v1api20211101  |                                                  | v1api20211101/storage |                                      |  Status   | Notes |
 |:---------------|:-------------------------------------------------|:----------------------|:-------------------------------------|:---------:|:------|
@@ -621,7 +614,7 @@
 
 ### ServersDatabaseOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211101        |                               | v1api20211101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -631,7 +624,7 @@
 
 ### ServersDatabase_STATUS
 
-40 x Identical, 1 x New, 9 x Modified
+Properties: 40 x Identical, 1 x New, 9 x Modified
 
 | v1api20211101                     |                                                             | v1api20211101/storage             |                          |  Status   | Notes |
 |:----------------------------------|:------------------------------------------------------------|:----------------------------------|:-------------------------|:---------:|:------|
@@ -688,7 +681,7 @@
 
 ### ServersDatabase_Spec
 
-24 x Identical, 2 x New, 8 x Modified
+Properties: 25 x Identical, 2 x New, 7 x Modified
 
 | v1api20211101                            |                                                      | v1api20211101/storage                    |                                    |  Status   | Notes |
 |:-----------------------------------------|:-----------------------------------------------------|:-----------------------------------------|:-----------------------------------|:---------:|:------|
@@ -698,7 +691,7 @@
 | Collation                                | *string                                              | Collation                                | *string                            | Identical |       |
 | CreateMode                               | *DatabaseProperties_CreateMode                       | CreateMode                               | *string                            | Modified  |       |
 | ElasticPoolReference                     | *genruntime.ResourceReference                        | ElasticPoolReference                     | *genruntime.ResourceReference      | Identical |       |
-| FederatedClientId                        | Validated<*string> (1 rule)                          | FederatedClientId                        | *string                            | Modified  |       |
+| FederatedClientId                        | Validated<*string> (1 rule)                          | FederatedClientId                        | *string                            | Identical |       |
 | HighAvailabilityReplicaCount             | *int                                                 | HighAvailabilityReplicaCount             | *int                               | Identical |       |
 | Identity                                 | *DatabaseIdentity                                    | Identity                                 | *DatabaseIdentity                  | Identical |       |
 | IsLedgerOn                               | *bool                                                | IsLedgerOn                               | *bool                              | Identical |       |
@@ -729,7 +722,7 @@
 
 ### ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211101        |                               | v1api20211101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -739,7 +732,7 @@
 
 ### ServersDatabasesAdvancedThreatProtectionSetting_STATUS
 
-6 x Identical, 1 x New, 1 x Modified
+Properties: 6 x Identical, 1 x New, 1 x Modified
 
 | v1api20211101 |                                                  | v1api20211101/storage |                        |  Status   | Notes |
 |:--------------|:-------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -754,7 +747,7 @@
 
 ### ServersDatabasesAdvancedThreatProtectionSetting_Spec
 
-2 x Identical, 2 x New, 1 x Modified
+Properties: 2 x Identical, 2 x New, 1 x Modified
 
 | v1api20211101 |                                                              | v1api20211101/storage |                                                              |  Status   | Notes |
 |:--------------|:-------------------------------------------------------------|:----------------------|:-------------------------------------------------------------|:---------:|:------|
@@ -766,7 +759,7 @@
 
 ### ServersDatabasesAuditingSettingOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211101        |                               | v1api20211101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -776,7 +769,7 @@
 
 ### ServersDatabasesAuditingSetting_STATUS
 
-13 x Identical, 1 x New, 1 x Modified
+Properties: 13 x Identical, 1 x New, 1 x Modified
 
 | v1api20211101                |                                                    | v1api20211101/storage        |                        |  Status   | Notes |
 |:-----------------------------|:---------------------------------------------------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -798,7 +791,7 @@
 
 ### ServersDatabasesAuditingSetting_Spec
 
-10 x Identical, 2 x New, 2 x Modified
+Properties: 11 x Identical, 2 x New, 1 x Modified
 
 | v1api20211101                |                                              | v1api20211101/storage        |                                              |  Status   | Notes |
 |:-----------------------------|:---------------------------------------------|:-----------------------------|:---------------------------------------------|:---------:|:------|
@@ -814,12 +807,12 @@
 | RetentionDays                | *int                                         | RetentionDays                | *int                                         | Identical |       |
 | State                        | *DatabaseBlobAuditingPolicyProperties_State  | State                        | *string                                      | Modified  |       |
 | StorageAccountAccessKey      | *genruntime.SecretReference                  | StorageAccountAccessKey      | *genruntime.SecretReference                  | Identical |       |
-| StorageAccountSubscriptionId | Validated<*string> (1 rule)                  | StorageAccountSubscriptionId | *string                                      | Modified  |       |
+| StorageAccountSubscriptionId | Validated<*string> (1 rule)                  | StorageAccountSubscriptionId | *string                                      | Identical |       |
 | StorageEndpoint              | *string                                      | StorageEndpoint              | *string                                      | Identical |       |
 
 ### ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211101        |                               | v1api20211101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -829,7 +822,7 @@
 
 ### ServersDatabasesBackupLongTermRetentionPolicy_STATUS
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v1api20211101    |                        | v1api20211101/storage |                        |  Status   | Notes |
 |:-----------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -845,7 +838,7 @@
 
 ### ServersDatabasesBackupLongTermRetentionPolicy_Spec
 
-6 x Identical, 2 x New
+Properties: 6 x Identical, 2 x New
 
 | v1api20211101    |                                                            | v1api20211101/storage |                                                            |  Status   | Notes |
 |:-----------------|:-----------------------------------------------------------|:----------------------|:-----------------------------------------------------------|:---------:|:------|
@@ -860,7 +853,7 @@
 
 ### ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211101        |                               | v1api20211101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -870,7 +863,7 @@
 
 ### ServersDatabasesBackupShortTermRetentionPolicy_STATUS
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20211101             |                                                                            | v1api20211101/storage     |                        |  Status   | Notes |
 |:--------------------------|:---------------------------------------------------------------------------|:--------------------------|:-----------------------|:---------:|:------|
@@ -884,7 +877,7 @@
 
 ### ServersDatabasesBackupShortTermRetentionPolicy_Spec
 
-3 x Identical, 2 x New, 1 x Modified
+Properties: 3 x Identical, 2 x New, 1 x Modified
 
 | v1api20211101             |                                                                     | v1api20211101/storage     |                                                             |  Status   | Notes |
 |:--------------------------|:--------------------------------------------------------------------|:--------------------------|:------------------------------------------------------------|:---------:|:------|
@@ -897,7 +890,7 @@
 
 ### ServersDatabasesSecurityAlertPolicyOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211101        |                               | v1api20211101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -907,7 +900,7 @@
 
 ### ServersDatabasesSecurityAlertPolicy_STATUS
 
-11 x Identical, 1 x New, 1 x Modified
+Properties: 11 x Identical, 1 x New, 1 x Modified
 
 | v1api20211101      |                                                                           | v1api20211101/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -927,7 +920,7 @@
 
 ### ServersDatabasesSecurityAlertPolicy_Spec
 
-8 x Identical, 2 x New, 1 x Modified
+Properties: 8 x Identical, 2 x New, 1 x Modified
 
 | v1api20211101           |                                                                    | v1api20211101/storage   |                                                  |  Status   | Notes |
 |:------------------------|:-------------------------------------------------------------------|:------------------------|:-------------------------------------------------|:---------:|:------|
@@ -945,7 +938,7 @@
 
 ### ServersDatabasesTransparentDataEncryptionOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211101        |                               | v1api20211101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -955,7 +948,7 @@
 
 ### ServersDatabasesTransparentDataEncryption_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20211101 |                                                   | v1api20211101/storage |                        |  Status   | Notes |
 |:--------------|:--------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -968,7 +961,7 @@
 
 ### ServersDatabasesTransparentDataEncryption_Spec
 
-2 x Identical, 2 x New, 1 x Modified
+Properties: 2 x Identical, 2 x New, 1 x Modified
 
 | v1api20211101 |                                                        | v1api20211101/storage |                                                        |  Status   | Notes |
 |:--------------|:-------------------------------------------------------|:----------------------|:-------------------------------------------------------|:---------:|:------|
@@ -980,7 +973,7 @@
 
 ### ServersDatabasesVulnerabilityAssessmentOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211101        |                               | v1api20211101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -990,7 +983,7 @@
 
 ### ServersDatabasesVulnerabilityAssessment_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20211101        |                                                         | v1api20211101/storage |                                                         |  Status   | Notes |
 |:---------------------|:--------------------------------------------------------|:----------------------|:--------------------------------------------------------|:---------:|:------|
@@ -1004,7 +997,7 @@
 
 ### ServersDatabasesVulnerabilityAssessment_Spec
 
-7 x Identical, 2 x New
+Properties: 7 x Identical, 2 x New
 
 | v1api20211101                  |                                                      | v1api20211101/storage          |                                                      |  Status   | Notes |
 |:-------------------------------|:-----------------------------------------------------|:-------------------------------|:-----------------------------------------------------|:---------:|:------|
@@ -1020,7 +1013,7 @@
 
 ### ServersElasticPoolOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211101        |                               | v1api20211101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1030,7 +1023,7 @@
 
 ### ServersElasticPool_STATUS
 
-15 x Identical, 1 x New, 2 x Modified
+Properties: 15 x Identical, 1 x New, 2 x Modified
 
 | v1api20211101                |                                           | v1api20211101/storage        |                                        |  Status   | Notes |
 |:-----------------------------|:------------------------------------------|:-----------------------------|:---------------------------------------|:---------:|:------|
@@ -1055,7 +1048,7 @@
 
 ### ServersElasticPool_Spec
 
-12 x Identical, 2 x New, 1 x Modified
+Properties: 12 x Identical, 2 x New, 1 x Modified
 
 | v1api20211101                |                                    | v1api20211101/storage        |                                    |  Status   | Notes |
 |:-----------------------------|:-----------------------------------|:-----------------------------|:-----------------------------------|:---------:|:------|
@@ -1077,7 +1070,7 @@
 
 ### ServersFailoverGroupOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211101        |                               | v1api20211101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1087,7 +1080,7 @@
 
 ### ServersFailoverGroup_STATUS
 
-11 x Identical, 1 x New, 1 x Modified
+Properties: 11 x Identical, 1 x New, 1 x Modified
 
 | v1api20211101     |                                                 | v1api20211101/storage |                                        |  Status   | Notes |
 |:------------------|:------------------------------------------------|:----------------------|:---------------------------------------|:---------:|:------|
@@ -1107,7 +1100,7 @@
 
 ### ServersFailoverGroup_Spec
 
-8 x Identical, 2 x New
+Properties: 8 x Identical, 2 x New
 
 | v1api20211101       |                                    | v1api20211101/storage |                                    |  Status   | Notes |
 |:--------------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -1124,7 +1117,7 @@
 
 ### ServersFirewallRuleOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211101        |                               | v1api20211101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1134,7 +1127,7 @@
 
 ### ServersFirewallRule_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20211101  |                        | v1api20211101/storage |                        |  Status   | Notes |
 |:---------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1148,7 +1141,7 @@
 
 ### ServersFirewallRule_Spec
 
-5 x Identical, 2 x New
+Properties: 5 x Identical, 2 x New
 
 | v1api20211101  |                                    | v1api20211101/storage |                                    |  Status   | Notes |
 |:---------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -1162,7 +1155,7 @@
 
 ### ServersIPV6FirewallRuleOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211101        |                               | v1api20211101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1172,7 +1165,7 @@
 
 ### ServersIPV6FirewallRule_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20211101    |                        | v1api20211101/storage |                        |  Status   | Notes |
 |:-----------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1186,7 +1179,7 @@
 
 ### ServersIPV6FirewallRule_Spec
 
-5 x Identical, 2 x New
+Properties: 5 x Identical, 2 x New
 
 | v1api20211101    |                                      | v1api20211101/storage |                                      |  Status   | Notes |
 |:-----------------|:-------------------------------------|:----------------------|:-------------------------------------|:---------:|:------|
@@ -1200,7 +1193,7 @@
 
 ### ServersOutboundFirewallRuleOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211101        |                               | v1api20211101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1210,7 +1203,7 @@
 
 ### ServersOutboundFirewallRule_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20211101     |                        | v1api20211101/storage |                        |  Status   | Notes |
 |:------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1223,7 +1216,7 @@
 
 ### ServersOutboundFirewallRule_Spec
 
-3 x Identical, 2 x New
+Properties: 3 x Identical, 2 x New
 
 | v1api20211101 |                                          | v1api20211101/storage |                                          |  Status   | Notes |
 |:--------------|:-----------------------------------------|:----------------------|:-----------------------------------------|:---------:|:------|
@@ -1235,7 +1228,7 @@
 
 ### ServersSecurityAlertPolicyOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211101        |                               | v1api20211101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1245,7 +1238,7 @@
 
 ### ServersSecurityAlertPolicy_STATUS
 
-11 x Identical, 1 x New, 1 x Modified
+Properties: 11 x Identical, 1 x New, 1 x Modified
 
 | v1api20211101      |                                                                         | v1api20211101/storage |                        |  Status   | Notes |
 |:-------------------|:------------------------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1265,7 +1258,7 @@
 
 ### ServersSecurityAlertPolicy_Spec
 
-8 x Identical, 2 x New, 1 x Modified
+Properties: 8 x Identical, 2 x New, 1 x Modified
 
 | v1api20211101           |                                                                  | v1api20211101/storage   |                                         |  Status   | Notes |
 |:------------------------|:-----------------------------------------------------------------|:------------------------|:----------------------------------------|:---------:|:------|
@@ -1283,7 +1276,7 @@
 
 ### ServersVirtualNetworkRuleOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211101        |                               | v1api20211101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1293,7 +1286,7 @@
 
 ### ServersVirtualNetworkRule_STATUS
 
-6 x Identical, 1 x New, 1 x Modified
+Properties: 6 x Identical, 1 x New, 1 x Modified
 
 | v1api20211101                    |                                            | v1api20211101/storage            |                        |  Status   | Notes |
 |:---------------------------------|:-------------------------------------------|:---------------------------------|:-----------------------|:---------:|:------|
@@ -1308,7 +1301,7 @@
 
 ### ServersVirtualNetworkRule_Spec
 
-5 x Identical, 2 x New
+Properties: 5 x Identical, 2 x New
 
 | v1api20211101                    |                                        | v1api20211101/storage            |                                        |  Status   | Notes |
 |:---------------------------------|:---------------------------------------|:---------------------------------|:---------------------------------------|:---------:|:------|
@@ -1322,7 +1315,7 @@
 
 ### ServersVulnerabilityAssessmentOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211101        |                               | v1api20211101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1332,7 +1325,7 @@
 
 ### ServersVulnerabilityAssessment_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20211101        |                                                         | v1api20211101/storage |                                                         |  Status   | Notes |
 |:---------------------|:--------------------------------------------------------|:----------------------|:--------------------------------------------------------|:---------:|:------|
@@ -1346,7 +1339,7 @@
 
 ### ServersVulnerabilityAssessment_Spec
 
-7 x Identical, 2 x New
+Properties: 7 x Identical, 2 x New
 
 | v1api20211101                  |                                                  | v1api20211101/storage          |                                                  |  Status   | Notes |
 |:-------------------------------|:-------------------------------------------------|:-------------------------------|:-------------------------------------------------|:---------:|:------|
@@ -1362,7 +1355,7 @@
 
 ### Sku
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20211101 |         | v1api20211101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1375,7 +1368,7 @@
 
 ### Sku_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20211101 |         | v1api20211101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1388,7 +1381,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20211101      |                                       | v1api20211101/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1402,7 +1395,7 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20211101 |                              | v1api20211101/storage |                              |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -1411,7 +1404,7 @@
 
 ### UserIdentity_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211101 |         | v1api20211101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1421,7 +1414,7 @@
 
 ### VulnerabilityAssessmentRecurringScansProperties
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20211101           |          | v1api20211101/storage   |                        |  Status   | Notes |
 |:------------------------|:---------|:------------------------|:-----------------------|:---------:|:------|
@@ -1432,7 +1425,7 @@
 
 ### VulnerabilityAssessmentRecurringScansProperties_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20211101           |          | v1api20211101/storage   |                        |  Status   | Notes |
 |:------------------------|:---------|:------------------------|:-----------------------|:---------:|:------|
@@ -1440,3 +1433,12 @@
 | Emails                  | string[] | Emails                  | string[]               | Identical |       |
 | IsEnabled               | *bool    | IsEnabled               | *bool                  | Identical |       |
 |                         |          | PropertyBag             | genruntime.PropertyBag |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

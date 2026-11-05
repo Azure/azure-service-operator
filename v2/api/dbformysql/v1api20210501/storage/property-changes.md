@@ -8,6 +8,8 @@
 | FlexibleServersDatabase     | FlexibleServersDatabase     | Identical |       |
 | FlexibleServersFirewallRule | FlexibleServersFirewallRule | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
 | v1api20210501/storage                   | v20210501/storage                       |  Status   | Notes |
@@ -19,8 +21,8 @@
 | FlexibleServerOperatorConfigMaps        | FlexibleServerOperatorConfigMaps        | Identical |       |
 | FlexibleServerOperatorSecrets           | FlexibleServerOperatorSecrets           | Identical |       |
 | FlexibleServerOperatorSpec              | FlexibleServerOperatorSpec              | Identical |       |
-| FlexibleServer_STATUS                   | FlexibleServer_STATUS                   | Modified  |       |
-| FlexibleServer_Spec                     | FlexibleServer_Spec                     | Modified  |       |
+| FlexibleServer_STATUS                   | FlexibleServer_STATUS                   | Identical |       |
+| FlexibleServer_Spec                     | FlexibleServer_Spec                     | Identical |       |
 | FlexibleServersDatabaseOperatorSpec     | FlexibleServersDatabaseOperatorSpec     | Identical |       |
 | FlexibleServersDatabase_STATUS          | FlexibleServersDatabase_STATUS          | Identical |       |
 | FlexibleServersDatabase_Spec            | FlexibleServersDatabase_Spec            | Identical |       |
@@ -44,72 +46,9 @@
 
 ## Legend
 
-* **Identical**: No properties changed.
+* **Identical**: No properties changed (or the differences are trivial).
 * **New**: The type or property exists only in the newer version.
 * **Retired**: The type or property exists only in the older version.
 * **Renamed**: A configured rename links the old and new names.
 * **Extended**: The newer type only adds properties.
 * **Modified**: Properties were retired, renamed, or changed type.
-
-### FlexibleServer_STATUS
-
-24 x Identical, 2 x Modified
-
-| v1api20210501/storage    |                           | v20210501/storage        |                           |  Status   | Notes |
-|:-------------------------|:--------------------------|:-------------------------|:--------------------------|:---------:|:------|
-| AdministratorLogin       | *string                   | AdministratorLogin       | *string                   | Identical |       |
-| AvailabilityZone         | *string                   | AvailabilityZone         | *string                   | Identical |       |
-| Backup                   | *Backup_STATUS            | Backup                   | *Backup_STATUS            | Identical |       |
-| Conditions               | conditions.Condition[]    | Conditions               | conditions.Condition[]    | Identical |       |
-| CreateMode               | *string                   | CreateMode               | *string                   | Identical |       |
-| DataEncryption           | *DataEncryption_STATUS    | DataEncryption           | *DataEncryption_STATUS    | Identical |       |
-| FullyQualifiedDomainName | *string                   | FullyQualifiedDomainName | *string                   | Identical |       |
-| HighAvailability         | *HighAvailability_STATUS  | HighAvailability         | *HighAvailability_STATUS  | Identical |       |
-| Id                       | *string                   | Id                       | *string                   | Identical |       |
-| Identity                 | *Identity_STATUS          | Identity                 | *Identity_STATUS          | Modified  |       |
-| Location                 | *string                   | Location                 | *string                   | Identical |       |
-| MaintenanceWindow        | *MaintenanceWindow_STATUS | MaintenanceWindow        | *MaintenanceWindow_STATUS | Identical |       |
-| Name                     | *string                   | Name                     | *string                   | Identical |       |
-| Network                  | *Network_STATUS           | Network                  | *Network_STATUS           | Identical |       |
-| PropertyBag              | genruntime.PropertyBag    | PropertyBag              | genruntime.PropertyBag    | Identical |       |
-| ReplicaCapacity          | *int                      | ReplicaCapacity          | *int                      | Identical |       |
-| ReplicationRole          | *string                   | ReplicationRole          | *string                   | Identical |       |
-| RestorePointInTime       | *string                   | RestorePointInTime       | *string                   | Identical |       |
-| Sku                      | *Sku_STATUS               | Sku                      | *Sku_STATUS               | Modified  |       |
-| SourceServerResourceId   | *string                   | SourceServerResourceId   | *string                   | Identical |       |
-| State                    | *string                   | State                    | *string                   | Identical |       |
-| Storage                  | *Storage_STATUS           | Storage                  | *Storage_STATUS           | Identical |       |
-| SystemData               | *SystemData_STATUS        | SystemData               | *SystemData_STATUS        | Identical |       |
-| Tags                     | map[string]string         | Tags                     | map[string]string         | Identical |       |
-| Type                     | *string                   | Type                     | *string                   | Identical |       |
-| Version                  | *string                   | Version                  | *string                   | Identical |       |
-
-### FlexibleServer_Spec
-
-21 x Identical, 2 x Modified
-
-| v1api20210501/storage      |                                    | v20210501/storage          |                                    |  Status   | Notes |
-|:---------------------------|:-----------------------------------|:---------------------------|:-----------------------------------|:---------:|:------|
-| AdministratorLogin         | *string                            | AdministratorLogin         | *string                            | Identical |       |
-| AdministratorLoginPassword | *genruntime.SecretReference        | AdministratorLoginPassword | *genruntime.SecretReference        | Identical |       |
-| AvailabilityZone           | *string                            | AvailabilityZone           | *string                            | Identical |       |
-| AzureName                  | string                             | AzureName                  | string                             | Identical |       |
-| Backup                     | *Backup                            | Backup                     | *Backup                            | Identical |       |
-| CreateMode                 | *string                            | CreateMode                 | *string                            | Identical |       |
-| DataEncryption             | *DataEncryption                    | DataEncryption             | *DataEncryption                    | Identical |       |
-| HighAvailability           | *HighAvailability                  | HighAvailability           | *HighAvailability                  | Identical |       |
-| Identity                   | *Identity                          | Identity                   | *Identity                          | Modified  |       |
-| Location                   | *string                            | Location                   | *string                            | Identical |       |
-| MaintenanceWindow          | *MaintenanceWindow                 | MaintenanceWindow          | *MaintenanceWindow                 | Identical |       |
-| Network                    | *Network                           | Network                    | *Network                           | Identical |       |
-| OperatorSpec               | *FlexibleServerOperatorSpec        | OperatorSpec               | *FlexibleServerOperatorSpec        | Identical |       |
-| OriginalVersion            | string                             | OriginalVersion            | string                             | Identical |       |
-| Owner                      | *genruntime.KnownResourceReference | Owner                      | *genruntime.KnownResourceReference | Identical |       |
-| PropertyBag                | genruntime.PropertyBag             | PropertyBag                | genruntime.PropertyBag             | Identical |       |
-| ReplicationRole            | *string                            | ReplicationRole            | *string                            | Identical |       |
-| RestorePointInTime         | *string                            | RestorePointInTime         | *string                            | Identical |       |
-| Sku                        | *Sku                               | Sku                        | *Sku                               | Modified  |       |
-| SourceServerResourceId     | *string                            | SourceServerResourceId     | *string                            | Identical |       |
-| Storage                    | *Storage                           | Storage                    | *Storage                           | Identical |       |
-| Tags                       | map[string]string                  | Tags                       | map[string]string                  | Identical |       |
-| Version                    | *string                            | Version                    | *string                            | Identical |       |

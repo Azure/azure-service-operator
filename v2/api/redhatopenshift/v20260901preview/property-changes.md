@@ -8,109 +8,102 @@
 | HcpOpenShiftClustersExternalAuth | HcpOpenShiftClustersExternalAuth | Identical |       |
 | HcpOpenShiftClustersNodePool     | HcpOpenShiftClustersNodePool     | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20260901preview                             | v20260901preview/storage                     |  Status  | Notes |
-|:---------------------------------------------|:---------------------------------------------|:--------:|:------|
-| ApiProfile                                   | ApiProfile                                   | Modified |       |
-| ApiProfile_STATUS                            | ApiProfile_STATUS                            | Modified |       |
-| ClusterAutoscalingProfile                    | ClusterAutoscalingProfile                    | Modified |       |
-| ClusterAutoscalingProfile_STATUS             | ClusterAutoscalingProfile_STATUS             | Extended |       |
-| ClusterImageRegistryProfile                  | ClusterImageRegistryProfile                  | Modified |       |
-| ClusterImageRegistryProfile_STATUS           | ClusterImageRegistryProfile_STATUS           | Modified |       |
-| Condition_STATUS                             | Condition_STATUS                             | Modified |       |
-| ConsoleProfile_STATUS                        | ConsoleProfile_STATUS                        | Extended |       |
-| CustomerManagedEncryptionProfile             | CustomerManagedEncryptionProfile             | Modified |       |
-| CustomerManagedEncryptionProfile_STATUS      | CustomerManagedEncryptionProfile_STATUS      | Modified |       |
-| DnsProfile                                   | DnsProfile                                   | Modified |       |
-| DnsProfile_STATUS                            | DnsProfile_STATUS                            | Extended |       |
-| EtcdDataEncryptionProfile                    | EtcdDataEncryptionProfile                    | Modified |       |
-| EtcdDataEncryptionProfile_STATUS             | EtcdDataEncryptionProfile_STATUS             | Modified |       |
-| EtcdProfile                                  | EtcdProfile                                  | Extended |       |
-| EtcdProfile_STATUS                           | EtcdProfile_STATUS                           | Extended |       |
-| ExternalAuthClaimProfile                     | ExternalAuthClaimProfile                     | Extended |       |
-| ExternalAuthClaimProfile_STATUS              | ExternalAuthClaimProfile_STATUS              | Extended |       |
-| ExternalAuthClientComponentProfile           | ExternalAuthClientComponentProfile           | Modified |       |
-| ExternalAuthClientComponentProfile_STATUS    | ExternalAuthClientComponentProfile_STATUS    | Modified |       |
-| ExternalAuthClientProfile                    | ExternalAuthClientProfile                    | Modified |       |
-| ExternalAuthClientProfile_STATUS             | ExternalAuthClientProfile_STATUS             | Modified |       |
-| ExternalAuthProperties                       | ExternalAuthProperties                       | Modified |       |
-| ExternalAuthProperties_STATUS                | ExternalAuthProperties_STATUS                | Modified |       |
-| GroupClaimProfile                            | GroupClaimProfile                            | Modified |       |
-| GroupClaimProfile_STATUS                     | GroupClaimProfile_STATUS                     | Extended |       |
-| HcpOpenShiftClusterOperatorSecrets           | HcpOpenShiftClusterOperatorSecrets           | Extended |       |
-| HcpOpenShiftClusterOperatorSpec              | HcpOpenShiftClusterOperatorSpec              | Extended |       |
-| HcpOpenShiftClusterProperties                | HcpOpenShiftClusterProperties                | Modified |       |
-| HcpOpenShiftClusterProperties_STATUS         | HcpOpenShiftClusterProperties_STATUS         | Modified |       |
-| HcpOpenShiftCluster_STATUS                   | HcpOpenShiftCluster_STATUS                   | Extended |       |
-| HcpOpenShiftCluster_Spec                     | HcpOpenShiftCluster_Spec                     | Modified |       |
-| HcpOpenShiftClustersExternalAuthOperatorSpec | HcpOpenShiftClustersExternalAuthOperatorSpec | Extended |       |
-| HcpOpenShiftClustersExternalAuth_STATUS      | HcpOpenShiftClustersExternalAuth_STATUS      | Extended |       |
-| HcpOpenShiftClustersExternalAuth_Spec        | HcpOpenShiftClustersExternalAuth_Spec        | Modified |       |
-| HcpOpenShiftClustersNodePoolOperatorSpec     | HcpOpenShiftClustersNodePoolOperatorSpec     | Extended |       |
-| HcpOpenShiftClustersNodePool_STATUS          | HcpOpenShiftClustersNodePool_STATUS          | Extended |       |
-| HcpOpenShiftClustersNodePool_Spec            | HcpOpenShiftClustersNodePool_Spec            | Modified |       |
-| ImageDigestMirror                            | ImageDigestMirror                            | Modified |       |
-| ImageDigestMirror_STATUS                     | ImageDigestMirror_STATUS                     | Modified |       |
-| IngressProfile                               | IngressProfile                               | Modified |       |
-| IngressProfile_STATUS                        | IngressProfile_STATUS                        | Modified |       |
-| KmsEncryptionProfile                         | KmsEncryptionProfile                         | Modified |       |
-| KmsEncryptionProfile_STATUS                  | KmsEncryptionProfile_STATUS                  | Modified |       |
-| KmsKey                                       | KmsKey                                       | Modified |       |
-| KmsKey_STATUS                                | KmsKey_STATUS                                | Extended |       |
-| Label                                        | Label                                        | Extended |       |
-| Label_STATUS                                 | Label_STATUS                                 | Extended |       |
-| ManagedServiceIdentity                       | ManagedServiceIdentity                       | Modified |       |
-| ManagedServiceIdentity_STATUS                | ManagedServiceIdentity_STATUS                | Modified |       |
-| NetworkProfile                               | NetworkProfile                               | Modified |       |
-| NetworkProfile_STATUS                        | NetworkProfile_STATUS                        | Modified |       |
-| NodePoolAutoScaling                          | NodePoolAutoScaling                          | Modified |       |
-| NodePoolAutoScaling_STATUS                   | NodePoolAutoScaling_STATUS                   | Extended |       |
-| NodePoolPlatformProfile                      | NodePoolPlatformProfile                      | Extended |       |
-| NodePoolPlatformProfile_STATUS               | NodePoolPlatformProfile_STATUS               | Extended |       |
-| NodePoolProperties                           | NodePoolProperties                           | Modified |       |
-| NodePoolProperties_STATUS                    | NodePoolProperties_STATUS                    | Modified |       |
-| NodePoolVersionProfile                       | NodePoolVersionProfile                       | Extended |       |
-| NodePoolVersionProfile_STATUS                | NodePoolVersionProfile_STATUS                | Extended |       |
-| OperatorsAuthenticationProfile               | OperatorsAuthenticationProfile               | Extended |       |
-| OperatorsAuthenticationProfile_STATUS        | OperatorsAuthenticationProfile_STATUS        | Extended |       |
-| OsDiskProfile                                | OsDiskProfile                                | Modified |       |
-| OsDiskProfile_STATUS                         | OsDiskProfile_STATUS                         | Modified |       |
-| PlatformProfile                              | PlatformProfile                              | Modified |       |
-| PlatformProfile_STATUS                       | PlatformProfile_STATUS                       | Modified |       |
-| ResourceStatus_STATUS                        | ResourceStatus_STATUS                        | Extended |       |
-| SystemData_STATUS                            | SystemData_STATUS                            | Modified |       |
-| Taint                                        | Taint                                        | Modified |       |
-| Taint_STATUS                                 | Taint_STATUS                                 | Modified |       |
-| TokenClaimMappingsProfile                    | TokenClaimMappingsProfile                    | Extended |       |
-| TokenClaimMappingsProfile_STATUS             | TokenClaimMappingsProfile_STATUS             | Extended |       |
-| TokenClaimValidationRule                     | TokenClaimValidationRule                     | Modified |       |
-| TokenClaimValidationRule_STATUS              | TokenClaimValidationRule_STATUS              | Modified |       |
-| TokenIssuerProfile                           | TokenIssuerProfile                           | Modified |       |
-| TokenIssuerProfile_STATUS                    | TokenIssuerProfile_STATUS                    | Extended |       |
-| TokenRequiredClaim                           | TokenRequiredClaim                           | Modified |       |
-| TokenRequiredClaim_STATUS                    | TokenRequiredClaim_STATUS                    | Extended |       |
-| UserAssignedIdentitiesProfile                | UserAssignedIdentitiesProfile                | Extended |       |
-| UserAssignedIdentitiesProfile_STATUS         | UserAssignedIdentitiesProfile_STATUS         | Extended |       |
-| UserAssignedIdentityDetails                  | UserAssignedIdentityDetails                  | Extended |       |
-| UserAssignedIdentity_STATUS                  | UserAssignedIdentity_STATUS                  | Extended |       |
-| UsernameClaimProfile                         | UsernameClaimProfile                         | Modified |       |
-| UsernameClaimProfile_STATUS                  | UsernameClaimProfile_STATUS                  | Modified |       |
-| VersionProfile                               | VersionProfile                               | Extended |       |
-| VersionProfile_STATUS                        | VersionProfile_STATUS                        | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20260901preview                             | v20260901preview/storage                     |  Status  | Notes        |
+|:---------------------------------------------|:---------------------------------------------|:--------:|:-------------|
+| ApiProfile                                   | ApiProfile                                   | Modified |              |
+| ApiProfile_STATUS                            | ApiProfile_STATUS                            | Modified |              |
+| ClusterAutoscalingProfile                    | ClusterAutoscalingProfile                    | Extended | +PropertyBag |
+| ClusterAutoscalingProfile_STATUS             | ClusterAutoscalingProfile_STATUS             | Extended | +PropertyBag |
+| ClusterImageRegistryProfile                  | ClusterImageRegistryProfile                  | Modified |              |
+| ClusterImageRegistryProfile_STATUS           | ClusterImageRegistryProfile_STATUS           | Modified |              |
+| Condition_STATUS                             | Condition_STATUS                             | Modified |              |
+| ConsoleProfile_STATUS                        | ConsoleProfile_STATUS                        | Extended | +PropertyBag |
+| CustomerManagedEncryptionProfile             | CustomerManagedEncryptionProfile             | Modified |              |
+| CustomerManagedEncryptionProfile_STATUS      | CustomerManagedEncryptionProfile_STATUS      | Modified |              |
+| DnsProfile                                   | DnsProfile                                   | Extended | +PropertyBag |
+| DnsProfile_STATUS                            | DnsProfile_STATUS                            | Extended | +PropertyBag |
+| EtcdDataEncryptionProfile                    | EtcdDataEncryptionProfile                    | Modified |              |
+| EtcdDataEncryptionProfile_STATUS             | EtcdDataEncryptionProfile_STATUS             | Modified |              |
+| EtcdProfile                                  | EtcdProfile                                  | Extended | +PropertyBag |
+| EtcdProfile_STATUS                           | EtcdProfile_STATUS                           | Extended | +PropertyBag |
+| ExternalAuthClaimProfile                     | ExternalAuthClaimProfile                     | Extended | +PropertyBag |
+| ExternalAuthClaimProfile_STATUS              | ExternalAuthClaimProfile_STATUS              | Extended | +PropertyBag |
+| ExternalAuthClientComponentProfile           | ExternalAuthClientComponentProfile           | Extended | +PropertyBag |
+| ExternalAuthClientComponentProfile_STATUS    | ExternalAuthClientComponentProfile_STATUS    | Extended | +PropertyBag |
+| ExternalAuthClientProfile                    | ExternalAuthClientProfile                    | Modified |              |
+| ExternalAuthClientProfile_STATUS             | ExternalAuthClientProfile_STATUS             | Modified |              |
+| ExternalAuthProperties                       | ExternalAuthProperties                       | Modified |              |
+| ExternalAuthProperties_STATUS                | ExternalAuthProperties_STATUS                | Modified |              |
+| GroupClaimProfile                            | GroupClaimProfile                            | Extended | +PropertyBag |
+| GroupClaimProfile_STATUS                     | GroupClaimProfile_STATUS                     | Extended | +PropertyBag |
+| HcpOpenShiftClusterOperatorSecrets           | HcpOpenShiftClusterOperatorSecrets           | Extended | +PropertyBag |
+| HcpOpenShiftClusterOperatorSpec              | HcpOpenShiftClusterOperatorSpec              | Extended | +PropertyBag |
+| HcpOpenShiftClusterProperties                | HcpOpenShiftClusterProperties                | Modified |              |
+| HcpOpenShiftClusterProperties_STATUS         | HcpOpenShiftClusterProperties_STATUS         | Modified |              |
+| HcpOpenShiftCluster_STATUS                   | HcpOpenShiftCluster_STATUS                   | Extended | +PropertyBag |
+| HcpOpenShiftCluster_Spec                     | HcpOpenShiftCluster_Spec                     | Modified |              |
+| HcpOpenShiftClustersExternalAuthOperatorSpec | HcpOpenShiftClustersExternalAuthOperatorSpec | Extended | +PropertyBag |
+| HcpOpenShiftClustersExternalAuth_STATUS      | HcpOpenShiftClustersExternalAuth_STATUS      | Extended | +PropertyBag |
+| HcpOpenShiftClustersExternalAuth_Spec        | HcpOpenShiftClustersExternalAuth_Spec        | Modified |              |
+| HcpOpenShiftClustersNodePoolOperatorSpec     | HcpOpenShiftClustersNodePoolOperatorSpec     | Extended | +PropertyBag |
+| HcpOpenShiftClustersNodePool_STATUS          | HcpOpenShiftClustersNodePool_STATUS          | Extended | +PropertyBag |
+| HcpOpenShiftClustersNodePool_Spec            | HcpOpenShiftClustersNodePool_Spec            | Modified |              |
+| ImageDigestMirror                            | ImageDigestMirror                            | Modified |              |
+| ImageDigestMirror_STATUS                     | ImageDigestMirror_STATUS                     | Modified |              |
+| IngressProfile                               | IngressProfile                               | Modified |              |
+| IngressProfile_STATUS                        | IngressProfile_STATUS                        | Modified |              |
+| KmsEncryptionProfile                         | KmsEncryptionProfile                         | Modified |              |
+| KmsEncryptionProfile_STATUS                  | KmsEncryptionProfile_STATUS                  | Modified |              |
+| KmsKey                                       | KmsKey                                       | Extended | +PropertyBag |
+| KmsKey_STATUS                                | KmsKey_STATUS                                | Extended | +PropertyBag |
+| Label                                        | Label                                        | Extended | +PropertyBag |
+| Label_STATUS                                 | Label_STATUS                                 | Extended | +PropertyBag |
+| ManagedServiceIdentity                       | ManagedServiceIdentity                       | Modified |              |
+| ManagedServiceIdentity_STATUS                | ManagedServiceIdentity_STATUS                | Modified |              |
+| NetworkProfile                               | NetworkProfile                               | Modified |              |
+| NetworkProfile_STATUS                        | NetworkProfile_STATUS                        | Modified |              |
+| NodePoolAutoScaling                          | NodePoolAutoScaling                          | Extended | +PropertyBag |
+| NodePoolAutoScaling_STATUS                   | NodePoolAutoScaling_STATUS                   | Extended | +PropertyBag |
+| NodePoolPlatformProfile                      | NodePoolPlatformProfile                      | Extended | +PropertyBag |
+| NodePoolPlatformProfile_STATUS               | NodePoolPlatformProfile_STATUS               | Extended | +PropertyBag |
+| NodePoolProperties                           | NodePoolProperties                           | Extended | +PropertyBag |
+| NodePoolProperties_STATUS                    | NodePoolProperties_STATUS                    | Modified |              |
+| NodePoolVersionProfile                       | NodePoolVersionProfile                       | Extended | +PropertyBag |
+| NodePoolVersionProfile_STATUS                | NodePoolVersionProfile_STATUS                | Extended | +PropertyBag |
+| OperatorsAuthenticationProfile               | OperatorsAuthenticationProfile               | Extended | +PropertyBag |
+| OperatorsAuthenticationProfile_STATUS        | OperatorsAuthenticationProfile_STATUS        | Extended | +PropertyBag |
+| OsDiskProfile                                | OsDiskProfile                                | Modified |              |
+| OsDiskProfile_STATUS                         | OsDiskProfile_STATUS                         | Modified |              |
+| PlatformProfile                              | PlatformProfile                              | Modified |              |
+| PlatformProfile_STATUS                       | PlatformProfile_STATUS                       | Modified |              |
+| ResourceStatus_STATUS                        | ResourceStatus_STATUS                        | Extended | +PropertyBag |
+| SystemData_STATUS                            | SystemData_STATUS                            | Modified |              |
+| Taint                                        | Taint                                        | Modified |              |
+| Taint_STATUS                                 | Taint_STATUS                                 | Modified |              |
+| TokenClaimMappingsProfile                    | TokenClaimMappingsProfile                    | Extended | +PropertyBag |
+| TokenClaimMappingsProfile_STATUS             | TokenClaimMappingsProfile_STATUS             | Extended | +PropertyBag |
+| TokenClaimValidationRule                     | TokenClaimValidationRule                     | Modified |              |
+| TokenClaimValidationRule_STATUS              | TokenClaimValidationRule_STATUS              | Modified |              |
+| TokenIssuerProfile                           | TokenIssuerProfile                           | Modified |              |
+| TokenIssuerProfile_STATUS                    | TokenIssuerProfile_STATUS                    | Extended | +PropertyBag |
+| TokenRequiredClaim                           | TokenRequiredClaim                           | Extended | +PropertyBag |
+| TokenRequiredClaim_STATUS                    | TokenRequiredClaim_STATUS                    | Extended | +PropertyBag |
+| UserAssignedIdentitiesProfile                | UserAssignedIdentitiesProfile                | Extended | +PropertyBag |
+| UserAssignedIdentitiesProfile_STATUS         | UserAssignedIdentitiesProfile_STATUS         | Extended | +PropertyBag |
+| UserAssignedIdentityDetails                  | UserAssignedIdentityDetails                  | Extended | +PropertyBag |
+| UserAssignedIdentity_STATUS                  | UserAssignedIdentity_STATUS                  | Extended | +PropertyBag |
+| UsernameClaimProfile                         | UsernameClaimProfile                         | Modified |              |
+| UsernameClaimProfile_STATUS                  | UsernameClaimProfile_STATUS                  | Modified |              |
+| VersionProfile                               | VersionProfile                               | Extended | +PropertyBag |
+| VersionProfile_STATUS                        | VersionProfile_STATUS                        | Extended | +PropertyBag |
 
 ### ApiProfile
 
-1 x New, 2 x Modified
+Properties: 1 x New, 2 x Modified
 
 | v20260901preview |                              | v20260901preview/storage |                        |  Status  | Notes |
 |:-----------------|:-----------------------------|:-------------------------|:-----------------------|:--------:|:------|
@@ -120,7 +113,7 @@
 
 ### ApiProfile_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20260901preview |                               | v20260901preview/storage |                        |  Status   | Notes |
 |:-----------------|:------------------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -131,19 +124,19 @@
 
 ### ClusterAutoscalingProfile
 
-1 x Identical, 1 x New, 3 x Modified
+Properties: 4 x Identical, 1 x New
 
 | v20260901preview            |                          | v20260901preview/storage    |                        |  Status   | Notes |
 |:----------------------------|:-------------------------|:----------------------------|:-----------------------|:---------:|:------|
-| MaxNodeProvisionTimeSeconds | Validated<*int> (1 rule) | MaxNodeProvisionTimeSeconds | *int                   | Modified  |       |
-| MaxNodesTotal               | Validated<*int> (1 rule) | MaxNodesTotal               | *int                   | Modified  |       |
-| MaxPodGracePeriodSeconds    | Validated<*int> (1 rule) | MaxPodGracePeriodSeconds    | *int                   | Modified  |       |
+| MaxNodeProvisionTimeSeconds | Validated<*int> (1 rule) | MaxNodeProvisionTimeSeconds | *int                   | Identical |       |
+| MaxNodesTotal               | Validated<*int> (1 rule) | MaxNodesTotal               | *int                   | Identical |       |
+| MaxPodGracePeriodSeconds    | Validated<*int> (1 rule) | MaxPodGracePeriodSeconds    | *int                   | Identical |       |
 | PodPriorityThreshold        | *int                     | PodPriorityThreshold        | *int                   | Identical |       |
 |                             |                          | PropertyBag                 | genruntime.PropertyBag |    New    |       |
 
 ### ClusterAutoscalingProfile_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20260901preview            |      | v20260901preview/storage    |                        |  Status   | Notes |
 |:----------------------------|:-----|:----------------------------|:-----------------------|:---------:|:------|
@@ -155,7 +148,7 @@
 
 ### ClusterImageRegistryProfile
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v20260901preview |                                    | v20260901preview/storage |                        |  Status  | Notes |
 |:-----------------|:-----------------------------------|:-------------------------|:-----------------------|:--------:|:------|
@@ -164,7 +157,7 @@
 
 ### ClusterImageRegistryProfile_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v20260901preview |                                           | v20260901preview/storage |                        |  Status  | Notes |
 |:-----------------|:------------------------------------------|:-------------------------|:-----------------------|:--------:|:------|
@@ -173,20 +166,20 @@
 
 ### Condition_STATUS
 
-1 x Identical, 1 x New, 4 x Modified
+Properties: 3 x Identical, 1 x New, 2 x Modified
 
 | v20260901preview   |                              | v20260901preview/storage |                        |  Status   | Notes |
 |:-------------------|:-----------------------------|:-------------------------|:-----------------------|:---------:|:------|
 | LastTransitionTime | *string                      | LastTransitionTime       | *string                | Identical |       |
-| Message            | Validated<*string> (1 rule)  | Message                  | *string                | Modified  |       |
+| Message            | Validated<*string> (1 rule)  | Message                  | *string                | Identical |       |
 |                    |                              | PropertyBag              | genruntime.PropertyBag |    New    |       |
-| Reason             | Validated<*string> (3 rules) | Reason                   | *string                | Modified  |       |
+| Reason             | Validated<*string> (3 rules) | Reason                   | *string                | Identical |       |
 | Status             | *StatusType_STATUS           | Status                   | *string                | Modified  |       |
 | Type               | *ConditionType_STATUS        | Type                     | *string                | Modified  |       |
 
 ### ConsoleProfile_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20260901preview |         | v20260901preview/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:-------------------------|:-----------------------|:---------:|:------|
@@ -195,7 +188,7 @@
 
 ### CustomerManagedEncryptionProfile
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20260901preview |                                                  | v20260901preview/storage |                        |  Status   | Notes |
 |:-----------------|:-------------------------------------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -205,7 +198,7 @@
 
 ### CustomerManagedEncryptionProfile_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20260901preview |                                                         | v20260901preview/storage |                              |  Status   | Notes |
 |:-----------------|:--------------------------------------------------------|:-------------------------|:-----------------------------|:---------:|:------|
@@ -215,16 +208,16 @@
 
 ### DnsProfile
 
-1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New
 
-| v20260901preview |                              | v20260901preview/storage |                        |  Status  | Notes |
-|:-----------------|:-----------------------------|:-------------------------|:-----------------------|:--------:|:------|
-| BaseDomainPrefix | Validated<*string> (2 rules) | BaseDomainPrefix         | *string                | Modified |       |
-|                  |                              | PropertyBag              | genruntime.PropertyBag |   New    |       |
+| v20260901preview |                              | v20260901preview/storage |                        |  Status   | Notes |
+|:-----------------|:-----------------------------|:-------------------------|:-----------------------|:---------:|:------|
+| BaseDomainPrefix | Validated<*string> (2 rules) | BaseDomainPrefix         | *string                | Identical |       |
+|                  |                              | PropertyBag              | genruntime.PropertyBag |    New    |       |
 
 ### DnsProfile_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20260901preview |         | v20260901preview/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:-------------------------|:-----------------------|:---------:|:------|
@@ -234,7 +227,7 @@
 
 ### EtcdDataEncryptionProfile
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20260901preview  |                                          | v20260901preview/storage |                                   |  Status   | Notes |
 |:------------------|:-----------------------------------------|:-------------------------|:----------------------------------|:---------:|:------|
@@ -244,7 +237,7 @@
 
 ### EtcdDataEncryptionProfile_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20260901preview  |                                                 | v20260901preview/storage |                                          |  Status   | Notes |
 |:------------------|:------------------------------------------------|:-------------------------|:-----------------------------------------|:---------:|:------|
@@ -254,7 +247,7 @@
 
 ### EtcdProfile
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20260901preview |                            | v20260901preview/storage |                            |  Status   | Notes |
 |:-----------------|:---------------------------|:-------------------------|:---------------------------|:---------:|:------|
@@ -263,7 +256,7 @@
 
 ### EtcdProfile_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20260901preview |                                   | v20260901preview/storage |                                   |  Status   | Notes |
 |:-----------------|:----------------------------------|:-------------------------|:----------------------------------|:---------:|:------|
@@ -272,7 +265,7 @@
 
 ### ExternalAuthClaimProfile
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20260901preview |                            | v20260901preview/storage |                            |  Status   | Notes |
 |:-----------------|:---------------------------|:-------------------------|:---------------------------|:---------:|:------|
@@ -282,7 +275,7 @@
 
 ### ExternalAuthClaimProfile_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20260901preview |                                   | v20260901preview/storage |                                   |  Status   | Notes |
 |:-----------------|:----------------------------------|:-------------------------|:----------------------------------|:---------:|:------|
@@ -292,31 +285,31 @@
 
 ### ExternalAuthClientComponentProfile
 
-1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New
 
-| v20260901preview    |                              | v20260901preview/storage |                        |  Status  | Notes |
-|:--------------------|:-----------------------------|:-------------------------|:-----------------------|:--------:|:------|
-| AuthClientNamespace | Validated<*string> (2 rules) | AuthClientNamespace      | *string                | Modified |       |
-| Name                | Validated<*string> (2 rules) | Name                     | *string                | Modified |       |
-|                     |                              | PropertyBag              | genruntime.PropertyBag |   New    |       |
+| v20260901preview    |                              | v20260901preview/storage |                        |  Status   | Notes |
+|:--------------------|:-----------------------------|:-------------------------|:-----------------------|:---------:|:------|
+| AuthClientNamespace | Validated<*string> (2 rules) | AuthClientNamespace      | *string                | Identical |       |
+| Name                | Validated<*string> (2 rules) | Name                     | *string                | Identical |       |
+|                     |                              | PropertyBag              | genruntime.PropertyBag |    New    |       |
 
 ### ExternalAuthClientComponentProfile_STATUS
 
-1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New
 
-| v20260901preview    |                              | v20260901preview/storage |                        |  Status  | Notes |
-|:--------------------|:-----------------------------|:-------------------------|:-----------------------|:--------:|:------|
-| AuthClientNamespace | Validated<*string> (2 rules) | AuthClientNamespace      | *string                | Modified |       |
-| Name                | Validated<*string> (2 rules) | Name                     | *string                | Modified |       |
-|                     |                              | PropertyBag              | genruntime.PropertyBag |   New    |       |
+| v20260901preview    |                              | v20260901preview/storage |                        |  Status   | Notes |
+|:--------------------|:-----------------------------|:-------------------------|:-----------------------|:---------:|:------|
+| AuthClientNamespace | Validated<*string> (2 rules) | AuthClientNamespace      | *string                | Identical |       |
+| Name                | Validated<*string> (2 rules) | Name                     | *string                | Identical |       |
+|                     |                              | PropertyBag              | genruntime.PropertyBag |    New    |       |
 
 ### ExternalAuthClientProfile
 
-2 x Identical, 1 x New, 2 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v20260901preview |                                     | v20260901preview/storage |                                     |  Status   | Notes |
 |:-----------------|:------------------------------------|:-------------------------|:------------------------------------|:---------:|:------|
-| ClientId         | Validated<*string> (1 rule)         | ClientId                 | *string                             | Modified  |       |
+| ClientId         | Validated<*string> (1 rule)         | ClientId                 | *string                             | Identical |       |
 | Component        | *ExternalAuthClientComponentProfile | Component                | *ExternalAuthClientComponentProfile | Identical |       |
 | ExtraScopes      | string[]                            | ExtraScopes              | string[]                            | Identical |       |
 |                  |                                     | PropertyBag              | genruntime.PropertyBag              |    New    |       |
@@ -324,11 +317,11 @@
 
 ### ExternalAuthClientProfile_STATUS
 
-2 x Identical, 1 x New, 2 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v20260901preview |                                            | v20260901preview/storage |                                            |  Status   | Notes |
 |:-----------------|:-------------------------------------------|:-------------------------|:-------------------------------------------|:---------:|:------|
-| ClientId         | Validated<*string> (1 rule)                | ClientId                 | *string                                    | Modified  |       |
+| ClientId         | Validated<*string> (1 rule)                | ClientId                 | *string                                    | Identical |       |
 | Component        | *ExternalAuthClientComponentProfile_STATUS | Component                | *ExternalAuthClientComponentProfile_STATUS | Identical |       |
 | ExtraScopes      | string[]                                   | ExtraScopes              | string[]                                   | Identical |       |
 |                  |                                            | PropertyBag              | genruntime.PropertyBag                     |    New    |       |
@@ -336,7 +329,7 @@
 
 ### ExternalAuthProperties
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20260901preview |                                                 | v20260901preview/storage |                             |  Status   | Notes |
 |:-----------------|:------------------------------------------------|:-------------------------|:----------------------------|:---------:|:------|
@@ -347,7 +340,7 @@
 
 ### ExternalAuthProperties_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v20260901preview  |                                       | v20260901preview/storage |                                    |  Status   | Notes |
 |:------------------|:--------------------------------------|:-------------------------|:-----------------------------------|:---------:|:------|
@@ -360,17 +353,17 @@
 
 ### GroupClaimProfile
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New
 
 | v20260901preview |                              | v20260901preview/storage |                        |  Status   | Notes |
 |:-----------------|:-----------------------------|:-------------------------|:-----------------------|:---------:|:------|
-| Claim            | Validated<*string> (2 rules) | Claim                    | *string                | Modified  |       |
+| Claim            | Validated<*string> (2 rules) | Claim                    | *string                | Identical |       |
 | Prefix           | *string                      | Prefix                   | *string                | Identical |       |
 |                  |                              | PropertyBag              | genruntime.PropertyBag |    New    |       |
 
 ### GroupClaimProfile_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20260901preview |         | v20260901preview/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:-------------------------|:-----------------------|:---------:|:------|
@@ -380,7 +373,7 @@
 
 ### HcpOpenShiftClusterOperatorSecrets
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20260901preview |                               | v20260901preview/storage |                               |  Status   | Notes |
 |:-----------------|:------------------------------|:-------------------------|:------------------------------|:---------:|:------|
@@ -389,7 +382,7 @@
 
 ### HcpOpenShiftClusterOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20260901preview     |                                     | v20260901preview/storage |                                     |  Status   | Notes |
 |:---------------------|:------------------------------------|:-------------------------|:------------------------------------|:---------:|:------|
@@ -400,7 +393,7 @@
 
 ### HcpOpenShiftClusterProperties
 
-9 x Identical, 1 x New, 3 x Modified
+Properties: 10 x Identical, 1 x New, 2 x Modified
 
 | v20260901preview        |                                                   | v20260901preview/storage |                              |  Status   | Notes |
 |:------------------------|:--------------------------------------------------|:-------------------------|:-----------------------------|:---------:|:------|
@@ -413,14 +406,14 @@
 | ImageDigestMirrors      | Validated<ImageDigestMirror[]> (1 rule)           | ImageDigestMirrors       | ImageDigestMirror[]          | Modified  |       |
 | Ingress                 | *IngressProfile                                   | Ingress                  | *IngressProfile              | Identical |       |
 | Network                 | *NetworkProfile                                   | Network                  | *NetworkProfile              | Identical |       |
-| NodeDrainTimeoutMinutes | Validated<*int> (2 rules)                         | NodeDrainTimeoutMinutes  | *int                         | Modified  |       |
+| NodeDrainTimeoutMinutes | Validated<*int> (2 rules)                         | NodeDrainTimeoutMinutes  | *int                         | Identical |       |
 | Platform                | *PlatformProfile                                  | Platform                 | *PlatformProfile             | Identical |       |
 |                         |                                                   | PropertyBag              | genruntime.PropertyBag       |    New    |       |
 | Version                 | *VersionProfile                                   | Version                  | *VersionProfile              | Identical |       |
 
 ### HcpOpenShiftClusterProperties_STATUS
 
-13 x Identical, 1 x New, 2 x Modified
+Properties: 13 x Identical, 1 x New, 2 x Modified
 
 | v20260901preview        |                                                          | v20260901preview/storage |                                     |  Status   | Notes |
 |:------------------------|:---------------------------------------------------------|:-------------------------|:------------------------------------|:---------:|:------|
@@ -443,7 +436,7 @@
 
 ### HcpOpenShiftCluster_STATUS
 
-9 x Identical, 1 x New
+Properties: 9 x Identical, 1 x New
 
 | v20260901preview |                                       | v20260901preview/storage |                                       |  Status   | Notes |
 |:-----------------|:--------------------------------------|:-------------------------|:--------------------------------------|:---------:|:------|
@@ -460,7 +453,7 @@
 
 ### HcpOpenShiftCluster_Spec
 
-6 x Identical, 2 x New, 1 x Modified
+Properties: 6 x Identical, 2 x New, 1 x Modified
 
 | v20260901preview |                                    | v20260901preview/storage |                                    |  Status   | Notes |
 |:-----------------|:-----------------------------------|:-------------------------|:-----------------------------------|:---------:|:------|
@@ -476,7 +469,7 @@
 
 ### HcpOpenShiftClustersExternalAuthOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20260901preview     |                               | v20260901preview/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:-------------------------|:------------------------------|:---------:|:------|
@@ -486,7 +479,7 @@
 
 ### HcpOpenShiftClustersExternalAuth_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v20260901preview |                                | v20260901preview/storage |                                |  Status   | Notes |
 |:-----------------|:-------------------------------|:-------------------------|:-------------------------------|:---------:|:------|
@@ -500,7 +493,7 @@
 
 ### HcpOpenShiftClustersExternalAuth_Spec
 
-3 x Identical, 2 x New, 1 x Modified
+Properties: 3 x Identical, 2 x New, 1 x Modified
 
 | v20260901preview |                                               | v20260901preview/storage |                                               |  Status   | Notes |
 |:-----------------|:----------------------------------------------|:-------------------------|:----------------------------------------------|:---------:|:------|
@@ -513,7 +506,7 @@
 
 ### HcpOpenShiftClustersNodePoolOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20260901preview     |                               | v20260901preview/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:-------------------------|:------------------------------|:---------:|:------|
@@ -523,7 +516,7 @@
 
 ### HcpOpenShiftClustersNodePool_STATUS
 
-9 x Identical, 1 x New
+Properties: 9 x Identical, 1 x New
 
 | v20260901preview |                                | v20260901preview/storage |                                |  Status   | Notes |
 |:-----------------|:-------------------------------|:-------------------------|:-------------------------------|:---------:|:------|
@@ -540,7 +533,7 @@
 
 ### HcpOpenShiftClustersNodePool_Spec
 
-6 x Identical, 2 x New, 1 x Modified
+Properties: 6 x Identical, 2 x New, 1 x Modified
 
 | v20260901preview |                                           | v20260901preview/storage |                                           |  Status   | Notes |
 |:-----------------|:------------------------------------------|:-------------------------|:------------------------------------------|:---------:|:------|
@@ -556,7 +549,7 @@
 
 ### ImageDigestMirror
 
-1 x New, 2 x Modified
+Properties: 1 x New, 2 x Modified
 
 | v20260901preview |                                        | v20260901preview/storage |                        |  Status  | Notes |
 |:-----------------|:---------------------------------------|:-------------------------|:-----------------------|:--------:|:------|
@@ -566,7 +559,7 @@
 
 ### ImageDigestMirror_STATUS
 
-1 x New, 2 x Modified
+Properties: 1 x New, 2 x Modified
 
 | v20260901preview |                                               | v20260901preview/storage |                        |  Status  | Notes |
 |:-----------------|:----------------------------------------------|:-------------------------|:-----------------------|:--------:|:------|
@@ -576,7 +569,7 @@
 
 ### IngressProfile
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v20260901preview |                      | v20260901preview/storage |                        |  Status  | Notes |
 |:-----------------|:---------------------|:-------------------------|:-----------------------|:--------:|:------|
@@ -585,7 +578,7 @@
 
 ### IngressProfile_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v20260901preview |                             | v20260901preview/storage |                        |  Status  | Notes |
 |:-----------------|:----------------------------|:-------------------------|:-----------------------|:--------:|:------|
@@ -594,18 +587,18 @@
 
 ### KmsEncryptionProfile
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20260901preview |                              | v20260901preview/storage |                        |  Status   | Notes |
 |:-----------------|:-----------------------------|:-------------------------|:-----------------------|:---------:|:------|
 | ActiveKey        | *KmsKey                      | ActiveKey                | *KmsKey                | Identical |       |
 |                  |                              | PropertyBag              | genruntime.PropertyBag |    New    |       |
-| VaultName        | Validated<*string> (2 rules) | VaultName                | *string                | Modified  |       |
+| VaultName        | Validated<*string> (2 rules) | VaultName                | *string                | Identical |       |
 | Visibility       | *KeyVaultVisibility          | Visibility               | *string                | Modified  |       |
 
 ### KmsEncryptionProfile_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20260901preview |                            | v20260901preview/storage |                        |  Status   | Notes |
 |:-----------------|:---------------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -616,17 +609,17 @@
 
 ### KmsKey
 
-1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New
 
-| v20260901preview |                              | v20260901preview/storage |                        |  Status  | Notes |
-|:-----------------|:-----------------------------|:-------------------------|:-----------------------|:--------:|:------|
-| Name             | Validated<*string> (2 rules) | Name                     | *string                | Modified |       |
-|                  |                              | PropertyBag              | genruntime.PropertyBag |   New    |       |
-| Version          | Validated<*string> (2 rules) | Version                  | *string                | Modified |       |
+| v20260901preview |                              | v20260901preview/storage |                        |  Status   | Notes |
+|:-----------------|:-----------------------------|:-------------------------|:-----------------------|:---------:|:------|
+| Name             | Validated<*string> (2 rules) | Name                     | *string                | Identical |       |
+|                  |                              | PropertyBag              | genruntime.PropertyBag |    New    |       |
+| Version          | Validated<*string> (2 rules) | Version                  | *string                | Identical |       |
 
 ### KmsKey_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20260901preview |         | v20260901preview/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:-------------------------|:-----------------------|:---------:|:------|
@@ -636,7 +629,7 @@
 
 ### Label
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20260901preview |         | v20260901preview/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:-------------------------|:-----------------------|:---------:|:------|
@@ -646,7 +639,7 @@
 
 ### Label_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20260901preview |         | v20260901preview/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:-------------------------|:-----------------------|:---------:|:------|
@@ -656,7 +649,7 @@
 
 ### ManagedServiceIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20260901preview       |                               | v20260901preview/storage |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-------------------------|:------------------------------|:---------:|:------|
@@ -666,7 +659,7 @@
 
 ### ManagedServiceIdentity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v20260901preview       |                                        | v20260901preview/storage |                                        |  Status   | Notes |
 |:-----------------------|:---------------------------------------|:-------------------------|:---------------------------------------|:---------:|:------|
@@ -678,7 +671,7 @@
 
 ### NetworkProfile
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v20260901preview |                             | v20260901preview/storage |                        |  Status   | Notes |
 |:-----------------|:----------------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -691,7 +684,7 @@
 
 ### NetworkProfile_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v20260901preview |                                    | v20260901preview/storage |                        |  Status   | Notes |
 |:-----------------|:-----------------------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -704,17 +697,17 @@
 
 ### NodePoolAutoScaling
 
-1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New
 
-| v20260901preview |                          | v20260901preview/storage |                        |  Status  | Notes |
-|:-----------------|:-------------------------|:-------------------------|:-----------------------|:--------:|:------|
-| Max              | Validated<*int> (1 rule) | Max                      | *int                   | Modified |       |
-| Min              | Validated<*int> (1 rule) | Min                      | *int                   | Modified |       |
-|                  |                          | PropertyBag              | genruntime.PropertyBag |   New    |       |
+| v20260901preview |                          | v20260901preview/storage |                        |  Status   | Notes |
+|:-----------------|:-------------------------|:-------------------------|:-----------------------|:---------:|:------|
+| Max              | Validated<*int> (1 rule) | Max                      | *int                   | Identical |       |
+| Min              | Validated<*int> (1 rule) | Min                      | *int                   | Identical |       |
+|                  |                          | PropertyBag              | genruntime.PropertyBag |    New    |       |
 
 ### NodePoolAutoScaling_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20260901preview |      | v20260901preview/storage |                        |  Status   | Notes |
 |:-----------------|:-----|:-------------------------|:-----------------------|:---------:|:------|
@@ -724,7 +717,7 @@
 
 ### NodePoolPlatformProfile
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v20260901preview       |                               | v20260901preview/storage |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-------------------------|:------------------------------|:---------:|:------|
@@ -737,7 +730,7 @@
 
 ### NodePoolPlatformProfile_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v20260901preview       |                       | v20260901preview/storage |                        |  Status   | Notes |
 |:-----------------------|:----------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -750,7 +743,7 @@
 
 ### NodePoolProperties
 
-7 x Identical, 1 x New, 1 x Modified
+Properties: 8 x Identical, 1 x New
 
 | v20260901preview        |                          | v20260901preview/storage |                          |  Status   | Notes |
 |:------------------------|:-------------------------|:-------------------------|:-------------------------|:---------:|:------|
@@ -760,13 +753,13 @@
 | NodeDrainTimeoutMinutes | *int                     | NodeDrainTimeoutMinutes  | *int                     | Identical |       |
 | Platform                | *NodePoolPlatformProfile | Platform                 | *NodePoolPlatformProfile | Identical |       |
 |                         |                          | PropertyBag              | genruntime.PropertyBag   |    New    |       |
-| Replicas                | Validated<*int> (1 rule) | Replicas                 | *int                     | Modified  |       |
+| Replicas                | Validated<*int> (1 rule) | Replicas                 | *int                     | Identical |       |
 | Taints                  | Taint[]                  | Taints                   | Taint[]                  | Identical |       |
 | Version                 | *NodePoolVersionProfile  | Version                  | *NodePoolVersionProfile  | Identical |       |
 
 ### NodePoolProperties_STATUS
 
-9 x Identical, 1 x New, 1 x Modified
+Properties: 9 x Identical, 1 x New, 1 x Modified
 
 | v20260901preview        |                                 | v20260901preview/storage |                                 |  Status   | Notes |
 |:------------------------|:--------------------------------|:-------------------------|:--------------------------------|:---------:|:------|
@@ -784,7 +777,7 @@
 
 ### NodePoolVersionProfile
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20260901preview |         | v20260901preview/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:-------------------------|:-----------------------|:---------:|:------|
@@ -794,7 +787,7 @@
 
 ### NodePoolVersionProfile_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20260901preview |         | v20260901preview/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:-------------------------|:-----------------------|:---------:|:------|
@@ -804,7 +797,7 @@
 
 ### OperatorsAuthenticationProfile
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20260901preview       |                                | v20260901preview/storage |                                |  Status   | Notes |
 |:-----------------------|:-------------------------------|:-------------------------|:-------------------------------|:---------:|:------|
@@ -813,7 +806,7 @@
 
 ### OperatorsAuthenticationProfile_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20260901preview       |                                       | v20260901preview/storage |                                       |  Status   | Notes |
 |:-----------------------|:--------------------------------------|:-------------------------|:--------------------------------------|:---------:|:------|
@@ -822,7 +815,7 @@
 
 ### OsDiskProfile
 
-1 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 2 x Modified
 
 | v20260901preview       |                                       | v20260901preview/storage |                               |  Status   | Notes |
 |:-----------------------|:--------------------------------------|:-------------------------|:------------------------------|:---------:|:------|
@@ -830,11 +823,11 @@
 | DiskType               | *OsDiskProfile_DiskType               | DiskType                 | *string                       | Modified  |       |
 | EncryptionSetReference | *genruntime.ResourceReference         | EncryptionSetReference   | *genruntime.ResourceReference | Identical |       |
 |                        |                                       | PropertyBag              | genruntime.PropertyBag        |    New    |       |
-| SizeGiB                | Validated<*int> (2 rules)             | SizeGiB                  | *int                          | Modified  |       |
+| SizeGiB                | Validated<*int> (2 rules)             | SizeGiB                  | *int                          | Identical |       |
 
 ### OsDiskProfile_STATUS
 
-2 x Identical, 1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New, 2 x Modified
 
 | v20260901preview       |                                              | v20260901preview/storage |                        |  Status   | Notes |
 |:-----------------------|:---------------------------------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -846,7 +839,7 @@
 
 ### PlatformProfile
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v20260901preview               |                                 | v20260901preview/storage       |                                 |  Status   | Notes |
 |:-------------------------------|:--------------------------------|:-------------------------------|:--------------------------------|:---------:|:------|
@@ -860,7 +853,7 @@
 
 ### PlatformProfile_STATUS
 
-6 x Identical, 1 x New, 1 x Modified
+Properties: 6 x Identical, 1 x New, 1 x Modified
 
 | v20260901preview        |                                        | v20260901preview/storage |                                        |  Status   | Notes |
 |:------------------------|:---------------------------------------|:-------------------------|:---------------------------------------|:---------:|:------|
@@ -875,7 +868,7 @@
 
 ### ResourceStatus_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20260901preview |                    | v20260901preview/storage |                        |  Status   | Notes |
 |:-----------------|:-------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -884,7 +877,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v20260901preview   |                                       | v20260901preview/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -898,18 +891,18 @@
 
 ### Taint
 
-1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
-| v20260901preview |                              | v20260901preview/storage |                        |  Status  | Notes |
-|:-----------------|:-----------------------------|:-------------------------|:-----------------------|:--------:|:------|
-| Effect           | *Effect                      | Effect                   | *string                | Modified |       |
-| Key              | Validated<*string> (2 rules) | Key                      | *string                | Modified |       |
-|                  |                              | PropertyBag              | genruntime.PropertyBag |   New    |       |
-| Value            | Validated<*string> (1 rule)  | Value                    | *string                | Modified |       |
+| v20260901preview |                              | v20260901preview/storage |                        |  Status   | Notes |
+|:-----------------|:-----------------------------|:-------------------------|:-----------------------|:---------:|:------|
+| Effect           | *Effect                      | Effect                   | *string                | Modified  |       |
+| Key              | Validated<*string> (2 rules) | Key                      | *string                | Identical |       |
+|                  |                              | PropertyBag              | genruntime.PropertyBag |    New    |       |
+| Value            | Validated<*string> (1 rule)  | Value                    | *string                | Identical |       |
 
 ### Taint_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20260901preview |                | v20260901preview/storage |                        |  Status   | Notes |
 |:-----------------|:---------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -920,7 +913,7 @@
 
 ### TokenClaimMappingsProfile
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20260901preview |                       | v20260901preview/storage |                        |  Status   | Notes |
 |:-----------------|:----------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -930,7 +923,7 @@
 
 ### TokenClaimMappingsProfile_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20260901preview |                              | v20260901preview/storage |                              |  Status   | Notes |
 |:-----------------|:-----------------------------|:-------------------------|:-----------------------------|:---------:|:------|
@@ -940,7 +933,7 @@
 
 ### TokenClaimValidationRule
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20260901preview |                                | v20260901preview/storage |                        |  Status   | Notes |
 |:-----------------|:-------------------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -950,7 +943,7 @@
 
 ### TokenClaimValidationRule_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20260901preview |                                       | v20260901preview/storage |                            |  Status   | Notes |
 |:-----------------|:--------------------------------------|:-------------------------|:---------------------------|:---------:|:------|
@@ -960,18 +953,18 @@
 
 ### TokenIssuerProfile
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20260901preview |                               | v20260901preview/storage |                        |  Status   | Notes |
 |:-----------------|:------------------------------|:-------------------------|:-----------------------|:---------:|:------|
 | Audiences        | Validated<string[]> (2 rules) | Audiences                | string[]               | Modified  |       |
 | Ca               | *string                       | Ca                       | *string                | Identical |       |
 |                  |                               | PropertyBag              | genruntime.PropertyBag |    New    |       |
-| Url              | Validated<*string> (1 rule)   | Url                      | *string                | Modified  |       |
+| Url              | Validated<*string> (1 rule)   | Url                      | *string                | Identical |       |
 
 ### TokenIssuerProfile_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20260901preview |          | v20260901preview/storage |                        |  Status   | Notes |
 |:-----------------|:---------|:-------------------------|:-----------------------|:---------:|:------|
@@ -982,17 +975,17 @@
 
 ### TokenRequiredClaim
 
-1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New
 
-| v20260901preview |                             | v20260901preview/storage |                        |  Status  | Notes |
-|:-----------------|:----------------------------|:-------------------------|:-----------------------|:--------:|:------|
-| Claim            | Validated<*string> (1 rule) | Claim                    | *string                | Modified |       |
-|                  |                             | PropertyBag              | genruntime.PropertyBag |   New    |       |
-| RequiredValue    | Validated<*string> (1 rule) | RequiredValue            | *string                | Modified |       |
+| v20260901preview |                             | v20260901preview/storage |                        |  Status   | Notes |
+|:-----------------|:----------------------------|:-------------------------|:-----------------------|:---------:|:------|
+| Claim            | Validated<*string> (1 rule) | Claim                    | *string                | Identical |       |
+|                  |                             | PropertyBag              | genruntime.PropertyBag |    New    |       |
+| RequiredValue    | Validated<*string> (1 rule) | RequiredValue            | *string                | Identical |       |
 
 ### TokenRequiredClaim_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20260901preview |         | v20260901preview/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:-------------------------|:-----------------------|:---------:|:------|
@@ -1002,7 +995,7 @@
 
 ### UserAssignedIdentitiesProfile
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20260901preview                |                                         | v20260901preview/storage        |                                         |  Status   | Notes |
 |:--------------------------------|:----------------------------------------|:--------------------------------|:----------------------------------------|:---------:|:------|
@@ -1013,7 +1006,7 @@
 
 ### UserAssignedIdentitiesProfile_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20260901preview       |                   | v20260901preview/storage |                        |  Status   | Notes |
 |:-----------------------|:------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -1024,7 +1017,7 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20260901preview |                              | v20260901preview/storage |                              |  Status   | Notes |
 |:-----------------|:-----------------------------|:-------------------------|:-----------------------------|:---------:|:------|
@@ -1033,7 +1026,7 @@
 
 ### UserAssignedIdentity_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20260901preview |         | v20260901preview/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:-------------------------|:-----------------------|:---------:|:------|
@@ -1043,18 +1036,18 @@
 
 ### UsernameClaimProfile
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20260901preview |                              | v20260901preview/storage |                        |  Status   | Notes |
 |:-----------------|:-----------------------------|:-------------------------|:-----------------------|:---------:|:------|
-| Claim            | Validated<*string> (2 rules) | Claim                    | *string                | Modified  |       |
+| Claim            | Validated<*string> (2 rules) | Claim                    | *string                | Identical |       |
 | Prefix           | *string                      | Prefix                   | *string                | Identical |       |
 | PrefixPolicy     | *UsernameClaimPrefixPolicy   | PrefixPolicy             | *string                | Modified  |       |
 |                  |                              | PropertyBag              | genruntime.PropertyBag |    New    |       |
 
 ### UsernameClaimProfile_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20260901preview |                                   | v20260901preview/storage |                        |  Status   | Notes |
 |:-----------------|:----------------------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -1065,7 +1058,7 @@
 
 ### VersionProfile
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20260901preview |         | v20260901preview/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:-------------------------|:-----------------------|:---------:|:------|
@@ -1075,10 +1068,19 @@
 
 ### VersionProfile_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20260901preview |         | v20260901preview/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:-------------------------|:-----------------------|:---------:|:------|
 | ChannelGroup     | *string | ChannelGroup             | *string                | Identical |       |
 | Id               | *string | Id                       | *string                | Identical |       |
 |                  |         | PropertyBag              | genruntime.PropertyBag |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

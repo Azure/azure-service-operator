@@ -6,59 +6,52 @@
 |:--------------|:----------------------|:---------:|:------|
 | Vault         | Vault                 | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20230701                            | v1api20230701/storage                    |  Status  | Notes |
-|:-----------------------------------------|:-----------------------------------------|:--------:|:------|
-| AccessPolicyEntry                        | AccessPolicyEntry                        | Modified |       |
-| AccessPolicyEntry_STATUS                 | AccessPolicyEntry_STATUS                 | Extended |       |
-| IPRule                                   | IPRule                                   | Extended |       |
-| IPRule_STATUS                            | IPRule_STATUS                            | Extended |       |
-| NetworkRuleSet                           | NetworkRuleSet                           | Modified |       |
-| NetworkRuleSet_STATUS                    | NetworkRuleSet_STATUS                    | Modified |       |
-| Permissions                              | Permissions                              | Modified |       |
-| Permissions_STATUS                       | Permissions_STATUS                       | Modified |       |
-| PrivateEndpointConnectionItem_STATUS     | PrivateEndpointConnectionItem_STATUS     | Modified |       |
-| PrivateEndpoint_STATUS                   | PrivateEndpoint_STATUS                   | Extended |       |
-| PrivateLinkServiceConnectionState_STATUS | PrivateLinkServiceConnectionState_STATUS | Modified |       |
-| Sku                                      | Sku                                      | Modified |       |
-| Sku_STATUS                               | Sku_STATUS                               | Modified |       |
-| SystemData_STATUS                        | SystemData_STATUS                        | Modified |       |
-| VaultOperatorSpec                        | VaultOperatorSpec                        | Extended |       |
-| VaultProperties                          | VaultProperties                          | Modified |       |
-| VaultProperties_STATUS                   | VaultProperties_STATUS                   | Modified |       |
-| Vault_STATUS                             | Vault_STATUS                             | Extended |       |
-| Vault_Spec                               | Vault_Spec                               | Modified |       |
-| VirtualNetworkRule                       | VirtualNetworkRule                       | Extended |       |
-| VirtualNetworkRule_STATUS                | VirtualNetworkRule_STATUS                | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20230701                            | v1api20230701/storage                    |  Status  | Notes        |
+|:-----------------------------------------|:-----------------------------------------|:--------:|:-------------|
+| AccessPolicyEntry                        | AccessPolicyEntry                        | Extended | +PropertyBag |
+| AccessPolicyEntry_STATUS                 | AccessPolicyEntry_STATUS                 | Extended | +PropertyBag |
+| IPRule                                   | IPRule                                   | Extended | +PropertyBag |
+| IPRule_STATUS                            | IPRule_STATUS                            | Extended | +PropertyBag |
+| NetworkRuleSet                           | NetworkRuleSet                           | Modified |              |
+| NetworkRuleSet_STATUS                    | NetworkRuleSet_STATUS                    | Modified |              |
+| Permissions                              | Permissions                              | Modified |              |
+| Permissions_STATUS                       | Permissions_STATUS                       | Modified |              |
+| PrivateEndpointConnectionItem_STATUS     | PrivateEndpointConnectionItem_STATUS     | Modified |              |
+| PrivateEndpoint_STATUS                   | PrivateEndpoint_STATUS                   | Extended | +PropertyBag |
+| PrivateLinkServiceConnectionState_STATUS | PrivateLinkServiceConnectionState_STATUS | Modified |              |
+| Sku                                      | Sku                                      | Modified |              |
+| Sku_STATUS                               | Sku_STATUS                               | Modified |              |
+| SystemData_STATUS                        | SystemData_STATUS                        | Modified |              |
+| VaultOperatorSpec                        | VaultOperatorSpec                        | Extended | +PropertyBag |
+| VaultProperties                          | VaultProperties                          | Modified |              |
+| VaultProperties_STATUS                   | VaultProperties_STATUS                   | Modified |              |
+| Vault_STATUS                             | Vault_STATUS                             | Extended | +PropertyBag |
+| Vault_Spec                               | Vault_Spec                               | Modified |              |
+| VirtualNetworkRule                       | VirtualNetworkRule                       | Extended | +PropertyBag |
+| VirtualNetworkRule_STATUS                | VirtualNetworkRule_STATUS                | Extended | +PropertyBag |
 
 ### AccessPolicyEntry
 
-5 x Identical, 1 x New, 2 x Modified
+Properties: 7 x Identical, 1 x New
 
 | v1api20230701           |                                | v1api20230701/storage   |                                |  Status   | Notes |
 |:------------------------|:-------------------------------|:------------------------|:-------------------------------|:---------:|:------|
-| ApplicationId           | Validated<*string> (1 rule)    | ApplicationId           | *string                        | Modified  |       |
+| ApplicationId           | Validated<*string> (1 rule)    | ApplicationId           | *string                        | Identical |       |
 | ApplicationIdFromConfig | *genruntime.ConfigMapReference | ApplicationIdFromConfig | *genruntime.ConfigMapReference | Identical |       |
 | ObjectId                | *string                        | ObjectId                | *string                        | Identical |       |
 | ObjectIdFromConfig      | *genruntime.ConfigMapReference | ObjectIdFromConfig      | *genruntime.ConfigMapReference | Identical |       |
 | Permissions             | *Permissions                   | Permissions             | *Permissions                   | Identical |       |
 |                         |                                | PropertyBag             | genruntime.PropertyBag         |    New    |       |
-| TenantId                | Validated<*string> (1 rule)    | TenantId                | *string                        | Modified  |       |
+| TenantId                | Validated<*string> (1 rule)    | TenantId                | *string                        | Identical |       |
 | TenantIdFromConfig      | *genruntime.ConfigMapReference | TenantIdFromConfig      | *genruntime.ConfigMapReference | Identical |       |
 
 ### AccessPolicyEntry_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20230701 |                     | v1api20230701/storage |                        |  Status   | Notes |
 |:--------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -70,7 +63,7 @@
 
 ### IPRule
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230701 |         | v1api20230701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -79,7 +72,7 @@
 
 ### IPRule_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230701 |         | v1api20230701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -88,7 +81,7 @@
 
 ### NetworkRuleSet
 
-2 x Identical, 1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New, 2 x Modified
 
 | v1api20230701       |                               | v1api20230701/storage |                        |  Status   | Notes |
 |:--------------------|:------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -100,7 +93,7 @@
 
 ### NetworkRuleSet_STATUS
 
-2 x Identical, 1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New, 2 x Modified
 
 | v1api20230701       |                                      | v1api20230701/storage |                             |  Status   | Notes |
 |:--------------------|:-------------------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -112,7 +105,7 @@
 
 ### Permissions
 
-1 x New, 4 x Modified
+Properties: 1 x New, 4 x Modified
 
 | v1api20230701 |                            | v1api20230701/storage |                        |  Status  | Notes |
 |:--------------|:---------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -124,7 +117,7 @@
 
 ### Permissions_STATUS
 
-1 x New, 4 x Modified
+Properties: 1 x New, 4 x Modified
 
 | v1api20230701 |                                   | v1api20230701/storage |                        |  Status  | Notes |
 |:--------------|:----------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -136,7 +129,7 @@
 
 ### PrivateEndpointConnectionItem_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20230701                     |                                                    | v1api20230701/storage             |                                           |  Status   | Notes |
 |:----------------------------------|:---------------------------------------------------|:----------------------------------|:------------------------------------------|:---------:|:------|
@@ -149,7 +142,7 @@
 
 ### PrivateEndpoint_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230701 |         | v1api20230701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -158,7 +151,7 @@
 
 ### PrivateLinkServiceConnectionState_STATUS
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v1api20230701   |                                                           | v1api20230701/storage |                        |  Status   | Notes |
 |:----------------|:----------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -169,7 +162,7 @@
 
 ### Sku
 
-1 x New, 2 x Modified
+Properties: 1 x New, 2 x Modified
 
 | v1api20230701 |             | v1api20230701/storage |                        |  Status  | Notes |
 |:--------------|:------------|:----------------------|:-----------------------|:--------:|:------|
@@ -179,7 +172,7 @@
 
 ### Sku_STATUS
 
-1 x New, 2 x Modified
+Properties: 1 x New, 2 x Modified
 
 | v1api20230701 |                    | v1api20230701/storage |                        |  Status  | Notes |
 |:--------------|:-------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -189,7 +182,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20230701      |                      | v1api20230701/storage |                        |  Status   | Notes |
 |:-------------------|:---------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -203,7 +196,7 @@
 
 ### VaultOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20230701        |                               | v1api20230701/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -213,7 +206,7 @@
 
 ### VaultProperties
 
-13 x Identical, 1 x New, 3 x Modified
+Properties: 14 x Identical, 1 x New, 2 x Modified
 
 | v1api20230701                |                                    | v1api20230701/storage        |                                |  Status   | Notes |
 |:-----------------------------|:-----------------------------------|:-----------------------------|:-------------------------------|:---------:|:------|
@@ -231,13 +224,13 @@
 | PublicNetworkAccess          | *string                            | PublicNetworkAccess          | *string                        | Identical |       |
 | Sku                          | *Sku                               | Sku                          | *Sku                           | Identical |       |
 | SoftDeleteRetentionInDays    | *int                               | SoftDeleteRetentionInDays    | *int                           | Identical |       |
-| TenantId                     | Validated<*string> (1 rule)        | TenantId                     | *string                        | Modified  |       |
+| TenantId                     | Validated<*string> (1 rule)        | TenantId                     | *string                        | Identical |       |
 | TenantIdFromConfig           | *genruntime.ConfigMapReference     | TenantIdFromConfig           | *genruntime.ConfigMapReference | Identical |       |
 | VaultUri                     | *string                            | VaultUri                     | *string                        | Identical |       |
 
 ### VaultProperties_STATUS
 
-15 x Identical, 1 x New, 2 x Modified
+Properties: 15 x Identical, 1 x New, 2 x Modified
 
 | v1api20230701                |                                           | v1api20230701/storage        |                                        |  Status   | Notes |
 |:-----------------------------|:------------------------------------------|:-----------------------------|:---------------------------------------|:---------:|:------|
@@ -262,7 +255,7 @@
 
 ### Vault_STATUS
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v1api20230701 |                         | v1api20230701/storage |                         |  Status   | Notes |
 |:--------------|:------------------------|:----------------------|:------------------------|:---------:|:------|
@@ -278,7 +271,7 @@
 
 ### Vault_Spec
 
-5 x Identical, 2 x New, 1 x Modified
+Properties: 5 x Identical, 2 x New, 1 x Modified
 
 | v1api20230701 |                                    | v1api20230701/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -293,7 +286,7 @@
 
 ### VirtualNetworkRule
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20230701                    |                               | v1api20230701/storage            |                               |  Status   | Notes |
 |:---------------------------------|:------------------------------|:---------------------------------|:------------------------------|:---------:|:------|
@@ -303,10 +296,19 @@
 
 ### VirtualNetworkRule_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20230701                    |         | v1api20230701/storage            |                        |  Status   | Notes |
 |:---------------------------------|:--------|:---------------------------------|:-----------------------|:---------:|:------|
 | Id                               | *string | Id                               | *string                | Identical |       |
 | IgnoreMissingVnetServiceEndpoint | *bool   | IgnoreMissingVnetServiceEndpoint | *bool                  | Identical |       |
 |                                  |         | PropertyBag                      | genruntime.PropertyBag |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

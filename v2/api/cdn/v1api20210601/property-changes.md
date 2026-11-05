@@ -7,177 +7,170 @@
 | Profile          | Profile               | Identical |       |
 | ProfilesEndpoint | ProfilesEndpoint      | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20210601                                              | v1api20210601/storage                                      |  Status  | Notes |
-|:-----------------------------------------------------------|:-----------------------------------------------------------|:--------:|:------|
-| CacheConfiguration                                         | CacheConfiguration                                         | Modified |       |
-| CacheConfiguration_STATUS                                  | CacheConfiguration_STATUS                                  | Modified |       |
-| CacheExpirationActionParameters                            | CacheExpirationActionParameters                            | Modified |       |
-| CacheExpirationActionParameters_STATUS                     | CacheExpirationActionParameters_STATUS                     | Modified |       |
-| CacheKeyQueryStringActionParameters                        | CacheKeyQueryStringActionParameters                        | Modified |       |
-| CacheKeyQueryStringActionParameters_STATUS                 | CacheKeyQueryStringActionParameters_STATUS                 | Modified |       |
-| ClientPortMatchConditionParameters                         | ClientPortMatchConditionParameters                         | Modified |       |
-| ClientPortMatchConditionParameters_STATUS                  | ClientPortMatchConditionParameters_STATUS                  | Modified |       |
-| CookiesMatchConditionParameters                            | CookiesMatchConditionParameters                            | Modified |       |
-| CookiesMatchConditionParameters_STATUS                     | CookiesMatchConditionParameters_STATUS                     | Modified |       |
-| DeepCreatedCustomDomain_STATUS                             | DeepCreatedCustomDomain_STATUS                             | Extended |       |
-| DeepCreatedOrigin                                          | DeepCreatedOrigin                                          | Modified |       |
-| DeepCreatedOriginGroup                                     | DeepCreatedOriginGroup                                     | Modified |       |
-| DeepCreatedOriginGroup_STATUS                              | DeepCreatedOriginGroup_STATUS                              | Extended |       |
-| DeepCreatedOrigin_STATUS                                   | DeepCreatedOrigin_STATUS                                   | Modified |       |
-| DeliveryRule                                               | DeliveryRule                                               | Extended |       |
-| DeliveryRuleAction                                         | DeliveryRuleAction                                         | Extended |       |
-| DeliveryRuleAction_STATUS                                  | DeliveryRuleAction_STATUS                                  | Extended |       |
-| DeliveryRuleCacheExpirationAction                          | DeliveryRuleCacheExpirationAction                          | Modified |       |
-| DeliveryRuleCacheExpirationAction_STATUS                   | DeliveryRuleCacheExpirationAction_STATUS                   | Modified |       |
-| DeliveryRuleCacheKeyQueryStringAction                      | DeliveryRuleCacheKeyQueryStringAction                      | Modified |       |
-| DeliveryRuleCacheKeyQueryStringAction_STATUS               | DeliveryRuleCacheKeyQueryStringAction_STATUS               | Modified |       |
-| DeliveryRuleClientPortCondition                            | DeliveryRuleClientPortCondition                            | Modified |       |
-| DeliveryRuleClientPortCondition_STATUS                     | DeliveryRuleClientPortCondition_STATUS                     | Modified |       |
-| DeliveryRuleCondition                                      | DeliveryRuleCondition                                      | Extended |       |
-| DeliveryRuleCondition_STATUS                               | DeliveryRuleCondition_STATUS                               | Extended |       |
-| DeliveryRuleCookiesCondition                               | DeliveryRuleCookiesCondition                               | Modified |       |
-| DeliveryRuleCookiesCondition_STATUS                        | DeliveryRuleCookiesCondition_STATUS                        | Modified |       |
-| DeliveryRuleHostNameCondition                              | DeliveryRuleHostNameCondition                              | Modified |       |
-| DeliveryRuleHostNameCondition_STATUS                       | DeliveryRuleHostNameCondition_STATUS                       | Modified |       |
-| DeliveryRuleHttpVersionCondition                           | DeliveryRuleHttpVersionCondition                           | Modified |       |
-| DeliveryRuleHttpVersionCondition_STATUS                    | DeliveryRuleHttpVersionCondition_STATUS                    | Modified |       |
-| DeliveryRuleIsDeviceCondition                              | DeliveryRuleIsDeviceCondition                              | Modified |       |
-| DeliveryRuleIsDeviceCondition_STATUS                       | DeliveryRuleIsDeviceCondition_STATUS                       | Modified |       |
-| DeliveryRulePostArgsCondition                              | DeliveryRulePostArgsCondition                              | Modified |       |
-| DeliveryRulePostArgsCondition_STATUS                       | DeliveryRulePostArgsCondition_STATUS                       | Modified |       |
-| DeliveryRuleQueryStringCondition                           | DeliveryRuleQueryStringCondition                           | Modified |       |
-| DeliveryRuleQueryStringCondition_STATUS                    | DeliveryRuleQueryStringCondition_STATUS                    | Modified |       |
-| DeliveryRuleRemoteAddressCondition                         | DeliveryRuleRemoteAddressCondition                         | Modified |       |
-| DeliveryRuleRemoteAddressCondition_STATUS                  | DeliveryRuleRemoteAddressCondition_STATUS                  | Modified |       |
-| DeliveryRuleRequestBodyCondition                           | DeliveryRuleRequestBodyCondition                           | Modified |       |
-| DeliveryRuleRequestBodyCondition_STATUS                    | DeliveryRuleRequestBodyCondition_STATUS                    | Modified |       |
-| DeliveryRuleRequestHeaderAction                            | DeliveryRuleRequestHeaderAction                            | Modified |       |
-| DeliveryRuleRequestHeaderAction_STATUS                     | DeliveryRuleRequestHeaderAction_STATUS                     | Modified |       |
-| DeliveryRuleRequestHeaderCondition                         | DeliveryRuleRequestHeaderCondition                         | Modified |       |
-| DeliveryRuleRequestHeaderCondition_STATUS                  | DeliveryRuleRequestHeaderCondition_STATUS                  | Modified |       |
-| DeliveryRuleRequestMethodCondition                         | DeliveryRuleRequestMethodCondition                         | Modified |       |
-| DeliveryRuleRequestMethodCondition_STATUS                  | DeliveryRuleRequestMethodCondition_STATUS                  | Modified |       |
-| DeliveryRuleRequestSchemeCondition                         | DeliveryRuleRequestSchemeCondition                         | Modified |       |
-| DeliveryRuleRequestSchemeCondition_STATUS                  | DeliveryRuleRequestSchemeCondition_STATUS                  | Modified |       |
-| DeliveryRuleRequestUriCondition                            | DeliveryRuleRequestUriCondition                            | Modified |       |
-| DeliveryRuleRequestUriCondition_STATUS                     | DeliveryRuleRequestUriCondition_STATUS                     | Modified |       |
-| DeliveryRuleResponseHeaderAction                           | DeliveryRuleResponseHeaderAction                           | Modified |       |
-| DeliveryRuleResponseHeaderAction_STATUS                    | DeliveryRuleResponseHeaderAction_STATUS                    | Modified |       |
-| DeliveryRuleRouteConfigurationOverrideAction               | DeliveryRuleRouteConfigurationOverrideAction               | Modified |       |
-| DeliveryRuleRouteConfigurationOverrideAction_STATUS        | DeliveryRuleRouteConfigurationOverrideAction_STATUS        | Modified |       |
-| DeliveryRuleServerPortCondition                            | DeliveryRuleServerPortCondition                            | Modified |       |
-| DeliveryRuleServerPortCondition_STATUS                     | DeliveryRuleServerPortCondition_STATUS                     | Modified |       |
-| DeliveryRuleSocketAddrCondition                            | DeliveryRuleSocketAddrCondition                            | Modified |       |
-| DeliveryRuleSocketAddrCondition_STATUS                     | DeliveryRuleSocketAddrCondition_STATUS                     | Modified |       |
-| DeliveryRuleSslProtocolCondition                           | DeliveryRuleSslProtocolCondition                           | Modified |       |
-| DeliveryRuleSslProtocolCondition_STATUS                    | DeliveryRuleSslProtocolCondition_STATUS                    | Modified |       |
-| DeliveryRuleUrlFileExtensionCondition                      | DeliveryRuleUrlFileExtensionCondition                      | Modified |       |
-| DeliveryRuleUrlFileExtensionCondition_STATUS               | DeliveryRuleUrlFileExtensionCondition_STATUS               | Modified |       |
-| DeliveryRuleUrlFileNameCondition                           | DeliveryRuleUrlFileNameCondition                           | Modified |       |
-| DeliveryRuleUrlFileNameCondition_STATUS                    | DeliveryRuleUrlFileNameCondition_STATUS                    | Modified |       |
-| DeliveryRuleUrlPathCondition                               | DeliveryRuleUrlPathCondition                               | Modified |       |
-| DeliveryRuleUrlPathCondition_STATUS                        | DeliveryRuleUrlPathCondition_STATUS                        | Modified |       |
-| DeliveryRule_STATUS                                        | DeliveryRule_STATUS                                        | Extended |       |
-| EndpointProperties_DeliveryPolicy                          | EndpointProperties_DeliveryPolicy                          | Extended |       |
-| EndpointProperties_DeliveryPolicy_STATUS                   | EndpointProperties_DeliveryPolicy_STATUS                   | Extended |       |
-| EndpointProperties_WebApplicationFirewallPolicyLink        | EndpointProperties_WebApplicationFirewallPolicyLink        | Extended |       |
-| EndpointProperties_WebApplicationFirewallPolicyLink_STATUS | EndpointProperties_WebApplicationFirewallPolicyLink_STATUS | Extended |       |
-| GeoFilter                                                  | GeoFilter                                                  | Modified |       |
-| GeoFilter_STATUS                                           | GeoFilter_STATUS                                           | Modified |       |
-| HeaderActionParameters                                     | HeaderActionParameters                                     | Modified |       |
-| HeaderActionParameters_STATUS                              | HeaderActionParameters_STATUS                              | Modified |       |
-| HealthProbeParameters                                      | HealthProbeParameters                                      | Modified |       |
-| HealthProbeParameters_STATUS                               | HealthProbeParameters_STATUS                               | Modified |       |
-| HostNameMatchConditionParameters                           | HostNameMatchConditionParameters                           | Modified |       |
-| HostNameMatchConditionParameters_STATUS                    | HostNameMatchConditionParameters_STATUS                    | Modified |       |
-| HttpErrorRangeParameters                                   | HttpErrorRangeParameters                                   | Modified |       |
-| HttpErrorRangeParameters_STATUS                            | HttpErrorRangeParameters_STATUS                            | Extended |       |
-| HttpVersionMatchConditionParameters                        | HttpVersionMatchConditionParameters                        | Modified |       |
-| HttpVersionMatchConditionParameters_STATUS                 | HttpVersionMatchConditionParameters_STATUS                 | Modified |       |
-| IsDeviceMatchConditionParameters                           | IsDeviceMatchConditionParameters                           | Modified |       |
-| IsDeviceMatchConditionParameters_STATUS                    | IsDeviceMatchConditionParameters_STATUS                    | Modified |       |
-| KeyVaultSigningKeyParameters                               | KeyVaultSigningKeyParameters                               | Modified |       |
-| KeyVaultSigningKeyParameters_STATUS                        | KeyVaultSigningKeyParameters_STATUS                        | Modified |       |
-| OriginGroupOverride                                        | OriginGroupOverride                                        | Modified |       |
-| OriginGroupOverrideAction                                  | OriginGroupOverrideAction                                  | Modified |       |
-| OriginGroupOverrideActionParameters                        | OriginGroupOverrideActionParameters                        | Modified |       |
-| OriginGroupOverrideActionParameters_STATUS                 | OriginGroupOverrideActionParameters_STATUS                 | Modified |       |
-| OriginGroupOverrideAction_STATUS                           | OriginGroupOverrideAction_STATUS                           | Modified |       |
-| OriginGroupOverride_STATUS                                 | OriginGroupOverride_STATUS                                 | Modified |       |
-| PostArgsMatchConditionParameters                           | PostArgsMatchConditionParameters                           | Modified |       |
-| PostArgsMatchConditionParameters_STATUS                    | PostArgsMatchConditionParameters_STATUS                    | Modified |       |
-| ProfileOperatorSpec                                        | ProfileOperatorSpec                                        | Extended |       |
-| Profile_STATUS                                             | Profile_STATUS                                             | Modified |       |
-| Profile_Spec                                               | Profile_Spec                                               | Modified |       |
-| ProfilesEndpointOperatorSpec                               | ProfilesEndpointOperatorSpec                               | Extended |       |
-| ProfilesEndpoint_STATUS                                    | ProfilesEndpoint_STATUS                                    | Modified |       |
-| ProfilesEndpoint_Spec                                      | ProfilesEndpoint_Spec                                      | Modified |       |
-| QueryStringMatchConditionParameters                        | QueryStringMatchConditionParameters                        | Modified |       |
-| QueryStringMatchConditionParameters_STATUS                 | QueryStringMatchConditionParameters_STATUS                 | Modified |       |
-| RemoteAddressMatchConditionParameters                      | RemoteAddressMatchConditionParameters                      | Modified |       |
-| RemoteAddressMatchConditionParameters_STATUS               | RemoteAddressMatchConditionParameters_STATUS               | Modified |       |
-| RequestBodyMatchConditionParameters                        | RequestBodyMatchConditionParameters                        | Modified |       |
-| RequestBodyMatchConditionParameters_STATUS                 | RequestBodyMatchConditionParameters_STATUS                 | Modified |       |
-| RequestHeaderMatchConditionParameters                      | RequestHeaderMatchConditionParameters                      | Modified |       |
-| RequestHeaderMatchConditionParameters_STATUS               | RequestHeaderMatchConditionParameters_STATUS               | Modified |       |
-| RequestMethodMatchConditionParameters                      | RequestMethodMatchConditionParameters                      | Modified |       |
-| RequestMethodMatchConditionParameters_STATUS               | RequestMethodMatchConditionParameters_STATUS               | Modified |       |
-| RequestSchemeMatchConditionParameters                      | RequestSchemeMatchConditionParameters                      | Modified |       |
-| RequestSchemeMatchConditionParameters_STATUS               | RequestSchemeMatchConditionParameters_STATUS               | Modified |       |
-| RequestUriMatchConditionParameters                         | RequestUriMatchConditionParameters                         | Modified |       |
-| RequestUriMatchConditionParameters_STATUS                  | RequestUriMatchConditionParameters_STATUS                  | Modified |       |
-| ResourceReference                                          | ResourceReference                                          | Extended |       |
-| ResourceReference_STATUS                                   | ResourceReference_STATUS                                   | Extended |       |
-| ResponseBasedOriginErrorDetectionParameters                | ResponseBasedOriginErrorDetectionParameters                | Modified |       |
-| ResponseBasedOriginErrorDetectionParameters_STATUS         | ResponseBasedOriginErrorDetectionParameters_STATUS         | Modified |       |
-| RouteConfigurationOverrideActionParameters                 | RouteConfigurationOverrideActionParameters                 | Modified |       |
-| RouteConfigurationOverrideActionParameters_STATUS          | RouteConfigurationOverrideActionParameters_STATUS          | Modified |       |
-| ServerPortMatchConditionParameters                         | ServerPortMatchConditionParameters                         | Modified |       |
-| ServerPortMatchConditionParameters_STATUS                  | ServerPortMatchConditionParameters_STATUS                  | Modified |       |
-| Sku                                                        | Sku                                                        | Modified |       |
-| Sku_STATUS                                                 | Sku_STATUS                                                 | Modified |       |
-| SocketAddrMatchConditionParameters                         | SocketAddrMatchConditionParameters                         | Modified |       |
-| SocketAddrMatchConditionParameters_STATUS                  | SocketAddrMatchConditionParameters_STATUS                  | Modified |       |
-| SslProtocolMatchConditionParameters                        | SslProtocolMatchConditionParameters                        | Modified |       |
-| SslProtocolMatchConditionParameters_STATUS                 | SslProtocolMatchConditionParameters_STATUS                 | Modified |       |
-| SystemData_STATUS                                          | SystemData_STATUS                                          | Modified |       |
-| UrlFileExtensionMatchConditionParameters                   | UrlFileExtensionMatchConditionParameters                   | Modified |       |
-| UrlFileExtensionMatchConditionParameters_STATUS            | UrlFileExtensionMatchConditionParameters_STATUS            | Modified |       |
-| UrlFileNameMatchConditionParameters                        | UrlFileNameMatchConditionParameters                        | Modified |       |
-| UrlFileNameMatchConditionParameters_STATUS                 | UrlFileNameMatchConditionParameters_STATUS                 | Modified |       |
-| UrlPathMatchConditionParameters                            | UrlPathMatchConditionParameters                            | Modified |       |
-| UrlPathMatchConditionParameters_STATUS                     | UrlPathMatchConditionParameters_STATUS                     | Modified |       |
-| UrlRedirectAction                                          | UrlRedirectAction                                          | Modified |       |
-| UrlRedirectActionParameters                                | UrlRedirectActionParameters                                | Modified |       |
-| UrlRedirectActionParameters_STATUS                         | UrlRedirectActionParameters_STATUS                         | Modified |       |
-| UrlRedirectAction_STATUS                                   | UrlRedirectAction_STATUS                                   | Modified |       |
-| UrlRewriteAction                                           | UrlRewriteAction                                           | Modified |       |
-| UrlRewriteActionParameters                                 | UrlRewriteActionParameters                                 | Modified |       |
-| UrlRewriteActionParameters_STATUS                          | UrlRewriteActionParameters_STATUS                          | Modified |       |
-| UrlRewriteAction_STATUS                                    | UrlRewriteAction_STATUS                                    | Modified |       |
-| UrlSigningAction                                           | UrlSigningAction                                           | Modified |       |
-| UrlSigningActionParameters                                 | UrlSigningActionParameters                                 | Modified |       |
-| UrlSigningActionParameters_STATUS                          | UrlSigningActionParameters_STATUS                          | Modified |       |
-| UrlSigningAction_STATUS                                    | UrlSigningAction_STATUS                                    | Modified |       |
-| UrlSigningKey                                              | UrlSigningKey                                              | Extended |       |
-| UrlSigningKey_STATUS                                       | UrlSigningKey_STATUS                                       | Extended |       |
-| UrlSigningParamIdentifier                                  | UrlSigningParamIdentifier                                  | Modified |       |
-| UrlSigningParamIdentifier_STATUS                           | UrlSigningParamIdentifier_STATUS                           | Modified |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20210601                                              | v1api20210601/storage                                      |  Status  | Notes                         |
+|:-----------------------------------------------------------|:-----------------------------------------------------------|:--------:|:------------------------------|
+| CacheConfiguration                                         | CacheConfiguration                                         | Modified |                               |
+| CacheConfiguration_STATUS                                  | CacheConfiguration_STATUS                                  | Modified |                               |
+| CacheExpirationActionParameters                            | CacheExpirationActionParameters                            | Modified |                               |
+| CacheExpirationActionParameters_STATUS                     | CacheExpirationActionParameters_STATUS                     | Modified |                               |
+| CacheKeyQueryStringActionParameters                        | CacheKeyQueryStringActionParameters                        | Modified |                               |
+| CacheKeyQueryStringActionParameters_STATUS                 | CacheKeyQueryStringActionParameters_STATUS                 | Modified |                               |
+| ClientPortMatchConditionParameters                         | ClientPortMatchConditionParameters                         | Modified |                               |
+| ClientPortMatchConditionParameters_STATUS                  | ClientPortMatchConditionParameters_STATUS                  | Modified |                               |
+| CookiesMatchConditionParameters                            | CookiesMatchConditionParameters                            | Modified |                               |
+| CookiesMatchConditionParameters_STATUS                     | CookiesMatchConditionParameters_STATUS                     | Modified |                               |
+| DeepCreatedCustomDomain_STATUS                             | DeepCreatedCustomDomain_STATUS                             | Extended | +PropertyBag                  |
+| DeepCreatedOrigin                                          | DeepCreatedOrigin                                          | Extended | +PropertyBag                  |
+| DeepCreatedOriginGroup                                     | DeepCreatedOriginGroup                                     | Extended | +PropertyBag                  |
+| DeepCreatedOriginGroup_STATUS                              | DeepCreatedOriginGroup_STATUS                              | Extended | +PropertyBag                  |
+| DeepCreatedOrigin_STATUS                                   | DeepCreatedOrigin_STATUS                                   | Modified |                               |
+| DeliveryRule                                               | DeliveryRule                                               | Extended | +PropertyBag                  |
+| DeliveryRuleAction                                         | DeliveryRuleAction                                         | Extended | +PropertyBag                  |
+| DeliveryRuleAction_STATUS                                  | DeliveryRuleAction_STATUS                                  | Extended | +PropertyBag                  |
+| DeliveryRuleCacheExpirationAction                          | DeliveryRuleCacheExpirationAction                          | Modified |                               |
+| DeliveryRuleCacheExpirationAction_STATUS                   | DeliveryRuleCacheExpirationAction_STATUS                   | Modified |                               |
+| DeliveryRuleCacheKeyQueryStringAction                      | DeliveryRuleCacheKeyQueryStringAction                      | Modified |                               |
+| DeliveryRuleCacheKeyQueryStringAction_STATUS               | DeliveryRuleCacheKeyQueryStringAction_STATUS               | Modified |                               |
+| DeliveryRuleClientPortCondition                            | DeliveryRuleClientPortCondition                            | Modified |                               |
+| DeliveryRuleClientPortCondition_STATUS                     | DeliveryRuleClientPortCondition_STATUS                     | Modified |                               |
+| DeliveryRuleCondition                                      | DeliveryRuleCondition                                      | Extended | +PropertyBag                  |
+| DeliveryRuleCondition_STATUS                               | DeliveryRuleCondition_STATUS                               | Extended | +PropertyBag                  |
+| DeliveryRuleCookiesCondition                               | DeliveryRuleCookiesCondition                               | Modified |                               |
+| DeliveryRuleCookiesCondition_STATUS                        | DeliveryRuleCookiesCondition_STATUS                        | Modified |                               |
+| DeliveryRuleHostNameCondition                              | DeliveryRuleHostNameCondition                              | Modified |                               |
+| DeliveryRuleHostNameCondition_STATUS                       | DeliveryRuleHostNameCondition_STATUS                       | Modified |                               |
+| DeliveryRuleHttpVersionCondition                           | DeliveryRuleHttpVersionCondition                           | Modified |                               |
+| DeliveryRuleHttpVersionCondition_STATUS                    | DeliveryRuleHttpVersionCondition_STATUS                    | Modified |                               |
+| DeliveryRuleIsDeviceCondition                              | DeliveryRuleIsDeviceCondition                              | Modified |                               |
+| DeliveryRuleIsDeviceCondition_STATUS                       | DeliveryRuleIsDeviceCondition_STATUS                       | Modified |                               |
+| DeliveryRulePostArgsCondition                              | DeliveryRulePostArgsCondition                              | Modified |                               |
+| DeliveryRulePostArgsCondition_STATUS                       | DeliveryRulePostArgsCondition_STATUS                       | Modified |                               |
+| DeliveryRuleQueryStringCondition                           | DeliveryRuleQueryStringCondition                           | Modified |                               |
+| DeliveryRuleQueryStringCondition_STATUS                    | DeliveryRuleQueryStringCondition_STATUS                    | Modified |                               |
+| DeliveryRuleRemoteAddressCondition                         | DeliveryRuleRemoteAddressCondition                         | Modified |                               |
+| DeliveryRuleRemoteAddressCondition_STATUS                  | DeliveryRuleRemoteAddressCondition_STATUS                  | Modified |                               |
+| DeliveryRuleRequestBodyCondition                           | DeliveryRuleRequestBodyCondition                           | Modified |                               |
+| DeliveryRuleRequestBodyCondition_STATUS                    | DeliveryRuleRequestBodyCondition_STATUS                    | Modified |                               |
+| DeliveryRuleRequestHeaderAction                            | DeliveryRuleRequestHeaderAction                            | Modified |                               |
+| DeliveryRuleRequestHeaderAction_STATUS                     | DeliveryRuleRequestHeaderAction_STATUS                     | Modified |                               |
+| DeliveryRuleRequestHeaderCondition                         | DeliveryRuleRequestHeaderCondition                         | Modified |                               |
+| DeliveryRuleRequestHeaderCondition_STATUS                  | DeliveryRuleRequestHeaderCondition_STATUS                  | Modified |                               |
+| DeliveryRuleRequestMethodCondition                         | DeliveryRuleRequestMethodCondition                         | Modified |                               |
+| DeliveryRuleRequestMethodCondition_STATUS                  | DeliveryRuleRequestMethodCondition_STATUS                  | Modified |                               |
+| DeliveryRuleRequestSchemeCondition                         | DeliveryRuleRequestSchemeCondition                         | Modified |                               |
+| DeliveryRuleRequestSchemeCondition_STATUS                  | DeliveryRuleRequestSchemeCondition_STATUS                  | Modified |                               |
+| DeliveryRuleRequestUriCondition                            | DeliveryRuleRequestUriCondition                            | Modified |                               |
+| DeliveryRuleRequestUriCondition_STATUS                     | DeliveryRuleRequestUriCondition_STATUS                     | Modified |                               |
+| DeliveryRuleResponseHeaderAction                           | DeliveryRuleResponseHeaderAction                           | Modified |                               |
+| DeliveryRuleResponseHeaderAction_STATUS                    | DeliveryRuleResponseHeaderAction_STATUS                    | Modified |                               |
+| DeliveryRuleRouteConfigurationOverrideAction               | DeliveryRuleRouteConfigurationOverrideAction               | Modified |                               |
+| DeliveryRuleRouteConfigurationOverrideAction_STATUS        | DeliveryRuleRouteConfigurationOverrideAction_STATUS        | Modified |                               |
+| DeliveryRuleServerPortCondition                            | DeliveryRuleServerPortCondition                            | Modified |                               |
+| DeliveryRuleServerPortCondition_STATUS                     | DeliveryRuleServerPortCondition_STATUS                     | Modified |                               |
+| DeliveryRuleSocketAddrCondition                            | DeliveryRuleSocketAddrCondition                            | Modified |                               |
+| DeliveryRuleSocketAddrCondition_STATUS                     | DeliveryRuleSocketAddrCondition_STATUS                     | Modified |                               |
+| DeliveryRuleSslProtocolCondition                           | DeliveryRuleSslProtocolCondition                           | Modified |                               |
+| DeliveryRuleSslProtocolCondition_STATUS                    | DeliveryRuleSslProtocolCondition_STATUS                    | Modified |                               |
+| DeliveryRuleUrlFileExtensionCondition                      | DeliveryRuleUrlFileExtensionCondition                      | Modified |                               |
+| DeliveryRuleUrlFileExtensionCondition_STATUS               | DeliveryRuleUrlFileExtensionCondition_STATUS               | Modified |                               |
+| DeliveryRuleUrlFileNameCondition                           | DeliveryRuleUrlFileNameCondition                           | Modified |                               |
+| DeliveryRuleUrlFileNameCondition_STATUS                    | DeliveryRuleUrlFileNameCondition_STATUS                    | Modified |                               |
+| DeliveryRuleUrlPathCondition                               | DeliveryRuleUrlPathCondition                               | Modified |                               |
+| DeliveryRuleUrlPathCondition_STATUS                        | DeliveryRuleUrlPathCondition_STATUS                        | Modified |                               |
+| DeliveryRule_STATUS                                        | DeliveryRule_STATUS                                        | Extended | +PropertyBag                  |
+| EndpointProperties_DeliveryPolicy                          | EndpointProperties_DeliveryPolicy                          | Extended | +PropertyBag                  |
+| EndpointProperties_DeliveryPolicy_STATUS                   | EndpointProperties_DeliveryPolicy_STATUS                   | Extended | +PropertyBag                  |
+| EndpointProperties_WebApplicationFirewallPolicyLink        | EndpointProperties_WebApplicationFirewallPolicyLink        | Extended | +PropertyBag                  |
+| EndpointProperties_WebApplicationFirewallPolicyLink_STATUS | EndpointProperties_WebApplicationFirewallPolicyLink_STATUS | Extended | +PropertyBag                  |
+| GeoFilter                                                  | GeoFilter                                                  | Modified |                               |
+| GeoFilter_STATUS                                           | GeoFilter_STATUS                                           | Modified |                               |
+| HeaderActionParameters                                     | HeaderActionParameters                                     | Modified |                               |
+| HeaderActionParameters_STATUS                              | HeaderActionParameters_STATUS                              | Modified |                               |
+| HealthProbeParameters                                      | HealthProbeParameters                                      | Modified |                               |
+| HealthProbeParameters_STATUS                               | HealthProbeParameters_STATUS                               | Modified |                               |
+| HostNameMatchConditionParameters                           | HostNameMatchConditionParameters                           | Modified |                               |
+| HostNameMatchConditionParameters_STATUS                    | HostNameMatchConditionParameters_STATUS                    | Modified |                               |
+| HttpErrorRangeParameters                                   | HttpErrorRangeParameters                                   | Extended | +PropertyBag                  |
+| HttpErrorRangeParameters_STATUS                            | HttpErrorRangeParameters_STATUS                            | Extended | +PropertyBag                  |
+| HttpVersionMatchConditionParameters                        | HttpVersionMatchConditionParameters                        | Modified |                               |
+| HttpVersionMatchConditionParameters_STATUS                 | HttpVersionMatchConditionParameters_STATUS                 | Modified |                               |
+| IsDeviceMatchConditionParameters                           | IsDeviceMatchConditionParameters                           | Modified |                               |
+| IsDeviceMatchConditionParameters_STATUS                    | IsDeviceMatchConditionParameters_STATUS                    | Modified |                               |
+| KeyVaultSigningKeyParameters                               | KeyVaultSigningKeyParameters                               | Modified |                               |
+| KeyVaultSigningKeyParameters_STATUS                        | KeyVaultSigningKeyParameters_STATUS                        | Modified |                               |
+| OriginGroupOverride                                        | OriginGroupOverride                                        | Modified |                               |
+| OriginGroupOverrideAction                                  | OriginGroupOverrideAction                                  | Modified |                               |
+| OriginGroupOverrideActionParameters                        | OriginGroupOverrideActionParameters                        | Modified |                               |
+| OriginGroupOverrideActionParameters_STATUS                 | OriginGroupOverrideActionParameters_STATUS                 | Modified |                               |
+| OriginGroupOverrideAction_STATUS                           | OriginGroupOverrideAction_STATUS                           | Modified |                               |
+| OriginGroupOverride_STATUS                                 | OriginGroupOverride_STATUS                                 | Modified |                               |
+| PostArgsMatchConditionParameters                           | PostArgsMatchConditionParameters                           | Modified |                               |
+| PostArgsMatchConditionParameters_STATUS                    | PostArgsMatchConditionParameters_STATUS                    | Modified |                               |
+| ProfileOperatorSpec                                        | ProfileOperatorSpec                                        | Extended | +PropertyBag                  |
+| Profile_STATUS                                             | Profile_STATUS                                             | Modified |                               |
+| Profile_Spec                                               | Profile_Spec                                               | Extended | +OriginalVersion +PropertyBag |
+| ProfilesEndpointOperatorSpec                               | ProfilesEndpointOperatorSpec                               | Extended | +PropertyBag                  |
+| ProfilesEndpoint_STATUS                                    | ProfilesEndpoint_STATUS                                    | Modified |                               |
+| ProfilesEndpoint_Spec                                      | ProfilesEndpoint_Spec                                      | Modified |                               |
+| QueryStringMatchConditionParameters                        | QueryStringMatchConditionParameters                        | Modified |                               |
+| QueryStringMatchConditionParameters_STATUS                 | QueryStringMatchConditionParameters_STATUS                 | Modified |                               |
+| RemoteAddressMatchConditionParameters                      | RemoteAddressMatchConditionParameters                      | Modified |                               |
+| RemoteAddressMatchConditionParameters_STATUS               | RemoteAddressMatchConditionParameters_STATUS               | Modified |                               |
+| RequestBodyMatchConditionParameters                        | RequestBodyMatchConditionParameters                        | Modified |                               |
+| RequestBodyMatchConditionParameters_STATUS                 | RequestBodyMatchConditionParameters_STATUS                 | Modified |                               |
+| RequestHeaderMatchConditionParameters                      | RequestHeaderMatchConditionParameters                      | Modified |                               |
+| RequestHeaderMatchConditionParameters_STATUS               | RequestHeaderMatchConditionParameters_STATUS               | Modified |                               |
+| RequestMethodMatchConditionParameters                      | RequestMethodMatchConditionParameters                      | Modified |                               |
+| RequestMethodMatchConditionParameters_STATUS               | RequestMethodMatchConditionParameters_STATUS               | Modified |                               |
+| RequestSchemeMatchConditionParameters                      | RequestSchemeMatchConditionParameters                      | Modified |                               |
+| RequestSchemeMatchConditionParameters_STATUS               | RequestSchemeMatchConditionParameters_STATUS               | Modified |                               |
+| RequestUriMatchConditionParameters                         | RequestUriMatchConditionParameters                         | Modified |                               |
+| RequestUriMatchConditionParameters_STATUS                  | RequestUriMatchConditionParameters_STATUS                  | Modified |                               |
+| ResourceReference                                          | ResourceReference                                          | Extended | +PropertyBag                  |
+| ResourceReference_STATUS                                   | ResourceReference_STATUS                                   | Extended | +PropertyBag                  |
+| ResponseBasedOriginErrorDetectionParameters                | ResponseBasedOriginErrorDetectionParameters                | Modified |                               |
+| ResponseBasedOriginErrorDetectionParameters_STATUS         | ResponseBasedOriginErrorDetectionParameters_STATUS         | Modified |                               |
+| RouteConfigurationOverrideActionParameters                 | RouteConfigurationOverrideActionParameters                 | Modified |                               |
+| RouteConfigurationOverrideActionParameters_STATUS          | RouteConfigurationOverrideActionParameters_STATUS          | Modified |                               |
+| ServerPortMatchConditionParameters                         | ServerPortMatchConditionParameters                         | Modified |                               |
+| ServerPortMatchConditionParameters_STATUS                  | ServerPortMatchConditionParameters_STATUS                  | Modified |                               |
+| Sku                                                        | Sku                                                        | Modified |                               |
+| Sku_STATUS                                                 | Sku_STATUS                                                 | Modified |                               |
+| SocketAddrMatchConditionParameters                         | SocketAddrMatchConditionParameters                         | Modified |                               |
+| SocketAddrMatchConditionParameters_STATUS                  | SocketAddrMatchConditionParameters_STATUS                  | Modified |                               |
+| SslProtocolMatchConditionParameters                        | SslProtocolMatchConditionParameters                        | Modified |                               |
+| SslProtocolMatchConditionParameters_STATUS                 | SslProtocolMatchConditionParameters_STATUS                 | Modified |                               |
+| SystemData_STATUS                                          | SystemData_STATUS                                          | Modified |                               |
+| UrlFileExtensionMatchConditionParameters                   | UrlFileExtensionMatchConditionParameters                   | Modified |                               |
+| UrlFileExtensionMatchConditionParameters_STATUS            | UrlFileExtensionMatchConditionParameters_STATUS            | Modified |                               |
+| UrlFileNameMatchConditionParameters                        | UrlFileNameMatchConditionParameters                        | Modified |                               |
+| UrlFileNameMatchConditionParameters_STATUS                 | UrlFileNameMatchConditionParameters_STATUS                 | Modified |                               |
+| UrlPathMatchConditionParameters                            | UrlPathMatchConditionParameters                            | Modified |                               |
+| UrlPathMatchConditionParameters_STATUS                     | UrlPathMatchConditionParameters_STATUS                     | Modified |                               |
+| UrlRedirectAction                                          | UrlRedirectAction                                          | Modified |                               |
+| UrlRedirectActionParameters                                | UrlRedirectActionParameters                                | Modified |                               |
+| UrlRedirectActionParameters_STATUS                         | UrlRedirectActionParameters_STATUS                         | Modified |                               |
+| UrlRedirectAction_STATUS                                   | UrlRedirectAction_STATUS                                   | Modified |                               |
+| UrlRewriteAction                                           | UrlRewriteAction                                           | Modified |                               |
+| UrlRewriteActionParameters                                 | UrlRewriteActionParameters                                 | Modified |                               |
+| UrlRewriteActionParameters_STATUS                          | UrlRewriteActionParameters_STATUS                          | Modified |                               |
+| UrlRewriteAction_STATUS                                    | UrlRewriteAction_STATUS                                    | Modified |                               |
+| UrlSigningAction                                           | UrlSigningAction                                           | Modified |                               |
+| UrlSigningActionParameters                                 | UrlSigningActionParameters                                 | Modified |                               |
+| UrlSigningActionParameters_STATUS                          | UrlSigningActionParameters_STATUS                          | Modified |                               |
+| UrlSigningAction_STATUS                                    | UrlSigningAction_STATUS                                    | Modified |                               |
+| UrlSigningKey                                              | UrlSigningKey                                              | Extended | +PropertyBag                  |
+| UrlSigningKey_STATUS                                       | UrlSigningKey_STATUS                                       | Extended | +PropertyBag                  |
+| UrlSigningParamIdentifier                                  | UrlSigningParamIdentifier                                  | Modified |                               |
+| UrlSigningParamIdentifier_STATUS                           | UrlSigningParamIdentifier_STATUS                           | Modified |                               |
 
 ### CacheConfiguration
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601              |                                                | v1api20210601/storage      |                        |  Status   | Notes |
 |:---------------------------|:-----------------------------------------------|:---------------------------|:-----------------------|:---------:|:------|
@@ -190,7 +183,7 @@
 
 ### CacheConfiguration_STATUS
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601              |                                                       | v1api20210601/storage      |                        |  Status   | Notes |
 |:---------------------------|:------------------------------------------------------|:---------------------------|:-----------------------|:---------:|:------|
@@ -203,7 +196,7 @@
 
 ### CacheExpirationActionParameters
 
-1 x Identical, 1 x New, 3 x Modified
+Properties: 1 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601 |                                                | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -215,7 +208,7 @@
 
 ### CacheExpirationActionParameters_STATUS
 
-1 x Identical, 1 x New, 3 x Modified
+Properties: 1 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601 |                                                       | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------|:------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -227,7 +220,7 @@
 
 ### CacheKeyQueryStringActionParameters
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v1api20210601       |                                                          | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------------|:---------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -238,7 +231,7 @@
 
 ### CacheKeyQueryStringActionParameters_STATUS
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v1api20210601       |                                                                 | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------------|:----------------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -249,7 +242,7 @@
 
 ### ClientPortMatchConditionParameters
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601   |                                              | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:---------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -262,7 +255,7 @@
 
 ### ClientPortMatchConditionParameters_STATUS
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601   |                                                     | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:----------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -275,7 +268,7 @@
 
 ### CookiesMatchConditionParameters
 
-3 x Identical, 1 x New, 3 x Modified
+Properties: 3 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601   |                                           | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -289,7 +282,7 @@
 
 ### CookiesMatchConditionParameters_STATUS
 
-3 x Identical, 1 x New, 3 x Modified
+Properties: 3 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601   |                                                  | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:-------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -303,7 +296,7 @@
 
 ### DeepCreatedCustomDomain_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20210601  |         | v1api20210601/storage |                        |  Status   | Notes |
 |:---------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -314,27 +307,27 @@
 
 ### DeepCreatedOrigin
 
-8 x Identical, 1 x New, 4 x Modified
+Properties: 12 x Identical, 1 x New
 
 | v1api20210601                |                               | v1api20210601/storage        |                               |  Status   | Notes |
 |:-----------------------------|:------------------------------|:-----------------------------|:------------------------------|:---------:|:------|
 | Enabled                      | *bool                         | Enabled                      | *bool                         | Identical |       |
 | HostName                     | *string                       | HostName                     | *string                       | Identical |       |
-| HttpPort                     | Validated<*int> (2 rules)     | HttpPort                     | *int                          | Modified  |       |
-| HttpsPort                    | Validated<*int> (2 rules)     | HttpsPort                    | *int                          | Modified  |       |
+| HttpPort                     | Validated<*int> (2 rules)     | HttpPort                     | *int                          | Identical |       |
+| HttpsPort                    | Validated<*int> (2 rules)     | HttpsPort                    | *int                          | Identical |       |
 | Name                         | *string                       | Name                         | *string                       | Identical |       |
 | OriginHostHeader             | *string                       | OriginHostHeader             | *string                       | Identical |       |
-| Priority                     | Validated<*int> (2 rules)     | Priority                     | *int                          | Modified  |       |
+| Priority                     | Validated<*int> (2 rules)     | Priority                     | *int                          | Identical |       |
 | PrivateLinkAlias             | *string                       | PrivateLinkAlias             | *string                       | Identical |       |
 | PrivateLinkApprovalMessage   | *string                       | PrivateLinkApprovalMessage   | *string                       | Identical |       |
 | PrivateLinkLocationReference | *genruntime.ResourceReference | PrivateLinkLocationReference | *genruntime.ResourceReference | Identical |       |
 | PrivateLinkResourceReference | *genruntime.ResourceReference | PrivateLinkResourceReference | *genruntime.ResourceReference | Identical |       |
 |                              |                               | PropertyBag                  | genruntime.PropertyBag        |    New    |       |
-| Weight                       | Validated<*int> (2 rules)     | Weight                       | *int                          | Modified  |       |
+| Weight                       | Validated<*int> (2 rules)     | Weight                       | *int                          | Identical |       |
 
 ### DeepCreatedOriginGroup
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New
 
 | v1api20210601                                         |                                              | v1api20210601/storage                                 |                                              |  Status   | Notes |
 |:------------------------------------------------------|:---------------------------------------------|:------------------------------------------------------|:---------------------------------------------|:---------:|:------|
@@ -343,11 +336,11 @@
 | Origins                                               | ResourceReference[]                          | Origins                                               | ResourceReference[]                          | Identical |       |
 |                                                       |                                              | PropertyBag                                           | genruntime.PropertyBag                       |    New    |       |
 | ResponseBasedOriginErrorDetectionSettings             | *ResponseBasedOriginErrorDetectionParameters | ResponseBasedOriginErrorDetectionSettings             | *ResponseBasedOriginErrorDetectionParameters | Identical |       |
-| TrafficRestorationTimeToHealedOrNewEndpointsInMinutes | Validated<*int> (2 rules)                    | TrafficRestorationTimeToHealedOrNewEndpointsInMinutes | *int                                         | Modified  |       |
+| TrafficRestorationTimeToHealedOrNewEndpointsInMinutes | Validated<*int> (2 rules)                    | TrafficRestorationTimeToHealedOrNewEndpointsInMinutes | *int                                         | Identical |       |
 
 ### DeepCreatedOriginGroup_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20210601                                         |                                                     | v1api20210601/storage                                 |                                                     |  Status   | Notes |
 |:------------------------------------------------------|:----------------------------------------------------|:------------------------------------------------------|:----------------------------------------------------|:---------:|:------|
@@ -360,7 +353,7 @@
 
 ### DeepCreatedOrigin_STATUS
 
-12 x Identical, 1 x New, 1 x Modified
+Properties: 12 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601              |                               | v1api20210601/storage      |                        |  Status   | Notes |
 |:---------------------------|:------------------------------|:---------------------------|:-----------------------|:---------:|:------|
@@ -381,7 +374,7 @@
 
 ### DeliveryRule
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20210601 |                         | v1api20210601/storage |                         |  Status   | Notes |
 |:--------------|:------------------------|:----------------------|:------------------------|:---------:|:------|
@@ -393,7 +386,7 @@
 
 ### DeliveryRuleAction
 
-9 x Identical, 1 x New
+Properties: 9 x Identical, 1 x New
 
 | v1api20210601              |                                               | v1api20210601/storage      |                                               |  Status   | Notes |
 |:---------------------------|:----------------------------------------------|:---------------------------|:----------------------------------------------|:---------:|:------|
@@ -410,7 +403,7 @@
 
 ### DeliveryRuleAction_STATUS
 
-9 x Identical, 1 x New
+Properties: 9 x Identical, 1 x New
 
 | v1api20210601              |                                                      | v1api20210601/storage      |                                                      |  Status   | Notes |
 |:---------------------------|:-----------------------------------------------------|:---------------------------|:-----------------------------------------------------|:---------:|:------|
@@ -427,7 +420,7 @@
 
 ### DeliveryRuleCacheExpirationAction
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                         | v1api20210601/storage |                                  |  Status   | Notes |
 |:--------------|:----------------------------------------|:----------------------|:---------------------------------|:---------:|:------|
@@ -437,7 +430,7 @@
 
 ### DeliveryRuleCacheExpirationAction_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                                | v1api20210601/storage |                                         |  Status   | Notes |
 |:--------------|:-----------------------------------------------|:----------------------|:----------------------------------------|:---------:|:------|
@@ -447,7 +440,7 @@
 
 ### DeliveryRuleCacheKeyQueryStringAction
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                             | v1api20210601/storage |                                      |  Status   | Notes |
 |:--------------|:--------------------------------------------|:----------------------|:-------------------------------------|:---------:|:------|
@@ -457,7 +450,7 @@
 
 ### DeliveryRuleCacheKeyQueryStringAction_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                                    | v1api20210601/storage |                                             |  Status   | Notes |
 |:--------------|:---------------------------------------------------|:----------------------|:--------------------------------------------|:---------:|:------|
@@ -467,7 +460,7 @@
 
 ### DeliveryRuleClientPortCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                       | v1api20210601/storage |                                     |  Status   | Notes |
 |:--------------|:--------------------------------------|:----------------------|:------------------------------------|:---------:|:------|
@@ -477,7 +470,7 @@
 
 ### DeliveryRuleClientPortCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                              | v1api20210601/storage |                                            |  Status   | Notes |
 |:--------------|:---------------------------------------------|:----------------------|:-------------------------------------------|:---------:|:------|
@@ -487,7 +480,7 @@
 
 ### DeliveryRuleCondition
 
-19 x Identical, 1 x New
+Properties: 19 x Identical, 1 x New
 
 | v1api20210601    |                                        | v1api20210601/storage |                                        |  Status   | Notes |
 |:-----------------|:---------------------------------------|:----------------------|:---------------------------------------|:---------:|:------|
@@ -514,7 +507,7 @@
 
 ### DeliveryRuleCondition_STATUS
 
-19 x Identical, 1 x New
+Properties: 19 x Identical, 1 x New
 
 | v1api20210601    |                                               | v1api20210601/storage |                                               |  Status   | Notes |
 |:-----------------|:----------------------------------------------|:----------------------|:----------------------------------------------|:---------:|:------|
@@ -541,7 +534,7 @@
 
 ### DeliveryRuleCookiesCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                    | v1api20210601/storage |                                  |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:---------------------------------|:---------:|:------|
@@ -551,7 +544,7 @@
 
 ### DeliveryRuleCookiesCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                           | v1api20210601/storage |                                         |  Status   | Notes |
 |:--------------|:------------------------------------------|:----------------------|:----------------------------------------|:---------:|:------|
@@ -561,7 +554,7 @@
 
 ### DeliveryRuleHostNameCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                     | v1api20210601/storage |                                   |  Status   | Notes |
 |:--------------|:------------------------------------|:----------------------|:----------------------------------|:---------:|:------|
@@ -571,7 +564,7 @@
 
 ### DeliveryRuleHostNameCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                            | v1api20210601/storage |                                          |  Status   | Notes |
 |:--------------|:-------------------------------------------|:----------------------|:-----------------------------------------|:---------:|:------|
@@ -581,7 +574,7 @@
 
 ### DeliveryRuleHttpVersionCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                        | v1api20210601/storage |                                      |  Status   | Notes |
 |:--------------|:---------------------------------------|:----------------------|:-------------------------------------|:---------:|:------|
@@ -591,7 +584,7 @@
 
 ### DeliveryRuleHttpVersionCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                               | v1api20210601/storage |                                             |  Status   | Notes |
 |:--------------|:----------------------------------------------|:----------------------|:--------------------------------------------|:---------:|:------|
@@ -601,7 +594,7 @@
 
 ### DeliveryRuleIsDeviceCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                     | v1api20210601/storage |                                   |  Status   | Notes |
 |:--------------|:------------------------------------|:----------------------|:----------------------------------|:---------:|:------|
@@ -611,7 +604,7 @@
 
 ### DeliveryRuleIsDeviceCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                            | v1api20210601/storage |                                          |  Status   | Notes |
 |:--------------|:-------------------------------------------|:----------------------|:-----------------------------------------|:---------:|:------|
@@ -621,7 +614,7 @@
 
 ### DeliveryRulePostArgsCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                     | v1api20210601/storage |                                   |  Status   | Notes |
 |:--------------|:------------------------------------|:----------------------|:----------------------------------|:---------:|:------|
@@ -631,7 +624,7 @@
 
 ### DeliveryRulePostArgsCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                            | v1api20210601/storage |                                          |  Status   | Notes |
 |:--------------|:-------------------------------------------|:----------------------|:-----------------------------------------|:---------:|:------|
@@ -641,7 +634,7 @@
 
 ### DeliveryRuleQueryStringCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                        | v1api20210601/storage |                                      |  Status   | Notes |
 |:--------------|:---------------------------------------|:----------------------|:-------------------------------------|:---------:|:------|
@@ -651,7 +644,7 @@
 
 ### DeliveryRuleQueryStringCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                               | v1api20210601/storage |                                             |  Status   | Notes |
 |:--------------|:----------------------------------------------|:----------------------|:--------------------------------------------|:---------:|:------|
@@ -661,7 +654,7 @@
 
 ### DeliveryRuleRemoteAddressCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                          | v1api20210601/storage |                                        |  Status   | Notes |
 |:--------------|:-----------------------------------------|:----------------------|:---------------------------------------|:---------:|:------|
@@ -671,7 +664,7 @@
 
 ### DeliveryRuleRemoteAddressCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                                 | v1api20210601/storage |                                               |  Status   | Notes |
 |:--------------|:------------------------------------------------|:----------------------|:----------------------------------------------|:---------:|:------|
@@ -681,7 +674,7 @@
 
 ### DeliveryRuleRequestBodyCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                        | v1api20210601/storage |                                      |  Status   | Notes |
 |:--------------|:---------------------------------------|:----------------------|:-------------------------------------|:---------:|:------|
@@ -691,7 +684,7 @@
 
 ### DeliveryRuleRequestBodyCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                               | v1api20210601/storage |                                             |  Status   | Notes |
 |:--------------|:----------------------------------------------|:----------------------|:--------------------------------------------|:---------:|:------|
@@ -701,7 +694,7 @@
 
 ### DeliveryRuleRequestHeaderAction
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                       | v1api20210601/storage |                         |  Status   | Notes |
 |:--------------|:--------------------------------------|:----------------------|:------------------------|:---------:|:------|
@@ -711,7 +704,7 @@
 
 ### DeliveryRuleRequestHeaderAction_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                              | v1api20210601/storage |                                |  Status   | Notes |
 |:--------------|:---------------------------------------------|:----------------------|:-------------------------------|:---------:|:------|
@@ -721,7 +714,7 @@
 
 ### DeliveryRuleRequestHeaderCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                          | v1api20210601/storage |                                        |  Status   | Notes |
 |:--------------|:-----------------------------------------|:----------------------|:---------------------------------------|:---------:|:------|
@@ -731,7 +724,7 @@
 
 ### DeliveryRuleRequestHeaderCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                                 | v1api20210601/storage |                                               |  Status   | Notes |
 |:--------------|:------------------------------------------------|:----------------------|:----------------------------------------------|:---------:|:------|
@@ -741,7 +734,7 @@
 
 ### DeliveryRuleRequestMethodCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                          | v1api20210601/storage |                                        |  Status   | Notes |
 |:--------------|:-----------------------------------------|:----------------------|:---------------------------------------|:---------:|:------|
@@ -751,7 +744,7 @@
 
 ### DeliveryRuleRequestMethodCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                                 | v1api20210601/storage |                                               |  Status   | Notes |
 |:--------------|:------------------------------------------------|:----------------------|:----------------------------------------------|:---------:|:------|
@@ -761,7 +754,7 @@
 
 ### DeliveryRuleRequestSchemeCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                          | v1api20210601/storage |                                        |  Status   | Notes |
 |:--------------|:-----------------------------------------|:----------------------|:---------------------------------------|:---------:|:------|
@@ -771,7 +764,7 @@
 
 ### DeliveryRuleRequestSchemeCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                                 | v1api20210601/storage |                                               |  Status   | Notes |
 |:--------------|:------------------------------------------------|:----------------------|:----------------------------------------------|:---------:|:------|
@@ -781,7 +774,7 @@
 
 ### DeliveryRuleRequestUriCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                       | v1api20210601/storage |                                     |  Status   | Notes |
 |:--------------|:--------------------------------------|:----------------------|:------------------------------------|:---------:|:------|
@@ -791,7 +784,7 @@
 
 ### DeliveryRuleRequestUriCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                              | v1api20210601/storage |                                            |  Status   | Notes |
 |:--------------|:---------------------------------------------|:----------------------|:-------------------------------------------|:---------:|:------|
@@ -801,7 +794,7 @@
 
 ### DeliveryRuleResponseHeaderAction
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                        | v1api20210601/storage |                         |  Status   | Notes |
 |:--------------|:---------------------------------------|:----------------------|:------------------------|:---------:|:------|
@@ -811,7 +804,7 @@
 
 ### DeliveryRuleResponseHeaderAction_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                               | v1api20210601/storage |                                |  Status   | Notes |
 |:--------------|:----------------------------------------------|:----------------------|:-------------------------------|:---------:|:------|
@@ -821,7 +814,7 @@
 
 ### DeliveryRuleRouteConfigurationOverrideAction
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                                    | v1api20210601/storage |                                             |  Status   | Notes |
 |:--------------|:---------------------------------------------------|:----------------------|:--------------------------------------------|:---------:|:------|
@@ -831,7 +824,7 @@
 
 ### DeliveryRuleRouteConfigurationOverrideAction_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                                           | v1api20210601/storage |                                                    |  Status   | Notes |
 |:--------------|:----------------------------------------------------------|:----------------------|:---------------------------------------------------|:---------:|:------|
@@ -841,7 +834,7 @@
 
 ### DeliveryRuleServerPortCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                       | v1api20210601/storage |                                     |  Status   | Notes |
 |:--------------|:--------------------------------------|:----------------------|:------------------------------------|:---------:|:------|
@@ -851,7 +844,7 @@
 
 ### DeliveryRuleServerPortCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                              | v1api20210601/storage |                                            |  Status   | Notes |
 |:--------------|:---------------------------------------------|:----------------------|:-------------------------------------------|:---------:|:------|
@@ -861,7 +854,7 @@
 
 ### DeliveryRuleSocketAddrCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                       | v1api20210601/storage |                                     |  Status   | Notes |
 |:--------------|:--------------------------------------|:----------------------|:------------------------------------|:---------:|:------|
@@ -871,7 +864,7 @@
 
 ### DeliveryRuleSocketAddrCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                              | v1api20210601/storage |                                            |  Status   | Notes |
 |:--------------|:---------------------------------------------|:----------------------|:-------------------------------------------|:---------:|:------|
@@ -881,7 +874,7 @@
 
 ### DeliveryRuleSslProtocolCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                        | v1api20210601/storage |                                      |  Status   | Notes |
 |:--------------|:---------------------------------------|:----------------------|:-------------------------------------|:---------:|:------|
@@ -891,7 +884,7 @@
 
 ### DeliveryRuleSslProtocolCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                               | v1api20210601/storage |                                             |  Status   | Notes |
 |:--------------|:----------------------------------------------|:----------------------|:--------------------------------------------|:---------:|:------|
@@ -901,7 +894,7 @@
 
 ### DeliveryRuleUrlFileExtensionCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                             | v1api20210601/storage |                                           |  Status   | Notes |
 |:--------------|:--------------------------------------------|:----------------------|:------------------------------------------|:---------:|:------|
@@ -911,7 +904,7 @@
 
 ### DeliveryRuleUrlFileExtensionCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                                    | v1api20210601/storage |                                                  |  Status   | Notes |
 |:--------------|:---------------------------------------------------|:----------------------|:-------------------------------------------------|:---------:|:------|
@@ -921,7 +914,7 @@
 
 ### DeliveryRuleUrlFileNameCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                        | v1api20210601/storage |                                      |  Status   | Notes |
 |:--------------|:---------------------------------------|:----------------------|:-------------------------------------|:---------:|:------|
@@ -931,7 +924,7 @@
 
 ### DeliveryRuleUrlFileNameCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                               | v1api20210601/storage |                                             |  Status   | Notes |
 |:--------------|:----------------------------------------------|:----------------------|:--------------------------------------------|:---------:|:------|
@@ -941,7 +934,7 @@
 
 ### DeliveryRuleUrlPathCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                    | v1api20210601/storage |                                  |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:---------------------------------|:---------:|:------|
@@ -951,7 +944,7 @@
 
 ### DeliveryRuleUrlPathCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                           | v1api20210601/storage |                                         |  Status   | Notes |
 |:--------------|:------------------------------------------|:----------------------|:----------------------------------------|:---------:|:------|
@@ -961,7 +954,7 @@
 
 ### DeliveryRule_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20210601 |                                | v1api20210601/storage |                                |  Status   | Notes |
 |:--------------|:-------------------------------|:----------------------|:-------------------------------|:---------:|:------|
@@ -973,7 +966,7 @@
 
 ### EndpointProperties_DeliveryPolicy
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210601 |                | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------|:---------------|:----------------------|:-----------------------|:---------:|:------|
@@ -983,7 +976,7 @@
 
 ### EndpointProperties_DeliveryPolicy_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210601 |                       | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -993,7 +986,7 @@
 
 ### EndpointProperties_WebApplicationFirewallPolicyLink
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210601 |                               | v1api20210601/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1002,7 +995,7 @@
 
 ### EndpointProperties_WebApplicationFirewallPolicyLink_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210601 |         | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1011,7 +1004,7 @@
 
 ### GeoFilter
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                   | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------|:------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1022,7 +1015,7 @@
 
 ### GeoFilter_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                          | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------|:-------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1033,7 +1026,7 @@
 
 ### HeaderActionParameters
 
-2 x Identical, 1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New, 2 x Modified
 
 | v1api20210601 |                                      | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------|:-------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1045,7 +1038,7 @@
 
 ### HeaderActionParameters_STATUS
 
-2 x Identical, 1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New, 2 x Modified
 
 | v1api20210601 |                                             | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------|:--------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1057,11 +1050,11 @@
 
 ### HealthProbeParameters
 
-1 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 2 x Modified
 
 | v1api20210601          |                                         | v1api20210601/storage  |                        |  Status   | Notes |
 |:-----------------------|:----------------------------------------|:-----------------------|:-----------------------|:---------:|:------|
-| ProbeIntervalInSeconds | Validated<*int> (2 rules)               | ProbeIntervalInSeconds | *int                   | Modified  |       |
+| ProbeIntervalInSeconds | Validated<*int> (2 rules)               | ProbeIntervalInSeconds | *int                   | Identical |       |
 | ProbePath              | *string                                 | ProbePath              | *string                | Identical |       |
 | ProbeProtocol          | *HealthProbeParameters_ProbeProtocol    | ProbeProtocol          | *string                | Modified  |       |
 | ProbeRequestType       | *HealthProbeParameters_ProbeRequestType | ProbeRequestType       | *string                | Modified  |       |
@@ -1069,7 +1062,7 @@
 
 ### HealthProbeParameters_STATUS
 
-2 x Identical, 1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New, 2 x Modified
 
 | v1api20210601          |                                                | v1api20210601/storage  |                        |  Status   | Notes |
 |:-----------------------|:-----------------------------------------------|:-----------------------|:-----------------------|:---------:|:------|
@@ -1081,7 +1074,7 @@
 
 ### HostNameMatchConditionParameters
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601   |                                            | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:-------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1094,7 +1087,7 @@
 
 ### HostNameMatchConditionParameters_STATUS
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601   |                                                   | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:--------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1107,17 +1100,17 @@
 
 ### HttpErrorRangeParameters
 
-1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New
 
-| v1api20210601 |                           | v1api20210601/storage |                        |  Status  | Notes |
-|:--------------|:--------------------------|:----------------------|:-----------------------|:--------:|:------|
-| Begin         | Validated<*int> (2 rules) | Begin                 | *int                   | Modified |       |
-| End           | Validated<*int> (2 rules) | End                   | *int                   | Modified |       |
-|               |                           | PropertyBag           | genruntime.PropertyBag |   New    |       |
+| v1api20210601 |                           | v1api20210601/storage |                        |  Status   | Notes |
+|:--------------|:--------------------------|:----------------------|:-----------------------|:---------:|:------|
+| Begin         | Validated<*int> (2 rules) | Begin                 | *int                   | Identical |       |
+| End           | Validated<*int> (2 rules) | End                   | *int                   | Identical |       |
+|               |                           | PropertyBag           | genruntime.PropertyBag |    New    |       |
 
 ### HttpErrorRangeParameters_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210601 |      | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------|:-----|:----------------------|:-----------------------|:---------:|:------|
@@ -1127,7 +1120,7 @@
 
 ### HttpVersionMatchConditionParameters
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601   |                                               | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:----------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1140,7 +1133,7 @@
 
 ### HttpVersionMatchConditionParameters_STATUS
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601   |                                                      | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:-----------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1153,7 +1146,7 @@
 
 ### IsDeviceMatchConditionParameters
 
-1 x Identical, 1 x New, 4 x Modified
+Properties: 1 x Identical, 1 x New, 4 x Modified
 
 | v1api20210601   |                                                | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:-----------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1166,7 +1159,7 @@
 
 ### IsDeviceMatchConditionParameters_STATUS
 
-1 x Identical, 1 x New, 4 x Modified
+Properties: 1 x Identical, 1 x New, 4 x Modified
 
 | v1api20210601   |                                                       | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1179,7 +1172,7 @@
 
 ### KeyVaultSigningKeyParameters
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601     |                                        | v1api20210601/storage |                        |  Status   | Notes |
 |:------------------|:---------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1193,7 +1186,7 @@
 
 ### KeyVaultSigningKeyParameters_STATUS
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601     |                                               | v1api20210601/storage |                        |  Status   | Notes |
 |:------------------|:----------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1207,7 +1200,7 @@
 
 ### OriginGroupOverride
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601      |                                         | v1api20210601/storage |                        |  Status   | Notes |
 |:-------------------|:----------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1217,7 +1210,7 @@
 
 ### OriginGroupOverrideAction
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                      | v1api20210601/storage |                                      |  Status   | Notes |
 |:--------------|:-------------------------------------|:----------------------|:-------------------------------------|:---------:|:------|
@@ -1227,7 +1220,7 @@
 
 ### OriginGroupOverrideActionParameters
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                               | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------|:----------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1237,7 +1230,7 @@
 
 ### OriginGroupOverrideActionParameters_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                                      | v1api20210601/storage |                           |  Status   | Notes |
 |:--------------|:-----------------------------------------------------|:----------------------|:--------------------------|:---------:|:------|
@@ -1247,7 +1240,7 @@
 
 ### OriginGroupOverrideAction_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                             | v1api20210601/storage |                                             |  Status   | Notes |
 |:--------------|:--------------------------------------------|:----------------------|:--------------------------------------------|:---------:|:------|
@@ -1257,7 +1250,7 @@
 
 ### OriginGroupOverride_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601      |                                                | v1api20210601/storage |                           |  Status   | Notes |
 |:-------------------|:-----------------------------------------------|:----------------------|:--------------------------|:---------:|:------|
@@ -1267,7 +1260,7 @@
 
 ### PostArgsMatchConditionParameters
 
-3 x Identical, 1 x New, 3 x Modified
+Properties: 3 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601   |                                            | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:-------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1281,7 +1274,7 @@
 
 ### PostArgsMatchConditionParameters_STATUS
 
-3 x Identical, 1 x New, 3 x Modified
+Properties: 3 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601   |                                                   | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:--------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1295,7 +1288,7 @@
 
 ### ProfileOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210601        |                               | v1api20210601/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1305,7 +1298,7 @@
 
 ### Profile_STATUS
 
-11 x Identical, 1 x New, 2 x Modified
+Properties: 11 x Identical, 1 x New, 2 x Modified
 
 | v1api20210601                |                                             | v1api20210601/storage        |                        |  Status   | Notes |
 |:-----------------------------|:--------------------------------------------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -1326,14 +1319,14 @@
 
 ### Profile_Spec
 
-6 x Identical, 2 x New, 1 x Modified
+Properties: 7 x Identical, 2 x New
 
 | v1api20210601                |                                    | v1api20210601/storage        |                                    |  Status   | Notes |
 |:-----------------------------|:-----------------------------------|:-----------------------------|:-----------------------------------|:---------:|:------|
 | AzureName                    | string                             | AzureName                    | string                             | Identical |       |
 | Location                     | *string                            | Location                     | *string                            | Identical |       |
 | OperatorSpec                 | *ProfileOperatorSpec               | OperatorSpec                 | *ProfileOperatorSpec               | Identical |       |
-| OriginResponseTimeoutSeconds | Validated<*int> (1 rule)           | OriginResponseTimeoutSeconds | *int                               | Modified  |       |
+| OriginResponseTimeoutSeconds | Validated<*int> (1 rule)           | OriginResponseTimeoutSeconds | *int                               | Identical |       |
 |                              |                                    | OriginalVersion              | string                             |    New    |       |
 | Owner                        | *genruntime.KnownResourceReference | Owner                        | *genruntime.KnownResourceReference | Identical |       |
 |                              |                                    | PropertyBag                  | genruntime.PropertyBag             |    New    |       |
@@ -1342,7 +1335,7 @@
 
 ### ProfilesEndpointOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210601        |                               | v1api20210601/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1352,7 +1345,7 @@
 
 ### ProfilesEndpoint_STATUS
 
-23 x Identical, 1 x New, 4 x Modified
+Properties: 23 x Identical, 1 x New, 4 x Modified
 
 | v1api20210601                    |                                                             | v1api20210601/storage            |                                                             |  Status   | Notes |
 |:---------------------------------|:------------------------------------------------------------|:---------------------------------|:------------------------------------------------------------|:---------:|:------|
@@ -1387,7 +1380,7 @@
 
 ### ProfilesEndpoint_Spec
 
-19 x Identical, 2 x New, 2 x Modified
+Properties: 19 x Identical, 2 x New, 2 x Modified
 
 | v1api20210601                    |                                                      | v1api20210601/storage            |                                                      |  Status   | Notes |
 |:---------------------------------|:-----------------------------------------------------|:---------------------------------|:-----------------------------------------------------|:---------:|:------|
@@ -1417,7 +1410,7 @@
 
 ### QueryStringMatchConditionParameters
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601   |                                               | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:----------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1430,7 +1423,7 @@
 
 ### QueryStringMatchConditionParameters_STATUS
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601   |                                                      | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:-----------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1443,7 +1436,7 @@
 
 ### RemoteAddressMatchConditionParameters
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601   |                                                 | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1456,7 +1449,7 @@
 
 ### RemoteAddressMatchConditionParameters_STATUS
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601   |                                                        | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:-------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1469,7 +1462,7 @@
 
 ### RequestBodyMatchConditionParameters
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601   |                                               | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:----------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1482,7 +1475,7 @@
 
 ### RequestBodyMatchConditionParameters_STATUS
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601   |                                                      | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:-----------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1495,7 +1488,7 @@
 
 ### RequestHeaderMatchConditionParameters
 
-3 x Identical, 1 x New, 3 x Modified
+Properties: 3 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601   |                                                 | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1509,7 +1502,7 @@
 
 ### RequestHeaderMatchConditionParameters_STATUS
 
-3 x Identical, 1 x New, 3 x Modified
+Properties: 3 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601   |                                                        | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:-------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1523,7 +1516,7 @@
 
 ### RequestMethodMatchConditionParameters
 
-1 x Identical, 1 x New, 4 x Modified
+Properties: 1 x Identical, 1 x New, 4 x Modified
 
 | v1api20210601   |                                                     | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:----------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1536,7 +1529,7 @@
 
 ### RequestMethodMatchConditionParameters_STATUS
 
-1 x Identical, 1 x New, 4 x Modified
+Properties: 1 x Identical, 1 x New, 4 x Modified
 
 | v1api20210601   |                                                            | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:-----------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1549,7 +1542,7 @@
 
 ### RequestSchemeMatchConditionParameters
 
-1 x Identical, 1 x New, 4 x Modified
+Properties: 1 x Identical, 1 x New, 4 x Modified
 
 | v1api20210601   |                                                     | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:----------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1562,7 +1555,7 @@
 
 ### RequestSchemeMatchConditionParameters_STATUS
 
-1 x Identical, 1 x New, 4 x Modified
+Properties: 1 x Identical, 1 x New, 4 x Modified
 
 | v1api20210601   |                                                            | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:-----------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1575,7 +1568,7 @@
 
 ### RequestUriMatchConditionParameters
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601   |                                              | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:---------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1588,7 +1581,7 @@
 
 ### RequestUriMatchConditionParameters_STATUS
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601   |                                                     | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:----------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1601,7 +1594,7 @@
 
 ### ResourceReference
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210601 |                               | v1api20210601/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1610,7 +1603,7 @@
 
 ### ResourceReference_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210601 |         | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1619,18 +1612,18 @@
 
 ### ResponseBasedOriginErrorDetectionParameters
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601                            |                                                                              | v1api20210601/storage                    |                            |  Status   | Notes |
 |:-----------------------------------------|:-----------------------------------------------------------------------------|:-----------------------------------------|:---------------------------|:---------:|:------|
 | HttpErrorRanges                          | HttpErrorRangeParameters[]                                                   | HttpErrorRanges                          | HttpErrorRangeParameters[] | Identical |       |
 |                                          |                                                                              | PropertyBag                              | genruntime.PropertyBag     |    New    |       |
 | ResponseBasedDetectedErrorTypes          | *ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes | ResponseBasedDetectedErrorTypes          | *string                    | Modified  |       |
-| ResponseBasedFailoverThresholdPercentage | Validated<*int> (2 rules)                                                    | ResponseBasedFailoverThresholdPercentage | *int                       | Modified  |       |
+| ResponseBasedFailoverThresholdPercentage | Validated<*int> (2 rules)                                                    | ResponseBasedFailoverThresholdPercentage | *int                       | Identical |       |
 
 ### ResponseBasedOriginErrorDetectionParameters_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601                            |                                                                                     | v1api20210601/storage                    |                                   |  Status   | Notes |
 |:-----------------------------------------|:------------------------------------------------------------------------------------|:-----------------------------------------|:----------------------------------|:---------:|:------|
@@ -1641,7 +1634,7 @@
 
 ### RouteConfigurationOverrideActionParameters
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601       |                                                      | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------------|:-----------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1652,7 +1645,7 @@
 
 ### RouteConfigurationOverrideActionParameters_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601       |                                                             | v1api20210601/storage |                             |  Status   | Notes |
 |:--------------------|:------------------------------------------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -1663,7 +1656,7 @@
 
 ### ServerPortMatchConditionParameters
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601   |                                              | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:---------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1676,7 +1669,7 @@
 
 ### ServerPortMatchConditionParameters_STATUS
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601   |                                                     | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:----------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1689,7 +1682,7 @@
 
 ### Sku
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20210601 |           | v1api20210601/storage |                        |  Status  | Notes |
 |:--------------|:----------|:----------------------|:-----------------------|:--------:|:------|
@@ -1698,7 +1691,7 @@
 
 ### Sku_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20210601 |                  | v1api20210601/storage |                        |  Status  | Notes |
 |:--------------|:-----------------|:----------------------|:-----------------------|:--------:|:------|
@@ -1707,7 +1700,7 @@
 
 ### SocketAddrMatchConditionParameters
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601   |                                              | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:---------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1720,7 +1713,7 @@
 
 ### SocketAddrMatchConditionParameters_STATUS
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601   |                                                     | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:----------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1733,7 +1726,7 @@
 
 ### SslProtocolMatchConditionParameters
 
-1 x Identical, 1 x New, 4 x Modified
+Properties: 1 x Identical, 1 x New, 4 x Modified
 
 | v1api20210601   |                                               | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:----------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1746,7 +1739,7 @@
 
 ### SslProtocolMatchConditionParameters_STATUS
 
-1 x Identical, 1 x New, 4 x Modified
+Properties: 1 x Identical, 1 x New, 4 x Modified
 
 | v1api20210601   |                                                      | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:-----------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1759,7 +1752,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20210601      |                      | v1api20210601/storage |                        |  Status   | Notes |
 |:-------------------|:---------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1773,7 +1766,7 @@
 
 ### UrlFileExtensionMatchConditionParameters
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601   |                                                    | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:---------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1786,7 +1779,7 @@
 
 ### UrlFileExtensionMatchConditionParameters_STATUS
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601   |                                                           | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:----------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1799,7 +1792,7 @@
 
 ### UrlFileNameMatchConditionParameters
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601   |                                               | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:----------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1812,7 +1805,7 @@
 
 ### UrlFileNameMatchConditionParameters_STATUS
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601   |                                                      | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:-----------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1825,7 +1818,7 @@
 
 ### UrlPathMatchConditionParameters
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601   |                                           | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1838,7 +1831,7 @@
 
 ### UrlPathMatchConditionParameters_STATUS
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601   |                                                  | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:-------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1851,7 +1844,7 @@
 
 ### UrlRedirectAction
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                              | v1api20210601/storage |                              |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -1861,7 +1854,7 @@
 
 ### UrlRedirectActionParameters
 
-4 x Identical, 1 x New, 3 x Modified
+Properties: 4 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601       |                                                  | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------------|:-------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1876,7 +1869,7 @@
 
 ### UrlRedirectActionParameters_STATUS
 
-4 x Identical, 1 x New, 3 x Modified
+Properties: 4 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601       |                                                         | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------------|:--------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1891,7 +1884,7 @@
 
 ### UrlRedirectAction_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                     | v1api20210601/storage |                                     |  Status   | Notes |
 |:--------------|:------------------------------------|:----------------------|:------------------------------------|:---------:|:------|
@@ -1901,7 +1894,7 @@
 
 ### UrlRewriteAction
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                             | v1api20210601/storage |                             |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -1911,7 +1904,7 @@
 
 ### UrlRewriteActionParameters
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601         |                                      | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------------|:-------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1923,7 +1916,7 @@
 
 ### UrlRewriteActionParameters_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601         |                                             | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------------|:--------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1935,7 +1928,7 @@
 
 ### UrlRewriteAction_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                    | v1api20210601/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -1945,7 +1938,7 @@
 
 ### UrlSigningAction
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                             | v1api20210601/storage |                             |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -1955,7 +1948,7 @@
 
 ### UrlSigningActionParameters
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v1api20210601         |                                       | v1api20210601/storage |                             |  Status   | Notes |
 |:----------------------|:--------------------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -1966,7 +1959,7 @@
 
 ### UrlSigningActionParameters_STATUS
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v1api20210601         |                                              | v1api20210601/storage |                                    |  Status   | Notes |
 |:----------------------|:---------------------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -1977,7 +1970,7 @@
 
 ### UrlSigningAction_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601 |                                    | v1api20210601/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -1987,7 +1980,7 @@
 
 ### UrlSigningKey
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210601       |                               | v1api20210601/storage |                               |  Status   | Notes |
 |:--------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1997,7 +1990,7 @@
 
 ### UrlSigningKey_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210601       |                                      | v1api20210601/storage |                                      |  Status   | Notes |
 |:--------------------|:-------------------------------------|:----------------------|:-------------------------------------|:---------:|:------|
@@ -2007,7 +2000,7 @@
 
 ### UrlSigningParamIdentifier
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601  |                                           | v1api20210601/storage |                        |  Status   | Notes |
 |:---------------|:------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2017,10 +2010,19 @@
 
 ### UrlSigningParamIdentifier_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601  |                                                  | v1api20210601/storage |                        |  Status   | Notes |
 |:---------------|:-------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
 | ParamIndicator | *UrlSigningParamIdentifier_ParamIndicator_STATUS | ParamIndicator        | *string                | Modified  |       |
 | ParamName      | *string                                          | ParamName             | *string                | Identical |       |
 |                |                                                  | PropertyBag           | genruntime.PropertyBag |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

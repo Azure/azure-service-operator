@@ -7,41 +7,34 @@
 | NetworkWatcher         | NetworkWatcher         | Identical |       |
 | NetworkWatchersFlowLog | NetworkWatchersFlowLog | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20241001                                        | v1api20241001/storage                                |  Status  | Notes |
-|:-----------------------------------------------------|:-----------------------------------------------------|:--------:|:------|
-| FlowLogFormatParameters                              | FlowLogFormatParameters                              | Modified |       |
-| FlowLogFormatParameters_STATUS                       | FlowLogFormatParameters_STATUS                       | Modified |       |
-| ManagedServiceIdentity                               | ManagedServiceIdentity                               | Modified |       |
-| ManagedServiceIdentity_STATUS                        | ManagedServiceIdentity_STATUS                        | Modified |       |
-| ManagedServiceIdentity_UserAssignedIdentities_STATUS | ManagedServiceIdentity_UserAssignedIdentities_STATUS | Extended |       |
-| NetworkWatcherOperatorSpec                           | NetworkWatcherOperatorSpec                           | Extended |       |
-| NetworkWatcher_STATUS                                | NetworkWatcher_STATUS                                | Modified |       |
-| NetworkWatcher_Spec                                  | NetworkWatcher_Spec                                  | Extended |       |
-| NetworkWatchersFlowLogOperatorSpec                   | NetworkWatchersFlowLogOperatorSpec                   | Extended |       |
-| NetworkWatchersFlowLog_STATUS                        | NetworkWatchersFlowLog_STATUS                        | Modified |       |
-| NetworkWatchersFlowLog_Spec                          | NetworkWatchersFlowLog_Spec                          | Extended |       |
-| RetentionPolicyParameters                            | RetentionPolicyParameters                            | Extended |       |
-| RetentionPolicyParameters_STATUS                     | RetentionPolicyParameters_STATUS                     | Extended |       |
-| TrafficAnalyticsConfigurationProperties              | TrafficAnalyticsConfigurationProperties              | Extended |       |
-| TrafficAnalyticsConfigurationProperties_STATUS       | TrafficAnalyticsConfigurationProperties_STATUS       | Extended |       |
-| TrafficAnalyticsProperties                           | TrafficAnalyticsProperties                           | Extended |       |
-| TrafficAnalyticsProperties_STATUS                    | TrafficAnalyticsProperties_STATUS                    | Extended |       |
-| UserAssignedIdentityDetails                          | UserAssignedIdentityDetails                          | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20241001                                        | v1api20241001/storage                                |  Status  | Notes                         |
+|:-----------------------------------------------------|:-----------------------------------------------------|:--------:|:------------------------------|
+| FlowLogFormatParameters                              | FlowLogFormatParameters                              | Modified |                               |
+| FlowLogFormatParameters_STATUS                       | FlowLogFormatParameters_STATUS                       | Modified |                               |
+| ManagedServiceIdentity                               | ManagedServiceIdentity                               | Modified |                               |
+| ManagedServiceIdentity_STATUS                        | ManagedServiceIdentity_STATUS                        | Modified |                               |
+| ManagedServiceIdentity_UserAssignedIdentities_STATUS | ManagedServiceIdentity_UserAssignedIdentities_STATUS | Extended | +PropertyBag                  |
+| NetworkWatcherOperatorSpec                           | NetworkWatcherOperatorSpec                           | Extended | +PropertyBag                  |
+| NetworkWatcher_STATUS                                | NetworkWatcher_STATUS                                | Modified |                               |
+| NetworkWatcher_Spec                                  | NetworkWatcher_Spec                                  | Extended | +OriginalVersion +PropertyBag |
+| NetworkWatchersFlowLogOperatorSpec                   | NetworkWatchersFlowLogOperatorSpec                   | Extended | +PropertyBag                  |
+| NetworkWatchersFlowLog_STATUS                        | NetworkWatchersFlowLog_STATUS                        | Modified |                               |
+| NetworkWatchersFlowLog_Spec                          | NetworkWatchersFlowLog_Spec                          | Extended | +OriginalVersion +PropertyBag |
+| RetentionPolicyParameters                            | RetentionPolicyParameters                            | Extended | +PropertyBag                  |
+| RetentionPolicyParameters_STATUS                     | RetentionPolicyParameters_STATUS                     | Extended | +PropertyBag                  |
+| TrafficAnalyticsConfigurationProperties              | TrafficAnalyticsConfigurationProperties              | Extended | +PropertyBag                  |
+| TrafficAnalyticsConfigurationProperties_STATUS       | TrafficAnalyticsConfigurationProperties_STATUS       | Extended | +PropertyBag                  |
+| TrafficAnalyticsProperties                           | TrafficAnalyticsProperties                           | Extended | +PropertyBag                  |
+| TrafficAnalyticsProperties_STATUS                    | TrafficAnalyticsProperties_STATUS                    | Extended | +PropertyBag                  |
+| UserAssignedIdentityDetails                          | UserAssignedIdentityDetails                          | Extended | +PropertyBag                  |
 
 ### FlowLogFormatParameters
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20241001 |                               | v1api20241001/storage |                        |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -51,7 +44,7 @@
 
 ### FlowLogFormatParameters_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20241001 |                                      | v1api20241001/storage |                        |  Status   | Notes |
 |:--------------|:-------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -61,7 +54,7 @@
 
 ### ManagedServiceIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20241001          |                               | v1api20241001/storage  |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -71,7 +64,7 @@
 
 ### ManagedServiceIdentity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20241001          |                                                                 | v1api20241001/storage  |                                                                 |  Status   | Notes |
 |:-----------------------|:----------------------------------------------------------------|:-----------------------|:----------------------------------------------------------------|:---------:|:------|
@@ -83,7 +76,7 @@
 
 ### ManagedServiceIdentity_UserAssignedIdentities_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20241001 |         | v1api20241001/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -93,7 +86,7 @@
 
 ### NetworkWatcherOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20241001        |                               | v1api20241001/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -103,7 +96,7 @@
 
 ### NetworkWatcher_STATUS
 
-7 x Identical, 1 x New, 1 x Modified
+Properties: 7 x Identical, 1 x New, 1 x Modified
 
 | v1api20241001     |                                         | v1api20241001/storage |                        |  Status   | Notes |
 |:------------------|:----------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -119,7 +112,7 @@
 
 ### NetworkWatcher_Spec
 
-5 x Identical, 2 x New
+Properties: 5 x Identical, 2 x New
 
 | v1api20241001 |                                    | v1api20241001/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -133,7 +126,7 @@
 
 ### NetworkWatchersFlowLogOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20241001        |                               | v1api20241001/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -143,7 +136,7 @@
 
 ### NetworkWatchersFlowLog_STATUS
 
-16 x Identical, 1 x New, 1 x Modified
+Properties: 16 x Identical, 1 x New, 1 x Modified
 
 | v1api20241001              |                                             | v1api20241001/storage      |                                    |  Status   | Notes |
 |:---------------------------|:--------------------------------------------|:---------------------------|:-----------------------------------|:---------:|:------|
@@ -168,7 +161,7 @@
 
 ### NetworkWatchersFlowLog_Spec
 
-13 x Identical, 2 x New
+Properties: 13 x Identical, 2 x New
 
 | v1api20241001              |                                     | v1api20241001/storage      |                                     |  Status   | Notes |
 |:---------------------------|:------------------------------------|:---------------------------|:------------------------------------|:---------:|:------|
@@ -190,7 +183,7 @@
 
 ### RetentionPolicyParameters
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20241001 |       | v1api20241001/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -200,7 +193,7 @@
 
 ### RetentionPolicyParameters_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20241001 |       | v1api20241001/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -210,7 +203,7 @@
 
 ### TrafficAnalyticsConfigurationProperties
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20241001              |                               | v1api20241001/storage      |                               |  Status   | Notes |
 |:---------------------------|:------------------------------|:---------------------------|:------------------------------|:---------:|:------|
@@ -222,7 +215,7 @@
 
 ### TrafficAnalyticsConfigurationProperties_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20241001            |         | v1api20241001/storage    |                        |  Status   | Notes |
 |:-------------------------|:--------|:-------------------------|:-----------------------|:---------:|:------|
@@ -235,7 +228,7 @@
 
 ### TrafficAnalyticsProperties
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20241001                            |                                          | v1api20241001/storage                    |                                          |  Status   | Notes |
 |:-----------------------------------------|:-----------------------------------------|:-----------------------------------------|:-----------------------------------------|:---------:|:------|
@@ -244,7 +237,7 @@
 
 ### TrafficAnalyticsProperties_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20241001                            |                                                 | v1api20241001/storage                    |                                                 |  Status   | Notes |
 |:-----------------------------------------|:------------------------------------------------|:-----------------------------------------|:------------------------------------------------|:---------:|:------|
@@ -253,9 +246,18 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20241001 |                              | v1api20241001/storage |                              |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
 |               |                              | PropertyBag           | genruntime.PropertyBag       |    New    |       |
 | Reference     | genruntime.ResourceReference | Reference             | genruntime.ResourceReference | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

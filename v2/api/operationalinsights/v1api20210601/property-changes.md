@@ -6,34 +6,27 @@
 |:--------------|:----------------------|:---------:|:------|
 | Workspace     | Workspace             | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20210601                    | v1api20210601/storage            |  Status  | Notes |
-|:---------------------------------|:---------------------------------|:--------:|:------|
-| PrivateLinkScopedResource_STATUS | PrivateLinkScopedResource_STATUS | Extended |       |
-| WorkspaceCapping                 | WorkspaceCapping                 | Extended |       |
-| WorkspaceCapping_STATUS          | WorkspaceCapping_STATUS          | Modified |       |
-| WorkspaceFeatures                | WorkspaceFeatures                | Extended |       |
-| WorkspaceFeatures_STATUS         | WorkspaceFeatures_STATUS         | Extended |       |
-| WorkspaceOperatorSecrets         | WorkspaceOperatorSecrets         | Extended |       |
-| WorkspaceOperatorSpec            | WorkspaceOperatorSpec            | Extended |       |
-| WorkspaceSku                     | WorkspaceSku                     | Modified |       |
-| WorkspaceSku_STATUS              | WorkspaceSku_STATUS              | Modified |       |
-| Workspace_STATUS                 | Workspace_STATUS                 | Modified |       |
-| Workspace_Spec                   | Workspace_Spec                   | Modified |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20210601                    | v1api20210601/storage            |  Status  | Notes        |
+|:---------------------------------|:---------------------------------|:--------:|:-------------|
+| PrivateLinkScopedResource_STATUS | PrivateLinkScopedResource_STATUS | Extended | +PropertyBag |
+| WorkspaceCapping                 | WorkspaceCapping                 | Extended | +PropertyBag |
+| WorkspaceCapping_STATUS          | WorkspaceCapping_STATUS          | Modified |              |
+| WorkspaceFeatures                | WorkspaceFeatures                | Extended | +PropertyBag |
+| WorkspaceFeatures_STATUS         | WorkspaceFeatures_STATUS         | Extended | +PropertyBag |
+| WorkspaceOperatorSecrets         | WorkspaceOperatorSecrets         | Extended | +PropertyBag |
+| WorkspaceOperatorSpec            | WorkspaceOperatorSpec            | Extended | +PropertyBag |
+| WorkspaceSku                     | WorkspaceSku                     | Modified |              |
+| WorkspaceSku_STATUS              | WorkspaceSku_STATUS              | Modified |              |
+| Workspace_STATUS                 | Workspace_STATUS                 | Modified |              |
+| Workspace_Spec                   | Workspace_Spec                   | Modified |              |
 
 ### PrivateLinkScopedResource_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210601 |         | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -43,7 +36,7 @@
 
 ### WorkspaceCapping
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210601 |          | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -52,7 +45,7 @@
 
 ### WorkspaceCapping_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601       |                                              | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------------|:---------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -63,7 +56,7 @@
 
 ### WorkspaceFeatures
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20210601                               |                               | v1api20210601/storage                       |                               |  Status   | Notes |
 |:--------------------------------------------|:------------------------------|:--------------------------------------------|:------------------------------|:---------:|:------|
@@ -76,7 +69,7 @@
 
 ### WorkspaceFeatures_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20210601                               |         | v1api20210601/storage                       |                        |  Status   | Notes |
 |:--------------------------------------------|:--------|:--------------------------------------------|:-----------------------|:---------:|:------|
@@ -89,7 +82,7 @@
 
 ### WorkspaceOperatorSecrets
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210601      |                               | v1api20210601/storage |                               |  Status   | Notes |
 |:-------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -99,7 +92,7 @@
 
 ### WorkspaceOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20210601        |                               | v1api20210601/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -110,7 +103,7 @@
 
 ### WorkspaceSku
 
-1 x New, 2 x Modified
+Properties: 1 x New, 2 x Modified
 
 | v1api20210601            |                                        | v1api20210601/storage    |                        |  Status  | Notes |
 |:-------------------------|:---------------------------------------|:-------------------------|:-----------------------|:--------:|:------|
@@ -120,7 +113,7 @@
 
 ### WorkspaceSku_STATUS
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v1api20210601            |                                               | v1api20210601/storage    |                        |  Status   | Notes |
 |:-------------------------|:----------------------------------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -131,7 +124,7 @@
 
 ### Workspace_STATUS
 
-16 x Identical, 1 x New, 3 x Modified
+Properties: 16 x Identical, 1 x New, 3 x Modified
 
 | v1api20210601                   |                                               | v1api20210601/storage           |                                    |  Status   | Notes |
 |:--------------------------------|:----------------------------------------------|:--------------------------------|:-----------------------------------|:---------:|:------|
@@ -158,7 +151,7 @@
 
 ### Workspace_Spec
 
-10 x Identical, 2 x New, 4 x Modified
+Properties: 10 x Identical, 2 x New, 4 x Modified
 
 | v1api20210601                   |                                        | v1api20210601/storage           |                                    |  Status   | Notes |
 |:--------------------------------|:---------------------------------------|:--------------------------------|:-----------------------------------|:---------:|:------|
@@ -178,3 +171,12 @@
 | Sku                             | *WorkspaceSku                          | Sku                             | *WorkspaceSku                      | Identical |       |
 | Tags                            | map[string]string                      | Tags                            | map[string]string                  | Identical |       |
 | WorkspaceCapping                | *WorkspaceCapping                      | WorkspaceCapping                | *WorkspaceCapping                  | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

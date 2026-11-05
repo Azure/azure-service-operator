@@ -7,66 +7,59 @@
 | Workspace             | Workspace             | Identical |       |
 | WorkspacesBigDataPool | WorkspacesBigDataPool | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20210601                           | v1api20210601/storage                   |  Status  | Notes |
-|:----------------------------------------|:----------------------------------------|:--------:|:------|
-| AutoPauseProperties                     | AutoPauseProperties                     | Extended |       |
-| AutoPauseProperties_STATUS              | AutoPauseProperties_STATUS              | Extended |       |
-| AutoScaleProperties                     | AutoScaleProperties                     | Extended |       |
-| AutoScaleProperties_STATUS              | AutoScaleProperties_STATUS              | Extended |       |
-| CspWorkspaceAdminProperties             | CspWorkspaceAdminProperties             | Extended |       |
-| CspWorkspaceAdminProperties_STATUS      | CspWorkspaceAdminProperties_STATUS      | Extended |       |
-| CustomerManagedKeyDetails               | CustomerManagedKeyDetails               | Extended |       |
-| CustomerManagedKeyDetails_STATUS        | CustomerManagedKeyDetails_STATUS        | Extended |       |
-| DataLakeStorageAccountDetails           | DataLakeStorageAccountDetails           | Extended |       |
-| DataLakeStorageAccountDetails_STATUS    | DataLakeStorageAccountDetails_STATUS    | Extended |       |
-| DynamicExecutorAllocation               | DynamicExecutorAllocation               | Extended |       |
-| DynamicExecutorAllocation_STATUS        | DynamicExecutorAllocation_STATUS        | Extended |       |
-| EncryptionDetails                       | EncryptionDetails                       | Extended |       |
-| EncryptionDetails_STATUS                | EncryptionDetails_STATUS                | Extended |       |
-| KekIdentityProperties                   | KekIdentityProperties                   | Extended |       |
-| KekIdentityProperties_STATUS            | KekIdentityProperties_STATUS            | Extended |       |
-| LibraryInfo                             | LibraryInfo                             | Extended |       |
-| LibraryInfo_STATUS                      | LibraryInfo_STATUS                      | Extended |       |
-| LibraryRequirements                     | LibraryRequirements                     | Extended |       |
-| LibraryRequirements_STATUS              | LibraryRequirements_STATUS              | Extended |       |
-| ManagedIdentity                         | ManagedIdentity                         | Modified |       |
-| ManagedIdentity_STATUS                  | ManagedIdentity_STATUS                  | Modified |       |
-| ManagedVirtualNetworkSettings           | ManagedVirtualNetworkSettings           | Extended |       |
-| ManagedVirtualNetworkSettings_STATUS    | ManagedVirtualNetworkSettings_STATUS    | Extended |       |
-| PrivateEndpointConnection_STATUS        | PrivateEndpointConnection_STATUS        | Extended |       |
-| PurviewConfiguration                    | PurviewConfiguration                    | Extended |       |
-| PurviewConfiguration_STATUS             | PurviewConfiguration_STATUS             | Extended |       |
-| SparkConfigProperties                   | SparkConfigProperties                   | Modified |       |
-| SparkConfigProperties_STATUS            | SparkConfigProperties_STATUS            | Modified |       |
-| UserAssignedIdentityDetails             | UserAssignedIdentityDetails             | Extended |       |
-| UserAssignedManagedIdentity_STATUS      | UserAssignedManagedIdentity_STATUS      | Extended |       |
-| VirtualNetworkProfile                   | VirtualNetworkProfile                   | Extended |       |
-| VirtualNetworkProfile_STATUS            | VirtualNetworkProfile_STATUS            | Extended |       |
-| WorkspaceKeyDetails                     | WorkspaceKeyDetails                     | Extended |       |
-| WorkspaceKeyDetails_STATUS              | WorkspaceKeyDetails_STATUS              | Extended |       |
-| WorkspaceOperatorSpec                   | WorkspaceOperatorSpec                   | Extended |       |
-| WorkspaceRepositoryConfiguration        | WorkspaceRepositoryConfiguration        | Modified |       |
-| WorkspaceRepositoryConfiguration_STATUS | WorkspaceRepositoryConfiguration_STATUS | Extended |       |
-| Workspace_STATUS                        | Workspace_STATUS                        | Modified |       |
-| Workspace_Spec                          | Workspace_Spec                          | Modified |       |
-| WorkspacesBigDataPoolOperatorSpec       | WorkspacesBigDataPoolOperatorSpec       | Extended |       |
-| WorkspacesBigDataPool_STATUS            | WorkspacesBigDataPool_STATUS            | Modified |       |
-| WorkspacesBigDataPool_Spec              | WorkspacesBigDataPool_Spec              | Modified |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20210601                           | v1api20210601/storage                   |  Status  | Notes        |
+|:----------------------------------------|:----------------------------------------|:--------:|:-------------|
+| AutoPauseProperties                     | AutoPauseProperties                     | Extended | +PropertyBag |
+| AutoPauseProperties_STATUS              | AutoPauseProperties_STATUS              | Extended | +PropertyBag |
+| AutoScaleProperties                     | AutoScaleProperties                     | Extended | +PropertyBag |
+| AutoScaleProperties_STATUS              | AutoScaleProperties_STATUS              | Extended | +PropertyBag |
+| CspWorkspaceAdminProperties             | CspWorkspaceAdminProperties             | Extended | +PropertyBag |
+| CspWorkspaceAdminProperties_STATUS      | CspWorkspaceAdminProperties_STATUS      | Extended | +PropertyBag |
+| CustomerManagedKeyDetails               | CustomerManagedKeyDetails               | Extended | +PropertyBag |
+| CustomerManagedKeyDetails_STATUS        | CustomerManagedKeyDetails_STATUS        | Extended | +PropertyBag |
+| DataLakeStorageAccountDetails           | DataLakeStorageAccountDetails           | Extended | +PropertyBag |
+| DataLakeStorageAccountDetails_STATUS    | DataLakeStorageAccountDetails_STATUS    | Extended | +PropertyBag |
+| DynamicExecutorAllocation               | DynamicExecutorAllocation               | Extended | +PropertyBag |
+| DynamicExecutorAllocation_STATUS        | DynamicExecutorAllocation_STATUS        | Extended | +PropertyBag |
+| EncryptionDetails                       | EncryptionDetails                       | Extended | +PropertyBag |
+| EncryptionDetails_STATUS                | EncryptionDetails_STATUS                | Extended | +PropertyBag |
+| KekIdentityProperties                   | KekIdentityProperties                   | Extended | +PropertyBag |
+| KekIdentityProperties_STATUS            | KekIdentityProperties_STATUS            | Extended | +PropertyBag |
+| LibraryInfo                             | LibraryInfo                             | Extended | +PropertyBag |
+| LibraryInfo_STATUS                      | LibraryInfo_STATUS                      | Extended | +PropertyBag |
+| LibraryRequirements                     | LibraryRequirements                     | Extended | +PropertyBag |
+| LibraryRequirements_STATUS              | LibraryRequirements_STATUS              | Extended | +PropertyBag |
+| ManagedIdentity                         | ManagedIdentity                         | Modified |              |
+| ManagedIdentity_STATUS                  | ManagedIdentity_STATUS                  | Modified |              |
+| ManagedVirtualNetworkSettings           | ManagedVirtualNetworkSettings           | Extended | +PropertyBag |
+| ManagedVirtualNetworkSettings_STATUS    | ManagedVirtualNetworkSettings_STATUS    | Extended | +PropertyBag |
+| PrivateEndpointConnection_STATUS        | PrivateEndpointConnection_STATUS        | Extended | +PropertyBag |
+| PurviewConfiguration                    | PurviewConfiguration                    | Extended | +PropertyBag |
+| PurviewConfiguration_STATUS             | PurviewConfiguration_STATUS             | Extended | +PropertyBag |
+| SparkConfigProperties                   | SparkConfigProperties                   | Modified |              |
+| SparkConfigProperties_STATUS            | SparkConfigProperties_STATUS            | Modified |              |
+| UserAssignedIdentityDetails             | UserAssignedIdentityDetails             | Extended | +PropertyBag |
+| UserAssignedManagedIdentity_STATUS      | UserAssignedManagedIdentity_STATUS      | Extended | +PropertyBag |
+| VirtualNetworkProfile                   | VirtualNetworkProfile                   | Extended | +PropertyBag |
+| VirtualNetworkProfile_STATUS            | VirtualNetworkProfile_STATUS            | Extended | +PropertyBag |
+| WorkspaceKeyDetails                     | WorkspaceKeyDetails                     | Extended | +PropertyBag |
+| WorkspaceKeyDetails_STATUS              | WorkspaceKeyDetails_STATUS              | Extended | +PropertyBag |
+| WorkspaceOperatorSpec                   | WorkspaceOperatorSpec                   | Extended | +PropertyBag |
+| WorkspaceRepositoryConfiguration        | WorkspaceRepositoryConfiguration        | Extended | +PropertyBag |
+| WorkspaceRepositoryConfiguration_STATUS | WorkspaceRepositoryConfiguration_STATUS | Extended | +PropertyBag |
+| Workspace_STATUS                        | Workspace_STATUS                        | Modified |              |
+| Workspace_Spec                          | Workspace_Spec                          | Modified |              |
+| WorkspacesBigDataPoolOperatorSpec       | WorkspacesBigDataPoolOperatorSpec       | Extended | +PropertyBag |
+| WorkspacesBigDataPool_STATUS            | WorkspacesBigDataPool_STATUS            | Modified |              |
+| WorkspacesBigDataPool_Spec              | WorkspacesBigDataPool_Spec              | Modified |              |
 
 ### AutoPauseProperties
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210601  |       | v1api20210601/storage |                        |  Status   | Notes |
 |:---------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -76,7 +69,7 @@
 
 ### AutoPauseProperties_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210601  |       | v1api20210601/storage |                        |  Status   | Notes |
 |:---------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -86,7 +79,7 @@
 
 ### AutoScaleProperties
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20210601 |       | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -97,7 +90,7 @@
 
 ### AutoScaleProperties_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20210601 |       | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -108,7 +101,7 @@
 
 ### CspWorkspaceAdminProperties
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210601                 |         | v1api20210601/storage         |                        |  Status   | Notes |
 |:------------------------------|:--------|:------------------------------|:-----------------------|:---------:|:------|
@@ -117,7 +110,7 @@
 
 ### CspWorkspaceAdminProperties_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210601                 |         | v1api20210601/storage         |                        |  Status   | Notes |
 |:------------------------------|:--------|:------------------------------|:-----------------------|:---------:|:------|
@@ -126,7 +119,7 @@
 
 ### CustomerManagedKeyDetails
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210601 |                        | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -136,7 +129,7 @@
 
 ### CustomerManagedKeyDetails_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20210601 |                               | v1api20210601/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -147,7 +140,7 @@
 
 ### DataLakeStorageAccountDetails
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20210601                |                                | v1api20210601/storage        |                                |  Status   | Notes |
 |:-----------------------------|:-------------------------------|:-----------------------------|:-------------------------------|:---------:|:------|
@@ -160,7 +153,7 @@
 
 ### DataLakeStorageAccountDetails_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20210601                |         | v1api20210601/storage        |                        |  Status   | Notes |
 |:-----------------------------|:--------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -172,7 +165,7 @@
 
 ### DynamicExecutorAllocation
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20210601 |       | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -183,7 +176,7 @@
 
 ### DynamicExecutorAllocation_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20210601 |       | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -194,7 +187,7 @@
 
 ### EncryptionDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210601 |                            | v1api20210601/storage |                            |  Status   | Notes |
 |:--------------|:---------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -203,7 +196,7 @@
 
 ### EncryptionDetails_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210601           |                                   | v1api20210601/storage   |                                   |  Status   | Notes |
 |:------------------------|:----------------------------------|:------------------------|:----------------------------------|:---------:|:------|
@@ -213,7 +206,7 @@
 
 ### KekIdentityProperties
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210601                 |                               | v1api20210601/storage         |                               |  Status   | Notes |
 |:------------------------------|:------------------------------|:------------------------------|:------------------------------|:---------:|:------|
@@ -223,7 +216,7 @@
 
 ### KekIdentityProperties_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210601             |         | v1api20210601/storage     |                        |  Status   | Notes |
 |:--------------------------|:--------|:--------------------------|:-----------------------|:---------:|:------|
@@ -233,7 +226,7 @@
 
 ### LibraryInfo
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20210601 |         | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -245,7 +238,7 @@
 
 ### LibraryInfo_STATUS
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v1api20210601      |         | v1api20210601/storage |                        |  Status   | Notes |
 |:-------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -260,7 +253,7 @@
 
 ### LibraryRequirements
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210601 |         | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -270,7 +263,7 @@
 
 ### LibraryRequirements_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20210601 |         | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -281,7 +274,7 @@
 
 ### ManagedIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601          |                               | v1api20210601/storage  |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -291,7 +284,7 @@
 
 ### ManagedIdentity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601          |                                               | v1api20210601/storage  |                                               |  Status   | Notes |
 |:-----------------------|:----------------------------------------------|:-----------------------|:----------------------------------------------|:---------:|:------|
@@ -303,7 +296,7 @@
 
 ### ManagedVirtualNetworkSettings
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20210601                     |          | v1api20210601/storage             |                        |  Status   | Notes |
 |:----------------------------------|:---------|:----------------------------------|:-----------------------|:---------:|:------|
@@ -314,7 +307,7 @@
 
 ### ManagedVirtualNetworkSettings_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20210601                     |          | v1api20210601/storage             |                        |  Status   | Notes |
 |:----------------------------------|:---------|:----------------------------------|:-----------------------|:---------:|:------|
@@ -325,7 +318,7 @@
 
 ### PrivateEndpointConnection_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210601 |         | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -334,7 +327,7 @@
 
 ### PurviewConfiguration
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210601            |                               | v1api20210601/storage    |                               |  Status   | Notes |
 |:-------------------------|:------------------------------|:-------------------------|:------------------------------|:---------:|:------|
@@ -343,7 +336,7 @@
 
 ### PurviewConfiguration_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210601     |         | v1api20210601/storage |                        |  Status   | Notes |
 |:------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -352,7 +345,7 @@
 
 ### SparkConfigProperties
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601     |                                          | v1api20210601/storage |                        |  Status   | Notes |
 |:------------------|:-----------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -363,7 +356,7 @@
 
 ### SparkConfigProperties_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601     |                                                 | v1api20210601/storage |                        |  Status   | Notes |
 |:------------------|:------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -375,7 +368,7 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210601 |                              | v1api20210601/storage |                              |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -384,7 +377,7 @@
 
 ### UserAssignedManagedIdentity_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210601 |         | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -394,7 +387,7 @@
 
 ### VirtualNetworkProfile
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210601   |         | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -403,7 +396,7 @@
 
 ### VirtualNetworkProfile_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210601   |         | v1api20210601/storage |                        |  Status   | Notes |
 |:----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -412,7 +405,7 @@
 
 ### WorkspaceKeyDetails
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210601 |         | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -422,7 +415,7 @@
 
 ### WorkspaceKeyDetails_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210601 |         | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -432,7 +425,7 @@
 
 ### WorkspaceOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210601        |                               | v1api20210601/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -442,7 +435,7 @@
 
 ### WorkspaceRepositoryConfiguration
 
-8 x Identical, 1 x New, 1 x Modified
+Properties: 9 x Identical, 1 x New
 
 | v1api20210601       |                             | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------------|:----------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -454,12 +447,12 @@
 |                     |                             | PropertyBag           | genruntime.PropertyBag |    New    |       |
 | RepositoryName      | *string                     | RepositoryName        | *string                | Identical |       |
 | RootFolder          | *string                     | RootFolder            | *string                | Identical |       |
-| TenantId            | Validated<*string> (1 rule) | TenantId              | *string                | Modified  |       |
+| TenantId            | Validated<*string> (1 rule) | TenantId              | *string                | Identical |       |
 | Type                | *string                     | Type                  | *string                | Identical |       |
 
 ### WorkspaceRepositoryConfiguration_STATUS
 
-9 x Identical, 1 x New
+Properties: 9 x Identical, 1 x New
 
 | v1api20210601       |         | v1api20210601/storage |                        |  Status   | Notes |
 |:--------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -476,7 +469,7 @@
 
 ### Workspace_STATUS
 
-26 x Identical, 1 x New, 1 x Modified
+Properties: 26 x Identical, 1 x New, 1 x Modified
 
 | v1api20210601                    |                                                 | v1api20210601/storage            |                                          |  Status   | Notes |
 |:---------------------------------|:------------------------------------------------|:---------------------------------|:-----------------------------------------|:---------:|:------|
@@ -511,7 +504,7 @@
 
 ### Workspace_Spec
 
-19 x Identical, 2 x New, 1 x Modified
+Properties: 19 x Identical, 2 x New, 1 x Modified
 
 | v1api20210601                    |                                          | v1api20210601/storage            |                                    |  Status   | Notes |
 |:---------------------------------|:-----------------------------------------|:---------------------------------|:-----------------------------------|:---------:|:------|
@@ -540,7 +533,7 @@
 
 ### WorkspacesBigDataPoolOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210601        |                               | v1api20210601/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -550,7 +543,7 @@
 
 ### WorkspacesBigDataPool_STATUS
 
-23 x Identical, 1 x New, 2 x Modified
+Properties: 23 x Identical, 1 x New, 2 x Modified
 
 | v1api20210601               |                                                      | v1api20210601/storage       |                                   |  Status   | Notes |
 |:----------------------------|:-----------------------------------------------------|:----------------------------|:----------------------------------|:---------:|:------|
@@ -583,7 +576,7 @@
 
 ### WorkspacesBigDataPool_Spec
 
-20 x Identical, 2 x New, 2 x Modified
+Properties: 20 x Identical, 2 x New, 2 x Modified
 
 | v1api20210601               |                                               | v1api20210601/storage       |                                    |  Status   | Notes |
 |:----------------------------|:----------------------------------------------|:----------------------------|:-----------------------------------|:---------:|:------|
@@ -611,3 +604,12 @@
 | SparkEventsFolder           | *string                                       | SparkEventsFolder           | *string                            | Identical |       |
 | SparkVersion                | *string                                       | SparkVersion                | *string                            | Identical |       |
 | Tags                        | map[string]string                             | Tags                        | map[string]string                  | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

@@ -9,138 +9,131 @@
 | EventSubscription | EventSubscription | Identical |       |
 | Topic             | Topic             | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20200601/storage                                           | v20250215/storage                                           |  Status   | Notes |
-|:------------------------------------------------------------|:------------------------------------------------------------|:---------:|:------|
-| AdvancedFilter                                              | AdvancedFilter                                              | Extended  |       |
-| AdvancedFilter_STATUS                                       | AdvancedFilter_STATUS                                       | Extended  |       |
-| AzureFunctionEventSubscriptionDestination                   | AzureFunctionEventSubscriptionDestination                   | Extended  |       |
-| AzureFunctionEventSubscriptionDestination_STATUS            | AzureFunctionEventSubscriptionDestination_STATUS            | Extended  |       |
-| BoolEqualsAdvancedFilter                                    | BoolEqualsAdvancedFilter                                    | Identical |       |
-| BoolEqualsAdvancedFilter_STATUS                             | BoolEqualsAdvancedFilter_STATUS                             | Identical |       |
-| DeadLetterDestination                                       | DeadLetterDestination                                       | Identical |       |
-| DeadLetterDestination_STATUS                                | DeadLetterDestination_STATUS                                | Identical |       |
-|                                                             | DeadLetterWithResourceIdentity                              |    New    |       |
-|                                                             | DeadLetterWithResourceIdentity_STATUS                       |    New    |       |
-|                                                             | DeliveryAttributeMapping                                    |    New    |       |
-|                                                             | DeliveryAttributeMapping_STATUS                             |    New    |       |
-|                                                             | DeliveryWithResourceIdentity                                |    New    |       |
-|                                                             | DeliveryWithResourceIdentity_STATUS                         |    New    |       |
-| DomainOperatorSpec                                          | DomainOperatorSpec                                          | Identical |       |
-| Domain_STATUS                                               | Domain_STATUS                                               | Extended  |       |
-| Domain_Spec                                                 | Domain_Spec                                                 | Extended  |       |
-| DomainsTopicOperatorSpec                                    | DomainsTopicOperatorSpec                                    | Identical |       |
-| DomainsTopic_STATUS                                         | DomainsTopic_STATUS                                         | Identical |       |
-| DomainsTopic_Spec                                           | DomainsTopic_Spec                                           | Identical |       |
-|                                                             | DynamicDeliveryAttributeMapping                             |    New    |       |
-|                                                             | DynamicDeliveryAttributeMapping_STATUS                      |    New    |       |
-| EventHubEventSubscriptionDestination                        | EventHubEventSubscriptionDestination                        | Extended  |       |
-| EventHubEventSubscriptionDestination_STATUS                 | EventHubEventSubscriptionDestination_STATUS                 | Extended  |       |
-| EventSubscriptionDestination                                | EventSubscriptionDestination                                | Extended  |       |
-| EventSubscriptionDestination_STATUS                         | EventSubscriptionDestination_STATUS                         | Extended  |       |
-| EventSubscriptionFilter                                     | EventSubscriptionFilter                                     | Extended  |       |
-| EventSubscriptionFilter_STATUS                              | EventSubscriptionFilter_STATUS                              | Extended  |       |
-|                                                             | EventSubscriptionIdentity                                   |    New    |       |
-|                                                             | EventSubscriptionIdentity_STATUS                            |    New    |       |
-| EventSubscriptionOperatorSpec                               | EventSubscriptionOperatorSpec                               | Identical |       |
-| EventSubscription_STATUS                                    | EventSubscription_STATUS                                    | Extended  |       |
-| EventSubscription_Spec                                      | EventSubscription_Spec                                      | Extended  |       |
-|                                                             | EventTypeInfo                                               |    New    |       |
-|                                                             | EventTypeInfo_STATUS                                        |    New    |       |
-| HybridConnectionEventSubscriptionDestination                | HybridConnectionEventSubscriptionDestination                | Extended  |       |
-| HybridConnectionEventSubscriptionDestination_STATUS         | HybridConnectionEventSubscriptionDestination_STATUS         | Extended  |       |
-|                                                             | IdentityInfo                                                |    New    |       |
-|                                                             | IdentityInfo_STATUS                                         |    New    |       |
-| InboundIpRule                                               | InboundIpRule                                               | Identical |       |
-| InboundIpRule_STATUS                                        | InboundIpRule_STATUS                                        | Identical |       |
-|                                                             | InlineEventProperties                                       |    New    |       |
-|                                                             | InlineEventProperties_STATUS                                |    New    |       |
-| InputSchemaMapping                                          | InputSchemaMapping                                          | Identical |       |
-| InputSchemaMapping_STATUS                                   | InputSchemaMapping_STATUS                                   | Identical |       |
-|                                                             | IsNotNullAdvancedFilter                                     |    New    |       |
-|                                                             | IsNotNullAdvancedFilter_STATUS                              |    New    |       |
-|                                                             | IsNullOrUndefinedAdvancedFilter                             |    New    |       |
-|                                                             | IsNullOrUndefinedAdvancedFilter_STATUS                      |    New    |       |
-| JsonField                                                   | JsonField                                                   | Identical |       |
-| JsonFieldWithDefault                                        | JsonFieldWithDefault                                        | Identical |       |
-| JsonFieldWithDefault_STATUS                                 | JsonFieldWithDefault_STATUS                                 | Identical |       |
-| JsonField_STATUS                                            | JsonField_STATUS                                            | Identical |       |
-| JsonInputSchemaMapping                                      | JsonInputSchemaMapping                                      | Identical |       |
-| JsonInputSchemaMapping_STATUS                               | JsonInputSchemaMapping_STATUS                               | Identical |       |
-|                                                             | MonitorAlertEventSubscriptionDestination                    |    New    |       |
-|                                                             | MonitorAlertEventSubscriptionDestination_STATUS             |    New    |       |
-|                                                             | NamespaceTopicEventSubscriptionDestination                  |    New    |       |
-|                                                             | NamespaceTopicEventSubscriptionDestination_STATUS           |    New    |       |
-| NumberGreaterThanAdvancedFilter                             | NumberGreaterThanAdvancedFilter                             | Identical |       |
-| NumberGreaterThanAdvancedFilter_STATUS                      | NumberGreaterThanAdvancedFilter_STATUS                      | Identical |       |
-| NumberGreaterThanOrEqualsAdvancedFilter                     | NumberGreaterThanOrEqualsAdvancedFilter                     | Identical |       |
-| NumberGreaterThanOrEqualsAdvancedFilter_STATUS              | NumberGreaterThanOrEqualsAdvancedFilter_STATUS              | Identical |       |
-| NumberInAdvancedFilter                                      | NumberInAdvancedFilter                                      | Identical |       |
-| NumberInAdvancedFilter_STATUS                               | NumberInAdvancedFilter_STATUS                               | Identical |       |
-|                                                             | NumberInRangeAdvancedFilter                                 |    New    |       |
-|                                                             | NumberInRangeAdvancedFilter_STATUS                          |    New    |       |
-| NumberLessThanAdvancedFilter                                | NumberLessThanAdvancedFilter                                | Identical |       |
-| NumberLessThanAdvancedFilter_STATUS                         | NumberLessThanAdvancedFilter_STATUS                         | Identical |       |
-| NumberLessThanOrEqualsAdvancedFilter                        | NumberLessThanOrEqualsAdvancedFilter                        | Identical |       |
-| NumberLessThanOrEqualsAdvancedFilter_STATUS                 | NumberLessThanOrEqualsAdvancedFilter_STATUS                 | Identical |       |
-| NumberNotInAdvancedFilter                                   | NumberNotInAdvancedFilter                                   | Identical |       |
-| NumberNotInAdvancedFilter_STATUS                            | NumberNotInAdvancedFilter_STATUS                            | Identical |       |
-|                                                             | NumberNotInRangeAdvancedFilter                              |    New    |       |
-|                                                             | NumberNotInRangeAdvancedFilter_STATUS                       |    New    |       |
-| PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded | PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded | Identical |       |
-| PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded  | PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded  | Identical |       |
-| RetryPolicy                                                 | RetryPolicy                                                 | Identical |       |
-| RetryPolicy_STATUS                                          | RetryPolicy_STATUS                                          | Identical |       |
-| ServiceBusQueueEventSubscriptionDestination                 | ServiceBusQueueEventSubscriptionDestination                 | Extended  |       |
-| ServiceBusQueueEventSubscriptionDestination_STATUS          | ServiceBusQueueEventSubscriptionDestination_STATUS          | Extended  |       |
-| ServiceBusTopicEventSubscriptionDestination                 | ServiceBusTopicEventSubscriptionDestination                 | Extended  |       |
-| ServiceBusTopicEventSubscriptionDestination_STATUS          | ServiceBusTopicEventSubscriptionDestination_STATUS          | Extended  |       |
-|                                                             | StaticDeliveryAttributeMapping                              |    New    |       |
-|                                                             | StaticDeliveryAttributeMapping_STATUS                       |    New    |       |
-| StorageBlobDeadLetterDestination                            | StorageBlobDeadLetterDestination                            | Identical |       |
-| StorageBlobDeadLetterDestination_STATUS                     | StorageBlobDeadLetterDestination_STATUS                     | Identical |       |
-| StorageQueueEventSubscriptionDestination                    | StorageQueueEventSubscriptionDestination                    | Extended  |       |
-| StorageQueueEventSubscriptionDestination_STATUS             | StorageQueueEventSubscriptionDestination_STATUS             | Extended  |       |
-| StringBeginsWithAdvancedFilter                              | StringBeginsWithAdvancedFilter                              | Identical |       |
-| StringBeginsWithAdvancedFilter_STATUS                       | StringBeginsWithAdvancedFilter_STATUS                       | Identical |       |
-| StringContainsAdvancedFilter                                | StringContainsAdvancedFilter                                | Identical |       |
-| StringContainsAdvancedFilter_STATUS                         | StringContainsAdvancedFilter_STATUS                         | Identical |       |
-| StringEndsWithAdvancedFilter                                | StringEndsWithAdvancedFilter                                | Identical |       |
-| StringEndsWithAdvancedFilter_STATUS                         | StringEndsWithAdvancedFilter_STATUS                         | Identical |       |
-| StringInAdvancedFilter                                      | StringInAdvancedFilter                                      | Identical |       |
-| StringInAdvancedFilter_STATUS                               | StringInAdvancedFilter_STATUS                               | Identical |       |
-|                                                             | StringNotBeginsWithAdvancedFilter                           |    New    |       |
-|                                                             | StringNotBeginsWithAdvancedFilter_STATUS                    |    New    |       |
-|                                                             | StringNotContainsAdvancedFilter                             |    New    |       |
-|                                                             | StringNotContainsAdvancedFilter_STATUS                      |    New    |       |
-|                                                             | StringNotEndsWithAdvancedFilter                             |    New    |       |
-|                                                             | StringNotEndsWithAdvancedFilter_STATUS                      |    New    |       |
-| StringNotInAdvancedFilter                                   | StringNotInAdvancedFilter                                   | Identical |       |
-| StringNotInAdvancedFilter_STATUS                            | StringNotInAdvancedFilter_STATUS                            | Identical |       |
-| SystemData_STATUS                                           | SystemData_STATUS                                           | Identical |       |
-| TopicOperatorConfigMaps                                     | TopicOperatorConfigMaps                                     | Identical |       |
-| TopicOperatorSecrets                                        | TopicOperatorSecrets                                        | Identical |       |
-| TopicOperatorSpec                                           | TopicOperatorSpec                                           | Identical |       |
-| Topic_STATUS                                                | Topic_STATUS                                                | Extended  |       |
-| Topic_Spec                                                  | Topic_Spec                                                  | Extended  |       |
-|                                                             | UserAssignedIdentityDetails                                 |    New    |       |
-|                                                             | UserIdentityProperties_STATUS                               |    New    |       |
-| WebHookEventSubscriptionDestination                         | WebHookEventSubscriptionDestination                         | Extended  |       |
-| WebHookEventSubscriptionDestination_STATUS                  | WebHookEventSubscriptionDestination_STATUS                  | Extended  |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20200601/storage                                           | v20250215/storage                                           |  Status   | Notes                                                                                                                                                                  |
+|:------------------------------------------------------------|:------------------------------------------------------------|:---------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| AdvancedFilter                                              | AdvancedFilter                                              | Extended  | +IsNotNull +IsNullOrUndefined +NumberInRange +NumberNotInRange +StringNotBeginsWith +StringNotContains +StringNotEndsWith                                              |
+| AdvancedFilter_STATUS                                       | AdvancedFilter_STATUS                                       | Extended  | +IsNotNull +IsNullOrUndefined +NumberInRange +NumberNotInRange +StringNotBeginsWith +StringNotContains +StringNotEndsWith                                              |
+| AzureFunctionEventSubscriptionDestination                   | AzureFunctionEventSubscriptionDestination                   | Extended  | +DeliveryAttributeMappings                                                                                                                                             |
+| AzureFunctionEventSubscriptionDestination_STATUS            | AzureFunctionEventSubscriptionDestination_STATUS            | Extended  | +DeliveryAttributeMappings                                                                                                                                             |
+| BoolEqualsAdvancedFilter                                    | BoolEqualsAdvancedFilter                                    | Identical |                                                                                                                                                                        |
+| BoolEqualsAdvancedFilter_STATUS                             | BoolEqualsAdvancedFilter_STATUS                             | Identical |                                                                                                                                                                        |
+| DeadLetterDestination                                       | DeadLetterDestination                                       | Identical |                                                                                                                                                                        |
+| DeadLetterDestination_STATUS                                | DeadLetterDestination_STATUS                                | Identical |                                                                                                                                                                        |
+|                                                             | DeadLetterWithResourceIdentity                              |    New    |                                                                                                                                                                        |
+|                                                             | DeadLetterWithResourceIdentity_STATUS                       |    New    |                                                                                                                                                                        |
+|                                                             | DeliveryAttributeMapping                                    |    New    |                                                                                                                                                                        |
+|                                                             | DeliveryAttributeMapping_STATUS                             |    New    |                                                                                                                                                                        |
+|                                                             | DeliveryWithResourceIdentity                                |    New    |                                                                                                                                                                        |
+|                                                             | DeliveryWithResourceIdentity_STATUS                         |    New    |                                                                                                                                                                        |
+| DomainOperatorSpec                                          | DomainOperatorSpec                                          | Identical |                                                                                                                                                                        |
+| Domain_STATUS                                               | Domain_STATUS                                               | Extended  | +AutoCreateTopicWithFirstSubscription +AutoDeleteTopicWithLastSubscription +DataResidencyBoundary +DisableLocalAuth +EventTypeInfo +Identity +MinimumTlsVersionAllowed |
+| Domain_Spec                                                 | Domain_Spec                                                 | Extended  | +AutoCreateTopicWithFirstSubscription +AutoDeleteTopicWithLastSubscription +DataResidencyBoundary +DisableLocalAuth +EventTypeInfo +Identity +MinimumTlsVersionAllowed |
+| DomainsTopicOperatorSpec                                    | DomainsTopicOperatorSpec                                    | Identical |                                                                                                                                                                        |
+| DomainsTopic_STATUS                                         | DomainsTopic_STATUS                                         | Identical |                                                                                                                                                                        |
+| DomainsTopic_Spec                                           | DomainsTopic_Spec                                           | Identical |                                                                                                                                                                        |
+|                                                             | DynamicDeliveryAttributeMapping                             |    New    |                                                                                                                                                                        |
+|                                                             | DynamicDeliveryAttributeMapping_STATUS                      |    New    |                                                                                                                                                                        |
+| EventHubEventSubscriptionDestination                        | EventHubEventSubscriptionDestination                        | Extended  | +DeliveryAttributeMappings                                                                                                                                             |
+| EventHubEventSubscriptionDestination_STATUS                 | EventHubEventSubscriptionDestination_STATUS                 | Extended  | +DeliveryAttributeMappings                                                                                                                                             |
+| EventSubscriptionDestination                                | EventSubscriptionDestination                                | Extended  | +MonitorAlert +NamespaceTopic                                                                                                                                          |
+| EventSubscriptionDestination_STATUS                         | EventSubscriptionDestination_STATUS                         | Extended  | +MonitorAlert +NamespaceTopic                                                                                                                                          |
+| EventSubscriptionFilter                                     | EventSubscriptionFilter                                     | Extended  | +EnableAdvancedFilteringOnArrays                                                                                                                                       |
+| EventSubscriptionFilter_STATUS                              | EventSubscriptionFilter_STATUS                              | Extended  | +EnableAdvancedFilteringOnArrays                                                                                                                                       |
+|                                                             | EventSubscriptionIdentity                                   |    New    |                                                                                                                                                                        |
+|                                                             | EventSubscriptionIdentity_STATUS                            |    New    |                                                                                                                                                                        |
+| EventSubscriptionOperatorSpec                               | EventSubscriptionOperatorSpec                               | Identical |                                                                                                                                                                        |
+| EventSubscription_STATUS                                    | EventSubscription_STATUS                                    | Extended  | +DeadLetterWithResourceIdentity +DeliveryWithResourceIdentity                                                                                                          |
+| EventSubscription_Spec                                      | EventSubscription_Spec                                      | Extended  | +DeadLetterWithResourceIdentity +DeliveryWithResourceIdentity                                                                                                          |
+|                                                             | EventTypeInfo                                               |    New    |                                                                                                                                                                        |
+|                                                             | EventTypeInfo_STATUS                                        |    New    |                                                                                                                                                                        |
+| HybridConnectionEventSubscriptionDestination                | HybridConnectionEventSubscriptionDestination                | Extended  | +DeliveryAttributeMappings                                                                                                                                             |
+| HybridConnectionEventSubscriptionDestination_STATUS         | HybridConnectionEventSubscriptionDestination_STATUS         | Extended  | +DeliveryAttributeMappings                                                                                                                                             |
+|                                                             | IdentityInfo                                                |    New    |                                                                                                                                                                        |
+|                                                             | IdentityInfo_STATUS                                         |    New    |                                                                                                                                                                        |
+| InboundIpRule                                               | InboundIpRule                                               | Identical |                                                                                                                                                                        |
+| InboundIpRule_STATUS                                        | InboundIpRule_STATUS                                        | Identical |                                                                                                                                                                        |
+|                                                             | InlineEventProperties                                       |    New    |                                                                                                                                                                        |
+|                                                             | InlineEventProperties_STATUS                                |    New    |                                                                                                                                                                        |
+| InputSchemaMapping                                          | InputSchemaMapping                                          | Identical |                                                                                                                                                                        |
+| InputSchemaMapping_STATUS                                   | InputSchemaMapping_STATUS                                   | Identical |                                                                                                                                                                        |
+|                                                             | IsNotNullAdvancedFilter                                     |    New    |                                                                                                                                                                        |
+|                                                             | IsNotNullAdvancedFilter_STATUS                              |    New    |                                                                                                                                                                        |
+|                                                             | IsNullOrUndefinedAdvancedFilter                             |    New    |                                                                                                                                                                        |
+|                                                             | IsNullOrUndefinedAdvancedFilter_STATUS                      |    New    |                                                                                                                                                                        |
+| JsonField                                                   | JsonField                                                   | Identical |                                                                                                                                                                        |
+| JsonFieldWithDefault                                        | JsonFieldWithDefault                                        | Identical |                                                                                                                                                                        |
+| JsonFieldWithDefault_STATUS                                 | JsonFieldWithDefault_STATUS                                 | Identical |                                                                                                                                                                        |
+| JsonField_STATUS                                            | JsonField_STATUS                                            | Identical |                                                                                                                                                                        |
+| JsonInputSchemaMapping                                      | JsonInputSchemaMapping                                      | Identical |                                                                                                                                                                        |
+| JsonInputSchemaMapping_STATUS                               | JsonInputSchemaMapping_STATUS                               | Identical |                                                                                                                                                                        |
+|                                                             | MonitorAlertEventSubscriptionDestination                    |    New    |                                                                                                                                                                        |
+|                                                             | MonitorAlertEventSubscriptionDestination_STATUS             |    New    |                                                                                                                                                                        |
+|                                                             | NamespaceTopicEventSubscriptionDestination                  |    New    |                                                                                                                                                                        |
+|                                                             | NamespaceTopicEventSubscriptionDestination_STATUS           |    New    |                                                                                                                                                                        |
+| NumberGreaterThanAdvancedFilter                             | NumberGreaterThanAdvancedFilter                             | Identical |                                                                                                                                                                        |
+| NumberGreaterThanAdvancedFilter_STATUS                      | NumberGreaterThanAdvancedFilter_STATUS                      | Identical |                                                                                                                                                                        |
+| NumberGreaterThanOrEqualsAdvancedFilter                     | NumberGreaterThanOrEqualsAdvancedFilter                     | Identical |                                                                                                                                                                        |
+| NumberGreaterThanOrEqualsAdvancedFilter_STATUS              | NumberGreaterThanOrEqualsAdvancedFilter_STATUS              | Identical |                                                                                                                                                                        |
+| NumberInAdvancedFilter                                      | NumberInAdvancedFilter                                      | Identical |                                                                                                                                                                        |
+| NumberInAdvancedFilter_STATUS                               | NumberInAdvancedFilter_STATUS                               | Identical |                                                                                                                                                                        |
+|                                                             | NumberInRangeAdvancedFilter                                 |    New    |                                                                                                                                                                        |
+|                                                             | NumberInRangeAdvancedFilter_STATUS                          |    New    |                                                                                                                                                                        |
+| NumberLessThanAdvancedFilter                                | NumberLessThanAdvancedFilter                                | Identical |                                                                                                                                                                        |
+| NumberLessThanAdvancedFilter_STATUS                         | NumberLessThanAdvancedFilter_STATUS                         | Identical |                                                                                                                                                                        |
+| NumberLessThanOrEqualsAdvancedFilter                        | NumberLessThanOrEqualsAdvancedFilter                        | Identical |                                                                                                                                                                        |
+| NumberLessThanOrEqualsAdvancedFilter_STATUS                 | NumberLessThanOrEqualsAdvancedFilter_STATUS                 | Identical |                                                                                                                                                                        |
+| NumberNotInAdvancedFilter                                   | NumberNotInAdvancedFilter                                   | Identical |                                                                                                                                                                        |
+| NumberNotInAdvancedFilter_STATUS                            | NumberNotInAdvancedFilter_STATUS                            | Identical |                                                                                                                                                                        |
+|                                                             | NumberNotInRangeAdvancedFilter                              |    New    |                                                                                                                                                                        |
+|                                                             | NumberNotInRangeAdvancedFilter_STATUS                       |    New    |                                                                                                                                                                        |
+| PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded | PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded | Identical |                                                                                                                                                                        |
+| PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded  | PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded  | Identical |                                                                                                                                                                        |
+| RetryPolicy                                                 | RetryPolicy                                                 | Identical |                                                                                                                                                                        |
+| RetryPolicy_STATUS                                          | RetryPolicy_STATUS                                          | Identical |                                                                                                                                                                        |
+| ServiceBusQueueEventSubscriptionDestination                 | ServiceBusQueueEventSubscriptionDestination                 | Extended  | +DeliveryAttributeMappings                                                                                                                                             |
+| ServiceBusQueueEventSubscriptionDestination_STATUS          | ServiceBusQueueEventSubscriptionDestination_STATUS          | Extended  | +DeliveryAttributeMappings                                                                                                                                             |
+| ServiceBusTopicEventSubscriptionDestination                 | ServiceBusTopicEventSubscriptionDestination                 | Extended  | +DeliveryAttributeMappings                                                                                                                                             |
+| ServiceBusTopicEventSubscriptionDestination_STATUS          | ServiceBusTopicEventSubscriptionDestination_STATUS          | Extended  | +DeliveryAttributeMappings                                                                                                                                             |
+|                                                             | StaticDeliveryAttributeMapping                              |    New    |                                                                                                                                                                        |
+|                                                             | StaticDeliveryAttributeMapping_STATUS                       |    New    |                                                                                                                                                                        |
+| StorageBlobDeadLetterDestination                            | StorageBlobDeadLetterDestination                            | Identical |                                                                                                                                                                        |
+| StorageBlobDeadLetterDestination_STATUS                     | StorageBlobDeadLetterDestination_STATUS                     | Identical |                                                                                                                                                                        |
+| StorageQueueEventSubscriptionDestination                    | StorageQueueEventSubscriptionDestination                    | Extended  | +QueueMessageTimeToLiveInSeconds                                                                                                                                       |
+| StorageQueueEventSubscriptionDestination_STATUS             | StorageQueueEventSubscriptionDestination_STATUS             | Extended  | +QueueMessageTimeToLiveInSeconds                                                                                                                                       |
+| StringBeginsWithAdvancedFilter                              | StringBeginsWithAdvancedFilter                              | Identical |                                                                                                                                                                        |
+| StringBeginsWithAdvancedFilter_STATUS                       | StringBeginsWithAdvancedFilter_STATUS                       | Identical |                                                                                                                                                                        |
+| StringContainsAdvancedFilter                                | StringContainsAdvancedFilter                                | Identical |                                                                                                                                                                        |
+| StringContainsAdvancedFilter_STATUS                         | StringContainsAdvancedFilter_STATUS                         | Identical |                                                                                                                                                                        |
+| StringEndsWithAdvancedFilter                                | StringEndsWithAdvancedFilter                                | Identical |                                                                                                                                                                        |
+| StringEndsWithAdvancedFilter_STATUS                         | StringEndsWithAdvancedFilter_STATUS                         | Identical |                                                                                                                                                                        |
+| StringInAdvancedFilter                                      | StringInAdvancedFilter                                      | Identical |                                                                                                                                                                        |
+| StringInAdvancedFilter_STATUS                               | StringInAdvancedFilter_STATUS                               | Identical |                                                                                                                                                                        |
+|                                                             | StringNotBeginsWithAdvancedFilter                           |    New    |                                                                                                                                                                        |
+|                                                             | StringNotBeginsWithAdvancedFilter_STATUS                    |    New    |                                                                                                                                                                        |
+|                                                             | StringNotContainsAdvancedFilter                             |    New    |                                                                                                                                                                        |
+|                                                             | StringNotContainsAdvancedFilter_STATUS                      |    New    |                                                                                                                                                                        |
+|                                                             | StringNotEndsWithAdvancedFilter                             |    New    |                                                                                                                                                                        |
+|                                                             | StringNotEndsWithAdvancedFilter_STATUS                      |    New    |                                                                                                                                                                        |
+| StringNotInAdvancedFilter                                   | StringNotInAdvancedFilter                                   | Identical |                                                                                                                                                                        |
+| StringNotInAdvancedFilter_STATUS                            | StringNotInAdvancedFilter_STATUS                            | Identical |                                                                                                                                                                        |
+| SystemData_STATUS                                           | SystemData_STATUS                                           | Identical |                                                                                                                                                                        |
+| TopicOperatorConfigMaps                                     | TopicOperatorConfigMaps                                     | Identical |                                                                                                                                                                        |
+| TopicOperatorSecrets                                        | TopicOperatorSecrets                                        | Identical |                                                                                                                                                                        |
+| TopicOperatorSpec                                           | TopicOperatorSpec                                           | Identical |                                                                                                                                                                        |
+| Topic_STATUS                                                | Topic_STATUS                                                | Extended  | +DataResidencyBoundary +DisableLocalAuth +EventTypeInfo +Identity +MinimumTlsVersionAllowed                                                                            |
+| Topic_Spec                                                  | Topic_Spec                                                  | Extended  | +DataResidencyBoundary +DisableLocalAuth +EventTypeInfo +Identity +MinimumTlsVersionAllowed                                                                            |
+|                                                             | UserAssignedIdentityDetails                                 |    New    |                                                                                                                                                                        |
+|                                                             | UserIdentityProperties_STATUS                               |    New    |                                                                                                                                                                        |
+| WebHookEventSubscriptionDestination                         | WebHookEventSubscriptionDestination                         | Extended  | +DeliveryAttributeMappings +MinimumTlsVersionAllowed                                                                                                                   |
+| WebHookEventSubscriptionDestination_STATUS                  | WebHookEventSubscriptionDestination_STATUS                  | Extended  | +DeliveryAttributeMappings +MinimumTlsVersionAllowed                                                                                                                   |
 
 ### AdvancedFilter
 
-13 x Identical, 7 x New
+Properties: 13 x Identical, 7 x New
 
 | v20200601/storage         |                                          | v20250215/storage         |                                          |  Status   | Notes |
 |:--------------------------|:-----------------------------------------|:--------------------------|:-----------------------------------------|:---------:|:------|
@@ -167,7 +160,7 @@
 
 ### AdvancedFilter_STATUS
 
-13 x Identical, 7 x New
+Properties: 13 x Identical, 7 x New
 
 | v20200601/storage         |                                                 | v20250215/storage         |                                                 |  Status   | Notes |
 |:--------------------------|:------------------------------------------------|:--------------------------|:------------------------------------------------|:---------:|:------|
@@ -194,7 +187,7 @@
 
 ### AzureFunctionEventSubscriptionDestination
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v20200601/storage             |                               | v20250215/storage             |                               |  Status   | Notes |
 |:------------------------------|:------------------------------|:------------------------------|:------------------------------|:---------:|:------|
@@ -207,7 +200,7 @@
 
 ### AzureFunctionEventSubscriptionDestination_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v20200601/storage             |                        | v20250215/storage             |                                   |  Status   | Notes |
 |:------------------------------|:-----------------------|:------------------------------|:----------------------------------|:---------:|:------|
@@ -220,7 +213,7 @@
 
 ### Domain_STATUS
 
-16 x Identical, 7 x New
+Properties: 16 x Identical, 7 x New
 
 | v20200601/storage          |                                                               | v20250215/storage                    |                                                               |  Status   | Notes |
 |:---------------------------|:--------------------------------------------------------------|:-------------------------------------|:--------------------------------------------------------------|:---------:|:------|
@@ -250,7 +243,7 @@
 
 ### Domain_Spec
 
-11 x Identical, 7 x New
+Properties: 11 x Identical, 7 x New
 
 | v20200601/storage   |                                    | v20250215/storage                    |                                    |  Status   | Notes |
 |:--------------------|:-----------------------------------|:-------------------------------------|:-----------------------------------|:---------:|:------|
@@ -275,7 +268,7 @@
 
 ### EventHubEventSubscriptionDestination
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20200601/storage |                               | v20250215/storage         |                               |  Status   | Notes |
 |:------------------|:------------------------------|:--------------------------|:------------------------------|:---------:|:------|
@@ -286,7 +279,7 @@
 
 ### EventHubEventSubscriptionDestination_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20200601/storage |                        | v20250215/storage         |                                   |  Status   | Notes |
 |:------------------|:-----------------------|:--------------------------|:----------------------------------|:---------:|:------|
@@ -297,7 +290,7 @@
 
 ### EventSubscriptionDestination
 
-8 x Identical, 2 x New
+Properties: 8 x Identical, 2 x New
 
 | v20200601/storage |                                               | v20250215/storage |                                               |  Status   | Notes |
 |:------------------|:----------------------------------------------|:------------------|:----------------------------------------------|:---------:|:------|
@@ -314,7 +307,7 @@
 
 ### EventSubscriptionDestination_STATUS
 
-8 x Identical, 2 x New
+Properties: 8 x Identical, 2 x New
 
 | v20200601/storage |                                                      | v20250215/storage |                                                      |  Status   | Notes |
 |:------------------|:-----------------------------------------------------|:------------------|:-----------------------------------------------------|:---------:|:------|
@@ -331,7 +324,7 @@
 
 ### EventSubscriptionFilter
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v20200601/storage      |                        | v20250215/storage               |                        |  Status   | Notes |
 |:-----------------------|:-----------------------|:--------------------------------|:-----------------------|:---------:|:------|
@@ -345,7 +338,7 @@
 
 ### EventSubscriptionFilter_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v20200601/storage      |                         | v20250215/storage               |                         |  Status   | Notes |
 |:-----------------------|:------------------------|:--------------------------------|:------------------------|:---------:|:------|
@@ -359,7 +352,7 @@
 
 ### EventSubscription_STATUS
 
-15 x Identical, 2 x New
+Properties: 15 x Identical, 2 x New
 
 | v20200601/storage     |                                      | v20250215/storage              |                                        |  Status   | Notes |
 |:----------------------|:-------------------------------------|:-------------------------------|:---------------------------------------|:---------:|:------|
@@ -383,7 +376,7 @@
 
 ### EventSubscription_Spec
 
-12 x Identical, 2 x New
+Properties: 12 x Identical, 2 x New
 
 | v20200601/storage     |                                     | v20250215/storage              |                                     |  Status   | Notes |
 |:----------------------|:------------------------------------|:-------------------------------|:------------------------------------|:---------:|:------|
@@ -404,7 +397,7 @@
 
 ### HybridConnectionEventSubscriptionDestination
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20200601/storage |                               | v20250215/storage         |                               |  Status   | Notes |
 |:------------------|:------------------------------|:--------------------------|:------------------------------|:---------:|:------|
@@ -415,7 +408,7 @@
 
 ### HybridConnectionEventSubscriptionDestination_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20200601/storage |                        | v20250215/storage         |                                   |  Status   | Notes |
 |:------------------|:-----------------------|:--------------------------|:----------------------------------|:---------:|:------|
@@ -426,7 +419,7 @@
 
 ### ServiceBusQueueEventSubscriptionDestination
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20200601/storage |                               | v20250215/storage         |                               |  Status   | Notes |
 |:------------------|:------------------------------|:--------------------------|:------------------------------|:---------:|:------|
@@ -437,7 +430,7 @@
 
 ### ServiceBusQueueEventSubscriptionDestination_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20200601/storage |                        | v20250215/storage         |                                   |  Status   | Notes |
 |:------------------|:-----------------------|:--------------------------|:----------------------------------|:---------:|:------|
@@ -448,7 +441,7 @@
 
 ### ServiceBusTopicEventSubscriptionDestination
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20200601/storage |                               | v20250215/storage         |                               |  Status   | Notes |
 |:------------------|:------------------------------|:--------------------------|:------------------------------|:---------:|:------|
@@ -459,7 +452,7 @@
 
 ### ServiceBusTopicEventSubscriptionDestination_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20200601/storage |                        | v20250215/storage         |                                   |  Status   | Notes |
 |:------------------|:-----------------------|:--------------------------|:----------------------------------|:---------:|:------|
@@ -470,7 +463,7 @@
 
 ### StorageQueueEventSubscriptionDestination
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v20200601/storage   |                                | v20250215/storage               |                                |  Status   | Notes |
 |:--------------------|:-------------------------------|:--------------------------------|:-------------------------------|:---------:|:------|
@@ -483,7 +476,7 @@
 
 ### StorageQueueEventSubscriptionDestination_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20200601/storage |                        | v20250215/storage               |                        |  Status   | Notes |
 |:------------------|:-----------------------|:--------------------------------|:-----------------------|:---------:|:------|
@@ -495,7 +488,7 @@
 
 ### Topic_STATUS
 
-16 x Identical, 5 x New
+Properties: 16 x Identical, 5 x New
 
 | v20200601/storage          |                                                              | v20250215/storage          |                                                              |  Status   | Notes |
 |:---------------------------|:-------------------------------------------------------------|:---------------------------|:-------------------------------------------------------------|:---------:|:------|
@@ -523,7 +516,7 @@
 
 ### Topic_Spec
 
-11 x Identical, 5 x New
+Properties: 11 x Identical, 5 x New
 
 | v20200601/storage   |                                    | v20250215/storage        |                                    |  Status   | Notes |
 |:--------------------|:-----------------------------------|:-------------------------|:-----------------------------------|:---------:|:------|
@@ -546,7 +539,7 @@
 
 ### WebHookEventSubscriptionDestination
 
-8 x Identical, 2 x New
+Properties: 8 x Identical, 2 x New
 
 | v20200601/storage                                |                                | v20250215/storage                                |                                |  Status   | Notes |
 |:-------------------------------------------------|:-------------------------------|:-------------------------------------------------|:-------------------------------|:---------:|:------|
@@ -563,7 +556,7 @@
 
 ### WebHookEventSubscriptionDestination_STATUS
 
-7 x Identical, 2 x New
+Properties: 7 x Identical, 2 x New
 
 | v20200601/storage                      |                        | v20250215/storage                      |                                   |  Status   | Notes |
 |:---------------------------------------|:-----------------------|:---------------------------------------|:----------------------------------|:---------:|:------|
@@ -576,3 +569,12 @@
 |                                        |                        | MinimumTlsVersionAllowed               | *string                           |    New    |       |
 | PreferredBatchSizeInKilobytes          | *int                   | PreferredBatchSizeInKilobytes          | *int                              | Identical |       |
 | PropertyBag                            | genruntime.PropertyBag | PropertyBag                            | genruntime.PropertyBag            | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

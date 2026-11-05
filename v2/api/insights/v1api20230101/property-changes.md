@@ -6,48 +6,41 @@
 |:--------------|:----------------------|:---------:|:------|
 | ActionGroup   | ActionGroup           | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20230101                    | v1api20230101/storage            |  Status  | Notes |
-|:---------------------------------|:---------------------------------|:--------:|:------|
-| ActionGroupOperatorSpec          | ActionGroupOperatorSpec          | Extended |       |
-| ActionGroupResource_STATUS       | ActionGroupResource_STATUS       | Extended |       |
-| ActionGroup_Spec                 | ActionGroup_Spec                 | Modified |       |
-| ArmRoleReceiver                  | ArmRoleReceiver                  | Extended |       |
-| ArmRoleReceiver_STATUS           | ArmRoleReceiver_STATUS           | Extended |       |
-| AutomationRunbookReceiver        | AutomationRunbookReceiver        | Extended |       |
-| AutomationRunbookReceiver_STATUS | AutomationRunbookReceiver_STATUS | Extended |       |
-| AzureAppPushReceiver             | AzureAppPushReceiver             | Extended |       |
-| AzureAppPushReceiver_STATUS      | AzureAppPushReceiver_STATUS      | Extended |       |
-| AzureFunctionReceiver            | AzureFunctionReceiver            | Extended |       |
-| AzureFunctionReceiver_STATUS     | AzureFunctionReceiver_STATUS     | Extended |       |
-| EmailReceiver                    | EmailReceiver                    | Extended |       |
-| EmailReceiver_STATUS             | EmailReceiver_STATUS             | Modified |       |
-| EventHubReceiver                 | EventHubReceiver                 | Extended |       |
-| EventHubReceiver_STATUS          | EventHubReceiver_STATUS          | Extended |       |
-| ItsmReceiver                     | ItsmReceiver                     | Extended |       |
-| ItsmReceiver_STATUS              | ItsmReceiver_STATUS              | Extended |       |
-| LogicAppReceiver                 | LogicAppReceiver                 | Extended |       |
-| LogicAppReceiver_STATUS          | LogicAppReceiver_STATUS          | Extended |       |
-| SmsReceiver                      | SmsReceiver                      | Extended |       |
-| SmsReceiver_STATUS               | SmsReceiver_STATUS               | Modified |       |
-| VoiceReceiver                    | VoiceReceiver                    | Extended |       |
-| VoiceReceiver_STATUS             | VoiceReceiver_STATUS             | Extended |       |
-| WebhookReceiver                  | WebhookReceiver                  | Extended |       |
-| WebhookReceiver_STATUS           | WebhookReceiver_STATUS           | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20230101                    | v1api20230101/storage            |  Status  | Notes                         |
+|:---------------------------------|:---------------------------------|:--------:|:------------------------------|
+| ActionGroupOperatorSpec          | ActionGroupOperatorSpec          | Extended | +PropertyBag                  |
+| ActionGroupResource_STATUS       | ActionGroupResource_STATUS       | Extended | +PropertyBag                  |
+| ActionGroup_Spec                 | ActionGroup_Spec                 | Extended | +OriginalVersion +PropertyBag |
+| ArmRoleReceiver                  | ArmRoleReceiver                  | Extended | +PropertyBag                  |
+| ArmRoleReceiver_STATUS           | ArmRoleReceiver_STATUS           | Extended | +PropertyBag                  |
+| AutomationRunbookReceiver        | AutomationRunbookReceiver        | Extended | +PropertyBag                  |
+| AutomationRunbookReceiver_STATUS | AutomationRunbookReceiver_STATUS | Extended | +PropertyBag                  |
+| AzureAppPushReceiver             | AzureAppPushReceiver             | Extended | +PropertyBag                  |
+| AzureAppPushReceiver_STATUS      | AzureAppPushReceiver_STATUS      | Extended | +PropertyBag                  |
+| AzureFunctionReceiver            | AzureFunctionReceiver            | Extended | +PropertyBag                  |
+| AzureFunctionReceiver_STATUS     | AzureFunctionReceiver_STATUS     | Extended | +PropertyBag                  |
+| EmailReceiver                    | EmailReceiver                    | Extended | +PropertyBag                  |
+| EmailReceiver_STATUS             | EmailReceiver_STATUS             | Modified |                               |
+| EventHubReceiver                 | EventHubReceiver                 | Extended | +PropertyBag                  |
+| EventHubReceiver_STATUS          | EventHubReceiver_STATUS          | Extended | +PropertyBag                  |
+| ItsmReceiver                     | ItsmReceiver                     | Extended | +PropertyBag                  |
+| ItsmReceiver_STATUS              | ItsmReceiver_STATUS              | Extended | +PropertyBag                  |
+| LogicAppReceiver                 | LogicAppReceiver                 | Extended | +PropertyBag                  |
+| LogicAppReceiver_STATUS          | LogicAppReceiver_STATUS          | Extended | +PropertyBag                  |
+| SmsReceiver                      | SmsReceiver                      | Extended | +PropertyBag                  |
+| SmsReceiver_STATUS               | SmsReceiver_STATUS               | Modified |                               |
+| VoiceReceiver                    | VoiceReceiver                    | Extended | +PropertyBag                  |
+| VoiceReceiver_STATUS             | VoiceReceiver_STATUS             | Extended | +PropertyBag                  |
+| WebhookReceiver                  | WebhookReceiver                  | Extended | +PropertyBag                  |
+| WebhookReceiver_STATUS           | WebhookReceiver_STATUS           | Extended | +PropertyBag                  |
 
 ### ActionGroupOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20230101        |                               | v1api20230101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -57,7 +50,7 @@
 
 ### ActionGroupResource_STATUS
 
-19 x Identical, 1 x New
+Properties: 19 x Identical, 1 x New
 
 | v1api20230101              |                                    | v1api20230101/storage      |                                    |  Status   | Notes |
 |:---------------------------|:-----------------------------------|:---------------------------|:-----------------------------------|:---------:|:------|
@@ -84,7 +77,7 @@
 
 ### ActionGroup_Spec
 
-17 x Identical, 2 x New, 1 x Modified
+Properties: 18 x Identical, 2 x New
 
 | v1api20230101              |                                    | v1api20230101/storage      |                                    |  Status   | Notes |
 |:---------------------------|:-----------------------------------|:---------------------------|:-----------------------------------|:---------:|:------|
@@ -96,7 +89,7 @@
 | EmailReceivers             | EmailReceiver[]                    | EmailReceivers             | EmailReceiver[]                    | Identical |       |
 | Enabled                    | *bool                              | Enabled                    | *bool                              | Identical |       |
 | EventHubReceivers          | EventHubReceiver[]                 | EventHubReceivers          | EventHubReceiver[]                 | Identical |       |
-| GroupShortName             | Validated<*string> (1 rule)        | GroupShortName             | *string                            | Modified  |       |
+| GroupShortName             | Validated<*string> (1 rule)        | GroupShortName             | *string                            | Identical |       |
 | ItsmReceivers              | ItsmReceiver[]                     | ItsmReceivers              | ItsmReceiver[]                     | Identical |       |
 | Location                   | *string                            | Location                   | *string                            | Identical |       |
 | LogicAppReceivers          | LogicAppReceiver[]                 | LogicAppReceivers          | LogicAppReceiver[]                 | Identical |       |
@@ -111,7 +104,7 @@
 
 ### ArmRoleReceiver
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20230101        |         | v1api20230101/storage |                        |  Status   | Notes |
 |:---------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -122,7 +115,7 @@
 
 ### ArmRoleReceiver_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20230101        |         | v1api20230101/storage |                        |  Status   | Notes |
 |:---------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -133,7 +126,7 @@
 
 ### AutomationRunbookReceiver
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v1api20230101            |                               | v1api20230101/storage    |                               |  Status   | Notes |
 |:-------------------------|:------------------------------|:-------------------------|:------------------------------|:---------:|:------|
@@ -149,7 +142,7 @@
 
 ### AutomationRunbookReceiver_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20230101        |         | v1api20230101/storage |                        |  Status   | Notes |
 |:---------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -163,7 +156,7 @@
 
 ### AzureAppPushReceiver
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20230101 |         | v1api20230101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -173,7 +166,7 @@
 
 ### AzureAppPushReceiver_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20230101 |         | v1api20230101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -183,7 +176,7 @@
 
 ### AzureFunctionReceiver
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20230101                |                               | v1api20230101/storage        |                               |  Status   | Notes |
 |:-----------------------------|:------------------------------|:-----------------------------|:------------------------------|:---------:|:------|
@@ -196,7 +189,7 @@
 
 ### AzureFunctionReceiver_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20230101         |         | v1api20230101/storage |                        |  Status   | Notes |
 |:----------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -209,7 +202,7 @@
 
 ### EmailReceiver
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20230101        |         | v1api20230101/storage |                        |  Status   | Notes |
 |:---------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -220,7 +213,7 @@
 
 ### EmailReceiver_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20230101        |                        | v1api20230101/storage |                        |  Status   | Notes |
 |:---------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -232,7 +225,7 @@
 
 ### EventHubReceiver
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20230101        |         | v1api20230101/storage |                        |  Status   | Notes |
 |:---------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -246,7 +239,7 @@
 
 ### EventHubReceiver_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20230101        |         | v1api20230101/storage |                        |  Status   | Notes |
 |:---------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -260,7 +253,7 @@
 
 ### ItsmReceiver
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20230101       |         | v1api20230101/storage |                        |  Status   | Notes |
 |:--------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -273,7 +266,7 @@
 
 ### ItsmReceiver_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20230101       |         | v1api20230101/storage |                        |  Status   | Notes |
 |:--------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -286,7 +279,7 @@
 
 ### LogicAppReceiver
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20230101        |                               | v1api20230101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -298,7 +291,7 @@
 
 ### LogicAppReceiver_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20230101        |         | v1api20230101/storage |                        |  Status   | Notes |
 |:---------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -310,7 +303,7 @@
 
 ### SmsReceiver
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20230101 |         | v1api20230101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -321,7 +314,7 @@
 
 ### SmsReceiver_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20230101 |                        | v1api20230101/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -333,7 +326,7 @@
 
 ### VoiceReceiver
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20230101 |         | v1api20230101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -344,7 +337,7 @@
 
 ### VoiceReceiver_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20230101 |         | v1api20230101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -355,7 +348,7 @@
 
 ### WebhookReceiver
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v1api20230101        |                             | v1api20230101/storage |                             |  Status   | Notes |
 |:---------------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -371,7 +364,7 @@
 
 ### WebhookReceiver_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20230101        |         | v1api20230101/storage |                        |  Status   | Notes |
 |:---------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -382,3 +375,12 @@
 | TenantId             | *string | TenantId              | *string                | Identical |       |
 | UseAadAuth           | *bool   | UseAadAuth            | *bool                  | Identical |       |
 | UseCommonAlertSchema | *bool   | UseCommonAlertSchema  | *bool                  | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

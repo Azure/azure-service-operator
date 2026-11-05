@@ -8,55 +8,48 @@
 | FlexibleServersDatabase     | FlexibleServersDatabase     | Identical |       |
 | FlexibleServersFirewallRule | FlexibleServersFirewallRule | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20210501/storage                       | v20230630/storage                       |  Status   | Notes |
-|:----------------------------------------|:----------------------------------------|:---------:|:------|
-| Backup                                  | Backup                                  | Identical |       |
-| Backup_STATUS                           | Backup_STATUS                           | Identical |       |
-| DataEncryption                          | DataEncryption                          | Identical |       |
-| DataEncryption_STATUS                   | DataEncryption_STATUS                   | Identical |       |
-| FlexibleServerOperatorConfigMaps        | FlexibleServerOperatorConfigMaps        | Identical |       |
-| FlexibleServerOperatorSecrets           | FlexibleServerOperatorSecrets           | Identical |       |
-| FlexibleServerOperatorSpec              | FlexibleServerOperatorSpec              | Identical |       |
-| FlexibleServer_STATUS                   | FlexibleServer_STATUS                   | Extended  |       |
-| FlexibleServer_Spec                     | FlexibleServer_Spec                     | Modified  |       |
-| FlexibleServersDatabaseOperatorSpec     | FlexibleServersDatabaseOperatorSpec     | Identical |       |
-| FlexibleServersDatabase_STATUS          | FlexibleServersDatabase_STATUS          | Identical |       |
-| FlexibleServersDatabase_Spec            | FlexibleServersDatabase_Spec            | Identical |       |
-| FlexibleServersFirewallRuleOperatorSpec | FlexibleServersFirewallRuleOperatorSpec | Identical |       |
-| FlexibleServersFirewallRule_STATUS      | FlexibleServersFirewallRule_STATUS      | Identical |       |
-| FlexibleServersFirewallRule_Spec        | FlexibleServersFirewallRule_Spec        | Identical |       |
-| HighAvailability                        | HighAvailability                        | Identical |       |
-| HighAvailability_STATUS                 | HighAvailability_STATUS                 | Identical |       |
-| Identity                                | MySQLServerIdentity                     |  Renamed  |       |
-| Identity_STATUS                         | MySQLServerIdentity_STATUS              |  Renamed  |       |
-|                                         | ImportSourceProperties                  |    New    |       |
-|                                         | ImportSourceProperties_STATUS           |    New    |       |
-| MaintenanceWindow                       | MaintenanceWindow                       | Identical |       |
-| MaintenanceWindow_STATUS                | MaintenanceWindow_STATUS                | Identical |       |
-| Network                                 | Network                                 | Extended  |       |
-| Network_STATUS                          | Network_STATUS                          | Identical |       |
-|                                         | PrivateEndpointConnection_STATUS        |    New    |       |
-| Sku                                     | MySQLServerSku                          |  Renamed  |       |
-| Sku_STATUS                              | MySQLServerSku_STATUS                   |  Renamed  |       |
-| Storage                                 | Storage                                 | Extended  |       |
-| Storage_STATUS                          | Storage_STATUS                          | Extended  |       |
-| SystemData_STATUS                       | SystemData_STATUS                       | Identical |       |
-| UserAssignedIdentityDetails             | UserAssignedIdentityDetails             | Identical |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20210501/storage                       | v20230630/storage                       |  Status   | Notes                                               |
+|:----------------------------------------|:----------------------------------------|:---------:|:----------------------------------------------------|
+| Backup                                  | Backup                                  | Identical |                                                     |
+| Backup_STATUS                           | Backup_STATUS                           | Identical |                                                     |
+| DataEncryption                          | DataEncryption                          | Identical |                                                     |
+| DataEncryption_STATUS                   | DataEncryption_STATUS                   | Identical |                                                     |
+| FlexibleServerOperatorConfigMaps        | FlexibleServerOperatorConfigMaps        | Identical |                                                     |
+| FlexibleServerOperatorSecrets           | FlexibleServerOperatorSecrets           | Identical |                                                     |
+| FlexibleServerOperatorSpec              | FlexibleServerOperatorSpec              | Identical |                                                     |
+| FlexibleServer_STATUS                   | FlexibleServer_STATUS                   | Extended  | +ImportSourceProperties +PrivateEndpointConnections |
+| FlexibleServer_Spec                     | FlexibleServer_Spec                     | Modified  |                                                     |
+| FlexibleServersDatabaseOperatorSpec     | FlexibleServersDatabaseOperatorSpec     | Identical |                                                     |
+| FlexibleServersDatabase_STATUS          | FlexibleServersDatabase_STATUS          | Identical |                                                     |
+| FlexibleServersDatabase_Spec            | FlexibleServersDatabase_Spec            | Identical |                                                     |
+| FlexibleServersFirewallRuleOperatorSpec | FlexibleServersFirewallRuleOperatorSpec | Identical |                                                     |
+| FlexibleServersFirewallRule_STATUS      | FlexibleServersFirewallRule_STATUS      | Identical |                                                     |
+| FlexibleServersFirewallRule_Spec        | FlexibleServersFirewallRule_Spec        | Identical |                                                     |
+| HighAvailability                        | HighAvailability                        | Identical |                                                     |
+| HighAvailability_STATUS                 | HighAvailability_STATUS                 | Identical |                                                     |
+| Identity                                | MySQLServerIdentity                     |  Renamed  |                                                     |
+| Identity_STATUS                         | MySQLServerIdentity_STATUS              |  Renamed  |                                                     |
+|                                         | ImportSourceProperties                  |    New    |                                                     |
+|                                         | ImportSourceProperties_STATUS           |    New    |                                                     |
+| MaintenanceWindow                       | MaintenanceWindow                       | Identical |                                                     |
+| MaintenanceWindow_STATUS                | MaintenanceWindow_STATUS                | Identical |                                                     |
+| Network                                 | Network                                 | Extended  | +PublicNetworkAccess                                |
+| Network_STATUS                          | Network_STATUS                          | Identical |                                                     |
+|                                         | PrivateEndpointConnection_STATUS        |    New    |                                                     |
+| Sku                                     | MySQLServerSku                          |  Renamed  |                                                     |
+| Sku_STATUS                              | MySQLServerSku_STATUS                   |  Renamed  |                                                     |
+| Storage                                 | Storage                                 | Extended  | +AutoIoScaling +LogOnDisk                           |
+| Storage_STATUS                          | Storage_STATUS                          | Extended  | +AutoIoScaling +LogOnDisk                           |
+| SystemData_STATUS                       | SystemData_STATUS                       | Identical |                                                     |
+| UserAssignedIdentityDetails             | UserAssignedIdentityDetails             | Identical |                                                     |
 
 ### FlexibleServer_STATUS
 
-26 x Identical, 2 x New
+Properties: 26 x Identical, 2 x New
 
 | v20210501/storage        |                           | v20230630/storage          |                                    |  Status   | Notes                                                  |
 |:-------------------------|:--------------------------|:---------------------------|:-----------------------------------|:---------:|:-------------------------------------------------------|
@@ -91,7 +84,7 @@
 
 ### FlexibleServer_Spec
 
-22 x Identical, 2 x New, 1 x Retired
+Properties: 22 x Identical, 2 x New, 1 x Retired
 
 | v20210501/storage          |                                    | v20230630/storage             |                                    |  Status   | Notes                                              |
 |:---------------------------|:-----------------------------------|:------------------------------|:-----------------------------------|:---------:|:---------------------------------------------------|
@@ -123,7 +116,7 @@
 
 ### Network
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20210501/storage                |                               | v20230630/storage                |                               |  Status   | Notes |
 |:---------------------------------|:------------------------------|:---------------------------------|:------------------------------|:---------:|:------|
@@ -134,7 +127,7 @@
 
 ### Storage
 
-4 x Identical, 2 x New
+Properties: 4 x Identical, 2 x New
 
 | v20210501/storage |                        | v20230630/storage |                        |  Status   | Notes |
 |:------------------|:-----------------------|:------------------|:-----------------------|:---------:|:------|
@@ -147,7 +140,7 @@
 
 ### Storage_STATUS
 
-5 x Identical, 2 x New
+Properties: 5 x Identical, 2 x New
 
 | v20210501/storage |                        | v20230630/storage |                        |  Status   | Notes |
 |:------------------|:-----------------------|:------------------|:-----------------------|:---------:|:------|
@@ -158,3 +151,12 @@
 | PropertyBag       | genruntime.PropertyBag | PropertyBag       | genruntime.PropertyBag | Identical |       |
 | StorageSizeGB     | *int                   | StorageSizeGB     | *int                   | Identical |       |
 | StorageSku        | *string                | StorageSku        | *string                | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

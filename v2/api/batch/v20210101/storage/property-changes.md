@@ -6,49 +6,42 @@
 |:------------------|:------------------|:---------:|:------|
 | BatchAccount      | BatchAccount      | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20210101/storage                                  | v20240701/storage                    |  Status   | Notes |
-|:---------------------------------------------------|:-------------------------------------|:---------:|:------|
-| AutoStorageBaseProperties                          | AutoStorageBaseProperties            | Extended  |       |
-| AutoStorageProperties_STATUS                       | AutoStorageProperties_STATUS         | Extended  |       |
-| BatchAccountIdentity                               | BatchAccountIdentity                 | Identical |       |
-| BatchAccountIdentity_STATUS                        | BatchAccountIdentity_STATUS          | Identical |       |
-| BatchAccountIdentity_UserAssignedIdentities_STATUS | UserAssignedIdentities_STATUS        |  Renamed  |       |
-| BatchAccountOperatorSpec                           | BatchAccountOperatorSpec             | Identical |       |
-| BatchAccount_STATUS                                | BatchAccount_STATUS                  | Extended  |       |
-| BatchAccount_Spec                                  | BatchAccount_Spec                    | Extended  |       |
-|                                                    | ComputeNodeIdentityReference         |    New    |       |
-|                                                    | ComputeNodeIdentityReference_STATUS  |    New    |       |
-| EncryptionProperties                               | EncryptionProperties                 | Identical |       |
-| EncryptionProperties_STATUS                        | EncryptionProperties_STATUS          | Identical |       |
-|                                                    | EndpointAccessProfile                |    New    |       |
-|                                                    | EndpointAccessProfile_STATUS         |    New    |       |
-|                                                    | IPRule                               |    New    |       |
-|                                                    | IPRule_STATUS                        |    New    |       |
-| KeyVaultProperties                                 | KeyVaultProperties                   | Identical |       |
-| KeyVaultProperties_STATUS                          | KeyVaultProperties_STATUS            | Identical |       |
-| KeyVaultReference                                  | KeyVaultReference                    | Identical |       |
-| KeyVaultReference_STATUS                           | KeyVaultReference_STATUS             | Identical |       |
-|                                                    | NetworkProfile                       |    New    |       |
-|                                                    | NetworkProfile_STATUS                |    New    |       |
-| PrivateEndpointConnection_STATUS                   | PrivateEndpointConnection_STATUS     | Identical |       |
-|                                                    | SystemData_STATUS                    |    New    |       |
-| UserAssignedIdentityDetails                        | UserAssignedIdentityDetails          | Identical |       |
-| VirtualMachineFamilyCoreQuota_STATUS               | VirtualMachineFamilyCoreQuota_STATUS | Identical |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20210101/storage                                  | v20240701/storage                    |  Status   | Notes                                                                           |
+|:---------------------------------------------------|:-------------------------------------|:---------:|:--------------------------------------------------------------------------------|
+| AutoStorageBaseProperties                          | AutoStorageBaseProperties            | Extended  | +AuthenticationMode +NodeIdentityReference                                      |
+| AutoStorageProperties_STATUS                       | AutoStorageProperties_STATUS         | Extended  | +AuthenticationMode +NodeIdentityReference                                      |
+| BatchAccountIdentity                               | BatchAccountIdentity                 | Identical |                                                                                 |
+| BatchAccountIdentity_STATUS                        | BatchAccountIdentity_STATUS          | Identical |                                                                                 |
+| BatchAccountIdentity_UserAssignedIdentities_STATUS | UserAssignedIdentities_STATUS        |  Renamed  |                                                                                 |
+| BatchAccountOperatorSpec                           | BatchAccountOperatorSpec             | Identical |                                                                                 |
+| BatchAccount_STATUS                                | BatchAccount_STATUS                  | Extended  | +AllowedAuthenticationModes +NetworkProfile +NodeManagementEndpoint +SystemData |
+| BatchAccount_Spec                                  | BatchAccount_Spec                    | Extended  | +AllowedAuthenticationModes +NetworkProfile                                     |
+|                                                    | ComputeNodeIdentityReference         |    New    |                                                                                 |
+|                                                    | ComputeNodeIdentityReference_STATUS  |    New    |                                                                                 |
+| EncryptionProperties                               | EncryptionProperties                 | Identical |                                                                                 |
+| EncryptionProperties_STATUS                        | EncryptionProperties_STATUS          | Identical |                                                                                 |
+|                                                    | EndpointAccessProfile                |    New    |                                                                                 |
+|                                                    | EndpointAccessProfile_STATUS         |    New    |                                                                                 |
+|                                                    | IPRule                               |    New    |                                                                                 |
+|                                                    | IPRule_STATUS                        |    New    |                                                                                 |
+| KeyVaultProperties                                 | KeyVaultProperties                   | Identical |                                                                                 |
+| KeyVaultProperties_STATUS                          | KeyVaultProperties_STATUS            | Identical |                                                                                 |
+| KeyVaultReference                                  | KeyVaultReference                    | Identical |                                                                                 |
+| KeyVaultReference_STATUS                           | KeyVaultReference_STATUS             | Identical |                                                                                 |
+|                                                    | NetworkProfile                       |    New    |                                                                                 |
+|                                                    | NetworkProfile_STATUS                |    New    |                                                                                 |
+| PrivateEndpointConnection_STATUS                   | PrivateEndpointConnection_STATUS     | Identical |                                                                                 |
+|                                                    | SystemData_STATUS                    |    New    |                                                                                 |
+| UserAssignedIdentityDetails                        | UserAssignedIdentityDetails          | Identical |                                                                                 |
+| VirtualMachineFamilyCoreQuota_STATUS               | VirtualMachineFamilyCoreQuota_STATUS | Identical |                                                                                 |
 
 ### AutoStorageBaseProperties
 
-2 x Identical, 2 x New
+Properties: 2 x Identical, 2 x New
 
 | v20210101/storage       |                               | v20240701/storage       |                               |  Status   | Notes |
 |:------------------------|:------------------------------|:------------------------|:------------------------------|:---------:|:------|
@@ -59,7 +52,7 @@
 
 ### AutoStorageProperties_STATUS
 
-3 x Identical, 2 x New
+Properties: 3 x Identical, 2 x New
 
 | v20210101/storage |                        | v20240701/storage     |                                      |  Status   | Notes |
 |:------------------|:-----------------------|:----------------------|:-------------------------------------|:---------:|:------|
@@ -71,7 +64,7 @@
 
 ### BatchAccount_STATUS
 
-22 x Identical, 4 x New
+Properties: 22 x Identical, 4 x New
 
 | v20210101/storage                     |                                        | v20240701/storage                     |                                        |  Status   | Notes |
 |:--------------------------------------|:---------------------------------------|:--------------------------------------|:---------------------------------------|:---------:|:------|
@@ -104,7 +97,7 @@
 
 ### BatchAccount_Spec
 
-13 x Identical, 2 x New
+Properties: 13 x Identical, 2 x New
 
 | v20210101/storage   |                                    | v20240701/storage          |                                    |  Status   | Notes |
 |:--------------------|:-----------------------------------|:---------------------------|:-----------------------------------|:---------:|:------|
@@ -123,3 +116,12 @@
 | PropertyBag         | genruntime.PropertyBag             | PropertyBag                | genruntime.PropertyBag             | Identical |       |
 | PublicNetworkAccess | *string                            | PublicNetworkAccess        | *string                            | Identical |       |
 | Tags                | map[string]string                  | Tags                       | map[string]string                  | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

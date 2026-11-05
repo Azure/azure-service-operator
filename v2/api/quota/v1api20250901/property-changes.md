@@ -6,35 +6,28 @@
 |:--------------|:----------------------|:---------:|:------|
 | Quota         | Quota                 | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20250901          | v1api20250901/storage  |  Status  | Notes |
-|:-----------------------|:-----------------------|:--------:|:------|
-| LimitJsonObject        | LimitJsonObject        | Extended |       |
-| LimitJsonObject_STATUS | LimitJsonObject_STATUS | Extended |       |
-| LimitObject            | LimitObject            | Modified |       |
-| LimitObject_STATUS     | LimitObject_STATUS     | Modified |       |
-| QuotaOperatorSpec      | QuotaOperatorSpec      | Extended |       |
-| QuotaProperties        | QuotaProperties        | Extended |       |
-| QuotaProperties_STATUS | QuotaProperties_STATUS | Extended |       |
-| Quota_STATUS           | Quota_STATUS           | Extended |       |
-| Quota_Spec             | Quota_Spec             | Extended |       |
-| ResourceName           | ResourceName           | Extended |       |
-| ResourceName_STATUS    | ResourceName_STATUS    | Extended |       |
-| SystemData_STATUS      | SystemData_STATUS      | Modified |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20250901          | v1api20250901/storage  |  Status  | Notes                         |
+|:-----------------------|:-----------------------|:--------:|:------------------------------|
+| LimitJsonObject        | LimitJsonObject        | Extended | +PropertyBag                  |
+| LimitJsonObject_STATUS | LimitJsonObject_STATUS | Extended | +PropertyBag                  |
+| LimitObject            | LimitObject            | Modified |                               |
+| LimitObject_STATUS     | LimitObject_STATUS     | Modified |                               |
+| QuotaOperatorSpec      | QuotaOperatorSpec      | Extended | +PropertyBag                  |
+| QuotaProperties        | QuotaProperties        | Extended | +PropertyBag                  |
+| QuotaProperties_STATUS | QuotaProperties_STATUS | Extended | +PropertyBag                  |
+| Quota_STATUS           | Quota_STATUS           | Extended | +PropertyBag                  |
+| Quota_Spec             | Quota_Spec             | Extended | +OriginalVersion +PropertyBag |
+| ResourceName           | ResourceName           | Extended | +PropertyBag                  |
+| ResourceName_STATUS    | ResourceName_STATUS    | Extended | +PropertyBag                  |
+| SystemData_STATUS      | SystemData_STATUS      | Modified |                               |
 
 ### LimitJsonObject
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250901 |              | v1api20250901/storage |                        |  Status   | Notes |
 |:--------------|:-------------|:----------------------|:-----------------------|:---------:|:------|
@@ -43,7 +36,7 @@
 
 ### LimitJsonObject_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250901 |                     | v1api20250901/storage |                        |  Status   | Notes |
 |:--------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -52,7 +45,7 @@
 
 ### LimitObject
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v1api20250901   |                  | v1api20250901/storage |                        |  Status   | Notes |
 |:----------------|:-----------------|:----------------------|:-----------------------|:---------:|:------|
@@ -63,7 +56,7 @@
 
 ### LimitObject_STATUS
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v1api20250901   |                         | v1api20250901/storage |                        |  Status   | Notes |
 |:----------------|:------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -74,7 +67,7 @@
 
 ### QuotaOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250901        |                               | v1api20250901/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -84,7 +77,7 @@
 
 ### QuotaProperties
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20250901 |                  | v1api20250901/storage |                        |  Status   | Notes |
 |:--------------|:-----------------|:----------------------|:-----------------------|:---------:|:------|
@@ -96,7 +89,7 @@
 
 ### QuotaProperties_STATUS
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v1api20250901     |                         | v1api20250901/storage |                         |  Status   | Notes |
 |:------------------|:------------------------|:----------------------|:------------------------|:---------:|:------|
@@ -111,7 +104,7 @@
 
 ### Quota_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20250901 |                         | v1api20250901/storage |                         |  Status   | Notes |
 |:--------------|:------------------------|:----------------------|:------------------------|:---------:|:------|
@@ -125,7 +118,7 @@
 
 ### Quota_Spec
 
-4 x Identical, 2 x New
+Properties: 4 x Identical, 2 x New
 
 | v1api20250901 |                                     | v1api20250901/storage |                                     |  Status   | Notes |
 |:--------------|:------------------------------------|:----------------------|:------------------------------------|:---------:|:------|
@@ -138,7 +131,7 @@
 
 ### ResourceName
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250901 |         | v1api20250901/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -147,7 +140,7 @@
 
 ### ResourceName_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250901  |         | v1api20250901/storage |                        |  Status   | Notes |
 |:---------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -157,7 +150,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20250901      |                                       | v1api20250901/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -168,3 +161,12 @@
 | LastModifiedBy     | *string                               | LastModifiedBy        | *string                | Identical |       |
 | LastModifiedByType | *SystemData_LastModifiedByType_STATUS | LastModifiedByType    | *string                | Modified  |       |
 |                    |                                       | PropertyBag           | genruntime.PropertyBag |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

@@ -7,51 +7,44 @@
 | FirewallRule  | FirewallRule          | Identical |       |
 | MongoCluster  | MongoCluster          | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20240701                        | v1api20240701/storage                |  Status  | Notes |
-|:-------------------------------------|:-------------------------------------|:--------:|:------|
-| AdministratorProperties              | AdministratorProperties              | Extended |       |
-| AdministratorProperties_STATUS       | AdministratorProperties_STATUS       | Extended |       |
-| BackupProperties_STATUS              | BackupProperties_STATUS              | Extended |       |
-| ComputeProperties                    | ComputeProperties                    | Extended |       |
-| ComputeProperties_STATUS             | ComputeProperties_STATUS             | Extended |       |
-| FirewallRuleOperatorSpec             | FirewallRuleOperatorSpec             | Extended |       |
-| FirewallRuleProperties               | FirewallRuleProperties               | Modified |       |
-| FirewallRuleProperties_STATUS        | FirewallRuleProperties_STATUS        | Modified |       |
-| FirewallRule_STATUS                  | FirewallRule_STATUS                  | Extended |       |
-| FirewallRule_Spec                    | FirewallRule_Spec                    | Modified |       |
-| HighAvailabilityProperties           | HighAvailabilityProperties           | Modified |       |
-| HighAvailabilityProperties_STATUS    | HighAvailabilityProperties_STATUS    | Modified |       |
-| MongoClusterOperatorSpec             | MongoClusterOperatorSpec             | Extended |       |
-| MongoClusterProperties               | MongoClusterProperties               | Modified |       |
-| MongoClusterProperties_STATUS        | MongoClusterProperties_STATUS        | Modified |       |
-| MongoClusterReplicaParameters        | MongoClusterReplicaParameters        | Extended |       |
-| MongoClusterReplicaParameters_STATUS | MongoClusterReplicaParameters_STATUS | Extended |       |
-| MongoClusterRestoreParameters        | MongoClusterRestoreParameters        | Extended |       |
-| MongoClusterRestoreParameters_STATUS | MongoClusterRestoreParameters_STATUS | Extended |       |
-| MongoCluster_STATUS                  | MongoCluster_STATUS                  | Extended |       |
-| MongoCluster_Spec                    | MongoCluster_Spec                    | Modified |       |
-| PrivateEndpointConnection_STATUS     | PrivateEndpointConnection_STATUS     | Extended |       |
-| ReplicationProperties_STATUS         | ReplicationProperties_STATUS         | Modified |       |
-| ShardingProperties                   | ShardingProperties                   | Extended |       |
-| ShardingProperties_STATUS            | ShardingProperties_STATUS            | Extended |       |
-| StorageProperties                    | StorageProperties                    | Extended |       |
-| StorageProperties_STATUS             | StorageProperties_STATUS             | Extended |       |
-| SystemData_STATUS                    | SystemData_STATUS                    | Modified |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20240701                        | v1api20240701/storage                |  Status  | Notes        |
+|:-------------------------------------|:-------------------------------------|:--------:|:-------------|
+| AdministratorProperties              | AdministratorProperties              | Extended | +PropertyBag |
+| AdministratorProperties_STATUS       | AdministratorProperties_STATUS       | Extended | +PropertyBag |
+| BackupProperties_STATUS              | BackupProperties_STATUS              | Extended | +PropertyBag |
+| ComputeProperties                    | ComputeProperties                    | Extended | +PropertyBag |
+| ComputeProperties_STATUS             | ComputeProperties_STATUS             | Extended | +PropertyBag |
+| FirewallRuleOperatorSpec             | FirewallRuleOperatorSpec             | Extended | +PropertyBag |
+| FirewallRuleProperties               | FirewallRuleProperties               | Extended | +PropertyBag |
+| FirewallRuleProperties_STATUS        | FirewallRuleProperties_STATUS        | Modified |              |
+| FirewallRule_STATUS                  | FirewallRule_STATUS                  | Extended | +PropertyBag |
+| FirewallRule_Spec                    | FirewallRule_Spec                    | Modified |              |
+| HighAvailabilityProperties           | HighAvailabilityProperties           | Modified |              |
+| HighAvailabilityProperties_STATUS    | HighAvailabilityProperties_STATUS    | Modified |              |
+| MongoClusterOperatorSpec             | MongoClusterOperatorSpec             | Extended | +PropertyBag |
+| MongoClusterProperties               | MongoClusterProperties               | Modified |              |
+| MongoClusterProperties_STATUS        | MongoClusterProperties_STATUS        | Modified |              |
+| MongoClusterReplicaParameters        | MongoClusterReplicaParameters        | Extended | +PropertyBag |
+| MongoClusterReplicaParameters_STATUS | MongoClusterReplicaParameters_STATUS | Extended | +PropertyBag |
+| MongoClusterRestoreParameters        | MongoClusterRestoreParameters        | Extended | +PropertyBag |
+| MongoClusterRestoreParameters_STATUS | MongoClusterRestoreParameters_STATUS | Extended | +PropertyBag |
+| MongoCluster_STATUS                  | MongoCluster_STATUS                  | Extended | +PropertyBag |
+| MongoCluster_Spec                    | MongoCluster_Spec                    | Modified |              |
+| PrivateEndpointConnection_STATUS     | PrivateEndpointConnection_STATUS     | Extended | +PropertyBag |
+| ReplicationProperties_STATUS         | ReplicationProperties_STATUS         | Modified |              |
+| ShardingProperties                   | ShardingProperties                   | Extended | +PropertyBag |
+| ShardingProperties_STATUS            | ShardingProperties_STATUS            | Extended | +PropertyBag |
+| StorageProperties                    | StorageProperties                    | Extended | +PropertyBag |
+| StorageProperties_STATUS             | StorageProperties_STATUS             | Extended | +PropertyBag |
+| SystemData_STATUS                    | SystemData_STATUS                    | Modified |              |
 
 ### AdministratorProperties
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240701 |                             | v1api20240701/storage |                             |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -61,7 +54,7 @@
 
 ### AdministratorProperties_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240701 |         | v1api20240701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -70,7 +63,7 @@
 
 ### BackupProperties_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240701       |         | v1api20240701/storage |                        |  Status   | Notes |
 |:--------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -79,7 +72,7 @@
 
 ### ComputeProperties
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240701 |         | v1api20240701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -88,7 +81,7 @@
 
 ### ComputeProperties_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240701 |         | v1api20240701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -97,7 +90,7 @@
 
 ### FirewallRuleOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240701        |                               | v1api20240701/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -107,17 +100,17 @@
 
 ### FirewallRuleProperties
 
-1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New
 
-| v1api20240701  |                             | v1api20240701/storage |                        |  Status  | Notes |
-|:---------------|:----------------------------|:----------------------|:-----------------------|:--------:|:------|
-| EndIpAddress   | Validated<*string> (1 rule) | EndIpAddress          | *string                | Modified |       |
-|                |                             | PropertyBag           | genruntime.PropertyBag |   New    |       |
-| StartIpAddress | Validated<*string> (1 rule) | StartIpAddress        | *string                | Modified |       |
+| v1api20240701  |                             | v1api20240701/storage |                        |  Status   | Notes |
+|:---------------|:----------------------------|:----------------------|:-----------------------|:---------:|:------|
+| EndIpAddress   | Validated<*string> (1 rule) | EndIpAddress          | *string                | Identical |       |
+|                |                             | PropertyBag           | genruntime.PropertyBag |    New    |       |
+| StartIpAddress | Validated<*string> (1 rule) | StartIpAddress        | *string                | Identical |       |
 
 ### FirewallRuleProperties_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20240701     |                           | v1api20240701/storage |                        |  Status   | Notes |
 |:------------------|:--------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -128,7 +121,7 @@
 
 ### FirewallRule_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20240701 |                                | v1api20240701/storage |                                |  Status   | Notes |
 |:--------------|:-------------------------------|:----------------------|:-------------------------------|:---------:|:------|
@@ -142,7 +135,7 @@
 
 ### FirewallRule_Spec
 
-3 x Identical, 2 x New, 1 x Modified
+Properties: 3 x Identical, 2 x New, 1 x Modified
 
 | v1api20240701 |                                    | v1api20240701/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -155,7 +148,7 @@
 
 ### HighAvailabilityProperties
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20240701 |                       | v1api20240701/storage |                        |  Status  | Notes |
 |:--------------|:----------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -164,7 +157,7 @@
 
 ### HighAvailabilityProperties_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20240701 |                              | v1api20240701/storage |                        |  Status  | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -173,7 +166,7 @@
 
 ### MongoClusterOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240701        |                               | v1api20240701/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -183,7 +176,7 @@
 
 ### MongoClusterProperties
 
-8 x Identical, 1 x New, 3 x Modified
+Properties: 8 x Identical, 1 x New, 3 x Modified
 
 | v1api20240701       |                                | v1api20240701/storage |                                |  Status   | Notes |
 |:--------------------|:-------------------------------|:----------------------|:-------------------------------|:---------:|:------|
@@ -202,7 +195,7 @@
 
 ### MongoClusterProperties_STATUS
 
-13 x Identical, 1 x New, 5 x Modified
+Properties: 13 x Identical, 1 x New, 5 x Modified
 
 | v1api20240701              |                                       | v1api20240701/storage      |                                       |  Status   | Notes |
 |:---------------------------|:--------------------------------------|:---------------------------|:--------------------------------------|:---------:|:------|
@@ -228,7 +221,7 @@
 
 ### MongoClusterReplicaParameters
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240701           |                               | v1api20240701/storage   |                               |  Status   | Notes |
 |:------------------------|:------------------------------|:------------------------|:------------------------------|:---------:|:------|
@@ -238,7 +231,7 @@
 
 ### MongoClusterReplicaParameters_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240701    |         | v1api20240701/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -248,7 +241,7 @@
 
 ### MongoClusterRestoreParameters
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240701           |                               | v1api20240701/storage   |                               |  Status   | Notes |
 |:------------------------|:------------------------------|:------------------------|:------------------------------|:---------:|:------|
@@ -258,7 +251,7 @@
 
 ### MongoClusterRestoreParameters_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240701    |         | v1api20240701/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -268,7 +261,7 @@
 
 ### MongoCluster_STATUS
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v1api20240701 |                                | v1api20240701/storage |                                |  Status   | Notes |
 |:--------------|:-------------------------------|:----------------------|:-------------------------------|:---------:|:------|
@@ -284,7 +277,7 @@
 
 ### MongoCluster_Spec
 
-5 x Identical, 2 x New, 1 x Modified
+Properties: 5 x Identical, 2 x New, 1 x Modified
 
 | v1api20240701 |                                    | v1api20240701/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -299,7 +292,7 @@
 
 ### PrivateEndpointConnection_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240701 |         | v1api20240701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -308,7 +301,7 @@
 
 ### ReplicationProperties_STATUS
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v1api20240701    |                          | v1api20240701/storage |                        |  Status   | Notes |
 |:-----------------|:-------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -319,7 +312,7 @@
 
 ### ShardingProperties
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240701 |      | v1api20240701/storage |                        |  Status   | Notes |
 |:--------------|:-----|:----------------------|:-----------------------|:---------:|:------|
@@ -328,7 +321,7 @@
 
 ### ShardingProperties_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240701 |      | v1api20240701/storage |                        |  Status   | Notes |
 |:--------------|:-----|:----------------------|:-----------------------|:---------:|:------|
@@ -337,7 +330,7 @@
 
 ### StorageProperties
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240701 |      | v1api20240701/storage |                        |  Status   | Notes |
 |:--------------|:-----|:----------------------|:-----------------------|:---------:|:------|
@@ -346,7 +339,7 @@
 
 ### StorageProperties_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240701 |      | v1api20240701/storage |                        |  Status   | Notes |
 |:--------------|:-----|:----------------------|:-----------------------|:---------:|:------|
@@ -355,7 +348,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20240701      |                                       | v1api20240701/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -366,3 +359,12 @@
 | LastModifiedBy     | *string                               | LastModifiedBy        | *string                | Identical |       |
 | LastModifiedByType | *SystemData_LastModifiedByType_STATUS | LastModifiedByType    | *string                | Modified  |       |
 |                    |                                       | PropertyBag           | genruntime.PropertyBag |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

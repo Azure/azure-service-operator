@@ -9,176 +9,169 @@
 | VirtualMachineScaleSetsExtension | VirtualMachineScaleSetsExtension | Identical |       |
 | VirtualMachinesExtension         | VirtualMachinesExtension         | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20201201                                                        | v1api20201201/storage                                                |  Status  | Notes |
-|:---------------------------------------------------------------------|:---------------------------------------------------------------------|:--------:|:------|
-| AdditionalCapabilities                                               | AdditionalCapabilities                                               | Extended |       |
-| AdditionalCapabilities_STATUS                                        | AdditionalCapabilities_STATUS                                        | Extended |       |
-| AdditionalUnattendContent                                            | AdditionalUnattendContent                                            | Modified |       |
-| AdditionalUnattendContent_STATUS                                     | AdditionalUnattendContent_STATUS                                     | Modified |       |
-| ApiEntityReference                                                   | ApiEntityReference                                                   | Extended |       |
-| ApiEntityReference_STATUS                                            | ApiEntityReference_STATUS                                            | Extended |       |
-| ApiErrorBase_STATUS                                                  | ApiErrorBase_STATUS                                                  | Extended |       |
-| ApiError_STATUS                                                      | ApiError_STATUS                                                      | Extended |       |
-| AutomaticOSUpgradePolicy                                             | AutomaticOSUpgradePolicy                                             | Extended |       |
-| AutomaticOSUpgradePolicy_STATUS                                      | AutomaticOSUpgradePolicy_STATUS                                      | Extended |       |
-| AutomaticRepairsPolicy                                               | AutomaticRepairsPolicy                                               | Extended |       |
-| AutomaticRepairsPolicy_STATUS                                        | AutomaticRepairsPolicy_STATUS                                        | Extended |       |
-| AvailablePatchSummary_STATUS                                         | AvailablePatchSummary_STATUS                                         | Modified |       |
-| BillingProfile                                                       | BillingProfile                                                       | Extended |       |
-| BillingProfile_STATUS                                                | BillingProfile_STATUS                                                | Extended |       |
-| BootDiagnostics                                                      | BootDiagnostics                                                      | Extended |       |
-| BootDiagnosticsInstanceView_STATUS                                   | BootDiagnosticsInstanceView_STATUS                                   | Extended |       |
-| BootDiagnostics_STATUS                                               | BootDiagnostics_STATUS                                               | Extended |       |
-| DataDisk                                                             | DataDisk                                                             | Modified |       |
-| DataDisk_STATUS                                                      | DataDisk_STATUS                                                      | Modified |       |
-| DiagnosticsProfile                                                   | DiagnosticsProfile                                                   | Extended |       |
-| DiagnosticsProfile_STATUS                                            | DiagnosticsProfile_STATUS                                            | Extended |       |
-| DiffDiskSettings                                                     | DiffDiskSettings                                                     | Modified |       |
-| DiffDiskSettings_STATUS                                              | DiffDiskSettings_STATUS                                              | Modified |       |
-| DiskEncryptionSettings                                               | DiskEncryptionSettings                                               | Extended |       |
-| DiskEncryptionSettings_STATUS                                        | DiskEncryptionSettings_STATUS                                        | Extended |       |
-| DiskInstanceView_STATUS                                              | DiskInstanceView_STATUS                                              | Extended |       |
-| ExtendedLocation                                                     | ExtendedLocation                                                     | Modified |       |
-| ExtendedLocation_STATUS                                              | ExtendedLocation_STATUS                                              | Modified |       |
-| HardwareProfile                                                      | HardwareProfile                                                      | Extended |       |
-| HardwareProfile_STATUS                                               | HardwareProfile_STATUS                                               | Modified |       |
-| ImageReference                                                       | ImageReference                                                       | Extended |       |
-| ImageReference_STATUS                                                | ImageReference_STATUS                                                | Extended |       |
-| InnerError_STATUS                                                    | InnerError_STATUS                                                    | Extended |       |
-| InstanceViewStatus                                                   | InstanceViewStatus                                                   | Modified |       |
-| InstanceViewStatus_STATUS                                            | InstanceViewStatus_STATUS                                            | Modified |       |
-| KeyVaultKeyReference                                                 | KeyVaultKeyReference                                                 | Extended |       |
-| KeyVaultKeyReference_STATUS                                          | KeyVaultKeyReference_STATUS                                          | Extended |       |
-| KeyVaultSecretReference                                              | KeyVaultSecretReference                                              | Extended |       |
-| KeyVaultSecretReference_STATUS                                       | KeyVaultSecretReference_STATUS                                       | Extended |       |
-| LastPatchInstallationSummary_STATUS                                  | LastPatchInstallationSummary_STATUS                                  | Modified |       |
-| LinuxConfiguration                                                   | LinuxConfiguration                                                   | Extended |       |
-| LinuxConfiguration_STATUS                                            | LinuxConfiguration_STATUS                                            | Extended |       |
-| LinuxPatchSettings                                                   | LinuxPatchSettings                                                   | Modified |       |
-| LinuxPatchSettings_STATUS                                            | LinuxPatchSettings_STATUS                                            | Modified |       |
-| MaintenanceRedeployStatus_STATUS                                     | MaintenanceRedeployStatus_STATUS                                     | Modified |       |
-| ManagedDiskParameters                                                | ManagedDiskParameters                                                | Modified |       |
-| ManagedDiskParameters_STATUS                                         | ManagedDiskParameters_STATUS                                         | Modified |       |
-| NetworkInterfaceReference                                            | NetworkInterfaceReference                                            | Extended |       |
-| NetworkInterfaceReference_STATUS                                     | NetworkInterfaceReference_STATUS                                     | Extended |       |
-| NetworkProfile                                                       | NetworkProfile                                                       | Extended |       |
-| NetworkProfile_STATUS                                                | NetworkProfile_STATUS                                                | Extended |       |
-| OSDisk                                                               | OSDisk                                                               | Modified |       |
-| OSDisk_STATUS                                                        | OSDisk_STATUS                                                        | Modified |       |
-| OSProfile                                                            | OSProfile                                                            | Extended |       |
-| OSProfile_STATUS                                                     | OSProfile_STATUS                                                     | Extended |       |
-| PatchSettings                                                        | PatchSettings                                                        | Modified |       |
-| PatchSettings_STATUS                                                 | PatchSettings_STATUS                                                 | Modified |       |
-| Plan                                                                 | Plan                                                                 | Extended |       |
-| Plan_STATUS                                                          | Plan_STATUS                                                          | Extended |       |
-| RollingUpgradePolicy                                                 | RollingUpgradePolicy                                                 | Modified |       |
-| RollingUpgradePolicy_STATUS                                          | RollingUpgradePolicy_STATUS                                          | Extended |       |
-| ScaleInPolicy                                                        | ScaleInPolicy                                                        | Modified |       |
-| ScaleInPolicy_STATUS                                                 | ScaleInPolicy_STATUS                                                 | Modified |       |
-| ScheduledEventsProfile                                               | ScheduledEventsProfile                                               | Extended |       |
-| ScheduledEventsProfile_STATUS                                        | ScheduledEventsProfile_STATUS                                        | Extended |       |
-| SecurityProfile                                                      | SecurityProfile                                                      | Modified |       |
-| SecurityProfile_STATUS                                               | SecurityProfile_STATUS                                               | Modified |       |
-| Sku                                                                  | Sku                                                                  | Extended |       |
-| Sku_STATUS                                                           | Sku_STATUS                                                           | Extended |       |
-| SshConfiguration                                                     | SshConfiguration                                                     | Extended |       |
-| SshConfiguration_STATUS                                              | SshConfiguration_STATUS                                              | Extended |       |
-| SshPublicKeySpec                                                     | SshPublicKeySpec                                                     | Extended |       |
-| SshPublicKey_STATUS                                                  | SshPublicKey_STATUS                                                  | Extended |       |
-| StorageProfile                                                       | StorageProfile                                                       | Extended |       |
-| StorageProfile_STATUS                                                | StorageProfile_STATUS                                                | Extended |       |
-| SubResource                                                          | SubResource                                                          | Extended |       |
-| SubResource_STATUS                                                   | SubResource_STATUS                                                   | Extended |       |
-| TerminateNotificationProfile                                         | TerminateNotificationProfile                                         | Extended |       |
-| TerminateNotificationProfile_STATUS                                  | TerminateNotificationProfile_STATUS                                  | Extended |       |
-| UefiSettings                                                         | UefiSettings                                                         | Extended |       |
-| UefiSettings_STATUS                                                  | UefiSettings_STATUS                                                  | Extended |       |
-| UpgradePolicy                                                        | UpgradePolicy                                                        | Modified |       |
-| UpgradePolicy_STATUS                                                 | UpgradePolicy_STATUS                                                 | Modified |       |
-| UserAssignedIdentityDetails                                          | UserAssignedIdentityDetails                                          | Extended |       |
-| VaultCertificate                                                     | VaultCertificate                                                     | Extended |       |
-| VaultCertificate_STATUS                                              | VaultCertificate_STATUS                                              | Extended |       |
-| VaultSecretGroup                                                     | VaultSecretGroup                                                     | Extended |       |
-| VaultSecretGroup_STATUS                                              | VaultSecretGroup_STATUS                                              | Extended |       |
-| VirtualHardDisk                                                      | VirtualHardDisk                                                      | Extended |       |
-| VirtualHardDisk_STATUS                                               | VirtualHardDisk_STATUS                                               | Extended |       |
-| VirtualMachineAgentInstanceView_STATUS                               | VirtualMachineAgentInstanceView_STATUS                               | Extended |       |
-| VirtualMachineExtensionHandlerInstanceView_STATUS                    | VirtualMachineExtensionHandlerInstanceView_STATUS                    | Extended |       |
-| VirtualMachineExtensionInstanceView                                  | VirtualMachineExtensionInstanceView                                  | Extended |       |
-| VirtualMachineExtensionInstanceView_STATUS                           | VirtualMachineExtensionInstanceView_STATUS                           | Extended |       |
-| VirtualMachineExtension_STATUS                                       | VirtualMachineExtension_STATUS                                       | Extended |       |
-| VirtualMachineHealthStatus_STATUS                                    | VirtualMachineHealthStatus_STATUS                                    | Extended |       |
-| VirtualMachineIdentity                                               | VirtualMachineIdentity                                               | Modified |       |
-| VirtualMachineIdentity_STATUS                                        | VirtualMachineIdentity_STATUS                                        | Modified |       |
-| VirtualMachineIdentity_UserAssignedIdentities_STATUS                 | VirtualMachineIdentity_UserAssignedIdentities_STATUS                 | Extended |       |
-| VirtualMachineInstanceView_STATUS                                    | VirtualMachineInstanceView_STATUS                                    | Modified |       |
-| VirtualMachineOperatorSpec                                           | VirtualMachineOperatorSpec                                           | Extended |       |
-| VirtualMachinePatchStatus_STATUS                                     | VirtualMachinePatchStatus_STATUS                                     | Extended |       |
-| VirtualMachineScaleSetDataDisk                                       | VirtualMachineScaleSetDataDisk                                       | Modified |       |
-| VirtualMachineScaleSetDataDisk_STATUS                                | VirtualMachineScaleSetDataDisk_STATUS                                | Modified |       |
-| VirtualMachineScaleSetExtension                                      | VirtualMachineScaleSetExtension                                      | Extended |       |
-| VirtualMachineScaleSetExtensionProfile                               | VirtualMachineScaleSetExtensionProfile                               | Extended |       |
-| VirtualMachineScaleSetExtensionProfile_STATUS                        | VirtualMachineScaleSetExtensionProfile_STATUS                        | Extended |       |
-| VirtualMachineScaleSetExtension_STATUS                               | VirtualMachineScaleSetExtension_STATUS                               | Extended |       |
-| VirtualMachineScaleSetIPConfiguration                                | VirtualMachineScaleSetIPConfiguration                                | Modified |       |
-| VirtualMachineScaleSetIPConfiguration_STATUS                         | VirtualMachineScaleSetIPConfiguration_STATUS                         | Modified |       |
-| VirtualMachineScaleSetIdentity                                       | VirtualMachineScaleSetIdentity                                       | Modified |       |
-| VirtualMachineScaleSetIdentity_STATUS                                | VirtualMachineScaleSetIdentity_STATUS                                | Modified |       |
-| VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS         | VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS         | Extended |       |
-| VirtualMachineScaleSetIpTag                                          | VirtualMachineScaleSetIpTag                                          | Extended |       |
-| VirtualMachineScaleSetIpTag_STATUS                                   | VirtualMachineScaleSetIpTag_STATUS                                   | Extended |       |
-| VirtualMachineScaleSetManagedDiskParameters                          | VirtualMachineScaleSetManagedDiskParameters                          | Modified |       |
-| VirtualMachineScaleSetManagedDiskParameters_STATUS                   | VirtualMachineScaleSetManagedDiskParameters_STATUS                   | Modified |       |
-| VirtualMachineScaleSetNetworkConfiguration                           | VirtualMachineScaleSetNetworkConfiguration                           | Extended |       |
-| VirtualMachineScaleSetNetworkConfigurationDnsSettings                | VirtualMachineScaleSetNetworkConfigurationDnsSettings                | Extended |       |
-| VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS         | VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS         | Extended |       |
-| VirtualMachineScaleSetNetworkConfiguration_STATUS                    | VirtualMachineScaleSetNetworkConfiguration_STATUS                    | Extended |       |
-| VirtualMachineScaleSetNetworkProfile                                 | VirtualMachineScaleSetNetworkProfile                                 | Extended |       |
-| VirtualMachineScaleSetNetworkProfile_STATUS                          | VirtualMachineScaleSetNetworkProfile_STATUS                          | Extended |       |
-| VirtualMachineScaleSetOSDisk                                         | VirtualMachineScaleSetOSDisk                                         | Modified |       |
-| VirtualMachineScaleSetOSDisk_STATUS                                  | VirtualMachineScaleSetOSDisk_STATUS                                  | Modified |       |
-| VirtualMachineScaleSetOSProfile                                      | VirtualMachineScaleSetOSProfile                                      | Extended |       |
-| VirtualMachineScaleSetOSProfile_STATUS                               | VirtualMachineScaleSetOSProfile_STATUS                               | Extended |       |
-| VirtualMachineScaleSetOperatorSpec                                   | VirtualMachineScaleSetOperatorSpec                                   | Extended |       |
-| VirtualMachineScaleSetPublicIPAddressConfiguration                   | VirtualMachineScaleSetPublicIPAddressConfiguration                   | Modified |       |
-| VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings        | VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings        | Extended |       |
-| VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS | VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS | Extended |       |
-| VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS            | VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS            | Modified |       |
-| VirtualMachineScaleSetStorageProfile                                 | VirtualMachineScaleSetStorageProfile                                 | Extended |       |
-| VirtualMachineScaleSetStorageProfile_STATUS                          | VirtualMachineScaleSetStorageProfile_STATUS                          | Extended |       |
-| VirtualMachineScaleSetVMProfile                                      | VirtualMachineScaleSetVMProfile                                      | Modified |       |
-| VirtualMachineScaleSetVMProfile_STATUS                               | VirtualMachineScaleSetVMProfile_STATUS                               | Modified |       |
-| VirtualMachineScaleSet_STATUS                                        | VirtualMachineScaleSet_STATUS                                        | Modified |       |
-| VirtualMachineScaleSet_Spec                                          | VirtualMachineScaleSet_Spec                                          | Modified |       |
-| VirtualMachineScaleSetsExtensionOperatorSpec                         | VirtualMachineScaleSetsExtensionOperatorSpec                         | Extended |       |
-| VirtualMachineScaleSetsExtension_STATUS                              | VirtualMachineScaleSetsExtension_STATUS                              | Extended |       |
-| VirtualMachineScaleSetsExtension_Spec                                | VirtualMachineScaleSetsExtension_Spec                                | Extended |       |
-| VirtualMachine_STATUS                                                | VirtualMachine_STATUS                                                | Modified |       |
-| VirtualMachine_Spec                                                  | VirtualMachine_Spec                                                  | Modified |       |
-| VirtualMachinesExtensionOperatorSpec                                 | VirtualMachinesExtensionOperatorSpec                                 | Extended |       |
-| VirtualMachinesExtension_STATUS                                      | VirtualMachinesExtension_STATUS                                      | Extended |       |
-| VirtualMachinesExtension_Spec                                        | VirtualMachinesExtension_Spec                                        | Extended |       |
-| WinRMConfiguration                                                   | WinRMConfiguration                                                   | Extended |       |
-| WinRMConfiguration_STATUS                                            | WinRMConfiguration_STATUS                                            | Extended |       |
-| WinRMListener                                                        | WinRMListener                                                        | Modified |       |
-| WinRMListener_STATUS                                                 | WinRMListener_STATUS                                                 | Modified |       |
-| WindowsConfiguration                                                 | WindowsConfiguration                                                 | Extended |       |
-| WindowsConfiguration_STATUS                                          | WindowsConfiguration_STATUS                                          | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20201201                                                        | v1api20201201/storage                                                |  Status  | Notes                         |
+|:---------------------------------------------------------------------|:---------------------------------------------------------------------|:--------:|:------------------------------|
+| AdditionalCapabilities                                               | AdditionalCapabilities                                               | Extended | +PropertyBag                  |
+| AdditionalCapabilities_STATUS                                        | AdditionalCapabilities_STATUS                                        | Extended | +PropertyBag                  |
+| AdditionalUnattendContent                                            | AdditionalUnattendContent                                            | Modified |                               |
+| AdditionalUnattendContent_STATUS                                     | AdditionalUnattendContent_STATUS                                     | Modified |                               |
+| ApiEntityReference                                                   | ApiEntityReference                                                   | Extended | +PropertyBag                  |
+| ApiEntityReference_STATUS                                            | ApiEntityReference_STATUS                                            | Extended | +PropertyBag                  |
+| ApiErrorBase_STATUS                                                  | ApiErrorBase_STATUS                                                  | Extended | +PropertyBag                  |
+| ApiError_STATUS                                                      | ApiError_STATUS                                                      | Extended | +PropertyBag                  |
+| AutomaticOSUpgradePolicy                                             | AutomaticOSUpgradePolicy                                             | Extended | +PropertyBag                  |
+| AutomaticOSUpgradePolicy_STATUS                                      | AutomaticOSUpgradePolicy_STATUS                                      | Extended | +PropertyBag                  |
+| AutomaticRepairsPolicy                                               | AutomaticRepairsPolicy                                               | Extended | +PropertyBag                  |
+| AutomaticRepairsPolicy_STATUS                                        | AutomaticRepairsPolicy_STATUS                                        | Extended | +PropertyBag                  |
+| AvailablePatchSummary_STATUS                                         | AvailablePatchSummary_STATUS                                         | Modified |                               |
+| BillingProfile                                                       | BillingProfile                                                       | Extended | +PropertyBag                  |
+| BillingProfile_STATUS                                                | BillingProfile_STATUS                                                | Extended | +PropertyBag                  |
+| BootDiagnostics                                                      | BootDiagnostics                                                      | Extended | +PropertyBag                  |
+| BootDiagnosticsInstanceView_STATUS                                   | BootDiagnosticsInstanceView_STATUS                                   | Extended | +PropertyBag                  |
+| BootDiagnostics_STATUS                                               | BootDiagnostics_STATUS                                               | Extended | +PropertyBag                  |
+| DataDisk                                                             | DataDisk                                                             | Modified |                               |
+| DataDisk_STATUS                                                      | DataDisk_STATUS                                                      | Modified |                               |
+| DiagnosticsProfile                                                   | DiagnosticsProfile                                                   | Extended | +PropertyBag                  |
+| DiagnosticsProfile_STATUS                                            | DiagnosticsProfile_STATUS                                            | Extended | +PropertyBag                  |
+| DiffDiskSettings                                                     | DiffDiskSettings                                                     | Modified |                               |
+| DiffDiskSettings_STATUS                                              | DiffDiskSettings_STATUS                                              | Modified |                               |
+| DiskEncryptionSettings                                               | DiskEncryptionSettings                                               | Extended | +PropertyBag                  |
+| DiskEncryptionSettings_STATUS                                        | DiskEncryptionSettings_STATUS                                        | Extended | +PropertyBag                  |
+| DiskInstanceView_STATUS                                              | DiskInstanceView_STATUS                                              | Extended | +PropertyBag                  |
+| ExtendedLocation                                                     | ExtendedLocation                                                     | Modified |                               |
+| ExtendedLocation_STATUS                                              | ExtendedLocation_STATUS                                              | Modified |                               |
+| HardwareProfile                                                      | HardwareProfile                                                      | Extended | +PropertyBag                  |
+| HardwareProfile_STATUS                                               | HardwareProfile_STATUS                                               | Modified |                               |
+| ImageReference                                                       | ImageReference                                                       | Extended | +PropertyBag                  |
+| ImageReference_STATUS                                                | ImageReference_STATUS                                                | Extended | +PropertyBag                  |
+| InnerError_STATUS                                                    | InnerError_STATUS                                                    | Extended | +PropertyBag                  |
+| InstanceViewStatus                                                   | InstanceViewStatus                                                   | Modified |                               |
+| InstanceViewStatus_STATUS                                            | InstanceViewStatus_STATUS                                            | Modified |                               |
+| KeyVaultKeyReference                                                 | KeyVaultKeyReference                                                 | Extended | +PropertyBag                  |
+| KeyVaultKeyReference_STATUS                                          | KeyVaultKeyReference_STATUS                                          | Extended | +PropertyBag                  |
+| KeyVaultSecretReference                                              | KeyVaultSecretReference                                              | Extended | +PropertyBag                  |
+| KeyVaultSecretReference_STATUS                                       | KeyVaultSecretReference_STATUS                                       | Extended | +PropertyBag                  |
+| LastPatchInstallationSummary_STATUS                                  | LastPatchInstallationSummary_STATUS                                  | Modified |                               |
+| LinuxConfiguration                                                   | LinuxConfiguration                                                   | Extended | +PropertyBag                  |
+| LinuxConfiguration_STATUS                                            | LinuxConfiguration_STATUS                                            | Extended | +PropertyBag                  |
+| LinuxPatchSettings                                                   | LinuxPatchSettings                                                   | Modified |                               |
+| LinuxPatchSettings_STATUS                                            | LinuxPatchSettings_STATUS                                            | Modified |                               |
+| MaintenanceRedeployStatus_STATUS                                     | MaintenanceRedeployStatus_STATUS                                     | Modified |                               |
+| ManagedDiskParameters                                                | ManagedDiskParameters                                                | Modified |                               |
+| ManagedDiskParameters_STATUS                                         | ManagedDiskParameters_STATUS                                         | Modified |                               |
+| NetworkInterfaceReference                                            | NetworkInterfaceReference                                            | Extended | +PropertyBag                  |
+| NetworkInterfaceReference_STATUS                                     | NetworkInterfaceReference_STATUS                                     | Extended | +PropertyBag                  |
+| NetworkProfile                                                       | NetworkProfile                                                       | Extended | +PropertyBag                  |
+| NetworkProfile_STATUS                                                | NetworkProfile_STATUS                                                | Extended | +PropertyBag                  |
+| OSDisk                                                               | OSDisk                                                               | Modified |                               |
+| OSDisk_STATUS                                                        | OSDisk_STATUS                                                        | Modified |                               |
+| OSProfile                                                            | OSProfile                                                            | Extended | +PropertyBag                  |
+| OSProfile_STATUS                                                     | OSProfile_STATUS                                                     | Extended | +PropertyBag                  |
+| PatchSettings                                                        | PatchSettings                                                        | Modified |                               |
+| PatchSettings_STATUS                                                 | PatchSettings_STATUS                                                 | Modified |                               |
+| Plan                                                                 | Plan                                                                 | Extended | +PropertyBag                  |
+| Plan_STATUS                                                          | Plan_STATUS                                                          | Extended | +PropertyBag                  |
+| RollingUpgradePolicy                                                 | RollingUpgradePolicy                                                 | Extended | +PropertyBag                  |
+| RollingUpgradePolicy_STATUS                                          | RollingUpgradePolicy_STATUS                                          | Extended | +PropertyBag                  |
+| ScaleInPolicy                                                        | ScaleInPolicy                                                        | Modified |                               |
+| ScaleInPolicy_STATUS                                                 | ScaleInPolicy_STATUS                                                 | Modified |                               |
+| ScheduledEventsProfile                                               | ScheduledEventsProfile                                               | Extended | +PropertyBag                  |
+| ScheduledEventsProfile_STATUS                                        | ScheduledEventsProfile_STATUS                                        | Extended | +PropertyBag                  |
+| SecurityProfile                                                      | SecurityProfile                                                      | Modified |                               |
+| SecurityProfile_STATUS                                               | SecurityProfile_STATUS                                               | Modified |                               |
+| Sku                                                                  | Sku                                                                  | Extended | +PropertyBag                  |
+| Sku_STATUS                                                           | Sku_STATUS                                                           | Extended | +PropertyBag                  |
+| SshConfiguration                                                     | SshConfiguration                                                     | Extended | +PropertyBag                  |
+| SshConfiguration_STATUS                                              | SshConfiguration_STATUS                                              | Extended | +PropertyBag                  |
+| SshPublicKeySpec                                                     | SshPublicKeySpec                                                     | Extended | +PropertyBag                  |
+| SshPublicKey_STATUS                                                  | SshPublicKey_STATUS                                                  | Extended | +PropertyBag                  |
+| StorageProfile                                                       | StorageProfile                                                       | Extended | +PropertyBag                  |
+| StorageProfile_STATUS                                                | StorageProfile_STATUS                                                | Extended | +PropertyBag                  |
+| SubResource                                                          | SubResource                                                          | Extended | +PropertyBag                  |
+| SubResource_STATUS                                                   | SubResource_STATUS                                                   | Extended | +PropertyBag                  |
+| TerminateNotificationProfile                                         | TerminateNotificationProfile                                         | Extended | +PropertyBag                  |
+| TerminateNotificationProfile_STATUS                                  | TerminateNotificationProfile_STATUS                                  | Extended | +PropertyBag                  |
+| UefiSettings                                                         | UefiSettings                                                         | Extended | +PropertyBag                  |
+| UefiSettings_STATUS                                                  | UefiSettings_STATUS                                                  | Extended | +PropertyBag                  |
+| UpgradePolicy                                                        | UpgradePolicy                                                        | Modified |                               |
+| UpgradePolicy_STATUS                                                 | UpgradePolicy_STATUS                                                 | Modified |                               |
+| UserAssignedIdentityDetails                                          | UserAssignedIdentityDetails                                          | Extended | +PropertyBag                  |
+| VaultCertificate                                                     | VaultCertificate                                                     | Extended | +PropertyBag                  |
+| VaultCertificate_STATUS                                              | VaultCertificate_STATUS                                              | Extended | +PropertyBag                  |
+| VaultSecretGroup                                                     | VaultSecretGroup                                                     | Extended | +PropertyBag                  |
+| VaultSecretGroup_STATUS                                              | VaultSecretGroup_STATUS                                              | Extended | +PropertyBag                  |
+| VirtualHardDisk                                                      | VirtualHardDisk                                                      | Extended | +PropertyBag                  |
+| VirtualHardDisk_STATUS                                               | VirtualHardDisk_STATUS                                               | Extended | +PropertyBag                  |
+| VirtualMachineAgentInstanceView_STATUS                               | VirtualMachineAgentInstanceView_STATUS                               | Extended | +PropertyBag                  |
+| VirtualMachineExtensionHandlerInstanceView_STATUS                    | VirtualMachineExtensionHandlerInstanceView_STATUS                    | Extended | +PropertyBag                  |
+| VirtualMachineExtensionInstanceView                                  | VirtualMachineExtensionInstanceView                                  | Extended | +PropertyBag                  |
+| VirtualMachineExtensionInstanceView_STATUS                           | VirtualMachineExtensionInstanceView_STATUS                           | Extended | +PropertyBag                  |
+| VirtualMachineExtension_STATUS                                       | VirtualMachineExtension_STATUS                                       | Extended | +PropertyBag                  |
+| VirtualMachineHealthStatus_STATUS                                    | VirtualMachineHealthStatus_STATUS                                    | Extended | +PropertyBag                  |
+| VirtualMachineIdentity                                               | VirtualMachineIdentity                                               | Modified |                               |
+| VirtualMachineIdentity_STATUS                                        | VirtualMachineIdentity_STATUS                                        | Modified |                               |
+| VirtualMachineIdentity_UserAssignedIdentities_STATUS                 | VirtualMachineIdentity_UserAssignedIdentities_STATUS                 | Extended | +PropertyBag                  |
+| VirtualMachineInstanceView_STATUS                                    | VirtualMachineInstanceView_STATUS                                    | Modified |                               |
+| VirtualMachineOperatorSpec                                           | VirtualMachineOperatorSpec                                           | Extended | +PropertyBag                  |
+| VirtualMachinePatchStatus_STATUS                                     | VirtualMachinePatchStatus_STATUS                                     | Extended | +PropertyBag                  |
+| VirtualMachineScaleSetDataDisk                                       | VirtualMachineScaleSetDataDisk                                       | Modified |                               |
+| VirtualMachineScaleSetDataDisk_STATUS                                | VirtualMachineScaleSetDataDisk_STATUS                                | Modified |                               |
+| VirtualMachineScaleSetExtension                                      | VirtualMachineScaleSetExtension                                      | Extended | +PropertyBag                  |
+| VirtualMachineScaleSetExtensionProfile                               | VirtualMachineScaleSetExtensionProfile                               | Extended | +PropertyBag                  |
+| VirtualMachineScaleSetExtensionProfile_STATUS                        | VirtualMachineScaleSetExtensionProfile_STATUS                        | Extended | +PropertyBag                  |
+| VirtualMachineScaleSetExtension_STATUS                               | VirtualMachineScaleSetExtension_STATUS                               | Extended | +PropertyBag                  |
+| VirtualMachineScaleSetIPConfiguration                                | VirtualMachineScaleSetIPConfiguration                                | Modified |                               |
+| VirtualMachineScaleSetIPConfiguration_STATUS                         | VirtualMachineScaleSetIPConfiguration_STATUS                         | Modified |                               |
+| VirtualMachineScaleSetIdentity                                       | VirtualMachineScaleSetIdentity                                       | Modified |                               |
+| VirtualMachineScaleSetIdentity_STATUS                                | VirtualMachineScaleSetIdentity_STATUS                                | Modified |                               |
+| VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS         | VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS         | Extended | +PropertyBag                  |
+| VirtualMachineScaleSetIpTag                                          | VirtualMachineScaleSetIpTag                                          | Extended | +PropertyBag                  |
+| VirtualMachineScaleSetIpTag_STATUS                                   | VirtualMachineScaleSetIpTag_STATUS                                   | Extended | +PropertyBag                  |
+| VirtualMachineScaleSetManagedDiskParameters                          | VirtualMachineScaleSetManagedDiskParameters                          | Modified |                               |
+| VirtualMachineScaleSetManagedDiskParameters_STATUS                   | VirtualMachineScaleSetManagedDiskParameters_STATUS                   | Modified |                               |
+| VirtualMachineScaleSetNetworkConfiguration                           | VirtualMachineScaleSetNetworkConfiguration                           | Extended | +PropertyBag                  |
+| VirtualMachineScaleSetNetworkConfigurationDnsSettings                | VirtualMachineScaleSetNetworkConfigurationDnsSettings                | Extended | +PropertyBag                  |
+| VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS         | VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS         | Extended | +PropertyBag                  |
+| VirtualMachineScaleSetNetworkConfiguration_STATUS                    | VirtualMachineScaleSetNetworkConfiguration_STATUS                    | Extended | +PropertyBag                  |
+| VirtualMachineScaleSetNetworkProfile                                 | VirtualMachineScaleSetNetworkProfile                                 | Extended | +PropertyBag                  |
+| VirtualMachineScaleSetNetworkProfile_STATUS                          | VirtualMachineScaleSetNetworkProfile_STATUS                          | Extended | +PropertyBag                  |
+| VirtualMachineScaleSetOSDisk                                         | VirtualMachineScaleSetOSDisk                                         | Modified |                               |
+| VirtualMachineScaleSetOSDisk_STATUS                                  | VirtualMachineScaleSetOSDisk_STATUS                                  | Modified |                               |
+| VirtualMachineScaleSetOSProfile                                      | VirtualMachineScaleSetOSProfile                                      | Extended | +PropertyBag                  |
+| VirtualMachineScaleSetOSProfile_STATUS                               | VirtualMachineScaleSetOSProfile_STATUS                               | Extended | +PropertyBag                  |
+| VirtualMachineScaleSetOperatorSpec                                   | VirtualMachineScaleSetOperatorSpec                                   | Extended | +PropertyBag                  |
+| VirtualMachineScaleSetPublicIPAddressConfiguration                   | VirtualMachineScaleSetPublicIPAddressConfiguration                   | Modified |                               |
+| VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings        | VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings        | Extended | +PropertyBag                  |
+| VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS | VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS | Extended | +PropertyBag                  |
+| VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS            | VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS            | Modified |                               |
+| VirtualMachineScaleSetStorageProfile                                 | VirtualMachineScaleSetStorageProfile                                 | Extended | +PropertyBag                  |
+| VirtualMachineScaleSetStorageProfile_STATUS                          | VirtualMachineScaleSetStorageProfile_STATUS                          | Extended | +PropertyBag                  |
+| VirtualMachineScaleSetVMProfile                                      | VirtualMachineScaleSetVMProfile                                      | Modified |                               |
+| VirtualMachineScaleSetVMProfile_STATUS                               | VirtualMachineScaleSetVMProfile_STATUS                               | Modified |                               |
+| VirtualMachineScaleSet_STATUS                                        | VirtualMachineScaleSet_STATUS                                        | Modified |                               |
+| VirtualMachineScaleSet_Spec                                          | VirtualMachineScaleSet_Spec                                          | Modified |                               |
+| VirtualMachineScaleSetsExtensionOperatorSpec                         | VirtualMachineScaleSetsExtensionOperatorSpec                         | Extended | +PropertyBag                  |
+| VirtualMachineScaleSetsExtension_STATUS                              | VirtualMachineScaleSetsExtension_STATUS                              | Extended | +PropertyBag                  |
+| VirtualMachineScaleSetsExtension_Spec                                | VirtualMachineScaleSetsExtension_Spec                                | Extended | +OriginalVersion +PropertyBag |
+| VirtualMachine_STATUS                                                | VirtualMachine_STATUS                                                | Modified |                               |
+| VirtualMachine_Spec                                                  | VirtualMachine_Spec                                                  | Modified |                               |
+| VirtualMachinesExtensionOperatorSpec                                 | VirtualMachinesExtensionOperatorSpec                                 | Extended | +PropertyBag                  |
+| VirtualMachinesExtension_STATUS                                      | VirtualMachinesExtension_STATUS                                      | Extended | +PropertyBag                  |
+| VirtualMachinesExtension_Spec                                        | VirtualMachinesExtension_Spec                                        | Extended | +OriginalVersion +PropertyBag |
+| WinRMConfiguration                                                   | WinRMConfiguration                                                   | Extended | +PropertyBag                  |
+| WinRMConfiguration_STATUS                                            | WinRMConfiguration_STATUS                                            | Extended | +PropertyBag                  |
+| WinRMListener                                                        | WinRMListener                                                        | Modified |                               |
+| WinRMListener_STATUS                                                 | WinRMListener_STATUS                                                 | Modified |                               |
+| WindowsConfiguration                                                 | WindowsConfiguration                                                 | Extended | +PropertyBag                  |
+| WindowsConfiguration_STATUS                                          | WindowsConfiguration_STATUS                                          | Extended | +PropertyBag                  |
 
 ### AdditionalCapabilities
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201201   |       | v1api20201201/storage |                        |  Status   | Notes |
 |:----------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -187,7 +180,7 @@
 
 ### AdditionalCapabilities_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201201   |       | v1api20201201/storage |                        |  Status   | Notes |
 |:----------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -196,7 +189,7 @@
 
 ### AdditionalUnattendContent
 
-1 x Identical, 1 x New, 3 x Modified
+Properties: 1 x Identical, 1 x New, 3 x Modified
 
 | v1api20201201 |                                          | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -208,7 +201,7 @@
 
 ### AdditionalUnattendContent_STATUS
 
-1 x Identical, 1 x New, 3 x Modified
+Properties: 1 x Identical, 1 x New, 3 x Modified
 
 | v1api20201201 |                                                 | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -220,7 +213,7 @@
 
 ### ApiEntityReference
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201201 |                               | v1api20201201/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -229,7 +222,7 @@
 
 ### ApiEntityReference_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201201 |         | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -238,7 +231,7 @@
 
 ### ApiErrorBase_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20201201 |         | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -249,7 +242,7 @@
 
 ### ApiError_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20201201 |                       | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -262,7 +255,7 @@
 
 ### AutomaticOSUpgradePolicy
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201            |       | v1api20201201/storage    |                        |  Status   | Notes |
 |:-------------------------|:------|:-------------------------|:-----------------------|:---------:|:------|
@@ -272,7 +265,7 @@
 
 ### AutomaticOSUpgradePolicy_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201            |       | v1api20201201/storage    |                        |  Status   | Notes |
 |:-------------------------|:------|:-------------------------|:-----------------------|:---------:|:------|
@@ -282,7 +275,7 @@
 
 ### AutomaticRepairsPolicy
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201 |         | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -292,7 +285,7 @@
 
 ### AutomaticRepairsPolicy_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201 |         | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -302,7 +295,7 @@
 
 ### AvailablePatchSummary_STATUS
 
-7 x Identical, 1 x New, 1 x Modified
+Properties: 7 x Identical, 1 x New, 1 x Modified
 
 | v1api20201201                 |                                      | v1api20201201/storage         |                        |  Status   | Notes |
 |:------------------------------|:-------------------------------------|:------------------------------|:-----------------------|:---------:|:------|
@@ -318,7 +311,7 @@
 
 ### BillingProfile
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201201 |          | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -327,7 +320,7 @@
 
 ### BillingProfile_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201201 |          | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -336,7 +329,7 @@
 
 ### BootDiagnostics
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201 |         | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -346,7 +339,7 @@
 
 ### BootDiagnosticsInstanceView_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20201201            |                            | v1api20201201/storage    |                            |  Status   | Notes |
 |:-------------------------|:---------------------------|:-------------------------|:---------------------------|:---------:|:------|
@@ -357,7 +350,7 @@
 
 ### BootDiagnostics_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201 |         | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -367,7 +360,7 @@
 
 ### DataDisk
 
-8 x Identical, 1 x New, 3 x Modified
+Properties: 8 x Identical, 1 x New, 3 x Modified
 
 | v1api20201201           |                        | v1api20201201/storage   |                        |  Status   | Notes |
 |:------------------------|:-----------------------|:------------------------|:-----------------------|:---------:|:------|
@@ -386,7 +379,7 @@
 
 ### DataDisk_STATUS
 
-10 x Identical, 1 x New, 3 x Modified
+Properties: 10 x Identical, 1 x New, 3 x Modified
 
 | v1api20201201           |                               | v1api20201201/storage   |                               |  Status   | Notes |
 |:------------------------|:------------------------------|:------------------------|:------------------------------|:---------:|:------|
@@ -407,7 +400,7 @@
 
 ### DiagnosticsProfile
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201201   |                  | v1api20201201/storage |                        |  Status   | Notes |
 |:----------------|:-----------------|:----------------------|:-----------------------|:---------:|:------|
@@ -416,7 +409,7 @@
 
 ### DiagnosticsProfile_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201201   |                         | v1api20201201/storage |                         |  Status   | Notes |
 |:----------------|:------------------------|:----------------------|:------------------------|:---------:|:------|
@@ -425,7 +418,7 @@
 
 ### DiffDiskSettings
 
-1 x New, 2 x Modified
+Properties: 1 x New, 2 x Modified
 
 | v1api20201201 |                    | v1api20201201/storage |                        |  Status  | Notes |
 |:--------------|:-------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -435,7 +428,7 @@
 
 ### DiffDiskSettings_STATUS
 
-1 x New, 2 x Modified
+Properties: 1 x New, 2 x Modified
 
 | v1api20201201 |                           | v1api20201201/storage |                        |  Status  | Notes |
 |:--------------|:--------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -445,7 +438,7 @@
 
 ### DiskEncryptionSettings
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20201201     |                          | v1api20201201/storage |                          |  Status   | Notes |
 |:------------------|:-------------------------|:----------------------|:-------------------------|:---------:|:------|
@@ -456,7 +449,7 @@
 
 ### DiskEncryptionSettings_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20201201     |                                 | v1api20201201/storage |                                 |  Status   | Notes |
 |:------------------|:--------------------------------|:----------------------|:--------------------------------|:---------:|:------|
@@ -467,7 +460,7 @@
 
 ### DiskInstanceView_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20201201      |                                 | v1api20201201/storage |                                 |  Status   | Notes |
 |:-------------------|:--------------------------------|:----------------------|:--------------------------------|:---------:|:------|
@@ -478,7 +471,7 @@
 
 ### ExtendedLocation
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20201201 |                       | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -488,7 +481,7 @@
 
 ### ExtendedLocation_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20201201 |                              | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -498,7 +491,7 @@
 
 ### HardwareProfile
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201201 |         | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -507,7 +500,7 @@
 
 ### HardwareProfile_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20201201 |                                | v1api20201201/storage |                        |  Status  | Notes |
 |:--------------|:-------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -516,7 +509,7 @@
 
 ### ImageReference
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20201201 |                               | v1api20201201/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -529,7 +522,7 @@
 
 ### ImageReference_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20201201 |         | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -543,7 +536,7 @@
 
 ### InnerError_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201 |         | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -553,7 +546,7 @@
 
 ### InstanceViewStatus
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20201201 |                           | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:--------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -566,7 +559,7 @@
 
 ### InstanceViewStatus_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20201201 |                                  | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:---------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -579,7 +572,7 @@
 
 ### KeyVaultKeyReference
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201 |              | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:-------------|:----------------------|:-----------------------|:---------:|:------|
@@ -589,7 +582,7 @@
 
 ### KeyVaultKeyReference_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201 |                     | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -599,7 +592,7 @@
 
 ### KeyVaultSecretReference
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201 |              | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:-------------|:----------------------|:-----------------------|:---------:|:------|
@@ -609,7 +602,7 @@
 
 ### KeyVaultSecretReference_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201 |                     | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -619,7 +612,7 @@
 
 ### LastPatchInstallationSummary_STATUS
 
-10 x Identical, 1 x New, 1 x Modified
+Properties: 10 x Identical, 1 x New, 1 x Modified
 
 | v1api20201201             |                                             | v1api20201201/storage     |                        |  Status   | Notes |
 |:--------------------------|:--------------------------------------------|:--------------------------|:-----------------------|:---------:|:------|
@@ -638,7 +631,7 @@
 
 ### LinuxConfiguration
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20201201                 |                     | v1api20201201/storage         |                        |  Status   | Notes |
 |:------------------------------|:--------------------|:------------------------------|:-----------------------|:---------:|:------|
@@ -650,7 +643,7 @@
 
 ### LinuxConfiguration_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20201201                 |                            | v1api20201201/storage         |                            |  Status   | Notes |
 |:------------------------------|:---------------------------|:------------------------------|:---------------------------|:---------:|:------|
@@ -662,7 +655,7 @@
 
 ### LinuxPatchSettings
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20201201 |                               | v1api20201201/storage |                        |  Status  | Notes |
 |:--------------|:------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -671,7 +664,7 @@
 
 ### LinuxPatchSettings_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20201201 |                                      | v1api20201201/storage |                        |  Status  | Notes |
 |:--------------|:-------------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -680,7 +673,7 @@
 
 ### MaintenanceRedeployStatus_STATUS
 
-6 x Identical, 1 x New, 1 x Modified
+Properties: 6 x Identical, 1 x New, 1 x Modified
 
 | v1api20201201                         |                                                           | v1api20201201/storage                 |                        |  Status   | Notes |
 |:--------------------------------------|:----------------------------------------------------------|:--------------------------------------|:-----------------------|:---------:|:------|
@@ -695,7 +688,7 @@
 
 ### ManagedDiskParameters
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20201201      |                               | v1api20201201/storage |                               |  Status   | Notes |
 |:-------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -706,7 +699,7 @@
 
 ### ManagedDiskParameters_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20201201      |                            | v1api20201201/storage |                        |  Status   | Notes |
 |:-------------------|:---------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -717,7 +710,7 @@
 
 ### NetworkInterfaceReference
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201 |                               | v1api20201201/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -727,7 +720,7 @@
 
 ### NetworkInterfaceReference_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201 |         | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -737,7 +730,7 @@
 
 ### NetworkProfile
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201201     |                             | v1api20201201/storage |                             |  Status   | Notes |
 |:------------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -746,7 +739,7 @@
 
 ### NetworkProfile_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201201     |                                    | v1api20201201/storage |                                    |  Status   | Notes |
 |:------------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -755,7 +748,7 @@
 
 ### OSDisk
 
-8 x Identical, 1 x New, 3 x Modified
+Properties: 8 x Identical, 1 x New, 3 x Modified
 
 | v1api20201201           |                         | v1api20201201/storage   |                         |  Status   | Notes |
 |:------------------------|:------------------------|:------------------------|:------------------------|:---------:|:------|
@@ -774,7 +767,7 @@
 
 ### OSDisk_STATUS
 
-8 x Identical, 1 x New, 3 x Modified
+Properties: 8 x Identical, 1 x New, 3 x Modified
 
 | v1api20201201           |                                | v1api20201201/storage   |                                |  Status   | Notes |
 |:------------------------|:-------------------------------|:------------------------|:-------------------------------|:---------:|:------|
@@ -793,7 +786,7 @@
 
 ### OSProfile
 
-9 x Identical, 1 x New
+Properties: 9 x Identical, 1 x New
 
 | v1api20201201               |                             | v1api20201201/storage       |                             |  Status   | Notes |
 |:----------------------------|:----------------------------|:----------------------------|:----------------------------|:---------:|:------|
@@ -810,7 +803,7 @@
 
 ### OSProfile_STATUS
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v1api20201201               |                              | v1api20201201/storage       |                              |  Status   | Notes |
 |:----------------------------|:-----------------------------|:----------------------------|:-----------------------------|:---------:|:------|
@@ -826,7 +819,7 @@
 
 ### PatchSettings
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20201201     |                          | v1api20201201/storage |                        |  Status   | Notes |
 |:------------------|:-------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -836,7 +829,7 @@
 
 ### PatchSettings_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20201201     |                                 | v1api20201201/storage |                        |  Status   | Notes |
 |:------------------|:--------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -846,7 +839,7 @@
 
 ### Plan
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20201201 |         | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -858,7 +851,7 @@
 
 ### Plan_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20201201 |         | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -870,21 +863,21 @@
 
 ### RollingUpgradePolicy
 
-3 x Identical, 1 x New, 3 x Modified
+Properties: 6 x Identical, 1 x New
 
 | v1api20201201                       |                           | v1api20201201/storage               |                        |  Status   | Notes |
 |:------------------------------------|:--------------------------|:------------------------------------|:-----------------------|:---------:|:------|
 | EnableCrossZoneUpgrade              | *bool                     | EnableCrossZoneUpgrade              | *bool                  | Identical |       |
-| MaxBatchInstancePercent             | Validated<*int> (2 rules) | MaxBatchInstancePercent             | *int                   | Modified  |       |
-| MaxUnhealthyInstancePercent         | Validated<*int> (2 rules) | MaxUnhealthyInstancePercent         | *int                   | Modified  |       |
-| MaxUnhealthyUpgradedInstancePercent | Validated<*int> (2 rules) | MaxUnhealthyUpgradedInstancePercent | *int                   | Modified  |       |
+| MaxBatchInstancePercent             | Validated<*int> (2 rules) | MaxBatchInstancePercent             | *int                   | Identical |       |
+| MaxUnhealthyInstancePercent         | Validated<*int> (2 rules) | MaxUnhealthyInstancePercent         | *int                   | Identical |       |
+| MaxUnhealthyUpgradedInstancePercent | Validated<*int> (2 rules) | MaxUnhealthyUpgradedInstancePercent | *int                   | Identical |       |
 | PauseTimeBetweenBatches             | *string                   | PauseTimeBetweenBatches             | *string                | Identical |       |
 | PrioritizeUnhealthyInstances        | *bool                     | PrioritizeUnhealthyInstances        | *bool                  | Identical |       |
 |                                     |                           | PropertyBag                         | genruntime.PropertyBag |    New    |       |
 
 ### RollingUpgradePolicy_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20201201                       |         | v1api20201201/storage               |                        |  Status   | Notes |
 |:------------------------------------|:--------|:------------------------------------|:-----------------------|:---------:|:------|
@@ -898,7 +891,7 @@
 
 ### ScaleInPolicy
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20201201 |                       | v1api20201201/storage |                        |  Status  | Notes |
 |:--------------|:----------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -907,7 +900,7 @@
 
 ### ScaleInPolicy_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20201201 |                              | v1api20201201/storage |                        |  Status  | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -916,7 +909,7 @@
 
 ### ScheduledEventsProfile
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201201                |                               | v1api20201201/storage        |                               |  Status   | Notes |
 |:-----------------------------|:------------------------------|:-----------------------------|:------------------------------|:---------:|:------|
@@ -925,7 +918,7 @@
 
 ### ScheduledEventsProfile_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201201                |                                      | v1api20201201/storage        |                                      |  Status   | Notes |
 |:-----------------------------|:-------------------------------------|:-----------------------------|:-------------------------------------|:---------:|:------|
@@ -934,7 +927,7 @@
 
 ### SecurityProfile
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20201201    |                               | v1api20201201/storage |                        |  Status   | Notes |
 |:-----------------|:------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -945,7 +938,7 @@
 
 ### SecurityProfile_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20201201    |                                      | v1api20201201/storage |                        |  Status   | Notes |
 |:-----------------|:-------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -956,7 +949,7 @@
 
 ### Sku
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20201201 |         | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -967,7 +960,7 @@
 
 ### Sku_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20201201 |         | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -978,7 +971,7 @@
 
 ### SshConfiguration
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201201 |                    | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:-------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -987,7 +980,7 @@
 
 ### SshConfiguration_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201201 |                       | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -996,7 +989,7 @@
 
 ### SshPublicKeySpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201 |         | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1006,7 +999,7 @@
 
 ### SshPublicKey_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201 |         | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1016,7 +1009,7 @@
 
 ### StorageProfile
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20201201  |                 | v1api20201201/storage |                        |  Status   | Notes |
 |:---------------|:----------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1027,7 +1020,7 @@
 
 ### StorageProfile_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20201201  |                        | v1api20201201/storage |                        |  Status   | Notes |
 |:---------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1038,7 +1031,7 @@
 
 ### SubResource
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201201 |                               | v1api20201201/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1047,7 +1040,7 @@
 
 ### SubResource_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201201 |         | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1056,7 +1049,7 @@
 
 ### TerminateNotificationProfile
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201    |         | v1api20201201/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1066,7 +1059,7 @@
 
 ### TerminateNotificationProfile_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201    |         | v1api20201201/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1076,7 +1069,7 @@
 
 ### UefiSettings
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201     |       | v1api20201201/storage |                        |  Status   | Notes |
 |:------------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1086,7 +1079,7 @@
 
 ### UefiSettings_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201     |       | v1api20201201/storage |                        |  Status   | Notes |
 |:------------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1096,7 +1089,7 @@
 
 ### UpgradePolicy
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20201201            |                           | v1api20201201/storage    |                           |  Status   | Notes |
 |:-------------------------|:--------------------------|:-------------------------|:--------------------------|:---------:|:------|
@@ -1107,7 +1100,7 @@
 
 ### UpgradePolicy_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20201201            |                                  | v1api20201201/storage    |                                  |  Status   | Notes |
 |:-------------------------|:---------------------------------|:-------------------------|:---------------------------------|:---------:|:------|
@@ -1118,7 +1111,7 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201201 |                              | v1api20201201/storage |                              |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -1127,7 +1120,7 @@
 
 ### VaultCertificate
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201    |         | v1api20201201/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1137,7 +1130,7 @@
 
 ### VaultCertificate_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201    |         | v1api20201201/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1147,7 +1140,7 @@
 
 ### VaultSecretGroup
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201     |                    | v1api20201201/storage |                        |  Status   | Notes |
 |:------------------|:-------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1157,7 +1150,7 @@
 
 ### VaultSecretGroup_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201     |                           | v1api20201201/storage |                           |  Status   | Notes |
 |:------------------|:--------------------------|:----------------------|:--------------------------|:---------:|:------|
@@ -1167,7 +1160,7 @@
 
 ### VirtualHardDisk
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201201 |         | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1176,7 +1169,7 @@
 
 ### VirtualHardDisk_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201201 |         | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1185,7 +1178,7 @@
 
 ### VirtualMachineAgentInstanceView_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20201201     |                                                     | v1api20201201/storage |                                                     |  Status   | Notes |
 |:------------------|:----------------------------------------------------|:----------------------|:----------------------------------------------------|:---------:|:------|
@@ -1196,7 +1189,7 @@
 
 ### VirtualMachineExtensionHandlerInstanceView_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20201201      |                            | v1api20201201/storage |                            |  Status   | Notes |
 |:-------------------|:---------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -1207,7 +1200,7 @@
 
 ### VirtualMachineExtensionInstanceView
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20201201      |                      | v1api20201201/storage |                        |  Status   | Notes |
 |:-------------------|:---------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1220,7 +1213,7 @@
 
 ### VirtualMachineExtensionInstanceView_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20201201      |                             | v1api20201201/storage |                             |  Status   | Notes |
 |:-------------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -1233,7 +1226,7 @@
 
 ### VirtualMachineExtension_STATUS
 
-14 x Identical, 1 x New
+Properties: 14 x Identical, 1 x New
 
 | v1api20201201           |                                             | v1api20201201/storage   |                                             |  Status   | Notes |
 |:------------------------|:--------------------------------------------|:------------------------|:--------------------------------------------|:---------:|:------|
@@ -1255,7 +1248,7 @@
 
 ### VirtualMachineHealthStatus_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201201 |                            | v1api20201201/storage |                            |  Status   | Notes |
 |:--------------|:---------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -1264,7 +1257,7 @@
 
 ### VirtualMachineIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20201201          |                               | v1api20201201/storage  |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -1274,7 +1267,7 @@
 
 ### VirtualMachineIdentity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20201201          |                                                                 | v1api20201201/storage  |                                                                 |  Status   | Notes |
 |:-----------------------|:----------------------------------------------------------------|:-----------------------|:----------------------------------------------------------------|:---------:|:------|
@@ -1286,7 +1279,7 @@
 
 ### VirtualMachineIdentity_UserAssignedIdentities_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201 |         | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1296,7 +1289,7 @@
 
 ### VirtualMachineInstanceView_STATUS
 
-15 x Identical, 1 x New, 1 x Modified
+Properties: 15 x Identical, 1 x New, 1 x Modified
 
 | v1api20201201             |                                                     | v1api20201201/storage     |                                              |  Status   | Notes |
 |:--------------------------|:----------------------------------------------------|:--------------------------|:---------------------------------------------|:---------:|:------|
@@ -1320,7 +1313,7 @@
 
 ### VirtualMachineOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201        |                               | v1api20201201/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1330,7 +1323,7 @@
 
 ### VirtualMachinePatchStatus_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20201201                |                                      | v1api20201201/storage        |                                      |  Status   | Notes |
 |:-----------------------------|:-------------------------------------|:-----------------------------|:-------------------------------------|:---------:|:------|
@@ -1341,7 +1334,7 @@
 
 ### VirtualMachineScaleSetDataDisk
 
-7 x Identical, 1 x New, 2 x Modified
+Properties: 7 x Identical, 1 x New, 2 x Modified
 
 | v1api20201201           |                                              | v1api20201201/storage   |                                              |  Status   | Notes |
 |:------------------------|:---------------------------------------------|:------------------------|:---------------------------------------------|:---------:|:------|
@@ -1358,7 +1351,7 @@
 
 ### VirtualMachineScaleSetDataDisk_STATUS
 
-7 x Identical, 1 x New, 2 x Modified
+Properties: 7 x Identical, 1 x New, 2 x Modified
 
 | v1api20201201           |                                                     | v1api20201201/storage   |                                                     |  Status   | Notes |
 |:------------------------|:----------------------------------------------------|:------------------------|:----------------------------------------------------|:---------:|:------|
@@ -1375,7 +1368,7 @@
 
 ### VirtualMachineScaleSetExtension
 
-10 x Identical, 1 x New
+Properties: 10 x Identical, 1 x New
 
 | v1api20201201            |                                | v1api20201201/storage    |                                |  Status   | Notes |
 |:-------------------------|:-------------------------------|:-------------------------|:-------------------------------|:---------:|:------|
@@ -1393,7 +1386,7 @@
 
 ### VirtualMachineScaleSetExtensionProfile
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201        |                                   | v1api20201201/storage |                                   |  Status   | Notes |
 |:---------------------|:----------------------------------|:----------------------|:----------------------------------|:---------:|:------|
@@ -1403,7 +1396,7 @@
 
 ### VirtualMachineScaleSetExtensionProfile_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201        |                                          | v1api20201201/storage |                                          |  Status   | Notes |
 |:---------------------|:-----------------------------------------|:----------------------|:-----------------------------------------|:---------:|:------|
@@ -1413,7 +1406,7 @@
 
 ### VirtualMachineScaleSetExtension_STATUS
 
-12 x Identical, 1 x New
+Properties: 12 x Identical, 1 x New
 
 | v1api20201201            |                    | v1api20201201/storage    |                        |  Status   | Notes |
 |:-------------------------|:-------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -1433,7 +1426,7 @@
 
 ### VirtualMachineScaleSetIPConfiguration
 
-9 x Identical, 1 x New, 1 x Modified
+Properties: 9 x Identical, 1 x New, 1 x Modified
 
 | v1api20201201                         |                                                                          | v1api20201201/storage                 |                                                     |  Status   | Notes |
 |:--------------------------------------|:-------------------------------------------------------------------------|:--------------------------------------|:----------------------------------------------------|:---------:|:------|
@@ -1451,7 +1444,7 @@
 
 ### VirtualMachineScaleSetIPConfiguration_STATUS
 
-9 x Identical, 1 x New, 1 x Modified
+Properties: 9 x Identical, 1 x New, 1 x Modified
 
 | v1api20201201                         |                                                                                 | v1api20201201/storage                 |                                                            |  Status   | Notes |
 |:--------------------------------------|:--------------------------------------------------------------------------------|:--------------------------------------|:-----------------------------------------------------------|:---------:|:------|
@@ -1469,7 +1462,7 @@
 
 ### VirtualMachineScaleSetIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20201201          |                                      | v1api20201201/storage  |                               |  Status   | Notes |
 |:-----------------------|:-------------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -1479,7 +1472,7 @@
 
 ### VirtualMachineScaleSetIdentity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20201201          |                                                                         | v1api20201201/storage  |                                                                         |  Status   | Notes |
 |:-----------------------|:------------------------------------------------------------------------|:-----------------------|:------------------------------------------------------------------------|:---------:|:------|
@@ -1491,7 +1484,7 @@
 
 ### VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201 |         | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1501,7 +1494,7 @@
 
 ### VirtualMachineScaleSetIpTag
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201 |         | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1511,7 +1504,7 @@
 
 ### VirtualMachineScaleSetIpTag_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201 |         | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1521,7 +1514,7 @@
 
 ### VirtualMachineScaleSetManagedDiskParameters
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20201201      |                     | v1api20201201/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1531,7 +1524,7 @@
 
 ### VirtualMachineScaleSetManagedDiskParameters_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20201201      |                            | v1api20201201/storage |                        |  Status   | Notes |
 |:-------------------|:---------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1541,7 +1534,7 @@
 
 ### VirtualMachineScaleSetNetworkConfiguration
 
-9 x Identical, 1 x New
+Properties: 9 x Identical, 1 x New
 
 | v1api20201201               |                                                        | v1api20201201/storage       |                                                        |  Status   | Notes |
 |:----------------------------|:-------------------------------------------------------|:----------------------------|:-------------------------------------------------------|:---------:|:------|
@@ -1558,7 +1551,7 @@
 
 ### VirtualMachineScaleSetNetworkConfigurationDnsSettings
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201201 |          | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -1567,7 +1560,7 @@
 
 ### VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201201 |          | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -1576,7 +1569,7 @@
 
 ### VirtualMachineScaleSetNetworkConfiguration_STATUS
 
-9 x Identical, 1 x New
+Properties: 9 x Identical, 1 x New
 
 | v1api20201201               |                                                               | v1api20201201/storage       |                                                               |  Status   | Notes |
 |:----------------------------|:--------------------------------------------------------------|:----------------------------|:--------------------------------------------------------------|:---------:|:------|
@@ -1593,7 +1586,7 @@
 
 ### VirtualMachineScaleSetNetworkProfile
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201                  |                                              | v1api20201201/storage          |                                              |  Status   | Notes |
 |:-------------------------------|:---------------------------------------------|:-------------------------------|:---------------------------------------------|:---------:|:------|
@@ -1603,7 +1596,7 @@
 
 ### VirtualMachineScaleSetNetworkProfile_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201                  |                                                     | v1api20201201/storage          |                                                     |  Status   | Notes |
 |:-------------------------------|:----------------------------------------------------|:-------------------------------|:----------------------------------------------------|:---------:|:------|
@@ -1613,7 +1606,7 @@
 
 ### VirtualMachineScaleSetOSDisk
 
-7 x Identical, 1 x New, 3 x Modified
+Properties: 7 x Identical, 1 x New, 3 x Modified
 
 | v1api20201201           |                                              | v1api20201201/storage   |                                              |  Status   | Notes |
 |:------------------------|:---------------------------------------------|:------------------------|:---------------------------------------------|:---------:|:------|
@@ -1631,7 +1624,7 @@
 
 ### VirtualMachineScaleSetOSDisk_STATUS
 
-7 x Identical, 1 x New, 3 x Modified
+Properties: 7 x Identical, 1 x New, 3 x Modified
 
 | v1api20201201           |                                                     | v1api20201201/storage   |                                                     |  Status   | Notes |
 |:------------------------|:----------------------------------------------------|:------------------------|:----------------------------------------------------|:---------:|:------|
@@ -1649,7 +1642,7 @@
 
 ### VirtualMachineScaleSetOSProfile
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v1api20201201        |                             | v1api20201201/storage |                             |  Status   | Notes |
 |:---------------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -1664,7 +1657,7 @@
 
 ### VirtualMachineScaleSetOSProfile_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20201201        |                              | v1api20201201/storage |                              |  Status   | Notes |
 |:---------------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -1678,7 +1671,7 @@
 
 ### VirtualMachineScaleSetOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201        |                               | v1api20201201/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1688,7 +1681,7 @@
 
 ### VirtualMachineScaleSetPublicIPAddressConfiguration
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20201201          |                                                                                      | v1api20201201/storage  |                                                                |  Status   | Notes |
 |:-----------------------|:-------------------------------------------------------------------------------------|:-----------------------|:---------------------------------------------------------------|:---------:|:------|
@@ -1702,7 +1695,7 @@
 
 ### VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201201   |         | v1api20201201/storage |                        |  Status   | Notes |
 |:----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1711,7 +1704,7 @@
 
 ### VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201201   |         | v1api20201201/storage |                        |  Status   | Notes |
 |:----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1720,7 +1713,7 @@
 
 ### VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20201201          |                                                                                             | v1api20201201/storage  |                                                                       |  Status   | Notes |
 |:-----------------------|:--------------------------------------------------------------------------------------------|:-----------------------|:----------------------------------------------------------------------|:---------:|:------|
@@ -1734,7 +1727,7 @@
 
 ### VirtualMachineScaleSetStorageProfile
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20201201  |                                  | v1api20201201/storage |                                  |  Status   | Notes |
 |:---------------|:---------------------------------|:----------------------|:---------------------------------|:---------:|:------|
@@ -1745,7 +1738,7 @@
 
 ### VirtualMachineScaleSetStorageProfile_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20201201  |                                         | v1api20201201/storage |                                         |  Status   | Notes |
 |:---------------|:----------------------------------------|:----------------------|:----------------------------------------|:---------:|:------|
@@ -1756,7 +1749,7 @@
 
 ### VirtualMachineScaleSetVMProfile
 
-9 x Identical, 1 x New, 2 x Modified
+Properties: 9 x Identical, 1 x New, 2 x Modified
 
 | v1api20201201          |                                         | v1api20201201/storage  |                                         |  Status   | Notes |
 |:-----------------------|:----------------------------------------|:-----------------------|:----------------------------------------|:---------:|:------|
@@ -1775,7 +1768,7 @@
 
 ### VirtualMachineScaleSetVMProfile_STATUS
 
-9 x Identical, 1 x New, 2 x Modified
+Properties: 9 x Identical, 1 x New, 2 x Modified
 
 | v1api20201201          |                                                | v1api20201201/storage  |                                                |  Status   | Notes |
 |:-----------------------|:-----------------------------------------------|:-----------------------|:-----------------------------------------------|:---------:|:------|
@@ -1794,7 +1787,7 @@
 
 ### VirtualMachineScaleSet_STATUS
 
-25 x Identical, 1 x New, 1 x Modified
+Properties: 25 x Identical, 1 x New, 1 x Modified
 
 | v1api20201201                          |                                         | v1api20201201/storage                  |                                         |  Status   | Notes |
 |:---------------------------------------|:----------------------------------------|:---------------------------------------|:----------------------------------------|:---------:|:------|
@@ -1828,7 +1821,7 @@
 
 ### VirtualMachineScaleSet_Spec
 
-22 x Identical, 2 x New, 1 x Modified
+Properties: 22 x Identical, 2 x New, 1 x Modified
 
 | v1api20201201                          |                                     | v1api20201201/storage                  |                                     |  Status   | Notes |
 |:---------------------------------------|:------------------------------------|:---------------------------------------|:------------------------------------|:---------:|:------|
@@ -1860,7 +1853,7 @@
 
 ### VirtualMachineScaleSetsExtensionOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201        |                               | v1api20201201/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1870,7 +1863,7 @@
 
 ### VirtualMachineScaleSetsExtension_STATUS
 
-13 x Identical, 1 x New
+Properties: 13 x Identical, 1 x New
 
 | v1api20201201            |                        | v1api20201201/storage    |                        |  Status   | Notes |
 |:-------------------------|:-----------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -1891,7 +1884,7 @@
 
 ### VirtualMachineScaleSetsExtension_Spec
 
-12 x Identical, 2 x New
+Properties: 12 x Identical, 2 x New
 
 | v1api20201201            |                                               | v1api20201201/storage    |                                               |  Status   | Notes |
 |:-------------------------|:----------------------------------------------|:-------------------------|:----------------------------------------------|:---------:|:------|
@@ -1912,7 +1905,7 @@
 
 ### VirtualMachine_STATUS
 
-30 x Identical, 1 x New, 2 x Modified
+Properties: 30 x Identical, 1 x New, 2 x Modified
 
 | v1api20201201           |                                    | v1api20201201/storage   |                                    |  Status   | Notes |
 |:------------------------|:-----------------------------------|:------------------------|:-----------------------------------|:---------:|:------|
@@ -1952,7 +1945,7 @@
 
 ### VirtualMachine_Spec
 
-25 x Identical, 2 x New, 2 x Modified
+Properties: 25 x Identical, 2 x New, 2 x Modified
 
 | v1api20201201           |                                    | v1api20201201/storage   |                                    |  Status   | Notes |
 |:------------------------|:-----------------------------------|:------------------------|:-----------------------------------|:---------:|:------|
@@ -1988,7 +1981,7 @@
 
 ### VirtualMachinesExtensionOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201201        |                               | v1api20201201/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1998,7 +1991,7 @@
 
 ### VirtualMachinesExtension_STATUS
 
-15 x Identical, 1 x New
+Properties: 15 x Identical, 1 x New
 
 | v1api20201201           |                                             | v1api20201201/storage   |                                             |  Status   | Notes |
 |:------------------------|:--------------------------------------------|:------------------------|:--------------------------------------------|:---------:|:------|
@@ -2021,7 +2014,7 @@
 
 ### VirtualMachinesExtension_Spec
 
-14 x Identical, 2 x New
+Properties: 14 x Identical, 2 x New
 
 | v1api20201201           |                                       | v1api20201201/storage   |                                       |  Status   | Notes |
 |:------------------------|:--------------------------------------|:------------------------|:--------------------------------------|:---------:|:------|
@@ -2044,7 +2037,7 @@
 
 ### WinRMConfiguration
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201201 |                 | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:----------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2053,7 +2046,7 @@
 
 ### WinRMConfiguration_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201201 |                        | v1api20201201/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2062,7 +2055,7 @@
 
 ### WinRMListener
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20201201  |                         | v1api20201201/storage |                        |  Status   | Notes |
 |:---------------|:------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2072,7 +2065,7 @@
 
 ### WinRMListener_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20201201  |                                | v1api20201201/storage |                        |  Status   | Notes |
 |:---------------|:-------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2082,7 +2075,7 @@
 
 ### WindowsConfiguration
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20201201             |                             | v1api20201201/storage     |                             |  Status   | Notes |
 |:--------------------------|:----------------------------|:--------------------------|:----------------------------|:---------:|:------|
@@ -2096,7 +2089,7 @@
 
 ### WindowsConfiguration_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20201201             |                                    | v1api20201201/storage     |                                    |  Status   | Notes |
 |:--------------------------|:-----------------------------------|:--------------------------|:-----------------------------------|:---------:|:------|
@@ -2107,3 +2100,12 @@
 | ProvisionVMAgent          | *bool                              | ProvisionVMAgent          | *bool                              | Identical |       |
 | TimeZone                  | *string                            | TimeZone                  | *string                            | Identical |       |
 | WinRM                     | *WinRMConfiguration_STATUS         | WinRM                     | *WinRMConfiguration_STATUS         | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

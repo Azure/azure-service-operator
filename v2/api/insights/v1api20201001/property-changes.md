@@ -6,36 +6,29 @@
 |:-----------------|:----------------------|:---------:|:------|
 | ActivityLogAlert | ActivityLogAlert      | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20201001                        | v1api20201001/storage                |  Status  | Notes |
-|:-------------------------------------|:-------------------------------------|:--------:|:------|
-| ActionGroupReference                 | ActionGroupReference                 | Extended |       |
-| ActionGroup_STATUS                   | ActionGroup_STATUS                   | Extended |       |
-| ActionList                           | ActionList                           | Extended |       |
-| ActionList_STATUS                    | ActionList_STATUS                    | Extended |       |
-| ActivityLogAlertOperatorSpec         | ActivityLogAlertOperatorSpec         | Extended |       |
-| ActivityLogAlert_STATUS              | ActivityLogAlert_STATUS              | Extended |       |
-| ActivityLogAlert_Spec                | ActivityLogAlert_Spec                | Extended |       |
-| AlertRuleAllOfCondition              | AlertRuleAllOfCondition              | Extended |       |
-| AlertRuleAllOfCondition_STATUS       | AlertRuleAllOfCondition_STATUS       | Extended |       |
-| AlertRuleAnyOfOrLeafCondition        | AlertRuleAnyOfOrLeafCondition        | Extended |       |
-| AlertRuleAnyOfOrLeafCondition_STATUS | AlertRuleAnyOfOrLeafCondition_STATUS | Extended |       |
-| AlertRuleLeafCondition               | AlertRuleLeafCondition               | Extended |       |
-| AlertRuleLeafCondition_STATUS        | AlertRuleLeafCondition_STATUS        | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20201001                        | v1api20201001/storage                |  Status  | Notes                         |
+|:-------------------------------------|:-------------------------------------|:--------:|:------------------------------|
+| ActionGroupReference                 | ActionGroupReference                 | Extended | +PropertyBag                  |
+| ActionGroup_STATUS                   | ActionGroup_STATUS                   | Extended | +PropertyBag                  |
+| ActionList                           | ActionList                           | Extended | +PropertyBag                  |
+| ActionList_STATUS                    | ActionList_STATUS                    | Extended | +PropertyBag                  |
+| ActivityLogAlertOperatorSpec         | ActivityLogAlertOperatorSpec         | Extended | +PropertyBag                  |
+| ActivityLogAlert_STATUS              | ActivityLogAlert_STATUS              | Extended | +PropertyBag                  |
+| ActivityLogAlert_Spec                | ActivityLogAlert_Spec                | Extended | +OriginalVersion +PropertyBag |
+| AlertRuleAllOfCondition              | AlertRuleAllOfCondition              | Extended | +PropertyBag                  |
+| AlertRuleAllOfCondition_STATUS       | AlertRuleAllOfCondition_STATUS       | Extended | +PropertyBag                  |
+| AlertRuleAnyOfOrLeafCondition        | AlertRuleAnyOfOrLeafCondition        | Extended | +PropertyBag                  |
+| AlertRuleAnyOfOrLeafCondition_STATUS | AlertRuleAnyOfOrLeafCondition_STATUS | Extended | +PropertyBag                  |
+| AlertRuleLeafCondition               | AlertRuleLeafCondition               | Extended | +PropertyBag                  |
+| AlertRuleLeafCondition_STATUS        | AlertRuleLeafCondition_STATUS        | Extended | +PropertyBag                  |
 
 ### ActionGroupReference
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201001        |                               | v1api20201001/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -45,7 +38,7 @@
 
 ### ActionGroup_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201001     |                   | v1api20201001/storage |                        |  Status   | Notes |
 |:------------------|:------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -55,7 +48,7 @@
 
 ### ActionList
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201001 |                        | v1api20201001/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -64,7 +57,7 @@
 
 ### ActionList_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201001 |                      | v1api20201001/storage |                        |  Status   | Notes |
 |:--------------|:---------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -73,7 +66,7 @@
 
 ### ActivityLogAlertOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201001        |                               | v1api20201001/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -83,7 +76,7 @@
 
 ### ActivityLogAlert_STATUS
 
-11 x Identical, 1 x New
+Properties: 11 x Identical, 1 x New
 
 | v1api20201001 |                                 | v1api20201001/storage |                                 |  Status   | Notes |
 |:--------------|:--------------------------------|:----------------------|:--------------------------------|:---------:|:------|
@@ -102,7 +95,7 @@
 
 ### ActivityLogAlert_Spec
 
-10 x Identical, 2 x New
+Properties: 10 x Identical, 2 x New
 
 | v1api20201001    |                                    | v1api20201001/storage |                                    |  Status   | Notes |
 |:-----------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -121,7 +114,7 @@
 
 ### AlertRuleAllOfCondition
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201001 |                                 | v1api20201001/storage |                                 |  Status   | Notes |
 |:--------------|:--------------------------------|:----------------------|:--------------------------------|:---------:|:------|
@@ -130,7 +123,7 @@
 
 ### AlertRuleAllOfCondition_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201001 |                                        | v1api20201001/storage |                                        |  Status   | Notes |
 |:--------------|:---------------------------------------|:----------------------|:---------------------------------------|:---------:|:------|
@@ -139,7 +132,7 @@
 
 ### AlertRuleAnyOfOrLeafCondition
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20201001 |                          | v1api20201001/storage |                          |  Status   | Notes |
 |:--------------|:-------------------------|:----------------------|:-------------------------|:---------:|:------|
@@ -151,7 +144,7 @@
 
 ### AlertRuleAnyOfOrLeafCondition_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20201001 |                                 | v1api20201001/storage |                                 |  Status   | Notes |
 |:--------------|:--------------------------------|:----------------------|:--------------------------------|:---------:|:------|
@@ -163,7 +156,7 @@
 
 ### AlertRuleLeafCondition
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20201001 |          | v1api20201001/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -174,7 +167,7 @@
 
 ### AlertRuleLeafCondition_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20201001 |          | v1api20201001/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -182,3 +175,12 @@
 | Equals        | *string  | Equals                | *string                | Identical |       |
 | Field         | *string  | Field                 | *string                | Identical |       |
 |               |          | PropertyBag           | genruntime.PropertyBag |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

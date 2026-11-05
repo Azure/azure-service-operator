@@ -19,125 +19,118 @@
 | Service                                          | Service                                          | Identical |       |
 | Subscription                                     | Subscription                                     | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20220801                                                | v1api20220801/storage                                        |  Status  | Notes |
-|:-------------------------------------------------------------|:-------------------------------------------------------------|:--------:|:------|
-| AdditionalLocation                                           | AdditionalLocation                                           | Modified |       |
-| AdditionalLocation_STATUS                                    | AdditionalLocation_STATUS                                    | Modified |       |
-| ApiContactInformation                                        | ApiContactInformation                                        | Extended |       |
-| ApiContactInformation_STATUS                                 | ApiContactInformation_STATUS                                 | Extended |       |
-| ApiCreateOrUpdateProperties_WsdlSelector                     | ApiCreateOrUpdateProperties_WsdlSelector                     | Extended |       |
-| ApiLicenseInformation                                        | ApiLicenseInformation                                        | Extended |       |
-| ApiLicenseInformation_STATUS                                 | ApiLicenseInformation_STATUS                                 | Extended |       |
-| ApiManagementServiceIdentity                                 | ApiManagementServiceIdentity                                 | Modified |       |
-| ApiManagementServiceIdentity_STATUS                          | ApiManagementServiceIdentity_STATUS                          | Modified |       |
-| ApiManagementServiceSkuProperties                            | ApiManagementServiceSkuProperties                            | Modified |       |
-| ApiManagementServiceSkuProperties_STATUS                     | ApiManagementServiceSkuProperties_STATUS                     | Modified |       |
-| ApiOperatorSpec                                              | ApiOperatorSpec                                              | Extended |       |
-| ApiVersionConstraint                                         | ApiVersionConstraint                                         | Extended |       |
-| ApiVersionConstraint_STATUS                                  | ApiVersionConstraint_STATUS                                  | Extended |       |
-| ApiVersionSetContractDetails                                 | ApiVersionSetContractDetails                                 | Modified |       |
-| ApiVersionSetContractDetails_STATUS                          | ApiVersionSetContractDetails_STATUS                          | Modified |       |
-| ApiVersionSetOperatorSpec                                    | ApiVersionSetOperatorSpec                                    | Extended |       |
-| ApiVersionSet_STATUS                                         | ApiVersionSet_STATUS                                         | Modified |       |
-| ApiVersionSet_Spec                                           | ApiVersionSet_Spec                                           | Modified |       |
-| Api_STATUS                                                   | Api_STATUS                                                   | Modified |       |
-| Api_Spec                                                     | Api_Spec                                                     | Modified |       |
-| ArmIdWrapper_STATUS                                          | ArmIdWrapper_STATUS                                          | Extended |       |
-| AuthenticationSettingsContract                               | AuthenticationSettingsContract                               | Extended |       |
-| AuthenticationSettingsContract_STATUS                        | AuthenticationSettingsContract_STATUS                        | Extended |       |
-| AuthorizationError_STATUS                                    | AuthorizationError_STATUS                                    | Extended |       |
-| AuthorizationProviderOAuth2GrantTypes                        | AuthorizationProviderOAuth2GrantTypes                        | Extended |       |
-| AuthorizationProviderOAuth2GrantTypes_STATUS                 | AuthorizationProviderOAuth2GrantTypes_STATUS                 | Extended |       |
-| AuthorizationProviderOAuth2Settings                          | AuthorizationProviderOAuth2Settings                          | Extended |       |
-| AuthorizationProviderOAuth2Settings_STATUS                   | AuthorizationProviderOAuth2Settings_STATUS                   | Extended |       |
-| AuthorizationProviderOperatorSpec                            | AuthorizationProviderOperatorSpec                            | Extended |       |
-| AuthorizationProvider_STATUS                                 | AuthorizationProvider_STATUS                                 | Extended |       |
-| AuthorizationProvider_Spec                                   | AuthorizationProvider_Spec                                   | Modified |       |
-| AuthorizationProvidersAuthorizationOperatorSpec              | AuthorizationProvidersAuthorizationOperatorSpec              | Extended |       |
-| AuthorizationProvidersAuthorization_STATUS                   | AuthorizationProvidersAuthorization_STATUS                   | Modified |       |
-| AuthorizationProvidersAuthorization_Spec                     | AuthorizationProvidersAuthorization_Spec                     | Modified |       |
-| AuthorizationProvidersAuthorizationsAccessPolicyOperatorSpec | AuthorizationProvidersAuthorizationsAccessPolicyOperatorSpec | Extended |       |
-| AuthorizationProvidersAuthorizationsAccessPolicy_STATUS      | AuthorizationProvidersAuthorizationsAccessPolicy_STATUS      | Extended |       |
-| AuthorizationProvidersAuthorizationsAccessPolicy_Spec        | AuthorizationProvidersAuthorizationsAccessPolicy_Spec        | Modified |       |
-| BackendAuthorizationHeaderCredentials                        | BackendAuthorizationHeaderCredentials                        | Modified |       |
-| BackendAuthorizationHeaderCredentials_STATUS                 | BackendAuthorizationHeaderCredentials_STATUS                 | Extended |       |
-| BackendCredentialsContract                                   | BackendCredentialsContract                                   | Modified |       |
-| BackendCredentialsContract_STATUS                            | BackendCredentialsContract_STATUS                            | Extended |       |
-| BackendOperatorSpec                                          | BackendOperatorSpec                                          | Extended |       |
-| BackendProperties                                            | BackendProperties                                            | Extended |       |
-| BackendProperties_STATUS                                     | BackendProperties_STATUS                                     | Extended |       |
-| BackendProxyContract                                         | BackendProxyContract                                         | Modified |       |
-| BackendProxyContract_STATUS                                  | BackendProxyContract_STATUS                                  | Extended |       |
-| BackendServiceFabricClusterProperties                        | BackendServiceFabricClusterProperties                        | Extended |       |
-| BackendServiceFabricClusterProperties_STATUS                 | BackendServiceFabricClusterProperties_STATUS                 | Extended |       |
-| BackendTlsProperties                                         | BackendTlsProperties                                         | Extended |       |
-| BackendTlsProperties_STATUS                                  | BackendTlsProperties_STATUS                                  | Extended |       |
-| Backend_STATUS                                               | Backend_STATUS                                               | Modified |       |
-| Backend_Spec                                                 | Backend_Spec                                                 | Modified |       |
-| CertificateConfiguration                                     | CertificateConfiguration                                     | Modified |       |
-| CertificateConfiguration_STATUS                              | CertificateConfiguration_STATUS                              | Modified |       |
-| CertificateInformation                                       | CertificateInformation                                       | Extended |       |
-| CertificateInformation_STATUS                                | CertificateInformation_STATUS                                | Extended |       |
-| HostnameConfiguration                                        | HostnameConfiguration                                        | Modified |       |
-| HostnameConfiguration_STATUS                                 | HostnameConfiguration_STATUS                                 | Modified |       |
-| KeyVaultContractCreateProperties                             | KeyVaultContractCreateProperties                             | Extended |       |
-| KeyVaultContractProperties_STATUS                            | KeyVaultContractProperties_STATUS                            | Extended |       |
-| KeyVaultLastAccessStatusContractProperties_STATUS            | KeyVaultLastAccessStatusContractProperties_STATUS            | Extended |       |
-| NamedValueOperatorSpec                                       | NamedValueOperatorSpec                                       | Extended |       |
-| NamedValue_STATUS                                            | NamedValue_STATUS                                            | Extended |       |
-| NamedValue_Spec                                              | NamedValue_Spec                                              | Modified |       |
-| OAuth2AuthenticationSettingsContract                         | OAuth2AuthenticationSettingsContract                         | Extended |       |
-| OAuth2AuthenticationSettingsContract_STATUS                  | OAuth2AuthenticationSettingsContract_STATUS                  | Extended |       |
-| OpenIdAuthenticationSettingsContract                         | OpenIdAuthenticationSettingsContract                         | Modified |       |
-| OpenIdAuthenticationSettingsContract_STATUS                  | OpenIdAuthenticationSettingsContract_STATUS                  | Modified |       |
-| PolicyFragmentOperatorSpec                                   | PolicyFragmentOperatorSpec                                   | Extended |       |
-| PolicyFragment_STATUS                                        | PolicyFragment_STATUS                                        | Modified |       |
-| PolicyFragment_Spec                                          | PolicyFragment_Spec                                          | Modified |       |
-| PolicyOperatorSpec                                           | PolicyOperatorSpec                                           | Extended |       |
-| Policy_STATUS                                                | Policy_STATUS                                                | Modified |       |
-| Policy_Spec                                                  | Policy_Spec                                                  | Modified |       |
-| PrivateLinkServiceConnectionState_STATUS                     | PrivateLinkServiceConnectionState_STATUS                     | Modified |       |
-| ProductApiOperatorSpec                                       | ProductApiOperatorSpec                                       | Extended |       |
-| ProductApi_STATUS                                            | ProductApi_STATUS                                            | Extended |       |
-| ProductApi_Spec                                              | ProductApi_Spec                                              | Modified |       |
-| ProductOperatorSpec                                          | ProductOperatorSpec                                          | Extended |       |
-| ProductPolicyOperatorSpec                                    | ProductPolicyOperatorSpec                                    | Extended |       |
-| ProductPolicy_STATUS                                         | ProductPolicy_STATUS                                         | Modified |       |
-| ProductPolicy_Spec                                           | ProductPolicy_Spec                                           | Modified |       |
-| Product_STATUS                                               | Product_STATUS                                               | Modified |       |
-| Product_Spec                                                 | Product_Spec                                                 | Modified |       |
-| RemotePrivateEndpointConnectionWrapper_STATUS                | RemotePrivateEndpointConnectionWrapper_STATUS                | Extended |       |
-| ServiceOperatorSpec                                          | ServiceOperatorSpec                                          | Extended |       |
-| Service_STATUS                                               | Service_STATUS                                               | Modified |       |
-| Service_Spec                                                 | Service_Spec                                                 | Modified |       |
-| SubscriptionKeyParameterNamesContract                        | SubscriptionKeyParameterNamesContract                        | Extended |       |
-| SubscriptionKeyParameterNamesContract_STATUS                 | SubscriptionKeyParameterNamesContract_STATUS                 | Extended |       |
-| SubscriptionOperatorSecrets                                  | SubscriptionOperatorSecrets                                  | Extended |       |
-| SubscriptionOperatorSpec                                     | SubscriptionOperatorSpec                                     | Extended |       |
-| Subscription_STATUS                                          | Subscription_STATUS                                          | Modified |       |
-| Subscription_Spec                                            | Subscription_Spec                                            | Modified |       |
-| SystemData_STATUS                                            | SystemData_STATUS                                            | Modified |       |
-| UserAssignedIdentityDetails                                  | UserAssignedIdentityDetails                                  | Extended |       |
-| UserIdentityProperties_STATUS                                | UserIdentityProperties_STATUS                                | Extended |       |
-| VirtualNetworkConfiguration                                  | VirtualNetworkConfiguration                                  | Extended |       |
-| VirtualNetworkConfiguration_STATUS                           | VirtualNetworkConfiguration_STATUS                           | Extended |       |
-| X509CertificateName                                          | X509CertificateName                                          | Extended |       |
-| X509CertificateName_STATUS                                   | X509CertificateName_STATUS                                   | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20220801                                                | v1api20220801/storage                                        |  Status  | Notes        |
+|:-------------------------------------------------------------|:-------------------------------------------------------------|:--------:|:-------------|
+| AdditionalLocation                                           | AdditionalLocation                                           | Modified |              |
+| AdditionalLocation_STATUS                                    | AdditionalLocation_STATUS                                    | Modified |              |
+| ApiContactInformation                                        | ApiContactInformation                                        | Extended | +PropertyBag |
+| ApiContactInformation_STATUS                                 | ApiContactInformation_STATUS                                 | Extended | +PropertyBag |
+| ApiCreateOrUpdateProperties_WsdlSelector                     | ApiCreateOrUpdateProperties_WsdlSelector                     | Extended | +PropertyBag |
+| ApiLicenseInformation                                        | ApiLicenseInformation                                        | Extended | +PropertyBag |
+| ApiLicenseInformation_STATUS                                 | ApiLicenseInformation_STATUS                                 | Extended | +PropertyBag |
+| ApiManagementServiceIdentity                                 | ApiManagementServiceIdentity                                 | Modified |              |
+| ApiManagementServiceIdentity_STATUS                          | ApiManagementServiceIdentity_STATUS                          | Modified |              |
+| ApiManagementServiceSkuProperties                            | ApiManagementServiceSkuProperties                            | Modified |              |
+| ApiManagementServiceSkuProperties_STATUS                     | ApiManagementServiceSkuProperties_STATUS                     | Modified |              |
+| ApiOperatorSpec                                              | ApiOperatorSpec                                              | Extended | +PropertyBag |
+| ApiVersionConstraint                                         | ApiVersionConstraint                                         | Extended | +PropertyBag |
+| ApiVersionConstraint_STATUS                                  | ApiVersionConstraint_STATUS                                  | Extended | +PropertyBag |
+| ApiVersionSetContractDetails                                 | ApiVersionSetContractDetails                                 | Modified |              |
+| ApiVersionSetContractDetails_STATUS                          | ApiVersionSetContractDetails_STATUS                          | Modified |              |
+| ApiVersionSetOperatorSpec                                    | ApiVersionSetOperatorSpec                                    | Extended | +PropertyBag |
+| ApiVersionSet_STATUS                                         | ApiVersionSet_STATUS                                         | Modified |              |
+| ApiVersionSet_Spec                                           | ApiVersionSet_Spec                                           | Modified |              |
+| Api_STATUS                                                   | Api_STATUS                                                   | Modified |              |
+| Api_Spec                                                     | Api_Spec                                                     | Modified |              |
+| ArmIdWrapper_STATUS                                          | ArmIdWrapper_STATUS                                          | Extended | +PropertyBag |
+| AuthenticationSettingsContract                               | AuthenticationSettingsContract                               | Extended | +PropertyBag |
+| AuthenticationSettingsContract_STATUS                        | AuthenticationSettingsContract_STATUS                        | Extended | +PropertyBag |
+| AuthorizationError_STATUS                                    | AuthorizationError_STATUS                                    | Extended | +PropertyBag |
+| AuthorizationProviderOAuth2GrantTypes                        | AuthorizationProviderOAuth2GrantTypes                        | Extended | +PropertyBag |
+| AuthorizationProviderOAuth2GrantTypes_STATUS                 | AuthorizationProviderOAuth2GrantTypes_STATUS                 | Extended | +PropertyBag |
+| AuthorizationProviderOAuth2Settings                          | AuthorizationProviderOAuth2Settings                          | Extended | +PropertyBag |
+| AuthorizationProviderOAuth2Settings_STATUS                   | AuthorizationProviderOAuth2Settings_STATUS                   | Extended | +PropertyBag |
+| AuthorizationProviderOperatorSpec                            | AuthorizationProviderOperatorSpec                            | Extended | +PropertyBag |
+| AuthorizationProvider_STATUS                                 | AuthorizationProvider_STATUS                                 | Extended | +PropertyBag |
+| AuthorizationProvider_Spec                                   | AuthorizationProvider_Spec                                   | Modified |              |
+| AuthorizationProvidersAuthorizationOperatorSpec              | AuthorizationProvidersAuthorizationOperatorSpec              | Extended | +PropertyBag |
+| AuthorizationProvidersAuthorization_STATUS                   | AuthorizationProvidersAuthorization_STATUS                   | Modified |              |
+| AuthorizationProvidersAuthorization_Spec                     | AuthorizationProvidersAuthorization_Spec                     | Modified |              |
+| AuthorizationProvidersAuthorizationsAccessPolicyOperatorSpec | AuthorizationProvidersAuthorizationsAccessPolicyOperatorSpec | Extended | +PropertyBag |
+| AuthorizationProvidersAuthorizationsAccessPolicy_STATUS      | AuthorizationProvidersAuthorizationsAccessPolicy_STATUS      | Extended | +PropertyBag |
+| AuthorizationProvidersAuthorizationsAccessPolicy_Spec        | AuthorizationProvidersAuthorizationsAccessPolicy_Spec        | Modified |              |
+| BackendAuthorizationHeaderCredentials                        | BackendAuthorizationHeaderCredentials                        | Extended | +PropertyBag |
+| BackendAuthorizationHeaderCredentials_STATUS                 | BackendAuthorizationHeaderCredentials_STATUS                 | Extended | +PropertyBag |
+| BackendCredentialsContract                                   | BackendCredentialsContract                                   | Modified |              |
+| BackendCredentialsContract_STATUS                            | BackendCredentialsContract_STATUS                            | Extended | +PropertyBag |
+| BackendOperatorSpec                                          | BackendOperatorSpec                                          | Extended | +PropertyBag |
+| BackendProperties                                            | BackendProperties                                            | Extended | +PropertyBag |
+| BackendProperties_STATUS                                     | BackendProperties_STATUS                                     | Extended | +PropertyBag |
+| BackendProxyContract                                         | BackendProxyContract                                         | Extended | +PropertyBag |
+| BackendProxyContract_STATUS                                  | BackendProxyContract_STATUS                                  | Extended | +PropertyBag |
+| BackendServiceFabricClusterProperties                        | BackendServiceFabricClusterProperties                        | Extended | +PropertyBag |
+| BackendServiceFabricClusterProperties_STATUS                 | BackendServiceFabricClusterProperties_STATUS                 | Extended | +PropertyBag |
+| BackendTlsProperties                                         | BackendTlsProperties                                         | Extended | +PropertyBag |
+| BackendTlsProperties_STATUS                                  | BackendTlsProperties_STATUS                                  | Extended | +PropertyBag |
+| Backend_STATUS                                               | Backend_STATUS                                               | Modified |              |
+| Backend_Spec                                                 | Backend_Spec                                                 | Modified |              |
+| CertificateConfiguration                                     | CertificateConfiguration                                     | Modified |              |
+| CertificateConfiguration_STATUS                              | CertificateConfiguration_STATUS                              | Modified |              |
+| CertificateInformation                                       | CertificateInformation                                       | Extended | +PropertyBag |
+| CertificateInformation_STATUS                                | CertificateInformation_STATUS                                | Extended | +PropertyBag |
+| HostnameConfiguration                                        | HostnameConfiguration                                        | Modified |              |
+| HostnameConfiguration_STATUS                                 | HostnameConfiguration_STATUS                                 | Modified |              |
+| KeyVaultContractCreateProperties                             | KeyVaultContractCreateProperties                             | Extended | +PropertyBag |
+| KeyVaultContractProperties_STATUS                            | KeyVaultContractProperties_STATUS                            | Extended | +PropertyBag |
+| KeyVaultLastAccessStatusContractProperties_STATUS            | KeyVaultLastAccessStatusContractProperties_STATUS            | Extended | +PropertyBag |
+| NamedValueOperatorSpec                                       | NamedValueOperatorSpec                                       | Extended | +PropertyBag |
+| NamedValue_STATUS                                            | NamedValue_STATUS                                            | Extended | +PropertyBag |
+| NamedValue_Spec                                              | NamedValue_Spec                                              | Modified |              |
+| OAuth2AuthenticationSettingsContract                         | OAuth2AuthenticationSettingsContract                         | Extended | +PropertyBag |
+| OAuth2AuthenticationSettingsContract_STATUS                  | OAuth2AuthenticationSettingsContract_STATUS                  | Extended | +PropertyBag |
+| OpenIdAuthenticationSettingsContract                         | OpenIdAuthenticationSettingsContract                         | Modified |              |
+| OpenIdAuthenticationSettingsContract_STATUS                  | OpenIdAuthenticationSettingsContract_STATUS                  | Modified |              |
+| PolicyFragmentOperatorSpec                                   | PolicyFragmentOperatorSpec                                   | Extended | +PropertyBag |
+| PolicyFragment_STATUS                                        | PolicyFragment_STATUS                                        | Modified |              |
+| PolicyFragment_Spec                                          | PolicyFragment_Spec                                          | Modified |              |
+| PolicyOperatorSpec                                           | PolicyOperatorSpec                                           | Extended | +PropertyBag |
+| Policy_STATUS                                                | Policy_STATUS                                                | Modified |              |
+| Policy_Spec                                                  | Policy_Spec                                                  | Modified |              |
+| PrivateLinkServiceConnectionState_STATUS                     | PrivateLinkServiceConnectionState_STATUS                     | Modified |              |
+| ProductApiOperatorSpec                                       | ProductApiOperatorSpec                                       | Extended | +PropertyBag |
+| ProductApi_STATUS                                            | ProductApi_STATUS                                            | Extended | +PropertyBag |
+| ProductApi_Spec                                              | ProductApi_Spec                                              | Modified |              |
+| ProductOperatorSpec                                          | ProductOperatorSpec                                          | Extended | +PropertyBag |
+| ProductPolicyOperatorSpec                                    | ProductPolicyOperatorSpec                                    | Extended | +PropertyBag |
+| ProductPolicy_STATUS                                         | ProductPolicy_STATUS                                         | Modified |              |
+| ProductPolicy_Spec                                           | ProductPolicy_Spec                                           | Modified |              |
+| Product_STATUS                                               | Product_STATUS                                               | Modified |              |
+| Product_Spec                                                 | Product_Spec                                                 | Modified |              |
+| RemotePrivateEndpointConnectionWrapper_STATUS                | RemotePrivateEndpointConnectionWrapper_STATUS                | Extended | +PropertyBag |
+| ServiceOperatorSpec                                          | ServiceOperatorSpec                                          | Extended | +PropertyBag |
+| Service_STATUS                                               | Service_STATUS                                               | Modified |              |
+| Service_Spec                                                 | Service_Spec                                                 | Modified |              |
+| SubscriptionKeyParameterNamesContract                        | SubscriptionKeyParameterNamesContract                        | Extended | +PropertyBag |
+| SubscriptionKeyParameterNamesContract_STATUS                 | SubscriptionKeyParameterNamesContract_STATUS                 | Extended | +PropertyBag |
+| SubscriptionOperatorSecrets                                  | SubscriptionOperatorSecrets                                  | Extended | +PropertyBag |
+| SubscriptionOperatorSpec                                     | SubscriptionOperatorSpec                                     | Extended | +PropertyBag |
+| Subscription_STATUS                                          | Subscription_STATUS                                          | Modified |              |
+| Subscription_Spec                                            | Subscription_Spec                                            | Modified |              |
+| SystemData_STATUS                                            | SystemData_STATUS                                            | Modified |              |
+| UserAssignedIdentityDetails                                  | UserAssignedIdentityDetails                                  | Extended | +PropertyBag |
+| UserIdentityProperties_STATUS                                | UserIdentityProperties_STATUS                                | Extended | +PropertyBag |
+| VirtualNetworkConfiguration                                  | VirtualNetworkConfiguration                                  | Extended | +PropertyBag |
+| VirtualNetworkConfiguration_STATUS                           | VirtualNetworkConfiguration_STATUS                           | Extended | +PropertyBag |
+| X509CertificateName                                          | X509CertificateName                                          | Extended | +PropertyBag |
+| X509CertificateName_STATUS                                   | X509CertificateName_STATUS                                   | Extended | +PropertyBag |
 
 ### AdditionalLocation
 
-6 x Identical, 1 x New, 1 x Modified
+Properties: 6 x Identical, 1 x New, 1 x Modified
 
 | v1api20220801               |                                     | v1api20220801/storage       |                                    |  Status   | Notes |
 |:----------------------------|:------------------------------------|:----------------------------|:-----------------------------------|:---------:|:------|
@@ -152,7 +145,7 @@
 
 ### AdditionalLocation_STATUS
 
-10 x Identical, 1 x New, 2 x Modified
+Properties: 10 x Identical, 1 x New, 2 x Modified
 
 | v1api20220801               |                                            | v1api20220801/storage       |                                           |  Status   | Notes |
 |:----------------------------|:-------------------------------------------|:----------------------------|:------------------------------------------|:---------:|:------|
@@ -172,7 +165,7 @@
 
 ### ApiContactInformation
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220801 |         | v1api20220801/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -183,7 +176,7 @@
 
 ### ApiContactInformation_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220801 |         | v1api20220801/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -194,7 +187,7 @@
 
 ### ApiCreateOrUpdateProperties_WsdlSelector
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220801    |         | v1api20220801/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -204,7 +197,7 @@
 
 ### ApiLicenseInformation
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220801 |         | v1api20220801/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -214,7 +207,7 @@
 
 ### ApiLicenseInformation_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220801 |         | v1api20220801/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -224,7 +217,7 @@
 
 ### ApiManagementServiceIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20220801          |                                    | v1api20220801/storage  |                               |  Status   | Notes |
 |:-----------------------|:-----------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -234,7 +227,7 @@
 
 ### ApiManagementServiceIdentity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20220801          |                                           | v1api20220801/storage  |                                          |  Status   | Notes |
 |:-----------------------|:------------------------------------------|:-----------------------|:-----------------------------------------|:---------:|:------|
@@ -246,7 +239,7 @@
 
 ### ApiManagementServiceSkuProperties
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20220801 |                                         | v1api20220801/storage |                        |  Status   | Notes |
 |:--------------|:----------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -256,7 +249,7 @@
 
 ### ApiManagementServiceSkuProperties_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20220801 |                                                | v1api20220801/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -266,7 +259,7 @@
 
 ### ApiOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220801        |                               | v1api20220801/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -276,7 +269,7 @@
 
 ### ApiVersionConstraint
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220801 |         | v1api20220801/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -285,7 +278,7 @@
 
 ### ApiVersionConstraint_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220801 |         | v1api20220801/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -294,7 +287,7 @@
 
 ### ApiVersionSetContractDetails
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20220801     |                                                | v1api20220801/storage |                               |  Status   | Notes |
 |:------------------|:-----------------------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -308,7 +301,7 @@
 
 ### ApiVersionSetContractDetails_STATUS
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20220801     |                                                       | v1api20220801/storage |                        |  Status   | Notes |
 |:------------------|:------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -322,7 +315,7 @@
 
 ### ApiVersionSetOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220801        |                               | v1api20220801/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -332,7 +325,7 @@
 
 ### ApiVersionSet_STATUS
 
-8 x Identical, 1 x New, 1 x Modified
+Properties: 8 x Identical, 1 x New, 1 x Modified
 
 | v1api20220801     |                                                          | v1api20220801/storage |                        |  Status   | Notes |
 |:------------------|:---------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -349,24 +342,24 @@
 
 ### ApiVersionSet_Spec
 
-3 x Identical, 2 x New, 5 x Modified
+Properties: 6 x Identical, 2 x New, 2 x Modified
 
 | v1api20220801     |                                                   | v1api20220801/storage |                                    |  Status   | Notes |
 |:------------------|:--------------------------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
 | AzureName         | Validated<string> (3 rules)                       | AzureName             | string                             | Modified  |       |
 | Description       | *string                                           | Description           | *string                            | Identical |       |
-| DisplayName       | Validated<*string> (2 rules)                      | DisplayName           | *string                            | Modified  |       |
+| DisplayName       | Validated<*string> (2 rules)                      | DisplayName           | *string                            | Identical |       |
 | OperatorSpec      | *ApiVersionSetOperatorSpec                        | OperatorSpec          | *ApiVersionSetOperatorSpec         | Identical |       |
 |                   |                                                   | OriginalVersion       | string                             |    New    |       |
 | Owner             | *genruntime.KnownResourceReference                | Owner                 | *genruntime.KnownResourceReference | Identical |       |
 |                   |                                                   | PropertyBag           | genruntime.PropertyBag             |    New    |       |
-| VersionHeaderName | Validated<*string> (2 rules)                      | VersionHeaderName     | *string                            | Modified  |       |
-| VersionQueryName  | Validated<*string> (2 rules)                      | VersionQueryName      | *string                            | Modified  |       |
+| VersionHeaderName | Validated<*string> (2 rules)                      | VersionHeaderName     | *string                            | Identical |       |
+| VersionQueryName  | Validated<*string> (2 rules)                      | VersionQueryName      | *string                            | Identical |       |
 | VersioningScheme  | *ApiVersionSetContractProperties_VersioningScheme | VersioningScheme      | *string                            | Modified  |       |
 
 ### Api_STATUS
 
-23 x Identical, 1 x New, 2 x Modified
+Properties: 23 x Identical, 1 x New, 2 x Modified
 
 | v1api20220801                 |                                               | v1api20220801/storage         |                                               |  Status   | Notes |
 |:------------------------------|:----------------------------------------------|:------------------------------|:----------------------------------------------|:---------:|:------|
@@ -399,32 +392,32 @@
 
 ### Api_Spec
 
-15 x Identical, 2 x New, 13 x Modified
+Properties: 22 x Identical, 2 x New, 6 x Modified
 
 | v1api20220801                    |                                                               | v1api20220801/storage            |                                           |  Status   | Notes |
 |:---------------------------------|:--------------------------------------------------------------|:---------------------------------|:------------------------------------------|:---------:|:------|
-| APIVersion                       | Validated<*string> (1 rule)                                   | APIVersion                       | *string                                   | Modified  |       |
-| ApiRevision                      | Validated<*string> (2 rules)                                  | ApiRevision                      | *string                                   | Modified  |       |
-| ApiRevisionDescription           | Validated<*string> (1 rule)                                   | ApiRevisionDescription           | *string                                   | Modified  |       |
+| APIVersion                       | Validated<*string> (1 rule)                                   | APIVersion                       | *string                                   | Identical |       |
+| ApiRevision                      | Validated<*string> (2 rules)                                  | ApiRevision                      | *string                                   | Identical |       |
+| ApiRevisionDescription           | Validated<*string> (1 rule)                                   | ApiRevisionDescription           | *string                                   | Identical |       |
 | ApiType                          | *ApiCreateOrUpdateProperties_ApiType                          | ApiType                          | *string                                   | Modified  |       |
-| ApiVersionDescription            | Validated<*string> (1 rule)                                   | ApiVersionDescription            | *string                                   | Modified  |       |
+| ApiVersionDescription            | Validated<*string> (1 rule)                                   | ApiVersionDescription            | *string                                   | Identical |       |
 | ApiVersionSet                    | *ApiVersionSetContractDetails                                 | ApiVersionSet                    | *ApiVersionSetContractDetails             | Identical |       |
 | ApiVersionSetReference           | *genruntime.ResourceReference                                 | ApiVersionSetReference           | *genruntime.ResourceReference             | Identical |       |
 | AuthenticationSettings           | *AuthenticationSettingsContract                               | AuthenticationSettings           | *AuthenticationSettingsContract           | Identical |       |
 | AzureName                        | Validated<string> (3 rules)                                   | AzureName                        | string                                    | Modified  |       |
 | Contact                          | *ApiContactInformation                                        | Contact                          | *ApiContactInformation                    | Identical |       |
 | Description                      | *string                                                       | Description                      | *string                                   | Identical |       |
-| DisplayName                      | Validated<*string> (2 rules)                                  | DisplayName                      | *string                                   | Modified  |       |
+| DisplayName                      | Validated<*string> (2 rules)                                  | DisplayName                      | *string                                   | Identical |       |
 | Format                           | *ApiCreateOrUpdateProperties_Format                           | Format                           | *string                                   | Modified  |       |
 | IsCurrent                        | *bool                                                         | IsCurrent                        | *bool                                     | Identical |       |
 | License                          | *ApiLicenseInformation                                        | License                          | *ApiLicenseInformation                    | Identical |       |
 | OperatorSpec                     | *ApiOperatorSpec                                              | OperatorSpec                     | *ApiOperatorSpec                          | Identical |       |
 |                                  |                                                               | OriginalVersion                  | string                                    |    New    |       |
 | Owner                            | *genruntime.KnownResourceReference                            | Owner                            | *genruntime.KnownResourceReference        | Identical |       |
-| Path                             | Validated<*string> (2 rules)                                  | Path                             | *string                                   | Modified  |       |
+| Path                             | Validated<*string> (2 rules)                                  | Path                             | *string                                   | Identical |       |
 |                                  |                                                               | PropertyBag                      | genruntime.PropertyBag                    |    New    |       |
 | Protocols                        | ApiCreateOrUpdateProperties_Protocols[]                       | Protocols                        | string[]                                  | Modified  |       |
-| ServiceUrl                       | Validated<*string> (2 rules)                                  | ServiceUrl                       | *string                                   | Modified  |       |
+| ServiceUrl                       | Validated<*string> (2 rules)                                  | ServiceUrl                       | *string                                   | Identical |       |
 | SourceApiReference               | *genruntime.ResourceReference                                 | SourceApiReference               | *genruntime.ResourceReference             | Identical |       |
 | SubscriptionKeyParameterNames    | *SubscriptionKeyParameterNamesContract                        | SubscriptionKeyParameterNames    | *SubscriptionKeyParameterNamesContract    | Identical |       |
 | SubscriptionRequired             | *bool                                                         | SubscriptionRequired             | *bool                                     | Identical |       |
@@ -436,7 +429,7 @@
 
 ### ArmIdWrapper_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220801 |         | v1api20220801/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -445,7 +438,7 @@
 
 ### AuthenticationSettingsContract
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20220801                |                                        | v1api20220801/storage        |                                        |  Status   | Notes |
 |:-----------------------------|:---------------------------------------|:-----------------------------|:---------------------------------------|:---------:|:------|
@@ -457,7 +450,7 @@
 
 ### AuthenticationSettingsContract_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20220801                |                                               | v1api20220801/storage        |                                               |  Status   | Notes |
 |:-----------------------------|:----------------------------------------------|:-----------------------------|:----------------------------------------------|:---------:|:------|
@@ -469,7 +462,7 @@
 
 ### AuthorizationError_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220801 |         | v1api20220801/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -479,7 +472,7 @@
 
 ### AuthorizationProviderOAuth2GrantTypes
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220801     |                                | v1api20220801/storage |                                |  Status   | Notes |
 |:------------------|:-------------------------------|:----------------------|:-------------------------------|:---------:|:------|
@@ -489,7 +482,7 @@
 
 ### AuthorizationProviderOAuth2GrantTypes_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220801     |                   | v1api20220801/storage |                        |  Status   | Notes |
 |:------------------|:------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -499,7 +492,7 @@
 
 ### AuthorizationProviderOAuth2Settings
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220801 |                                        | v1api20220801/storage |                                        |  Status   | Notes |
 |:--------------|:---------------------------------------|:----------------------|:---------------------------------------|:---------:|:------|
@@ -509,7 +502,7 @@
 
 ### AuthorizationProviderOAuth2Settings_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220801 |                                               | v1api20220801/storage |                                               |  Status   | Notes |
 |:--------------|:----------------------------------------------|:----------------------|:----------------------------------------------|:---------:|:------|
@@ -519,7 +512,7 @@
 
 ### AuthorizationProviderOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220801        |                               | v1api20220801/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -529,7 +522,7 @@
 
 ### AuthorizationProvider_STATUS
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v1api20220801    |                                             | v1api20220801/storage |                                             |  Status   | Notes |
 |:-----------------|:--------------------------------------------|:----------------------|:--------------------------------------------|:---------:|:------|
@@ -544,12 +537,12 @@
 
 ### AuthorizationProvider_Spec
 
-4 x Identical, 2 x New, 2 x Modified
+Properties: 5 x Identical, 2 x New, 1 x Modified
 
 | v1api20220801    |                                      | v1api20220801/storage |                                      |  Status   | Notes |
 |:-----------------|:-------------------------------------|:----------------------|:-------------------------------------|:---------:|:------|
 | AzureName        | Validated<string> (3 rules)          | AzureName             | string                               | Modified  |       |
-| DisplayName      | Validated<*string> (2 rules)         | DisplayName           | *string                              | Modified  |       |
+| DisplayName      | Validated<*string> (2 rules)         | DisplayName           | *string                              | Identical |       |
 | IdentityProvider | *string                              | IdentityProvider      | *string                              | Identical |       |
 | Oauth2           | *AuthorizationProviderOAuth2Settings | Oauth2                | *AuthorizationProviderOAuth2Settings | Identical |       |
 | OperatorSpec     | *AuthorizationProviderOperatorSpec   | OperatorSpec          | *AuthorizationProviderOperatorSpec   | Identical |       |
@@ -559,7 +552,7 @@
 
 ### AuthorizationProvidersAuthorizationOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220801        |                               | v1api20220801/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -569,7 +562,7 @@
 
 ### AuthorizationProvidersAuthorization_STATUS
 
-7 x Identical, 1 x New, 2 x Modified
+Properties: 7 x Identical, 1 x New, 2 x Modified
 
 | v1api20220801     |                                                           | v1api20220801/storage |                            |  Status   | Notes |
 |:------------------|:----------------------------------------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -586,7 +579,7 @@
 
 ### AuthorizationProvidersAuthorization_Spec
 
-3 x Identical, 2 x New, 3 x Modified
+Properties: 3 x Identical, 2 x New, 3 x Modified
 
 | v1api20220801     |                                                    | v1api20220801/storage |                                                  |  Status   | Notes |
 |:------------------|:---------------------------------------------------|:----------------------|:-------------------------------------------------|:---------:|:------|
@@ -601,7 +594,7 @@
 
 ### AuthorizationProvidersAuthorizationsAccessPolicyOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220801        |                               | v1api20220801/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -611,7 +604,7 @@
 
 ### AuthorizationProvidersAuthorizationsAccessPolicy_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20220801 |                        | v1api20220801/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -625,7 +618,7 @@
 
 ### AuthorizationProvidersAuthorizationsAccessPolicy_Spec
 
-6 x Identical, 2 x New, 1 x Modified
+Properties: 6 x Identical, 2 x New, 1 x Modified
 
 | v1api20220801      |                                                               | v1api20220801/storage |                                                               |  Status   | Notes |
 |:-------------------|:--------------------------------------------------------------|:----------------------|:--------------------------------------------------------------|:---------:|:------|
@@ -641,17 +634,17 @@
 
 ### BackendAuthorizationHeaderCredentials
 
-1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New
 
-| v1api20220801 |                              | v1api20220801/storage |                        |  Status  | Notes |
-|:--------------|:-----------------------------|:----------------------|:-----------------------|:--------:|:------|
-| Parameter     | Validated<*string> (2 rules) | Parameter             | *string                | Modified |       |
-|               |                              | PropertyBag           | genruntime.PropertyBag |   New    |       |
-| Scheme        | Validated<*string> (2 rules) | Scheme                | *string                | Modified |       |
+| v1api20220801 |                              | v1api20220801/storage |                        |  Status   | Notes |
+|:--------------|:-----------------------------|:----------------------|:-----------------------|:---------:|:------|
+| Parameter     | Validated<*string> (2 rules) | Parameter             | *string                | Identical |       |
+|               |                              | PropertyBag           | genruntime.PropertyBag |    New    |       |
+| Scheme        | Validated<*string> (2 rules) | Scheme                | *string                | Identical |       |
 
 ### BackendAuthorizationHeaderCredentials_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220801 |         | v1api20220801/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -661,7 +654,7 @@
 
 ### BackendCredentialsContract
 
-3 x Identical, 1 x New, 2 x Modified
+Properties: 3 x Identical, 1 x New, 2 x Modified
 
 | v1api20220801  |                                        | v1api20220801/storage |                                        |  Status   | Notes |
 |:---------------|:---------------------------------------|:----------------------|:---------------------------------------|:---------:|:------|
@@ -674,7 +667,7 @@
 
 ### BackendCredentialsContract_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20220801  |                                               | v1api20220801/storage |                                               |  Status   | Notes |
 |:---------------|:----------------------------------------------|:----------------------|:----------------------------------------------|:---------:|:------|
@@ -687,7 +680,7 @@
 
 ### BackendOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220801        |                               | v1api20220801/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -697,7 +690,7 @@
 
 ### BackendProperties
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220801        |                                        | v1api20220801/storage |                                        |  Status   | Notes |
 |:---------------------|:---------------------------------------|:----------------------|:---------------------------------------|:---------:|:------|
@@ -706,7 +699,7 @@
 
 ### BackendProperties_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220801        |                                               | v1api20220801/storage |                                               |  Status   | Notes |
 |:---------------------|:----------------------------------------------|:----------------------|:----------------------------------------------|:---------:|:------|
@@ -715,18 +708,18 @@
 
 ### BackendProxyContract
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New
 
 | v1api20220801 |                              | v1api20220801/storage |                             |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:----------------------------|:---------:|:------|
 | Password      | *genruntime.SecretReference  | Password              | *genruntime.SecretReference | Identical |       |
 |               |                              | PropertyBag           | genruntime.PropertyBag      |    New    |       |
-| Url           | Validated<*string> (2 rules) | Url                   | *string                     | Modified  |       |
+| Url           | Validated<*string> (2 rules) | Url                   | *string                     | Identical |       |
 | Username      | *string                      | Username              | *string                     | Identical |       |
 
 ### BackendProxyContract_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220801 |         | v1api20220801/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -736,7 +729,7 @@
 
 ### BackendServiceFabricClusterProperties
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20220801                 |                       | v1api20220801/storage         |                        |  Status   | Notes |
 |:------------------------------|:----------------------|:------------------------------|:-----------------------|:---------:|:------|
@@ -750,7 +743,7 @@
 
 ### BackendServiceFabricClusterProperties_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20220801                 |                              | v1api20220801/storage         |                              |  Status   | Notes |
 |:------------------------------|:-----------------------------|:------------------------------|:-----------------------------|:---------:|:------|
@@ -764,7 +757,7 @@
 
 ### BackendTlsProperties
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220801            |       | v1api20220801/storage    |                        |  Status   | Notes |
 |:-------------------------|:------|:-------------------------|:-----------------------|:---------:|:------|
@@ -774,7 +767,7 @@
 
 ### BackendTlsProperties_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220801            |       | v1api20220801/storage    |                        |  Status   | Notes |
 |:-------------------------|:------|:-------------------------|:-----------------------|:---------:|:------|
@@ -784,7 +777,7 @@
 
 ### Backend_STATUS
 
-12 x Identical, 1 x New, 1 x Modified
+Properties: 12 x Identical, 1 x New, 1 x Modified
 
 | v1api20220801 |                                            | v1api20220801/storage |                                    |  Status   | Notes |
 |:--------------|:-------------------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -805,13 +798,13 @@
 
 ### Backend_Spec
 
-7 x Identical, 2 x New, 5 x Modified
+Properties: 10 x Identical, 2 x New, 2 x Modified
 
 | v1api20220801     |                                     | v1api20220801/storage |                                    |  Status   | Notes |
 |:------------------|:------------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
 | AzureName         | Validated<string> (2 rules)         | AzureName             | string                             | Modified  |       |
 | Credentials       | *BackendCredentialsContract         | Credentials           | *BackendCredentialsContract        | Identical |       |
-| Description       | Validated<*string> (2 rules)        | Description           | *string                            | Modified  |       |
+| Description       | Validated<*string> (2 rules)        | Description           | *string                            | Identical |       |
 | OperatorSpec      | *BackendOperatorSpec                | OperatorSpec          | *BackendOperatorSpec               | Identical |       |
 |                   |                                     | OriginalVersion       | string                             |    New    |       |
 | Owner             | *genruntime.KnownResourceReference  | Owner                 | *genruntime.KnownResourceReference | Identical |       |
@@ -820,13 +813,13 @@
 | Protocol          | *BackendContractProperties_Protocol | Protocol              | *string                            | Modified  |       |
 | Proxy             | *BackendProxyContract               | Proxy                 | *BackendProxyContract              | Identical |       |
 | ResourceReference | *genruntime.ResourceReference       | ResourceReference     | *genruntime.ResourceReference      | Identical |       |
-| Title             | Validated<*string> (2 rules)        | Title                 | *string                            | Modified  |       |
+| Title             | Validated<*string> (2 rules)        | Title                 | *string                            | Identical |       |
 | Tls               | *BackendTlsProperties               | Tls                   | *BackendTlsProperties              | Identical |       |
-| Url               | Validated<*string> (2 rules)        | Url                   | *string                            | Modified  |       |
+| Url               | Validated<*string> (2 rules)        | Url                   | *string                            | Identical |       |
 
 ### CertificateConfiguration
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20220801       |                                     | v1api20220801/storage |                             |  Status   | Notes |
 |:--------------------|:------------------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -838,7 +831,7 @@
 
 ### CertificateConfiguration_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20220801      |                                            | v1api20220801/storage |                                |  Status   | Notes |
 |:-------------------|:-------------------------------------------|:----------------------|:-------------------------------|:---------:|:------|
@@ -849,7 +842,7 @@
 
 ### CertificateInformation
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20220801        |                                | v1api20220801/storage |                                |  Status   | Notes |
 |:---------------------|:-------------------------------|:----------------------|:-------------------------------|:---------:|:------|
@@ -863,7 +856,7 @@
 
 ### CertificateInformation_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220801 |         | v1api20220801/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -874,7 +867,7 @@
 
 ### HostnameConfiguration
 
-9 x Identical, 1 x New, 3 x Modified
+Properties: 9 x Identical, 1 x New, 3 x Modified
 
 | v1api20220801              |                                          | v1api20220801/storage      |                                |  Status   | Notes |
 |:---------------------------|:-----------------------------------------|:---------------------------|:-------------------------------|:---------:|:------|
@@ -894,7 +887,7 @@
 
 ### HostnameConfiguration_STATUS
 
-7 x Identical, 1 x New, 3 x Modified
+Properties: 7 x Identical, 1 x New, 3 x Modified
 
 | v1api20220801              |                                                 | v1api20220801/storage      |                                |  Status   | Notes |
 |:---------------------------|:------------------------------------------------|:---------------------------|:-------------------------------|:---------:|:------|
@@ -912,7 +905,7 @@
 
 ### KeyVaultContractCreateProperties
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220801              |                                | v1api20220801/storage      |                                |  Status   | Notes |
 |:---------------------------|:-------------------------------|:---------------------------|:-------------------------------|:---------:|:------|
@@ -923,7 +916,7 @@
 
 ### KeyVaultContractProperties_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220801    |                                                    | v1api20220801/storage |                                                    |  Status   | Notes |
 |:-----------------|:---------------------------------------------------|:----------------------|:---------------------------------------------------|:---------:|:------|
@@ -934,7 +927,7 @@
 
 ### KeyVaultLastAccessStatusContractProperties_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220801 |         | v1api20220801/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -945,7 +938,7 @@
 
 ### NamedValueOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220801        |                               | v1api20220801/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -955,7 +948,7 @@
 
 ### NamedValue_STATUS
 
-9 x Identical, 1 x New
+Properties: 9 x Identical, 1 x New
 
 | v1api20220801 |                                    | v1api20220801/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -972,12 +965,12 @@
 
 ### NamedValue_Spec
 
-4 x Identical, 2 x New, 4 x Modified
+Properties: 6 x Identical, 2 x New, 2 x Modified
 
 | v1api20220801 |                                    | v1api20220801/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
 | AzureName     | Validated<string> (2 rules)        | AzureName             | string                             | Modified  |       |
-| DisplayName   | Validated<*string> (3 rules)       | DisplayName           | *string                            | Modified  |       |
+| DisplayName   | Validated<*string> (3 rules)       | DisplayName           | *string                            | Identical |       |
 | KeyVault      | *KeyVaultContractCreateProperties  | KeyVault              | *KeyVaultContractCreateProperties  | Identical |       |
 | OperatorSpec  | *NamedValueOperatorSpec            | OperatorSpec          | *NamedValueOperatorSpec            | Identical |       |
 |               |                                    | OriginalVersion       | string                             |    New    |       |
@@ -985,11 +978,11 @@
 |               |                                    | PropertyBag           | genruntime.PropertyBag             |    New    |       |
 | Secret        | *bool                              | Secret                | *bool                              | Identical |       |
 | Tags          | Validated<string[]> (1 rule)       | Tags                  | string[]                           | Modified  |       |
-| Value         | Validated<*string> (1 rule)        | Value                 | *string                            | Modified  |       |
+| Value         | Validated<*string> (1 rule)        | Value                 | *string                            | Identical |       |
 
 ### OAuth2AuthenticationSettingsContract
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220801         |         | v1api20220801/storage |                        |  Status   | Notes |
 |:----------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -999,7 +992,7 @@
 
 ### OAuth2AuthenticationSettingsContract_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220801         |         | v1api20220801/storage |                        |  Status   | Notes |
 |:----------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1009,7 +1002,7 @@
 
 ### OpenIdAuthenticationSettingsContract
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20220801             |                                     | v1api20220801/storage     |                        |  Status   | Notes |
 |:--------------------------|:------------------------------------|:--------------------------|:-----------------------|:---------:|:------|
@@ -1019,7 +1012,7 @@
 
 ### OpenIdAuthenticationSettingsContract_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20220801             |                                            | v1api20220801/storage     |                        |  Status   | Notes |
 |:--------------------------|:-------------------------------------------|:--------------------------|:-----------------------|:---------:|:------|
@@ -1029,7 +1022,7 @@
 
 ### PolicyFragmentOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220801        |                               | v1api20220801/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1039,7 +1032,7 @@
 
 ### PolicyFragment_STATUS
 
-6 x Identical, 1 x New, 1 x Modified
+Properties: 6 x Identical, 1 x New, 1 x Modified
 
 | v1api20220801 |                                                 | v1api20220801/storage |                        |  Status   | Notes |
 |:--------------|:------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1054,12 +1047,12 @@
 
 ### PolicyFragment_Spec
 
-3 x Identical, 2 x New, 3 x Modified
+Properties: 4 x Identical, 2 x New, 2 x Modified
 
 | v1api20220801 |                                          | v1api20220801/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
 | AzureName     | Validated<string> (3 rules)              | AzureName             | string                             | Modified  |       |
-| Description   | Validated<*string> (2 rules)             | Description           | *string                            | Modified  |       |
+| Description   | Validated<*string> (2 rules)             | Description           | *string                            | Identical |       |
 | Format        | *PolicyFragmentContractProperties_Format | Format                | *string                            | Modified  |       |
 | OperatorSpec  | *PolicyFragmentOperatorSpec              | OperatorSpec          | *PolicyFragmentOperatorSpec        | Identical |       |
 |               |                                          | OriginalVersion       | string                             |    New    |       |
@@ -1069,7 +1062,7 @@
 
 ### PolicyOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220801        |                               | v1api20220801/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1079,7 +1072,7 @@
 
 ### Policy_STATUS
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20220801 |                                         | v1api20220801/storage |                        |  Status   | Notes |
 |:--------------|:----------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1093,7 +1086,7 @@
 
 ### Policy_Spec
 
-3 x Identical, 2 x New, 1 x Modified
+Properties: 3 x Identical, 2 x New, 1 x Modified
 
 | v1api20220801 |                                    | v1api20220801/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -1106,7 +1099,7 @@
 
 ### PrivateLinkServiceConnectionState_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20220801   |                                                | v1api20220801/storage |                        |  Status   | Notes |
 |:----------------|:-----------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1117,7 +1110,7 @@
 
 ### ProductApiOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220801        |                               | v1api20220801/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1127,7 +1120,7 @@
 
 ### ProductApi_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220801 |                        | v1api20220801/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1136,7 +1129,7 @@
 
 ### ProductApi_Spec
 
-2 x Identical, 2 x New, 1 x Modified
+Properties: 2 x Identical, 2 x New, 1 x Modified
 
 | v1api20220801 |                                    | v1api20220801/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -1148,7 +1141,7 @@
 
 ### ProductOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220801        |                               | v1api20220801/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1158,7 +1151,7 @@
 
 ### ProductPolicyOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220801        |                               | v1api20220801/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1168,7 +1161,7 @@
 
 ### ProductPolicy_STATUS
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20220801 |                                         | v1api20220801/storage |                        |  Status   | Notes |
 |:--------------|:----------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1182,7 +1175,7 @@
 
 ### ProductPolicy_Spec
 
-3 x Identical, 2 x New, 1 x Modified
+Properties: 3 x Identical, 2 x New, 1 x Modified
 
 | v1api20220801 |                                    | v1api20220801/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -1195,7 +1188,7 @@
 
 ### Product_STATUS
 
-10 x Identical, 1 x New, 1 x Modified
+Properties: 10 x Identical, 1 x New, 1 x Modified
 
 | v1api20220801        |                                         | v1api20220801/storage |                        |  Status   | Notes |
 |:---------------------|:----------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1214,14 +1207,14 @@
 
 ### Product_Spec
 
-6 x Identical, 2 x New, 4 x Modified
+Properties: 8 x Identical, 2 x New, 2 x Modified
 
 | v1api20220801        |                                    | v1api20220801/storage |                                    |  Status   | Notes |
 |:---------------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
 | ApprovalRequired     | *bool                              | ApprovalRequired      | *bool                              | Identical |       |
 | AzureName            | Validated<string> (2 rules)        | AzureName             | string                             | Modified  |       |
-| Description          | Validated<*string> (2 rules)       | Description           | *string                            | Modified  |       |
-| DisplayName          | Validated<*string> (2 rules)       | DisplayName           | *string                            | Modified  |       |
+| Description          | Validated<*string> (2 rules)       | Description           | *string                            | Identical |       |
+| DisplayName          | Validated<*string> (2 rules)       | DisplayName           | *string                            | Identical |       |
 | OperatorSpec         | *ProductOperatorSpec               | OperatorSpec          | *ProductOperatorSpec               | Identical |       |
 |                      |                                    | OriginalVersion       | string                             |    New    |       |
 | Owner                | *genruntime.KnownResourceReference | Owner                 | *genruntime.KnownResourceReference | Identical |       |
@@ -1233,7 +1226,7 @@
 
 ### RemotePrivateEndpointConnectionWrapper_STATUS
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v1api20220801                     |                                           | v1api20220801/storage             |                                           |  Status   | Notes |
 |:----------------------------------|:------------------------------------------|:----------------------------------|:------------------------------------------|:---------:|:------|
@@ -1248,7 +1241,7 @@
 
 ### ServiceOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220801        |                               | v1api20220801/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1258,7 +1251,7 @@
 
 ### Service_STATUS
 
-37 x Identical, 1 x New, 4 x Modified
+Properties: 37 x Identical, 1 x New, 4 x Modified
 
 | v1api20220801               |                                                            | v1api20220801/storage       |                                                 |  Status   | Notes |
 |:----------------------------|:-----------------------------------------------------------|:----------------------------|:------------------------------------------------|:---------:|:------|
@@ -1307,7 +1300,7 @@
 
 ### Service_Spec
 
-17 x Identical, 2 x New, 7 x Modified
+Properties: 20 x Identical, 2 x New, 4 x Modified
 
 | v1api20220801               |                                                     | v1api20220801/storage       |                                    |  Status   | Notes |
 |:----------------------------|:----------------------------------------------------|:----------------------------|:-----------------------------------|:---------:|:------|
@@ -1322,15 +1315,15 @@
 | Identity                    | *ApiManagementServiceIdentity                       | Identity                    | *ApiManagementServiceIdentity      | Identical |       |
 | Location                    | *string                                             | Location                    | *string                            | Identical |       |
 | NatGatewayState             | *ApiManagementServiceProperties_NatGatewayState     | NatGatewayState             | *string                            | Modified  |       |
-| NotificationSenderEmail     | Validated<*string> (1 rule)                         | NotificationSenderEmail     | *string                            | Modified  |       |
+| NotificationSenderEmail     | Validated<*string> (1 rule)                         | NotificationSenderEmail     | *string                            | Identical |       |
 | OperatorSpec                | *ServiceOperatorSpec                                | OperatorSpec                | *ServiceOperatorSpec               | Identical |       |
 |                             |                                                     | OriginalVersion             | string                             |    New    |       |
 | Owner                       | *genruntime.KnownResourceReference                  | Owner                       | *genruntime.KnownResourceReference | Identical |       |
 |                             |                                                     | PropertyBag                 | genruntime.PropertyBag             |    New    |       |
 | PublicIpAddressReference    | *genruntime.ResourceReference                       | PublicIpAddressReference    | *genruntime.ResourceReference      | Identical |       |
 | PublicNetworkAccess         | *ApiManagementServiceProperties_PublicNetworkAccess | PublicNetworkAccess         | *string                            | Modified  |       |
-| PublisherEmail              | Validated<*string> (1 rule)                         | PublisherEmail              | *string                            | Modified  |       |
-| PublisherName               | Validated<*string> (1 rule)                         | PublisherName               | *string                            | Modified  |       |
+| PublisherEmail              | Validated<*string> (1 rule)                         | PublisherEmail              | *string                            | Identical |       |
+| PublisherName               | Validated<*string> (1 rule)                         | PublisherName               | *string                            | Identical |       |
 | Restore                     | *bool                                               | Restore                     | *bool                              | Identical |       |
 | Sku                         | *ApiManagementServiceSkuProperties                  | Sku                         | *ApiManagementServiceSkuProperties | Identical |       |
 | Tags                        | map[string]string                                   | Tags                        | map[string]string                  | Identical |       |
@@ -1340,7 +1333,7 @@
 
 ### SubscriptionKeyParameterNamesContract
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220801 |         | v1api20220801/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1350,7 +1343,7 @@
 
 ### SubscriptionKeyParameterNamesContract_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220801 |         | v1api20220801/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1360,7 +1353,7 @@
 
 ### SubscriptionOperatorSecrets
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220801 |                               | v1api20220801/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1370,7 +1363,7 @@
 
 ### SubscriptionOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220801        |                               | v1api20220801/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1381,7 +1374,7 @@
 
 ### Subscription_STATUS
 
-14 x Identical, 1 x New, 1 x Modified
+Properties: 14 x Identical, 1 x New, 1 x Modified
 
 | v1api20220801    |                                              | v1api20220801/storage |                        |  Status   | Notes |
 |:-----------------|:---------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1404,13 +1397,13 @@
 
 ### Subscription_Spec
 
-7 x Identical, 2 x New, 3 x Modified
+Properties: 8 x Identical, 2 x New, 2 x Modified
 
 | v1api20220801  |                                              | v1api20220801/storage |                                    |  Status   | Notes |
 |:---------------|:---------------------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
 | AllowTracing   | *bool                                        | AllowTracing          | *bool                              | Identical |       |
 | AzureName      | Validated<string> (2 rules)                  | AzureName             | string                             | Modified  |       |
-| DisplayName    | Validated<*string> (2 rules)                 | DisplayName           | *string                            | Modified  |       |
+| DisplayName    | Validated<*string> (2 rules)                 | DisplayName           | *string                            | Identical |       |
 | OperatorSpec   | *SubscriptionOperatorSpec                    | OperatorSpec          | *SubscriptionOperatorSpec          | Identical |       |
 |                |                                              | OriginalVersion       | string                             |    New    |       |
 | Owner          | *genruntime.KnownResourceReference           | Owner                 | *genruntime.KnownResourceReference | Identical |       |
@@ -1423,7 +1416,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20220801      |                                       | v1api20220801/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1437,7 +1430,7 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220801 |                              | v1api20220801/storage |                              |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -1446,7 +1439,7 @@
 
 ### UserIdentityProperties_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220801 |         | v1api20220801/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1456,7 +1449,7 @@
 
 ### VirtualNetworkConfiguration
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220801           |                               | v1api20220801/storage   |                               |  Status   | Notes |
 |:------------------------|:------------------------------|:------------------------|:------------------------------|:---------:|:------|
@@ -1465,7 +1458,7 @@
 
 ### VirtualNetworkConfiguration_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220801    |         | v1api20220801/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1476,7 +1469,7 @@
 
 ### X509CertificateName
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220801               |         | v1api20220801/storage       |                        |  Status   | Notes |
 |:----------------------------|:--------|:----------------------------|:-----------------------|:---------:|:------|
@@ -1486,10 +1479,19 @@
 
 ### X509CertificateName_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220801               |         | v1api20220801/storage       |                        |  Status   | Notes |
 |:----------------------------|:--------|:----------------------------|:-----------------------|:---------:|:------|
 | IssuerCertificateThumbprint | *string | IssuerCertificateThumbprint | *string                | Identical |       |
 | Name                        | *string | Name                        | *string                | Identical |       |
 |                             |         | PropertyBag                 | genruntime.PropertyBag |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

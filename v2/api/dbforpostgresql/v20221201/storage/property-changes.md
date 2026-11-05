@@ -9,61 +9,54 @@
 | FlexibleServersDatabase      | FlexibleServersDatabase      | Identical |       |
 | FlexibleServersFirewallRule  | FlexibleServersFirewallRule  | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20221201/storage                        | v20240801/storage                        |  Status   | Notes |
-|:-----------------------------------------|:-----------------------------------------|:---------:|:------|
-| AuthConfig                               | AuthConfig                               | Identical |       |
-| AuthConfig_STATUS                        | AuthConfig_STATUS                        | Identical |       |
-| Backup                                   | Backup                                   | Identical |       |
-| Backup_STATUS                            | Backup_STATUS                            | Identical |       |
-| DataEncryption                           | DataEncryption                           | Extended  |       |
-| DataEncryption_STATUS                    | DataEncryption_STATUS                    | Extended  |       |
-| FlexibleServerOperatorConfigMaps         | FlexibleServerOperatorConfigMaps         | Identical |       |
-| FlexibleServerOperatorSecrets            | FlexibleServerOperatorSecrets            | Identical |       |
-| FlexibleServerOperatorSpec               | FlexibleServerOperatorSpec               | Identical |       |
-| FlexibleServer_STATUS                    | FlexibleServer_STATUS                    | Extended  |       |
-| FlexibleServer_Spec                      | FlexibleServer_Spec                      | Extended  |       |
-| FlexibleServersConfigurationOperatorSpec | FlexibleServersConfigurationOperatorSpec | Identical |       |
-| FlexibleServersConfiguration_STATUS      | FlexibleServersConfiguration_STATUS      | Identical |       |
-| FlexibleServersConfiguration_Spec        | FlexibleServersConfiguration_Spec        | Identical |       |
-| FlexibleServersDatabaseOperatorSpec      | FlexibleServersDatabaseOperatorSpec      | Identical |       |
-| FlexibleServersDatabase_STATUS           | FlexibleServersDatabase_STATUS           | Identical |       |
-| FlexibleServersDatabase_Spec             | FlexibleServersDatabase_Spec             | Identical |       |
-| FlexibleServersFirewallRuleOperatorSpec  | FlexibleServersFirewallRuleOperatorSpec  | Identical |       |
-| FlexibleServersFirewallRule_STATUS       | FlexibleServersFirewallRule_STATUS       | Identical |       |
-| FlexibleServersFirewallRule_Spec         | FlexibleServersFirewallRule_Spec         | Identical |       |
-| HighAvailability                         | HighAvailability                         | Identical |       |
-| HighAvailability_STATUS                  | HighAvailability_STATUS                  | Identical |       |
-| MaintenanceWindow                        | MaintenanceWindow                        | Identical |       |
-| MaintenanceWindow_STATUS                 | MaintenanceWindow_STATUS                 | Identical |       |
-| Network                                  | Network                                  | Extended  |       |
-| Network_STATUS                           | Network_STATUS                           | Identical |       |
-|                                          | PrivateEndpointConnection_STATUS         |    New    |       |
-|                                          | Replica                                  |    New    |       |
-|                                          | Replica_STATUS                           |    New    |       |
-| Sku                                      | Sku                                      | Identical |       |
-| Sku_STATUS                               | Sku_STATUS                               | Identical |       |
-| Storage                                  | Storage                                  | Extended  |       |
-| Storage_STATUS                           | Storage_STATUS                           | Extended  |       |
-| SystemData_STATUS                        | SystemData_STATUS                        | Identical |       |
-| UserAssignedIdentity                     | UserAssignedIdentity                     | Extended  |       |
-| UserAssignedIdentityDetails              | UserAssignedIdentityDetails              | Identical |       |
-| UserAssignedIdentity_STATUS              | UserAssignedIdentity_STATUS              | Extended  |       |
-| UserIdentity_STATUS                      | UserIdentity_STATUS                      | Identical |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20221201/storage                        | v20240801/storage                        |  Status   | Notes                                                                                                                                         |
+|:-----------------------------------------|:-----------------------------------------|:---------:|:----------------------------------------------------------------------------------------------------------------------------------------------|
+| AuthConfig                               | AuthConfig                               | Identical |                                                                                                                                               |
+| AuthConfig_STATUS                        | AuthConfig_STATUS                        | Identical |                                                                                                                                               |
+| Backup                                   | Backup                                   | Identical |                                                                                                                                               |
+| Backup_STATUS                            | Backup_STATUS                            | Identical |                                                                                                                                               |
+| DataEncryption                           | DataEncryption                           | Extended  | +GeoBackupEncryptionKeyStatus +GeoBackupKeyURI +GeoBackupKeyURIFromConfig +GeoBackupUserAssignedIdentityReference +PrimaryEncryptionKeyStatus |
+| DataEncryption_STATUS                    | DataEncryption_STATUS                    | Extended  | +GeoBackupEncryptionKeyStatus +GeoBackupKeyURI +GeoBackupUserAssignedIdentityId +PrimaryEncryptionKeyStatus                                   |
+| FlexibleServerOperatorConfigMaps         | FlexibleServerOperatorConfigMaps         | Identical |                                                                                                                                               |
+| FlexibleServerOperatorSecrets            | FlexibleServerOperatorSecrets            | Identical |                                                                                                                                               |
+| FlexibleServerOperatorSpec               | FlexibleServerOperatorSpec               | Identical |                                                                                                                                               |
+| FlexibleServer_STATUS                    | FlexibleServer_STATUS                    | Extended  | +PrivateEndpointConnections +Replica                                                                                                          |
+| FlexibleServer_Spec                      | FlexibleServer_Spec                      | Extended  | +Replica                                                                                                                                      |
+| FlexibleServersConfigurationOperatorSpec | FlexibleServersConfigurationOperatorSpec | Identical |                                                                                                                                               |
+| FlexibleServersConfiguration_STATUS      | FlexibleServersConfiguration_STATUS      | Identical |                                                                                                                                               |
+| FlexibleServersConfiguration_Spec        | FlexibleServersConfiguration_Spec        | Identical |                                                                                                                                               |
+| FlexibleServersDatabaseOperatorSpec      | FlexibleServersDatabaseOperatorSpec      | Identical |                                                                                                                                               |
+| FlexibleServersDatabase_STATUS           | FlexibleServersDatabase_STATUS           | Identical |                                                                                                                                               |
+| FlexibleServersDatabase_Spec             | FlexibleServersDatabase_Spec             | Identical |                                                                                                                                               |
+| FlexibleServersFirewallRuleOperatorSpec  | FlexibleServersFirewallRuleOperatorSpec  | Identical |                                                                                                                                               |
+| FlexibleServersFirewallRule_STATUS       | FlexibleServersFirewallRule_STATUS       | Identical |                                                                                                                                               |
+| FlexibleServersFirewallRule_Spec         | FlexibleServersFirewallRule_Spec         | Identical |                                                                                                                                               |
+| HighAvailability                         | HighAvailability                         | Identical |                                                                                                                                               |
+| HighAvailability_STATUS                  | HighAvailability_STATUS                  | Identical |                                                                                                                                               |
+| MaintenanceWindow                        | MaintenanceWindow                        | Identical |                                                                                                                                               |
+| MaintenanceWindow_STATUS                 | MaintenanceWindow_STATUS                 | Identical |                                                                                                                                               |
+| Network                                  | Network                                  | Extended  | +PublicNetworkAccess                                                                                                                          |
+| Network_STATUS                           | Network_STATUS                           | Identical |                                                                                                                                               |
+|                                          | PrivateEndpointConnection_STATUS         |    New    |                                                                                                                                               |
+|                                          | Replica                                  |    New    |                                                                                                                                               |
+|                                          | Replica_STATUS                           |    New    |                                                                                                                                               |
+| Sku                                      | Sku                                      | Identical |                                                                                                                                               |
+| Sku_STATUS                               | Sku_STATUS                               | Identical |                                                                                                                                               |
+| Storage                                  | Storage                                  | Extended  | +AutoGrow +Iops +Throughput +Tier +Type                                                                                                       |
+| Storage_STATUS                           | Storage_STATUS                           | Extended  | +AutoGrow +Iops +Throughput +Tier +Type                                                                                                       |
+| SystemData_STATUS                        | SystemData_STATUS                        | Identical |                                                                                                                                               |
+| UserAssignedIdentity                     | UserAssignedIdentity                     | Extended  | +PrincipalId                                                                                                                                  |
+| UserAssignedIdentityDetails              | UserAssignedIdentityDetails              | Identical |                                                                                                                                               |
+| UserAssignedIdentity_STATUS              | UserAssignedIdentity_STATUS              | Extended  | +PrincipalId                                                                                                                                  |
+| UserIdentity_STATUS                      | UserIdentity_STATUS                      | Identical |                                                                                                                                               |
 
 ### DataEncryption
 
-5 x Identical, 5 x New
+Properties: 5 x Identical, 5 x New
 
 | v20221201/storage                    |                                | v20240801/storage                      |                                |  Status   | Notes |
 |:-------------------------------------|:-------------------------------|:---------------------------------------|:-------------------------------|:---------:|:------|
@@ -80,7 +73,7 @@
 
 ### DataEncryption_STATUS
 
-4 x Identical, 4 x New
+Properties: 4 x Identical, 4 x New
 
 | v20221201/storage             |                        | v20240801/storage               |                        |  Status   | Notes |
 |:------------------------------|:-----------------------|:--------------------------------|:-----------------------|:---------:|:------|
@@ -95,7 +88,7 @@
 
 ### FlexibleServer_STATUS
 
-28 x Identical, 2 x New
+Properties: 28 x Identical, 2 x New
 
 | v20221201/storage        |                              | v20240801/storage          |                                    |  Status   | Notes |
 |:-------------------------|:-----------------------------|:---------------------------|:-----------------------------------|:---------:|:------|
@@ -132,7 +125,7 @@
 
 ### FlexibleServer_Spec
 
-24 x Identical, 1 x New
+Properties: 24 x Identical, 1 x New
 
 | v20221201/storage             |                                    | v20240801/storage             |                                    |  Status   | Notes |
 |:------------------------------|:-----------------------------------|:------------------------------|:-----------------------------------|:---------:|:------|
@@ -164,7 +157,7 @@
 
 ### Network
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20221201/storage                  |                               | v20240801/storage                  |                               |  Status   | Notes |
 |:-----------------------------------|:------------------------------|:-----------------------------------|:------------------------------|:---------:|:------|
@@ -175,7 +168,7 @@
 
 ### Storage
 
-2 x Identical, 5 x New
+Properties: 2 x Identical, 5 x New
 
 | v20221201/storage |                        | v20240801/storage |                        |  Status   | Notes |
 |:------------------|:-----------------------|:------------------|:-----------------------|:---------:|:------|
@@ -189,7 +182,7 @@
 
 ### Storage_STATUS
 
-2 x Identical, 5 x New
+Properties: 2 x Identical, 5 x New
 
 | v20221201/storage |                        | v20240801/storage |                        |  Status   | Notes |
 |:------------------|:-----------------------|:------------------|:-----------------------|:---------:|:------|
@@ -203,7 +196,7 @@
 
 ### UserAssignedIdentity
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20221201/storage      |                               | v20240801/storage      |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -214,7 +207,7 @@
 
 ### UserAssignedIdentity_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20221201/storage      |                                | v20240801/storage      |                                |  Status   | Notes |
 |:-----------------------|:-------------------------------|:-----------------------|:-------------------------------|:---------:|:------|
@@ -223,3 +216,12 @@
 | TenantId               | *string                        | TenantId               | *string                        | Identical |       |
 | Type                   | *string                        | Type                   | *string                        | Identical |       |
 | UserAssignedIdentities | map[string]UserIdentity_STATUS | UserAssignedIdentities | map[string]UserIdentity_STATUS | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

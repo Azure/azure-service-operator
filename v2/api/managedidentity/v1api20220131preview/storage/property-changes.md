@@ -6,27 +6,20 @@
 |:-----------------------------|:----------------------------|:---------:|:------|
 | FederatedIdentityCredential  | FederatedIdentityCredential | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20220131preview/storage            | v1api20230131/storage                   |  Status   | Notes |
-|:----------------------------------------|:----------------------------------------|:---------:|:------|
-| FederatedIdentityCredentialOperatorSpec | FederatedIdentityCredentialOperatorSpec | Identical |       |
-| FederatedIdentityCredential_STATUS      | FederatedIdentityCredential_STATUS      | Extended  |       |
-| FederatedIdentityCredential_Spec        | FederatedIdentityCredential_Spec        | Identical |       |
-|                                         | SystemData_STATUS                       |    New    |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20220131preview/storage            | v1api20230131/storage                   |  Status   | Notes       |
+|:----------------------------------------|:----------------------------------------|:---------:|:------------|
+| FederatedIdentityCredentialOperatorSpec | FederatedIdentityCredentialOperatorSpec | Identical |             |
+| FederatedIdentityCredential_STATUS      | FederatedIdentityCredential_STATUS      | Extended  | +SystemData |
+| FederatedIdentityCredential_Spec        | FederatedIdentityCredential_Spec        | Identical |             |
+|                                         | SystemData_STATUS                       |    New    |             |
 
 ### FederatedIdentityCredential_STATUS
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v1api20220131preview/storage |                        | v1api20230131/storage |                        |  Status   | Notes |
 |:-----------------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -39,3 +32,12 @@
 | Subject                      | *string                | Subject               | *string                | Identical |       |
 |                              |                        | SystemData            | *SystemData_STATUS     |    New    |       |
 | Type                         | *string                | Type                  | *string                | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

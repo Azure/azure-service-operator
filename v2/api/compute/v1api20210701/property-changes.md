@@ -6,36 +6,29 @@
 |:--------------|:----------------------|:---------:|:------|
 | Image         | Image                 | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20210701              | v1api20210701/storage      |  Status  | Notes |
-|:---------------------------|:---------------------------|:--------:|:------|
-| ExtendedLocation           | ExtendedLocation           | Modified |       |
-| ExtendedLocation_STATUS    | ExtendedLocation_STATUS    | Modified |       |
-| ImageDataDisk              | ImageDataDisk              | Modified |       |
-| ImageDataDisk_STATUS       | ImageDataDisk_STATUS       | Modified |       |
-| ImageOSDisk                | ImageOSDisk                | Modified |       |
-| ImageOSDisk_STATUS         | ImageOSDisk_STATUS         | Modified |       |
-| ImageOperatorSpec          | ImageOperatorSpec          | Extended |       |
-| ImageStorageProfile        | ImageStorageProfile        | Extended |       |
-| ImageStorageProfile_STATUS | ImageStorageProfile_STATUS | Extended |       |
-| Image_STATUS               | Image_STATUS               | Modified |       |
-| Image_Spec                 | Image_Spec                 | Modified |       |
-| SubResource                | SubResource                | Extended |       |
-| SubResource_STATUS         | SubResource_STATUS         | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20210701              | v1api20210701/storage      |  Status  | Notes        |
+|:---------------------------|:---------------------------|:--------:|:-------------|
+| ExtendedLocation           | ExtendedLocation           | Modified |              |
+| ExtendedLocation_STATUS    | ExtendedLocation_STATUS    | Modified |              |
+| ImageDataDisk              | ImageDataDisk              | Modified |              |
+| ImageDataDisk_STATUS       | ImageDataDisk_STATUS       | Modified |              |
+| ImageOSDisk                | ImageOSDisk                | Modified |              |
+| ImageOSDisk_STATUS         | ImageOSDisk_STATUS         | Modified |              |
+| ImageOperatorSpec          | ImageOperatorSpec          | Extended | +PropertyBag |
+| ImageStorageProfile        | ImageStorageProfile        | Extended | +PropertyBag |
+| ImageStorageProfile_STATUS | ImageStorageProfile_STATUS | Extended | +PropertyBag |
+| Image_STATUS               | Image_STATUS               | Modified |              |
+| Image_Spec                 | Image_Spec                 | Modified |              |
+| SubResource                | SubResource                | Extended | +PropertyBag |
+| SubResource_STATUS         | SubResource_STATUS         | Extended | +PropertyBag |
 
 ### ExtendedLocation
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210701 |                       | v1api20210701/storage |                        |  Status   | Notes |
 |:--------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -45,7 +38,7 @@
 
 ### ExtendedLocation_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210701 |                              | v1api20210701/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -55,7 +48,7 @@
 
 ### ImageDataDisk
 
-6 x Identical, 1 x New, 2 x Modified
+Properties: 6 x Identical, 1 x New, 2 x Modified
 
 | v1api20210701      |                        | v1api20210701/storage |                        |  Status   | Notes |
 |:-------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -71,7 +64,7 @@
 
 ### ImageDataDisk_STATUS
 
-6 x Identical, 1 x New, 2 x Modified
+Properties: 6 x Identical, 1 x New, 2 x Modified
 
 | v1api20210701      |                               | v1api20210701/storage |                        |  Status   | Notes |
 |:-------------------|:------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -87,7 +80,7 @@
 
 ### ImageOSDisk
 
-5 x Identical, 1 x New, 4 x Modified
+Properties: 5 x Identical, 1 x New, 4 x Modified
 
 | v1api20210701      |                      | v1api20210701/storage |                        |  Status   | Notes |
 |:-------------------|:---------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -104,7 +97,7 @@
 
 ### ImageOSDisk_STATUS
 
-5 x Identical, 1 x New, 4 x Modified
+Properties: 5 x Identical, 1 x New, 4 x Modified
 
 | v1api20210701      |                             | v1api20210701/storage |                        |  Status   | Notes |
 |:-------------------|:----------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -121,7 +114,7 @@
 
 ### ImageOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210701        |                               | v1api20210701/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -131,7 +124,7 @@
 
 ### ImageStorageProfile
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20210701 |                 | v1api20210701/storage |                        |  Status   | Notes |
 |:--------------|:----------------|:----------------------|:-----------------------|:---------:|:------|
@@ -142,7 +135,7 @@
 
 ### ImageStorageProfile_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20210701 |                        | v1api20210701/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -153,7 +146,7 @@
 
 ### Image_STATUS
 
-10 x Identical, 1 x New, 1 x Modified
+Properties: 10 x Identical, 1 x New, 1 x Modified
 
 | v1api20210701        |                              | v1api20210701/storage |                             |  Status   | Notes |
 |:---------------------|:-----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -172,7 +165,7 @@
 
 ### Image_Spec
 
-8 x Identical, 2 x New, 1 x Modified
+Properties: 8 x Identical, 2 x New, 1 x Modified
 
 | v1api20210701        |                                    | v1api20210701/storage |                                    |  Status   | Notes |
 |:---------------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -190,7 +183,7 @@
 
 ### SubResource
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210701 |                               | v1api20210701/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -199,9 +192,18 @@
 
 ### SubResource_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210701 |         | v1api20210701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
 | Id            | *string | Id                    | *string                | Identical |       |
 |               |         | PropertyBag           | genruntime.PropertyBag |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

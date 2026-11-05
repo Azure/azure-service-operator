@@ -8,67 +8,60 @@
 | DataConnection | DataConnection        | Identical |       |
 | Database       | Database              | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20230815                          | v1api20230815/storage                  |  Status  | Notes |
-|:---------------------------------------|:---------------------------------------|:--------:|:------|
-| AcceptedAudiences                      | AcceptedAudiences                      | Extended |       |
-| AcceptedAudiences_STATUS               | AcceptedAudiences_STATUS               | Extended |       |
-| AzureSku                               | AzureSku                               | Modified |       |
-| AzureSku_STATUS                        | AzureSku_STATUS                        | Modified |       |
-| ClusterOperatorSpec                    | ClusterOperatorSpec                    | Extended |       |
-| Cluster_STATUS                         | Cluster_STATUS                         | Modified |       |
-| Cluster_Spec                           | Cluster_Spec                           | Modified |       |
-| CosmosDbDataConnection                 | CosmosDbDataConnection                 | Modified |       |
-| CosmosDbDataConnection_STATUS          | CosmosDbDataConnection_STATUS          | Modified |       |
-| DataConnectionOperatorSpec             | DataConnectionOperatorSpec             | Extended |       |
-| DataConnection_STATUS                  | DataConnection_STATUS                  | Extended |       |
-| DataConnection_Spec                    | DataConnection_Spec                    | Modified |       |
-| DatabaseOperatorSpec                   | DatabaseOperatorSpec                   | Extended |       |
-| DatabaseStatistics_STATUS              | DatabaseStatistics_STATUS              | Extended |       |
-| Database_STATUS                        | Database_STATUS                        | Extended |       |
-| Database_Spec                          | Database_Spec                          | Modified |       |
-| EventGridDataConnection                | EventGridDataConnection                | Modified |       |
-| EventGridDataConnection_STATUS         | EventGridDataConnection_STATUS         | Modified |       |
-| EventHubDataConnection                 | EventHubDataConnection                 | Modified |       |
-| EventHubDataConnection_STATUS          | EventHubDataConnection_STATUS          | Modified |       |
-| Identity                               | Identity                               | Modified |       |
-| Identity_STATUS                        | Identity_STATUS                        | Modified |       |
-| Identity_UserAssignedIdentities_STATUS | Identity_UserAssignedIdentities_STATUS | Extended |       |
-| IotHubDataConnection                   | IotHubDataConnection                   | Modified |       |
-| IotHubDataConnection_STATUS            | IotHubDataConnection_STATUS            | Modified |       |
-| KeyVaultProperties                     | KeyVaultProperties                     | Extended |       |
-| KeyVaultProperties_STATUS              | KeyVaultProperties_STATUS              | Extended |       |
-| LanguageExtension                      | LanguageExtension                      | Modified |       |
-| LanguageExtension_STATUS               | LanguageExtension_STATUS               | Modified |       |
-| LanguageExtensionsList                 | LanguageExtensionsList                 | Extended |       |
-| LanguageExtensionsList_STATUS          | LanguageExtensionsList_STATUS          | Extended |       |
-| MigrationClusterProperties_STATUS      | MigrationClusterProperties_STATUS      | Modified |       |
-| OptimizedAutoscale                     | OptimizedAutoscale                     | Extended |       |
-| OptimizedAutoscale_STATUS              | OptimizedAutoscale_STATUS              | Extended |       |
-| PrivateEndpointConnection_STATUS       | PrivateEndpointConnection_STATUS       | Extended |       |
-| ReadWriteDatabase                      | ReadWriteDatabase                      | Modified |       |
-| ReadWriteDatabase_STATUS               | ReadWriteDatabase_STATUS               | Modified |       |
-| SuspensionDetails_STATUS               | SuspensionDetails_STATUS               | Extended |       |
-| SystemData_STATUS                      | SystemData_STATUS                      | Modified |       |
-| TrustedExternalTenant                  | TrustedExternalTenant                  | Extended |       |
-| TrustedExternalTenant_STATUS           | TrustedExternalTenant_STATUS           | Extended |       |
-| UserAssignedIdentityDetails            | UserAssignedIdentityDetails            | Extended |       |
-| VirtualNetworkConfiguration            | VirtualNetworkConfiguration            | Modified |       |
-| VirtualNetworkConfiguration_STATUS     | VirtualNetworkConfiguration_STATUS     | Modified |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20230815                          | v1api20230815/storage                  |  Status  | Notes        |
+|:---------------------------------------|:---------------------------------------|:--------:|:-------------|
+| AcceptedAudiences                      | AcceptedAudiences                      | Extended | +PropertyBag |
+| AcceptedAudiences_STATUS               | AcceptedAudiences_STATUS               | Extended | +PropertyBag |
+| AzureSku                               | AzureSku                               | Modified |              |
+| AzureSku_STATUS                        | AzureSku_STATUS                        | Modified |              |
+| ClusterOperatorSpec                    | ClusterOperatorSpec                    | Extended | +PropertyBag |
+| Cluster_STATUS                         | Cluster_STATUS                         | Modified |              |
+| Cluster_Spec                           | Cluster_Spec                           | Modified |              |
+| CosmosDbDataConnection                 | CosmosDbDataConnection                 | Modified |              |
+| CosmosDbDataConnection_STATUS          | CosmosDbDataConnection_STATUS          | Modified |              |
+| DataConnectionOperatorSpec             | DataConnectionOperatorSpec             | Extended | +PropertyBag |
+| DataConnection_STATUS                  | DataConnection_STATUS                  | Extended | +PropertyBag |
+| DataConnection_Spec                    | DataConnection_Spec                    | Modified |              |
+| DatabaseOperatorSpec                   | DatabaseOperatorSpec                   | Extended | +PropertyBag |
+| DatabaseStatistics_STATUS              | DatabaseStatistics_STATUS              | Extended | +PropertyBag |
+| Database_STATUS                        | Database_STATUS                        | Extended | +PropertyBag |
+| Database_Spec                          | Database_Spec                          | Modified |              |
+| EventGridDataConnection                | EventGridDataConnection                | Modified |              |
+| EventGridDataConnection_STATUS         | EventGridDataConnection_STATUS         | Modified |              |
+| EventHubDataConnection                 | EventHubDataConnection                 | Modified |              |
+| EventHubDataConnection_STATUS          | EventHubDataConnection_STATUS          | Modified |              |
+| Identity                               | Identity                               | Modified |              |
+| Identity_STATUS                        | Identity_STATUS                        | Modified |              |
+| Identity_UserAssignedIdentities_STATUS | Identity_UserAssignedIdentities_STATUS | Extended | +PropertyBag |
+| IotHubDataConnection                   | IotHubDataConnection                   | Modified |              |
+| IotHubDataConnection_STATUS            | IotHubDataConnection_STATUS            | Modified |              |
+| KeyVaultProperties                     | KeyVaultProperties                     | Extended | +PropertyBag |
+| KeyVaultProperties_STATUS              | KeyVaultProperties_STATUS              | Extended | +PropertyBag |
+| LanguageExtension                      | LanguageExtension                      | Modified |              |
+| LanguageExtension_STATUS               | LanguageExtension_STATUS               | Modified |              |
+| LanguageExtensionsList                 | LanguageExtensionsList                 | Extended | +PropertyBag |
+| LanguageExtensionsList_STATUS          | LanguageExtensionsList_STATUS          | Extended | +PropertyBag |
+| MigrationClusterProperties_STATUS      | MigrationClusterProperties_STATUS      | Modified |              |
+| OptimizedAutoscale                     | OptimizedAutoscale                     | Extended | +PropertyBag |
+| OptimizedAutoscale_STATUS              | OptimizedAutoscale_STATUS              | Extended | +PropertyBag |
+| PrivateEndpointConnection_STATUS       | PrivateEndpointConnection_STATUS       | Extended | +PropertyBag |
+| ReadWriteDatabase                      | ReadWriteDatabase                      | Modified |              |
+| ReadWriteDatabase_STATUS               | ReadWriteDatabase_STATUS               | Modified |              |
+| SuspensionDetails_STATUS               | SuspensionDetails_STATUS               | Extended | +PropertyBag |
+| SystemData_STATUS                      | SystemData_STATUS                      | Modified |              |
+| TrustedExternalTenant                  | TrustedExternalTenant                  | Extended | +PropertyBag |
+| TrustedExternalTenant_STATUS           | TrustedExternalTenant_STATUS           | Extended | +PropertyBag |
+| UserAssignedIdentityDetails            | UserAssignedIdentityDetails            | Extended | +PropertyBag |
+| VirtualNetworkConfiguration            | VirtualNetworkConfiguration            | Modified |              |
+| VirtualNetworkConfiguration_STATUS     | VirtualNetworkConfiguration_STATUS     | Modified |              |
 
 ### AcceptedAudiences
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230815 |         | v1api20230815/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -77,7 +70,7 @@
 
 ### AcceptedAudiences_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230815 |         | v1api20230815/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -86,7 +79,7 @@
 
 ### AzureSku
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v1api20230815 |                | v1api20230815/storage |                        |  Status   | Notes |
 |:--------------|:---------------|:----------------------|:-----------------------|:---------:|:------|
@@ -97,7 +90,7 @@
 
 ### AzureSku_STATUS
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v1api20230815 |                       | v1api20230815/storage |                        |  Status   | Notes |
 |:--------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -108,7 +101,7 @@
 
 ### ClusterOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20230815        |                               | v1api20230815/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -118,7 +111,7 @@
 
 ### Cluster_STATUS
 
-29 x Identical, 1 x New, 6 x Modified
+Properties: 29 x Identical, 1 x New, 6 x Modified
 
 | v1api20230815                 |                                                         | v1api20230815/storage         |                                     |  Status   | Notes |
 |:------------------------------|:--------------------------------------------------------|:------------------------------|:------------------------------------|:---------:|:------|
@@ -161,7 +154,7 @@
 
 ### Cluster_Spec
 
-21 x Identical, 2 x New, 5 x Modified
+Properties: 21 x Identical, 2 x New, 5 x Modified
 
 | v1api20230815                      |                                                  | v1api20230815/storage              |                                    |  Status   | Notes |
 |:-----------------------------------|:-------------------------------------------------|:-----------------------------------|:-----------------------------------|:---------:|:------|
@@ -196,7 +189,7 @@
 
 ### CosmosDbDataConnection
 
-8 x Identical, 1 x New, 1 x Modified
+Properties: 8 x Identical, 1 x New, 1 x Modified
 
 | v1api20230815                    |                               | v1api20230815/storage            |                               |  Status   | Notes |
 |:---------------------------------|:------------------------------|:---------------------------------|:------------------------------|:---------:|:------|
@@ -213,7 +206,7 @@
 
 ### CosmosDbDataConnection_STATUS
 
-11 x Identical, 1 x New, 2 x Modified
+Properties: 11 x Identical, 1 x New, 2 x Modified
 
 | v1api20230815             |                                     | v1api20230815/storage     |                        |  Status   | Notes |
 |:--------------------------|:------------------------------------|:--------------------------|:-----------------------|:---------:|:------|
@@ -234,7 +227,7 @@
 
 ### DataConnectionOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20230815        |                               | v1api20230815/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -244,7 +237,7 @@
 
 ### DataConnection_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20230815 |                                 | v1api20230815/storage |                                 |  Status   | Notes |
 |:--------------|:--------------------------------|:----------------------|:--------------------------------|:---------:|:------|
@@ -258,7 +251,7 @@
 
 ### DataConnection_Spec
 
-6 x Identical, 2 x New, 1 x Modified
+Properties: 6 x Identical, 2 x New, 1 x Modified
 
 | v1api20230815 |                                    | v1api20230815/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -274,7 +267,7 @@
 
 ### DatabaseOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20230815        |                               | v1api20230815/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -284,7 +277,7 @@
 
 ### DatabaseStatistics_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230815 |          | v1api20230815/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -293,7 +286,7 @@
 
 ### Database_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20230815 |                           | v1api20230815/storage |                           |  Status   | Notes |
 |:--------------|:--------------------------|:----------------------|:--------------------------|:---------:|:------|
@@ -304,7 +297,7 @@
 
 ### Database_Spec
 
-3 x Identical, 2 x New, 1 x Modified
+Properties: 3 x Identical, 2 x New, 1 x Modified
 
 | v1api20230815 |                                    | v1api20230815/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -317,7 +310,7 @@
 
 ### EventGridDataConnection
 
-9 x Identical, 1 x New, 4 x Modified
+Properties: 9 x Identical, 1 x New, 4 x Modified
 
 | v1api20230815                    |                                                | v1api20230815/storage            |                               |  Status   | Notes |
 |:---------------------------------|:-----------------------------------------------|:---------------------------------|:------------------------------|:---------:|:------|
@@ -338,7 +331,7 @@
 
 ### EventGridDataConnection_STATUS
 
-12 x Identical, 1 x New, 5 x Modified
+Properties: 12 x Identical, 1 x New, 5 x Modified
 
 | v1api20230815             |                                                       | v1api20230815/storage     |                        |  Status   | Notes |
 |:--------------------------|:------------------------------------------------------|:--------------------------|:-----------------------|:---------:|:------|
@@ -363,7 +356,7 @@
 
 ### EventHubDataConnection
 
-8 x Identical, 1 x New, 4 x Modified
+Properties: 8 x Identical, 1 x New, 4 x Modified
 
 | v1api20230815                    |                                               | v1api20230815/storage            |                               |  Status   | Notes |
 |:---------------------------------|:----------------------------------------------|:---------------------------------|:------------------------------|:---------:|:------|
@@ -383,7 +376,7 @@
 
 ### EventHubDataConnection_STATUS
 
-11 x Identical, 1 x New, 5 x Modified
+Properties: 11 x Identical, 1 x New, 5 x Modified
 
 | v1api20230815             |                                                      | v1api20230815/storage     |                        |  Status   | Notes |
 |:--------------------------|:-----------------------------------------------------|:--------------------------|:-----------------------|:---------:|:------|
@@ -407,7 +400,7 @@
 
 ### Identity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20230815          |                               | v1api20230815/storage  |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -417,7 +410,7 @@
 
 ### Identity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20230815          |                                                   | v1api20230815/storage  |                                                   |  Status   | Notes |
 |:-----------------------|:--------------------------------------------------|:-----------------------|:--------------------------------------------------|:---------:|:------|
@@ -429,7 +422,7 @@
 
 ### Identity_UserAssignedIdentities_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20230815 |         | v1api20230815/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -439,7 +432,7 @@
 
 ### IotHubDataConnection
 
-8 x Identical, 1 x New, 3 x Modified
+Properties: 8 x Identical, 1 x New, 3 x Modified
 
 | v1api20230815           |                                             | v1api20230815/storage   |                               |  Status   | Notes |
 |:------------------------|:--------------------------------------------|:------------------------|:------------------------------|:---------:|:------|
@@ -458,7 +451,7 @@
 
 ### IotHubDataConnection_STATUS
 
-10 x Identical, 1 x New, 4 x Modified
+Properties: 10 x Identical, 1 x New, 4 x Modified
 
 | v1api20230815          |                                                    | v1api20230815/storage  |                        |  Status   | Notes |
 |:-----------------------|:---------------------------------------------------|:-----------------------|:-----------------------|:---------:|:------|
@@ -480,7 +473,7 @@
 
 ### KeyVaultProperties
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20230815         |                               | v1api20230815/storage |                               |  Status   | Notes |
 |:----------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -492,7 +485,7 @@
 
 ### KeyVaultProperties_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20230815 |         | v1api20230815/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -504,7 +497,7 @@
 
 ### LanguageExtension
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v1api20230815                    |                             | v1api20230815/storage            |                        |  Status   | Notes |
 |:---------------------------------|:----------------------------|:---------------------------------|:-----------------------|:---------:|:------|
@@ -515,7 +508,7 @@
 
 ### LanguageExtension_STATUS
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v1api20230815                    |                                    | v1api20230815/storage            |                        |  Status   | Notes |
 |:---------------------------------|:-----------------------------------|:---------------------------------|:-----------------------|:---------:|:------|
@@ -526,7 +519,7 @@
 
 ### LanguageExtensionsList
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230815 |                     | v1api20230815/storage |                        |  Status   | Notes |
 |:--------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -535,7 +528,7 @@
 
 ### LanguageExtensionsList_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230815 |                            | v1api20230815/storage |                            |  Status   | Notes |
 |:--------------|:---------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -544,7 +537,7 @@
 
 ### MigrationClusterProperties_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20230815    |                                         | v1api20230815/storage |                        |  Status   | Notes |
 |:-----------------|:----------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -556,7 +549,7 @@
 
 ### OptimizedAutoscale
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20230815 |       | v1api20230815/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -568,7 +561,7 @@
 
 ### OptimizedAutoscale_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20230815 |       | v1api20230815/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -580,7 +573,7 @@
 
 ### PrivateEndpointConnection_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230815 |         | v1api20230815/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -589,7 +582,7 @@
 
 ### ReadWriteDatabase
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20230815      |                         | v1api20230815/storage |                        |  Status   | Notes |
 |:-------------------|:------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -602,7 +595,7 @@
 
 ### ReadWriteDatabase_STATUS
 
-9 x Identical, 1 x New, 2 x Modified
+Properties: 9 x Identical, 1 x New, 2 x Modified
 
 | v1api20230815      |                                | v1api20230815/storage |                            |  Status   | Notes |
 |:-------------------|:-------------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -621,7 +614,7 @@
 
 ### SuspensionDetails_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230815       |         | v1api20230815/storage |                        |  Status   | Notes |
 |:--------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -630,7 +623,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20230815      |                                       | v1api20230815/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -644,7 +637,7 @@
 
 ### TrustedExternalTenant
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230815 |         | v1api20230815/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -653,7 +646,7 @@
 
 ### TrustedExternalTenant_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230815 |         | v1api20230815/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -662,7 +655,7 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230815 |                              | v1api20230815/storage |                              |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -671,7 +664,7 @@
 
 ### VirtualNetworkConfiguration
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20230815                   |                                    | v1api20230815/storage           |                               |  Status   | Notes |
 |:--------------------------------|:-----------------------------------|:--------------------------------|:------------------------------|:---------:|:------|
@@ -683,7 +676,7 @@
 
 ### VirtualNetworkConfiguration_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20230815            |                                           | v1api20230815/storage    |                        |  Status   | Notes |
 |:-------------------------|:------------------------------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -692,3 +685,12 @@
 |                          |                                           | PropertyBag              | genruntime.PropertyBag |    New    |       |
 | State                    | *VirtualNetworkConfiguration_State_STATUS | State                    | *string                | Modified  |       |
 | SubnetId                 | *string                                   | SubnetId                 | *string                | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

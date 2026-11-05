@@ -11,6 +11,8 @@
 | NamespacesTopicsSubscription      | NamespacesTopicsSubscription      | Identical |       |
 | NamespacesTopicsSubscriptionsRule | NamespacesTopicsSubscriptionsRule | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
 | v1api20210101preview/storage                  | v20210101preview/storage                      |  Status   | Notes |
@@ -23,7 +25,7 @@
 | Encryption                                    | Encryption                                    | Identical |       |
 | Encryption_STATUS                             | Encryption_STATUS                             | Identical |       |
 | Identity                                      | Identity                                      | Identical |       |
-| Identity_STATUS                               | Identity_STATUS                               | Modified  |       |
+| Identity_STATUS                               | Identity_STATUS                               | Identical |       |
 | KeyVaultProperties                            | KeyVaultProperties                            | Identical |       |
 | KeyVaultProperties_STATUS                     | KeyVaultProperties_STATUS                     | Identical |       |
 | MessageCountDetails_STATUS                    | MessageCountDetails_STATUS                    | Identical |       |
@@ -59,21 +61,9 @@
 
 ## Legend
 
-* **Identical**: No properties changed.
+* **Identical**: No properties changed (or the differences are trivial).
 * **New**: The type or property exists only in the newer version.
 * **Retired**: The type or property exists only in the older version.
 * **Renamed**: A configured rename links the old and new names.
 * **Extended**: The newer type only adds properties.
 * **Modified**: Properties were retired, renamed, or changed type.
-
-### Identity_STATUS
-
-4 x Identical, 1 x Modified
-
-| v1api20210101preview/storage |                                   | v20210101preview/storage |                                   |  Status   | Notes |
-|:-----------------------------|:----------------------------------|:-------------------------|:----------------------------------|:---------:|:------|
-| PrincipalId                  | *string                           | PrincipalId              | *string                           | Identical |       |
-| PropertyBag                  | genruntime.PropertyBag            | PropertyBag              | genruntime.PropertyBag            | Identical |       |
-| TenantId                     | *string                           | TenantId                 | *string                           | Identical |       |
-| Type                         | *string                           | Type                     | *string                           | Identical |       |
-| UserAssignedIdentities       | map[string]DictionaryValue_STATUS | UserAssignedIdentities   | map[string]DictionaryValue_STATUS | Modified  |       |

@@ -6,41 +6,34 @@
 |:----------|:------------------|:---------:|:------|
 | VaultKey  | VaultKey          | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20230701                          | v20230701/storage                  |  Status  | Notes |
-|:-----------------------------------|:-----------------------------------|:--------:|:------|
-| Action                             | Action                             | Modified |       |
-| Action_STATUS                      | Action_STATUS                      | Modified |       |
-| KeyAttributes                      | KeyAttributes                      | Extended |       |
-| KeyAttributes_STATUS               | KeyAttributes_STATUS               | Modified |       |
-| KeyProperties                      | KeyProperties                      | Modified |       |
-| KeyReleasePolicy                   | KeyReleasePolicy                   | Modified |       |
-| KeyReleasePolicy_STATUS            | KeyReleasePolicy_STATUS            | Extended |       |
-| KeyRotationPolicyAttributes        | KeyRotationPolicyAttributes        | Extended |       |
-| KeyRotationPolicyAttributes_STATUS | KeyRotationPolicyAttributes_STATUS | Extended |       |
-| LifetimeAction                     | LifetimeAction                     | Extended |       |
-| LifetimeAction_STATUS              | LifetimeAction_STATUS              | Extended |       |
-| RotationPolicy                     | RotationPolicy                     | Extended |       |
-| RotationPolicy_STATUS              | RotationPolicy_STATUS              | Extended |       |
-| Trigger                            | Trigger                            | Extended |       |
-| Trigger_STATUS                     | Trigger_STATUS                     | Extended |       |
-| VaultKeyOperatorSpec               | VaultKeyOperatorSpec               | Extended |       |
-| VaultKey_STATUS                    | VaultKey_STATUS                    | Modified |       |
-| VaultKey_Spec                      | VaultKey_Spec                      | Modified |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20230701                          | v20230701/storage                  |  Status  | Notes        |
+|:-----------------------------------|:-----------------------------------|:--------:|:-------------|
+| Action                             | Action                             | Modified |              |
+| Action_STATUS                      | Action_STATUS                      | Modified |              |
+| KeyAttributes                      | KeyAttributes                      | Extended | +PropertyBag |
+| KeyAttributes_STATUS               | KeyAttributes_STATUS               | Modified |              |
+| KeyProperties                      | KeyProperties                      | Modified |              |
+| KeyReleasePolicy                   | KeyReleasePolicy                   | Extended | +PropertyBag |
+| KeyReleasePolicy_STATUS            | KeyReleasePolicy_STATUS            | Extended | +PropertyBag |
+| KeyRotationPolicyAttributes        | KeyRotationPolicyAttributes        | Extended | +PropertyBag |
+| KeyRotationPolicyAttributes_STATUS | KeyRotationPolicyAttributes_STATUS | Extended | +PropertyBag |
+| LifetimeAction                     | LifetimeAction                     | Extended | +PropertyBag |
+| LifetimeAction_STATUS              | LifetimeAction_STATUS              | Extended | +PropertyBag |
+| RotationPolicy                     | RotationPolicy                     | Extended | +PropertyBag |
+| RotationPolicy_STATUS              | RotationPolicy_STATUS              | Extended | +PropertyBag |
+| Trigger                            | Trigger                            | Extended | +PropertyBag |
+| Trigger_STATUS                     | Trigger_STATUS                     | Extended | +PropertyBag |
+| VaultKeyOperatorSpec               | VaultKeyOperatorSpec               | Extended | +PropertyBag |
+| VaultKey_STATUS                    | VaultKey_STATUS                    | Modified |              |
+| VaultKey_Spec                      | VaultKey_Spec                      | Modified |              |
 
 ### Action
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v20230701 |              | v20230701/storage |                        |  Status  | Notes |
 |:----------|:-------------|:------------------|:-----------------------|:--------:|:------|
@@ -49,7 +42,7 @@
 
 ### Action_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v20230701 |                     | v20230701/storage |                        |  Status  | Notes |
 |:----------|:--------------------|:------------------|:-----------------------|:--------:|:------|
@@ -58,7 +51,7 @@
 
 ### KeyAttributes
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20230701  |       | v20230701/storage |                        |  Status   | Notes |
 |:-----------|:------|:------------------|:-----------------------|:---------:|:------|
@@ -70,7 +63,7 @@
 
 ### KeyAttributes_STATUS
 
-6 x Identical, 1 x New, 1 x Modified
+Properties: 6 x Identical, 1 x New, 1 x Modified
 
 | v20230701     |                                     | v20230701/storage |                        |  Status   | Notes |
 |:--------------|:------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -85,7 +78,7 @@
 
 ### KeyProperties
 
-4 x Identical, 1 x New, 3 x Modified
+Properties: 4 x Identical, 1 x New, 3 x Modified
 
 | v20230701      |                          | v20230701/storage |                        |  Status   | Notes |
 |:---------------|:-------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -100,17 +93,17 @@
 
 ### KeyReleasePolicy
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New
 
 | v20230701   |                             | v20230701/storage |                        |  Status   | Notes |
 |:------------|:----------------------------|:------------------|:-----------------------|:---------:|:------|
 | ContentType | *string                     | ContentType       | *string                | Identical |       |
-| Data        | Validated<*string> (1 rule) | Data              | *string                | Modified  |       |
+| Data        | Validated<*string> (1 rule) | Data              | *string                | Identical |       |
 |             |                             | PropertyBag       | genruntime.PropertyBag |    New    |       |
 
 ### KeyReleasePolicy_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20230701   |         | v20230701/storage |                        |  Status   | Notes |
 |:------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -120,7 +113,7 @@
 
 ### KeyRotationPolicyAttributes
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20230701  |         | v20230701/storage |                        |  Status   | Notes |
 |:-----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -129,7 +122,7 @@
 
 ### KeyRotationPolicyAttributes_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20230701  |         | v20230701/storage |                        |  Status   | Notes |
 |:-----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -140,7 +133,7 @@
 
 ### LifetimeAction
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20230701 |          | v20230701/storage |                        |  Status   | Notes |
 |:----------|:---------|:------------------|:-----------------------|:---------:|:------|
@@ -150,7 +143,7 @@
 
 ### LifetimeAction_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20230701 |                 | v20230701/storage |                        |  Status   | Notes |
 |:----------|:----------------|:------------------|:-----------------------|:---------:|:------|
@@ -160,7 +153,7 @@
 
 ### RotationPolicy
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20230701       |                              | v20230701/storage |                              |  Status   | Notes |
 |:----------------|:-----------------------------|:------------------|:-----------------------------|:---------:|:------|
@@ -170,7 +163,7 @@
 
 ### RotationPolicy_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20230701       |                                     | v20230701/storage |                                     |  Status   | Notes |
 |:----------------|:------------------------------------|:------------------|:------------------------------------|:---------:|:------|
@@ -180,7 +173,7 @@
 
 ### Trigger
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20230701        |         | v20230701/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -190,7 +183,7 @@
 
 ### Trigger_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20230701        |         | v20230701/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -200,7 +193,7 @@
 
 ### VaultKeyOperatorSpec
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20230701            |                               | v20230701/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -212,7 +205,7 @@
 
 ### VaultKey_STATUS
 
-12 x Identical, 1 x New, 3 x Modified
+Properties: 12 x Identical, 1 x New, 3 x Modified
 
 | v20230701         |                                 | v20230701/storage |                          |  Status   | Notes |
 |:------------------|:--------------------------------|:------------------|:-------------------------|:---------:|:------|
@@ -235,7 +228,7 @@
 
 ### VaultKey_Spec
 
-4 x Identical, 2 x New, 1 x Modified
+Properties: 4 x Identical, 2 x New, 1 x Modified
 
 | v20230701    |                                    | v20230701/storage |                                    |  Status   | Notes |
 |:-------------|:-----------------------------------|:------------------|:-----------------------------------|:---------:|:------|
@@ -246,3 +239,12 @@
 | Properties   | *KeyProperties                     | Properties        | *KeyProperties                     | Identical |       |
 |              |                                    | PropertyBag       | genruntime.PropertyBag             |    New    |       |
 | Tags         | map[string]string                  | Tags              | map[string]string                  | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

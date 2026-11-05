@@ -6,46 +6,39 @@
 |:--------------|:----------------------|:---------:|:------|
 | MetricAlert   | MetricAlert           | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20180301                                            | v1api20180301/storage                                    |  Status  | Notes |
-|:---------------------------------------------------------|:---------------------------------------------------------|:--------:|:------|
-| DynamicMetricCriteria                                    | DynamicMetricCriteria                                    | Modified |       |
-| DynamicMetricCriteria_STATUS                             | DynamicMetricCriteria_STATUS                             | Modified |       |
-| DynamicThresholdFailingPeriods                           | DynamicThresholdFailingPeriods                           | Extended |       |
-| DynamicThresholdFailingPeriods_STATUS                    | DynamicThresholdFailingPeriods_STATUS                    | Extended |       |
-| MetricAlertAction                                        | MetricAlertAction                                        | Extended |       |
-| MetricAlertAction_STATUS                                 | MetricAlertAction_STATUS                                 | Extended |       |
-| MetricAlertCriteria                                      | MetricAlertCriteria                                      | Extended |       |
-| MetricAlertCriteria_STATUS                               | MetricAlertCriteria_STATUS                               | Extended |       |
-| MetricAlertMultipleResourceMultipleMetricCriteria        | MetricAlertMultipleResourceMultipleMetricCriteria        | Modified |       |
-| MetricAlertMultipleResourceMultipleMetricCriteria_STATUS | MetricAlertMultipleResourceMultipleMetricCriteria_STATUS | Modified |       |
-| MetricAlertOperatorSpec                                  | MetricAlertOperatorSpec                                  | Extended |       |
-| MetricAlertSingleResourceMultipleMetricCriteria          | MetricAlertSingleResourceMultipleMetricCriteria          | Modified |       |
-| MetricAlertSingleResourceMultipleMetricCriteria_STATUS   | MetricAlertSingleResourceMultipleMetricCriteria_STATUS   | Modified |       |
-| MetricAlert_STATUS                                       | MetricAlert_STATUS                                       | Extended |       |
-| MetricAlert_Spec                                         | MetricAlert_Spec                                         | Extended |       |
-| MetricCriteria                                           | MetricCriteria                                           | Modified |       |
-| MetricCriteria_STATUS                                    | MetricCriteria_STATUS                                    | Modified |       |
-| MetricDimension                                          | MetricDimension                                          | Extended |       |
-| MetricDimension_STATUS                                   | MetricDimension_STATUS                                   | Extended |       |
-| MultiMetricCriteria                                      | MultiMetricCriteria                                      | Extended |       |
-| MultiMetricCriteria_STATUS                               | MultiMetricCriteria_STATUS                               | Extended |       |
-| WebtestLocationAvailabilityCriteria                      | WebtestLocationAvailabilityCriteria                      | Modified |       |
-| WebtestLocationAvailabilityCriteria_STATUS               | WebtestLocationAvailabilityCriteria_STATUS               | Modified |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20180301                                            | v1api20180301/storage                                    |  Status  | Notes                         |
+|:---------------------------------------------------------|:---------------------------------------------------------|:--------:|:------------------------------|
+| DynamicMetricCriteria                                    | DynamicMetricCriteria                                    | Modified |                               |
+| DynamicMetricCriteria_STATUS                             | DynamicMetricCriteria_STATUS                             | Modified |                               |
+| DynamicThresholdFailingPeriods                           | DynamicThresholdFailingPeriods                           | Extended | +PropertyBag                  |
+| DynamicThresholdFailingPeriods_STATUS                    | DynamicThresholdFailingPeriods_STATUS                    | Extended | +PropertyBag                  |
+| MetricAlertAction                                        | MetricAlertAction                                        | Extended | +PropertyBag                  |
+| MetricAlertAction_STATUS                                 | MetricAlertAction_STATUS                                 | Extended | +PropertyBag                  |
+| MetricAlertCriteria                                      | MetricAlertCriteria                                      | Extended | +PropertyBag                  |
+| MetricAlertCriteria_STATUS                               | MetricAlertCriteria_STATUS                               | Extended | +PropertyBag                  |
+| MetricAlertMultipleResourceMultipleMetricCriteria        | MetricAlertMultipleResourceMultipleMetricCriteria        | Modified |                               |
+| MetricAlertMultipleResourceMultipleMetricCriteria_STATUS | MetricAlertMultipleResourceMultipleMetricCriteria_STATUS | Modified |                               |
+| MetricAlertOperatorSpec                                  | MetricAlertOperatorSpec                                  | Extended | +PropertyBag                  |
+| MetricAlertSingleResourceMultipleMetricCriteria          | MetricAlertSingleResourceMultipleMetricCriteria          | Modified |                               |
+| MetricAlertSingleResourceMultipleMetricCriteria_STATUS   | MetricAlertSingleResourceMultipleMetricCriteria_STATUS   | Modified |                               |
+| MetricAlert_STATUS                                       | MetricAlert_STATUS                                       | Extended | +PropertyBag                  |
+| MetricAlert_Spec                                         | MetricAlert_Spec                                         | Extended | +OriginalVersion +PropertyBag |
+| MetricCriteria                                           | MetricCriteria                                           | Modified |                               |
+| MetricCriteria_STATUS                                    | MetricCriteria_STATUS                                    | Modified |                               |
+| MetricDimension                                          | MetricDimension                                          | Extended | +PropertyBag                  |
+| MetricDimension_STATUS                                   | MetricDimension_STATUS                                   | Extended | +PropertyBag                  |
+| MultiMetricCriteria                                      | MultiMetricCriteria                                      | Extended | +PropertyBag                  |
+| MultiMetricCriteria_STATUS                               | MultiMetricCriteria_STATUS                               | Extended | +PropertyBag                  |
+| WebtestLocationAvailabilityCriteria                      | WebtestLocationAvailabilityCriteria                      | Modified |                               |
+| WebtestLocationAvailabilityCriteria_STATUS               | WebtestLocationAvailabilityCriteria_STATUS               | Modified |                               |
 
 ### DynamicMetricCriteria
 
-8 x Identical, 1 x New, 4 x Modified
+Properties: 8 x Identical, 1 x New, 4 x Modified
 
 | v1api20180301        |                                         | v1api20180301/storage |                                 |  Status   | Notes |
 |:---------------------|:----------------------------------------|:----------------------|:--------------------------------|:---------:|:------|
@@ -65,7 +58,7 @@
 
 ### DynamicMetricCriteria_STATUS
 
-8 x Identical, 1 x New, 4 x Modified
+Properties: 8 x Identical, 1 x New, 4 x Modified
 
 | v1api20180301        |                                                | v1api20180301/storage |                                        |  Status   | Notes |
 |:---------------------|:-----------------------------------------------|:----------------------|:---------------------------------------|:---------:|:------|
@@ -85,7 +78,7 @@
 
 ### DynamicThresholdFailingPeriods
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20180301             |          | v1api20180301/storage     |                        |  Status   | Notes |
 |:--------------------------|:---------|:--------------------------|:-----------------------|:---------:|:------|
@@ -95,7 +88,7 @@
 
 ### DynamicThresholdFailingPeriods_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20180301             |          | v1api20180301/storage     |                        |  Status   | Notes |
 |:--------------------------|:---------|:--------------------------|:-----------------------|:---------:|:------|
@@ -105,7 +98,7 @@
 
 ### MetricAlertAction
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20180301        |                               | v1api20180301/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -116,7 +109,7 @@
 
 ### MetricAlertAction_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20180301     |                   | v1api20180301/storage |                        |  Status   | Notes |
 |:------------------|:------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -126,7 +119,7 @@
 
 ### MetricAlertCriteria
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20180301                                       |                                                    | v1api20180301/storage                               |                                                    |  Status   | Notes |
 |:----------------------------------------------------|:---------------------------------------------------|:----------------------------------------------------|:---------------------------------------------------|:---------:|:------|
@@ -137,7 +130,7 @@
 
 ### MetricAlertCriteria_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20180301                                       |                                                           | v1api20180301/storage                               |                                                           |  Status   | Notes |
 |:----------------------------------------------------|:----------------------------------------------------------|:----------------------------------------------------|:----------------------------------------------------------|:---------:|:------|
@@ -148,7 +141,7 @@
 
 ### MetricAlertMultipleResourceMultipleMetricCriteria
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20180301        |                                                              | v1api20180301/storage |                        |  Status   | Notes |
 |:---------------------|:-------------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -159,7 +152,7 @@
 
 ### MetricAlertMultipleResourceMultipleMetricCriteria_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20180301        |                                                                     | v1api20180301/storage |                              |  Status   | Notes |
 |:---------------------|:--------------------------------------------------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -170,7 +163,7 @@
 
 ### MetricAlertOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20180301        |                               | v1api20180301/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -180,7 +173,7 @@
 
 ### MetricAlertSingleResourceMultipleMetricCriteria
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20180301        |                                                            | v1api20180301/storage |                        |  Status   | Notes |
 |:---------------------|:-----------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -191,7 +184,7 @@
 
 ### MetricAlertSingleResourceMultipleMetricCriteria_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20180301        |                                                                   | v1api20180301/storage |                         |  Status   | Notes |
 |:---------------------|:------------------------------------------------------------------|:----------------------|:------------------------|:---------:|:------|
@@ -202,7 +195,7 @@
 
 ### MetricAlert_STATUS
 
-19 x Identical, 1 x New
+Properties: 19 x Identical, 1 x New
 
 | v1api20180301        |                             | v1api20180301/storage |                             |  Status   | Notes |
 |:---------------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -229,7 +222,7 @@
 
 ### MetricAlert_Spec
 
-16 x Identical, 2 x New
+Properties: 16 x Identical, 2 x New
 
 | v1api20180301        |                                    | v1api20180301/storage |                                    |  Status   | Notes |
 |:---------------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -254,7 +247,7 @@
 
 ### MetricCriteria
 
-7 x Identical, 1 x New, 3 x Modified
+Properties: 7 x Identical, 1 x New, 3 x Modified
 
 | v1api20180301        |                                 | v1api20180301/storage |                        |  Status   | Notes |
 |:---------------------|:--------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -272,7 +265,7 @@
 
 ### MetricCriteria_STATUS
 
-7 x Identical, 1 x New, 3 x Modified
+Properties: 7 x Identical, 1 x New, 3 x Modified
 
 | v1api20180301        |                                        | v1api20180301/storage |                          |  Status   | Notes |
 |:---------------------|:---------------------------------------|:----------------------|:-------------------------|:---------:|:------|
@@ -290,7 +283,7 @@
 
 ### MetricDimension
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20180301 |          | v1api20180301/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -301,7 +294,7 @@
 
 ### MetricDimension_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20180301 |          | v1api20180301/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -312,7 +305,7 @@
 
 ### MultiMetricCriteria
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20180301 |                        | v1api20180301/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -322,7 +315,7 @@
 
 ### MultiMetricCriteria_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20180301 |                               | v1api20180301/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -332,7 +325,7 @@
 
 ### WebtestLocationAvailabilityCriteria
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20180301        |                                                | v1api20180301/storage |                               |  Status   | Notes |
 |:---------------------|:-----------------------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -345,7 +338,7 @@
 
 ### WebtestLocationAvailabilityCriteria_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20180301        |                                                       | v1api20180301/storage |                        |  Status   | Notes |
 |:---------------------|:------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -355,3 +348,12 @@
 | OdataType            | *WebtestLocationAvailabilityCriteria_OdataType_STATUS | OdataType             | *string                | Modified  |       |
 |                      |                                                       | PropertyBag           | genruntime.PropertyBag |    New    |       |
 | WebTestId            | *string                                               | WebTestId             | *string                | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

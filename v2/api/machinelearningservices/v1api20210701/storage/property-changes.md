@@ -8,247 +8,240 @@
 | WorkspacesCompute     | WorkspacesCompute     | Identical |       |
 | WorkspacesConnection  | WorkspacesConnection  | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20210701/storage                       | v1api20240401/storage                                        |      Status       | Notes |
-|:--------------------------------------------|:-------------------------------------------------------------|:-----------------:|:------|
-|                                             | AADAuthTypeWorkspaceConnectionProperties                     |        New        |       |
-|                                             | AADAuthTypeWorkspaceConnectionProperties_STATUS              |        New        |       |
-| AKS                                         | AKS                                                          |     Identical     |       |
-| AKS_Properties                              | AKS_Properties                                               |     Modified      |       |
-| AKS_Properties_STATUS                       | AKS_Properties_STATUS                                        |     Identical     |       |
-| AKS_STATUS                                  | AKS_STATUS                                                   |     Identical     |       |
-|                                             | AccessKeyAuthTypeWorkspaceConnectionProperties               |        New        |       |
-|                                             | AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS        |        New        |       |
-|                                             | AccountKeyAuthTypeWorkspaceConnectionProperties              |        New        |       |
-|                                             | AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS       |        New        |       |
-| AksNetworkingConfiguration                  | AksNetworkingConfiguration                                   |     Identical     |       |
-| AksNetworkingConfiguration_STATUS           | AksNetworkingConfiguration_STATUS                            |     Identical     |       |
-| AmlCompute                                  | AmlCompute                                                   |     Identical     |       |
-| AmlComputeProperties                        | AmlComputeProperties                                         |     Modified      |       |
-| AmlComputeProperties_STATUS                 | AmlComputeProperties_STATUS                                  |     Modified      |       |
-| AmlCompute_STATUS                           | AmlCompute_STATUS                                            |     Identical     |       |
-|                                             | ApiKeyAuthWorkspaceConnectionProperties                      |        New        |       |
-|                                             | ApiKeyAuthWorkspaceConnectionProperties_STATUS               |        New        |       |
-| AssignedUser                                | AssignedUser                                                 |     Extended      |       |
-| AssignedUser_STATUS                         | AssignedUser_STATUS                                          |     Identical     |       |
-| AutoPauseProperties                         | AutoPauseProperties                                          |     Identical     |       |
-| AutoPauseProperties_STATUS                  | AutoPauseProperties_STATUS                                   |     Identical     |       |
-| AutoScaleProperties                         | AutoScaleProperties                                          |     Identical     |       |
-| AutoScaleProperties_STATUS                  | AutoScaleProperties_STATUS                                   |     Identical     |       |
-|                                             | BindOptions                                                  |        New        |       |
-|                                             | BindOptions_STATUS                                           |        New        |       |
-| Compute                                     | Compute                                                      |     Identical     |       |
-| ComputeInstance                             | ComputeInstance                                              |     Identical     |       |
-| ComputeInstanceApplication_STATUS           | ComputeInstanceApplication_STATUS                            |     Identical     |       |
-| ComputeInstanceConnectivityEndpoints_STATUS | ComputeInstanceConnectivityEndpoints_STATUS                  |     Identical     |       |
-|                                             | ComputeInstanceContainer_STATUS                              |        New        |       |
-| ComputeInstanceCreatedBy_STATUS             | ComputeInstanceCreatedBy_STATUS                              |     Identical     |       |
-|                                             | ComputeInstanceDataDisk_STATUS                               |        New        |       |
-|                                             | ComputeInstanceDataMount_STATUS                              |        New        |       |
-|                                             | ComputeInstanceEnvironmentInfo_STATUS                        |        New        |       |
-| ComputeInstanceLastOperation_STATUS         | ComputeInstanceLastOperation_STATUS                          |     Extended      |       |
-| ComputeInstanceProperties                   | ComputeInstanceProperties                                    |     Extended      |       |
-| ComputeInstanceProperties_STATUS            | ComputeInstanceProperties_STATUS                             |     Extended      |       |
-| ComputeInstanceSshSettings                  | ComputeInstanceSshSettings                                   |     Identical     |       |
-| ComputeInstanceSshSettings_STATUS           | ComputeInstanceSshSettings_STATUS                            |     Identical     |       |
-|                                             | ComputeInstanceVersion_STATUS                                |        New        |       |
-| ComputeInstance_STATUS                      | ComputeInstance_STATUS                                       |     Identical     |       |
-|                                             | ComputeRecurrenceSchedule                                    |        New        |       |
-|                                             | ComputeRecurrenceSchedule_STATUS                             |        New        |       |
-|                                             | ComputeRuntimeDto                                            |        New        |       |
-|                                             | ComputeRuntimeDto_STATUS                                     |        New        |       |
-|                                             | ComputeSchedules                                             |        New        |       |
-|                                             | ComputeSchedules_STATUS                                      |        New        |       |
-|                                             | ComputeStartStopSchedule                                     |        New        |       |
-|                                             | ComputeStartStopSchedule_STATUS                              |        New        |       |
-| Compute_STATUS                              | Compute_STATUS                                               |     Identical     |       |
-| CosmosDbSettings                            | CosmosDbSettings                                             |     Identical     |       |
-| CosmosDbSettings_STATUS                     | CosmosDbSettings_STATUS                                      |     Identical     |       |
-|                                             | Cron                                                         |        New        |       |
-|                                             | Cron_STATUS                                                  |        New        |       |
-|                                             | CustomKeys                                                   |        New        |       |
-|                                             | CustomKeysWorkspaceConnectionProperties                      |        New        |       |
-|                                             | CustomKeysWorkspaceConnectionProperties_STATUS               |        New        |       |
-|                                             | CustomKeys_STATUS                                            |        New        |       |
-|                                             | CustomService                                                |        New        |       |
-|                                             | CustomService_STATUS                                         |        New        |       |
-| DataFactory                                 | DataFactory                                                  |     Identical     |       |
-| DataFactory_STATUS                          | DataFactory_STATUS                                           |     Identical     |       |
-| DataLakeAnalytics                           | DataLakeAnalytics                                            |     Identical     |       |
-| DataLakeAnalytics_Properties                | DataLakeAnalytics_Properties                                 |     Identical     |       |
-| DataLakeAnalytics_Properties_STATUS         | DataLakeAnalytics_Properties_STATUS                          |     Identical     |       |
-| DataLakeAnalytics_STATUS                    | DataLakeAnalytics_STATUS                                     |     Identical     |       |
-| Databricks                                  | Databricks                                                   |     Identical     |       |
-| DatabricksProperties                        | DatabricksProperties                                         |     Identical     |       |
-| DatabricksProperties_STATUS                 | DatabricksProperties_STATUS                                  |     Identical     |       |
-| Databricks_STATUS                           | Databricks_STATUS                                            |     Identical     |       |
-|                                             | Docker                                                       |        New        |       |
-|                                             | Docker_STATUS                                                |        New        |       |
-| EncryptionProperty                          | EncryptionProperty                                           |     Identical     |       |
-| EncryptionProperty_STATUS                   | EncryptionProperty_STATUS                                    |     Identical     |       |
-|                                             | Endpoint                                                     |        New        |       |
-|                                             | Endpoint_STATUS                                              |        New        |       |
-|                                             | EnvironmentVariable                                          |        New        |       |
-|                                             | EnvironmentVariable_STATUS                                   |        New        |       |
-| ErrorAdditionalInfo_STATUS                  | ErrorAdditionalInfo_STATUS                                   |     Identical     |       |
-| ErrorDetail_STATUS                          | ErrorDetail_STATUS                                           |     Identical     |       |
-| ErrorDetail_STATUS_Unrolled                 | ErrorDetail_STATUS_Unrolled                                  |     Identical     |       |
-| ErrorResponse_STATUS                        | ErrorResponse_STATUS                                         |     Identical     |       |
-|                                             | FeatureStoreSettings                                         |        New        |       |
-|                                             | FeatureStoreSettings_STATUS                                  |        New        |       |
-|                                             | FqdnOutboundRule                                             |        New        |       |
-|                                             | FqdnOutboundRule_STATUS                                      |        New        |       |
-| HDInsight                                   | HDInsight                                                    |     Identical     |       |
-| HDInsightProperties                         | HDInsightProperties                                          |     Identical     |       |
-| HDInsightProperties_STATUS                  | HDInsightProperties_STATUS                                   |     Identical     |       |
-| HDInsight_STATUS                            | HDInsight_STATUS                                             |     Identical     |       |
-| Identity                                    | ManagedServiceIdentity                                       |      Renamed      |       |
-| IdentityForCmk                              | IdentityForCmk                                               |     Modified      |       |
-| IdentityForCmk_STATUS                       | IdentityForCmk_STATUS                                        |     Identical     |       |
-| Identity_STATUS                             | ManagedServiceIdentity_STATUS                                |      Renamed      |       |
-|                                             | Image                                                        |        New        |       |
-|                                             | ImageMetadata_STATUS                                         |        New        |       |
-|                                             | Image_STATUS                                                 |        New        |       |
-| InstanceTypeSchema                          | InstanceTypeSchema                                           |     Identical     |       |
-| InstanceTypeSchema_Resources                | InstanceTypeSchema_Resources                                 |     Identical     |       |
-| InstanceTypeSchema_Resources_STATUS         | InstanceTypeSchema_Resources_STATUS                          |     Identical     |       |
-| InstanceTypeSchema_STATUS                   | InstanceTypeSchema_STATUS                                    |     Identical     |       |
-| KeyVaultProperties                          | EncryptionKeyVaultProperties                                 | Renamed, Modified |       |
-| KeyVaultProperties_STATUS                   | EncryptionKeyVaultProperties_STATUS                          |      Renamed      |       |
-| Kubernetes                                  | Kubernetes                                                   |     Identical     |       |
-| KubernetesProperties                        | KubernetesProperties                                         |     Extended      |       |
-| KubernetesProperties_STATUS                 | KubernetesProperties_STATUS                                  |     Identical     |       |
-| Kubernetes_STATUS                           | Kubernetes_STATUS                                            |     Identical     |       |
-|                                             | ManagedIdentityAuthTypeWorkspaceConnectionProperties         |        New        |       |
-|                                             | ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS  |        New        |       |
-|                                             | ManagedNetworkProvisionStatus                                |        New        |       |
-|                                             | ManagedNetworkProvisionStatus_STATUS                         |        New        |       |
-|                                             | ManagedNetworkSettings                                       |        New        |       |
-|                                             | ManagedNetworkSettings_STATUS                                |        New        |       |
-| NodeStateCounts_STATUS                      | NodeStateCounts_STATUS                                       |     Identical     |       |
-|                                             | NoneAuthTypeWorkspaceConnectionProperties                    |        New        |       |
-|                                             | NoneAuthTypeWorkspaceConnectionProperties_STATUS             |        New        |       |
-| NotebookPreparationError_STATUS             | NotebookPreparationError_STATUS                              |     Identical     |       |
-| NotebookResourceInfo_STATUS                 | NotebookResourceInfo_STATUS                                  |     Identical     |       |
-|                                             | OAuth2AuthTypeWorkspaceConnectionProperties                  |        New        |       |
-|                                             | OAuth2AuthTypeWorkspaceConnectionProperties_STATUS           |        New        |       |
-|                                             | OutboundRule                                                 |        New        |       |
-|                                             | OutboundRule_STATUS                                          |        New        |       |
-|                                             | PATAuthTypeWorkspaceConnectionProperties                     |        New        |       |
-|                                             | PATAuthTypeWorkspaceConnectionProperties_STATUS              |        New        |       |
-| PersonalComputeInstanceSettings             | PersonalComputeInstanceSettings                              |     Identical     |       |
-| PersonalComputeInstanceSettings_STATUS      | PersonalComputeInstanceSettings_STATUS                       |     Identical     |       |
-| PrivateEndpointConnection_STATUS            | PrivateEndpointConnection_STATUS                             |     Identical     |       |
-|                                             | PrivateEndpointDestination                                   |        New        |       |
-|                                             | PrivateEndpointDestination_STATUS                            |        New        |       |
-|                                             | PrivateEndpointOutboundRule                                  |        New        |       |
-|                                             | PrivateEndpointOutboundRule_STATUS                           |        New        |       |
-|                                             | Recurrence                                                   |        New        |       |
-|                                             | Recurrence_STATUS                                            |        New        |       |
-| ResourceId                                  | ResourceId                                                   |     Identical     |       |
-| ResourceId_STATUS                           | ResourceId_STATUS                                            |     Identical     |       |
-|                                             | SASAuthTypeWorkspaceConnectionProperties                     |        New        |       |
-|                                             | SASAuthTypeWorkspaceConnectionProperties_STATUS              |        New        |       |
-| ScaleSettings                               | ScaleSettings                                                |     Identical     |       |
-| ScaleSettings_STATUS                        | ScaleSettings_STATUS                                         |     Identical     |       |
-|                                             | ScheduleBase                                                 |        New        |       |
-|                                             | ScheduleBase_STATUS                                          |        New        |       |
-| ScriptReference                             | ScriptReference                                              |     Identical     |       |
-| ScriptReference_STATUS                      | ScriptReference_STATUS                                       |     Identical     |       |
-| ScriptsToExecute                            | ScriptsToExecute                                             |     Identical     |       |
-| ScriptsToExecute_STATUS                     | ScriptsToExecute_STATUS                                      |     Identical     |       |
-|                                             | ServerlessComputeSettings                                    |        New        |       |
-|                                             | ServerlessComputeSettings_STATUS                             |        New        |       |
-| ServiceManagedResourcesSettings             | ServiceManagedResourcesSettings                              |     Identical     |       |
-| ServiceManagedResourcesSettings_STATUS      | ServiceManagedResourcesSettings_STATUS                       |     Identical     |       |
-|                                             | ServicePrincipalAuthTypeWorkspaceConnectionProperties        |        New        |       |
-|                                             | ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS |        New        |       |
-|                                             | ServiceTagDestination                                        |        New        |       |
-|                                             | ServiceTagDestination_STATUS                                 |        New        |       |
-|                                             | ServiceTagOutboundRule                                       |        New        |       |
-|                                             | ServiceTagOutboundRule_STATUS                                |        New        |       |
-| SetupScripts                                | SetupScripts                                                 |     Identical     |       |
-| SetupScripts_STATUS                         | SetupScripts_STATUS                                          |     Identical     |       |
-| SharedPrivateLinkResource                   | SharedPrivateLinkResource                                    |     Identical     |       |
-| SharedPrivateLinkResource_STATUS            | SharedPrivateLinkResource_STATUS                             |     Identical     |       |
-| Sku                                         | Sku                                                          |     Extended      |       |
-| Sku_STATUS                                  | Sku_STATUS                                                   |     Extended      |       |
-| SslConfiguration                            | SslConfiguration                                             |     Identical     |       |
-| SslConfiguration_STATUS                     | SslConfiguration_STATUS                                      |     Identical     |       |
-| SynapseSpark                                | SynapseSpark                                                 |     Identical     |       |
-| SynapseSpark_Properties                     | SynapseSpark_Properties                                      |     Identical     |       |
-| SynapseSpark_Properties_STATUS              | SynapseSpark_Properties_STATUS                               |     Identical     |       |
-| SynapseSpark_STATUS                         | SynapseSpark_STATUS                                          |     Identical     |       |
-| SystemData                                  |                                                              |      Retired      |       |
-|                                             | SystemData_STATUS                                            |        New        |       |
-| SystemData_STATUS                           | SystemData_STATUS                                            |     Identical     |       |
-| SystemService_STATUS                        | SystemService_STATUS                                         |     Identical     |       |
-|                                             | TmpfsOptions                                                 |        New        |       |
-|                                             | TmpfsOptions_STATUS                                          |        New        |       |
-| UserAccountCredentials                      | UserAccountCredentials                                       |     Identical     |       |
-| UserAccountCredentials_STATUS               | UserAccountCredentials_STATUS                                |     Identical     |       |
-| UserAssignedIdentityDetails                 | UserAssignedIdentityDetails                                  |     Identical     |       |
-| UserAssignedIdentity_STATUS                 | UserAssignedIdentity_STATUS                                  |     Modified      |       |
-|                                             | UsernamePasswordAuthTypeWorkspaceConnectionProperties        |        New        |       |
-|                                             | UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS |        New        |       |
-| VirtualMachine                              | VirtualMachine                                               |     Identical     |       |
-| VirtualMachineImage                         | VirtualMachineImage                                          |     Identical     |       |
-| VirtualMachineImage_STATUS                  | VirtualMachineImage_STATUS                                   |     Identical     |       |
-| VirtualMachineSshCredentials                | VirtualMachineSshCredentials                                 |     Identical     |       |
-| VirtualMachineSshCredentials_STATUS         | VirtualMachineSshCredentials_STATUS                          |     Identical     |       |
-| VirtualMachine_Properties                   | VirtualMachine_Properties                                    |     Extended      |       |
-| VirtualMachine_Properties_STATUS            | VirtualMachine_Properties_STATUS                             |     Extended      |       |
-| VirtualMachine_STATUS                       | VirtualMachine_STATUS                                        |     Identical     |       |
-|                                             | VolumeDefinition                                             |        New        |       |
-|                                             | VolumeDefinition_STATUS                                      |        New        |       |
-|                                             | VolumeOptions                                                |        New        |       |
-|                                             | VolumeOptions_STATUS                                         |        New        |       |
-|                                             | WorkspaceConnectionAccessKey                                 |        New        |       |
-|                                             | WorkspaceConnectionAccessKey_STATUS                          |        New        |       |
-|                                             | WorkspaceConnectionAccountKey                                |        New        |       |
-|                                             | WorkspaceConnectionAccountKey_STATUS                         |        New        |       |
-|                                             | WorkspaceConnectionApiKey                                    |        New        |       |
-|                                             | WorkspaceConnectionApiKey_STATUS                             |        New        |       |
-|                                             | WorkspaceConnectionManagedIdentity                           |        New        |       |
-|                                             | WorkspaceConnectionManagedIdentity_STATUS                    |        New        |       |
-|                                             | WorkspaceConnectionOAuth2                                    |        New        |       |
-|                                             | WorkspaceConnectionOAuth2_STATUS                             |        New        |       |
-|                                             | WorkspaceConnectionPersonalAccessToken                       |        New        |       |
-|                                             | WorkspaceConnectionPersonalAccessToken_STATUS                |        New        |       |
-|                                             | WorkspaceConnectionPropertiesV2                              |        New        |       |
-|                                             | WorkspaceConnectionPropertiesV2_STATUS                       |        New        |       |
-|                                             | WorkspaceConnectionServicePrincipal                          |        New        |       |
-|                                             | WorkspaceConnectionServicePrincipal_STATUS                   |        New        |       |
-|                                             | WorkspaceConnectionSharedAccessSignature                     |        New        |       |
-|                                             | WorkspaceConnectionSharedAccessSignature_STATUS              |        New        |       |
-|                                             | WorkspaceConnectionUsernamePassword                          |        New        |       |
-|                                             | WorkspaceConnectionUsernamePassword_STATUS                   |        New        |       |
-|                                             | WorkspaceHubConfig                                           |        New        |       |
-|                                             | WorkspaceHubConfig_STATUS                                    |        New        |       |
-| WorkspaceOperatorSecrets                    | WorkspaceOperatorSecrets                                     |     Identical     |       |
-| WorkspaceOperatorSpec                       | WorkspaceOperatorSpec                                        |     Identical     |       |
-| Workspace_STATUS                            | Workspace_STATUS                                             |     Extended      |       |
-| Workspace_Spec                              | Workspace_Spec                                               |     Modified      |       |
-| WorkspacesComputeOperatorSpec               | WorkspacesComputeOperatorSpec                                |     Identical     |       |
-| WorkspacesCompute_STATUS                    | WorkspacesCompute_STATUS                                     |     Identical     |       |
-| WorkspacesCompute_Spec                      | WorkspacesCompute_Spec                                       |     Modified      |       |
-| WorkspacesConnectionOperatorSpec            | WorkspacesConnectionOperatorSpec                             |     Identical     |       |
-| WorkspacesConnection_STATUS                 | WorkspacesConnection_STATUS                                  |     Modified      |       |
-| WorkspacesConnection_Spec                   | WorkspacesConnection_Spec                                    |     Modified      |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20210701/storage                       | v1api20240401/storage                                        |      Status       | Notes                                                                                                                                                              |
+|:--------------------------------------------|:-------------------------------------------------------------|:-----------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|                                             | AADAuthTypeWorkspaceConnectionProperties                     |        New        |                                                                                                                                                                    |
+|                                             | AADAuthTypeWorkspaceConnectionProperties_STATUS              |        New        |                                                                                                                                                                    |
+| AKS                                         | AKS                                                          |     Identical     |                                                                                                                                                                    |
+| AKS_Properties                              | AKS_Properties                                               |     Modified      |                                                                                                                                                                    |
+| AKS_Properties_STATUS                       | AKS_Properties_STATUS                                        |     Identical     |                                                                                                                                                                    |
+| AKS_STATUS                                  | AKS_STATUS                                                   |     Identical     |                                                                                                                                                                    |
+|                                             | AccessKeyAuthTypeWorkspaceConnectionProperties               |        New        |                                                                                                                                                                    |
+|                                             | AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS        |        New        |                                                                                                                                                                    |
+|                                             | AccountKeyAuthTypeWorkspaceConnectionProperties              |        New        |                                                                                                                                                                    |
+|                                             | AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS       |        New        |                                                                                                                                                                    |
+| AksNetworkingConfiguration                  | AksNetworkingConfiguration                                   |     Identical     |                                                                                                                                                                    |
+| AksNetworkingConfiguration_STATUS           | AksNetworkingConfiguration_STATUS                            |     Identical     |                                                                                                                                                                    |
+| AmlCompute                                  | AmlCompute                                                   |     Identical     |                                                                                                                                                                    |
+| AmlComputeProperties                        | AmlComputeProperties                                         |     Modified      |                                                                                                                                                                    |
+| AmlComputeProperties_STATUS                 | AmlComputeProperties_STATUS                                  |     Modified      |                                                                                                                                                                    |
+| AmlCompute_STATUS                           | AmlCompute_STATUS                                            |     Identical     |                                                                                                                                                                    |
+|                                             | ApiKeyAuthWorkspaceConnectionProperties                      |        New        |                                                                                                                                                                    |
+|                                             | ApiKeyAuthWorkspaceConnectionProperties_STATUS               |        New        |                                                                                                                                                                    |
+| AssignedUser                                | AssignedUser                                                 |     Extended      | +ObjectIdFromConfig +TenantIdFromConfig                                                                                                                            |
+| AssignedUser_STATUS                         | AssignedUser_STATUS                                          |     Identical     |                                                                                                                                                                    |
+| AutoPauseProperties                         | AutoPauseProperties                                          |     Identical     |                                                                                                                                                                    |
+| AutoPauseProperties_STATUS                  | AutoPauseProperties_STATUS                                   |     Identical     |                                                                                                                                                                    |
+| AutoScaleProperties                         | AutoScaleProperties                                          |     Identical     |                                                                                                                                                                    |
+| AutoScaleProperties_STATUS                  | AutoScaleProperties_STATUS                                   |     Identical     |                                                                                                                                                                    |
+|                                             | BindOptions                                                  |        New        |                                                                                                                                                                    |
+|                                             | BindOptions_STATUS                                           |        New        |                                                                                                                                                                    |
+| Compute                                     | Compute                                                      |     Identical     |                                                                                                                                                                    |
+| ComputeInstance                             | ComputeInstance                                              |     Identical     |                                                                                                                                                                    |
+| ComputeInstanceApplication_STATUS           | ComputeInstanceApplication_STATUS                            |     Identical     |                                                                                                                                                                    |
+| ComputeInstanceConnectivityEndpoints_STATUS | ComputeInstanceConnectivityEndpoints_STATUS                  |     Identical     |                                                                                                                                                                    |
+|                                             | ComputeInstanceContainer_STATUS                              |        New        |                                                                                                                                                                    |
+| ComputeInstanceCreatedBy_STATUS             | ComputeInstanceCreatedBy_STATUS                              |     Identical     |                                                                                                                                                                    |
+|                                             | ComputeInstanceDataDisk_STATUS                               |        New        |                                                                                                                                                                    |
+|                                             | ComputeInstanceDataMount_STATUS                              |        New        |                                                                                                                                                                    |
+|                                             | ComputeInstanceEnvironmentInfo_STATUS                        |        New        |                                                                                                                                                                    |
+| ComputeInstanceLastOperation_STATUS         | ComputeInstanceLastOperation_STATUS                          |     Extended      | +OperationTrigger                                                                                                                                                  |
+| ComputeInstanceProperties                   | ComputeInstanceProperties                                    |     Extended      | +CustomServices +EnableNodePublicIp +Schedules                                                                                                                     |
+| ComputeInstanceProperties_STATUS            | ComputeInstanceProperties_STATUS                             |     Extended      | +Containers +CustomServices +DataDisks +DataMounts +EnableNodePublicIp +OsImageMetadata +Schedules +Versions                                                       |
+| ComputeInstanceSshSettings                  | ComputeInstanceSshSettings                                   |     Identical     |                                                                                                                                                                    |
+| ComputeInstanceSshSettings_STATUS           | ComputeInstanceSshSettings_STATUS                            |     Identical     |                                                                                                                                                                    |
+|                                             | ComputeInstanceVersion_STATUS                                |        New        |                                                                                                                                                                    |
+| ComputeInstance_STATUS                      | ComputeInstance_STATUS                                       |     Identical     |                                                                                                                                                                    |
+|                                             | ComputeRecurrenceSchedule                                    |        New        |                                                                                                                                                                    |
+|                                             | ComputeRecurrenceSchedule_STATUS                             |        New        |                                                                                                                                                                    |
+|                                             | ComputeRuntimeDto                                            |        New        |                                                                                                                                                                    |
+|                                             | ComputeRuntimeDto_STATUS                                     |        New        |                                                                                                                                                                    |
+|                                             | ComputeSchedules                                             |        New        |                                                                                                                                                                    |
+|                                             | ComputeSchedules_STATUS                                      |        New        |                                                                                                                                                                    |
+|                                             | ComputeStartStopSchedule                                     |        New        |                                                                                                                                                                    |
+|                                             | ComputeStartStopSchedule_STATUS                              |        New        |                                                                                                                                                                    |
+| Compute_STATUS                              | Compute_STATUS                                               |     Identical     |                                                                                                                                                                    |
+| CosmosDbSettings                            | CosmosDbSettings                                             |     Identical     |                                                                                                                                                                    |
+| CosmosDbSettings_STATUS                     | CosmosDbSettings_STATUS                                      |     Identical     |                                                                                                                                                                    |
+|                                             | Cron                                                         |        New        |                                                                                                                                                                    |
+|                                             | Cron_STATUS                                                  |        New        |                                                                                                                                                                    |
+|                                             | CustomKeys                                                   |        New        |                                                                                                                                                                    |
+|                                             | CustomKeysWorkspaceConnectionProperties                      |        New        |                                                                                                                                                                    |
+|                                             | CustomKeysWorkspaceConnectionProperties_STATUS               |        New        |                                                                                                                                                                    |
+|                                             | CustomKeys_STATUS                                            |        New        |                                                                                                                                                                    |
+|                                             | CustomService                                                |        New        |                                                                                                                                                                    |
+|                                             | CustomService_STATUS                                         |        New        |                                                                                                                                                                    |
+| DataFactory                                 | DataFactory                                                  |     Identical     |                                                                                                                                                                    |
+| DataFactory_STATUS                          | DataFactory_STATUS                                           |     Identical     |                                                                                                                                                                    |
+| DataLakeAnalytics                           | DataLakeAnalytics                                            |     Identical     |                                                                                                                                                                    |
+| DataLakeAnalytics_Properties                | DataLakeAnalytics_Properties                                 |     Identical     |                                                                                                                                                                    |
+| DataLakeAnalytics_Properties_STATUS         | DataLakeAnalytics_Properties_STATUS                          |     Identical     |                                                                                                                                                                    |
+| DataLakeAnalytics_STATUS                    | DataLakeAnalytics_STATUS                                     |     Identical     |                                                                                                                                                                    |
+| Databricks                                  | Databricks                                                   |     Identical     |                                                                                                                                                                    |
+| DatabricksProperties                        | DatabricksProperties                                         |     Identical     |                                                                                                                                                                    |
+| DatabricksProperties_STATUS                 | DatabricksProperties_STATUS                                  |     Identical     |                                                                                                                                                                    |
+| Databricks_STATUS                           | Databricks_STATUS                                            |     Identical     |                                                                                                                                                                    |
+|                                             | Docker                                                       |        New        |                                                                                                                                                                    |
+|                                             | Docker_STATUS                                                |        New        |                                                                                                                                                                    |
+| EncryptionProperty                          | EncryptionProperty                                           |     Identical     |                                                                                                                                                                    |
+| EncryptionProperty_STATUS                   | EncryptionProperty_STATUS                                    |     Identical     |                                                                                                                                                                    |
+|                                             | Endpoint                                                     |        New        |                                                                                                                                                                    |
+|                                             | Endpoint_STATUS                                              |        New        |                                                                                                                                                                    |
+|                                             | EnvironmentVariable                                          |        New        |                                                                                                                                                                    |
+|                                             | EnvironmentVariable_STATUS                                   |        New        |                                                                                                                                                                    |
+| ErrorAdditionalInfo_STATUS                  | ErrorAdditionalInfo_STATUS                                   |     Identical     |                                                                                                                                                                    |
+| ErrorDetail_STATUS                          | ErrorDetail_STATUS                                           |     Identical     |                                                                                                                                                                    |
+| ErrorDetail_STATUS_Unrolled                 | ErrorDetail_STATUS_Unrolled                                  |     Identical     |                                                                                                                                                                    |
+| ErrorResponse_STATUS                        | ErrorResponse_STATUS                                         |     Identical     |                                                                                                                                                                    |
+|                                             | FeatureStoreSettings                                         |        New        |                                                                                                                                                                    |
+|                                             | FeatureStoreSettings_STATUS                                  |        New        |                                                                                                                                                                    |
+|                                             | FqdnOutboundRule                                             |        New        |                                                                                                                                                                    |
+|                                             | FqdnOutboundRule_STATUS                                      |        New        |                                                                                                                                                                    |
+| HDInsight                                   | HDInsight                                                    |     Identical     |                                                                                                                                                                    |
+| HDInsightProperties                         | HDInsightProperties                                          |     Identical     |                                                                                                                                                                    |
+| HDInsightProperties_STATUS                  | HDInsightProperties_STATUS                                   |     Identical     |                                                                                                                                                                    |
+| HDInsight_STATUS                            | HDInsight_STATUS                                             |     Identical     |                                                                                                                                                                    |
+| Identity                                    | ManagedServiceIdentity                                       |      Renamed      |                                                                                                                                                                    |
+| IdentityForCmk                              | IdentityForCmk                                               |     Modified      |                                                                                                                                                                    |
+| IdentityForCmk_STATUS                       | IdentityForCmk_STATUS                                        |     Identical     |                                                                                                                                                                    |
+| Identity_STATUS                             | ManagedServiceIdentity_STATUS                                |      Renamed      |                                                                                                                                                                    |
+|                                             | Image                                                        |        New        |                                                                                                                                                                    |
+|                                             | ImageMetadata_STATUS                                         |        New        |                                                                                                                                                                    |
+|                                             | Image_STATUS                                                 |        New        |                                                                                                                                                                    |
+| InstanceTypeSchema                          | InstanceTypeSchema                                           |     Identical     |                                                                                                                                                                    |
+| InstanceTypeSchema_Resources                | InstanceTypeSchema_Resources                                 |     Identical     |                                                                                                                                                                    |
+| InstanceTypeSchema_Resources_STATUS         | InstanceTypeSchema_Resources_STATUS                          |     Identical     |                                                                                                                                                                    |
+| InstanceTypeSchema_STATUS                   | InstanceTypeSchema_STATUS                                    |     Identical     |                                                                                                                                                                    |
+| KeyVaultProperties                          | EncryptionKeyVaultProperties                                 | Renamed, Modified |                                                                                                                                                                    |
+| KeyVaultProperties_STATUS                   | EncryptionKeyVaultProperties_STATUS                          |      Renamed      |                                                                                                                                                                    |
+| Kubernetes                                  | Kubernetes                                                   |     Identical     |                                                                                                                                                                    |
+| KubernetesProperties                        | KubernetesProperties                                         |     Extended      | +ExtensionPrincipalIdFromConfig                                                                                                                                    |
+| KubernetesProperties_STATUS                 | KubernetesProperties_STATUS                                  |     Identical     |                                                                                                                                                                    |
+| Kubernetes_STATUS                           | Kubernetes_STATUS                                            |     Identical     |                                                                                                                                                                    |
+|                                             | ManagedIdentityAuthTypeWorkspaceConnectionProperties         |        New        |                                                                                                                                                                    |
+|                                             | ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS  |        New        |                                                                                                                                                                    |
+|                                             | ManagedNetworkProvisionStatus                                |        New        |                                                                                                                                                                    |
+|                                             | ManagedNetworkProvisionStatus_STATUS                         |        New        |                                                                                                                                                                    |
+|                                             | ManagedNetworkSettings                                       |        New        |                                                                                                                                                                    |
+|                                             | ManagedNetworkSettings_STATUS                                |        New        |                                                                                                                                                                    |
+| NodeStateCounts_STATUS                      | NodeStateCounts_STATUS                                       |     Identical     |                                                                                                                                                                    |
+|                                             | NoneAuthTypeWorkspaceConnectionProperties                    |        New        |                                                                                                                                                                    |
+|                                             | NoneAuthTypeWorkspaceConnectionProperties_STATUS             |        New        |                                                                                                                                                                    |
+| NotebookPreparationError_STATUS             | NotebookPreparationError_STATUS                              |     Identical     |                                                                                                                                                                    |
+| NotebookResourceInfo_STATUS                 | NotebookResourceInfo_STATUS                                  |     Identical     |                                                                                                                                                                    |
+|                                             | OAuth2AuthTypeWorkspaceConnectionProperties                  |        New        |                                                                                                                                                                    |
+|                                             | OAuth2AuthTypeWorkspaceConnectionProperties_STATUS           |        New        |                                                                                                                                                                    |
+|                                             | OutboundRule                                                 |        New        |                                                                                                                                                                    |
+|                                             | OutboundRule_STATUS                                          |        New        |                                                                                                                                                                    |
+|                                             | PATAuthTypeWorkspaceConnectionProperties                     |        New        |                                                                                                                                                                    |
+|                                             | PATAuthTypeWorkspaceConnectionProperties_STATUS              |        New        |                                                                                                                                                                    |
+| PersonalComputeInstanceSettings             | PersonalComputeInstanceSettings                              |     Identical     |                                                                                                                                                                    |
+| PersonalComputeInstanceSettings_STATUS      | PersonalComputeInstanceSettings_STATUS                       |     Identical     |                                                                                                                                                                    |
+| PrivateEndpointConnection_STATUS            | PrivateEndpointConnection_STATUS                             |     Identical     |                                                                                                                                                                    |
+|                                             | PrivateEndpointDestination                                   |        New        |                                                                                                                                                                    |
+|                                             | PrivateEndpointDestination_STATUS                            |        New        |                                                                                                                                                                    |
+|                                             | PrivateEndpointOutboundRule                                  |        New        |                                                                                                                                                                    |
+|                                             | PrivateEndpointOutboundRule_STATUS                           |        New        |                                                                                                                                                                    |
+|                                             | Recurrence                                                   |        New        |                                                                                                                                                                    |
+|                                             | Recurrence_STATUS                                            |        New        |                                                                                                                                                                    |
+| ResourceId                                  | ResourceId                                                   |     Identical     |                                                                                                                                                                    |
+| ResourceId_STATUS                           | ResourceId_STATUS                                            |     Identical     |                                                                                                                                                                    |
+|                                             | SASAuthTypeWorkspaceConnectionProperties                     |        New        |                                                                                                                                                                    |
+|                                             | SASAuthTypeWorkspaceConnectionProperties_STATUS              |        New        |                                                                                                                                                                    |
+| ScaleSettings                               | ScaleSettings                                                |     Identical     |                                                                                                                                                                    |
+| ScaleSettings_STATUS                        | ScaleSettings_STATUS                                         |     Identical     |                                                                                                                                                                    |
+|                                             | ScheduleBase                                                 |        New        |                                                                                                                                                                    |
+|                                             | ScheduleBase_STATUS                                          |        New        |                                                                                                                                                                    |
+| ScriptReference                             | ScriptReference                                              |     Identical     |                                                                                                                                                                    |
+| ScriptReference_STATUS                      | ScriptReference_STATUS                                       |     Identical     |                                                                                                                                                                    |
+| ScriptsToExecute                            | ScriptsToExecute                                             |     Identical     |                                                                                                                                                                    |
+| ScriptsToExecute_STATUS                     | ScriptsToExecute_STATUS                                      |     Identical     |                                                                                                                                                                    |
+|                                             | ServerlessComputeSettings                                    |        New        |                                                                                                                                                                    |
+|                                             | ServerlessComputeSettings_STATUS                             |        New        |                                                                                                                                                                    |
+| ServiceManagedResourcesSettings             | ServiceManagedResourcesSettings                              |     Identical     |                                                                                                                                                                    |
+| ServiceManagedResourcesSettings_STATUS      | ServiceManagedResourcesSettings_STATUS                       |     Identical     |                                                                                                                                                                    |
+|                                             | ServicePrincipalAuthTypeWorkspaceConnectionProperties        |        New        |                                                                                                                                                                    |
+|                                             | ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS |        New        |                                                                                                                                                                    |
+|                                             | ServiceTagDestination                                        |        New        |                                                                                                                                                                    |
+|                                             | ServiceTagDestination_STATUS                                 |        New        |                                                                                                                                                                    |
+|                                             | ServiceTagOutboundRule                                       |        New        |                                                                                                                                                                    |
+|                                             | ServiceTagOutboundRule_STATUS                                |        New        |                                                                                                                                                                    |
+| SetupScripts                                | SetupScripts                                                 |     Identical     |                                                                                                                                                                    |
+| SetupScripts_STATUS                         | SetupScripts_STATUS                                          |     Identical     |                                                                                                                                                                    |
+| SharedPrivateLinkResource                   | SharedPrivateLinkResource                                    |     Identical     |                                                                                                                                                                    |
+| SharedPrivateLinkResource_STATUS            | SharedPrivateLinkResource_STATUS                             |     Identical     |                                                                                                                                                                    |
+| Sku                                         | Sku                                                          |     Extended      | +Capacity +Family +Size                                                                                                                                            |
+| Sku_STATUS                                  | Sku_STATUS                                                   |     Extended      | +Capacity +Family +Size                                                                                                                                            |
+| SslConfiguration                            | SslConfiguration                                             |     Identical     |                                                                                                                                                                    |
+| SslConfiguration_STATUS                     | SslConfiguration_STATUS                                      |     Identical     |                                                                                                                                                                    |
+| SynapseSpark                                | SynapseSpark                                                 |     Identical     |                                                                                                                                                                    |
+| SynapseSpark_Properties                     | SynapseSpark_Properties                                      |     Identical     |                                                                                                                                                                    |
+| SynapseSpark_Properties_STATUS              | SynapseSpark_Properties_STATUS                               |     Identical     |                                                                                                                                                                    |
+| SynapseSpark_STATUS                         | SynapseSpark_STATUS                                          |     Identical     |                                                                                                                                                                    |
+| SystemData                                  |                                                              |      Retired      |                                                                                                                                                                    |
+|                                             | SystemData_STATUS                                            |        New        |                                                                                                                                                                    |
+| SystemData_STATUS                           | SystemData_STATUS                                            |     Identical     |                                                                                                                                                                    |
+| SystemService_STATUS                        | SystemService_STATUS                                         |     Identical     |                                                                                                                                                                    |
+|                                             | TmpfsOptions                                                 |        New        |                                                                                                                                                                    |
+|                                             | TmpfsOptions_STATUS                                          |        New        |                                                                                                                                                                    |
+| UserAccountCredentials                      | UserAccountCredentials                                       |     Identical     |                                                                                                                                                                    |
+| UserAccountCredentials_STATUS               | UserAccountCredentials_STATUS                                |     Identical     |                                                                                                                                                                    |
+| UserAssignedIdentityDetails                 | UserAssignedIdentityDetails                                  |     Identical     |                                                                                                                                                                    |
+| UserAssignedIdentity_STATUS                 | UserAssignedIdentity_STATUS                                  |     Modified      |                                                                                                                                                                    |
+|                                             | UsernamePasswordAuthTypeWorkspaceConnectionProperties        |        New        |                                                                                                                                                                    |
+|                                             | UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS |        New        |                                                                                                                                                                    |
+| VirtualMachine                              | VirtualMachine                                               |     Identical     |                                                                                                                                                                    |
+| VirtualMachineImage                         | VirtualMachineImage                                          |     Identical     |                                                                                                                                                                    |
+| VirtualMachineImage_STATUS                  | VirtualMachineImage_STATUS                                   |     Identical     |                                                                                                                                                                    |
+| VirtualMachineSshCredentials                | VirtualMachineSshCredentials                                 |     Identical     |                                                                                                                                                                    |
+| VirtualMachineSshCredentials_STATUS         | VirtualMachineSshCredentials_STATUS                          |     Identical     |                                                                                                                                                                    |
+| VirtualMachine_Properties                   | VirtualMachine_Properties                                    |     Extended      | +NotebookServerPort                                                                                                                                                |
+| VirtualMachine_Properties_STATUS            | VirtualMachine_Properties_STATUS                             |     Extended      | +NotebookServerPort                                                                                                                                                |
+| VirtualMachine_STATUS                       | VirtualMachine_STATUS                                        |     Identical     |                                                                                                                                                                    |
+|                                             | VolumeDefinition                                             |        New        |                                                                                                                                                                    |
+|                                             | VolumeDefinition_STATUS                                      |        New        |                                                                                                                                                                    |
+|                                             | VolumeOptions                                                |        New        |                                                                                                                                                                    |
+|                                             | VolumeOptions_STATUS                                         |        New        |                                                                                                                                                                    |
+|                                             | WorkspaceConnectionAccessKey                                 |        New        |                                                                                                                                                                    |
+|                                             | WorkspaceConnectionAccessKey_STATUS                          |        New        |                                                                                                                                                                    |
+|                                             | WorkspaceConnectionAccountKey                                |        New        |                                                                                                                                                                    |
+|                                             | WorkspaceConnectionAccountKey_STATUS                         |        New        |                                                                                                                                                                    |
+|                                             | WorkspaceConnectionApiKey                                    |        New        |                                                                                                                                                                    |
+|                                             | WorkspaceConnectionApiKey_STATUS                             |        New        |                                                                                                                                                                    |
+|                                             | WorkspaceConnectionManagedIdentity                           |        New        |                                                                                                                                                                    |
+|                                             | WorkspaceConnectionManagedIdentity_STATUS                    |        New        |                                                                                                                                                                    |
+|                                             | WorkspaceConnectionOAuth2                                    |        New        |                                                                                                                                                                    |
+|                                             | WorkspaceConnectionOAuth2_STATUS                             |        New        |                                                                                                                                                                    |
+|                                             | WorkspaceConnectionPersonalAccessToken                       |        New        |                                                                                                                                                                    |
+|                                             | WorkspaceConnectionPersonalAccessToken_STATUS                |        New        |                                                                                                                                                                    |
+|                                             | WorkspaceConnectionPropertiesV2                              |        New        |                                                                                                                                                                    |
+|                                             | WorkspaceConnectionPropertiesV2_STATUS                       |        New        |                                                                                                                                                                    |
+|                                             | WorkspaceConnectionServicePrincipal                          |        New        |                                                                                                                                                                    |
+|                                             | WorkspaceConnectionServicePrincipal_STATUS                   |        New        |                                                                                                                                                                    |
+|                                             | WorkspaceConnectionSharedAccessSignature                     |        New        |                                                                                                                                                                    |
+|                                             | WorkspaceConnectionSharedAccessSignature_STATUS              |        New        |                                                                                                                                                                    |
+|                                             | WorkspaceConnectionUsernamePassword                          |        New        |                                                                                                                                                                    |
+|                                             | WorkspaceConnectionUsernamePassword_STATUS                   |        New        |                                                                                                                                                                    |
+|                                             | WorkspaceHubConfig                                           |        New        |                                                                                                                                                                    |
+|                                             | WorkspaceHubConfig_STATUS                                    |        New        |                                                                                                                                                                    |
+| WorkspaceOperatorSecrets                    | WorkspaceOperatorSecrets                                     |     Identical     |                                                                                                                                                                    |
+| WorkspaceOperatorSpec                       | WorkspaceOperatorSpec                                        |     Identical     |                                                                                                                                                                    |
+| Workspace_STATUS                            | Workspace_STATUS                                             |     Extended      | +AssociatedWorkspaces +EnableDataIsolation +FeatureStoreSettings +HubResourceId +Kind +ManagedNetwork +ServerlessComputeSettings +V1LegacyMode +WorkspaceHubConfig |
+| Workspace_Spec                              | Workspace_Spec                                               |     Modified      |                                                                                                                                                                    |
+| WorkspacesComputeOperatorSpec               | WorkspacesComputeOperatorSpec                                |     Identical     |                                                                                                                                                                    |
+| WorkspacesCompute_STATUS                    | WorkspacesCompute_STATUS                                     |     Identical     |                                                                                                                                                                    |
+| WorkspacesCompute_Spec                      | WorkspacesCompute_Spec                                       |     Modified      |                                                                                                                                                                    |
+| WorkspacesConnectionOperatorSpec            | WorkspacesConnectionOperatorSpec                             |     Identical     |                                                                                                                                                                    |
+| WorkspacesConnection_STATUS                 | WorkspacesConnection_STATUS                                  |     Modified      |                                                                                                                                                                    |
+| WorkspacesConnection_Spec                   | WorkspacesConnection_Spec                                    |     Modified      |                                                                                                                                                                    |
 
 ### AKS_Properties
 
-8 x Identical, 1 x New, 1 x Retired
+Properties: 8 x Identical, 1 x New, 1 x Retired
 
 | v1api20210701/storage      |                             | v1api20240401/storage       |                               |  Status   | Notes                                            |
 |:---------------------------|:----------------------------|:----------------------------|:------------------------------|:---------:|:-------------------------------------------------|
@@ -265,7 +258,7 @@
 
 ### AmlComputeProperties
 
-10 x Identical, 1 x New, 1 x Modified
+Properties: 10 x Identical, 1 x New, 1 x Modified
 
 | v1api20210701/storage       |                         | v1api20240401/storage       |                         |  Status   | Notes |
 |:----------------------------|:------------------------|:----------------------------|:------------------------|:---------:|:------|
@@ -284,7 +277,7 @@
 
 ### AmlComputeProperties_STATUS
 
-16 x Identical, 1 x New, 1 x Modified
+Properties: 16 x Identical, 1 x New, 1 x Modified
 
 | v1api20210701/storage         |                                | v1api20240401/storage         |                                |  Status   | Notes |
 |:------------------------------|:-------------------------------|:------------------------------|:-------------------------------|:---------:|:------|
@@ -309,7 +302,7 @@
 
 ### AssignedUser
 
-3 x Identical, 2 x New
+Properties: 3 x Identical, 2 x New
 
 | v1api20210701/storage |                        | v1api20240401/storage |                                |  Status   | Notes |
 |:----------------------|:-----------------------|:----------------------|:-------------------------------|:---------:|:------|
@@ -321,7 +314,7 @@
 
 ### ComputeInstanceLastOperation_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20210701/storage |                        | v1api20240401/storage |                        |  Status   | Notes |
 |:----------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -333,7 +326,7 @@
 
 ### ComputeInstanceProperties
 
-8 x Identical, 3 x New
+Properties: 8 x Identical, 3 x New
 
 | v1api20210701/storage            |                                  | v1api20240401/storage            |                                  |  Status   | Notes |
 |:---------------------------------|:---------------------------------|:---------------------------------|:---------------------------------|:---------:|:------|
@@ -351,7 +344,7 @@
 
 ### ComputeInstanceProperties_STATUS
 
-14 x Identical, 8 x New
+Properties: 14 x Identical, 8 x New
 
 | v1api20210701/storage            |                                              | v1api20240401/storage            |                                              |  Status   | Notes |
 |:---------------------------------|:---------------------------------------------|:---------------------------------|:---------------------------------------------|:---------:|:------|
@@ -380,7 +373,7 @@
 
 ### IdentityForCmk
 
-2 x Identical, 1 x Retired
+Properties: 2 x Identical, 1 x Retired
 
 | v1api20210701/storage         |                               | v1api20240401/storage         |                               |  Status   | Notes |
 |:------------------------------|:------------------------------|:------------------------------|:------------------------------|:---------:|:------|
@@ -390,7 +383,7 @@
 
 ### KeyVaultProperties
 
-4 x Identical, 1 x New, 1 x Retired
+Properties: 4 x Identical, 1 x New, 1 x Retired
 
 | v1api20210701/storage |                               | v1api20240401/storage      |                                |  Status   | Notes |
 |:----------------------|:------------------------------|:---------------------------|:-------------------------------|:---------:|:------|
@@ -403,7 +396,7 @@
 
 ### KubernetesProperties
 
-9 x Identical, 1 x New
+Properties: 9 x Identical, 1 x New
 
 | v1api20210701/storage         |                               | v1api20240401/storage          |                                |  Status   | Notes |
 |:------------------------------|:------------------------------|:-------------------------------|:-------------------------------|:---------:|:------|
@@ -420,7 +413,7 @@
 
 ### Sku
 
-3 x Identical, 3 x New
+Properties: 3 x Identical, 3 x New
 
 | v1api20210701/storage |                        | v1api20240401/storage |                        |  Status   | Notes |
 |:----------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -433,7 +426,7 @@
 
 ### Sku_STATUS
 
-3 x Identical, 3 x New
+Properties: 3 x Identical, 3 x New
 
 | v1api20210701/storage |                        | v1api20240401/storage |                        |  Status   | Notes |
 |:----------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -446,7 +439,7 @@
 
 ### UserAssignedIdentity_STATUS
 
-3 x Identical, 1 x Retired
+Properties: 3 x Identical, 1 x Retired
 
 | v1api20210701/storage |                        | v1api20240401/storage |                        |  Status   | Notes |
 |:----------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -457,7 +450,7 @@
 
 ### VirtualMachine_Properties
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20210701/storage     |                               | v1api20240401/storage     |                               |  Status   | Notes |
 |:--------------------------|:------------------------------|:--------------------------|:------------------------------|:---------:|:------|
@@ -471,7 +464,7 @@
 
 ### VirtualMachine_Properties_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20210701/storage     |                                      | v1api20240401/storage     |                                      |  Status   | Notes |
 |:--------------------------|:-------------------------------------|:--------------------------|:-------------------------------------|:---------:|:------|
@@ -485,7 +478,7 @@
 
 ### Workspace_STATUS
 
-34 x Identical, 9 x New
+Properties: 34 x Identical, 9 x New
 
 | v1api20210701/storage           |                                         | v1api20240401/storage           |                                         |  Status   | Notes                                                     |
 |:--------------------------------|:----------------------------------------|:--------------------------------|:----------------------------------------|:---------:|:----------------------------------------------------------|
@@ -535,7 +528,7 @@
 
 ### Workspace_Spec
 
-24 x Identical, 9 x New, 1 x Retired
+Properties: 24 x Identical, 9 x New, 1 x Retired
 
 | v1api20210701/storage                |                                    | v1api20240401/storage                |                                    |  Status   | Notes                                       |
 |:-------------------------------------|:-----------------------------------|:-------------------------------------|:-----------------------------------|:---------:|:--------------------------------------------|
@@ -576,7 +569,7 @@
 
 ### WorkspacesCompute_Spec
 
-10 x Identical, 1 x Retired
+Properties: 10 x Identical, 1 x Retired
 
 | v1api20210701/storage |                                    | v1api20240401/storage |                                    |  Status   | Notes                                       |
 |:----------------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:--------------------------------------------|
@@ -594,7 +587,7 @@
 
 ### WorkspacesConnection_STATUS
 
-5 x Identical, 2 x New, 5 x Retired
+Properties: 5 x Identical, 2 x New, 5 x Retired
 
 | v1api20210701/storage |                        | v1api20240401/storage |                                         |  Status   | Notes |
 |:----------------------|:-----------------------|:----------------------|:----------------------------------------|:---------:|:------|
@@ -613,7 +606,7 @@
 
 ### WorkspacesConnection_Spec
 
-5 x Identical, 1 x New, 5 x Retired
+Properties: 5 x Identical, 1 x New, 5 x Retired
 
 | v1api20210701/storage |                                    | v1api20240401/storage |                                    |  Status   | Notes |
 |:----------------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -628,3 +621,12 @@
 | Target                | *string                            |                       |                                    |  Retired  |       |
 | Value                 | *string                            |                       |                                    |  Retired  |       |
 | ValueFormat           | *string                            |                       |                                    |  Retired  |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

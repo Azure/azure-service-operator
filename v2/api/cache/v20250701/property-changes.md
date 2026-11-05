@@ -8,57 +8,50 @@
 | RedisEnterpriseDatabase                       | RedisEnterpriseDatabase                       | Identical |       |
 | RedisEnterpriseDatabaseAccessPolicyAssignment | RedisEnterpriseDatabaseAccessPolicyAssignment | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20250701                                                                                       | v20250701/storage                                                                               |  Status  | Notes |
-|:------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------|:--------:|:------|
-| AccessPolicyAssignmentProperties_User                                                           | AccessPolicyAssignmentProperties_User                                                           | Extended |       |
-| AccessPolicyAssignmentProperties_User_STATUS                                                    | AccessPolicyAssignmentProperties_User_STATUS                                                    | Extended |       |
-| ClusterCreateProperties_Encryption                                                              | ClusterCreateProperties_Encryption                                                              | Extended |       |
-| ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption                                 | ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption                                 | Extended |       |
-| ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity        | ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity        | Modified |       |
-| ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS | ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS | Modified |       |
-| ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_STATUS                          | ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_STATUS                          | Extended |       |
-| ClusterCreateProperties_Encryption_STATUS                                                       | ClusterCreateProperties_Encryption_STATUS                                                       | Extended |       |
-| DatabaseCreateProperties_GeoReplication                                                         | DatabaseCreateProperties_GeoReplication                                                         | Extended |       |
-| DatabaseCreateProperties_GeoReplication_STATUS                                                  | DatabaseCreateProperties_GeoReplication_STATUS                                                  | Extended |       |
-| LinkedDatabase                                                                                  | LinkedDatabase                                                                                  | Extended |       |
-| LinkedDatabase_STATUS                                                                           | LinkedDatabase_STATUS                                                                           | Modified |       |
-| ManagedServiceIdentity                                                                          | ManagedServiceIdentity                                                                          | Modified |       |
-| ManagedServiceIdentity_STATUS                                                                   | ManagedServiceIdentity_STATUS                                                                   | Modified |       |
-| Module                                                                                          | Module                                                                                          | Extended |       |
-| Module_STATUS                                                                                   | Module_STATUS                                                                                   | Extended |       |
-| Persistence                                                                                     | Persistence                                                                                     | Modified |       |
-| Persistence_STATUS                                                                              | Persistence_STATUS                                                                              | Modified |       |
-| PrivateEndpointConnection_STATUS                                                                | PrivateEndpointConnection_STATUS                                                                | Extended |       |
-| RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec                                       | RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec                                       | Extended |       |
-| RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS                                            | RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS                                            | Modified |       |
-| RedisEnterpriseDatabaseAccessPolicyAssignment_Spec                                              | RedisEnterpriseDatabaseAccessPolicyAssignment_Spec                                              | Modified |       |
-| RedisEnterpriseDatabaseOperatorSecrets                                                          | RedisEnterpriseDatabaseOperatorSecrets                                                          | Extended |       |
-| RedisEnterpriseDatabaseOperatorSpec                                                             | RedisEnterpriseDatabaseOperatorSpec                                                             | Extended |       |
-| RedisEnterpriseDatabase_STATUS                                                                  | RedisEnterpriseDatabase_STATUS                                                                  | Modified |       |
-| RedisEnterpriseDatabase_Spec                                                                    | RedisEnterpriseDatabase_Spec                                                                    | Modified |       |
-| RedisEnterpriseOperatorSpec                                                                     | RedisEnterpriseOperatorSpec                                                                     | Extended |       |
-| RedisEnterprise_STATUS                                                                          | RedisEnterprise_STATUS                                                                          | Modified |       |
-| RedisEnterprise_Spec                                                                            | RedisEnterprise_Spec                                                                            | Modified |       |
-| Sku                                                                                             | Sku                                                                                             | Modified |       |
-| Sku_STATUS                                                                                      | Sku_STATUS                                                                                      | Modified |       |
-| SystemData_STATUS                                                                               | SystemData_STATUS                                                                               | Modified |       |
-| UserAssignedIdentityDetails                                                                     | UserAssignedIdentityDetails                                                                     | Extended |       |
-| UserAssignedIdentity_STATUS                                                                     | UserAssignedIdentity_STATUS                                                                     | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20250701                                                                                       | v20250701/storage                                                                               |  Status  | Notes        |
+|:------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------|:--------:|:-------------|
+| AccessPolicyAssignmentProperties_User                                                           | AccessPolicyAssignmentProperties_User                                                           | Extended | +PropertyBag |
+| AccessPolicyAssignmentProperties_User_STATUS                                                    | AccessPolicyAssignmentProperties_User_STATUS                                                    | Extended | +PropertyBag |
+| ClusterCreateProperties_Encryption                                                              | ClusterCreateProperties_Encryption                                                              | Extended | +PropertyBag |
+| ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption                                 | ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption                                 | Extended | +PropertyBag |
+| ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity        | ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity        | Modified |              |
+| ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS | ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS | Modified |              |
+| ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_STATUS                          | ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_STATUS                          | Extended | +PropertyBag |
+| ClusterCreateProperties_Encryption_STATUS                                                       | ClusterCreateProperties_Encryption_STATUS                                                       | Extended | +PropertyBag |
+| DatabaseCreateProperties_GeoReplication                                                         | DatabaseCreateProperties_GeoReplication                                                         | Extended | +PropertyBag |
+| DatabaseCreateProperties_GeoReplication_STATUS                                                  | DatabaseCreateProperties_GeoReplication_STATUS                                                  | Extended | +PropertyBag |
+| LinkedDatabase                                                                                  | LinkedDatabase                                                                                  | Extended | +PropertyBag |
+| LinkedDatabase_STATUS                                                                           | LinkedDatabase_STATUS                                                                           | Modified |              |
+| ManagedServiceIdentity                                                                          | ManagedServiceIdentity                                                                          | Modified |              |
+| ManagedServiceIdentity_STATUS                                                                   | ManagedServiceIdentity_STATUS                                                                   | Modified |              |
+| Module                                                                                          | Module                                                                                          | Extended | +PropertyBag |
+| Module_STATUS                                                                                   | Module_STATUS                                                                                   | Extended | +PropertyBag |
+| Persistence                                                                                     | Persistence                                                                                     | Modified |              |
+| Persistence_STATUS                                                                              | Persistence_STATUS                                                                              | Modified |              |
+| PrivateEndpointConnection_STATUS                                                                | PrivateEndpointConnection_STATUS                                                                | Extended | +PropertyBag |
+| RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec                                       | RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec                                       | Extended | +PropertyBag |
+| RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS                                            | RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS                                            | Modified |              |
+| RedisEnterpriseDatabaseAccessPolicyAssignment_Spec                                              | RedisEnterpriseDatabaseAccessPolicyAssignment_Spec                                              | Modified |              |
+| RedisEnterpriseDatabaseOperatorSecrets                                                          | RedisEnterpriseDatabaseOperatorSecrets                                                          | Extended | +PropertyBag |
+| RedisEnterpriseDatabaseOperatorSpec                                                             | RedisEnterpriseDatabaseOperatorSpec                                                             | Extended | +PropertyBag |
+| RedisEnterpriseDatabase_STATUS                                                                  | RedisEnterpriseDatabase_STATUS                                                                  | Modified |              |
+| RedisEnterpriseDatabase_Spec                                                                    | RedisEnterpriseDatabase_Spec                                                                    | Modified |              |
+| RedisEnterpriseOperatorSpec                                                                     | RedisEnterpriseOperatorSpec                                                                     | Extended | +PropertyBag |
+| RedisEnterprise_STATUS                                                                          | RedisEnterprise_STATUS                                                                          | Modified |              |
+| RedisEnterprise_Spec                                                                            | RedisEnterprise_Spec                                                                            | Modified |              |
+| Sku                                                                                             | Sku                                                                                             | Modified |              |
+| Sku_STATUS                                                                                      | Sku_STATUS                                                                                      | Modified |              |
+| SystemData_STATUS                                                                               | SystemData_STATUS                                                                               | Modified |              |
+| UserAssignedIdentityDetails                                                                     | UserAssignedIdentityDetails                                                                     | Extended | +PropertyBag |
+| UserAssignedIdentity_STATUS                                                                     | UserAssignedIdentity_STATUS                                                                     | Extended | +PropertyBag |
 
 ### AccessPolicyAssignmentProperties_User
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250701          |                                | v20250701/storage  |                                |  Status   | Notes |
 |:-------------------|:-------------------------------|:-------------------|:-------------------------------|:---------:|:------|
@@ -68,7 +61,7 @@
 
 ### AccessPolicyAssignmentProperties_User_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250701 |         | v20250701/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -77,7 +70,7 @@
 
 ### ClusterCreateProperties_Encryption
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250701                    |                                                                  | v20250701/storage            |                                                                  |  Status   | Notes |
 |:-----------------------------|:-----------------------------------------------------------------|:-----------------------------|:-----------------------------------------------------------------|:---------:|:------|
@@ -86,7 +79,7 @@
 
 ### ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250701                |                                                                                           | v20250701/storage        |                                                                                           |  Status   | Notes |
 |:-------------------------|:------------------------------------------------------------------------------------------|:-------------------------|:------------------------------------------------------------------------------------------|:---------:|:------|
@@ -96,7 +89,7 @@
 
 ### ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250701                             |                                                                                                        | v20250701/storage                     |                               |  Status   | Notes |
 |:--------------------------------------|:-------------------------------------------------------------------------------------------------------|:--------------------------------------|:------------------------------|:---------:|:------|
@@ -106,7 +99,7 @@
 
 ### ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250701                      |                                                                                                               | v20250701/storage              |                        |  Status   | Notes |
 |:-------------------------------|:--------------------------------------------------------------------------------------------------------------|:-------------------------------|:-----------------------|:---------:|:------|
@@ -116,7 +109,7 @@
 
 ### ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250701                |                                                                                                  | v20250701/storage        |                                                                                                  |  Status   | Notes |
 |:-------------------------|:-------------------------------------------------------------------------------------------------|:-------------------------|:-------------------------------------------------------------------------------------------------|:---------:|:------|
@@ -126,7 +119,7 @@
 
 ### ClusterCreateProperties_Encryption_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250701                    |                                                                         | v20250701/storage            |                                                                         |  Status   | Notes |
 |:-----------------------------|:------------------------------------------------------------------------|:-----------------------------|:------------------------------------------------------------------------|:---------:|:------|
@@ -135,7 +128,7 @@
 
 ### DatabaseCreateProperties_GeoReplication
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250701       |                  | v20250701/storage |                        |  Status   | Notes |
 |:----------------|:-----------------|:------------------|:-----------------------|:---------:|:------|
@@ -145,7 +138,7 @@
 
 ### DatabaseCreateProperties_GeoReplication_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250701       |                         | v20250701/storage |                         |  Status   | Notes |
 |:----------------|:------------------------|:------------------|:------------------------|:---------:|:------|
@@ -155,7 +148,7 @@
 
 ### LinkedDatabase
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250701 |                               | v20250701/storage |                               |  Status   | Notes |
 |:----------|:------------------------------|:------------------|:------------------------------|:---------:|:------|
@@ -164,7 +157,7 @@
 
 ### LinkedDatabase_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250701 |                              | v20250701/storage |                        |  Status   | Notes |
 |:----------|:-----------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -174,7 +167,7 @@
 
 ### ManagedServiceIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250701              |                               | v20250701/storage      |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -184,7 +177,7 @@
 
 ### ManagedServiceIdentity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v20250701              |                                        | v20250701/storage      |                                        |  Status   | Notes |
 |:-----------------------|:---------------------------------------|:-----------------------|:---------------------------------------|:---------:|:------|
@@ -196,7 +189,7 @@
 
 ### Module
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250701 |         | v20250701/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -206,7 +199,7 @@
 
 ### Module_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250701 |         | v20250701/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -217,7 +210,7 @@
 
 ### Persistence
 
-2 x Identical, 1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New, 2 x Modified
 
 | v20250701    |                           | v20250701/storage |                        |  Status   | Notes |
 |:-------------|:--------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -229,7 +222,7 @@
 
 ### Persistence_STATUS
 
-2 x Identical, 1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New, 2 x Modified
 
 | v20250701    |                                  | v20250701/storage |                        |  Status   | Notes |
 |:-------------|:---------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -241,7 +234,7 @@
 
 ### PrivateEndpointConnection_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250701 |         | v20250701/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -250,7 +243,7 @@
 
 ### RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250701            |                               | v20250701/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -260,7 +253,7 @@
 
 ### RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS
 
-6 x Identical, 1 x New, 1 x Modified
+Properties: 6 x Identical, 1 x New, 1 x Modified
 
 | v20250701         |                                               | v20250701/storage |                                               |  Status   | Notes |
 |:------------------|:----------------------------------------------|:------------------|:----------------------------------------------|:---------:|:------|
@@ -275,11 +268,11 @@
 
 ### RedisEnterpriseDatabaseAccessPolicyAssignment_Spec
 
-3 x Identical, 2 x New, 2 x Modified
+Properties: 4 x Identical, 2 x New, 1 x Modified
 
 | v20250701        |                                                            | v20250701/storage |                                                            |  Status   | Notes |
 |:-----------------|:-----------------------------------------------------------|:------------------|:-----------------------------------------------------------|:---------:|:------|
-| AccessPolicyName | Validated<*string> (1 rule)                                | AccessPolicyName  | *string                                                    | Modified  |       |
+| AccessPolicyName | Validated<*string> (1 rule)                                | AccessPolicyName  | *string                                                    | Identical |       |
 | AzureName        | Validated<string> (1 rule)                                 | AzureName         | string                                                     | Modified  |       |
 | OperatorSpec     | *RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec | OperatorSpec      | *RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec | Identical |       |
 |                  |                                                            | OriginalVersion   | string                                                     |    New    |       |
@@ -289,7 +282,7 @@
 
 ### RedisEnterpriseDatabaseOperatorSecrets
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250701    |                               | v20250701/storage |                               |  Status   | Notes |
 |:-------------|:------------------------------|:------------------|:------------------------------|:---------:|:------|
@@ -299,7 +292,7 @@
 
 ### RedisEnterpriseDatabaseOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250701            |                                         | v20250701/storage    |                                         |  Status   | Notes |
 |:---------------------|:----------------------------------------|:---------------------|:----------------------------------------|:---------:|:------|
@@ -310,7 +303,7 @@
 
 ### RedisEnterpriseDatabase_STATUS
 
-10 x Identical, 1 x New, 7 x Modified
+Properties: 10 x Identical, 1 x New, 7 x Modified
 
 | v20250701                |                                                           | v20250701/storage        |                                                 |  Status   | Notes |
 |:-------------------------|:----------------------------------------------------------|:-------------------------|:------------------------------------------------|:---------:|:------|
@@ -335,7 +328,7 @@
 
 ### RedisEnterpriseDatabase_Spec
 
-7 x Identical, 2 x New, 5 x Modified
+Properties: 7 x Identical, 2 x New, 5 x Modified
 
 | v20250701                |                                                    | v20250701/storage        |                                          |  Status   | Notes |
 |:-------------------------|:---------------------------------------------------|:-------------------------|:-----------------------------------------|:---------:|:------|
@@ -356,7 +349,7 @@
 
 ### RedisEnterpriseOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250701            |                               | v20250701/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -366,7 +359,7 @@
 
 ### RedisEnterprise_STATUS
 
-13 x Identical, 1 x New, 7 x Modified
+Properties: 13 x Identical, 1 x New, 7 x Modified
 
 | v20250701                  |                                                     | v20250701/storage          |                                            |  Status   | Notes |
 |:---------------------------|:----------------------------------------------------|:---------------------------|:-------------------------------------------|:---------:|:------|
@@ -394,7 +387,7 @@
 
 ### RedisEnterprise_Spec
 
-9 x Identical, 2 x New, 4 x Modified
+Properties: 9 x Identical, 2 x New, 4 x Modified
 
 | v20250701           |                                              | v20250701/storage   |                                     |  Status   | Notes |
 |:--------------------|:---------------------------------------------|:--------------------|:------------------------------------|:---------:|:------|
@@ -416,7 +409,7 @@
 
 ### Sku
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250701 |           | v20250701/storage |                        |  Status   | Notes |
 |:----------|:----------|:------------------|:-----------------------|:---------:|:------|
@@ -426,7 +419,7 @@
 
 ### Sku_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250701 |                  | v20250701/storage |                        |  Status   | Notes |
 |:----------|:-----------------|:------------------|:-----------------------|:---------:|:------|
@@ -436,7 +429,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v20250701          |                                       | v20250701/storage  |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:-------------------|:-----------------------|:---------:|:------|
@@ -450,7 +443,7 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250701 |                              | v20250701/storage |                              |  Status   | Notes |
 |:----------|:-----------------------------|:------------------|:-----------------------------|:---------:|:------|
@@ -459,10 +452,19 @@
 
 ### UserAssignedIdentity_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250701   |         | v20250701/storage |                        |  Status   | Notes |
 |:------------|:--------|:------------------|:-----------------------|:---------:|:------|
 | ClientId    | *string | ClientId          | *string                | Identical |       |
 | PrincipalId | *string | PrincipalId       | *string                | Identical |       |
 |             |         | PropertyBag       | genruntime.PropertyBag |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

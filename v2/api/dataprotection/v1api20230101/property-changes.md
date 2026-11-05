@@ -7,104 +7,97 @@
 | BackupVault              | BackupVault              | Identical |       |
 | BackupVaultsBackupPolicy | BackupVaultsBackupPolicy | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20230101                           | v1api20230101/storage                   |  Status  | Notes |
-|:----------------------------------------|:----------------------------------------|:--------:|:------|
-| AbsoluteDeleteOption                    | AbsoluteDeleteOption                    | Modified |       |
-| AbsoluteDeleteOption_STATUS             | AbsoluteDeleteOption_STATUS             | Modified |       |
-| AdhocBasedTaggingCriteria               | AdhocBasedTaggingCriteria               | Extended |       |
-| AdhocBasedTaggingCriteria_STATUS        | AdhocBasedTaggingCriteria_STATUS        | Extended |       |
-| AdhocBasedTriggerContext                | AdhocBasedTriggerContext                | Modified |       |
-| AdhocBasedTriggerContext_STATUS         | AdhocBasedTriggerContext_STATUS         | Modified |       |
-| AzureBackupParams                       | AzureBackupParams                       | Modified |       |
-| AzureBackupParams_STATUS                | AzureBackupParams_STATUS                | Modified |       |
-| AzureBackupRule                         | AzureBackupRule                         | Modified |       |
-| AzureBackupRule_STATUS                  | AzureBackupRule_STATUS                  | Modified |       |
-| AzureMonitorAlertSettings               | AzureMonitorAlertSettings               | Modified |       |
-| AzureMonitorAlertSettings_STATUS        | AzureMonitorAlertSettings_STATUS        | Modified |       |
-| AzureRetentionRule                      | AzureRetentionRule                      | Modified |       |
-| AzureRetentionRule_STATUS               | AzureRetentionRule_STATUS               | Modified |       |
-| BackupCriteria                          | BackupCriteria                          | Extended |       |
-| BackupCriteria_STATUS                   | BackupCriteria_STATUS                   | Extended |       |
-| BackupParameters                        | BackupParameters                        | Extended |       |
-| BackupParameters_STATUS                 | BackupParameters_STATUS                 | Extended |       |
-| BackupPolicy                            | BackupPolicy                            | Modified |       |
-| BackupPolicy_STATUS                     | BackupPolicy_STATUS                     | Modified |       |
-| BackupSchedule                          | BackupSchedule                          | Extended |       |
-| BackupSchedule_STATUS                   | BackupSchedule_STATUS                   | Extended |       |
-| BackupVaultOperatorConfigMaps           | BackupVaultOperatorConfigMaps           | Extended |       |
-| BackupVaultOperatorSpec                 | BackupVaultOperatorSpec                 | Extended |       |
-| BackupVaultResource_STATUS              | BackupVaultResource_STATUS              | Extended |       |
-| BackupVaultSpec                         | BackupVaultSpec                         | Extended |       |
-| BackupVault_STATUS                      | BackupVault_STATUS                      | Modified |       |
-| BackupVault_Spec                        | BackupVault_Spec                        | Extended |       |
-| BackupVaultsBackupPolicyOperatorSpec    | BackupVaultsBackupPolicyOperatorSpec    | Extended |       |
-| BackupVaultsBackupPolicy_STATUS         | BackupVaultsBackupPolicy_STATUS         | Extended |       |
-| BackupVaultsBackupPolicy_Spec           | BackupVaultsBackupPolicy_Spec           | Extended |       |
-| BaseBackupPolicy                        | BaseBackupPolicy                        | Extended |       |
-| BaseBackupPolicy_STATUS                 | BaseBackupPolicy_STATUS                 | Extended |       |
-| BasePolicyRule                          | BasePolicyRule                          | Extended |       |
-| BasePolicyRule_STATUS                   | BasePolicyRule_STATUS                   | Extended |       |
-| CopyOnExpiryOption                      | CopyOnExpiryOption                      | Modified |       |
-| CopyOnExpiryOption_STATUS               | CopyOnExpiryOption_STATUS               | Modified |       |
-| CopyOption                              | CopyOption                              | Extended |       |
-| CopyOption_STATUS                       | CopyOption_STATUS                       | Extended |       |
-| CrossSubscriptionRestoreSettings        | CrossSubscriptionRestoreSettings        | Modified |       |
-| CrossSubscriptionRestoreSettings_STATUS | CrossSubscriptionRestoreSettings_STATUS | Modified |       |
-| CustomCopyOption                        | CustomCopyOption                        | Modified |       |
-| CustomCopyOption_STATUS                 | CustomCopyOption_STATUS                 | Modified |       |
-| DataStoreInfoBase                       | DataStoreInfoBase                       | Modified |       |
-| DataStoreInfoBase_STATUS                | DataStoreInfoBase_STATUS                | Modified |       |
-| Day                                     | Day                                     | Extended |       |
-| Day_STATUS                              | Day_STATUS                              | Extended |       |
-| DeleteOption                            | DeleteOption                            | Extended |       |
-| DeleteOption_STATUS                     | DeleteOption_STATUS                     | Extended |       |
-| DppIdentityDetails                      | DppIdentityDetails                      | Extended |       |
-| DppIdentityDetails_STATUS               | DppIdentityDetails_STATUS               | Extended |       |
-| FeatureSettings                         | FeatureSettings                         | Extended |       |
-| FeatureSettings_STATUS                  | FeatureSettings_STATUS                  | Extended |       |
-| ImmediateCopyOption                     | ImmediateCopyOption                     | Modified |       |
-| ImmediateCopyOption_STATUS              | ImmediateCopyOption_STATUS              | Modified |       |
-| ImmutabilitySettings                    | ImmutabilitySettings                    | Modified |       |
-| ImmutabilitySettings_STATUS             | ImmutabilitySettings_STATUS             | Modified |       |
-| MonitoringSettings                      | MonitoringSettings                      | Extended |       |
-| MonitoringSettings_STATUS               | MonitoringSettings_STATUS               | Extended |       |
-| ResourceMoveDetails_STATUS              | ResourceMoveDetails_STATUS              | Extended |       |
-| RetentionTag                            | RetentionTag                            | Extended |       |
-| RetentionTag_STATUS                     | RetentionTag_STATUS                     | Extended |       |
-| ScheduleBasedBackupCriteria             | ScheduleBasedBackupCriteria             | Modified |       |
-| ScheduleBasedBackupCriteria_STATUS      | ScheduleBasedBackupCriteria_STATUS      | Modified |       |
-| ScheduleBasedTriggerContext             | ScheduleBasedTriggerContext             | Modified |       |
-| ScheduleBasedTriggerContext_STATUS      | ScheduleBasedTriggerContext_STATUS      | Modified |       |
-| SecuritySettings                        | SecuritySettings                        | Extended |       |
-| SecuritySettings_STATUS                 | SecuritySettings_STATUS                 | Extended |       |
-| SoftDeleteSettings                      | SoftDeleteSettings                      | Modified |       |
-| SoftDeleteSettings_STATUS               | SoftDeleteSettings_STATUS               | Modified |       |
-| SourceLifeCycle                         | SourceLifeCycle                         | Extended |       |
-| SourceLifeCycle_STATUS                  | SourceLifeCycle_STATUS                  | Extended |       |
-| StorageSetting                          | StorageSetting                          | Modified |       |
-| StorageSetting_STATUS                   | StorageSetting_STATUS                   | Modified |       |
-| SystemData_STATUS                       | SystemData_STATUS                       | Modified |       |
-| TaggingCriteria                         | TaggingCriteria                         | Extended |       |
-| TaggingCriteria_STATUS                  | TaggingCriteria_STATUS                  | Extended |       |
-| TargetCopySetting                       | TargetCopySetting                       | Extended |       |
-| TargetCopySetting_STATUS                | TargetCopySetting_STATUS                | Extended |       |
-| TriggerContext                          | TriggerContext                          | Extended |       |
-| TriggerContext_STATUS                   | TriggerContext_STATUS                   | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20230101                           | v1api20230101/storage                   |  Status  | Notes                         |
+|:----------------------------------------|:----------------------------------------|:--------:|:------------------------------|
+| AbsoluteDeleteOption                    | AbsoluteDeleteOption                    | Modified |                               |
+| AbsoluteDeleteOption_STATUS             | AbsoluteDeleteOption_STATUS             | Modified |                               |
+| AdhocBasedTaggingCriteria               | AdhocBasedTaggingCriteria               | Extended | +PropertyBag                  |
+| AdhocBasedTaggingCriteria_STATUS        | AdhocBasedTaggingCriteria_STATUS        | Extended | +PropertyBag                  |
+| AdhocBasedTriggerContext                | AdhocBasedTriggerContext                | Modified |                               |
+| AdhocBasedTriggerContext_STATUS         | AdhocBasedTriggerContext_STATUS         | Modified |                               |
+| AzureBackupParams                       | AzureBackupParams                       | Modified |                               |
+| AzureBackupParams_STATUS                | AzureBackupParams_STATUS                | Modified |                               |
+| AzureBackupRule                         | AzureBackupRule                         | Modified |                               |
+| AzureBackupRule_STATUS                  | AzureBackupRule_STATUS                  | Modified |                               |
+| AzureMonitorAlertSettings               | AzureMonitorAlertSettings               | Modified |                               |
+| AzureMonitorAlertSettings_STATUS        | AzureMonitorAlertSettings_STATUS        | Modified |                               |
+| AzureRetentionRule                      | AzureRetentionRule                      | Modified |                               |
+| AzureRetentionRule_STATUS               | AzureRetentionRule_STATUS               | Modified |                               |
+| BackupCriteria                          | BackupCriteria                          | Extended | +PropertyBag                  |
+| BackupCriteria_STATUS                   | BackupCriteria_STATUS                   | Extended | +PropertyBag                  |
+| BackupParameters                        | BackupParameters                        | Extended | +PropertyBag                  |
+| BackupParameters_STATUS                 | BackupParameters_STATUS                 | Extended | +PropertyBag                  |
+| BackupPolicy                            | BackupPolicy                            | Modified |                               |
+| BackupPolicy_STATUS                     | BackupPolicy_STATUS                     | Modified |                               |
+| BackupSchedule                          | BackupSchedule                          | Extended | +PropertyBag                  |
+| BackupSchedule_STATUS                   | BackupSchedule_STATUS                   | Extended | +PropertyBag                  |
+| BackupVaultOperatorConfigMaps           | BackupVaultOperatorConfigMaps           | Extended | +PropertyBag                  |
+| BackupVaultOperatorSpec                 | BackupVaultOperatorSpec                 | Extended | +PropertyBag                  |
+| BackupVaultResource_STATUS              | BackupVaultResource_STATUS              | Extended | +PropertyBag                  |
+| BackupVaultSpec                         | BackupVaultSpec                         | Extended | +PropertyBag                  |
+| BackupVault_STATUS                      | BackupVault_STATUS                      | Modified |                               |
+| BackupVault_Spec                        | BackupVault_Spec                        | Extended | +OriginalVersion +PropertyBag |
+| BackupVaultsBackupPolicyOperatorSpec    | BackupVaultsBackupPolicyOperatorSpec    | Extended | +PropertyBag                  |
+| BackupVaultsBackupPolicy_STATUS         | BackupVaultsBackupPolicy_STATUS         | Extended | +PropertyBag                  |
+| BackupVaultsBackupPolicy_Spec           | BackupVaultsBackupPolicy_Spec           | Extended | +OriginalVersion +PropertyBag |
+| BaseBackupPolicy                        | BaseBackupPolicy                        | Extended | +PropertyBag                  |
+| BaseBackupPolicy_STATUS                 | BaseBackupPolicy_STATUS                 | Extended | +PropertyBag                  |
+| BasePolicyRule                          | BasePolicyRule                          | Extended | +PropertyBag                  |
+| BasePolicyRule_STATUS                   | BasePolicyRule_STATUS                   | Extended | +PropertyBag                  |
+| CopyOnExpiryOption                      | CopyOnExpiryOption                      | Modified |                               |
+| CopyOnExpiryOption_STATUS               | CopyOnExpiryOption_STATUS               | Modified |                               |
+| CopyOption                              | CopyOption                              | Extended | +PropertyBag                  |
+| CopyOption_STATUS                       | CopyOption_STATUS                       | Extended | +PropertyBag                  |
+| CrossSubscriptionRestoreSettings        | CrossSubscriptionRestoreSettings        | Modified |                               |
+| CrossSubscriptionRestoreSettings_STATUS | CrossSubscriptionRestoreSettings_STATUS | Modified |                               |
+| CustomCopyOption                        | CustomCopyOption                        | Modified |                               |
+| CustomCopyOption_STATUS                 | CustomCopyOption_STATUS                 | Modified |                               |
+| DataStoreInfoBase                       | DataStoreInfoBase                       | Modified |                               |
+| DataStoreInfoBase_STATUS                | DataStoreInfoBase_STATUS                | Modified |                               |
+| Day                                     | Day                                     | Extended | +PropertyBag                  |
+| Day_STATUS                              | Day_STATUS                              | Extended | +PropertyBag                  |
+| DeleteOption                            | DeleteOption                            | Extended | +PropertyBag                  |
+| DeleteOption_STATUS                     | DeleteOption_STATUS                     | Extended | +PropertyBag                  |
+| DppIdentityDetails                      | DppIdentityDetails                      | Extended | +PropertyBag                  |
+| DppIdentityDetails_STATUS               | DppIdentityDetails_STATUS               | Extended | +PropertyBag                  |
+| FeatureSettings                         | FeatureSettings                         | Extended | +PropertyBag                  |
+| FeatureSettings_STATUS                  | FeatureSettings_STATUS                  | Extended | +PropertyBag                  |
+| ImmediateCopyOption                     | ImmediateCopyOption                     | Modified |                               |
+| ImmediateCopyOption_STATUS              | ImmediateCopyOption_STATUS              | Modified |                               |
+| ImmutabilitySettings                    | ImmutabilitySettings                    | Modified |                               |
+| ImmutabilitySettings_STATUS             | ImmutabilitySettings_STATUS             | Modified |                               |
+| MonitoringSettings                      | MonitoringSettings                      | Extended | +PropertyBag                  |
+| MonitoringSettings_STATUS               | MonitoringSettings_STATUS               | Extended | +PropertyBag                  |
+| ResourceMoveDetails_STATUS              | ResourceMoveDetails_STATUS              | Extended | +PropertyBag                  |
+| RetentionTag                            | RetentionTag                            | Extended | +PropertyBag                  |
+| RetentionTag_STATUS                     | RetentionTag_STATUS                     | Extended | +PropertyBag                  |
+| ScheduleBasedBackupCriteria             | ScheduleBasedBackupCriteria             | Modified |                               |
+| ScheduleBasedBackupCriteria_STATUS      | ScheduleBasedBackupCriteria_STATUS      | Modified |                               |
+| ScheduleBasedTriggerContext             | ScheduleBasedTriggerContext             | Modified |                               |
+| ScheduleBasedTriggerContext_STATUS      | ScheduleBasedTriggerContext_STATUS      | Modified |                               |
+| SecuritySettings                        | SecuritySettings                        | Extended | +PropertyBag                  |
+| SecuritySettings_STATUS                 | SecuritySettings_STATUS                 | Extended | +PropertyBag                  |
+| SoftDeleteSettings                      | SoftDeleteSettings                      | Modified |                               |
+| SoftDeleteSettings_STATUS               | SoftDeleteSettings_STATUS               | Modified |                               |
+| SourceLifeCycle                         | SourceLifeCycle                         | Extended | +PropertyBag                  |
+| SourceLifeCycle_STATUS                  | SourceLifeCycle_STATUS                  | Extended | +PropertyBag                  |
+| StorageSetting                          | StorageSetting                          | Modified |                               |
+| StorageSetting_STATUS                   | StorageSetting_STATUS                   | Modified |                               |
+| SystemData_STATUS                       | SystemData_STATUS                       | Modified |                               |
+| TaggingCriteria                         | TaggingCriteria                         | Extended | +PropertyBag                  |
+| TaggingCriteria_STATUS                  | TaggingCriteria_STATUS                  | Extended | +PropertyBag                  |
+| TargetCopySetting                       | TargetCopySetting                       | Extended | +PropertyBag                  |
+| TargetCopySetting_STATUS                | TargetCopySetting_STATUS                | Extended | +PropertyBag                  |
+| TriggerContext                          | TriggerContext                          | Extended | +PropertyBag                  |
+| TriggerContext_STATUS                   | TriggerContext_STATUS                   | Extended | +PropertyBag                  |
 
 ### AbsoluteDeleteOption
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20230101 |                                  | v1api20230101/storage |                        |  Status   | Notes |
 |:--------------|:---------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -114,7 +107,7 @@
 
 ### AbsoluteDeleteOption_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20230101 |                                         | v1api20230101/storage |                        |  Status   | Notes |
 |:--------------|:----------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -124,7 +117,7 @@
 
 ### AdhocBasedTaggingCriteria
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230101 |               | v1api20230101/storage |                        |  Status   | Notes |
 |:--------------|:--------------|:----------------------|:-----------------------|:---------:|:------|
@@ -133,7 +126,7 @@
 
 ### AdhocBasedTaggingCriteria_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230101 |                      | v1api20230101/storage |                        |  Status   | Notes |
 |:--------------|:---------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -142,7 +135,7 @@
 
 ### AdhocBasedTriggerContext
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20230101   |                                      | v1api20230101/storage |                            |  Status   | Notes |
 |:----------------|:-------------------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -152,7 +145,7 @@
 
 ### AdhocBasedTriggerContext_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20230101   |                                             | v1api20230101/storage |                                   |  Status   | Notes |
 |:----------------|:--------------------------------------------|:----------------------|:----------------------------------|:---------:|:------|
@@ -162,7 +155,7 @@
 
 ### AzureBackupParams
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20230101 |                               | v1api20230101/storage |                        |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -172,7 +165,7 @@
 
 ### AzureBackupParams_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20230101 |                                      | v1api20230101/storage |                        |  Status   | Notes |
 |:--------------|:-------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -182,7 +175,7 @@
 
 ### AzureBackupRule
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20230101    |                             | v1api20230101/storage |                        |  Status   | Notes |
 |:-----------------|:----------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -195,7 +188,7 @@
 
 ### AzureBackupRule_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20230101    |                                    | v1api20230101/storage |                           |  Status   | Notes |
 |:-----------------|:-----------------------------------|:----------------------|:--------------------------|:---------:|:------|
@@ -208,7 +201,7 @@
 
 ### AzureMonitorAlertSettings
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20230101           |                                                    | v1api20230101/storage   |                        |  Status  | Notes |
 |:------------------------|:---------------------------------------------------|:------------------------|:-----------------------|:--------:|:------|
@@ -217,7 +210,7 @@
 
 ### AzureMonitorAlertSettings_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20230101           |                                                           | v1api20230101/storage   |                        |  Status  | Notes |
 |:------------------------|:----------------------------------------------------------|:------------------------|:-----------------------|:--------:|:------|
@@ -226,7 +219,7 @@
 
 ### AzureRetentionRule
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20230101 |                                | v1api20230101/storage |                        |  Status   | Notes |
 |:--------------|:-------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -238,7 +231,7 @@
 
 ### AzureRetentionRule_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20230101 |                                       | v1api20230101/storage |                          |  Status   | Notes |
 |:--------------|:--------------------------------------|:----------------------|:-------------------------|:---------:|:------|
@@ -250,7 +243,7 @@
 
 ### BackupCriteria
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230101               |                              | v1api20230101/storage       |                              |  Status   | Notes |
 |:----------------------------|:-----------------------------|:----------------------------|:-----------------------------|:---------:|:------|
@@ -259,7 +252,7 @@
 
 ### BackupCriteria_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230101               |                                     | v1api20230101/storage       |                                     |  Status   | Notes |
 |:----------------------------|:------------------------------------|:----------------------------|:------------------------------------|:---------:|:------|
@@ -268,7 +261,7 @@
 
 ### BackupParameters
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230101     |                    | v1api20230101/storage |                        |  Status   | Notes |
 |:------------------|:-------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -277,7 +270,7 @@
 
 ### BackupParameters_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230101     |                           | v1api20230101/storage |                           |  Status   | Notes |
 |:------------------|:--------------------------|:----------------------|:--------------------------|:---------:|:------|
@@ -286,7 +279,7 @@
 
 ### BackupPolicy
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20230101   |                          | v1api20230101/storage |                        |  Status   | Notes |
 |:----------------|:-------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -297,7 +290,7 @@
 
 ### BackupPolicy_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20230101   |                                 | v1api20230101/storage |                         |  Status   | Notes |
 |:----------------|:--------------------------------|:----------------------|:------------------------|:---------:|:------|
@@ -308,7 +301,7 @@
 
 ### BackupSchedule
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20230101          |          | v1api20230101/storage  |                        |  Status   | Notes |
 |:-----------------------|:---------|:-----------------------|:-----------------------|:---------:|:------|
@@ -318,7 +311,7 @@
 
 ### BackupSchedule_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20230101          |          | v1api20230101/storage  |                        |  Status   | Notes |
 |:-----------------------|:---------|:-----------------------|:-----------------------|:---------:|:------|
@@ -328,7 +321,7 @@
 
 ### BackupVaultOperatorConfigMaps
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230101 |                                  | v1api20230101/storage |                                  |  Status   | Notes |
 |:--------------|:---------------------------------|:----------------------|:---------------------------------|:---------:|:------|
@@ -337,7 +330,7 @@
 
 ### BackupVaultOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20230101        |                                | v1api20230101/storage |                                |  Status   | Notes |
 |:---------------------|:-------------------------------|:----------------------|:-------------------------------|:---------:|:------|
@@ -348,7 +341,7 @@
 
 ### BackupVaultResource_STATUS
 
-10 x Identical, 1 x New
+Properties: 10 x Identical, 1 x New
 
 | v1api20230101 |                            | v1api20230101/storage |                            |  Status   | Notes |
 |:--------------|:---------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -366,7 +359,7 @@
 
 ### BackupVaultSpec
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20230101      |                     | v1api20230101/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -378,7 +371,7 @@
 
 ### BackupVault_STATUS
 
-6 x Identical, 1 x New, 2 x Modified
+Properties: 6 x Identical, 1 x New, 2 x Modified
 
 | v1api20230101                   |                                       | v1api20230101/storage           |                             |  Status   | Notes |
 |:--------------------------------|:--------------------------------------|:--------------------------------|:----------------------------|:---------:|:------|
@@ -394,7 +387,7 @@
 
 ### BackupVault_Spec
 
-7 x Identical, 2 x New
+Properties: 7 x Identical, 2 x New
 
 | v1api20230101 |                                    | v1api20230101/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -410,7 +403,7 @@
 
 ### BackupVaultsBackupPolicyOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20230101        |                               | v1api20230101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -420,7 +413,7 @@
 
 ### BackupVaultsBackupPolicy_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20230101 |                          | v1api20230101/storage |                          |  Status   | Notes |
 |:--------------|:-------------------------|:----------------------|:-------------------------|:---------:|:------|
@@ -434,7 +427,7 @@
 
 ### BackupVaultsBackupPolicy_Spec
 
-4 x Identical, 2 x New
+Properties: 4 x Identical, 2 x New
 
 | v1api20230101 |                                       | v1api20230101/storage |                                       |  Status   | Notes |
 |:--------------|:--------------------------------------|:----------------------|:--------------------------------------|:---------:|:------|
@@ -447,7 +440,7 @@
 
 ### BaseBackupPolicy
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230101 |               | v1api20230101/storage |                        |  Status   | Notes |
 |:--------------|:--------------|:----------------------|:-----------------------|:---------:|:------|
@@ -456,7 +449,7 @@
 
 ### BaseBackupPolicy_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230101 |                      | v1api20230101/storage |                        |  Status   | Notes |
 |:--------------|:---------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -465,7 +458,7 @@
 
 ### BasePolicyRule
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20230101  |                     | v1api20230101/storage |                        |  Status   | Notes |
 |:---------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -475,7 +468,7 @@
 
 ### BasePolicyRule_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20230101  |                            | v1api20230101/storage |                            |  Status   | Notes |
 |:---------------|:---------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -485,7 +478,7 @@
 
 ### CopyOnExpiryOption
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20230101 |                                | v1api20230101/storage |                        |  Status  | Notes |
 |:--------------|:-------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -494,7 +487,7 @@
 
 ### CopyOnExpiryOption_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20230101 |                                       | v1api20230101/storage |                        |  Status  | Notes |
 |:--------------|:--------------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -503,7 +496,7 @@
 
 ### CopyOption
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20230101 |                      | v1api20230101/storage |                        |  Status   | Notes |
 |:--------------|:---------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -514,7 +507,7 @@
 
 ### CopyOption_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20230101 |                             | v1api20230101/storage |                             |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -525,7 +518,7 @@
 
 ### CrossSubscriptionRestoreSettings
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20230101 |                                         | v1api20230101/storage |                        |  Status  | Notes |
 |:--------------|:----------------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -534,7 +527,7 @@
 
 ### CrossSubscriptionRestoreSettings_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20230101 |                                                | v1api20230101/storage |                        |  Status  | Notes |
 |:--------------|:-----------------------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -543,7 +536,7 @@
 
 ### CustomCopyOption
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20230101 |                              | v1api20230101/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -553,7 +546,7 @@
 
 ### CustomCopyOption_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20230101 |                                     | v1api20230101/storage |                        |  Status   | Notes |
 |:--------------|:------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -563,7 +556,7 @@
 
 ### DataStoreInfoBase
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20230101 |                                  | v1api20230101/storage |                        |  Status   | Notes |
 |:--------------|:---------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -573,7 +566,7 @@
 
 ### DataStoreInfoBase_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20230101 |                                         | v1api20230101/storage |                        |  Status   | Notes |
 |:--------------|:----------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -583,7 +576,7 @@
 
 ### Day
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20230101 |       | v1api20230101/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -593,7 +586,7 @@
 
 ### Day_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20230101 |       | v1api20230101/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -603,7 +596,7 @@
 
 ### DeleteOption
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230101        |                       | v1api20230101/storage |                        |  Status   | Notes |
 |:---------------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -612,7 +605,7 @@
 
 ### DeleteOption_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230101        |                              | v1api20230101/storage |                              |  Status   | Notes |
 |:---------------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -621,7 +614,7 @@
 
 ### DppIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230101 |         | v1api20230101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -630,7 +623,7 @@
 
 ### DppIdentityDetails_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20230101 |         | v1api20230101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -641,7 +634,7 @@
 
 ### FeatureSettings
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230101                    |                                   | v1api20230101/storage            |                                   |  Status   | Notes |
 |:---------------------------------|:----------------------------------|:---------------------------------|:----------------------------------|:---------:|:------|
@@ -650,7 +643,7 @@
 
 ### FeatureSettings_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230101                    |                                          | v1api20230101/storage            |                                          |  Status   | Notes |
 |:---------------------------------|:-----------------------------------------|:---------------------------------|:-----------------------------------------|:---------:|:------|
@@ -659,7 +652,7 @@
 
 ### ImmediateCopyOption
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20230101 |                                 | v1api20230101/storage |                        |  Status  | Notes |
 |:--------------|:--------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -668,7 +661,7 @@
 
 ### ImmediateCopyOption_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20230101 |                                        | v1api20230101/storage |                        |  Status  | Notes |
 |:--------------|:---------------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -677,7 +670,7 @@
 
 ### ImmutabilitySettings
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20230101 |                             | v1api20230101/storage |                        |  Status  | Notes |
 |:--------------|:----------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -686,7 +679,7 @@
 
 ### ImmutabilitySettings_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20230101 |                                    | v1api20230101/storage |                        |  Status  | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -695,7 +688,7 @@
 
 ### MonitoringSettings
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230101             |                            | v1api20230101/storage     |                            |  Status   | Notes |
 |:--------------------------|:---------------------------|:--------------------------|:---------------------------|:---------:|:------|
@@ -704,7 +697,7 @@
 
 ### MonitoringSettings_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230101             |                                   | v1api20230101/storage     |                                   |  Status   | Notes |
 |:--------------------------|:----------------------------------|:--------------------------|:----------------------------------|:---------:|:------|
@@ -713,7 +706,7 @@
 
 ### ResourceMoveDetails_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20230101      |         | v1api20230101/storage |                        |  Status   | Notes |
 |:-------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -726,7 +719,7 @@
 
 ### RetentionTag
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230101 |         | v1api20230101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -735,7 +728,7 @@
 
 ### RetentionTag_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20230101 |         | v1api20230101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -746,7 +739,7 @@
 
 ### ScheduleBasedBackupCriteria
 
-2 x Identical, 1 x New, 5 x Modified
+Properties: 2 x Identical, 1 x New, 5 x Modified
 
 | v1api20230101    |                                                | v1api20230101/storage |                        |  Status   | Notes |
 |:-----------------|:-----------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -761,7 +754,7 @@
 
 ### ScheduleBasedBackupCriteria_STATUS
 
-2 x Identical, 1 x New, 5 x Modified
+Properties: 2 x Identical, 1 x New, 5 x Modified
 
 | v1api20230101    |                                                       | v1api20230101/storage |                        |  Status   | Notes |
 |:-----------------|:------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -776,7 +769,7 @@
 
 ### ScheduleBasedTriggerContext
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20230101   |                                         | v1api20230101/storage |                        |  Status   | Notes |
 |:----------------|:----------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -787,7 +780,7 @@
 
 ### ScheduleBasedTriggerContext_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20230101   |                                                | v1api20230101/storage |                          |  Status   | Notes |
 |:----------------|:-----------------------------------------------|:----------------------|:-------------------------|:---------:|:------|
@@ -798,7 +791,7 @@
 
 ### SecuritySettings
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20230101        |                       | v1api20230101/storage |                        |  Status   | Notes |
 |:---------------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -808,7 +801,7 @@
 
 ### SecuritySettings_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20230101        |                              | v1api20230101/storage |                              |  Status   | Notes |
 |:---------------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -818,7 +811,7 @@
 
 ### SoftDeleteSettings
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20230101           |                           | v1api20230101/storage   |                        |  Status   | Notes |
 |:------------------------|:--------------------------|:------------------------|:-----------------------|:---------:|:------|
@@ -828,7 +821,7 @@
 
 ### SoftDeleteSettings_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20230101           |                                  | v1api20230101/storage   |                        |  Status   | Notes |
 |:------------------------|:---------------------------------|:------------------------|:-----------------------|:---------:|:------|
@@ -838,7 +831,7 @@
 
 ### SourceLifeCycle
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20230101               |                     | v1api20230101/storage       |                        |  Status   | Notes |
 |:----------------------------|:--------------------|:----------------------------|:-----------------------|:---------:|:------|
@@ -849,7 +842,7 @@
 
 ### SourceLifeCycle_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20230101               |                            | v1api20230101/storage       |                            |  Status   | Notes |
 |:----------------------------|:---------------------------|:----------------------------|:---------------------------|:---------:|:------|
@@ -860,7 +853,7 @@
 
 ### StorageSetting
 
-1 x New, 2 x Modified
+Properties: 1 x New, 2 x Modified
 
 | v1api20230101 |                               | v1api20230101/storage |                        |  Status  | Notes |
 |:--------------|:------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -870,7 +863,7 @@
 
 ### StorageSetting_STATUS
 
-1 x New, 2 x Modified
+Properties: 1 x New, 2 x Modified
 
 | v1api20230101 |                                      | v1api20230101/storage |                        |  Status  | Notes |
 |:--------------|:-------------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -880,7 +873,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20230101      |                                       | v1api20230101/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -894,7 +887,7 @@
 
 ### TaggingCriteria
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20230101   |                  | v1api20230101/storage |                        |  Status   | Notes |
 |:----------------|:-----------------|:----------------------|:-----------------------|:---------:|:------|
@@ -906,7 +899,7 @@
 
 ### TaggingCriteria_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20230101   |                         | v1api20230101/storage |                         |  Status   | Notes |
 |:----------------|:------------------------|:----------------------|:------------------------|:---------:|:------|
@@ -918,7 +911,7 @@
 
 ### TargetCopySetting
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20230101 |                    | v1api20230101/storage |                        |  Status   | Notes |
 |:--------------|:-------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -928,7 +921,7 @@
 
 ### TargetCopySetting_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20230101 |                           | v1api20230101/storage |                           |  Status   | Notes |
 |:--------------|:--------------------------|:----------------------|:--------------------------|:---------:|:------|
@@ -938,7 +931,7 @@
 
 ### TriggerContext
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20230101 |                              | v1api20230101/storage |                              |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -948,10 +941,19 @@
 
 ### TriggerContext_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20230101 |                                     | v1api20230101/storage |                                     |  Status   | Notes |
 |:--------------|:------------------------------------|:----------------------|:------------------------------------|:---------:|:------|
 | Adhoc         | *AdhocBasedTriggerContext_STATUS    | Adhoc                 | *AdhocBasedTriggerContext_STATUS    | Identical |       |
 |               |                                     | PropertyBag           | genruntime.PropertyBag              |    New    |       |
 | Schedule      | *ScheduleBasedTriggerContext_STATUS | Schedule              | *ScheduleBasedTriggerContext_STATUS | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

@@ -6,33 +6,26 @@
 |:-----------------------|:-----------------------|:---------:|:------|
 | SmartDetectorAlertRule | SmartDetectorAlertRule | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20210401                      | v1api20210401/storage              |  Status  | Notes |
-|:-----------------------------------|:-----------------------------------|:--------:|:------|
-| ActionGroupsInformation            | ActionGroupsInformation            | Extended |       |
-| ActionGroupsInformation_STATUS     | ActionGroupsInformation_STATUS     | Extended |       |
-| Detector                           | Detector                           | Extended |       |
-| DetectorParameterDefinition_STATUS | DetectorParameterDefinition_STATUS | Modified |       |
-| Detector_STATUS                    | Detector_STATUS                    | Extended |       |
-| SmartDetectorAlertRuleOperatorSpec | SmartDetectorAlertRuleOperatorSpec | Extended |       |
-| SmartDetectorAlertRule_STATUS      | SmartDetectorAlertRule_STATUS      | Modified |       |
-| SmartDetectorAlertRule_Spec        | SmartDetectorAlertRule_Spec        | Modified |       |
-| ThrottlingInformation              | ThrottlingInformation              | Extended |       |
-| ThrottlingInformation_STATUS       | ThrottlingInformation_STATUS       | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20210401                      | v1api20210401/storage              |  Status  | Notes        |
+|:-----------------------------------|:-----------------------------------|:--------:|:-------------|
+| ActionGroupsInformation            | ActionGroupsInformation            | Extended | +PropertyBag |
+| ActionGroupsInformation_STATUS     | ActionGroupsInformation_STATUS     | Extended | +PropertyBag |
+| Detector                           | Detector                           | Extended | +PropertyBag |
+| DetectorParameterDefinition_STATUS | DetectorParameterDefinition_STATUS | Modified |              |
+| Detector_STATUS                    | Detector_STATUS                    | Extended | +PropertyBag |
+| SmartDetectorAlertRuleOperatorSpec | SmartDetectorAlertRuleOperatorSpec | Extended | +PropertyBag |
+| SmartDetectorAlertRule_STATUS      | SmartDetectorAlertRule_STATUS      | Modified |              |
+| SmartDetectorAlertRule_Spec        | SmartDetectorAlertRule_Spec        | Modified |              |
+| ThrottlingInformation              | ThrottlingInformation              | Extended | +PropertyBag |
+| ThrottlingInformation_STATUS       | ThrottlingInformation_STATUS       | Extended | +PropertyBag |
 
 ### ActionGroupsInformation
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20210401        |                                | v1api20210401/storage |                                |  Status   | Notes |
 |:---------------------|:-------------------------------|:----------------------|:-------------------------------|:---------:|:------|
@@ -43,7 +36,7 @@
 
 ### ActionGroupsInformation_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20210401        |          | v1api20210401/storage |                        |  Status   | Notes |
 |:---------------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -54,7 +47,7 @@
 
 ### Detector
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210401 |                    | v1api20210401/storage |                        |  Status   | Notes |
 |:--------------|:-------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -64,7 +57,7 @@
 
 ### DetectorParameterDefinition_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20210401 |                                          | v1api20210401/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -77,7 +70,7 @@
 
 ### Detector_STATUS
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v1api20210401          |                                      | v1api20210401/storage  |                                      |  Status   | Notes |
 |:-----------------------|:-------------------------------------|:-----------------------|:-------------------------------------|:---------:|:------|
@@ -93,7 +86,7 @@
 
 ### SmartDetectorAlertRuleOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210401        |                               | v1api20210401/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -103,7 +96,7 @@
 
 ### SmartDetectorAlertRule_STATUS
 
-12 x Identical, 1 x New, 2 x Modified
+Properties: 12 x Identical, 1 x New, 2 x Modified
 
 | v1api20210401 |                                      | v1api20210401/storage |                                 |  Status   | Notes |
 |:--------------|:-------------------------------------|:----------------------|:--------------------------------|:---------:|:------|
@@ -125,7 +118,7 @@
 
 ### SmartDetectorAlertRule_Spec
 
-11 x Identical, 2 x New, 2 x Modified
+Properties: 11 x Identical, 2 x New, 2 x Modified
 
 | v1api20210401   |                                     | v1api20210401/storage |                                     |  Status   | Notes |
 |:----------------|:------------------------------------|:----------------------|:------------------------------------|:---------:|:------|
@@ -147,7 +140,7 @@
 
 ### ThrottlingInformation
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210401 |         | v1api20210401/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -156,9 +149,18 @@
 
 ### ThrottlingInformation_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210401 |         | v1api20210401/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
 | Duration      | *string | Duration              | *string                | Identical |       |
 |               |         | PropertyBag           | genruntime.PropertyBag |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

@@ -7,63 +7,56 @@
 | ApplicationSecurityGroup     | ApplicationSecurityGroup     | Identical |       |
 | WebApplicationFirewallPolicy | WebApplicationFirewallPolicy | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20240101                                                                                | v1api20240101/storage                                                                        |  Status  | Notes |
-|:---------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------|:--------:|:------|
-| ApplicationGateway_STATUS_ApplicationGatewayWebApplicationFirewallPolicy_SubResourceEmbedded | ApplicationGateway_STATUS_ApplicationGatewayWebApplicationFirewallPolicy_SubResourceEmbedded | Extended |       |
-| ApplicationSecurityGroupOperatorSpec                                                         | ApplicationSecurityGroupOperatorSpec                                                         | Extended |       |
-| ApplicationSecurityGroup_STATUS                                                              | ApplicationSecurityGroup_STATUS                                                              | Modified |       |
-| ApplicationSecurityGroup_Spec                                                                | ApplicationSecurityGroup_Spec                                                                | Extended |       |
-| ExclusionManagedRule                                                                         | ExclusionManagedRule                                                                         | Extended |       |
-| ExclusionManagedRuleGroup                                                                    | ExclusionManagedRuleGroup                                                                    | Extended |       |
-| ExclusionManagedRuleGroup_STATUS                                                             | ExclusionManagedRuleGroup_STATUS                                                             | Extended |       |
-| ExclusionManagedRuleSet                                                                      | ExclusionManagedRuleSet                                                                      | Extended |       |
-| ExclusionManagedRuleSet_STATUS                                                               | ExclusionManagedRuleSet_STATUS                                                               | Extended |       |
-| ExclusionManagedRule_STATUS                                                                  | ExclusionManagedRule_STATUS                                                                  | Extended |       |
-| GroupByUserSession                                                                           | GroupByUserSession                                                                           | Extended |       |
-| GroupByUserSession_STATUS                                                                    | GroupByUserSession_STATUS                                                                    | Extended |       |
-| GroupByVariable                                                                              | GroupByVariable                                                                              | Modified |       |
-| GroupByVariable_STATUS                                                                       | GroupByVariable_STATUS                                                                       | Modified |       |
-| ManagedRuleGroupOverride                                                                     | ManagedRuleGroupOverride                                                                     | Extended |       |
-| ManagedRuleGroupOverride_STATUS                                                              | ManagedRuleGroupOverride_STATUS                                                              | Extended |       |
-| ManagedRuleOverride                                                                          | ManagedRuleOverride                                                                          | Modified |       |
-| ManagedRuleOverride_STATUS                                                                   | ManagedRuleOverride_STATUS                                                                   | Modified |       |
-| ManagedRuleSet                                                                               | ManagedRuleSet                                                                               | Extended |       |
-| ManagedRuleSet_STATUS                                                                        | ManagedRuleSet_STATUS                                                                        | Extended |       |
-| ManagedRulesDefinition                                                                       | ManagedRulesDefinition                                                                       | Extended |       |
-| ManagedRulesDefinition_STATUS                                                                | ManagedRulesDefinition_STATUS                                                                | Extended |       |
-| MatchCondition                                                                               | MatchCondition                                                                               | Modified |       |
-| MatchCondition_STATUS                                                                        | MatchCondition_STATUS                                                                        | Modified |       |
-| MatchVariable                                                                                | MatchVariable                                                                                | Modified |       |
-| MatchVariable_STATUS                                                                         | MatchVariable_STATUS                                                                         | Modified |       |
-| OwaspCrsExclusionEntry                                                                       | OwaspCrsExclusionEntry                                                                       | Modified |       |
-| OwaspCrsExclusionEntry_STATUS                                                                | OwaspCrsExclusionEntry_STATUS                                                                | Modified |       |
-| PolicySettings                                                                               | PolicySettings                                                                               | Modified |       |
-| PolicySettings_LogScrubbing                                                                  | PolicySettings_LogScrubbing                                                                  | Modified |       |
-| PolicySettings_LogScrubbing_STATUS                                                           | PolicySettings_LogScrubbing_STATUS                                                           | Modified |       |
-| PolicySettings_STATUS                                                                        | PolicySettings_STATUS                                                                        | Modified |       |
-| SubResource_STATUS                                                                           | SubResource_STATUS                                                                           | Extended |       |
-| WebApplicationFirewallCustomRule                                                             | WebApplicationFirewallCustomRule                                                             | Modified |       |
-| WebApplicationFirewallCustomRule_STATUS                                                      | WebApplicationFirewallCustomRule_STATUS                                                      | Modified |       |
-| WebApplicationFirewallPolicyOperatorSpec                                                     | WebApplicationFirewallPolicyOperatorSpec                                                     | Extended |       |
-| WebApplicationFirewallPolicy_STATUS                                                          | WebApplicationFirewallPolicy_STATUS                                                          | Modified |       |
-| WebApplicationFirewallPolicy_Spec                                                            | WebApplicationFirewallPolicy_Spec                                                            | Modified |       |
-| WebApplicationFirewallScrubbingRules                                                         | WebApplicationFirewallScrubbingRules                                                         | Modified |       |
-| WebApplicationFirewallScrubbingRules_STATUS                                                  | WebApplicationFirewallScrubbingRules_STATUS                                                  | Modified |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20240101                                                                                | v1api20240101/storage                                                                        |  Status  | Notes                         |
+|:---------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------|:--------:|:------------------------------|
+| ApplicationGateway_STATUS_ApplicationGatewayWebApplicationFirewallPolicy_SubResourceEmbedded | ApplicationGateway_STATUS_ApplicationGatewayWebApplicationFirewallPolicy_SubResourceEmbedded | Extended | +PropertyBag                  |
+| ApplicationSecurityGroupOperatorSpec                                                         | ApplicationSecurityGroupOperatorSpec                                                         | Extended | +PropertyBag                  |
+| ApplicationSecurityGroup_STATUS                                                              | ApplicationSecurityGroup_STATUS                                                              | Modified |                               |
+| ApplicationSecurityGroup_Spec                                                                | ApplicationSecurityGroup_Spec                                                                | Extended | +OriginalVersion +PropertyBag |
+| ExclusionManagedRule                                                                         | ExclusionManagedRule                                                                         | Extended | +PropertyBag                  |
+| ExclusionManagedRuleGroup                                                                    | ExclusionManagedRuleGroup                                                                    | Extended | +PropertyBag                  |
+| ExclusionManagedRuleGroup_STATUS                                                             | ExclusionManagedRuleGroup_STATUS                                                             | Extended | +PropertyBag                  |
+| ExclusionManagedRuleSet                                                                      | ExclusionManagedRuleSet                                                                      | Extended | +PropertyBag                  |
+| ExclusionManagedRuleSet_STATUS                                                               | ExclusionManagedRuleSet_STATUS                                                               | Extended | +PropertyBag                  |
+| ExclusionManagedRule_STATUS                                                                  | ExclusionManagedRule_STATUS                                                                  | Extended | +PropertyBag                  |
+| GroupByUserSession                                                                           | GroupByUserSession                                                                           | Extended | +PropertyBag                  |
+| GroupByUserSession_STATUS                                                                    | GroupByUserSession_STATUS                                                                    | Extended | +PropertyBag                  |
+| GroupByVariable                                                                              | GroupByVariable                                                                              | Modified |                               |
+| GroupByVariable_STATUS                                                                       | GroupByVariable_STATUS                                                                       | Modified |                               |
+| ManagedRuleGroupOverride                                                                     | ManagedRuleGroupOverride                                                                     | Extended | +PropertyBag                  |
+| ManagedRuleGroupOverride_STATUS                                                              | ManagedRuleGroupOverride_STATUS                                                              | Extended | +PropertyBag                  |
+| ManagedRuleOverride                                                                          | ManagedRuleOverride                                                                          | Modified |                               |
+| ManagedRuleOverride_STATUS                                                                   | ManagedRuleOverride_STATUS                                                                   | Modified |                               |
+| ManagedRuleSet                                                                               | ManagedRuleSet                                                                               | Extended | +PropertyBag                  |
+| ManagedRuleSet_STATUS                                                                        | ManagedRuleSet_STATUS                                                                        | Extended | +PropertyBag                  |
+| ManagedRulesDefinition                                                                       | ManagedRulesDefinition                                                                       | Extended | +PropertyBag                  |
+| ManagedRulesDefinition_STATUS                                                                | ManagedRulesDefinition_STATUS                                                                | Extended | +PropertyBag                  |
+| MatchCondition                                                                               | MatchCondition                                                                               | Modified |                               |
+| MatchCondition_STATUS                                                                        | MatchCondition_STATUS                                                                        | Modified |                               |
+| MatchVariable                                                                                | MatchVariable                                                                                | Modified |                               |
+| MatchVariable_STATUS                                                                         | MatchVariable_STATUS                                                                         | Modified |                               |
+| OwaspCrsExclusionEntry                                                                       | OwaspCrsExclusionEntry                                                                       | Modified |                               |
+| OwaspCrsExclusionEntry_STATUS                                                                | OwaspCrsExclusionEntry_STATUS                                                                | Modified |                               |
+| PolicySettings                                                                               | PolicySettings                                                                               | Modified |                               |
+| PolicySettings_LogScrubbing                                                                  | PolicySettings_LogScrubbing                                                                  | Modified |                               |
+| PolicySettings_LogScrubbing_STATUS                                                           | PolicySettings_LogScrubbing_STATUS                                                           | Modified |                               |
+| PolicySettings_STATUS                                                                        | PolicySettings_STATUS                                                                        | Modified |                               |
+| SubResource_STATUS                                                                           | SubResource_STATUS                                                                           | Extended | +PropertyBag                  |
+| WebApplicationFirewallCustomRule                                                             | WebApplicationFirewallCustomRule                                                             | Modified |                               |
+| WebApplicationFirewallCustomRule_STATUS                                                      | WebApplicationFirewallCustomRule_STATUS                                                      | Modified |                               |
+| WebApplicationFirewallPolicyOperatorSpec                                                     | WebApplicationFirewallPolicyOperatorSpec                                                     | Extended | +PropertyBag                  |
+| WebApplicationFirewallPolicy_STATUS                                                          | WebApplicationFirewallPolicy_STATUS                                                          | Modified |                               |
+| WebApplicationFirewallPolicy_Spec                                                            | WebApplicationFirewallPolicy_Spec                                                            | Modified |                               |
+| WebApplicationFirewallScrubbingRules                                                         | WebApplicationFirewallScrubbingRules                                                         | Modified |                               |
+| WebApplicationFirewallScrubbingRules_STATUS                                                  | WebApplicationFirewallScrubbingRules_STATUS                                                  | Modified |                               |
 
 ### ApplicationGateway_STATUS_ApplicationGatewayWebApplicationFirewallPolicy_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240101 |         | v1api20240101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -72,7 +65,7 @@
 
 ### ApplicationSecurityGroupOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240101        |                               | v1api20240101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -82,7 +75,7 @@
 
 ### ApplicationSecurityGroup_STATUS
 
-8 x Identical, 1 x New, 1 x Modified
+Properties: 8 x Identical, 1 x New, 1 x Modified
 
 | v1api20240101     |                           | v1api20240101/storage |                        |  Status   | Notes |
 |:------------------|:--------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -99,7 +92,7 @@
 
 ### ApplicationSecurityGroup_Spec
 
-5 x Identical, 2 x New
+Properties: 5 x Identical, 2 x New
 
 | v1api20240101 |                                       | v1api20240101/storage |                                       |  Status   | Notes |
 |:--------------|:--------------------------------------|:----------------------|:--------------------------------------|:---------:|:------|
@@ -113,7 +106,7 @@
 
 ### ExclusionManagedRule
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240101 |         | v1api20240101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -122,7 +115,7 @@
 
 ### ExclusionManagedRuleGroup
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240101 |                        | v1api20240101/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -132,7 +125,7 @@
 
 ### ExclusionManagedRuleGroup_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240101 |                               | v1api20240101/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -142,7 +135,7 @@
 
 ### ExclusionManagedRuleSet
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240101  |                             | v1api20240101/storage |                             |  Status   | Notes |
 |:---------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -153,7 +146,7 @@
 
 ### ExclusionManagedRuleSet_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240101  |                                    | v1api20240101/storage |                                    |  Status   | Notes |
 |:---------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -164,7 +157,7 @@
 
 ### ExclusionManagedRule_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240101 |         | v1api20240101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -173,7 +166,7 @@
 
 ### GroupByUserSession
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240101    |                   | v1api20240101/storage |                        |  Status   | Notes |
 |:-----------------|:------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -182,7 +175,7 @@
 
 ### GroupByUserSession_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240101    |                          | v1api20240101/storage |                          |  Status   | Notes |
 |:-----------------|:-------------------------|:----------------------|:-------------------------|:---------:|:------|
@@ -191,7 +184,7 @@
 
 ### GroupByVariable
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20240101 |                               | v1api20240101/storage |                        |  Status  | Notes |
 |:--------------|:------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -200,7 +193,7 @@
 
 ### GroupByVariable_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20240101 |                                      | v1api20240101/storage |                        |  Status  | Notes |
 |:--------------|:-------------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -209,7 +202,7 @@
 
 ### ManagedRuleGroupOverride
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240101 |                       | v1api20240101/storage |                        |  Status   | Notes |
 |:--------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -219,7 +212,7 @@
 
 ### ManagedRuleGroupOverride_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240101 |                              | v1api20240101/storage |                              |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -229,7 +222,7 @@
 
 ### ManagedRuleOverride
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v1api20240101 |                            | v1api20240101/storage |                        |  Status   | Notes |
 |:--------------|:---------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -240,7 +233,7 @@
 
 ### ManagedRuleOverride_STATUS
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v1api20240101 |                                   | v1api20240101/storage |                        |  Status   | Notes |
 |:--------------|:----------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -251,7 +244,7 @@
 
 ### ManagedRuleSet
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240101      |                            | v1api20240101/storage |                            |  Status   | Notes |
 |:-------------------|:---------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -262,7 +255,7 @@
 
 ### ManagedRuleSet_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240101      |                                   | v1api20240101/storage |                                   |  Status   | Notes |
 |:-------------------|:----------------------------------|:----------------------|:----------------------------------|:---------:|:------|
@@ -273,7 +266,7 @@
 
 ### ManagedRulesDefinition
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240101   |                          | v1api20240101/storage |                          |  Status   | Notes |
 |:----------------|:-------------------------|:----------------------|:-------------------------|:---------:|:------|
@@ -283,7 +276,7 @@
 
 ### ManagedRulesDefinition_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240101   |                                 | v1api20240101/storage |                                 |  Status   | Notes |
 |:----------------|:--------------------------------|:----------------------|:--------------------------------|:---------:|:------|
@@ -293,7 +286,7 @@
 
 ### MatchCondition
 
-3 x Identical, 1 x New, 2 x Modified
+Properties: 3 x Identical, 1 x New, 2 x Modified
 
 | v1api20240101    |                          | v1api20240101/storage |                        |  Status   | Notes |
 |:-----------------|:-------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -306,7 +299,7 @@
 
 ### MatchCondition_STATUS
 
-3 x Identical, 1 x New, 2 x Modified
+Properties: 3 x Identical, 1 x New, 2 x Modified
 
 | v1api20240101    |                                 | v1api20240101/storage |                        |  Status   | Notes |
 |:-----------------|:--------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -319,7 +312,7 @@
 
 ### MatchVariable
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240101 |                             | v1api20240101/storage |                        |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -329,7 +322,7 @@
 
 ### MatchVariable_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240101 |                                    | v1api20240101/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -339,7 +332,7 @@
 
 ### OwaspCrsExclusionEntry
 
-2 x Identical, 1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New, 2 x Modified
 
 | v1api20240101            |                                               | v1api20240101/storage    |                           |  Status   | Notes |
 |:-------------------------|:----------------------------------------------|:-------------------------|:--------------------------|:---------:|:------|
@@ -351,7 +344,7 @@
 
 ### OwaspCrsExclusionEntry_STATUS
 
-2 x Identical, 1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New, 2 x Modified
 
 | v1api20240101            |                                                      | v1api20240101/storage    |                                  |  Status   | Notes |
 |:-------------------------|:-----------------------------------------------------|:-------------------------|:---------------------------------|:---------:|:------|
@@ -363,17 +356,17 @@
 
 ### PolicySettings
 
-5 x Identical, 1 x New, 7 x Modified
+Properties: 10 x Identical, 1 x New, 2 x Modified
 
 | v1api20240101                     |                              | v1api20240101/storage             |                              |  Status   | Notes |
 |:----------------------------------|:-----------------------------|:----------------------------------|:-----------------------------|:---------:|:------|
-| CustomBlockResponseBody           | Validated<*string> (2 rules) | CustomBlockResponseBody           | *string                      | Modified  |       |
-| CustomBlockResponseStatusCode     | Validated<*int> (1 rule)     | CustomBlockResponseStatusCode     | *int                         | Modified  |       |
+| CustomBlockResponseBody           | Validated<*string> (2 rules) | CustomBlockResponseBody           | *string                      | Identical |       |
+| CustomBlockResponseStatusCode     | Validated<*int> (1 rule)     | CustomBlockResponseStatusCode     | *int                         | Identical |       |
 | FileUploadEnforcement             | *bool                        | FileUploadEnforcement             | *bool                        | Identical |       |
-| FileUploadLimitInMb               | Validated<*int> (1 rule)     | FileUploadLimitInMb               | *int                         | Modified  |       |
-| JsChallengeCookieExpirationInMins | Validated<*int> (2 rules)    | JsChallengeCookieExpirationInMins | *int                         | Modified  |       |
+| FileUploadLimitInMb               | Validated<*int> (1 rule)     | FileUploadLimitInMb               | *int                         | Identical |       |
+| JsChallengeCookieExpirationInMins | Validated<*int> (2 rules)    | JsChallengeCookieExpirationInMins | *int                         | Identical |       |
 | LogScrubbing                      | *PolicySettings_LogScrubbing | LogScrubbing                      | *PolicySettings_LogScrubbing | Identical |       |
-| MaxRequestBodySizeInKb            | Validated<*int> (1 rule)     | MaxRequestBodySizeInKb            | *int                         | Modified  |       |
+| MaxRequestBodySizeInKb            | Validated<*int> (1 rule)     | MaxRequestBodySizeInKb            | *int                         | Identical |       |
 | Mode                              | *PolicySettings_Mode         | Mode                              | *string                      | Modified  |       |
 |                                   |                              | PropertyBag                       | genruntime.PropertyBag       |    New    |       |
 | RequestBodyCheck                  | *bool                        | RequestBodyCheck                  | *bool                        | Identical |       |
@@ -383,7 +376,7 @@
 
 ### PolicySettings_LogScrubbing
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240101  |                                        | v1api20240101/storage |                                        |  Status   | Notes |
 |:---------------|:---------------------------------------|:----------------------|:---------------------------------------|:---------:|:------|
@@ -393,7 +386,7 @@
 
 ### PolicySettings_LogScrubbing_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240101  |                                               | v1api20240101/storage |                                               |  Status   | Notes |
 |:---------------|:----------------------------------------------|:----------------------|:----------------------------------------------|:---------:|:------|
@@ -403,7 +396,7 @@
 
 ### PolicySettings_STATUS
 
-10 x Identical, 1 x New, 2 x Modified
+Properties: 10 x Identical, 1 x New, 2 x Modified
 
 | v1api20240101                     |                                     | v1api20240101/storage             |                                     |  Status   | Notes |
 |:----------------------------------|:------------------------------------|:----------------------------------|:------------------------------------|:---------:|:------|
@@ -423,7 +416,7 @@
 
 ### SubResource_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240101 |         | v1api20240101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -432,14 +425,14 @@
 
 ### WebApplicationFirewallCustomRule
 
-4 x Identical, 1 x New, 5 x Modified
+Properties: 5 x Identical, 1 x New, 4 x Modified
 
 | v1api20240101      |                                                     | v1api20240101/storage |                        |  Status   | Notes |
 |:-------------------|:----------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
 | Action             | *WebApplicationFirewallCustomRule_Action            | Action                | *string                | Modified  |       |
 | GroupByUserSession | GroupByUserSession[]                                | GroupByUserSession    | GroupByUserSession[]   | Identical |       |
 | MatchConditions    | MatchCondition[]                                    | MatchConditions       | MatchCondition[]       | Identical |       |
-| Name               | Validated<*string> (1 rule)                         | Name                  | *string                | Modified  |       |
+| Name               | Validated<*string> (1 rule)                         | Name                  | *string                | Identical |       |
 | Priority           | *int                                                | Priority              | *int                   | Identical |       |
 |                    |                                                     | PropertyBag           | genruntime.PropertyBag |    New    |       |
 | RateLimitDuration  | *WebApplicationFirewallCustomRule_RateLimitDuration | RateLimitDuration     | *string                | Modified  |       |
@@ -449,7 +442,7 @@
 
 ### WebApplicationFirewallCustomRule_STATUS
 
-6 x Identical, 1 x New, 4 x Modified
+Properties: 6 x Identical, 1 x New, 4 x Modified
 
 | v1api20240101      |                                                            | v1api20240101/storage |                             |  Status   | Notes |
 |:-------------------|:-----------------------------------------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -467,7 +460,7 @@
 
 ### WebApplicationFirewallPolicyOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240101        |                               | v1api20240101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -477,7 +470,7 @@
 
 ### WebApplicationFirewallPolicy_STATUS
 
-13 x Identical, 1 x New, 2 x Modified
+Properties: 13 x Identical, 1 x New, 2 x Modified
 
 | v1api20240101       |                                                                                                | v1api20240101/storage |                                                                                                |  Status   | Notes |
 |:--------------------|:-----------------------------------------------------------------------------------------------|:----------------------|:-----------------------------------------------------------------------------------------------|:---------:|:------|
@@ -500,7 +493,7 @@
 
 ### WebApplicationFirewallPolicy_Spec
 
-7 x Identical, 2 x New, 1 x Modified
+Properties: 7 x Identical, 2 x New, 1 x Modified
 
 | v1api20240101  |                                           | v1api20240101/storage |                                           |  Status   | Notes |
 |:---------------|:------------------------------------------|:----------------------|:------------------------------------------|:---------:|:------|
@@ -517,7 +510,7 @@
 
 ### WebApplicationFirewallScrubbingRules
 
-1 x Identical, 1 x New, 3 x Modified
+Properties: 1 x Identical, 1 x New, 3 x Modified
 
 | v1api20240101         |                                                             | v1api20240101/storage |                        |  Status   | Notes |
 |:----------------------|:------------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -529,7 +522,7 @@
 
 ### WebApplicationFirewallScrubbingRules_STATUS
 
-1 x Identical, 1 x New, 3 x Modified
+Properties: 1 x Identical, 1 x New, 3 x Modified
 
 | v1api20240101         |                                                                    | v1api20240101/storage |                        |  Status   | Notes |
 |:----------------------|:-------------------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -538,3 +531,12 @@
 | Selector              | *string                                                            | Selector              | *string                | Identical |       |
 | SelectorMatchOperator | *WebApplicationFirewallScrubbingRules_SelectorMatchOperator_STATUS | SelectorMatchOperator | *string                | Modified  |       |
 | State                 | *WebApplicationFirewallScrubbingRules_State_STATUS                 | State                 | *string                | Modified  |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

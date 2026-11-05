@@ -9,267 +9,260 @@
 | WorkspacesCompute    | WorkspacesCompute     | Identical |       |
 | WorkspacesConnection | WorkspacesConnection  | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20240401                                                | v1api20240401/storage                                        |  Status  | Notes |
-|:-------------------------------------------------------------|:-------------------------------------------------------------|:--------:|:------|
-| AADAuthTypeWorkspaceConnectionProperties                     | AADAuthTypeWorkspaceConnectionProperties                     | Modified |       |
-| AADAuthTypeWorkspaceConnectionProperties_STATUS              | AADAuthTypeWorkspaceConnectionProperties_STATUS              | Modified |       |
-| AKS                                                          | AKS                                                          | Modified |       |
-| AKS_Properties                                               | AKS_Properties                                               | Modified |       |
-| AKS_Properties_STATUS                                        | AKS_Properties_STATUS                                        | Modified |       |
-| AKS_STATUS                                                   | AKS_STATUS                                                   | Modified |       |
-| AccessKeyAuthTypeWorkspaceConnectionProperties               | AccessKeyAuthTypeWorkspaceConnectionProperties               | Modified |       |
-| AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS        | AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS        | Modified |       |
-| AccountKeyAuthTypeWorkspaceConnectionProperties              | AccountKeyAuthTypeWorkspaceConnectionProperties              | Modified |       |
-| AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS       | AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS       | Modified |       |
-| AcrDetails                                                   | AcrDetails                                                   | Extended |       |
-| AcrDetails_STATUS                                            | AcrDetails_STATUS                                            | Extended |       |
-| AksNetworkingConfiguration                                   | AksNetworkingConfiguration                                   | Modified |       |
-| AksNetworkingConfiguration_STATUS                            | AksNetworkingConfiguration_STATUS                            | Extended |       |
-| AmlCompute                                                   | AmlCompute                                                   | Modified |       |
-| AmlComputeProperties                                         | AmlComputeProperties                                         | Modified |       |
-| AmlComputeProperties_STATUS                                  | AmlComputeProperties_STATUS                                  | Modified |       |
-| AmlCompute_STATUS                                            | AmlCompute_STATUS                                            | Modified |       |
-| ApiKeyAuthWorkspaceConnectionProperties                      | ApiKeyAuthWorkspaceConnectionProperties                      | Modified |       |
-| ApiKeyAuthWorkspaceConnectionProperties_STATUS               | ApiKeyAuthWorkspaceConnectionProperties_STATUS               | Modified |       |
-| ArmResourceId                                                | ArmResourceId                                                | Extended |       |
-| ArmResourceId_STATUS                                         | ArmResourceId_STATUS                                         | Extended |       |
-| AssignedUser                                                 | AssignedUser                                                 | Extended |       |
-| AssignedUser_STATUS                                          | AssignedUser_STATUS                                          | Extended |       |
-| AutoPauseProperties                                          | AutoPauseProperties                                          | Extended |       |
-| AutoPauseProperties_STATUS                                   | AutoPauseProperties_STATUS                                   | Extended |       |
-| AutoScaleProperties                                          | AutoScaleProperties                                          | Extended |       |
-| AutoScaleProperties_STATUS                                   | AutoScaleProperties_STATUS                                   | Extended |       |
-| BindOptions                                                  | BindOptions                                                  | Extended |       |
-| BindOptions_STATUS                                           | BindOptions_STATUS                                           | Extended |       |
-| Compute                                                      | Compute                                                      | Extended |       |
-| ComputeInstance                                              | ComputeInstance                                              | Modified |       |
-| ComputeInstanceApplication_STATUS                            | ComputeInstanceApplication_STATUS                            | Extended |       |
-| ComputeInstanceConnectivityEndpoints_STATUS                  | ComputeInstanceConnectivityEndpoints_STATUS                  | Extended |       |
-| ComputeInstanceContainer_STATUS                              | ComputeInstanceContainer_STATUS                              | Modified |       |
-| ComputeInstanceCreatedBy_STATUS                              | ComputeInstanceCreatedBy_STATUS                              | Extended |       |
-| ComputeInstanceDataDisk_STATUS                               | ComputeInstanceDataDisk_STATUS                               | Modified |       |
-| ComputeInstanceDataMount_STATUS                              | ComputeInstanceDataMount_STATUS                              | Modified |       |
-| ComputeInstanceEnvironmentInfo_STATUS                        | ComputeInstanceEnvironmentInfo_STATUS                        | Extended |       |
-| ComputeInstanceLastOperation_STATUS                          | ComputeInstanceLastOperation_STATUS                          | Modified |       |
-| ComputeInstanceProperties                                    | ComputeInstanceProperties                                    | Modified |       |
-| ComputeInstanceProperties_STATUS                             | ComputeInstanceProperties_STATUS                             | Modified |       |
-| ComputeInstanceSshSettings                                   | ComputeInstanceSshSettings                                   | Modified |       |
-| ComputeInstanceSshSettings_STATUS                            | ComputeInstanceSshSettings_STATUS                            | Modified |       |
-| ComputeInstanceVersion_STATUS                                | ComputeInstanceVersion_STATUS                                | Extended |       |
-| ComputeInstance_STATUS                                       | ComputeInstance_STATUS                                       | Modified |       |
-| ComputeRecurrenceSchedule                                    | ComputeRecurrenceSchedule                                    | Modified |       |
-| ComputeRecurrenceSchedule_STATUS                             | ComputeRecurrenceSchedule_STATUS                             | Modified |       |
-| ComputeRuntimeDto                                            | ComputeRuntimeDto                                            | Extended |       |
-| ComputeRuntimeDto_STATUS                                     | ComputeRuntimeDto_STATUS                                     | Extended |       |
-| ComputeSchedules                                             | ComputeSchedules                                             | Extended |       |
-| ComputeSchedules_STATUS                                      | ComputeSchedules_STATUS                                      | Extended |       |
-| ComputeStartStopSchedule                                     | ComputeStartStopSchedule                                     | Modified |       |
-| ComputeStartStopSchedule_STATUS                              | ComputeStartStopSchedule_STATUS                              | Modified |       |
-| Compute_STATUS                                               | Compute_STATUS                                               | Extended |       |
-| CosmosDbSettings                                             | CosmosDbSettings                                             | Extended |       |
-| CosmosDbSettings_STATUS                                      | CosmosDbSettings_STATUS                                      | Extended |       |
-| Cron                                                         | Cron                                                         | Extended |       |
-| Cron_STATUS                                                  | Cron_STATUS                                                  | Extended |       |
-| CustomKeys                                                   | CustomKeys                                                   | Extended |       |
-| CustomKeysWorkspaceConnectionProperties                      | CustomKeysWorkspaceConnectionProperties                      | Modified |       |
-| CustomKeysWorkspaceConnectionProperties_STATUS               | CustomKeysWorkspaceConnectionProperties_STATUS               | Modified |       |
-| CustomKeys_STATUS                                            | CustomKeys_STATUS                                            | Extended |       |
-| CustomService                                                | CustomService                                                | Extended |       |
-| CustomService_STATUS                                         | CustomService_STATUS                                         | Extended |       |
-| DataFactory                                                  | DataFactory                                                  | Modified |       |
-| DataFactory_STATUS                                           | DataFactory_STATUS                                           | Modified |       |
-| DataLakeAnalytics                                            | DataLakeAnalytics                                            | Modified |       |
-| DataLakeAnalytics_Properties                                 | DataLakeAnalytics_Properties                                 | Extended |       |
-| DataLakeAnalytics_Properties_STATUS                          | DataLakeAnalytics_Properties_STATUS                          | Extended |       |
-| DataLakeAnalytics_STATUS                                     | DataLakeAnalytics_STATUS                                     | Modified |       |
-| Databricks                                                   | Databricks                                                   | Modified |       |
-| DatabricksProperties                                         | DatabricksProperties                                         | Extended |       |
-| DatabricksProperties_STATUS                                  | DatabricksProperties_STATUS                                  | Extended |       |
-| Databricks_STATUS                                            | Databricks_STATUS                                            | Modified |       |
-| Docker                                                       | Docker                                                       | Extended |       |
-| Docker_STATUS                                                | Docker_STATUS                                                | Extended |       |
-| EncryptionKeyVaultProperties                                 | EncryptionKeyVaultProperties                                 | Extended |       |
-| EncryptionKeyVaultProperties_STATUS                          | EncryptionKeyVaultProperties_STATUS                          | Extended |       |
-| EncryptionProperty                                           | EncryptionProperty                                           | Extended |       |
-| EncryptionProperty_STATUS                                    | EncryptionProperty_STATUS                                    | Modified |       |
-| Endpoint                                                     | Endpoint                                                     | Modified |       |
-| Endpoint_STATUS                                              | Endpoint_STATUS                                              | Modified |       |
-| EnvironmentVariable                                          | EnvironmentVariable                                          | Modified |       |
-| EnvironmentVariable_STATUS                                   | EnvironmentVariable_STATUS                                   | Modified |       |
-| ErrorAdditionalInfo_STATUS                                   | ErrorAdditionalInfo_STATUS                                   | Extended |       |
-| ErrorDetail_STATUS                                           | ErrorDetail_STATUS                                           | Extended |       |
-| ErrorDetail_STATUS_Unrolled                                  | ErrorDetail_STATUS_Unrolled                                  | Extended |       |
-| ErrorResponse_STATUS                                         | ErrorResponse_STATUS                                         | Extended |       |
-| FeatureStoreSettings                                         | FeatureStoreSettings                                         | Extended |       |
-| FeatureStoreSettings_STATUS                                  | FeatureStoreSettings_STATUS                                  | Extended |       |
-| FqdnOutboundRule                                             | FqdnOutboundRule                                             | Modified |       |
-| FqdnOutboundRule_STATUS                                      | FqdnOutboundRule_STATUS                                      | Modified |       |
-| HDInsight                                                    | HDInsight                                                    | Modified |       |
-| HDInsightProperties                                          | HDInsightProperties                                          | Extended |       |
-| HDInsightProperties_STATUS                                   | HDInsightProperties_STATUS                                   | Extended |       |
-| HDInsight_STATUS                                             | HDInsight_STATUS                                             | Modified |       |
-| IdentityForCmk                                               | IdentityForCmk                                               | Extended |       |
-| IdentityForCmk_STATUS                                        | IdentityForCmk_STATUS                                        | Extended |       |
-| Image                                                        | Image                                                        | Modified |       |
-| ImageMetadata_STATUS                                         | ImageMetadata_STATUS                                         | Extended |       |
-| Image_STATUS                                                 | Image_STATUS                                                 | Modified |       |
-| InstanceTypeSchema                                           | InstanceTypeSchema                                           | Extended |       |
-| InstanceTypeSchema_Resources                                 | InstanceTypeSchema_Resources                                 | Extended |       |
-| InstanceTypeSchema_Resources_STATUS                          | InstanceTypeSchema_Resources_STATUS                          | Extended |       |
-| InstanceTypeSchema_STATUS                                    | InstanceTypeSchema_STATUS                                    | Extended |       |
-| Kubernetes                                                   | Kubernetes                                                   | Modified |       |
-| KubernetesProperties                                         | KubernetesProperties                                         | Extended |       |
-| KubernetesProperties_STATUS                                  | KubernetesProperties_STATUS                                  | Extended |       |
-| Kubernetes_STATUS                                            | Kubernetes_STATUS                                            | Modified |       |
-| ManagedIdentityAuthTypeWorkspaceConnectionProperties         | ManagedIdentityAuthTypeWorkspaceConnectionProperties         | Modified |       |
-| ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS  | ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS  | Modified |       |
-| ManagedNetworkProvisionStatus                                | ManagedNetworkProvisionStatus                                | Modified |       |
-| ManagedNetworkProvisionStatus_STATUS                         | ManagedNetworkProvisionStatus_STATUS                         | Modified |       |
-| ManagedNetworkSettings                                       | ManagedNetworkSettings                                       | Modified |       |
-| ManagedNetworkSettings_STATUS                                | ManagedNetworkSettings_STATUS                                | Modified |       |
-| ManagedServiceIdentity                                       | ManagedServiceIdentity                                       | Modified |       |
-| ManagedServiceIdentity_STATUS                                | ManagedServiceIdentity_STATUS                                | Modified |       |
-| NodeStateCounts_STATUS                                       | NodeStateCounts_STATUS                                       | Extended |       |
-| NoneAuthTypeWorkspaceConnectionProperties                    | NoneAuthTypeWorkspaceConnectionProperties                    | Modified |       |
-| NoneAuthTypeWorkspaceConnectionProperties_STATUS             | NoneAuthTypeWorkspaceConnectionProperties_STATUS             | Modified |       |
-| NotebookPreparationError_STATUS                              | NotebookPreparationError_STATUS                              | Extended |       |
-| NotebookResourceInfo_STATUS                                  | NotebookResourceInfo_STATUS                                  | Extended |       |
-| OAuth2AuthTypeWorkspaceConnectionProperties                  | OAuth2AuthTypeWorkspaceConnectionProperties                  | Modified |       |
-| OAuth2AuthTypeWorkspaceConnectionProperties_STATUS           | OAuth2AuthTypeWorkspaceConnectionProperties_STATUS           | Modified |       |
-| OutboundRule                                                 | OutboundRule                                                 | Extended |       |
-| OutboundRule_STATUS                                          | OutboundRule_STATUS                                          | Extended |       |
-| PATAuthTypeWorkspaceConnectionProperties                     | PATAuthTypeWorkspaceConnectionProperties                     | Modified |       |
-| PATAuthTypeWorkspaceConnectionProperties_STATUS              | PATAuthTypeWorkspaceConnectionProperties_STATUS              | Modified |       |
-| PersonalComputeInstanceSettings                              | PersonalComputeInstanceSettings                              | Extended |       |
-| PersonalComputeInstanceSettings_STATUS                       | PersonalComputeInstanceSettings_STATUS                       | Extended |       |
-| PrivateEndpointConnection_STATUS                             | PrivateEndpointConnection_STATUS                             | Extended |       |
-| PrivateEndpointDestination                                   | PrivateEndpointDestination                                   | Modified |       |
-| PrivateEndpointDestination_STATUS                            | PrivateEndpointDestination_STATUS                            | Modified |       |
-| PrivateEndpointOutboundRule                                  | PrivateEndpointOutboundRule                                  | Modified |       |
-| PrivateEndpointOutboundRule_STATUS                           | PrivateEndpointOutboundRule_STATUS                           | Modified |       |
-| PrivateEndpointResource                                      | PrivateEndpointResource                                      | Extended |       |
-| PrivateEndpointResource_STATUS                               | PrivateEndpointResource_STATUS                               | Extended |       |
-| Recurrence                                                   | Recurrence                                                   | Modified |       |
-| Recurrence_STATUS                                            | Recurrence_STATUS                                            | Modified |       |
-| RegistryOperatorConfigMaps                                   | RegistryOperatorConfigMaps                                   | Extended |       |
-| RegistryOperatorSpec                                         | RegistryOperatorSpec                                         | Extended |       |
-| RegistryPrivateEndpointConnection                            | RegistryPrivateEndpointConnection                            | Extended |       |
-| RegistryPrivateEndpointConnection_STATUS                     | RegistryPrivateEndpointConnection_STATUS                     | Extended |       |
-| RegistryPrivateLinkServiceConnectionState                    | RegistryPrivateLinkServiceConnectionState                    | Modified |       |
-| RegistryPrivateLinkServiceConnectionState_STATUS             | RegistryPrivateLinkServiceConnectionState_STATUS             | Modified |       |
-| RegistryRegionArmDetails                                     | RegistryRegionArmDetails                                     | Extended |       |
-| RegistryRegionArmDetails_STATUS                              | RegistryRegionArmDetails_STATUS                              | Extended |       |
-| RegistryTrackedResource_STATUS                               | RegistryTrackedResource_STATUS                               | Extended |       |
-| Registry_Spec                                                | Registry_Spec                                                | Modified |       |
-| ResourceId                                                   | ResourceId                                                   | Extended |       |
-| ResourceId_STATUS                                            | ResourceId_STATUS                                            | Extended |       |
-| SASAuthTypeWorkspaceConnectionProperties                     | SASAuthTypeWorkspaceConnectionProperties                     | Modified |       |
-| SASAuthTypeWorkspaceConnectionProperties_STATUS              | SASAuthTypeWorkspaceConnectionProperties_STATUS              | Modified |       |
-| ScaleSettings                                                | ScaleSettings                                                | Extended |       |
-| ScaleSettings_STATUS                                         | ScaleSettings_STATUS                                         | Extended |       |
-| ScheduleBase                                                 | ScheduleBase                                                 | Modified |       |
-| ScheduleBase_STATUS                                          | ScheduleBase_STATUS                                          | Modified |       |
-| ScriptReference                                              | ScriptReference                                              | Extended |       |
-| ScriptReference_STATUS                                       | ScriptReference_STATUS                                       | Extended |       |
-| ScriptsToExecute                                             | ScriptsToExecute                                             | Extended |       |
-| ScriptsToExecute_STATUS                                      | ScriptsToExecute_STATUS                                      | Extended |       |
-| ServerlessComputeSettings                                    | ServerlessComputeSettings                                    | Extended |       |
-| ServerlessComputeSettings_STATUS                             | ServerlessComputeSettings_STATUS                             | Extended |       |
-| ServiceManagedResourcesSettings                              | ServiceManagedResourcesSettings                              | Extended |       |
-| ServiceManagedResourcesSettings_STATUS                       | ServiceManagedResourcesSettings_STATUS                       | Extended |       |
-| ServicePrincipalAuthTypeWorkspaceConnectionProperties        | ServicePrincipalAuthTypeWorkspaceConnectionProperties        | Modified |       |
-| ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS | ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS | Modified |       |
-| ServiceTagDestination                                        | ServiceTagDestination                                        | Modified |       |
-| ServiceTagDestination_STATUS                                 | ServiceTagDestination_STATUS                                 | Modified |       |
-| ServiceTagOutboundRule                                       | ServiceTagOutboundRule                                       | Modified |       |
-| ServiceTagOutboundRule_STATUS                                | ServiceTagOutboundRule_STATUS                                | Modified |       |
-| SetupScripts                                                 | SetupScripts                                                 | Extended |       |
-| SetupScripts_STATUS                                          | SetupScripts_STATUS                                          | Extended |       |
-| SharedPrivateLinkResource                                    | SharedPrivateLinkResource                                    | Modified |       |
-| SharedPrivateLinkResource_STATUS                             | SharedPrivateLinkResource_STATUS                             | Modified |       |
-| Sku                                                          | Sku                                                          | Modified |       |
-| Sku_STATUS                                                   | Sku_STATUS                                                   | Modified |       |
-| SslConfiguration                                             | SslConfiguration                                             | Modified |       |
-| SslConfiguration_STATUS                                      | SslConfiguration_STATUS                                      | Modified |       |
-| StorageAccountDetails                                        | StorageAccountDetails                                        | Extended |       |
-| StorageAccountDetails_STATUS                                 | StorageAccountDetails_STATUS                                 | Extended |       |
-| SynapseSpark                                                 | SynapseSpark                                                 | Modified |       |
-| SynapseSpark_Properties                                      | SynapseSpark_Properties                                      | Extended |       |
-| SynapseSpark_Properties_STATUS                               | SynapseSpark_Properties_STATUS                               | Extended |       |
-| SynapseSpark_STATUS                                          | SynapseSpark_STATUS                                          | Modified |       |
-| SystemCreatedAcrAccount                                      | SystemCreatedAcrAccount                                      | Extended |       |
-| SystemCreatedAcrAccount_STATUS                               | SystemCreatedAcrAccount_STATUS                               | Extended |       |
-| SystemCreatedStorageAccount                                  | SystemCreatedStorageAccount                                  | Extended |       |
-| SystemCreatedStorageAccount_STATUS                           | SystemCreatedStorageAccount_STATUS                           | Extended |       |
-| SystemData_STATUS                                            | SystemData_STATUS                                            | Modified |       |
-| SystemService_STATUS                                         | SystemService_STATUS                                         | Extended |       |
-| TmpfsOptions                                                 | TmpfsOptions                                                 | Extended |       |
-| TmpfsOptions_STATUS                                          | TmpfsOptions_STATUS                                          | Extended |       |
-| UserAccountCredentials                                       | UserAccountCredentials                                       | Extended |       |
-| UserAccountCredentials_STATUS                                | UserAccountCredentials_STATUS                                | Extended |       |
-| UserAssignedIdentityDetails                                  | UserAssignedIdentityDetails                                  | Extended |       |
-| UserAssignedIdentity_STATUS                                  | UserAssignedIdentity_STATUS                                  | Extended |       |
-| UsernamePasswordAuthTypeWorkspaceConnectionProperties        | UsernamePasswordAuthTypeWorkspaceConnectionProperties        | Modified |       |
-| UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS | UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS | Modified |       |
-| VirtualMachine                                               | VirtualMachine                                               | Modified |       |
-| VirtualMachineImage                                          | VirtualMachineImage                                          | Extended |       |
-| VirtualMachineImage_STATUS                                   | VirtualMachineImage_STATUS                                   | Extended |       |
-| VirtualMachineSshCredentials                                 | VirtualMachineSshCredentials                                 | Extended |       |
-| VirtualMachineSshCredentials_STATUS                          | VirtualMachineSshCredentials_STATUS                          | Extended |       |
-| VirtualMachine_Properties                                    | VirtualMachine_Properties                                    | Extended |       |
-| VirtualMachine_Properties_STATUS                             | VirtualMachine_Properties_STATUS                             | Extended |       |
-| VirtualMachine_STATUS                                        | VirtualMachine_STATUS                                        | Modified |       |
-| VolumeDefinition                                             | VolumeDefinition                                             | Modified |       |
-| VolumeDefinition_STATUS                                      | VolumeDefinition_STATUS                                      | Modified |       |
-| VolumeOptions                                                | VolumeOptions                                                | Extended |       |
-| VolumeOptions_STATUS                                         | VolumeOptions_STATUS                                         | Extended |       |
-| WorkspaceConnectionAccessKey                                 | WorkspaceConnectionAccessKey                                 | Extended |       |
-| WorkspaceConnectionAccessKey_STATUS                          | WorkspaceConnectionAccessKey_STATUS                          | Extended |       |
-| WorkspaceConnectionAccountKey                                | WorkspaceConnectionAccountKey                                | Extended |       |
-| WorkspaceConnectionAccountKey_STATUS                         | WorkspaceConnectionAccountKey_STATUS                         | Extended |       |
-| WorkspaceConnectionApiKey                                    | WorkspaceConnectionApiKey                                    | Extended |       |
-| WorkspaceConnectionApiKey_STATUS                             | WorkspaceConnectionApiKey_STATUS                             | Extended |       |
-| WorkspaceConnectionManagedIdentity                           | WorkspaceConnectionManagedIdentity                           | Extended |       |
-| WorkspaceConnectionManagedIdentity_STATUS                    | WorkspaceConnectionManagedIdentity_STATUS                    | Extended |       |
-| WorkspaceConnectionOAuth2                                    | WorkspaceConnectionOAuth2                                    | Modified |       |
-| WorkspaceConnectionOAuth2_STATUS                             | WorkspaceConnectionOAuth2_STATUS                             | Extended |       |
-| WorkspaceConnectionPersonalAccessToken                       | WorkspaceConnectionPersonalAccessToken                       | Extended |       |
-| WorkspaceConnectionPersonalAccessToken_STATUS                | WorkspaceConnectionPersonalAccessToken_STATUS                | Extended |       |
-| WorkspaceConnectionPropertiesV2                              | WorkspaceConnectionPropertiesV2                              | Extended |       |
-| WorkspaceConnectionPropertiesV2_STATUS                       | WorkspaceConnectionPropertiesV2_STATUS                       | Extended |       |
-| WorkspaceConnectionServicePrincipal                          | WorkspaceConnectionServicePrincipal                          | Extended |       |
-| WorkspaceConnectionServicePrincipal_STATUS                   | WorkspaceConnectionServicePrincipal_STATUS                   | Extended |       |
-| WorkspaceConnectionSharedAccessSignature                     | WorkspaceConnectionSharedAccessSignature                     | Extended |       |
-| WorkspaceConnectionSharedAccessSignature_STATUS              | WorkspaceConnectionSharedAccessSignature_STATUS              | Extended |       |
-| WorkspaceConnectionUsernamePassword                          | WorkspaceConnectionUsernamePassword                          | Extended |       |
-| WorkspaceConnectionUsernamePassword_STATUS                   | WorkspaceConnectionUsernamePassword_STATUS                   | Extended |       |
-| WorkspaceHubConfig                                           | WorkspaceHubConfig                                           | Extended |       |
-| WorkspaceHubConfig_STATUS                                    | WorkspaceHubConfig_STATUS                                    | Extended |       |
-| WorkspaceOperatorSecrets                                     | WorkspaceOperatorSecrets                                     | Extended |       |
-| WorkspaceOperatorSpec                                        | WorkspaceOperatorSpec                                        | Extended |       |
-| Workspace_STATUS                                             | Workspace_STATUS                                             | Modified |       |
-| Workspace_Spec                                               | Workspace_Spec                                               | Modified |       |
-| WorkspacesComputeOperatorSpec                                | WorkspacesComputeOperatorSpec                                | Extended |       |
-| WorkspacesCompute_STATUS                                     | WorkspacesCompute_STATUS                                     | Extended |       |
-| WorkspacesCompute_Spec                                       | WorkspacesCompute_Spec                                       | Extended |       |
-| WorkspacesConnectionOperatorSpec                             | WorkspacesConnectionOperatorSpec                             | Extended |       |
-| WorkspacesConnection_STATUS                                  | WorkspacesConnection_STATUS                                  | Extended |       |
-| WorkspacesConnection_Spec                                    | WorkspacesConnection_Spec                                    | Modified |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20240401                                                | v1api20240401/storage                                        |  Status  | Notes                         |
+|:-------------------------------------------------------------|:-------------------------------------------------------------|:--------:|:------------------------------|
+| AADAuthTypeWorkspaceConnectionProperties                     | AADAuthTypeWorkspaceConnectionProperties                     | Modified |                               |
+| AADAuthTypeWorkspaceConnectionProperties_STATUS              | AADAuthTypeWorkspaceConnectionProperties_STATUS              | Modified |                               |
+| AKS                                                          | AKS                                                          | Modified |                               |
+| AKS_Properties                                               | AKS_Properties                                               | Modified |                               |
+| AKS_Properties_STATUS                                        | AKS_Properties_STATUS                                        | Modified |                               |
+| AKS_STATUS                                                   | AKS_STATUS                                                   | Modified |                               |
+| AccessKeyAuthTypeWorkspaceConnectionProperties               | AccessKeyAuthTypeWorkspaceConnectionProperties               | Modified |                               |
+| AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS        | AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS        | Modified |                               |
+| AccountKeyAuthTypeWorkspaceConnectionProperties              | AccountKeyAuthTypeWorkspaceConnectionProperties              | Modified |                               |
+| AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS       | AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS       | Modified |                               |
+| AcrDetails                                                   | AcrDetails                                                   | Extended | +PropertyBag                  |
+| AcrDetails_STATUS                                            | AcrDetails_STATUS                                            | Extended | +PropertyBag                  |
+| AksNetworkingConfiguration                                   | AksNetworkingConfiguration                                   | Extended | +PropertyBag                  |
+| AksNetworkingConfiguration_STATUS                            | AksNetworkingConfiguration_STATUS                            | Extended | +PropertyBag                  |
+| AmlCompute                                                   | AmlCompute                                                   | Modified |                               |
+| AmlComputeProperties                                         | AmlComputeProperties                                         | Modified |                               |
+| AmlComputeProperties_STATUS                                  | AmlComputeProperties_STATUS                                  | Modified |                               |
+| AmlCompute_STATUS                                            | AmlCompute_STATUS                                            | Modified |                               |
+| ApiKeyAuthWorkspaceConnectionProperties                      | ApiKeyAuthWorkspaceConnectionProperties                      | Modified |                               |
+| ApiKeyAuthWorkspaceConnectionProperties_STATUS               | ApiKeyAuthWorkspaceConnectionProperties_STATUS               | Modified |                               |
+| ArmResourceId                                                | ArmResourceId                                                | Extended | +PropertyBag                  |
+| ArmResourceId_STATUS                                         | ArmResourceId_STATUS                                         | Extended | +PropertyBag                  |
+| AssignedUser                                                 | AssignedUser                                                 | Extended | +PropertyBag                  |
+| AssignedUser_STATUS                                          | AssignedUser_STATUS                                          | Extended | +PropertyBag                  |
+| AutoPauseProperties                                          | AutoPauseProperties                                          | Extended | +PropertyBag                  |
+| AutoPauseProperties_STATUS                                   | AutoPauseProperties_STATUS                                   | Extended | +PropertyBag                  |
+| AutoScaleProperties                                          | AutoScaleProperties                                          | Extended | +PropertyBag                  |
+| AutoScaleProperties_STATUS                                   | AutoScaleProperties_STATUS                                   | Extended | +PropertyBag                  |
+| BindOptions                                                  | BindOptions                                                  | Extended | +PropertyBag                  |
+| BindOptions_STATUS                                           | BindOptions_STATUS                                           | Extended | +PropertyBag                  |
+| Compute                                                      | Compute                                                      | Extended | +PropertyBag                  |
+| ComputeInstance                                              | ComputeInstance                                              | Modified |                               |
+| ComputeInstanceApplication_STATUS                            | ComputeInstanceApplication_STATUS                            | Extended | +PropertyBag                  |
+| ComputeInstanceConnectivityEndpoints_STATUS                  | ComputeInstanceConnectivityEndpoints_STATUS                  | Extended | +PropertyBag                  |
+| ComputeInstanceContainer_STATUS                              | ComputeInstanceContainer_STATUS                              | Modified |                               |
+| ComputeInstanceCreatedBy_STATUS                              | ComputeInstanceCreatedBy_STATUS                              | Extended | +PropertyBag                  |
+| ComputeInstanceDataDisk_STATUS                               | ComputeInstanceDataDisk_STATUS                               | Modified |                               |
+| ComputeInstanceDataMount_STATUS                              | ComputeInstanceDataMount_STATUS                              | Modified |                               |
+| ComputeInstanceEnvironmentInfo_STATUS                        | ComputeInstanceEnvironmentInfo_STATUS                        | Extended | +PropertyBag                  |
+| ComputeInstanceLastOperation_STATUS                          | ComputeInstanceLastOperation_STATUS                          | Modified |                               |
+| ComputeInstanceProperties                                    | ComputeInstanceProperties                                    | Modified |                               |
+| ComputeInstanceProperties_STATUS                             | ComputeInstanceProperties_STATUS                             | Modified |                               |
+| ComputeInstanceSshSettings                                   | ComputeInstanceSshSettings                                   | Modified |                               |
+| ComputeInstanceSshSettings_STATUS                            | ComputeInstanceSshSettings_STATUS                            | Modified |                               |
+| ComputeInstanceVersion_STATUS                                | ComputeInstanceVersion_STATUS                                | Extended | +PropertyBag                  |
+| ComputeInstance_STATUS                                       | ComputeInstance_STATUS                                       | Modified |                               |
+| ComputeRecurrenceSchedule                                    | ComputeRecurrenceSchedule                                    | Modified |                               |
+| ComputeRecurrenceSchedule_STATUS                             | ComputeRecurrenceSchedule_STATUS                             | Modified |                               |
+| ComputeRuntimeDto                                            | ComputeRuntimeDto                                            | Extended | +PropertyBag                  |
+| ComputeRuntimeDto_STATUS                                     | ComputeRuntimeDto_STATUS                                     | Extended | +PropertyBag                  |
+| ComputeSchedules                                             | ComputeSchedules                                             | Extended | +PropertyBag                  |
+| ComputeSchedules_STATUS                                      | ComputeSchedules_STATUS                                      | Extended | +PropertyBag                  |
+| ComputeStartStopSchedule                                     | ComputeStartStopSchedule                                     | Modified |                               |
+| ComputeStartStopSchedule_STATUS                              | ComputeStartStopSchedule_STATUS                              | Modified |                               |
+| Compute_STATUS                                               | Compute_STATUS                                               | Extended | +PropertyBag                  |
+| CosmosDbSettings                                             | CosmosDbSettings                                             | Extended | +PropertyBag                  |
+| CosmosDbSettings_STATUS                                      | CosmosDbSettings_STATUS                                      | Extended | +PropertyBag                  |
+| Cron                                                         | Cron                                                         | Extended | +PropertyBag                  |
+| Cron_STATUS                                                  | Cron_STATUS                                                  | Extended | +PropertyBag                  |
+| CustomKeys                                                   | CustomKeys                                                   | Extended | +PropertyBag                  |
+| CustomKeysWorkspaceConnectionProperties                      | CustomKeysWorkspaceConnectionProperties                      | Modified |                               |
+| CustomKeysWorkspaceConnectionProperties_STATUS               | CustomKeysWorkspaceConnectionProperties_STATUS               | Modified |                               |
+| CustomKeys_STATUS                                            | CustomKeys_STATUS                                            | Extended | +PropertyBag                  |
+| CustomService                                                | CustomService                                                | Extended | +PropertyBag                  |
+| CustomService_STATUS                                         | CustomService_STATUS                                         | Extended | +PropertyBag                  |
+| DataFactory                                                  | DataFactory                                                  | Modified |                               |
+| DataFactory_STATUS                                           | DataFactory_STATUS                                           | Modified |                               |
+| DataLakeAnalytics                                            | DataLakeAnalytics                                            | Modified |                               |
+| DataLakeAnalytics_Properties                                 | DataLakeAnalytics_Properties                                 | Extended | +PropertyBag                  |
+| DataLakeAnalytics_Properties_STATUS                          | DataLakeAnalytics_Properties_STATUS                          | Extended | +PropertyBag                  |
+| DataLakeAnalytics_STATUS                                     | DataLakeAnalytics_STATUS                                     | Modified |                               |
+| Databricks                                                   | Databricks                                                   | Modified |                               |
+| DatabricksProperties                                         | DatabricksProperties                                         | Extended | +PropertyBag                  |
+| DatabricksProperties_STATUS                                  | DatabricksProperties_STATUS                                  | Extended | +PropertyBag                  |
+| Databricks_STATUS                                            | Databricks_STATUS                                            | Modified |                               |
+| Docker                                                       | Docker                                                       | Extended | +PropertyBag                  |
+| Docker_STATUS                                                | Docker_STATUS                                                | Extended | +PropertyBag                  |
+| EncryptionKeyVaultProperties                                 | EncryptionKeyVaultProperties                                 | Extended | +PropertyBag                  |
+| EncryptionKeyVaultProperties_STATUS                          | EncryptionKeyVaultProperties_STATUS                          | Extended | +PropertyBag                  |
+| EncryptionProperty                                           | EncryptionProperty                                           | Extended | +PropertyBag                  |
+| EncryptionProperty_STATUS                                    | EncryptionProperty_STATUS                                    | Modified |                               |
+| Endpoint                                                     | Endpoint                                                     | Modified |                               |
+| Endpoint_STATUS                                              | Endpoint_STATUS                                              | Modified |                               |
+| EnvironmentVariable                                          | EnvironmentVariable                                          | Modified |                               |
+| EnvironmentVariable_STATUS                                   | EnvironmentVariable_STATUS                                   | Modified |                               |
+| ErrorAdditionalInfo_STATUS                                   | ErrorAdditionalInfo_STATUS                                   | Extended | +PropertyBag                  |
+| ErrorDetail_STATUS                                           | ErrorDetail_STATUS                                           | Extended | +PropertyBag                  |
+| ErrorDetail_STATUS_Unrolled                                  | ErrorDetail_STATUS_Unrolled                                  | Extended | +PropertyBag                  |
+| ErrorResponse_STATUS                                         | ErrorResponse_STATUS                                         | Extended | +PropertyBag                  |
+| FeatureStoreSettings                                         | FeatureStoreSettings                                         | Extended | +PropertyBag                  |
+| FeatureStoreSettings_STATUS                                  | FeatureStoreSettings_STATUS                                  | Extended | +PropertyBag                  |
+| FqdnOutboundRule                                             | FqdnOutboundRule                                             | Modified |                               |
+| FqdnOutboundRule_STATUS                                      | FqdnOutboundRule_STATUS                                      | Modified |                               |
+| HDInsight                                                    | HDInsight                                                    | Modified |                               |
+| HDInsightProperties                                          | HDInsightProperties                                          | Extended | +PropertyBag                  |
+| HDInsightProperties_STATUS                                   | HDInsightProperties_STATUS                                   | Extended | +PropertyBag                  |
+| HDInsight_STATUS                                             | HDInsight_STATUS                                             | Modified |                               |
+| IdentityForCmk                                               | IdentityForCmk                                               | Extended | +PropertyBag                  |
+| IdentityForCmk_STATUS                                        | IdentityForCmk_STATUS                                        | Extended | +PropertyBag                  |
+| Image                                                        | Image                                                        | Modified |                               |
+| ImageMetadata_STATUS                                         | ImageMetadata_STATUS                                         | Extended | +PropertyBag                  |
+| Image_STATUS                                                 | Image_STATUS                                                 | Modified |                               |
+| InstanceTypeSchema                                           | InstanceTypeSchema                                           | Extended | +PropertyBag                  |
+| InstanceTypeSchema_Resources                                 | InstanceTypeSchema_Resources                                 | Extended | +PropertyBag                  |
+| InstanceTypeSchema_Resources_STATUS                          | InstanceTypeSchema_Resources_STATUS                          | Extended | +PropertyBag                  |
+| InstanceTypeSchema_STATUS                                    | InstanceTypeSchema_STATUS                                    | Extended | +PropertyBag                  |
+| Kubernetes                                                   | Kubernetes                                                   | Modified |                               |
+| KubernetesProperties                                         | KubernetesProperties                                         | Extended | +PropertyBag                  |
+| KubernetesProperties_STATUS                                  | KubernetesProperties_STATUS                                  | Extended | +PropertyBag                  |
+| Kubernetes_STATUS                                            | Kubernetes_STATUS                                            | Modified |                               |
+| ManagedIdentityAuthTypeWorkspaceConnectionProperties         | ManagedIdentityAuthTypeWorkspaceConnectionProperties         | Modified |                               |
+| ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS  | ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS  | Modified |                               |
+| ManagedNetworkProvisionStatus                                | ManagedNetworkProvisionStatus                                | Modified |                               |
+| ManagedNetworkProvisionStatus_STATUS                         | ManagedNetworkProvisionStatus_STATUS                         | Modified |                               |
+| ManagedNetworkSettings                                       | ManagedNetworkSettings                                       | Modified |                               |
+| ManagedNetworkSettings_STATUS                                | ManagedNetworkSettings_STATUS                                | Modified |                               |
+| ManagedServiceIdentity                                       | ManagedServiceIdentity                                       | Modified |                               |
+| ManagedServiceIdentity_STATUS                                | ManagedServiceIdentity_STATUS                                | Modified |                               |
+| NodeStateCounts_STATUS                                       | NodeStateCounts_STATUS                                       | Extended | +PropertyBag                  |
+| NoneAuthTypeWorkspaceConnectionProperties                    | NoneAuthTypeWorkspaceConnectionProperties                    | Modified |                               |
+| NoneAuthTypeWorkspaceConnectionProperties_STATUS             | NoneAuthTypeWorkspaceConnectionProperties_STATUS             | Modified |                               |
+| NotebookPreparationError_STATUS                              | NotebookPreparationError_STATUS                              | Extended | +PropertyBag                  |
+| NotebookResourceInfo_STATUS                                  | NotebookResourceInfo_STATUS                                  | Extended | +PropertyBag                  |
+| OAuth2AuthTypeWorkspaceConnectionProperties                  | OAuth2AuthTypeWorkspaceConnectionProperties                  | Modified |                               |
+| OAuth2AuthTypeWorkspaceConnectionProperties_STATUS           | OAuth2AuthTypeWorkspaceConnectionProperties_STATUS           | Modified |                               |
+| OutboundRule                                                 | OutboundRule                                                 | Extended | +PropertyBag                  |
+| OutboundRule_STATUS                                          | OutboundRule_STATUS                                          | Extended | +PropertyBag                  |
+| PATAuthTypeWorkspaceConnectionProperties                     | PATAuthTypeWorkspaceConnectionProperties                     | Modified |                               |
+| PATAuthTypeWorkspaceConnectionProperties_STATUS              | PATAuthTypeWorkspaceConnectionProperties_STATUS              | Modified |                               |
+| PersonalComputeInstanceSettings                              | PersonalComputeInstanceSettings                              | Extended | +PropertyBag                  |
+| PersonalComputeInstanceSettings_STATUS                       | PersonalComputeInstanceSettings_STATUS                       | Extended | +PropertyBag                  |
+| PrivateEndpointConnection_STATUS                             | PrivateEndpointConnection_STATUS                             | Extended | +PropertyBag                  |
+| PrivateEndpointDestination                                   | PrivateEndpointDestination                                   | Modified |                               |
+| PrivateEndpointDestination_STATUS                            | PrivateEndpointDestination_STATUS                            | Modified |                               |
+| PrivateEndpointOutboundRule                                  | PrivateEndpointOutboundRule                                  | Modified |                               |
+| PrivateEndpointOutboundRule_STATUS                           | PrivateEndpointOutboundRule_STATUS                           | Modified |                               |
+| PrivateEndpointResource                                      | PrivateEndpointResource                                      | Extended | +PropertyBag                  |
+| PrivateEndpointResource_STATUS                               | PrivateEndpointResource_STATUS                               | Extended | +PropertyBag                  |
+| Recurrence                                                   | Recurrence                                                   | Modified |                               |
+| Recurrence_STATUS                                            | Recurrence_STATUS                                            | Modified |                               |
+| RegistryOperatorConfigMaps                                   | RegistryOperatorConfigMaps                                   | Extended | +PropertyBag                  |
+| RegistryOperatorSpec                                         | RegistryOperatorSpec                                         | Extended | +PropertyBag                  |
+| RegistryPrivateEndpointConnection                            | RegistryPrivateEndpointConnection                            | Extended | +PropertyBag                  |
+| RegistryPrivateEndpointConnection_STATUS                     | RegistryPrivateEndpointConnection_STATUS                     | Extended | +PropertyBag                  |
+| RegistryPrivateLinkServiceConnectionState                    | RegistryPrivateLinkServiceConnectionState                    | Modified |                               |
+| RegistryPrivateLinkServiceConnectionState_STATUS             | RegistryPrivateLinkServiceConnectionState_STATUS             | Modified |                               |
+| RegistryRegionArmDetails                                     | RegistryRegionArmDetails                                     | Extended | +PropertyBag                  |
+| RegistryRegionArmDetails_STATUS                              | RegistryRegionArmDetails_STATUS                              | Extended | +PropertyBag                  |
+| RegistryTrackedResource_STATUS                               | RegistryTrackedResource_STATUS                               | Extended | +PropertyBag                  |
+| Registry_Spec                                                | Registry_Spec                                                | Modified |                               |
+| ResourceId                                                   | ResourceId                                                   | Extended | +PropertyBag                  |
+| ResourceId_STATUS                                            | ResourceId_STATUS                                            | Extended | +PropertyBag                  |
+| SASAuthTypeWorkspaceConnectionProperties                     | SASAuthTypeWorkspaceConnectionProperties                     | Modified |                               |
+| SASAuthTypeWorkspaceConnectionProperties_STATUS              | SASAuthTypeWorkspaceConnectionProperties_STATUS              | Modified |                               |
+| ScaleSettings                                                | ScaleSettings                                                | Extended | +PropertyBag                  |
+| ScaleSettings_STATUS                                         | ScaleSettings_STATUS                                         | Extended | +PropertyBag                  |
+| ScheduleBase                                                 | ScheduleBase                                                 | Modified |                               |
+| ScheduleBase_STATUS                                          | ScheduleBase_STATUS                                          | Modified |                               |
+| ScriptReference                                              | ScriptReference                                              | Extended | +PropertyBag                  |
+| ScriptReference_STATUS                                       | ScriptReference_STATUS                                       | Extended | +PropertyBag                  |
+| ScriptsToExecute                                             | ScriptsToExecute                                             | Extended | +PropertyBag                  |
+| ScriptsToExecute_STATUS                                      | ScriptsToExecute_STATUS                                      | Extended | +PropertyBag                  |
+| ServerlessComputeSettings                                    | ServerlessComputeSettings                                    | Extended | +PropertyBag                  |
+| ServerlessComputeSettings_STATUS                             | ServerlessComputeSettings_STATUS                             | Extended | +PropertyBag                  |
+| ServiceManagedResourcesSettings                              | ServiceManagedResourcesSettings                              | Extended | +PropertyBag                  |
+| ServiceManagedResourcesSettings_STATUS                       | ServiceManagedResourcesSettings_STATUS                       | Extended | +PropertyBag                  |
+| ServicePrincipalAuthTypeWorkspaceConnectionProperties        | ServicePrincipalAuthTypeWorkspaceConnectionProperties        | Modified |                               |
+| ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS | ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS | Modified |                               |
+| ServiceTagDestination                                        | ServiceTagDestination                                        | Modified |                               |
+| ServiceTagDestination_STATUS                                 | ServiceTagDestination_STATUS                                 | Modified |                               |
+| ServiceTagOutboundRule                                       | ServiceTagOutboundRule                                       | Modified |                               |
+| ServiceTagOutboundRule_STATUS                                | ServiceTagOutboundRule_STATUS                                | Modified |                               |
+| SetupScripts                                                 | SetupScripts                                                 | Extended | +PropertyBag                  |
+| SetupScripts_STATUS                                          | SetupScripts_STATUS                                          | Extended | +PropertyBag                  |
+| SharedPrivateLinkResource                                    | SharedPrivateLinkResource                                    | Modified |                               |
+| SharedPrivateLinkResource_STATUS                             | SharedPrivateLinkResource_STATUS                             | Modified |                               |
+| Sku                                                          | Sku                                                          | Modified |                               |
+| Sku_STATUS                                                   | Sku_STATUS                                                   | Modified |                               |
+| SslConfiguration                                             | SslConfiguration                                             | Modified |                               |
+| SslConfiguration_STATUS                                      | SslConfiguration_STATUS                                      | Modified |                               |
+| StorageAccountDetails                                        | StorageAccountDetails                                        | Extended | +PropertyBag                  |
+| StorageAccountDetails_STATUS                                 | StorageAccountDetails_STATUS                                 | Extended | +PropertyBag                  |
+| SynapseSpark                                                 | SynapseSpark                                                 | Modified |                               |
+| SynapseSpark_Properties                                      | SynapseSpark_Properties                                      | Extended | +PropertyBag                  |
+| SynapseSpark_Properties_STATUS                               | SynapseSpark_Properties_STATUS                               | Extended | +PropertyBag                  |
+| SynapseSpark_STATUS                                          | SynapseSpark_STATUS                                          | Modified |                               |
+| SystemCreatedAcrAccount                                      | SystemCreatedAcrAccount                                      | Extended | +PropertyBag                  |
+| SystemCreatedAcrAccount_STATUS                               | SystemCreatedAcrAccount_STATUS                               | Extended | +PropertyBag                  |
+| SystemCreatedStorageAccount                                  | SystemCreatedStorageAccount                                  | Extended | +PropertyBag                  |
+| SystemCreatedStorageAccount_STATUS                           | SystemCreatedStorageAccount_STATUS                           | Extended | +PropertyBag                  |
+| SystemData_STATUS                                            | SystemData_STATUS                                            | Modified |                               |
+| SystemService_STATUS                                         | SystemService_STATUS                                         | Extended | +PropertyBag                  |
+| TmpfsOptions                                                 | TmpfsOptions                                                 | Extended | +PropertyBag                  |
+| TmpfsOptions_STATUS                                          | TmpfsOptions_STATUS                                          | Extended | +PropertyBag                  |
+| UserAccountCredentials                                       | UserAccountCredentials                                       | Extended | +PropertyBag                  |
+| UserAccountCredentials_STATUS                                | UserAccountCredentials_STATUS                                | Extended | +PropertyBag                  |
+| UserAssignedIdentityDetails                                  | UserAssignedIdentityDetails                                  | Extended | +PropertyBag                  |
+| UserAssignedIdentity_STATUS                                  | UserAssignedIdentity_STATUS                                  | Extended | +PropertyBag                  |
+| UsernamePasswordAuthTypeWorkspaceConnectionProperties        | UsernamePasswordAuthTypeWorkspaceConnectionProperties        | Modified |                               |
+| UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS | UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS | Modified |                               |
+| VirtualMachine                                               | VirtualMachine                                               | Modified |                               |
+| VirtualMachineImage                                          | VirtualMachineImage                                          | Extended | +PropertyBag                  |
+| VirtualMachineImage_STATUS                                   | VirtualMachineImage_STATUS                                   | Extended | +PropertyBag                  |
+| VirtualMachineSshCredentials                                 | VirtualMachineSshCredentials                                 | Extended | +PropertyBag                  |
+| VirtualMachineSshCredentials_STATUS                          | VirtualMachineSshCredentials_STATUS                          | Extended | +PropertyBag                  |
+| VirtualMachine_Properties                                    | VirtualMachine_Properties                                    | Extended | +PropertyBag                  |
+| VirtualMachine_Properties_STATUS                             | VirtualMachine_Properties_STATUS                             | Extended | +PropertyBag                  |
+| VirtualMachine_STATUS                                        | VirtualMachine_STATUS                                        | Modified |                               |
+| VolumeDefinition                                             | VolumeDefinition                                             | Modified |                               |
+| VolumeDefinition_STATUS                                      | VolumeDefinition_STATUS                                      | Modified |                               |
+| VolumeOptions                                                | VolumeOptions                                                | Extended | +PropertyBag                  |
+| VolumeOptions_STATUS                                         | VolumeOptions_STATUS                                         | Extended | +PropertyBag                  |
+| WorkspaceConnectionAccessKey                                 | WorkspaceConnectionAccessKey                                 | Extended | +PropertyBag                  |
+| WorkspaceConnectionAccessKey_STATUS                          | WorkspaceConnectionAccessKey_STATUS                          | Extended | +PropertyBag                  |
+| WorkspaceConnectionAccountKey                                | WorkspaceConnectionAccountKey                                | Extended | +PropertyBag                  |
+| WorkspaceConnectionAccountKey_STATUS                         | WorkspaceConnectionAccountKey_STATUS                         | Extended | +PropertyBag                  |
+| WorkspaceConnectionApiKey                                    | WorkspaceConnectionApiKey                                    | Extended | +PropertyBag                  |
+| WorkspaceConnectionApiKey_STATUS                             | WorkspaceConnectionApiKey_STATUS                             | Extended | +PropertyBag                  |
+| WorkspaceConnectionManagedIdentity                           | WorkspaceConnectionManagedIdentity                           | Extended | +PropertyBag                  |
+| WorkspaceConnectionManagedIdentity_STATUS                    | WorkspaceConnectionManagedIdentity_STATUS                    | Extended | +PropertyBag                  |
+| WorkspaceConnectionOAuth2                                    | WorkspaceConnectionOAuth2                                    | Extended | +PropertyBag                  |
+| WorkspaceConnectionOAuth2_STATUS                             | WorkspaceConnectionOAuth2_STATUS                             | Extended | +PropertyBag                  |
+| WorkspaceConnectionPersonalAccessToken                       | WorkspaceConnectionPersonalAccessToken                       | Extended | +PropertyBag                  |
+| WorkspaceConnectionPersonalAccessToken_STATUS                | WorkspaceConnectionPersonalAccessToken_STATUS                | Extended | +PropertyBag                  |
+| WorkspaceConnectionPropertiesV2                              | WorkspaceConnectionPropertiesV2                              | Extended | +PropertyBag                  |
+| WorkspaceConnectionPropertiesV2_STATUS                       | WorkspaceConnectionPropertiesV2_STATUS                       | Extended | +PropertyBag                  |
+| WorkspaceConnectionServicePrincipal                          | WorkspaceConnectionServicePrincipal                          | Extended | +PropertyBag                  |
+| WorkspaceConnectionServicePrincipal_STATUS                   | WorkspaceConnectionServicePrincipal_STATUS                   | Extended | +PropertyBag                  |
+| WorkspaceConnectionSharedAccessSignature                     | WorkspaceConnectionSharedAccessSignature                     | Extended | +PropertyBag                  |
+| WorkspaceConnectionSharedAccessSignature_STATUS              | WorkspaceConnectionSharedAccessSignature_STATUS              | Extended | +PropertyBag                  |
+| WorkspaceConnectionUsernamePassword                          | WorkspaceConnectionUsernamePassword                          | Extended | +PropertyBag                  |
+| WorkspaceConnectionUsernamePassword_STATUS                   | WorkspaceConnectionUsernamePassword_STATUS                   | Extended | +PropertyBag                  |
+| WorkspaceHubConfig                                           | WorkspaceHubConfig                                           | Extended | +PropertyBag                  |
+| WorkspaceHubConfig_STATUS                                    | WorkspaceHubConfig_STATUS                                    | Extended | +PropertyBag                  |
+| WorkspaceOperatorSecrets                                     | WorkspaceOperatorSecrets                                     | Extended | +PropertyBag                  |
+| WorkspaceOperatorSpec                                        | WorkspaceOperatorSpec                                        | Extended | +PropertyBag                  |
+| Workspace_STATUS                                             | Workspace_STATUS                                             | Modified |                               |
+| Workspace_Spec                                               | Workspace_Spec                                               | Modified |                               |
+| WorkspacesComputeOperatorSpec                                | WorkspacesComputeOperatorSpec                                | Extended | +PropertyBag                  |
+| WorkspacesCompute_STATUS                                     | WorkspacesCompute_STATUS                                     | Extended | +PropertyBag                  |
+| WorkspacesCompute_Spec                                       | WorkspacesCompute_Spec                                       | Extended | +OriginalVersion +PropertyBag |
+| WorkspacesConnectionOperatorSpec                             | WorkspacesConnectionOperatorSpec                             | Extended | +PropertyBag                  |
+| WorkspacesConnection_STATUS                                  | WorkspacesConnection_STATUS                                  | Extended | +PropertyBag                  |
+| WorkspacesConnection_Spec                                    | WorkspacesConnection_Spec                                    | Modified |                               |
 
 ### AADAuthTypeWorkspaceConnectionProperties
 
-6 x Identical, 1 x New, 3 x Modified
+Properties: 6 x Identical, 1 x New, 3 x Modified
 
 | v1api20240401  |                                                       | v1api20240401/storage |                        |  Status   | Notes |
 |:---------------|:------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -286,7 +279,7 @@
 
 ### AADAuthTypeWorkspaceConnectionProperties_STATUS
 
-7 x Identical, 1 x New, 4 x Modified
+Properties: 7 x Identical, 1 x New, 4 x Modified
 
 | v1api20240401           |                                                              | v1api20240401/storage   |                        |  Status   | Notes |
 |:------------------------|:-------------------------------------------------------------|:------------------------|:-----------------------|:---------:|:------|
@@ -305,7 +298,7 @@
 
 ### AKS
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401     |                               | v1api20240401/storage |                               |  Status   | Notes |
 |:------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -319,11 +312,11 @@
 
 ### AKS_Properties
 
-5 x Identical, 1 x New, 3 x Modified
+Properties: 6 x Identical, 1 x New, 2 x Modified
 
 | v1api20240401               |                                  | v1api20240401/storage       |                               |  Status   | Notes |
 |:----------------------------|:---------------------------------|:----------------------------|:------------------------------|:---------:|:------|
-| AgentCount                  | Validated<*int> (1 rule)         | AgentCount                  | *int                          | Modified  |       |
+| AgentCount                  | Validated<*int> (1 rule)         | AgentCount                  | *int                          | Identical |       |
 | AgentVmSize                 | *string                          | AgentVmSize                 | *string                       | Identical |       |
 | AksNetworkingConfiguration  | *AksNetworkingConfiguration      | AksNetworkingConfiguration  | *AksNetworkingConfiguration   | Identical |       |
 | ClusterFqdn                 | *string                          | ClusterFqdn                 | *string                       | Identical |       |
@@ -335,7 +328,7 @@
 
 ### AKS_Properties_STATUS
 
-7 x Identical, 1 x New, 2 x Modified
+Properties: 7 x Identical, 1 x New, 2 x Modified
 
 | v1api20240401              |                                         | v1api20240401/storage      |                                    |  Status   | Notes |
 |:---------------------------|:----------------------------------------|:---------------------------|:-----------------------------------|:---------:|:------|
@@ -352,7 +345,7 @@
 
 ### AKS_STATUS
 
-9 x Identical, 1 x New, 2 x Modified
+Properties: 9 x Identical, 1 x New, 2 x Modified
 
 | v1api20240401      |                               | v1api20240401/storage |                        |  Status   | Notes |
 |:-------------------|:------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -371,7 +364,7 @@
 
 ### AccessKeyAuthTypeWorkspaceConnectionProperties
 
-7 x Identical, 1 x New, 3 x Modified
+Properties: 7 x Identical, 1 x New, 3 x Modified
 
 | v1api20240401  |                                                             | v1api20240401/storage |                               |  Status   | Notes |
 |:---------------|:------------------------------------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -389,7 +382,7 @@
 
 ### AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS
 
-8 x Identical, 1 x New, 4 x Modified
+Properties: 8 x Identical, 1 x New, 4 x Modified
 
 | v1api20240401           |                                                                    | v1api20240401/storage   |                                      |  Status   | Notes |
 |:------------------------|:-------------------------------------------------------------------|:------------------------|:-------------------------------------|:---------:|:------|
@@ -409,7 +402,7 @@
 
 ### AccountKeyAuthTypeWorkspaceConnectionProperties
 
-7 x Identical, 1 x New, 3 x Modified
+Properties: 7 x Identical, 1 x New, 3 x Modified
 
 | v1api20240401  |                                                              | v1api20240401/storage |                                |  Status   | Notes |
 |:---------------|:-------------------------------------------------------------|:----------------------|:-------------------------------|:---------:|:------|
@@ -427,7 +420,7 @@
 
 ### AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS
 
-8 x Identical, 1 x New, 4 x Modified
+Properties: 8 x Identical, 1 x New, 4 x Modified
 
 | v1api20240401           |                                                                     | v1api20240401/storage   |                                       |  Status   | Notes |
 |:------------------------|:--------------------------------------------------------------------|:------------------------|:--------------------------------------|:---------:|:------|
@@ -447,7 +440,7 @@
 
 ### AcrDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401           |                          | v1api20240401/storage   |                          |  Status   | Notes |
 |:------------------------|:-------------------------|:------------------------|:-------------------------|:---------:|:------|
@@ -456,7 +449,7 @@
 
 ### AcrDetails_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401           |                                 | v1api20240401/storage   |                                 |  Status   | Notes |
 |:------------------------|:--------------------------------|:------------------------|:--------------------------------|:---------:|:------|
@@ -465,19 +458,19 @@
 
 ### AksNetworkingConfiguration
 
-1 x Identical, 1 x New, 3 x Modified
+Properties: 4 x Identical, 1 x New
 
 | v1api20240401    |                               | v1api20240401/storage |                               |  Status   | Notes |
 |:-----------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
-| DnsServiceIP     | Validated<*string> (1 rule)   | DnsServiceIP          | *string                       | Modified  |       |
-| DockerBridgeCidr | Validated<*string> (1 rule)   | DockerBridgeCidr      | *string                       | Modified  |       |
+| DnsServiceIP     | Validated<*string> (1 rule)   | DnsServiceIP          | *string                       | Identical |       |
+| DockerBridgeCidr | Validated<*string> (1 rule)   | DockerBridgeCidr      | *string                       | Identical |       |
 |                  |                               | PropertyBag           | genruntime.PropertyBag        |    New    |       |
-| ServiceCidr      | Validated<*string> (1 rule)   | ServiceCidr           | *string                       | Modified  |       |
+| ServiceCidr      | Validated<*string> (1 rule)   | ServiceCidr           | *string                       | Identical |       |
 | SubnetReference  | *genruntime.ResourceReference | SubnetReference       | *genruntime.ResourceReference | Identical |       |
 
 ### AksNetworkingConfiguration_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240401    |         | v1api20240401/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -489,7 +482,7 @@
 
 ### AmlCompute
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401     |                               | v1api20240401/storage |                               |  Status   | Notes |
 |:------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -503,7 +496,7 @@
 
 ### AmlComputeProperties
 
-8 x Identical, 1 x New, 3 x Modified
+Properties: 8 x Identical, 1 x New, 3 x Modified
 
 | v1api20240401               |                                                   | v1api20240401/storage       |                         |  Status   | Notes |
 |:----------------------------|:--------------------------------------------------|:----------------------------|:------------------------|:---------:|:------|
@@ -522,7 +515,7 @@
 
 ### AmlComputeProperties_STATUS
 
-13 x Identical, 1 x New, 4 x Modified
+Properties: 13 x Identical, 1 x New, 4 x Modified
 
 | v1api20240401                 |                                                          | v1api20240401/storage         |                                |  Status   | Notes |
 |:------------------------------|:---------------------------------------------------------|:------------------------------|:-------------------------------|:---------:|:------|
@@ -547,7 +540,7 @@
 
 ### AmlCompute_STATUS
 
-9 x Identical, 1 x New, 2 x Modified
+Properties: 9 x Identical, 1 x New, 2 x Modified
 
 | v1api20240401      |                                      | v1api20240401/storage |                              |  Status   | Notes |
 |:-------------------|:-------------------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -566,7 +559,7 @@
 
 ### ApiKeyAuthWorkspaceConnectionProperties
 
-7 x Identical, 1 x New, 3 x Modified
+Properties: 7 x Identical, 1 x New, 3 x Modified
 
 | v1api20240401  |                                                      | v1api20240401/storage |                            |  Status   | Notes |
 |:---------------|:-----------------------------------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -584,7 +577,7 @@
 
 ### ApiKeyAuthWorkspaceConnectionProperties_STATUS
 
-8 x Identical, 1 x New, 4 x Modified
+Properties: 8 x Identical, 1 x New, 4 x Modified
 
 | v1api20240401           |                                                             | v1api20240401/storage   |                                   |  Status   | Notes |
 |:------------------------|:------------------------------------------------------------|:------------------------|:----------------------------------|:---------:|:------|
@@ -604,7 +597,7 @@
 
 ### ArmResourceId
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401     |                               | v1api20240401/storage |                               |  Status   | Notes |
 |:------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -613,7 +606,7 @@
 
 ### ArmResourceId_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401 |         | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -622,7 +615,7 @@
 
 ### AssignedUser
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240401      |                                | v1api20240401/storage |                                |  Status   | Notes |
 |:-------------------|:-------------------------------|:----------------------|:-------------------------------|:---------:|:------|
@@ -634,7 +627,7 @@
 
 ### AssignedUser_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240401 |         | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -644,7 +637,7 @@
 
 ### AutoPauseProperties
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240401  |       | v1api20240401/storage |                        |  Status   | Notes |
 |:---------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -654,7 +647,7 @@
 
 ### AutoPauseProperties_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240401  |       | v1api20240401/storage |                        |  Status   | Notes |
 |:---------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -664,7 +657,7 @@
 
 ### AutoScaleProperties
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240401 |       | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -675,7 +668,7 @@
 
 ### AutoScaleProperties_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240401 |       | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -686,7 +679,7 @@
 
 ### BindOptions
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240401  |         | v1api20240401/storage |                        |  Status   | Notes |
 |:---------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -697,7 +690,7 @@
 
 ### BindOptions_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240401  |         | v1api20240401/storage |                        |  Status   | Notes |
 |:---------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -708,7 +701,7 @@
 
 ### Compute
 
-10 x Identical, 1 x New
+Properties: 10 x Identical, 1 x New
 
 | v1api20240401     |                    | v1api20240401/storage |                        |  Status   | Notes |
 |:------------------|:-------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -726,7 +719,7 @@
 
 ### ComputeInstance
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401     |                               | v1api20240401/storage |                               |  Status   | Notes |
 |:------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -740,7 +733,7 @@
 
 ### ComputeInstanceApplication_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240401 |         | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -750,7 +743,7 @@
 
 ### ComputeInstanceConnectivityEndpoints_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240401    |         | v1api20240401/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -760,7 +753,7 @@
 
 ### ComputeInstanceContainer_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20240401 |                                           | v1api20240401/storage |                                        |  Status   | Notes |
 |:--------------|:------------------------------------------|:----------------------|:---------------------------------------|:---------:|:------|
@@ -774,7 +767,7 @@
 
 ### ComputeInstanceCreatedBy_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240401 |         | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -785,7 +778,7 @@
 
 ### ComputeInstanceDataDisk_STATUS
 
-2 x Identical, 1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New, 2 x Modified
 
 | v1api20240401      |                                                    | v1api20240401/storage |                        |  Status   | Notes |
 |:-------------------|:---------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -797,7 +790,7 @@
 
 ### ComputeInstanceDataMount_STATUS
 
-6 x Identical, 1 x New, 3 x Modified
+Properties: 6 x Identical, 1 x New, 3 x Modified
 
 | v1api20240401 |                                              | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:---------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -814,7 +807,7 @@
 
 ### ComputeInstanceEnvironmentInfo_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240401 |         | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -824,7 +817,7 @@
 
 ### ComputeInstanceLastOperation_STATUS
 
-1 x Identical, 1 x New, 3 x Modified
+Properties: 1 x Identical, 1 x New, 3 x Modified
 
 | v1api20240401    |                                                       | v1api20240401/storage |                        |  Status   | Notes |
 |:-----------------|:------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -836,7 +829,7 @@
 
 ### ComputeInstanceProperties
 
-8 x Identical, 1 x New, 2 x Modified
+Properties: 8 x Identical, 1 x New, 2 x Modified
 
 | v1api20240401                    |                                                             | v1api20240401/storage            |                                  |  Status   | Notes |
 |:---------------------------------|:------------------------------------------------------------|:---------------------------------|:---------------------------------|:---------:|:------|
@@ -854,7 +847,7 @@
 
 ### ComputeInstanceProperties_STATUS
 
-18 x Identical, 1 x New, 3 x Modified
+Properties: 18 x Identical, 1 x New, 3 x Modified
 
 | v1api20240401                    |                                                                    | v1api20240401/storage            |                                              |  Status   | Notes |
 |:---------------------------------|:-------------------------------------------------------------------|:---------------------------------|:---------------------------------------------|:---------:|:------|
@@ -883,7 +876,7 @@
 
 ### ComputeInstanceSshSettings
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401   |                                             | v1api20240401/storage |                        |  Status   | Notes |
 |:----------------|:--------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -893,7 +886,7 @@
 
 ### ComputeInstanceSshSettings_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401   |                                                    | v1api20240401/storage |                        |  Status   | Notes |
 |:----------------|:---------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -905,7 +898,7 @@
 
 ### ComputeInstanceVersion_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401 |         | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -914,7 +907,7 @@
 
 ### ComputeInstance_STATUS
 
-9 x Identical, 1 x New, 2 x Modified
+Properties: 9 x Identical, 1 x New, 2 x Modified
 
 | v1api20240401      |                                           | v1api20240401/storage |                                   |  Status   | Notes |
 |:-------------------|:------------------------------------------|:----------------------|:----------------------------------|:---------:|:------|
@@ -933,7 +926,7 @@
 
 ### ComputeRecurrenceSchedule
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401 |                  | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:-----------------|:----------------------|:-----------------------|:---------:|:------|
@@ -945,7 +938,7 @@
 
 ### ComputeRecurrenceSchedule_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401 |                         | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -957,7 +950,7 @@
 
 ### ComputeRuntimeDto
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401       |         | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -966,7 +959,7 @@
 
 ### ComputeRuntimeDto_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401       |         | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -975,7 +968,7 @@
 
 ### ComputeSchedules
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401    |                            | v1api20240401/storage |                            |  Status   | Notes |
 |:-----------------|:---------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -984,7 +977,7 @@
 
 ### ComputeSchedules_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401    |                                   | v1api20240401/storage |                                   |  Status   | Notes |
 |:-----------------|:----------------------------------|:----------------------|:----------------------------------|:---------:|:------|
@@ -993,7 +986,7 @@
 
 ### ComputeStartStopSchedule
 
-3 x Identical, 1 x New, 3 x Modified
+Properties: 3 x Identical, 1 x New, 3 x Modified
 
 | v1api20240401 |                     | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1007,7 +1000,7 @@
 
 ### ComputeStartStopSchedule_STATUS
 
-4 x Identical, 1 x New, 4 x Modified
+Properties: 4 x Identical, 1 x New, 4 x Modified
 
 | v1api20240401      |                                                     | v1api20240401/storage |                        |  Status   | Notes |
 |:-------------------|:----------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1023,7 +1016,7 @@
 
 ### Compute_STATUS
 
-10 x Identical, 1 x New
+Properties: 10 x Identical, 1 x New
 
 | v1api20240401     |                           | v1api20240401/storage |                           |  Status   | Notes |
 |:------------------|:--------------------------|:----------------------|:--------------------------|:---------:|:------|
@@ -1041,7 +1034,7 @@
 
 ### CosmosDbSettings
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401         |      | v1api20240401/storage |                        |  Status   | Notes |
 |:----------------------|:-----|:----------------------|:-----------------------|:---------:|:------|
@@ -1050,7 +1043,7 @@
 
 ### CosmosDbSettings_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401         |      | v1api20240401/storage |                        |  Status   | Notes |
 |:----------------------|:-----|:----------------------|:-----------------------|:---------:|:------|
@@ -1059,7 +1052,7 @@
 
 ### Cron
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240401 |         | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1070,7 +1063,7 @@
 
 ### Cron_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240401 |         | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1081,7 +1074,7 @@
 
 ### CustomKeys
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401 |                                | v1api20240401/storage |                                |  Status   | Notes |
 |:--------------|:-------------------------------|:----------------------|:-------------------------------|:---------:|:------|
@@ -1090,7 +1083,7 @@
 
 ### CustomKeysWorkspaceConnectionProperties
 
-7 x Identical, 1 x New, 3 x Modified
+Properties: 7 x Identical, 1 x New, 3 x Modified
 
 | v1api20240401  |                                                      | v1api20240401/storage |                        |  Status   | Notes |
 |:---------------|:-----------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1108,7 +1101,7 @@
 
 ### CustomKeysWorkspaceConnectionProperties_STATUS
 
-8 x Identical, 1 x New, 4 x Modified
+Properties: 8 x Identical, 1 x New, 4 x Modified
 
 | v1api20240401           |                                                             | v1api20240401/storage   |                        |  Status   | Notes |
 |:------------------------|:------------------------------------------------------------|:------------------------|:-----------------------|:---------:|:------|
@@ -1128,7 +1121,7 @@
 
 ### CustomKeys_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401 |                   | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1137,7 +1130,7 @@
 
 ### CustomService
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20240401        |                                | v1api20240401/storage |                                |  Status   | Notes |
 |:---------------------|:-------------------------------|:----------------------|:-------------------------------|:---------:|:------|
@@ -1151,7 +1144,7 @@
 
 ### CustomService_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20240401        |                                       | v1api20240401/storage |                                       |  Status   | Notes |
 |:---------------------|:--------------------------------------|:----------------------|:--------------------------------------|:---------:|:------|
@@ -1165,7 +1158,7 @@
 
 ### DataFactory
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401     |                               | v1api20240401/storage |                               |  Status   | Notes |
 |:------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1178,7 +1171,7 @@
 
 ### DataFactory_STATUS
 
-8 x Identical, 1 x New, 2 x Modified
+Properties: 8 x Identical, 1 x New, 2 x Modified
 
 | v1api20240401      |                                       | v1api20240401/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1196,7 +1189,7 @@
 
 ### DataLakeAnalytics
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401     |                                | v1api20240401/storage |                               |  Status   | Notes |
 |:------------------|:-------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1210,7 +1203,7 @@
 
 ### DataLakeAnalytics_Properties
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401            |         | v1api20240401/storage    |                        |  Status   | Notes |
 |:-------------------------|:--------|:-------------------------|:-----------------------|:---------:|:------|
@@ -1219,7 +1212,7 @@
 
 ### DataLakeAnalytics_Properties_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401            |         | v1api20240401/storage    |                        |  Status   | Notes |
 |:-------------------------|:--------|:-------------------------|:-----------------------|:---------:|:------|
@@ -1228,7 +1221,7 @@
 
 ### DataLakeAnalytics_STATUS
 
-9 x Identical, 1 x New, 2 x Modified
+Properties: 9 x Identical, 1 x New, 2 x Modified
 
 | v1api20240401      |                                             | v1api20240401/storage |                                      |  Status   | Notes |
 |:-------------------|:--------------------------------------------|:----------------------|:-------------------------------------|:---------:|:------|
@@ -1247,7 +1240,7 @@
 
 ### Databricks
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401     |                               | v1api20240401/storage |                               |  Status   | Notes |
 |:------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1261,7 +1254,7 @@
 
 ### DatabricksProperties
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240401         |                             | v1api20240401/storage |                             |  Status   | Notes |
 |:----------------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -1271,7 +1264,7 @@
 
 ### DatabricksProperties_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401 |         | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1280,7 +1273,7 @@
 
 ### Databricks_STATUS
 
-9 x Identical, 1 x New, 2 x Modified
+Properties: 9 x Identical, 1 x New, 2 x Modified
 
 | v1api20240401      |                                      | v1api20240401/storage |                              |  Status   | Notes |
 |:-------------------|:-------------------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -1299,7 +1292,7 @@
 
 ### Docker
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401 |       | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1308,7 +1301,7 @@
 
 ### Docker_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401 |       | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1317,7 +1310,7 @@
 
 ### EncryptionKeyVaultProperties
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240401              |                                | v1api20240401/storage      |                                |  Status   | Notes |
 |:---------------------------|:-------------------------------|:---------------------------|:-------------------------------|:---------:|:------|
@@ -1329,7 +1322,7 @@
 
 ### EncryptionKeyVaultProperties_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240401    |         | v1api20240401/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1340,7 +1333,7 @@
 
 ### EncryptionProperty
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240401      |                               | v1api20240401/storage |                               |  Status   | Notes |
 |:-------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1350,7 +1343,7 @@
 
 ### EncryptionProperty_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401      |                                      | v1api20240401/storage |                                      |  Status   | Notes |
 |:-------------------|:-------------------------------------|:----------------------|:-------------------------------------|:---------:|:------|
@@ -1361,7 +1354,7 @@
 
 ### Endpoint
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401 |                    | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:-------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1374,7 +1367,7 @@
 
 ### Endpoint_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401 |                           | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:--------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1387,7 +1380,7 @@
 
 ### EnvironmentVariable
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401 |                           | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:--------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1397,7 +1390,7 @@
 
 ### EnvironmentVariable_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401 |                                  | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:---------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1407,7 +1400,7 @@
 
 ### ErrorAdditionalInfo_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240401 |                    | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:-------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1417,7 +1410,7 @@
 
 ### ErrorDetail_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20240401  |                               | v1api20240401/storage |                               |  Status   | Notes |
 |:---------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1430,7 +1423,7 @@
 
 ### ErrorDetail_STATUS_Unrolled
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240401  |                              | v1api20240401/storage |                              |  Status   | Notes |
 |:---------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -1442,7 +1435,7 @@
 
 ### ErrorResponse_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401 |                     | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1451,7 +1444,7 @@
 
 ### FeatureStoreSettings
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240401              |                    | v1api20240401/storage      |                        |  Status   | Notes |
 |:---------------------------|:-------------------|:---------------------------|:-----------------------|:---------:|:------|
@@ -1462,7 +1455,7 @@
 
 ### FeatureStoreSettings_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240401              |                           | v1api20240401/storage      |                           |  Status   | Notes |
 |:---------------------------|:--------------------------|:---------------------------|:--------------------------|:---------:|:------|
@@ -1473,7 +1466,7 @@
 
 ### FqdnOutboundRule
 
-1 x Identical, 1 x New, 3 x Modified
+Properties: 1 x Identical, 1 x New, 3 x Modified
 
 | v1api20240401 |                        | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1485,7 +1478,7 @@
 
 ### FqdnOutboundRule_STATUS
 
-1 x Identical, 1 x New, 3 x Modified
+Properties: 1 x Identical, 1 x New, 3 x Modified
 
 | v1api20240401 |                               | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1497,7 +1490,7 @@
 
 ### HDInsight
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401     |                               | v1api20240401/storage |                               |  Status   | Notes |
 |:------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1511,7 +1504,7 @@
 
 ### HDInsightProperties
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240401        |                               | v1api20240401/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1522,7 +1515,7 @@
 
 ### HDInsightProperties_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240401        |                                      | v1api20240401/storage |                                      |  Status   | Notes |
 |:---------------------|:-------------------------------------|:----------------------|:-------------------------------------|:---------:|:------|
@@ -1533,7 +1526,7 @@
 
 ### HDInsight_STATUS
 
-9 x Identical, 1 x New, 2 x Modified
+Properties: 9 x Identical, 1 x New, 2 x Modified
 
 | v1api20240401      |                                     | v1api20240401/storage |                             |  Status   | Notes |
 |:-------------------|:------------------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -1552,7 +1545,7 @@
 
 ### IdentityForCmk
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401                 |                               | v1api20240401/storage         |                               |  Status   | Notes |
 |:------------------------------|:------------------------------|:------------------------------|:------------------------------|:---------:|:------|
@@ -1561,7 +1554,7 @@
 
 ### IdentityForCmk_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401        |         | v1api20240401/storage |                        |  Status   | Notes |
 |:---------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1570,7 +1563,7 @@
 
 ### Image
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401 |             | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1580,7 +1573,7 @@
 
 ### ImageMetadata_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240401          |         | v1api20240401/storage  |                        |  Status   | Notes |
 |:-----------------------|:--------|:-----------------------|:-----------------------|:---------:|:------|
@@ -1591,7 +1584,7 @@
 
 ### Image_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401 |                    | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:-------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1601,7 +1594,7 @@
 
 ### InstanceTypeSchema
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240401 |                               | v1api20240401/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1611,7 +1604,7 @@
 
 ### InstanceTypeSchema_Resources
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240401 |                   | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1621,7 +1614,7 @@
 
 ### InstanceTypeSchema_Resources_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240401 |                   | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1631,7 +1624,7 @@
 
 ### InstanceTypeSchema_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240401 |                                      | v1api20240401/storage |                                      |  Status   | Notes |
 |:--------------|:-------------------------------------|:----------------------|:-------------------------------------|:---------:|:------|
@@ -1641,7 +1634,7 @@
 
 ### Kubernetes
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401     |                               | v1api20240401/storage |                               |  Status   | Notes |
 |:------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1655,7 +1648,7 @@
 
 ### KubernetesProperties
 
-9 x Identical, 1 x New
+Properties: 9 x Identical, 1 x New
 
 | v1api20240401                  |                                | v1api20240401/storage          |                                |  Status   | Notes |
 |:-------------------------------|:-------------------------------|:-------------------------------|:-------------------------------|:---------:|:------|
@@ -1672,7 +1665,7 @@
 
 ### KubernetesProperties_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20240401                 |                                      | v1api20240401/storage         |                                      |  Status   | Notes |
 |:------------------------------|:-------------------------------------|:------------------------------|:-------------------------------------|:---------:|:------|
@@ -1686,7 +1679,7 @@
 
 ### Kubernetes_STATUS
 
-9 x Identical, 1 x New, 2 x Modified
+Properties: 9 x Identical, 1 x New, 2 x Modified
 
 | v1api20240401      |                                      | v1api20240401/storage |                              |  Status   | Notes |
 |:-------------------|:-------------------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -1705,7 +1698,7 @@
 
 ### ManagedIdentityAuthTypeWorkspaceConnectionProperties
 
-7 x Identical, 1 x New, 3 x Modified
+Properties: 7 x Identical, 1 x New, 3 x Modified
 
 | v1api20240401  |                                                                   | v1api20240401/storage |                                     |  Status   | Notes |
 |:---------------|:------------------------------------------------------------------|:----------------------|:------------------------------------|:---------:|:------|
@@ -1723,7 +1716,7 @@
 
 ### ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS
 
-8 x Identical, 1 x New, 4 x Modified
+Properties: 8 x Identical, 1 x New, 4 x Modified
 
 | v1api20240401           |                                                                          | v1api20240401/storage   |                                            |  Status   | Notes |
 |:------------------------|:-------------------------------------------------------------------------|:------------------------|:-------------------------------------------|:---------:|:------|
@@ -1743,7 +1736,7 @@
 
 ### ManagedNetworkProvisionStatus
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401 |                       | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1753,7 +1746,7 @@
 
 ### ManagedNetworkProvisionStatus_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401 |                              | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1763,7 +1756,7 @@
 
 ### ManagedNetworkSettings
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401 |                                | v1api20240401/storage |                                |  Status   | Notes |
 |:--------------|:-------------------------------|:----------------------|:-------------------------------|:---------:|:------|
@@ -1774,7 +1767,7 @@
 
 ### ManagedNetworkSettings_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401 |                                       | v1api20240401/storage |                                       |  Status   | Notes |
 |:--------------|:--------------------------------------|:----------------------|:--------------------------------------|:---------:|:------|
@@ -1786,7 +1779,7 @@
 
 ### ManagedServiceIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401          |                               | v1api20240401/storage  |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -1796,7 +1789,7 @@
 
 ### ManagedServiceIdentity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401          |                                        | v1api20240401/storage  |                                        |  Status   | Notes |
 |:-----------------------|:---------------------------------------|:-----------------------|:---------------------------------------|:---------:|:------|
@@ -1808,7 +1801,7 @@
 
 ### NodeStateCounts_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20240401      |      | v1api20240401/storage |                        |  Status   | Notes |
 |:-------------------|:-----|:----------------------|:-----------------------|:---------:|:------|
@@ -1822,7 +1815,7 @@
 
 ### NoneAuthTypeWorkspaceConnectionProperties
 
-6 x Identical, 1 x New, 3 x Modified
+Properties: 6 x Identical, 1 x New, 3 x Modified
 
 | v1api20240401  |                                                        | v1api20240401/storage |                        |  Status   | Notes |
 |:---------------|:-------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1839,7 +1832,7 @@
 
 ### NoneAuthTypeWorkspaceConnectionProperties_STATUS
 
-7 x Identical, 1 x New, 4 x Modified
+Properties: 7 x Identical, 1 x New, 4 x Modified
 
 | v1api20240401           |                                                               | v1api20240401/storage   |                        |  Status   | Notes |
 |:------------------------|:--------------------------------------------------------------|:------------------------|:-----------------------|:---------:|:------|
@@ -1858,7 +1851,7 @@
 
 ### NotebookPreparationError_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240401 |         | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1868,7 +1861,7 @@
 
 ### NotebookResourceInfo_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240401            |                                  | v1api20240401/storage    |                                  |  Status   | Notes |
 |:-------------------------|:---------------------------------|:-------------------------|:---------------------------------|:---------:|:------|
@@ -1879,7 +1872,7 @@
 
 ### OAuth2AuthTypeWorkspaceConnectionProperties
 
-7 x Identical, 1 x New, 3 x Modified
+Properties: 7 x Identical, 1 x New, 3 x Modified
 
 | v1api20240401  |                                                          | v1api20240401/storage |                            |  Status   | Notes |
 |:---------------|:---------------------------------------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -1897,7 +1890,7 @@
 
 ### OAuth2AuthTypeWorkspaceConnectionProperties_STATUS
 
-8 x Identical, 1 x New, 4 x Modified
+Properties: 8 x Identical, 1 x New, 4 x Modified
 
 | v1api20240401           |                                                                 | v1api20240401/storage   |                                   |  Status   | Notes |
 |:------------------------|:----------------------------------------------------------------|:------------------------|:----------------------------------|:---------:|:------|
@@ -1917,7 +1910,7 @@
 
 ### OutboundRule
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240401   |                              | v1api20240401/storage |                              |  Status   | Notes |
 |:----------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -1928,7 +1921,7 @@
 
 ### OutboundRule_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240401   |                                     | v1api20240401/storage |                                     |  Status   | Notes |
 |:----------------|:------------------------------------|:----------------------|:------------------------------------|:---------:|:------|
@@ -1939,7 +1932,7 @@
 
 ### PATAuthTypeWorkspaceConnectionProperties
 
-7 x Identical, 1 x New, 3 x Modified
+Properties: 7 x Identical, 1 x New, 3 x Modified
 
 | v1api20240401  |                                                       | v1api20240401/storage |                                         |  Status   | Notes |
 |:---------------|:------------------------------------------------------|:----------------------|:----------------------------------------|:---------:|:------|
@@ -1957,7 +1950,7 @@
 
 ### PATAuthTypeWorkspaceConnectionProperties_STATUS
 
-8 x Identical, 1 x New, 4 x Modified
+Properties: 8 x Identical, 1 x New, 4 x Modified
 
 | v1api20240401           |                                                              | v1api20240401/storage   |                                                |  Status   | Notes |
 |:------------------------|:-------------------------------------------------------------|:------------------------|:-----------------------------------------------|:---------:|:------|
@@ -1977,7 +1970,7 @@
 
 ### PersonalComputeInstanceSettings
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401 |               | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:--------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1986,7 +1979,7 @@
 
 ### PersonalComputeInstanceSettings_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401 |                      | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:---------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1995,7 +1988,7 @@
 
 ### PrivateEndpointConnection_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401 |         | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2004,7 +1997,7 @@
 
 ### PrivateEndpointDestination
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401              |                               | v1api20240401/storage      |                               |  Status   | Notes |
 |:---------------------------|:------------------------------|:---------------------------|:------------------------------|:---------:|:------|
@@ -2016,7 +2009,7 @@
 
 ### PrivateEndpointDestination_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401     |                    | v1api20240401/storage |                        |  Status   | Notes |
 |:------------------|:-------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2028,7 +2021,7 @@
 
 ### PrivateEndpointOutboundRule
 
-1 x Identical, 1 x New, 3 x Modified
+Properties: 1 x Identical, 1 x New, 3 x Modified
 
 | v1api20240401 |                                   | v1api20240401/storage |                             |  Status   | Notes |
 |:--------------|:----------------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -2040,7 +2033,7 @@
 
 ### PrivateEndpointOutboundRule_STATUS
 
-1 x Identical, 1 x New, 3 x Modified
+Properties: 1 x Identical, 1 x New, 3 x Modified
 
 | v1api20240401 |                                          | v1api20240401/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -2052,7 +2045,7 @@
 
 ### PrivateEndpointResource
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401      |                               | v1api20240401/storage |                               |  Status   | Notes |
 |:-------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -2061,7 +2054,7 @@
 
 ### PrivateEndpointResource_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240401 |         | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2071,7 +2064,7 @@
 
 ### Recurrence
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401 |                             | v1api20240401/storage |                            |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -2084,7 +2077,7 @@
 
 ### Recurrence_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401 |                                    | v1api20240401/storage |                                   |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:----------------------------------|:---------:|:------|
@@ -2097,7 +2090,7 @@
 
 ### RegistryOperatorConfigMaps
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240401     |                                  | v1api20240401/storage |                                  |  Status   | Notes |
 |:------------------|:---------------------------------|:----------------------|:---------------------------------|:---------:|:------|
@@ -2107,7 +2100,7 @@
 
 ### RegistryOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240401        |                               | v1api20240401/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -2118,7 +2111,7 @@
 
 ### RegistryPrivateEndpointConnection
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20240401                             |                                            | v1api20240401/storage                     |                                            |  Status   | Notes |
 |:------------------------------------------|:-------------------------------------------|:------------------------------------------|:-------------------------------------------|:---------:|:------|
@@ -2132,7 +2125,7 @@
 
 ### RegistryPrivateEndpointConnection_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20240401                             |                                                   | v1api20240401/storage                     |                                                   |  Status   | Notes |
 |:------------------------------------------|:--------------------------------------------------|:------------------------------------------|:--------------------------------------------------|:---------:|:------|
@@ -2146,7 +2139,7 @@
 
 ### RegistryPrivateLinkServiceConnectionState
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401   |                                  | v1api20240401/storage |                        |  Status   | Notes |
 |:----------------|:---------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2157,7 +2150,7 @@
 
 ### RegistryPrivateLinkServiceConnectionState_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401   |                                         | v1api20240401/storage |                        |  Status   | Notes |
 |:----------------|:----------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2168,7 +2161,7 @@
 
 ### RegistryRegionArmDetails
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240401         |                         | v1api20240401/storage |                         |  Status   | Notes |
 |:----------------------|:------------------------|:----------------------|:------------------------|:---------:|:------|
@@ -2179,7 +2172,7 @@
 
 ### RegistryRegionArmDetails_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240401         |                                | v1api20240401/storage |                                |  Status   | Notes |
 |:----------------------|:-------------------------------|:----------------------|:-------------------------------|:---------:|:------|
@@ -2190,7 +2183,7 @@
 
 ### RegistryTrackedResource_STATUS
 
-17 x Identical, 1 x New
+Properties: 17 x Identical, 1 x New
 
 | v1api20240401                      |                                            | v1api20240401/storage              |                                            |  Status   | Notes |
 |:-----------------------------------|:-------------------------------------------|:-----------------------------------|:-------------------------------------------|:---------:|:------|
@@ -2215,7 +2208,7 @@
 
 ### Registry_Spec
 
-14 x Identical, 2 x New, 1 x Modified
+Properties: 14 x Identical, 2 x New, 1 x Modified
 
 | v1api20240401                      |                                     | v1api20240401/storage              |                                     |  Status   | Notes |
 |:-----------------------------------|:------------------------------------|:-----------------------------------|:------------------------------------|:---------:|:------|
@@ -2239,7 +2232,7 @@
 
 ### ResourceId
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401 |                               | v1api20240401/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -2248,7 +2241,7 @@
 
 ### ResourceId_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401 |         | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2257,7 +2250,7 @@
 
 ### SASAuthTypeWorkspaceConnectionProperties
 
-7 x Identical, 1 x New, 3 x Modified
+Properties: 7 x Identical, 1 x New, 3 x Modified
 
 | v1api20240401  |                                                       | v1api20240401/storage |                                           |  Status   | Notes |
 |:---------------|:------------------------------------------------------|:----------------------|:------------------------------------------|:---------:|:------|
@@ -2275,7 +2268,7 @@
 
 ### SASAuthTypeWorkspaceConnectionProperties_STATUS
 
-8 x Identical, 1 x New, 4 x Modified
+Properties: 8 x Identical, 1 x New, 4 x Modified
 
 | v1api20240401           |                                                              | v1api20240401/storage   |                                                  |  Status   | Notes |
 |:------------------------|:-------------------------------------------------------------|:------------------------|:-------------------------------------------------|:---------:|:------|
@@ -2295,7 +2288,7 @@
 
 ### ScaleSettings
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240401               |         | v1api20240401/storage       |                        |  Status   | Notes |
 |:----------------------------|:--------|:----------------------------|:-----------------------|:---------:|:------|
@@ -2306,7 +2299,7 @@
 
 ### ScaleSettings_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240401               |         | v1api20240401/storage       |                        |  Status   | Notes |
 |:----------------------------|:--------|:----------------------------|:-----------------------|:---------:|:------|
@@ -2317,7 +2310,7 @@
 
 ### ScheduleBase
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v1api20240401      |                               | v1api20240401/storage |                               |  Status   | Notes |
 |:-------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -2328,7 +2321,7 @@
 
 ### ScheduleBase_STATUS
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v1api20240401      |                                   | v1api20240401/storage |                        |  Status   | Notes |
 |:-------------------|:----------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2339,7 +2332,7 @@
 
 ### ScriptReference
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240401   |         | v1api20240401/storage |                        |  Status   | Notes |
 |:----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2351,7 +2344,7 @@
 
 ### ScriptReference_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240401   |         | v1api20240401/storage |                        |  Status   | Notes |
 |:----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2363,7 +2356,7 @@
 
 ### ScriptsToExecute
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240401  |                  | v1api20240401/storage |                        |  Status   | Notes |
 |:---------------|:-----------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2373,7 +2366,7 @@
 
 ### ScriptsToExecute_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240401  |                         | v1api20240401/storage |                         |  Status   | Notes |
 |:---------------|:------------------------|:----------------------|:------------------------|:---------:|:------|
@@ -2383,7 +2376,7 @@
 
 ### ServerlessComputeSettings
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240401                          |                               | v1api20240401/storage                  |                               |  Status   | Notes |
 |:---------------------------------------|:------------------------------|:---------------------------------------|:------------------------------|:---------:|:------|
@@ -2393,7 +2386,7 @@
 
 ### ServerlessComputeSettings_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240401                 |         | v1api20240401/storage         |                        |  Status   | Notes |
 |:------------------------------|:--------|:------------------------------|:-----------------------|:---------:|:------|
@@ -2403,7 +2396,7 @@
 
 ### ServiceManagedResourcesSettings
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401 |                   | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2412,7 +2405,7 @@
 
 ### ServiceManagedResourcesSettings_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401 |                          | v1api20240401/storage |                          |  Status   | Notes |
 |:--------------|:-------------------------|:----------------------|:-------------------------|:---------:|:------|
@@ -2421,7 +2414,7 @@
 
 ### ServicePrincipalAuthTypeWorkspaceConnectionProperties
 
-7 x Identical, 1 x New, 3 x Modified
+Properties: 7 x Identical, 1 x New, 3 x Modified
 
 | v1api20240401  |                                                                    | v1api20240401/storage |                                      |  Status   | Notes |
 |:---------------|:-------------------------------------------------------------------|:----------------------|:-------------------------------------|:---------:|:------|
@@ -2439,7 +2432,7 @@
 
 ### ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS
 
-8 x Identical, 1 x New, 4 x Modified
+Properties: 8 x Identical, 1 x New, 4 x Modified
 
 | v1api20240401           |                                                                           | v1api20240401/storage   |                                             |  Status   | Notes |
 |:------------------------|:--------------------------------------------------------------------------|:------------------------|:--------------------------------------------|:---------:|:------|
@@ -2459,7 +2452,7 @@
 
 ### ServiceTagDestination
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401 |             | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2471,7 +2464,7 @@
 
 ### ServiceTagDestination_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401   |                    | v1api20240401/storage |                        |  Status   | Notes |
 |:----------------|:-------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2484,7 +2477,7 @@
 
 ### ServiceTagOutboundRule
 
-1 x Identical, 1 x New, 3 x Modified
+Properties: 1 x Identical, 1 x New, 3 x Modified
 
 | v1api20240401 |                              | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2496,7 +2489,7 @@
 
 ### ServiceTagOutboundRule_STATUS
 
-1 x Identical, 1 x New, 3 x Modified
+Properties: 1 x Identical, 1 x New, 3 x Modified
 
 | v1api20240401 |                                     | v1api20240401/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -2508,7 +2501,7 @@
 
 ### SetupScripts
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401 |                   | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2517,7 +2510,7 @@
 
 ### SetupScripts_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401 |                          | v1api20240401/storage |                          |  Status   | Notes |
 |:--------------|:-------------------------|:----------------------|:-------------------------|:---------:|:------|
@@ -2526,7 +2519,7 @@
 
 ### SharedPrivateLinkResource
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401                |                                         | v1api20240401/storage        |                               |  Status   | Notes |
 |:-----------------------------|:----------------------------------------|:-----------------------------|:------------------------------|:---------:|:------|
@@ -2539,7 +2532,7 @@
 
 ### SharedPrivateLinkResource_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401         |                                                | v1api20240401/storage |                        |  Status   | Notes |
 |:----------------------|:-----------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2552,7 +2545,7 @@
 
 ### Sku
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401 |          | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -2565,7 +2558,7 @@
 
 ### Sku_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401 |                 | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:----------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2578,7 +2571,7 @@
 
 ### SslConfiguration
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401           |                             | v1api20240401/storage   |                             |  Status   | Notes |
 |:------------------------|:----------------------------|:------------------------|:----------------------------|:---------:|:------|
@@ -2592,7 +2585,7 @@
 
 ### SslConfiguration_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401           |                                 | v1api20240401/storage   |                        |  Status   | Notes |
 |:------------------------|:--------------------------------|:------------------------|:-----------------------|:---------:|:------|
@@ -2604,7 +2597,7 @@
 
 ### StorageAccountDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401               |                              | v1api20240401/storage       |                              |  Status   | Notes |
 |:----------------------------|:-----------------------------|:----------------------------|:-----------------------------|:---------:|:------|
@@ -2613,7 +2606,7 @@
 
 ### StorageAccountDetails_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401               |                                     | v1api20240401/storage       |                                     |  Status   | Notes |
 |:----------------------------|:------------------------------------|:----------------------------|:------------------------------------|:---------:|:------|
@@ -2622,7 +2615,7 @@
 
 ### SynapseSpark
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401     |                               | v1api20240401/storage |                               |  Status   | Notes |
 |:------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -2636,7 +2629,7 @@
 
 ### SynapseSpark_Properties
 
-10 x Identical, 1 x New
+Properties: 10 x Identical, 1 x New
 
 | v1api20240401       |                      | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------------|:---------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2654,7 +2647,7 @@
 
 ### SynapseSpark_Properties_STATUS
 
-10 x Identical, 1 x New
+Properties: 10 x Identical, 1 x New
 
 | v1api20240401       |                             | v1api20240401/storage |                             |  Status   | Notes |
 |:--------------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -2672,7 +2665,7 @@
 
 ### SynapseSpark_STATUS
 
-9 x Identical, 1 x New, 2 x Modified
+Properties: 9 x Identical, 1 x New, 2 x Modified
 
 | v1api20240401      |                                        | v1api20240401/storage |                                 |  Status   | Notes |
 |:-------------------|:---------------------------------------|:----------------------|:--------------------------------|:---------:|:------|
@@ -2691,7 +2684,7 @@
 
 ### SystemCreatedAcrAccount
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240401  |         | v1api20240401/storage |                        |  Status   | Notes |
 |:---------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2701,7 +2694,7 @@
 
 ### SystemCreatedAcrAccount_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240401  |                       | v1api20240401/storage |                        |  Status   | Notes |
 |:---------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2712,7 +2705,7 @@
 
 ### SystemCreatedStorageAccount
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240401            |         | v1api20240401/storage    |                        |  Status   | Notes |
 |:-------------------------|:--------|:-------------------------|:-----------------------|:---------:|:------|
@@ -2724,7 +2717,7 @@
 
 ### SystemCreatedStorageAccount_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20240401            |                       | v1api20240401/storage    |                        |  Status   | Notes |
 |:-------------------------|:----------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -2737,7 +2730,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20240401      |                                       | v1api20240401/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2751,7 +2744,7 @@
 
 ### SystemService_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240401     |         | v1api20240401/storage |                        |  Status   | Notes |
 |:------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2762,7 +2755,7 @@
 
 ### TmpfsOptions
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401 |      | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:-----|:----------------------|:-----------------------|:---------:|:------|
@@ -2771,7 +2764,7 @@
 
 ### TmpfsOptions_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401 |      | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:-----|:----------------------|:-----------------------|:---------:|:------|
@@ -2780,7 +2773,7 @@
 
 ### UserAccountCredentials
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240401         |                             | v1api20240401/storage |                             |  Status   | Notes |
 |:----------------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -2791,7 +2784,7 @@
 
 ### UserAccountCredentials_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401 |         | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2800,7 +2793,7 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401 |                              | v1api20240401/storage |                              |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -2809,7 +2802,7 @@
 
 ### UserAssignedIdentity_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240401 |         | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2819,7 +2812,7 @@
 
 ### UsernamePasswordAuthTypeWorkspaceConnectionProperties
 
-7 x Identical, 1 x New, 3 x Modified
+Properties: 7 x Identical, 1 x New, 3 x Modified
 
 | v1api20240401  |                                                                    | v1api20240401/storage |                                      |  Status   | Notes |
 |:---------------|:-------------------------------------------------------------------|:----------------------|:-------------------------------------|:---------:|:------|
@@ -2837,7 +2830,7 @@
 
 ### UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS
 
-8 x Identical, 1 x New, 4 x Modified
+Properties: 8 x Identical, 1 x New, 4 x Modified
 
 | v1api20240401           |                                                                           | v1api20240401/storage   |                                             |  Status   | Notes |
 |:------------------------|:--------------------------------------------------------------------------|:------------------------|:--------------------------------------------|:---------:|:------|
@@ -2857,7 +2850,7 @@
 
 ### VirtualMachine
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401     |                               | v1api20240401/storage |                               |  Status   | Notes |
 |:------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -2871,7 +2864,7 @@
 
 ### VirtualMachineImage
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401 |                               | v1api20240401/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -2880,7 +2873,7 @@
 
 ### VirtualMachineImage_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401 |         | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2889,7 +2882,7 @@
 
 ### VirtualMachineSshCredentials
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240401  |                             | v1api20240401/storage |                             |  Status   | Notes |
 |:---------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -2901,7 +2894,7 @@
 
 ### VirtualMachineSshCredentials_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401 |         | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2910,7 +2903,7 @@
 
 ### VirtualMachine_Properties
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20240401             |                               | v1api20240401/storage     |                               |  Status   | Notes |
 |:--------------------------|:------------------------------|:--------------------------|:------------------------------|:---------:|:------|
@@ -2924,7 +2917,7 @@
 
 ### VirtualMachine_Properties_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20240401             |                                      | v1api20240401/storage     |                                      |  Status   | Notes |
 |:--------------------------|:-------------------------------------|:--------------------------|:-------------------------------------|:---------:|:------|
@@ -2938,7 +2931,7 @@
 
 ### VirtualMachine_STATUS
 
-9 x Identical, 1 x New, 2 x Modified
+Properties: 9 x Identical, 1 x New, 2 x Modified
 
 | v1api20240401      |                                          | v1api20240401/storage |                                   |  Status   | Notes |
 |:-------------------|:-----------------------------------------|:----------------------|:----------------------------------|:---------:|:------|
@@ -2957,7 +2950,7 @@
 
 ### VolumeDefinition
 
-7 x Identical, 1 x New, 1 x Modified
+Properties: 7 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401 |                        | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2973,7 +2966,7 @@
 
 ### VolumeDefinition_STATUS
 
-7 x Identical, 1 x New, 1 x Modified
+Properties: 7 x Identical, 1 x New, 1 x Modified
 
 | v1api20240401 |                               | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2989,7 +2982,7 @@
 
 ### VolumeOptions
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401 |       | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -2998,7 +2991,7 @@
 
 ### VolumeOptions_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401 |       | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -3007,7 +3000,7 @@
 
 ### WorkspaceConnectionAccessKey
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240401   |                             | v1api20240401/storage |                             |  Status   | Notes |
 |:----------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -3017,7 +3010,7 @@
 
 ### WorkspaceConnectionAccessKey_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401 |         | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -3026,7 +3019,7 @@
 
 ### WorkspaceConnectionAccountKey
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401 |                             | v1api20240401/storage |                             |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -3035,7 +3028,7 @@
 
 ### WorkspaceConnectionAccountKey_STATUS
 
-1 x New
+Properties: 1 x New
 
 | v1api20240401 |  | v1api20240401/storage |                        | Status | Notes |
 |:--------------|:-|:----------------------|:-----------------------|:------:|:------|
@@ -3043,7 +3036,7 @@
 
 ### WorkspaceConnectionApiKey
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401 |                             | v1api20240401/storage |                             |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -3052,7 +3045,7 @@
 
 ### WorkspaceConnectionApiKey_STATUS
 
-1 x New
+Properties: 1 x New
 
 | v1api20240401 |  | v1api20240401/storage |                        | Status | Notes |
 |:--------------|:-|:----------------------|:-----------------------|:------:|:------|
@@ -3060,7 +3053,7 @@
 
 ### WorkspaceConnectionManagedIdentity
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240401      |                                | v1api20240401/storage |                                |  Status   | Notes |
 |:-------------------|:-------------------------------|:----------------------|:-------------------------------|:---------:|:------|
@@ -3071,7 +3064,7 @@
 
 ### WorkspaceConnectionManagedIdentity_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240401 |         | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -3081,12 +3074,12 @@
 
 ### WorkspaceConnectionOAuth2
 
-8 x Identical, 1 x New, 2 x Modified
+Properties: 10 x Identical, 1 x New
 
 | v1api20240401      |                                | v1api20240401/storage |                                |  Status   | Notes |
 |:-------------------|:-------------------------------|:----------------------|:-------------------------------|:---------:|:------|
-| AuthUrl            | Validated<*string> (1 rule)    | AuthUrl               | *string                        | Modified  |       |
-| ClientId           | Validated<*string> (1 rule)    | ClientId              | *string                        | Modified  |       |
+| AuthUrl            | Validated<*string> (1 rule)    | AuthUrl               | *string                        | Identical |       |
+| ClientId           | Validated<*string> (1 rule)    | ClientId              | *string                        | Identical |       |
 | ClientIdFromConfig | *genruntime.ConfigMapReference | ClientIdFromConfig    | *genruntime.ConfigMapReference | Identical |       |
 | ClientSecret       | *genruntime.SecretReference    | ClientSecret          | *genruntime.SecretReference    | Identical |       |
 | DeveloperToken     | *genruntime.SecretReference    | DeveloperToken        | *genruntime.SecretReference    | Identical |       |
@@ -3099,7 +3092,7 @@
 
 ### WorkspaceConnectionOAuth2_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240401 |         | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -3111,7 +3104,7 @@
 
 ### WorkspaceConnectionPersonalAccessToken
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401 |                             | v1api20240401/storage |                             |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -3120,7 +3113,7 @@
 
 ### WorkspaceConnectionPersonalAccessToken_STATUS
 
-1 x New
+Properties: 1 x New
 
 | v1api20240401 |  | v1api20240401/storage |                        | Status | Notes |
 |:--------------|:-|:----------------------|:-----------------------|:------:|:------|
@@ -3128,7 +3121,7 @@
 
 ### WorkspaceConnectionPropertiesV2
 
-12 x Identical, 1 x New
+Properties: 12 x Identical, 1 x New
 
 | v1api20240401    |                                                        | v1api20240401/storage |                                                        |  Status   | Notes |
 |:-----------------|:-------------------------------------------------------|:----------------------|:-------------------------------------------------------|:---------:|:------|
@@ -3148,7 +3141,7 @@
 
 ### WorkspaceConnectionPropertiesV2_STATUS
 
-12 x Identical, 1 x New
+Properties: 12 x Identical, 1 x New
 
 | v1api20240401    |                                                               | v1api20240401/storage |                                                               |  Status   | Notes |
 |:-----------------|:--------------------------------------------------------------|:----------------------|:--------------------------------------------------------------|:---------:|:------|
@@ -3168,7 +3161,7 @@
 
 ### WorkspaceConnectionServicePrincipal
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20240401      |                                | v1api20240401/storage |                                |  Status   | Notes |
 |:-------------------|:-------------------------------|:----------------------|:-------------------------------|:---------:|:------|
@@ -3181,7 +3174,7 @@
 
 ### WorkspaceConnectionServicePrincipal_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240401 |         | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -3191,7 +3184,7 @@
 
 ### WorkspaceConnectionSharedAccessSignature
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401 |                             | v1api20240401/storage |                             |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -3200,7 +3193,7 @@
 
 ### WorkspaceConnectionSharedAccessSignature_STATUS
 
-1 x New
+Properties: 1 x New
 
 | v1api20240401 |  | v1api20240401/storage |                        | Status | Notes |
 |:--------------|:-|:----------------------|:-----------------------|:------:|:------|
@@ -3208,7 +3201,7 @@
 
 ### WorkspaceConnectionUsernamePassword
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240401 |                             | v1api20240401/storage |                             |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -3219,7 +3212,7 @@
 
 ### WorkspaceConnectionUsernamePassword_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240401 |         | v1api20240401/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -3228,7 +3221,7 @@
 
 ### WorkspaceHubConfig
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240401                      |          | v1api20240401/storage              |                        |  Status   | Notes |
 |:-----------------------------------|:---------|:-----------------------------------|:-----------------------|:---------:|:------|
@@ -3238,7 +3231,7 @@
 
 ### WorkspaceHubConfig_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240401                      |          | v1api20240401/storage              |                        |  Status   | Notes |
 |:-----------------------------------|:---------|:-----------------------------------|:-----------------------|:---------:|:------|
@@ -3248,7 +3241,7 @@
 
 ### WorkspaceOperatorSecrets
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v1api20240401                 |                               | v1api20240401/storage         |                               |  Status   | Notes |
 |:------------------------------|:------------------------------|:------------------------------|:------------------------------|:---------:|:------|
@@ -3263,7 +3256,7 @@
 
 ### WorkspaceOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240401        |                               | v1api20240401/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -3274,7 +3267,7 @@
 
 ### Workspace_STATUS
 
-40 x Identical, 1 x New, 2 x Modified
+Properties: 40 x Identical, 1 x New, 2 x Modified
 
 | v1api20240401                   |                                                 | v1api20240401/storage           |                                         |  Status   | Notes |
 |:--------------------------------|:------------------------------------------------|:--------------------------------|:----------------------------------------|:---------:|:------|
@@ -3324,7 +3317,7 @@
 
 ### Workspace_Spec
 
-29 x Identical, 2 x New, 2 x Modified
+Properties: 29 x Identical, 2 x New, 2 x Modified
 
 | v1api20240401                        |                                          | v1api20240401/storage                |                                    |  Status   | Notes |
 |:-------------------------------------|:-----------------------------------------|:-------------------------------------|:-----------------------------------|:---------:|:------|
@@ -3364,7 +3357,7 @@
 
 ### WorkspacesComputeOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240401        |                               | v1api20240401/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -3374,7 +3367,7 @@
 
 ### WorkspacesCompute_STATUS
 
-10 x Identical, 1 x New
+Properties: 10 x Identical, 1 x New
 
 | v1api20240401 |                                | v1api20240401/storage |                                |  Status   | Notes |
 |:--------------|:-------------------------------|:----------------------|:-------------------------------|:---------:|:------|
@@ -3392,7 +3385,7 @@
 
 ### WorkspacesCompute_Spec
 
-8 x Identical, 2 x New
+Properties: 8 x Identical, 2 x New
 
 | v1api20240401 |                                    | v1api20240401/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -3409,7 +3402,7 @@
 
 ### WorkspacesConnectionOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240401        |                               | v1api20240401/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -3419,7 +3412,7 @@
 
 ### WorkspacesConnection_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20240401 |                                         | v1api20240401/storage |                                         |  Status   | Notes |
 |:--------------|:----------------------------------------|:----------------------|:----------------------------------------|:---------:|:------|
@@ -3433,7 +3426,7 @@
 
 ### WorkspacesConnection_Spec
 
-3 x Identical, 2 x New, 1 x Modified
+Properties: 3 x Identical, 2 x New, 1 x Modified
 
 | v1api20240401 |                                    | v1api20240401/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -3443,3 +3436,12 @@
 | Owner         | *genruntime.KnownResourceReference | Owner                 | *genruntime.KnownResourceReference | Identical |       |
 | Properties    | *WorkspaceConnectionPropertiesV2   | Properties            | *WorkspaceConnectionPropertiesV2   | Identical |       |
 |               |                                    | PropertyBag           | genruntime.PropertyBag             |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

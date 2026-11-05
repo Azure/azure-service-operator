@@ -6,39 +6,32 @@
 |:-------------------|:----------------------|:---------:|:------|
 | ConfigurationStore | ConfigurationStore    | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20220501                             | v1api20220501/storage                     |  Status  | Notes |
-|:------------------------------------------|:------------------------------------------|:--------:|:------|
-| ConfigurationStoreOperatorSecrets         | ConfigurationStoreOperatorSecrets         | Extended |       |
-| ConfigurationStoreOperatorSpec            | ConfigurationStoreOperatorSpec            | Extended |       |
-| ConfigurationStore_STATUS                 | ConfigurationStore_STATUS                 | Modified |       |
-| ConfigurationStore_Spec                   | ConfigurationStore_Spec                   | Modified |       |
-| EncryptionProperties                      | EncryptionProperties                      | Extended |       |
-| EncryptionProperties_STATUS               | EncryptionProperties_STATUS               | Extended |       |
-| KeyVaultProperties                        | KeyVaultProperties                        | Extended |       |
-| KeyVaultProperties_STATUS                 | KeyVaultProperties_STATUS                 | Extended |       |
-| PrivateEndpointConnectionReference_STATUS | PrivateEndpointConnectionReference_STATUS | Extended |       |
-| ResourceIdentity                          | ResourceIdentity                          | Modified |       |
-| ResourceIdentity_STATUS                   | ResourceIdentity_STATUS                   | Modified |       |
-| Sku                                       | Sku                                       | Extended |       |
-| Sku_STATUS                                | Sku_STATUS                                | Extended |       |
-| SystemData_STATUS                         | SystemData_STATUS                         | Modified |       |
-| UserAssignedIdentityDetails               | UserAssignedIdentityDetails               | Extended |       |
-| UserIdentity_STATUS                       | UserIdentity_STATUS                       | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20220501                             | v1api20220501/storage                     |  Status  | Notes        |
+|:------------------------------------------|:------------------------------------------|:--------:|:-------------|
+| ConfigurationStoreOperatorSecrets         | ConfigurationStoreOperatorSecrets         | Extended | +PropertyBag |
+| ConfigurationStoreOperatorSpec            | ConfigurationStoreOperatorSpec            | Extended | +PropertyBag |
+| ConfigurationStore_STATUS                 | ConfigurationStore_STATUS                 | Modified |              |
+| ConfigurationStore_Spec                   | ConfigurationStore_Spec                   | Modified |              |
+| EncryptionProperties                      | EncryptionProperties                      | Extended | +PropertyBag |
+| EncryptionProperties_STATUS               | EncryptionProperties_STATUS               | Extended | +PropertyBag |
+| KeyVaultProperties                        | KeyVaultProperties                        | Extended | +PropertyBag |
+| KeyVaultProperties_STATUS                 | KeyVaultProperties_STATUS                 | Extended | +PropertyBag |
+| PrivateEndpointConnectionReference_STATUS | PrivateEndpointConnectionReference_STATUS | Extended | +PropertyBag |
+| ResourceIdentity                          | ResourceIdentity                          | Modified |              |
+| ResourceIdentity_STATUS                   | ResourceIdentity_STATUS                   | Modified |              |
+| Sku                                       | Sku                                       | Extended | +PropertyBag |
+| Sku_STATUS                                | Sku_STATUS                                | Extended | +PropertyBag |
+| SystemData_STATUS                         | SystemData_STATUS                         | Modified |              |
+| UserAssignedIdentityDetails               | UserAssignedIdentityDetails               | Extended | +PropertyBag |
+| UserIdentity_STATUS                       | UserIdentity_STATUS                       | Extended | +PropertyBag |
 
 ### ConfigurationStoreOperatorSecrets
 
-12 x Identical, 1 x New
+Properties: 12 x Identical, 1 x New
 
 | v1api20220501                     |                               | v1api20220501/storage             |                               |  Status   | Notes |
 |:----------------------------------|:------------------------------|:----------------------------------|:------------------------------|:---------:|:------|
@@ -58,7 +51,7 @@
 
 ### ConfigurationStoreOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220501        |                                    | v1api20220501/storage |                                    |  Status   | Notes |
 |:---------------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -69,7 +62,7 @@
 
 ### ConfigurationStore_STATUS
 
-16 x Identical, 1 x New, 3 x Modified
+Properties: 16 x Identical, 1 x New, 3 x Modified
 
 | v1api20220501              |                                                          | v1api20220501/storage      |                                             |  Status   | Notes |
 |:---------------------------|:---------------------------------------------------------|:---------------------------|:--------------------------------------------|:---------:|:------|
@@ -96,7 +89,7 @@
 
 ### ConfigurationStore_Spec
 
-10 x Identical, 2 x New, 3 x Modified
+Properties: 10 x Identical, 2 x New, 3 x Modified
 
 | v1api20220501             |                                                   | v1api20220501/storage     |                                    |  Status   | Notes |
 |:--------------------------|:--------------------------------------------------|:--------------------------|:-----------------------------------|:---------:|:------|
@@ -118,7 +111,7 @@
 
 ### EncryptionProperties
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220501      |                     | v1api20220501/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -127,7 +120,7 @@
 
 ### EncryptionProperties_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220501      |                            | v1api20220501/storage |                            |  Status   | Notes |
 |:-------------------|:---------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -136,7 +129,7 @@
 
 ### KeyVaultProperties
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220501    |         | v1api20220501/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -146,7 +139,7 @@
 
 ### KeyVaultProperties_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220501    |         | v1api20220501/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -156,7 +149,7 @@
 
 ### PrivateEndpointConnectionReference_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220501 |         | v1api20220501/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -165,7 +158,7 @@
 
 ### ResourceIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20220501          |                               | v1api20220501/storage  |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -175,7 +168,7 @@
 
 ### ResourceIdentity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20220501          |                                | v1api20220501/storage  |                                |  Status   | Notes |
 |:-----------------------|:-------------------------------|:-----------------------|:-------------------------------|:---------:|:------|
@@ -187,7 +180,7 @@
 
 ### Sku
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220501 |         | v1api20220501/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -196,7 +189,7 @@
 
 ### Sku_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220501 |         | v1api20220501/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -205,7 +198,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20220501      |                                       | v1api20220501/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -219,7 +212,7 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220501 |                              | v1api20220501/storage |                              |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -228,10 +221,19 @@
 
 ### UserIdentity_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220501 |         | v1api20220501/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
 | ClientId      | *string | ClientId              | *string                | Identical |       |
 | PrincipalId   | *string | PrincipalId           | *string                | Identical |       |
 |               |         | PropertyBag           | genruntime.PropertyBag |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

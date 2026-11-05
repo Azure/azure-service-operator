@@ -9,54 +9,47 @@
 | Replica            | Replica            | Identical |       |
 | Snapshot           | Snapshot           | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20240601                                 | v20240601/storage                         |  Status  | Notes |
-|:------------------------------------------|:------------------------------------------|:--------:|:------|
-| ConfigurationStoreOperatorSecrets         | ConfigurationStoreOperatorSecrets         | Extended |       |
-| ConfigurationStoreOperatorSpec            | ConfigurationStoreOperatorSpec            | Extended |       |
-| ConfigurationStore_STATUS                 | ConfigurationStore_STATUS                 | Modified |       |
-| ConfigurationStore_Spec                   | ConfigurationStore_Spec                   | Modified |       |
-| DataPlaneProxyProperties                  | DataPlaneProxyProperties                  | Modified |       |
-| DataPlaneProxyProperties_STATUS           | DataPlaneProxyProperties_STATUS           | Modified |       |
-| EncryptionProperties                      | EncryptionProperties                      | Extended |       |
-| EncryptionProperties_STATUS               | EncryptionProperties_STATUS               | Extended |       |
-| KeyValueFilter                            | KeyValueFilter                            | Extended |       |
-| KeyValueFilter_STATUS                     | KeyValueFilter_STATUS                     | Extended |       |
-| KeyValueOperatorSpec                      | KeyValueOperatorSpec                      | Extended |       |
-| KeyValue_STATUS                           | KeyValue_STATUS                           | Extended |       |
-| KeyValue_Spec                             | KeyValue_Spec                             | Extended |       |
-| KeyVaultProperties                        | KeyVaultProperties                        | Extended |       |
-| KeyVaultProperties_STATUS                 | KeyVaultProperties_STATUS                 | Extended |       |
-| PrivateEndpointConnectionReference_STATUS | PrivateEndpointConnectionReference_STATUS | Modified |       |
-| PrivateEndpoint_STATUS                    | PrivateEndpoint_STATUS                    | Extended |       |
-| PrivateLinkServiceConnectionState_STATUS  | PrivateLinkServiceConnectionState_STATUS  | Modified |       |
-| ReplicaOperatorSpec                       | ReplicaOperatorSpec                       | Extended |       |
-| Replica_STATUS                            | Replica_STATUS                            | Modified |       |
-| Replica_Spec                              | Replica_Spec                              | Extended |       |
-| ResourceIdentity                          | ResourceIdentity                          | Modified |       |
-| ResourceIdentity_STATUS                   | ResourceIdentity_STATUS                   | Modified |       |
-| Sku                                       | Sku                                       | Extended |       |
-| Sku_STATUS                                | Sku_STATUS                                | Extended |       |
-| SnapshotOperatorSpec                      | SnapshotOperatorSpec                      | Extended |       |
-| Snapshot_STATUS                           | Snapshot_STATUS                           | Modified |       |
-| Snapshot_Spec                             | Snapshot_Spec                             | Modified |       |
-| SystemData_STATUS                         | SystemData_STATUS                         | Modified |       |
-| UserAssignedIdentityDetails               | UserAssignedIdentityDetails               | Extended |       |
-| UserIdentity_STATUS                       | UserIdentity_STATUS                       | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20240601                                 | v20240601/storage                         |  Status  | Notes                         |
+|:------------------------------------------|:------------------------------------------|:--------:|:------------------------------|
+| ConfigurationStoreOperatorSecrets         | ConfigurationStoreOperatorSecrets         | Extended | +PropertyBag                  |
+| ConfigurationStoreOperatorSpec            | ConfigurationStoreOperatorSpec            | Extended | +PropertyBag                  |
+| ConfigurationStore_STATUS                 | ConfigurationStore_STATUS                 | Modified |                               |
+| ConfigurationStore_Spec                   | ConfigurationStore_Spec                   | Modified |                               |
+| DataPlaneProxyProperties                  | DataPlaneProxyProperties                  | Modified |                               |
+| DataPlaneProxyProperties_STATUS           | DataPlaneProxyProperties_STATUS           | Modified |                               |
+| EncryptionProperties                      | EncryptionProperties                      | Extended | +PropertyBag                  |
+| EncryptionProperties_STATUS               | EncryptionProperties_STATUS               | Extended | +PropertyBag                  |
+| KeyValueFilter                            | KeyValueFilter                            | Extended | +PropertyBag                  |
+| KeyValueFilter_STATUS                     | KeyValueFilter_STATUS                     | Extended | +PropertyBag                  |
+| KeyValueOperatorSpec                      | KeyValueOperatorSpec                      | Extended | +PropertyBag                  |
+| KeyValue_STATUS                           | KeyValue_STATUS                           | Extended | +PropertyBag                  |
+| KeyValue_Spec                             | KeyValue_Spec                             | Extended | +OriginalVersion +PropertyBag |
+| KeyVaultProperties                        | KeyVaultProperties                        | Extended | +PropertyBag                  |
+| KeyVaultProperties_STATUS                 | KeyVaultProperties_STATUS                 | Extended | +PropertyBag                  |
+| PrivateEndpointConnectionReference_STATUS | PrivateEndpointConnectionReference_STATUS | Modified |                               |
+| PrivateEndpoint_STATUS                    | PrivateEndpoint_STATUS                    | Extended | +PropertyBag                  |
+| PrivateLinkServiceConnectionState_STATUS  | PrivateLinkServiceConnectionState_STATUS  | Modified |                               |
+| ReplicaOperatorSpec                       | ReplicaOperatorSpec                       | Extended | +PropertyBag                  |
+| Replica_STATUS                            | Replica_STATUS                            | Modified |                               |
+| Replica_Spec                              | Replica_Spec                              | Extended | +OriginalVersion +PropertyBag |
+| ResourceIdentity                          | ResourceIdentity                          | Modified |                               |
+| ResourceIdentity_STATUS                   | ResourceIdentity_STATUS                   | Modified |                               |
+| Sku                                       | Sku                                       | Extended | +PropertyBag                  |
+| Sku_STATUS                                | Sku_STATUS                                | Extended | +PropertyBag                  |
+| SnapshotOperatorSpec                      | SnapshotOperatorSpec                      | Extended | +PropertyBag                  |
+| Snapshot_STATUS                           | Snapshot_STATUS                           | Modified |                               |
+| Snapshot_Spec                             | Snapshot_Spec                             | Modified |                               |
+| SystemData_STATUS                         | SystemData_STATUS                         | Modified |                               |
+| UserAssignedIdentityDetails               | UserAssignedIdentityDetails               | Extended | +PropertyBag                  |
+| UserIdentity_STATUS                       | UserIdentity_STATUS                       | Extended | +PropertyBag                  |
 
 ### ConfigurationStoreOperatorSecrets
 
-12 x Identical, 1 x New
+Properties: 12 x Identical, 1 x New
 
 | v20240601                         |                               | v20240601/storage                 |                               |  Status   | Notes |
 |:----------------------------------|:------------------------------|:----------------------------------|:------------------------------|:---------:|:------|
@@ -76,7 +69,7 @@
 
 ### ConfigurationStoreOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20240601            |                                    | v20240601/storage    |                                    |  Status   | Notes |
 |:---------------------|:-----------------------------------|:---------------------|:-----------------------------------|:---------:|:------|
@@ -87,7 +80,7 @@
 
 ### ConfigurationStore_STATUS
 
-18 x Identical, 1 x New, 3 x Modified
+Properties: 18 x Identical, 1 x New, 3 x Modified
 
 | v20240601                                       |                                                          | v20240601/storage                               |                                             |  Status   | Notes |
 |:------------------------------------------------|:---------------------------------------------------------|:------------------------------------------------|:--------------------------------------------|:---------:|:------|
@@ -116,7 +109,7 @@
 
 ### ConfigurationStore_Spec
 
-12 x Identical, 2 x New, 3 x Modified
+Properties: 12 x Identical, 2 x New, 3 x Modified
 
 | v20240601                                       |                                                   | v20240601/storage                               |                                    |  Status   | Notes |
 |:------------------------------------------------|:--------------------------------------------------|:------------------------------------------------|:-----------------------------------|:---------:|:------|
@@ -140,7 +133,7 @@
 
 ### DataPlaneProxyProperties
 
-1 x New, 2 x Modified
+Properties: 1 x New, 2 x Modified
 
 | v20240601             |                                                 | v20240601/storage     |                        |  Status  | Notes |
 |:----------------------|:------------------------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -150,7 +143,7 @@
 
 ### DataPlaneProxyProperties_STATUS
 
-1 x New, 2 x Modified
+Properties: 1 x New, 2 x Modified
 
 | v20240601             |                                                        | v20240601/storage     |                        |  Status  | Notes |
 |:----------------------|:-------------------------------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -160,7 +153,7 @@
 
 ### EncryptionProperties
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20240601          |                     | v20240601/storage  |                        |  Status   | Notes |
 |:-------------------|:--------------------|:-------------------|:-----------------------|:---------:|:------|
@@ -169,7 +162,7 @@
 
 ### EncryptionProperties_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20240601          |                            | v20240601/storage  |                            |  Status   | Notes |
 |:-------------------|:---------------------------|:-------------------|:---------------------------|:---------:|:------|
@@ -178,7 +171,7 @@
 
 ### KeyValueFilter
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20240601 |         | v20240601/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -188,7 +181,7 @@
 
 ### KeyValueFilter_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20240601 |         | v20240601/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -198,7 +191,7 @@
 
 ### KeyValueOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20240601            |                               | v20240601/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -208,7 +201,7 @@
 
 ### KeyValue_STATUS
 
-12 x Identical, 1 x New
+Properties: 12 x Identical, 1 x New
 
 | v20240601    |                        | v20240601/storage |                        |  Status   | Notes |
 |:-------------|:-----------------------|:------------------|:-----------------------|:---------:|:------|
@@ -228,7 +221,7 @@
 
 ### KeyValue_Spec
 
-6 x Identical, 2 x New
+Properties: 6 x Identical, 2 x New
 
 | v20240601    |                                    | v20240601/storage |                                    |  Status   | Notes |
 |:-------------|:-----------------------------------|:------------------|:-----------------------------------|:---------:|:------|
@@ -243,7 +236,7 @@
 
 ### KeyVaultProperties
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20240601        |         | v20240601/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -253,7 +246,7 @@
 
 ### KeyVaultProperties_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20240601        |         | v20240601/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -263,7 +256,7 @@
 
 ### PrivateEndpointConnectionReference_STATUS
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v20240601                         |                                                               | v20240601/storage                 |                                           |  Status   | Notes |
 |:----------------------------------|:--------------------------------------------------------------|:----------------------------------|:------------------------------------------|:---------:|:------|
@@ -277,7 +270,7 @@
 
 ### PrivateEndpoint_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20240601 |         | v20240601/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -286,7 +279,7 @@
 
 ### PrivateLinkServiceConnectionState_STATUS
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v20240601       |                                                           | v20240601/storage |                        |  Status   | Notes |
 |:----------------|:----------------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -297,7 +290,7 @@
 
 ### ReplicaOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20240601            |                               | v20240601/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -307,7 +300,7 @@
 
 ### Replica_STATUS
 
-7 x Identical, 1 x New, 1 x Modified
+Properties: 7 x Identical, 1 x New, 1 x Modified
 
 | v20240601         |                                             | v20240601/storage |                        |  Status   | Notes |
 |:------------------|:--------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -323,7 +316,7 @@
 
 ### Replica_Spec
 
-4 x Identical, 2 x New
+Properties: 4 x Identical, 2 x New
 
 | v20240601    |                                    | v20240601/storage |                                    |  Status   | Notes |
 |:-------------|:-----------------------------------|:------------------|:-----------------------------------|:---------:|:------|
@@ -336,7 +329,7 @@
 
 ### ResourceIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20240601              |                               | v20240601/storage      |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -346,7 +339,7 @@
 
 ### ResourceIdentity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v20240601              |                                | v20240601/storage      |                                |  Status   | Notes |
 |:-----------------------|:-------------------------------|:-----------------------|:-------------------------------|:---------:|:------|
@@ -358,7 +351,7 @@
 
 ### Sku
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20240601 |         | v20240601/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -367,7 +360,7 @@
 
 ### Sku_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20240601 |         | v20240601/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -376,7 +369,7 @@
 
 ### SnapshotOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20240601            |                               | v20240601/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -386,7 +379,7 @@
 
 ### Snapshot_STATUS
 
-12 x Identical, 1 x New, 3 x Modified
+Properties: 12 x Identical, 1 x New, 3 x Modified
 
 | v20240601         |                                              | v20240601/storage |                         |  Status   | Notes |
 |:------------------|:---------------------------------------------|:------------------|:------------------------|:---------:|:------|
@@ -409,7 +402,7 @@
 
 ### Snapshot_Spec
 
-3 x Identical, 2 x New, 4 x Modified
+Properties: 4 x Identical, 2 x New, 3 x Modified
 
 | v20240601       |                                       | v20240601/storage |                                    |  Status   | Notes |
 |:----------------|:--------------------------------------|:------------------|:-----------------------------------|:---------:|:------|
@@ -420,12 +413,12 @@
 |                 |                                       | OriginalVersion   | string                             |    New    |       |
 | Owner           | *genruntime.KnownResourceReference    | Owner             | *genruntime.KnownResourceReference | Identical |       |
 |                 |                                       | PropertyBag       | genruntime.PropertyBag             |    New    |       |
-| RetentionPeriod | Validated<*int> (2 rules)             | RetentionPeriod   | *int                               | Modified  |       |
+| RetentionPeriod | Validated<*int> (2 rules)             | RetentionPeriod   | *int                               | Identical |       |
 | Tags            | map[string]string                     | Tags              | map[string]string                  | Identical |       |
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v20240601          |                                       | v20240601/storage  |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:-------------------|:-----------------------|:---------:|:------|
@@ -439,7 +432,7 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20240601 |                              | v20240601/storage |                              |  Status   | Notes |
 |:----------|:-----------------------------|:------------------|:-----------------------------|:---------:|:------|
@@ -448,10 +441,19 @@
 
 ### UserIdentity_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20240601   |         | v20240601/storage |                        |  Status   | Notes |
 |:------------|:--------|:------------------|:-----------------------|:---------:|:------|
 | ClientId    | *string | ClientId          | *string                | Identical |       |
 | PrincipalId | *string | PrincipalId       | *string                | Identical |       |
 |             |         | PropertyBag       | genruntime.PropertyBag |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

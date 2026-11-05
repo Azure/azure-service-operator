@@ -8,137 +8,130 @@
 | DataCollectionRule            | DataCollectionRule            | Identical |       |
 | DataCollectionRuleAssociation | DataCollectionRuleAssociation | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20240311                                         | v1api20240311/storage                                 |  Status  | Notes |
-|:------------------------------------------------------|:------------------------------------------------------|:--------:|:------|
-| AdxDestination                                        | AdxDestination                                        | Extended |       |
-| AdxDestination_STATUS                                 | AdxDestination_STATUS                                 | Extended |       |
-| AgentSetting                                          | AgentSetting                                          | Modified |       |
-| AgentSetting_STATUS                                   | AgentSetting_STATUS                                   | Modified |       |
-| AgentSettingsSpec                                     | AgentSettingsSpec                                     | Extended |       |
-| AgentSettingsSpec_STATUS                              | AgentSettingsSpec_STATUS                              | Extended |       |
-| ApplicationInsights                                   | ApplicationInsights                                   | Extended |       |
-| ApplicationInsights_STATUS                            | ApplicationInsights_STATUS                            | Extended |       |
-| AzureMonitorMetricsDestination                        | AzureMonitorMetricsDestination                        | Extended |       |
-| AzureMonitorMetricsDestination_STATUS                 | AzureMonitorMetricsDestination_STATUS                 | Extended |       |
-| ColumnDefinition                                      | ColumnDefinition                                      | Modified |       |
-| ColumnDefinition_STATUS                               | ColumnDefinition_STATUS                               | Modified |       |
-| ConfigurationAccessEndpointSpec_STATUS                | ConfigurationAccessEndpointSpec_STATUS                | Extended |       |
-| DataCollectionEndpointOperatorSpec                    | DataCollectionEndpointOperatorSpec                    | Extended |       |
-| DataCollectionEndpointResource_STATUS                 | DataCollectionEndpointResource_STATUS                 | Modified |       |
-| DataCollectionEndpoint_Spec                           | DataCollectionEndpoint_Spec                           | Modified |       |
-| DataCollectionRuleAssociationOperatorSpec             | DataCollectionRuleAssociationOperatorSpec             | Extended |       |
-| DataCollectionRuleAssociationProxyOnlyResource_STATUS | DataCollectionRuleAssociationProxyOnlyResource_STATUS | Modified |       |
-| DataCollectionRuleAssociation_Spec                    | DataCollectionRuleAssociation_Spec                    | Extended |       |
-| DataCollectionRuleOperatorSpec                        | DataCollectionRuleOperatorSpec                        | Extended |       |
-| DataCollectionRuleResource_STATUS                     | DataCollectionRuleResource_STATUS                     | Modified |       |
-| DataCollectionRule_Spec                               | DataCollectionRule_Spec                               | Modified |       |
-| DataFlow                                              | DataFlow                                              | Extended |       |
-| DataFlow_STATUS                                       | DataFlow_STATUS                                       | Extended |       |
-| DataImportSources                                     | DataImportSources                                     | Extended |       |
-| DataImportSources_STATUS                              | DataImportSources_STATUS                              | Extended |       |
-| DataSourcesSpec                                       | DataSourcesSpec                                       | Extended |       |
-| DataSourcesSpec_STATUS                                | DataSourcesSpec_STATUS                                | Extended |       |
-| DestinationsSpec                                      | DestinationsSpec                                      | Extended |       |
-| DestinationsSpec_STATUS                               | DestinationsSpec_STATUS                               | Extended |       |
-| DirectDataSourcesSpec                                 | DirectDataSourcesSpec                                 | Extended |       |
-| DirectDataSourcesSpec_STATUS                          | DirectDataSourcesSpec_STATUS                          | Extended |       |
-| EndpointsSpec_STATUS                                  | EndpointsSpec_STATUS                                  | Extended |       |
-| EnrichmentData                                        | EnrichmentData                                        | Extended |       |
-| EnrichmentData_STATUS                                 | EnrichmentData_STATUS                                 | Extended |       |
-| EtwProviderDataSource                                 | EtwProviderDataSource                                 | Modified |       |
-| EtwProviderDataSource_STATUS                          | EtwProviderDataSource_STATUS                          | Modified |       |
-| EventHubDataSource                                    | EventHubDataSource                                    | Extended |       |
-| EventHubDataSource_STATUS                             | EventHubDataSource_STATUS                             | Extended |       |
-| EventHubDestination                                   | EventHubDestination                                   | Extended |       |
-| EventHubDestination_STATUS                            | EventHubDestination_STATUS                            | Extended |       |
-| EventHubDirectDestination                             | EventHubDirectDestination                             | Extended |       |
-| EventHubDirectDestination_STATUS                      | EventHubDirectDestination_STATUS                      | Extended |       |
-| ExtensionDataSource                                   | ExtensionDataSource                                   | Extended |       |
-| ExtensionDataSource_STATUS                            | ExtensionDataSource_STATUS                            | Extended |       |
-| FailoverConfigurationSpec_STATUS                      | FailoverConfigurationSpec_STATUS                      | Extended |       |
-| IisLogsDataSource                                     | IisLogsDataSource                                     | Extended |       |
-| IisLogsDataSource_STATUS                              | IisLogsDataSource_STATUS                              | Extended |       |
-| IngestionQuotas_STATUS                                | IngestionQuotas_STATUS                                | Extended |       |
-| LocationSpec_STATUS                                   | LocationSpec_STATUS                                   | Modified |       |
-| LogAnalyticsDestination                               | LogAnalyticsDestination                               | Extended |       |
-| LogAnalyticsDestination_STATUS                        | LogAnalyticsDestination_STATUS                        | Extended |       |
-| LogFileSettings                                       | LogFileSettings                                       | Extended |       |
-| LogFileSettings_STATUS                                | LogFileSettings_STATUS                                | Extended |       |
-| LogFileTextSettings                                   | LogFileTextSettings                                   | Modified |       |
-| LogFileTextSettings_STATUS                            | LogFileTextSettings_STATUS                            | Modified |       |
-| LogFilesDataSource                                    | LogFilesDataSource                                    | Modified |       |
-| LogFilesDataSource_STATUS                             | LogFilesDataSource_STATUS                             | Modified |       |
-| LogsIngestionEndpointSpec_STATUS                      | LogsIngestionEndpointSpec_STATUS                      | Extended |       |
-| LogsQuotaSpec_STATUS                                  | LogsQuotaSpec_STATUS                                  | Extended |       |
-| ManagedServiceIdentity                                | ManagedServiceIdentity                                | Modified |       |
-| ManagedServiceIdentity_STATUS                         | ManagedServiceIdentity_STATUS                         | Modified |       |
-| Metadata_STATUS                                       | Metadata_STATUS                                       | Extended |       |
-| MetricsIngestionEndpointSpec_STATUS                   | MetricsIngestionEndpointSpec_STATUS                   | Extended |       |
-| MicrosoftFabricDestination                            | MicrosoftFabricDestination                            | Extended |       |
-| MicrosoftFabricDestination_STATUS                     | MicrosoftFabricDestination_STATUS                     | Extended |       |
-| MonitoringAccountDestination                          | MonitoringAccountDestination                          | Extended |       |
-| MonitoringAccountDestination_STATUS                   | MonitoringAccountDestination_STATUS                   | Extended |       |
-| NetworkRuleSet                                        | NetworkRuleSet                                        | Modified |       |
-| NetworkRuleSet_STATUS                                 | NetworkRuleSet_STATUS                                 | Modified |       |
-| OtelDataSourceResourceAttributeRouting                | OtelDataSourceResourceAttributeRouting                | Extended |       |
-| OtelDataSourceResourceAttributeRouting_STATUS         | OtelDataSourceResourceAttributeRouting_STATUS         | Extended |       |
-| OtelLogsDataSource                                    | OtelLogsDataSource                                    | Modified |       |
-| OtelLogsDataSource_STATUS                             | OtelLogsDataSource_STATUS                             | Modified |       |
-| OtelLogsDirectDataSource                              | OtelLogsDirectDataSource                              | Modified |       |
-| OtelLogsDirectDataSource_STATUS                       | OtelLogsDirectDataSource_STATUS                       | Modified |       |
-| OtelMetricsDataSource                                 | OtelMetricsDataSource                                 | Extended |       |
-| OtelMetricsDataSource_STATUS                          | OtelMetricsDataSource_STATUS                          | Extended |       |
-| OtelMetricsDirectDataSource                           | OtelMetricsDirectDataSource                           | Extended |       |
-| OtelMetricsDirectDataSource_STATUS                    | OtelMetricsDirectDataSource_STATUS                    | Extended |       |
-| OtelTracesDataSource                                  | OtelTracesDataSource                                  | Modified |       |
-| OtelTracesDataSource_STATUS                           | OtelTracesDataSource_STATUS                           | Modified |       |
-| OtelTracesDirectDataSource                            | OtelTracesDirectDataSource                            | Modified |       |
-| OtelTracesDirectDataSource_STATUS                     | OtelTracesDirectDataSource_STATUS                     | Modified |       |
-| PerfCounterDataSource                                 | PerfCounterDataSource                                 | Extended |       |
-| PerfCounterDataSource_STATUS                          | PerfCounterDataSource_STATUS                          | Extended |       |
-| PerformanceCountersOTelDataSource                     | PerformanceCountersOTelDataSource                     | Modified |       |
-| PerformanceCountersOTelDataSource_STATUS              | PerformanceCountersOTelDataSource_STATUS              | Modified |       |
-| PlatformTelemetryDataSource                           | PlatformTelemetryDataSource                           | Extended |       |
-| PlatformTelemetryDataSource_STATUS                    | PlatformTelemetryDataSource_STATUS                    | Extended |       |
-| PrivateLinkScopedResource_STATUS                      | PrivateLinkScopedResource_STATUS                      | Extended |       |
-| PrometheusForwarderDataSource                         | PrometheusForwarderDataSource                         | Extended |       |
-| PrometheusForwarderDataSource_STATUS                  | PrometheusForwarderDataSource_STATUS                  | Extended |       |
-| ReferencesSpec                                        | ReferencesSpec                                        | Extended |       |
-| ReferencesSpec_STATUS                                 | ReferencesSpec_STATUS                                 | Extended |       |
-| Sku                                                   | Sku                                                   | Modified |       |
-| Sku_STATUS                                            | Sku_STATUS                                            | Modified |       |
-| StorageBlob                                           | StorageBlob                                           | Modified |       |
-| StorageBlobDestination                                | StorageBlobDestination                                | Extended |       |
-| StorageBlobDestination_STATUS                         | StorageBlobDestination_STATUS                         | Extended |       |
-| StorageBlob_STATUS                                    | StorageBlob_STATUS                                    | Modified |       |
-| StorageTableDestination                               | StorageTableDestination                               | Extended |       |
-| StorageTableDestination_STATUS                        | StorageTableDestination_STATUS                        | Extended |       |
-| StreamDeclaration                                     | StreamDeclaration                                     | Extended |       |
-| StreamDeclaration_STATUS                              | StreamDeclaration_STATUS                              | Extended |       |
-| SyslogDataSource                                      | SyslogDataSource                                      | Modified |       |
-| SyslogDataSource_STATUS                               | SyslogDataSource_STATUS                               | Modified |       |
-| SystemData_STATUS                                     | SystemData_STATUS                                     | Modified |       |
-| UserAssignedIdentityDetails                           | UserAssignedIdentityDetails                           | Extended |       |
-| UserAssignedIdentity_STATUS                           | UserAssignedIdentity_STATUS                           | Extended |       |
-| WindowsEventLogDataSource                             | WindowsEventLogDataSource                             | Extended |       |
-| WindowsEventLogDataSource_STATUS                      | WindowsEventLogDataSource_STATUS                      | Extended |       |
-| WindowsFirewallLogsDataSource                         | WindowsFirewallLogsDataSource                         | Modified |       |
-| WindowsFirewallLogsDataSource_STATUS                  | WindowsFirewallLogsDataSource_STATUS                  | Modified |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20240311                                         | v1api20240311/storage                                 |  Status  | Notes                         |
+|:------------------------------------------------------|:------------------------------------------------------|:--------:|:------------------------------|
+| AdxDestination                                        | AdxDestination                                        | Extended | +PropertyBag                  |
+| AdxDestination_STATUS                                 | AdxDestination_STATUS                                 | Extended | +PropertyBag                  |
+| AgentSetting                                          | AgentSetting                                          | Modified |                               |
+| AgentSetting_STATUS                                   | AgentSetting_STATUS                                   | Modified |                               |
+| AgentSettingsSpec                                     | AgentSettingsSpec                                     | Extended | +PropertyBag                  |
+| AgentSettingsSpec_STATUS                              | AgentSettingsSpec_STATUS                              | Extended | +PropertyBag                  |
+| ApplicationInsights                                   | ApplicationInsights                                   | Extended | +PropertyBag                  |
+| ApplicationInsights_STATUS                            | ApplicationInsights_STATUS                            | Extended | +PropertyBag                  |
+| AzureMonitorMetricsDestination                        | AzureMonitorMetricsDestination                        | Extended | +PropertyBag                  |
+| AzureMonitorMetricsDestination_STATUS                 | AzureMonitorMetricsDestination_STATUS                 | Extended | +PropertyBag                  |
+| ColumnDefinition                                      | ColumnDefinition                                      | Modified |                               |
+| ColumnDefinition_STATUS                               | ColumnDefinition_STATUS                               | Modified |                               |
+| ConfigurationAccessEndpointSpec_STATUS                | ConfigurationAccessEndpointSpec_STATUS                | Extended | +PropertyBag                  |
+| DataCollectionEndpointOperatorSpec                    | DataCollectionEndpointOperatorSpec                    | Extended | +PropertyBag                  |
+| DataCollectionEndpointResource_STATUS                 | DataCollectionEndpointResource_STATUS                 | Modified |                               |
+| DataCollectionEndpoint_Spec                           | DataCollectionEndpoint_Spec                           | Modified |                               |
+| DataCollectionRuleAssociationOperatorSpec             | DataCollectionRuleAssociationOperatorSpec             | Extended | +PropertyBag                  |
+| DataCollectionRuleAssociationProxyOnlyResource_STATUS | DataCollectionRuleAssociationProxyOnlyResource_STATUS | Modified |                               |
+| DataCollectionRuleAssociation_Spec                    | DataCollectionRuleAssociation_Spec                    | Extended | +OriginalVersion +PropertyBag |
+| DataCollectionRuleOperatorSpec                        | DataCollectionRuleOperatorSpec                        | Extended | +PropertyBag                  |
+| DataCollectionRuleResource_STATUS                     | DataCollectionRuleResource_STATUS                     | Modified |                               |
+| DataCollectionRule_Spec                               | DataCollectionRule_Spec                               | Modified |                               |
+| DataFlow                                              | DataFlow                                              | Extended | +PropertyBag                  |
+| DataFlow_STATUS                                       | DataFlow_STATUS                                       | Extended | +PropertyBag                  |
+| DataImportSources                                     | DataImportSources                                     | Extended | +PropertyBag                  |
+| DataImportSources_STATUS                              | DataImportSources_STATUS                              | Extended | +PropertyBag                  |
+| DataSourcesSpec                                       | DataSourcesSpec                                       | Extended | +PropertyBag                  |
+| DataSourcesSpec_STATUS                                | DataSourcesSpec_STATUS                                | Extended | +PropertyBag                  |
+| DestinationsSpec                                      | DestinationsSpec                                      | Extended | +PropertyBag                  |
+| DestinationsSpec_STATUS                               | DestinationsSpec_STATUS                               | Extended | +PropertyBag                  |
+| DirectDataSourcesSpec                                 | DirectDataSourcesSpec                                 | Extended | +PropertyBag                  |
+| DirectDataSourcesSpec_STATUS                          | DirectDataSourcesSpec_STATUS                          | Extended | +PropertyBag                  |
+| EndpointsSpec_STATUS                                  | EndpointsSpec_STATUS                                  | Extended | +PropertyBag                  |
+| EnrichmentData                                        | EnrichmentData                                        | Extended | +PropertyBag                  |
+| EnrichmentData_STATUS                                 | EnrichmentData_STATUS                                 | Extended | +PropertyBag                  |
+| EtwProviderDataSource                                 | EtwProviderDataSource                                 | Modified |                               |
+| EtwProviderDataSource_STATUS                          | EtwProviderDataSource_STATUS                          | Modified |                               |
+| EventHubDataSource                                    | EventHubDataSource                                    | Extended | +PropertyBag                  |
+| EventHubDataSource_STATUS                             | EventHubDataSource_STATUS                             | Extended | +PropertyBag                  |
+| EventHubDestination                                   | EventHubDestination                                   | Extended | +PropertyBag                  |
+| EventHubDestination_STATUS                            | EventHubDestination_STATUS                            | Extended | +PropertyBag                  |
+| EventHubDirectDestination                             | EventHubDirectDestination                             | Extended | +PropertyBag                  |
+| EventHubDirectDestination_STATUS                      | EventHubDirectDestination_STATUS                      | Extended | +PropertyBag                  |
+| ExtensionDataSource                                   | ExtensionDataSource                                   | Extended | +PropertyBag                  |
+| ExtensionDataSource_STATUS                            | ExtensionDataSource_STATUS                            | Extended | +PropertyBag                  |
+| FailoverConfigurationSpec_STATUS                      | FailoverConfigurationSpec_STATUS                      | Extended | +PropertyBag                  |
+| IisLogsDataSource                                     | IisLogsDataSource                                     | Extended | +PropertyBag                  |
+| IisLogsDataSource_STATUS                              | IisLogsDataSource_STATUS                              | Extended | +PropertyBag                  |
+| IngestionQuotas_STATUS                                | IngestionQuotas_STATUS                                | Extended | +PropertyBag                  |
+| LocationSpec_STATUS                                   | LocationSpec_STATUS                                   | Modified |                               |
+| LogAnalyticsDestination                               | LogAnalyticsDestination                               | Extended | +PropertyBag                  |
+| LogAnalyticsDestination_STATUS                        | LogAnalyticsDestination_STATUS                        | Extended | +PropertyBag                  |
+| LogFileSettings                                       | LogFileSettings                                       | Extended | +PropertyBag                  |
+| LogFileSettings_STATUS                                | LogFileSettings_STATUS                                | Extended | +PropertyBag                  |
+| LogFileTextSettings                                   | LogFileTextSettings                                   | Modified |                               |
+| LogFileTextSettings_STATUS                            | LogFileTextSettings_STATUS                            | Modified |                               |
+| LogFilesDataSource                                    | LogFilesDataSource                                    | Modified |                               |
+| LogFilesDataSource_STATUS                             | LogFilesDataSource_STATUS                             | Modified |                               |
+| LogsIngestionEndpointSpec_STATUS                      | LogsIngestionEndpointSpec_STATUS                      | Extended | +PropertyBag                  |
+| LogsQuotaSpec_STATUS                                  | LogsQuotaSpec_STATUS                                  | Extended | +PropertyBag                  |
+| ManagedServiceIdentity                                | ManagedServiceIdentity                                | Modified |                               |
+| ManagedServiceIdentity_STATUS                         | ManagedServiceIdentity_STATUS                         | Modified |                               |
+| Metadata_STATUS                                       | Metadata_STATUS                                       | Extended | +PropertyBag                  |
+| MetricsIngestionEndpointSpec_STATUS                   | MetricsIngestionEndpointSpec_STATUS                   | Extended | +PropertyBag                  |
+| MicrosoftFabricDestination                            | MicrosoftFabricDestination                            | Extended | +PropertyBag                  |
+| MicrosoftFabricDestination_STATUS                     | MicrosoftFabricDestination_STATUS                     | Extended | +PropertyBag                  |
+| MonitoringAccountDestination                          | MonitoringAccountDestination                          | Extended | +PropertyBag                  |
+| MonitoringAccountDestination_STATUS                   | MonitoringAccountDestination_STATUS                   | Extended | +PropertyBag                  |
+| NetworkRuleSet                                        | NetworkRuleSet                                        | Modified |                               |
+| NetworkRuleSet_STATUS                                 | NetworkRuleSet_STATUS                                 | Modified |                               |
+| OtelDataSourceResourceAttributeRouting                | OtelDataSourceResourceAttributeRouting                | Extended | +PropertyBag                  |
+| OtelDataSourceResourceAttributeRouting_STATUS         | OtelDataSourceResourceAttributeRouting_STATUS         | Extended | +PropertyBag                  |
+| OtelLogsDataSource                                    | OtelLogsDataSource                                    | Modified |                               |
+| OtelLogsDataSource_STATUS                             | OtelLogsDataSource_STATUS                             | Modified |                               |
+| OtelLogsDirectDataSource                              | OtelLogsDirectDataSource                              | Modified |                               |
+| OtelLogsDirectDataSource_STATUS                       | OtelLogsDirectDataSource_STATUS                       | Modified |                               |
+| OtelMetricsDataSource                                 | OtelMetricsDataSource                                 | Extended | +PropertyBag                  |
+| OtelMetricsDataSource_STATUS                          | OtelMetricsDataSource_STATUS                          | Extended | +PropertyBag                  |
+| OtelMetricsDirectDataSource                           | OtelMetricsDirectDataSource                           | Extended | +PropertyBag                  |
+| OtelMetricsDirectDataSource_STATUS                    | OtelMetricsDirectDataSource_STATUS                    | Extended | +PropertyBag                  |
+| OtelTracesDataSource                                  | OtelTracesDataSource                                  | Modified |                               |
+| OtelTracesDataSource_STATUS                           | OtelTracesDataSource_STATUS                           | Modified |                               |
+| OtelTracesDirectDataSource                            | OtelTracesDirectDataSource                            | Modified |                               |
+| OtelTracesDirectDataSource_STATUS                     | OtelTracesDirectDataSource_STATUS                     | Modified |                               |
+| PerfCounterDataSource                                 | PerfCounterDataSource                                 | Extended | +PropertyBag                  |
+| PerfCounterDataSource_STATUS                          | PerfCounterDataSource_STATUS                          | Extended | +PropertyBag                  |
+| PerformanceCountersOTelDataSource                     | PerformanceCountersOTelDataSource                     | Modified |                               |
+| PerformanceCountersOTelDataSource_STATUS              | PerformanceCountersOTelDataSource_STATUS              | Modified |                               |
+| PlatformTelemetryDataSource                           | PlatformTelemetryDataSource                           | Extended | +PropertyBag                  |
+| PlatformTelemetryDataSource_STATUS                    | PlatformTelemetryDataSource_STATUS                    | Extended | +PropertyBag                  |
+| PrivateLinkScopedResource_STATUS                      | PrivateLinkScopedResource_STATUS                      | Extended | +PropertyBag                  |
+| PrometheusForwarderDataSource                         | PrometheusForwarderDataSource                         | Extended | +PropertyBag                  |
+| PrometheusForwarderDataSource_STATUS                  | PrometheusForwarderDataSource_STATUS                  | Extended | +PropertyBag                  |
+| ReferencesSpec                                        | ReferencesSpec                                        | Extended | +PropertyBag                  |
+| ReferencesSpec_STATUS                                 | ReferencesSpec_STATUS                                 | Extended | +PropertyBag                  |
+| Sku                                                   | Sku                                                   | Modified |                               |
+| Sku_STATUS                                            | Sku_STATUS                                            | Modified |                               |
+| StorageBlob                                           | StorageBlob                                           | Modified |                               |
+| StorageBlobDestination                                | StorageBlobDestination                                | Extended | +PropertyBag                  |
+| StorageBlobDestination_STATUS                         | StorageBlobDestination_STATUS                         | Extended | +PropertyBag                  |
+| StorageBlob_STATUS                                    | StorageBlob_STATUS                                    | Modified |                               |
+| StorageTableDestination                               | StorageTableDestination                               | Extended | +PropertyBag                  |
+| StorageTableDestination_STATUS                        | StorageTableDestination_STATUS                        | Extended | +PropertyBag                  |
+| StreamDeclaration                                     | StreamDeclaration                                     | Extended | +PropertyBag                  |
+| StreamDeclaration_STATUS                              | StreamDeclaration_STATUS                              | Extended | +PropertyBag                  |
+| SyslogDataSource                                      | SyslogDataSource                                      | Modified |                               |
+| SyslogDataSource_STATUS                               | SyslogDataSource_STATUS                               | Modified |                               |
+| SystemData_STATUS                                     | SystemData_STATUS                                     | Modified |                               |
+| UserAssignedIdentityDetails                           | UserAssignedIdentityDetails                           | Extended | +PropertyBag                  |
+| UserAssignedIdentity_STATUS                           | UserAssignedIdentity_STATUS                           | Extended | +PropertyBag                  |
+| WindowsEventLogDataSource                             | WindowsEventLogDataSource                             | Extended | +PropertyBag                  |
+| WindowsEventLogDataSource_STATUS                      | WindowsEventLogDataSource_STATUS                      | Extended | +PropertyBag                  |
+| WindowsFirewallLogsDataSource                         | WindowsFirewallLogsDataSource                         | Modified |                               |
+| WindowsFirewallLogsDataSource_STATUS                  | WindowsFirewallLogsDataSource_STATUS                  | Modified |                               |
 
 ### AdxDestination
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240311     |                               | v1api20240311/storage |                               |  Status   | Notes |
 |:------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -149,7 +142,7 @@
 
 ### AdxDestination_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240311 |         | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -161,7 +154,7 @@
 
 ### AgentSetting
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240311 |                        | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -171,7 +164,7 @@
 
 ### AgentSetting_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240311 |                               | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -181,7 +174,7 @@
 
 ### AgentSettingsSpec
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240311 |                | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:---------------|:----------------------|:-----------------------|:---------:|:------|
@@ -190,7 +183,7 @@
 
 ### AgentSettingsSpec_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240311 |                       | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -199,7 +192,7 @@
 
 ### ApplicationInsights
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240311     |                               | v1api20240311/storage |                               |  Status   | Notes |
 |:------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -209,7 +202,7 @@
 
 ### ApplicationInsights_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240311 |         | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -219,7 +212,7 @@
 
 ### AzureMonitorMetricsDestination
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240311 |         | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -228,7 +221,7 @@
 
 ### AzureMonitorMetricsDestination_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240311 |         | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -237,7 +230,7 @@
 
 ### ColumnDefinition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240311 |                            | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:---------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -247,7 +240,7 @@
 
 ### ColumnDefinition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240311 |                                   | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:----------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -257,7 +250,7 @@
 
 ### ConfigurationAccessEndpointSpec_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240311 |         | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -266,7 +259,7 @@
 
 ### DataCollectionEndpointOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240311        |                               | v1api20240311/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -276,7 +269,7 @@
 
 ### DataCollectionEndpointResource_STATUS
 
-19 x Identical, 1 x New, 2 x Modified
+Properties: 19 x Identical, 1 x New, 2 x Modified
 
 | v1api20240311              |                                                      | v1api20240311/storage      |                                         |  Status   | Notes |
 |:---------------------------|:-----------------------------------------------------|:---------------------------|:----------------------------------------|:---------:|:------|
@@ -305,7 +298,7 @@
 
 ### DataCollectionEndpoint_Spec
 
-9 x Identical, 2 x New, 1 x Modified
+Properties: 9 x Identical, 2 x New, 1 x Modified
 
 | v1api20240311 |                                          | v1api20240311/storage |                                     |  Status   | Notes |
 |:--------------|:-----------------------------------------|:----------------------|:------------------------------------|:---------:|:------|
@@ -324,7 +317,7 @@
 
 ### DataCollectionRuleAssociationOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240311        |                               | v1api20240311/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -334,7 +327,7 @@
 
 ### DataCollectionRuleAssociationProxyOnlyResource_STATUS
 
-10 x Identical, 1 x New, 1 x Modified
+Properties: 10 x Identical, 1 x New, 1 x Modified
 
 | v1api20240311            |                                                             | v1api20240311/storage    |                        |  Status   | Notes |
 |:-------------------------|:------------------------------------------------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -353,7 +346,7 @@
 
 ### DataCollectionRuleAssociation_Spec
 
-6 x Identical, 2 x New
+Properties: 6 x Identical, 2 x New
 
 | v1api20240311                   |                                            | v1api20240311/storage           |                                            |  Status   | Notes |
 |:--------------------------------|:-------------------------------------------|:--------------------------------|:-------------------------------------------|:---------:|:------|
@@ -368,7 +361,7 @@
 
 ### DataCollectionRuleOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240311        |                               | v1api20240311/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -378,7 +371,7 @@
 
 ### DataCollectionRuleResource_STATUS
 
-23 x Identical, 1 x New, 2 x Modified
+Properties: 23 x Identical, 1 x New, 2 x Modified
 
 | v1api20240311            |                                                  | v1api20240311/storage    |                                     |  Status   | Notes |
 |:-------------------------|:-------------------------------------------------|:-------------------------|:------------------------------------|:---------:|:------|
@@ -411,7 +404,7 @@
 
 ### DataCollectionRule_Spec
 
-16 x Identical, 2 x New, 1 x Modified
+Properties: 16 x Identical, 2 x New, 1 x Modified
 
 | v1api20240311                   |                                      | v1api20240311/storage           |                                    |  Status   | Notes |
 |:--------------------------------|:-------------------------------------|:--------------------------------|:-----------------------------------|:---------:|:------|
@@ -437,7 +430,7 @@
 
 ### DataFlow
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20240311    |          | v1api20240311/storage |                        |  Status   | Notes |
 |:-----------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -451,7 +444,7 @@
 
 ### DataFlow_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20240311    |          | v1api20240311/storage |                        |  Status   | Notes |
 |:-----------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -465,7 +458,7 @@
 
 ### DataImportSources
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240311 |                     | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -474,7 +467,7 @@
 
 ### DataImportSources_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240311 |                            | v1api20240311/storage |                            |  Status   | Notes |
 |:--------------|:---------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -483,7 +476,7 @@
 
 ### DataSourcesSpec
 
-15 x Identical, 1 x New
+Properties: 15 x Identical, 1 x New
 
 | v1api20240311           |                                     | v1api20240311/storage   |                                     |  Status   | Notes |
 |:------------------------|:------------------------------------|:------------------------|:------------------------------------|:---------:|:------|
@@ -506,7 +499,7 @@
 
 ### DataSourcesSpec_STATUS
 
-15 x Identical, 1 x New
+Properties: 15 x Identical, 1 x New
 
 | v1api20240311           |                                            | v1api20240311/storage   |                                            |  Status   | Notes |
 |:------------------------|:-------------------------------------------|:------------------------|:-------------------------------------------|:---------:|:------|
@@ -529,7 +522,7 @@
 
 ### DestinationsSpec
 
-10 x Identical, 1 x New
+Properties: 10 x Identical, 1 x New
 
 | v1api20240311       |                                 | v1api20240311/storage |                                 |  Status   | Notes |
 |:--------------------|:--------------------------------|:----------------------|:--------------------------------|:---------:|:------|
@@ -547,7 +540,7 @@
 
 ### DestinationsSpec_STATUS
 
-10 x Identical, 1 x New
+Properties: 10 x Identical, 1 x New
 
 | v1api20240311       |                                        | v1api20240311/storage |                                        |  Status   | Notes |
 |:--------------------|:---------------------------------------|:----------------------|:---------------------------------------|:---------:|:------|
@@ -565,7 +558,7 @@
 
 ### DirectDataSourcesSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240311 |                               | v1api20240311/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -576,7 +569,7 @@
 
 ### DirectDataSourcesSpec_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240311 |                                      | v1api20240311/storage |                                      |  Status   | Notes |
 |:--------------|:-------------------------------------|:----------------------|:-------------------------------------|:---------:|:------|
@@ -587,7 +580,7 @@
 
 ### EndpointsSpec_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240311    |         | v1api20240311/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -597,7 +590,7 @@
 
 ### EnrichmentData
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240311 |               | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:--------------|:----------------------|:-----------------------|:---------:|:------|
@@ -606,7 +599,7 @@
 
 ### EnrichmentData_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240311 |                      | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:---------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -615,7 +608,7 @@
 
 ### EtwProviderDataSource
 
-5 x Identical, 1 x New, 2 x Modified
+Properties: 5 x Identical, 1 x New, 2 x Modified
 
 | v1api20240311 |                                     | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -630,7 +623,7 @@
 
 ### EtwProviderDataSource_STATUS
 
-5 x Identical, 1 x New, 2 x Modified
+Properties: 5 x Identical, 1 x New, 2 x Modified
 
 | v1api20240311 |                                            | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:-------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -645,7 +638,7 @@
 
 ### EventHubDataSource
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240311 |         | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -656,7 +649,7 @@
 
 ### EventHubDataSource_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240311 |         | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -667,7 +660,7 @@
 
 ### EventHubDestination
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240311             |                               | v1api20240311/storage     |                               |  Status   | Notes |
 |:--------------------------|:------------------------------|:--------------------------|:------------------------------|:---------:|:------|
@@ -677,7 +670,7 @@
 
 ### EventHubDestination_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240311      |         | v1api20240311/storage |                        |  Status   | Notes |
 |:-------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -687,7 +680,7 @@
 
 ### EventHubDirectDestination
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240311             |                               | v1api20240311/storage     |                               |  Status   | Notes |
 |:--------------------------|:------------------------------|:--------------------------|:------------------------------|:---------:|:------|
@@ -697,7 +690,7 @@
 
 ### EventHubDirectDestination_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240311      |         | v1api20240311/storage |                        |  Status   | Notes |
 |:-------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -707,7 +700,7 @@
 
 ### ExtensionDataSource
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20240311     |                    | v1api20240311/storage |                        |  Status   | Notes |
 |:------------------|:-------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -720,7 +713,7 @@
 
 ### ExtensionDataSource_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20240311     |                    | v1api20240311/storage |                        |  Status   | Notes |
 |:------------------|:-------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -733,7 +726,7 @@
 
 ### FailoverConfigurationSpec_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240311  |                       | v1api20240311/storage |                        |  Status   | Notes |
 |:---------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -743,7 +736,7 @@
 
 ### IisLogsDataSource
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240311  |          | v1api20240311/storage |                        |  Status   | Notes |
 |:---------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -755,7 +748,7 @@
 
 ### IisLogsDataSource_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240311  |          | v1api20240311/storage |                        |  Status   | Notes |
 |:---------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -767,7 +760,7 @@
 
 ### IngestionQuotas_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240311 |                       | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -776,7 +769,7 @@
 
 ### LocationSpec_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240311      |                                             | v1api20240311/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -786,7 +779,7 @@
 
 ### LogAnalyticsDestination
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240311              |                               | v1api20240311/storage      |                               |  Status   | Notes |
 |:---------------------------|:------------------------------|:---------------------------|:------------------------------|:---------:|:------|
@@ -796,7 +789,7 @@
 
 ### LogAnalyticsDestination_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240311       |         | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -807,7 +800,7 @@
 
 ### LogFileSettings
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240311 |                      | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:---------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -816,7 +809,7 @@
 
 ### LogFileSettings_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240311 |                             | v1api20240311/storage |                             |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -825,7 +818,7 @@
 
 ### LogFileTextSettings
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20240311              |                                                     | v1api20240311/storage      |                        |  Status  | Notes |
 |:---------------------------|:----------------------------------------------------|:---------------------------|:-----------------------|:--------:|:------|
@@ -834,7 +827,7 @@
 
 ### LogFileTextSettings_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20240311              |                                                            | v1api20240311/storage      |                        |  Status  | Notes |
 |:---------------------------|:-----------------------------------------------------------|:---------------------------|:-----------------------|:--------:|:------|
@@ -843,7 +836,7 @@
 
 ### LogFilesDataSource
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20240311 |                                | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:-------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -857,7 +850,7 @@
 
 ### LogFilesDataSource_STATUS
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20240311 |                                       | v1api20240311/storage |                         |  Status   | Notes |
 |:--------------|:--------------------------------------|:----------------------|:------------------------|:---------:|:------|
@@ -871,7 +864,7 @@
 
 ### LogsIngestionEndpointSpec_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240311 |         | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -880,7 +873,7 @@
 
 ### LogsQuotaSpec_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240311        |         | v1api20240311/storage |                        |  Status   | Notes |
 |:---------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -890,7 +883,7 @@
 
 ### ManagedServiceIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240311          |                               | v1api20240311/storage  |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -900,7 +893,7 @@
 
 ### ManagedServiceIdentity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20240311          |                                        | v1api20240311/storage  |                                        |  Status   | Notes |
 |:-----------------------|:---------------------------------------|:-----------------------|:---------------------------------------|:---------:|:------|
@@ -912,7 +905,7 @@
 
 ### Metadata_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240311            |         | v1api20240311/storage    |                        |  Status   | Notes |
 |:-------------------------|:--------|:-------------------------|:-----------------------|:---------:|:------|
@@ -923,7 +916,7 @@
 
 ### MetricsIngestionEndpointSpec_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240311 |         | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -932,7 +925,7 @@
 
 ### MicrosoftFabricDestination
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20240311 |         | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -945,7 +938,7 @@
 
 ### MicrosoftFabricDestination_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20240311 |         | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -958,7 +951,7 @@
 
 ### MonitoringAccountDestination
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240311            |                               | v1api20240311/storage    |                               |  Status   | Notes |
 |:-------------------------|:------------------------------|:-------------------------|:------------------------------|:---------:|:------|
@@ -968,7 +961,7 @@
 
 ### MonitoringAccountDestination_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240311     |         | v1api20240311/storage |                        |  Status   | Notes |
 |:------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -979,7 +972,7 @@
 
 ### NetworkRuleSet
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20240311       |                                  | v1api20240311/storage |                        |  Status  | Notes |
 |:--------------------|:---------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -988,7 +981,7 @@
 
 ### NetworkRuleSet_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20240311       |                                         | v1api20240311/storage |                        |  Status  | Notes |
 |:--------------------|:----------------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -997,7 +990,7 @@
 
 ### OtelDataSourceResourceAttributeRouting
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240311  |         | v1api20240311/storage |                        |  Status   | Notes |
 |:---------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1007,7 +1000,7 @@
 
 ### OtelDataSourceResourceAttributeRouting_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240311  |         | v1api20240311/storage |                        |  Status   | Notes |
 |:---------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1017,7 +1010,7 @@
 
 ### OtelLogsDataSource
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20240311                  |                                         | v1api20240311/storage          |                                         |  Status   | Notes |
 |:-------------------------------|:----------------------------------------|:-------------------------------|:----------------------------------------|:---------:|:------|
@@ -1031,7 +1024,7 @@
 
 ### OtelLogsDataSource_STATUS
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20240311                  |                                                | v1api20240311/storage          |                                                |  Status   | Notes |
 |:-------------------------------|:-----------------------------------------------|:-------------------------------|:-----------------------------------------------|:---------:|:------|
@@ -1045,7 +1038,7 @@
 
 ### OtelLogsDirectDataSource
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20240311                  |                                        | v1api20240311/storage          |                        |  Status   | Notes |
 |:-------------------------------|:---------------------------------------|:-------------------------------|:-----------------------|:---------:|:------|
@@ -1058,7 +1051,7 @@
 
 ### OtelLogsDirectDataSource_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20240311                  |                                               | v1api20240311/storage          |                        |  Status   | Notes |
 |:-------------------------------|:----------------------------------------------|:-------------------------------|:-----------------------|:---------:|:------|
@@ -1071,7 +1064,7 @@
 
 ### OtelMetricsDataSource
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20240311                |                                         | v1api20240311/storage        |                                         |  Status   | Notes |
 |:-----------------------------|:----------------------------------------|:-----------------------------|:----------------------------------------|:---------:|:------|
@@ -1084,7 +1077,7 @@
 
 ### OtelMetricsDataSource_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20240311                |                                                | v1api20240311/storage        |                                                |  Status   | Notes |
 |:-----------------------------|:-----------------------------------------------|:-----------------------------|:-----------------------------------------------|:---------:|:------|
@@ -1097,7 +1090,7 @@
 
 ### OtelMetricsDirectDataSource
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240311                |          | v1api20240311/storage        |                        |  Status   | Notes |
 |:-----------------------------|:---------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -1109,7 +1102,7 @@
 
 ### OtelMetricsDirectDataSource_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240311                |          | v1api20240311/storage        |                        |  Status   | Notes |
 |:-----------------------------|:---------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -1121,7 +1114,7 @@
 
 ### OtelTracesDataSource
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20240311                  |                                         | v1api20240311/storage          |                                         |  Status   | Notes |
 |:-------------------------------|:----------------------------------------|:-------------------------------|:----------------------------------------|:---------:|:------|
@@ -1135,7 +1128,7 @@
 
 ### OtelTracesDataSource_STATUS
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20240311                  |                                                | v1api20240311/storage          |                                                |  Status   | Notes |
 |:-------------------------------|:-----------------------------------------------|:-------------------------------|:-----------------------------------------------|:---------:|:------|
@@ -1149,7 +1142,7 @@
 
 ### OtelTracesDirectDataSource
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20240311                  |                                          | v1api20240311/storage          |                        |  Status   | Notes |
 |:-------------------------------|:-----------------------------------------|:-------------------------------|:-----------------------|:---------:|:------|
@@ -1162,7 +1155,7 @@
 
 ### OtelTracesDirectDataSource_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20240311                  |                                                 | v1api20240311/storage          |                        |  Status   | Notes |
 |:-------------------------------|:------------------------------------------------|:-------------------------------|:-----------------------|:---------:|:------|
@@ -1175,7 +1168,7 @@
 
 ### PerfCounterDataSource
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20240311              |          | v1api20240311/storage      |                        |  Status   | Notes |
 |:---------------------------|:---------|:---------------------------|:-----------------------|:---------:|:------|
@@ -1188,7 +1181,7 @@
 
 ### PerfCounterDataSource_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20240311              |          | v1api20240311/storage      |                        |  Status   | Notes |
 |:---------------------------|:---------|:---------------------------|:-----------------------|:---------:|:------|
@@ -1201,7 +1194,7 @@
 
 ### PerformanceCountersOTelDataSource
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20240311              |                                                 | v1api20240311/storage      |                        |  Status   | Notes |
 |:---------------------------|:------------------------------------------------|:---------------------------|:-----------------------|:---------:|:------|
@@ -1213,7 +1206,7 @@
 
 ### PerformanceCountersOTelDataSource_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20240311              |                                                        | v1api20240311/storage      |                        |  Status   | Notes |
 |:---------------------------|:-------------------------------------------------------|:---------------------------|:-----------------------|:---------:|:------|
@@ -1225,7 +1218,7 @@
 
 ### PlatformTelemetryDataSource
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240311 |          | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -1235,7 +1228,7 @@
 
 ### PlatformTelemetryDataSource_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240311 |          | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -1245,7 +1238,7 @@
 
 ### PrivateLinkScopedResource_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240311 |         | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1255,7 +1248,7 @@
 
 ### PrometheusForwarderDataSource
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240311        |                      | v1api20240311/storage |                        |  Status   | Notes |
 |:---------------------|:---------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1267,7 +1260,7 @@
 
 ### PrometheusForwarderDataSource_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240311        |                      | v1api20240311/storage |                        |  Status   | Notes |
 |:---------------------|:---------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1279,7 +1272,7 @@
 
 ### ReferencesSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240311       |                       | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1289,7 +1282,7 @@
 
 ### ReferencesSpec_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240311       |                              | v1api20240311/storage |                              |  Status   | Notes |
 |:--------------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -1299,7 +1292,7 @@
 
 ### Sku
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20240311 |          | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -1312,7 +1305,7 @@
 
 ### Sku_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20240311 |                 | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:----------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1325,7 +1318,7 @@
 
 ### StorageBlob
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20240311     |                               | v1api20240311/storage |                               |  Status   | Notes |
 |:------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1337,7 +1330,7 @@
 
 ### StorageBlobDestination
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240311                   |                               | v1api20240311/storage           |                               |  Status   | Notes |
 |:--------------------------------|:------------------------------|:--------------------------------|:------------------------------|:---------:|:------|
@@ -1348,7 +1341,7 @@
 
 ### StorageBlobDestination_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240311            |         | v1api20240311/storage    |                        |  Status   | Notes |
 |:-------------------------|:--------|:-------------------------|:-----------------------|:---------:|:------|
@@ -1359,7 +1352,7 @@
 
 ### StorageBlob_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20240311 |                                    | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1371,7 +1364,7 @@
 
 ### StorageTableDestination
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240311                   |                               | v1api20240311/storage           |                               |  Status   | Notes |
 |:--------------------------------|:------------------------------|:--------------------------------|:------------------------------|:---------:|:------|
@@ -1382,7 +1375,7 @@
 
 ### StorageTableDestination_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240311            |         | v1api20240311/storage    |                        |  Status   | Notes |
 |:-------------------------|:--------|:-------------------------|:-----------------------|:---------:|:------|
@@ -1393,7 +1386,7 @@
 
 ### StreamDeclaration
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240311 |                    | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:-------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1402,7 +1395,7 @@
 
 ### StreamDeclaration_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240311 |                           | v1api20240311/storage |                           |  Status   | Notes |
 |:--------------|:--------------------------|:----------------------|:--------------------------|:---------:|:------|
@@ -1411,7 +1404,7 @@
 
 ### SyslogDataSource
 
-3 x Identical, 1 x New, 2 x Modified
+Properties: 3 x Identical, 1 x New, 2 x Modified
 
 | v1api20240311 |                                      | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:-------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1424,7 +1417,7 @@
 
 ### SyslogDataSource_STATUS
 
-3 x Identical, 1 x New, 2 x Modified
+Properties: 3 x Identical, 1 x New, 2 x Modified
 
 | v1api20240311 |                                             | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:--------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1437,7 +1430,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20240311      |                                       | v1api20240311/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1451,7 +1444,7 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240311 |                              | v1api20240311/storage |                              |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -1460,7 +1453,7 @@
 
 ### UserAssignedIdentity_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240311 |         | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1470,7 +1463,7 @@
 
 ### WindowsEventLogDataSource
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240311 |          | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -1482,7 +1475,7 @@
 
 ### WindowsEventLogDataSource_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240311 |          | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -1494,7 +1487,7 @@
 
 ### WindowsFirewallLogsDataSource
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20240311 |                                                   | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:--------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1505,7 +1498,7 @@
 
 ### WindowsFirewallLogsDataSource_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20240311 |                                                          | v1api20240311/storage |                        |  Status   | Notes |
 |:--------------|:---------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1513,3 +1506,12 @@
 | ProfileFilter | KnownWindowsFirewallLogsDataSourceProfileFilter_STATUS[] | ProfileFilter         | string[]               | Modified  |       |
 |               |                                                          | PropertyBag           | genruntime.PropertyBag |    New    |       |
 | Streams       | string[]                                                 | Streams               | string[]               | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

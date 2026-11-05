@@ -18,145 +18,138 @@
 | SqlDatabaseThroughputSetting               | SqlDatabaseThroughputSetting               | Identical |       |
 | SqlRoleAssignment                          | SqlRoleAssignment                          | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20210515                                          | v1api20210515/storage                                  |  Status  | Notes |
-|:-------------------------------------------------------|:-------------------------------------------------------|:--------:|:------|
-| AnalyticalStorageConfiguration                         | AnalyticalStorageConfiguration                         | Modified |       |
-| AnalyticalStorageConfiguration_STATUS                  | AnalyticalStorageConfiguration_STATUS                  | Modified |       |
-| ApiProperties                                          | ApiProperties                                          | Modified |       |
-| ApiProperties_STATUS                                   | ApiProperties_STATUS                                   | Modified |       |
-| AutoUpgradePolicyResource                              | AutoUpgradePolicyResource                              | Extended |       |
-| AutoUpgradePolicyResource_STATUS                       | AutoUpgradePolicyResource_STATUS                       | Extended |       |
-| AutoscaleSettings                                      | AutoscaleSettings                                      | Extended |       |
-| AutoscaleSettingsResource                              | AutoscaleSettingsResource                              | Extended |       |
-| AutoscaleSettingsResource_STATUS                       | AutoscaleSettingsResource_STATUS                       | Extended |       |
-| AutoscaleSettings_STATUS                               | AutoscaleSettings_STATUS                               | Extended |       |
-| BackupPolicy                                           | BackupPolicy                                           | Extended |       |
-| BackupPolicy_STATUS                                    | BackupPolicy_STATUS                                    | Extended |       |
-| Capability                                             | Capability                                             | Extended |       |
-| Capability_STATUS                                      | Capability_STATUS                                      | Extended |       |
-| CompositePath                                          | CompositePath                                          | Modified |       |
-| CompositePath_STATUS                                   | CompositePath_STATUS                                   | Modified |       |
-| ConflictResolutionPolicy                               | ConflictResolutionPolicy                               | Modified |       |
-| ConflictResolutionPolicy_STATUS                        | ConflictResolutionPolicy_STATUS                        | Modified |       |
-| ConsistencyPolicy                                      | ConsistencyPolicy                                      | Modified |       |
-| ConsistencyPolicy_STATUS                               | ConsistencyPolicy_STATUS                               | Modified |       |
-| ContainerPartitionKey                                  | ContainerPartitionKey                                  | Modified |       |
-| ContainerPartitionKey_STATUS                           | ContainerPartitionKey_STATUS                           | Modified |       |
-| ContinuousModeBackupPolicy                             | ContinuousModeBackupPolicy                             | Modified |       |
-| ContinuousModeBackupPolicy_STATUS                      | ContinuousModeBackupPolicy_STATUS                      | Modified |       |
-| CorsPolicy                                             | CorsPolicy                                             | Modified |       |
-| CorsPolicy_STATUS                                      | CorsPolicy_STATUS                                      | Extended |       |
-| CreateUpdateOptions                                    | CreateUpdateOptions                                    | Extended |       |
-| DatabaseAccountOperatorSecrets                         | DatabaseAccountOperatorSecrets                         | Extended |       |
-| DatabaseAccountOperatorSpec                            | DatabaseAccountOperatorSpec                            | Extended |       |
-| DatabaseAccount_STATUS                                 | DatabaseAccount_STATUS                                 | Modified |       |
-| DatabaseAccount_Spec                                   | DatabaseAccount_Spec                                   | Modified |       |
-| ExcludedPath                                           | ExcludedPath                                           | Extended |       |
-| ExcludedPath_STATUS                                    | ExcludedPath_STATUS                                    | Extended |       |
-| FailoverPolicy_STATUS                                  | FailoverPolicy_STATUS                                  | Extended |       |
-| IncludedPath                                           | IncludedPath                                           | Extended |       |
-| IncludedPath_STATUS                                    | IncludedPath_STATUS                                    | Extended |       |
-| Indexes                                                | Indexes                                                | Modified |       |
-| Indexes_STATUS                                         | Indexes_STATUS                                         | Modified |       |
-| IndexingPolicy                                         | IndexingPolicy                                         | Modified |       |
-| IndexingPolicy_STATUS                                  | IndexingPolicy_STATUS                                  | Modified |       |
-| IpAddressOrRange                                       | IpAddressOrRange                                       | Extended |       |
-| IpAddressOrRange_STATUS                                | IpAddressOrRange_STATUS                                | Extended |       |
-| Location                                               | Location                                               | Modified |       |
-| Location_STATUS                                        | Location_STATUS                                        | Extended |       |
-| ManagedServiceIdentity                                 | ManagedServiceIdentity                                 | Modified |       |
-| ManagedServiceIdentity_STATUS                          | ManagedServiceIdentity_STATUS                          | Modified |       |
-| ManagedServiceIdentity_UserAssignedIdentities_STATUS   | ManagedServiceIdentity_UserAssignedIdentities_STATUS   | Extended |       |
-| MongoDBCollectionGetProperties_Resource_STATUS         | MongoDBCollectionGetProperties_Resource_STATUS         | Extended |       |
-| MongoDBCollectionResource                              | MongoDBCollectionResource                              | Extended |       |
-| MongoDBDatabaseGetProperties_Resource_STATUS           | MongoDBDatabaseGetProperties_Resource_STATUS           | Extended |       |
-| MongoDBDatabaseResource                                | MongoDBDatabaseResource                                | Extended |       |
-| MongoIndex                                             | MongoIndex                                             | Extended |       |
-| MongoIndexKeys                                         | MongoIndexKeys                                         | Extended |       |
-| MongoIndexKeys_STATUS                                  | MongoIndexKeys_STATUS                                  | Extended |       |
-| MongoIndexOptions                                      | MongoIndexOptions                                      | Extended |       |
-| MongoIndexOptions_STATUS                               | MongoIndexOptions_STATUS                               | Extended |       |
-| MongoIndex_STATUS                                      | MongoIndex_STATUS                                      | Extended |       |
-| MongodbDatabaseCollectionOperatorSpec                  | MongodbDatabaseCollectionOperatorSpec                  | Extended |       |
-| MongodbDatabaseCollectionThroughputSettingOperatorSpec | MongodbDatabaseCollectionThroughputSettingOperatorSpec | Extended |       |
-| MongodbDatabaseCollectionThroughputSetting_STATUS      | MongodbDatabaseCollectionThroughputSetting_STATUS      | Extended |       |
-| MongodbDatabaseCollectionThroughputSetting_Spec        | MongodbDatabaseCollectionThroughputSetting_Spec        | Extended |       |
-| MongodbDatabaseCollection_STATUS                       | MongodbDatabaseCollection_STATUS                       | Extended |       |
-| MongodbDatabaseCollection_Spec                         | MongodbDatabaseCollection_Spec                         | Extended |       |
-| MongodbDatabaseOperatorSpec                            | MongodbDatabaseOperatorSpec                            | Extended |       |
-| MongodbDatabaseThroughputSettingOperatorSpec           | MongodbDatabaseThroughputSettingOperatorSpec           | Extended |       |
-| MongodbDatabaseThroughputSetting_STATUS                | MongodbDatabaseThroughputSetting_STATUS                | Extended |       |
-| MongodbDatabaseThroughputSetting_Spec                  | MongodbDatabaseThroughputSetting_Spec                  | Extended |       |
-| MongodbDatabase_STATUS                                 | MongodbDatabase_STATUS                                 | Extended |       |
-| MongodbDatabase_Spec                                   | MongodbDatabase_Spec                                   | Extended |       |
-| OptionsResource_STATUS                                 | OptionsResource_STATUS                                 | Extended |       |
-| PeriodicModeBackupPolicy                               | PeriodicModeBackupPolicy                               | Modified |       |
-| PeriodicModeBackupPolicy_STATUS                        | PeriodicModeBackupPolicy_STATUS                        | Modified |       |
-| PeriodicModeProperties                                 | PeriodicModeProperties                                 | Modified |       |
-| PeriodicModeProperties_STATUS                          | PeriodicModeProperties_STATUS                          | Extended |       |
-| PrivateEndpointConnection_STATUS                       | PrivateEndpointConnection_STATUS                       | Extended |       |
-| SpatialSpec                                            | SpatialSpec                                            | Modified |       |
-| SpatialSpec_STATUS                                     | SpatialSpec_STATUS                                     | Modified |       |
-| SqlContainerGetProperties_Resource_STATUS              | SqlContainerGetProperties_Resource_STATUS              | Extended |       |
-| SqlContainerResource                                   | SqlContainerResource                                   | Extended |       |
-| SqlDatabaseContainerOperatorSpec                       | SqlDatabaseContainerOperatorSpec                       | Extended |       |
-| SqlDatabaseContainerStoredProcedureOperatorSpec        | SqlDatabaseContainerStoredProcedureOperatorSpec        | Extended |       |
-| SqlDatabaseContainerStoredProcedure_STATUS             | SqlDatabaseContainerStoredProcedure_STATUS             | Extended |       |
-| SqlDatabaseContainerStoredProcedure_Spec               | SqlDatabaseContainerStoredProcedure_Spec               | Extended |       |
-| SqlDatabaseContainerThroughputSettingOperatorSpec      | SqlDatabaseContainerThroughputSettingOperatorSpec      | Extended |       |
-| SqlDatabaseContainerThroughputSetting_STATUS           | SqlDatabaseContainerThroughputSetting_STATUS           | Extended |       |
-| SqlDatabaseContainerThroughputSetting_Spec             | SqlDatabaseContainerThroughputSetting_Spec             | Extended |       |
-| SqlDatabaseContainerTriggerOperatorSpec                | SqlDatabaseContainerTriggerOperatorSpec                | Extended |       |
-| SqlDatabaseContainerTrigger_STATUS                     | SqlDatabaseContainerTrigger_STATUS                     | Extended |       |
-| SqlDatabaseContainerTrigger_Spec                       | SqlDatabaseContainerTrigger_Spec                       | Extended |       |
-| SqlDatabaseContainerUserDefinedFunctionOperatorSpec    | SqlDatabaseContainerUserDefinedFunctionOperatorSpec    | Extended |       |
-| SqlDatabaseContainerUserDefinedFunction_STATUS         | SqlDatabaseContainerUserDefinedFunction_STATUS         | Extended |       |
-| SqlDatabaseContainerUserDefinedFunction_Spec           | SqlDatabaseContainerUserDefinedFunction_Spec           | Extended |       |
-| SqlDatabaseContainer_STATUS                            | SqlDatabaseContainer_STATUS                            | Extended |       |
-| SqlDatabaseContainer_Spec                              | SqlDatabaseContainer_Spec                              | Extended |       |
-| SqlDatabaseGetProperties_Resource_STATUS               | SqlDatabaseGetProperties_Resource_STATUS               | Extended |       |
-| SqlDatabaseOperatorSpec                                | SqlDatabaseOperatorSpec                                | Extended |       |
-| SqlDatabaseResource                                    | SqlDatabaseResource                                    | Extended |       |
-| SqlDatabaseThroughputSettingOperatorSpec               | SqlDatabaseThroughputSettingOperatorSpec               | Extended |       |
-| SqlDatabaseThroughputSetting_STATUS                    | SqlDatabaseThroughputSetting_STATUS                    | Extended |       |
-| SqlDatabaseThroughputSetting_Spec                      | SqlDatabaseThroughputSetting_Spec                      | Extended |       |
-| SqlDatabase_STATUS                                     | SqlDatabase_STATUS                                     | Extended |       |
-| SqlDatabase_Spec                                       | SqlDatabase_Spec                                       | Extended |       |
-| SqlRoleAssignmentOperatorSpec                          | SqlRoleAssignmentOperatorSpec                          | Extended |       |
-| SqlRoleAssignment_STATUS                               | SqlRoleAssignment_STATUS                               | Extended |       |
-| SqlRoleAssignment_Spec                                 | SqlRoleAssignment_Spec                                 | Extended |       |
-| SqlStoredProcedureGetProperties_Resource_STATUS        | SqlStoredProcedureGetProperties_Resource_STATUS        | Extended |       |
-| SqlStoredProcedureResource                             | SqlStoredProcedureResource                             | Extended |       |
-| SqlTriggerGetProperties_Resource_STATUS                | SqlTriggerGetProperties_Resource_STATUS                | Modified |       |
-| SqlTriggerResource                                     | SqlTriggerResource                                     | Modified |       |
-| SqlUserDefinedFunctionGetProperties_Resource_STATUS    | SqlUserDefinedFunctionGetProperties_Resource_STATUS    | Extended |       |
-| SqlUserDefinedFunctionResource                         | SqlUserDefinedFunctionResource                         | Extended |       |
-| ThroughputPolicyResource                               | ThroughputPolicyResource                               | Extended |       |
-| ThroughputPolicyResource_STATUS                        | ThroughputPolicyResource_STATUS                        | Extended |       |
-| ThroughputSettingsGetProperties_Resource_STATUS        | ThroughputSettingsGetProperties_Resource_STATUS        | Extended |       |
-| ThroughputSettingsResource                             | ThroughputSettingsResource                             | Extended |       |
-| UniqueKey                                              | UniqueKey                                              | Extended |       |
-| UniqueKeyPolicy                                        | UniqueKeyPolicy                                        | Extended |       |
-| UniqueKeyPolicy_STATUS                                 | UniqueKeyPolicy_STATUS                                 | Extended |       |
-| UniqueKey_STATUS                                       | UniqueKey_STATUS                                       | Extended |       |
-| UserAssignedIdentityDetails                            | UserAssignedIdentityDetails                            | Extended |       |
-| VirtualNetworkRule                                     | VirtualNetworkRule                                     | Extended |       |
-| VirtualNetworkRule_STATUS                              | VirtualNetworkRule_STATUS                              | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20210515                                          | v1api20210515/storage                                  |  Status  | Notes                         |
+|:-------------------------------------------------------|:-------------------------------------------------------|:--------:|:------------------------------|
+| AnalyticalStorageConfiguration                         | AnalyticalStorageConfiguration                         | Modified |                               |
+| AnalyticalStorageConfiguration_STATUS                  | AnalyticalStorageConfiguration_STATUS                  | Modified |                               |
+| ApiProperties                                          | ApiProperties                                          | Modified |                               |
+| ApiProperties_STATUS                                   | ApiProperties_STATUS                                   | Modified |                               |
+| AutoUpgradePolicyResource                              | AutoUpgradePolicyResource                              | Extended | +PropertyBag                  |
+| AutoUpgradePolicyResource_STATUS                       | AutoUpgradePolicyResource_STATUS                       | Extended | +PropertyBag                  |
+| AutoscaleSettings                                      | AutoscaleSettings                                      | Extended | +PropertyBag                  |
+| AutoscaleSettingsResource                              | AutoscaleSettingsResource                              | Extended | +PropertyBag                  |
+| AutoscaleSettingsResource_STATUS                       | AutoscaleSettingsResource_STATUS                       | Extended | +PropertyBag                  |
+| AutoscaleSettings_STATUS                               | AutoscaleSettings_STATUS                               | Extended | +PropertyBag                  |
+| BackupPolicy                                           | BackupPolicy                                           | Extended | +PropertyBag                  |
+| BackupPolicy_STATUS                                    | BackupPolicy_STATUS                                    | Extended | +PropertyBag                  |
+| Capability                                             | Capability                                             | Extended | +PropertyBag                  |
+| Capability_STATUS                                      | Capability_STATUS                                      | Extended | +PropertyBag                  |
+| CompositePath                                          | CompositePath                                          | Modified |                               |
+| CompositePath_STATUS                                   | CompositePath_STATUS                                   | Modified |                               |
+| ConflictResolutionPolicy                               | ConflictResolutionPolicy                               | Modified |                               |
+| ConflictResolutionPolicy_STATUS                        | ConflictResolutionPolicy_STATUS                        | Modified |                               |
+| ConsistencyPolicy                                      | ConsistencyPolicy                                      | Modified |                               |
+| ConsistencyPolicy_STATUS                               | ConsistencyPolicy_STATUS                               | Modified |                               |
+| ContainerPartitionKey                                  | ContainerPartitionKey                                  | Modified |                               |
+| ContainerPartitionKey_STATUS                           | ContainerPartitionKey_STATUS                           | Modified |                               |
+| ContinuousModeBackupPolicy                             | ContinuousModeBackupPolicy                             | Modified |                               |
+| ContinuousModeBackupPolicy_STATUS                      | ContinuousModeBackupPolicy_STATUS                      | Modified |                               |
+| CorsPolicy                                             | CorsPolicy                                             | Extended | +PropertyBag                  |
+| CorsPolicy_STATUS                                      | CorsPolicy_STATUS                                      | Extended | +PropertyBag                  |
+| CreateUpdateOptions                                    | CreateUpdateOptions                                    | Extended | +PropertyBag                  |
+| DatabaseAccountOperatorSecrets                         | DatabaseAccountOperatorSecrets                         | Extended | +PropertyBag                  |
+| DatabaseAccountOperatorSpec                            | DatabaseAccountOperatorSpec                            | Extended | +PropertyBag                  |
+| DatabaseAccount_STATUS                                 | DatabaseAccount_STATUS                                 | Modified |                               |
+| DatabaseAccount_Spec                                   | DatabaseAccount_Spec                                   | Modified |                               |
+| ExcludedPath                                           | ExcludedPath                                           | Extended | +PropertyBag                  |
+| ExcludedPath_STATUS                                    | ExcludedPath_STATUS                                    | Extended | +PropertyBag                  |
+| FailoverPolicy_STATUS                                  | FailoverPolicy_STATUS                                  | Extended | +PropertyBag                  |
+| IncludedPath                                           | IncludedPath                                           | Extended | +PropertyBag                  |
+| IncludedPath_STATUS                                    | IncludedPath_STATUS                                    | Extended | +PropertyBag                  |
+| Indexes                                                | Indexes                                                | Modified |                               |
+| Indexes_STATUS                                         | Indexes_STATUS                                         | Modified |                               |
+| IndexingPolicy                                         | IndexingPolicy                                         | Modified |                               |
+| IndexingPolicy_STATUS                                  | IndexingPolicy_STATUS                                  | Modified |                               |
+| IpAddressOrRange                                       | IpAddressOrRange                                       | Extended | +PropertyBag                  |
+| IpAddressOrRange_STATUS                                | IpAddressOrRange_STATUS                                | Extended | +PropertyBag                  |
+| Location                                               | Location                                               | Extended | +PropertyBag                  |
+| Location_STATUS                                        | Location_STATUS                                        | Extended | +PropertyBag                  |
+| ManagedServiceIdentity                                 | ManagedServiceIdentity                                 | Modified |                               |
+| ManagedServiceIdentity_STATUS                          | ManagedServiceIdentity_STATUS                          | Modified |                               |
+| ManagedServiceIdentity_UserAssignedIdentities_STATUS   | ManagedServiceIdentity_UserAssignedIdentities_STATUS   | Extended | +PropertyBag                  |
+| MongoDBCollectionGetProperties_Resource_STATUS         | MongoDBCollectionGetProperties_Resource_STATUS         | Extended | +PropertyBag                  |
+| MongoDBCollectionResource                              | MongoDBCollectionResource                              | Extended | +PropertyBag                  |
+| MongoDBDatabaseGetProperties_Resource_STATUS           | MongoDBDatabaseGetProperties_Resource_STATUS           | Extended | +PropertyBag                  |
+| MongoDBDatabaseResource                                | MongoDBDatabaseResource                                | Extended | +PropertyBag                  |
+| MongoIndex                                             | MongoIndex                                             | Extended | +PropertyBag                  |
+| MongoIndexKeys                                         | MongoIndexKeys                                         | Extended | +PropertyBag                  |
+| MongoIndexKeys_STATUS                                  | MongoIndexKeys_STATUS                                  | Extended | +PropertyBag                  |
+| MongoIndexOptions                                      | MongoIndexOptions                                      | Extended | +PropertyBag                  |
+| MongoIndexOptions_STATUS                               | MongoIndexOptions_STATUS                               | Extended | +PropertyBag                  |
+| MongoIndex_STATUS                                      | MongoIndex_STATUS                                      | Extended | +PropertyBag                  |
+| MongodbDatabaseCollectionOperatorSpec                  | MongodbDatabaseCollectionOperatorSpec                  | Extended | +PropertyBag                  |
+| MongodbDatabaseCollectionThroughputSettingOperatorSpec | MongodbDatabaseCollectionThroughputSettingOperatorSpec | Extended | +PropertyBag                  |
+| MongodbDatabaseCollectionThroughputSetting_STATUS      | MongodbDatabaseCollectionThroughputSetting_STATUS      | Extended | +PropertyBag                  |
+| MongodbDatabaseCollectionThroughputSetting_Spec        | MongodbDatabaseCollectionThroughputSetting_Spec        | Extended | +OriginalVersion +PropertyBag |
+| MongodbDatabaseCollection_STATUS                       | MongodbDatabaseCollection_STATUS                       | Extended | +PropertyBag                  |
+| MongodbDatabaseCollection_Spec                         | MongodbDatabaseCollection_Spec                         | Extended | +OriginalVersion +PropertyBag |
+| MongodbDatabaseOperatorSpec                            | MongodbDatabaseOperatorSpec                            | Extended | +PropertyBag                  |
+| MongodbDatabaseThroughputSettingOperatorSpec           | MongodbDatabaseThroughputSettingOperatorSpec           | Extended | +PropertyBag                  |
+| MongodbDatabaseThroughputSetting_STATUS                | MongodbDatabaseThroughputSetting_STATUS                | Extended | +PropertyBag                  |
+| MongodbDatabaseThroughputSetting_Spec                  | MongodbDatabaseThroughputSetting_Spec                  | Extended | +OriginalVersion +PropertyBag |
+| MongodbDatabase_STATUS                                 | MongodbDatabase_STATUS                                 | Extended | +PropertyBag                  |
+| MongodbDatabase_Spec                                   | MongodbDatabase_Spec                                   | Extended | +OriginalVersion +PropertyBag |
+| OptionsResource_STATUS                                 | OptionsResource_STATUS                                 | Extended | +PropertyBag                  |
+| PeriodicModeBackupPolicy                               | PeriodicModeBackupPolicy                               | Modified |                               |
+| PeriodicModeBackupPolicy_STATUS                        | PeriodicModeBackupPolicy_STATUS                        | Modified |                               |
+| PeriodicModeProperties                                 | PeriodicModeProperties                                 | Extended | +PropertyBag                  |
+| PeriodicModeProperties_STATUS                          | PeriodicModeProperties_STATUS                          | Extended | +PropertyBag                  |
+| PrivateEndpointConnection_STATUS                       | PrivateEndpointConnection_STATUS                       | Extended | +PropertyBag                  |
+| SpatialSpec                                            | SpatialSpec                                            | Modified |                               |
+| SpatialSpec_STATUS                                     | SpatialSpec_STATUS                                     | Modified |                               |
+| SqlContainerGetProperties_Resource_STATUS              | SqlContainerGetProperties_Resource_STATUS              | Extended | +PropertyBag                  |
+| SqlContainerResource                                   | SqlContainerResource                                   | Extended | +PropertyBag                  |
+| SqlDatabaseContainerOperatorSpec                       | SqlDatabaseContainerOperatorSpec                       | Extended | +PropertyBag                  |
+| SqlDatabaseContainerStoredProcedureOperatorSpec        | SqlDatabaseContainerStoredProcedureOperatorSpec        | Extended | +PropertyBag                  |
+| SqlDatabaseContainerStoredProcedure_STATUS             | SqlDatabaseContainerStoredProcedure_STATUS             | Extended | +PropertyBag                  |
+| SqlDatabaseContainerStoredProcedure_Spec               | SqlDatabaseContainerStoredProcedure_Spec               | Extended | +OriginalVersion +PropertyBag |
+| SqlDatabaseContainerThroughputSettingOperatorSpec      | SqlDatabaseContainerThroughputSettingOperatorSpec      | Extended | +PropertyBag                  |
+| SqlDatabaseContainerThroughputSetting_STATUS           | SqlDatabaseContainerThroughputSetting_STATUS           | Extended | +PropertyBag                  |
+| SqlDatabaseContainerThroughputSetting_Spec             | SqlDatabaseContainerThroughputSetting_Spec             | Extended | +OriginalVersion +PropertyBag |
+| SqlDatabaseContainerTriggerOperatorSpec                | SqlDatabaseContainerTriggerOperatorSpec                | Extended | +PropertyBag                  |
+| SqlDatabaseContainerTrigger_STATUS                     | SqlDatabaseContainerTrigger_STATUS                     | Extended | +PropertyBag                  |
+| SqlDatabaseContainerTrigger_Spec                       | SqlDatabaseContainerTrigger_Spec                       | Extended | +OriginalVersion +PropertyBag |
+| SqlDatabaseContainerUserDefinedFunctionOperatorSpec    | SqlDatabaseContainerUserDefinedFunctionOperatorSpec    | Extended | +PropertyBag                  |
+| SqlDatabaseContainerUserDefinedFunction_STATUS         | SqlDatabaseContainerUserDefinedFunction_STATUS         | Extended | +PropertyBag                  |
+| SqlDatabaseContainerUserDefinedFunction_Spec           | SqlDatabaseContainerUserDefinedFunction_Spec           | Extended | +OriginalVersion +PropertyBag |
+| SqlDatabaseContainer_STATUS                            | SqlDatabaseContainer_STATUS                            | Extended | +PropertyBag                  |
+| SqlDatabaseContainer_Spec                              | SqlDatabaseContainer_Spec                              | Extended | +OriginalVersion +PropertyBag |
+| SqlDatabaseGetProperties_Resource_STATUS               | SqlDatabaseGetProperties_Resource_STATUS               | Extended | +PropertyBag                  |
+| SqlDatabaseOperatorSpec                                | SqlDatabaseOperatorSpec                                | Extended | +PropertyBag                  |
+| SqlDatabaseResource                                    | SqlDatabaseResource                                    | Extended | +PropertyBag                  |
+| SqlDatabaseThroughputSettingOperatorSpec               | SqlDatabaseThroughputSettingOperatorSpec               | Extended | +PropertyBag                  |
+| SqlDatabaseThroughputSetting_STATUS                    | SqlDatabaseThroughputSetting_STATUS                    | Extended | +PropertyBag                  |
+| SqlDatabaseThroughputSetting_Spec                      | SqlDatabaseThroughputSetting_Spec                      | Extended | +OriginalVersion +PropertyBag |
+| SqlDatabase_STATUS                                     | SqlDatabase_STATUS                                     | Extended | +PropertyBag                  |
+| SqlDatabase_Spec                                       | SqlDatabase_Spec                                       | Extended | +OriginalVersion +PropertyBag |
+| SqlRoleAssignmentOperatorSpec                          | SqlRoleAssignmentOperatorSpec                          | Extended | +PropertyBag                  |
+| SqlRoleAssignment_STATUS                               | SqlRoleAssignment_STATUS                               | Extended | +PropertyBag                  |
+| SqlRoleAssignment_Spec                                 | SqlRoleAssignment_Spec                                 | Extended | +OriginalVersion +PropertyBag |
+| SqlStoredProcedureGetProperties_Resource_STATUS        | SqlStoredProcedureGetProperties_Resource_STATUS        | Extended | +PropertyBag                  |
+| SqlStoredProcedureResource                             | SqlStoredProcedureResource                             | Extended | +PropertyBag                  |
+| SqlTriggerGetProperties_Resource_STATUS                | SqlTriggerGetProperties_Resource_STATUS                | Modified |                               |
+| SqlTriggerResource                                     | SqlTriggerResource                                     | Modified |                               |
+| SqlUserDefinedFunctionGetProperties_Resource_STATUS    | SqlUserDefinedFunctionGetProperties_Resource_STATUS    | Extended | +PropertyBag                  |
+| SqlUserDefinedFunctionResource                         | SqlUserDefinedFunctionResource                         | Extended | +PropertyBag                  |
+| ThroughputPolicyResource                               | ThroughputPolicyResource                               | Extended | +PropertyBag                  |
+| ThroughputPolicyResource_STATUS                        | ThroughputPolicyResource_STATUS                        | Extended | +PropertyBag                  |
+| ThroughputSettingsGetProperties_Resource_STATUS        | ThroughputSettingsGetProperties_Resource_STATUS        | Extended | +PropertyBag                  |
+| ThroughputSettingsResource                             | ThroughputSettingsResource                             | Extended | +PropertyBag                  |
+| UniqueKey                                              | UniqueKey                                              | Extended | +PropertyBag                  |
+| UniqueKeyPolicy                                        | UniqueKeyPolicy                                        | Extended | +PropertyBag                  |
+| UniqueKeyPolicy_STATUS                                 | UniqueKeyPolicy_STATUS                                 | Extended | +PropertyBag                  |
+| UniqueKey_STATUS                                       | UniqueKey_STATUS                                       | Extended | +PropertyBag                  |
+| UserAssignedIdentityDetails                            | UserAssignedIdentityDetails                            | Extended | +PropertyBag                  |
+| VirtualNetworkRule                                     | VirtualNetworkRule                                     | Extended | +PropertyBag                  |
+| VirtualNetworkRule_STATUS                              | VirtualNetworkRule_STATUS                              | Extended | +PropertyBag                  |
 
 ### AnalyticalStorageConfiguration
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20210515 |                              | v1api20210515/storage |                        |  Status  | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -165,7 +158,7 @@
 
 ### AnalyticalStorageConfiguration_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20210515 |                                     | v1api20210515/storage |                        |  Status  | Notes |
 |:--------------|:------------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -174,7 +167,7 @@
 
 ### ApiProperties
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20210515 |                              | v1api20210515/storage |                        |  Status  | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -183,7 +176,7 @@
 
 ### ApiProperties_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20210515 |                                     | v1api20210515/storage |                        |  Status  | Notes |
 |:--------------|:------------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -192,7 +185,7 @@
 
 ### AutoUpgradePolicyResource
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210515    |                           | v1api20210515/storage |                           |  Status   | Notes |
 |:-----------------|:--------------------------|:----------------------|:--------------------------|:---------:|:------|
@@ -201,7 +194,7 @@
 
 ### AutoUpgradePolicyResource_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210515    |                                  | v1api20210515/storage |                                  |  Status   | Notes |
 |:-----------------|:---------------------------------|:----------------------|:---------------------------------|:---------:|:------|
@@ -210,7 +203,7 @@
 
 ### AutoscaleSettings
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210515 |      | v1api20210515/storage |                        |  Status   | Notes |
 |:--------------|:-----|:----------------------|:-----------------------|:---------:|:------|
@@ -219,7 +212,7 @@
 
 ### AutoscaleSettingsResource
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210515     |                            | v1api20210515/storage |                            |  Status   | Notes |
 |:------------------|:---------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -229,7 +222,7 @@
 
 ### AutoscaleSettingsResource_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20210515       |                                   | v1api20210515/storage |                                   |  Status   | Notes |
 |:--------------------|:----------------------------------|:----------------------|:----------------------------------|:---------:|:------|
@@ -240,7 +233,7 @@
 
 ### AutoscaleSettings_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210515 |      | v1api20210515/storage |                        |  Status   | Notes |
 |:--------------|:-----|:----------------------|:-----------------------|:---------:|:------|
@@ -249,7 +242,7 @@
 
 ### BackupPolicy
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210515 |                             | v1api20210515/storage |                             |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -259,7 +252,7 @@
 
 ### BackupPolicy_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210515 |                                    | v1api20210515/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -269,7 +262,7 @@
 
 ### Capability
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210515 |         | v1api20210515/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -278,7 +271,7 @@
 
 ### Capability_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210515 |         | v1api20210515/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -287,7 +280,7 @@
 
 ### CompositePath
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210515 |                      | v1api20210515/storage |                        |  Status   | Notes |
 |:--------------|:---------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -297,7 +290,7 @@
 
 ### CompositePath_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210515 |                             | v1api20210515/storage |                        |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -307,7 +300,7 @@
 
 ### ConflictResolutionPolicy
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20210515               |                                | v1api20210515/storage       |                        |  Status   | Notes |
 |:----------------------------|:-------------------------------|:----------------------------|:-----------------------|:---------:|:------|
@@ -318,7 +311,7 @@
 
 ### ConflictResolutionPolicy_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20210515               |                                       | v1api20210515/storage       |                        |  Status   | Notes |
 |:----------------------------|:--------------------------------------|:----------------------------|:-----------------------|:---------:|:------|
@@ -329,18 +322,18 @@
 
 ### ConsistencyPolicy
 
-1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
-| v1api20210515           |                                            | v1api20210515/storage   |                        |  Status  | Notes |
-|:------------------------|:-------------------------------------------|:------------------------|:-----------------------|:--------:|:------|
-| DefaultConsistencyLevel | *ConsistencyPolicy_DefaultConsistencyLevel | DefaultConsistencyLevel | *string                | Modified |       |
-| MaxIntervalInSeconds    | Validated<*int> (2 rules)                  | MaxIntervalInSeconds    | *int                   | Modified |       |
-| MaxStalenessPrefix      | Validated<*int> (2 rules)                  | MaxStalenessPrefix      | *int                   | Modified |       |
-|                         |                                            | PropertyBag             | genruntime.PropertyBag |   New    |       |
+| v1api20210515           |                                            | v1api20210515/storage   |                        |  Status   | Notes |
+|:------------------------|:-------------------------------------------|:------------------------|:-----------------------|:---------:|:------|
+| DefaultConsistencyLevel | *ConsistencyPolicy_DefaultConsistencyLevel | DefaultConsistencyLevel | *string                | Modified  |       |
+| MaxIntervalInSeconds    | Validated<*int> (2 rules)                  | MaxIntervalInSeconds    | *int                   | Identical |       |
+| MaxStalenessPrefix      | Validated<*int> (2 rules)                  | MaxStalenessPrefix      | *int                   | Identical |       |
+|                         |                                            | PropertyBag             | genruntime.PropertyBag |    New    |       |
 
 ### ConsistencyPolicy_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20210515           |                                                   | v1api20210515/storage   |                        |  Status   | Notes |
 |:------------------------|:--------------------------------------------------|:------------------------|:-----------------------|:---------:|:------|
@@ -351,18 +344,18 @@
 
 ### ContainerPartitionKey
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20210515 |                             | v1api20210515/storage |                        |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:-----------------------|:---------:|:------|
 | Kind          | *ContainerPartitionKey_Kind | Kind                  | *string                | Modified  |       |
 | Paths         | string[]                    | Paths                 | string[]               | Identical |       |
 |               |                             | PropertyBag           | genruntime.PropertyBag |    New    |       |
-| Version       | Validated<*int> (2 rules)   | Version               | *int                   | Modified  |       |
+| Version       | Validated<*int> (2 rules)   | Version               | *int                   | Identical |       |
 
 ### ContainerPartitionKey_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20210515 |                                    | v1api20210515/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -374,7 +367,7 @@
 
 ### ContinuousModeBackupPolicy
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20210515 |                                  | v1api20210515/storage |                        |  Status  | Notes |
 |:--------------|:---------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -383,7 +376,7 @@
 
 ### ContinuousModeBackupPolicy_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20210515 |                                         | v1api20210515/storage |                        |  Status  | Notes |
 |:--------------|:----------------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -392,7 +385,7 @@
 
 ### CorsPolicy
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New
 
 | v1api20210515   |                           | v1api20210515/storage |                        |  Status   | Notes |
 |:----------------|:--------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -400,12 +393,12 @@
 | AllowedMethods  | *string                   | AllowedMethods        | *string                | Identical |       |
 | AllowedOrigins  | *string                   | AllowedOrigins        | *string                | Identical |       |
 | ExposedHeaders  | *string                   | ExposedHeaders        | *string                | Identical |       |
-| MaxAgeInSeconds | Validated<*int> (2 rules) | MaxAgeInSeconds       | *int                   | Modified  |       |
+| MaxAgeInSeconds | Validated<*int> (2 rules) | MaxAgeInSeconds       | *int                   | Identical |       |
 |                 |                           | PropertyBag           | genruntime.PropertyBag |    New    |       |
 
 ### CorsPolicy_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20210515   |         | v1api20210515/storage |                        |  Status   | Notes |
 |:----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -418,7 +411,7 @@
 
 ### CreateUpdateOptions
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210515     |                    | v1api20210515/storage |                        |  Status   | Notes |
 |:------------------|:-------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -428,7 +421,7 @@
 
 ### DatabaseAccountOperatorSecrets
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20210515              |                               | v1api20210515/storage      |                               |  Status   | Notes |
 |:---------------------------|:------------------------------|:---------------------------|:------------------------------|:---------:|:------|
@@ -441,7 +434,7 @@
 
 ### DatabaseAccountOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20210515        |                                 | v1api20210515/storage |                                 |  Status   | Notes |
 |:---------------------|:--------------------------------|:----------------------|:--------------------------------|:---------:|:------|
@@ -452,7 +445,7 @@
 
 ### DatabaseAccount_STATUS
 
-32 x Identical, 1 x New, 5 x Modified
+Properties: 32 x Identical, 1 x New, 5 x Modified
 
 | v1api20210515                      |                                        | v1api20210515/storage              |                                        |  Status   | Notes |
 |:-----------------------------------|:---------------------------------------|:-----------------------------------|:---------------------------------------|:---------:|:------|
@@ -497,7 +490,7 @@
 
 ### DatabaseAccount_Spec
 
-24 x Identical, 2 x New, 6 x Modified
+Properties: 24 x Identical, 2 x New, 6 x Modified
 
 | v1api20210515                      |                                    | v1api20210515/storage              |                                    |  Status   | Notes |
 |:-----------------------------------|:-----------------------------------|:-----------------------------------|:-----------------------------------|:---------:|:------|
@@ -536,7 +529,7 @@
 
 ### ExcludedPath
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210515 |         | v1api20210515/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -545,7 +538,7 @@
 
 ### ExcludedPath_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210515 |         | v1api20210515/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -554,7 +547,7 @@
 
 ### FailoverPolicy_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20210515    |         | v1api20210515/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -565,7 +558,7 @@
 
 ### IncludedPath
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210515 |           | v1api20210515/storage |                        |  Status   | Notes |
 |:--------------|:----------|:----------------------|:-----------------------|:---------:|:------|
@@ -575,7 +568,7 @@
 
 ### IncludedPath_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210515 |                  | v1api20210515/storage |                        |  Status   | Notes |
 |:--------------|:-----------------|:----------------------|:-----------------------|:---------:|:------|
@@ -585,7 +578,7 @@
 
 ### Indexes
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v1api20210515 |                   | v1api20210515/storage |                        |  Status   | Notes |
 |:--------------|:------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -596,7 +589,7 @@
 
 ### Indexes_STATUS
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v1api20210515 |                          | v1api20210515/storage |                        |  Status   | Notes |
 |:--------------|:-------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -607,7 +600,7 @@
 
 ### IndexingPolicy
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20210515    |                              | v1api20210515/storage |                        |  Status   | Notes |
 |:-----------------|:-----------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -621,7 +614,7 @@
 
 ### IndexingPolicy_STATUS
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20210515    |                                     | v1api20210515/storage |                          |  Status   | Notes |
 |:-----------------|:------------------------------------|:----------------------|:-------------------------|:---------:|:------|
@@ -635,7 +628,7 @@
 
 ### IpAddressOrRange
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210515    |         | v1api20210515/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -644,7 +637,7 @@
 
 ### IpAddressOrRange_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210515    |         | v1api20210515/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -653,18 +646,18 @@
 
 ### Location
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New
 
 | v1api20210515    |                          | v1api20210515/storage |                        |  Status   | Notes |
 |:-----------------|:-------------------------|:----------------------|:-----------------------|:---------:|:------|
-| FailoverPriority | Validated<*int> (1 rule) | FailoverPriority      | *int                   | Modified  |       |
+| FailoverPriority | Validated<*int> (1 rule) | FailoverPriority      | *int                   | Identical |       |
 | IsZoneRedundant  | *bool                    | IsZoneRedundant       | *bool                  | Identical |       |
 | LocationName     | *string                  | LocationName          | *string                | Identical |       |
 |                  |                          | PropertyBag           | genruntime.PropertyBag |    New    |       |
 
 ### Location_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20210515     |         | v1api20210515/storage |                        |  Status   | Notes |
 |:------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -678,7 +671,7 @@
 
 ### ManagedServiceIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210515          |                               | v1api20210515/storage  |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -688,7 +681,7 @@
 
 ### ManagedServiceIdentity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20210515          |                                                                 | v1api20210515/storage  |                                                                 |  Status   | Notes |
 |:-----------------------|:----------------------------------------------------------------|:-----------------------|:----------------------------------------------------------------|:---------:|:------|
@@ -700,7 +693,7 @@
 
 ### ManagedServiceIdentity_UserAssignedIdentities_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210515 |         | v1api20210515/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -710,7 +703,7 @@
 
 ### MongoDBCollectionGetProperties_Resource_STATUS
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v1api20210515        |                     | v1api20210515/storage |                        |  Status   | Notes |
 |:---------------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -725,7 +718,7 @@
 
 ### MongoDBCollectionResource
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20210515        |                   | v1api20210515/storage |                        |  Status   | Notes |
 |:---------------------|:------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -737,7 +730,7 @@
 
 ### MongoDBDatabaseGetProperties_Resource_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20210515 |          | v1api20210515/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -749,7 +742,7 @@
 
 ### MongoDBDatabaseResource
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210515 |         | v1api20210515/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -758,7 +751,7 @@
 
 ### MongoIndex
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210515 |                    | v1api20210515/storage |                        |  Status   | Notes |
 |:--------------|:-------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -768,7 +761,7 @@
 
 ### MongoIndexKeys
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210515 |          | v1api20210515/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -777,7 +770,7 @@
 
 ### MongoIndexKeys_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210515 |          | v1api20210515/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -786,7 +779,7 @@
 
 ### MongoIndexOptions
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210515      |       | v1api20210515/storage |                        |  Status   | Notes |
 |:-------------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -796,7 +789,7 @@
 
 ### MongoIndexOptions_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210515      |       | v1api20210515/storage |                        |  Status   | Notes |
 |:-------------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -806,7 +799,7 @@
 
 ### MongoIndex_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210515 |                           | v1api20210515/storage |                           |  Status   | Notes |
 |:--------------|:--------------------------|:----------------------|:--------------------------|:---------:|:------|
@@ -816,7 +809,7 @@
 
 ### MongodbDatabaseCollectionOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210515        |                               | v1api20210515/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -826,7 +819,7 @@
 
 ### MongodbDatabaseCollectionThroughputSettingOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210515        |                               | v1api20210515/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -836,7 +829,7 @@
 
 ### MongodbDatabaseCollectionThroughputSetting_STATUS
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v1api20210515 |                                                  | v1api20210515/storage |                                                  |  Status   | Notes |
 |:--------------|:-------------------------------------------------|:----------------------|:-------------------------------------------------|:---------:|:------|
@@ -851,7 +844,7 @@
 
 ### MongodbDatabaseCollectionThroughputSetting_Spec
 
-5 x Identical, 2 x New
+Properties: 5 x Identical, 2 x New
 
 | v1api20210515 |                                                         | v1api20210515/storage |                                                         |  Status   | Notes |
 |:--------------|:--------------------------------------------------------|:----------------------|:--------------------------------------------------------|:---------:|:------|
@@ -865,7 +858,7 @@
 
 ### MongodbDatabaseCollection_STATUS
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v1api20210515 |                                                 | v1api20210515/storage |                                                 |  Status   | Notes |
 |:--------------|:------------------------------------------------|:----------------------|:------------------------------------------------|:---------:|:------|
@@ -881,7 +874,7 @@
 
 ### MongodbDatabaseCollection_Spec
 
-7 x Identical, 2 x New
+Properties: 7 x Identical, 2 x New
 
 | v1api20210515 |                                        | v1api20210515/storage |                                        |  Status   | Notes |
 |:--------------|:---------------------------------------|:----------------------|:---------------------------------------|:---------:|:------|
@@ -897,7 +890,7 @@
 
 ### MongodbDatabaseOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210515        |                               | v1api20210515/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -907,7 +900,7 @@
 
 ### MongodbDatabaseThroughputSettingOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210515        |                               | v1api20210515/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -917,7 +910,7 @@
 
 ### MongodbDatabaseThroughputSetting_STATUS
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v1api20210515 |                                                  | v1api20210515/storage |                                                  |  Status   | Notes |
 |:--------------|:-------------------------------------------------|:----------------------|:-------------------------------------------------|:---------:|:------|
@@ -932,7 +925,7 @@
 
 ### MongodbDatabaseThroughputSetting_Spec
 
-5 x Identical, 2 x New
+Properties: 5 x Identical, 2 x New
 
 | v1api20210515 |                                               | v1api20210515/storage |                                               |  Status   | Notes |
 |:--------------|:----------------------------------------------|:----------------------|:----------------------------------------------|:---------:|:------|
@@ -946,7 +939,7 @@
 
 ### MongodbDatabase_STATUS
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v1api20210515 |                                               | v1api20210515/storage |                                               |  Status   | Notes |
 |:--------------|:----------------------------------------------|:----------------------|:----------------------------------------------|:---------:|:------|
@@ -962,7 +955,7 @@
 
 ### MongodbDatabase_Spec
 
-7 x Identical, 2 x New
+Properties: 7 x Identical, 2 x New
 
 | v1api20210515 |                                    | v1api20210515/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -978,7 +971,7 @@
 
 ### OptionsResource_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210515     |                           | v1api20210515/storage |                           |  Status   | Notes |
 |:------------------|:--------------------------|:----------------------|:--------------------------|:---------:|:------|
@@ -988,7 +981,7 @@
 
 ### PeriodicModeBackupPolicy
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210515          |                                | v1api20210515/storage  |                         |  Status   | Notes |
 |:-----------------------|:-------------------------------|:-----------------------|:------------------------|:---------:|:------|
@@ -998,7 +991,7 @@
 
 ### PeriodicModeBackupPolicy_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210515          |                                       | v1api20210515/storage  |                                |  Status   | Notes |
 |:-----------------------|:--------------------------------------|:-----------------------|:-------------------------------|:---------:|:------|
@@ -1008,17 +1001,17 @@
 
 ### PeriodicModeProperties
 
-1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New
 
-| v1api20210515                  |                          | v1api20210515/storage          |                        |  Status  | Notes |
-|:-------------------------------|:-------------------------|:-------------------------------|:-----------------------|:--------:|:------|
-| BackupIntervalInMinutes        | Validated<*int> (1 rule) | BackupIntervalInMinutes        | *int                   | Modified |       |
-| BackupRetentionIntervalInHours | Validated<*int> (1 rule) | BackupRetentionIntervalInHours | *int                   | Modified |       |
-|                                |                          | PropertyBag                    | genruntime.PropertyBag |   New    |       |
+| v1api20210515                  |                          | v1api20210515/storage          |                        |  Status   | Notes |
+|:-------------------------------|:-------------------------|:-------------------------------|:-----------------------|:---------:|:------|
+| BackupIntervalInMinutes        | Validated<*int> (1 rule) | BackupIntervalInMinutes        | *int                   | Identical |       |
+| BackupRetentionIntervalInHours | Validated<*int> (1 rule) | BackupRetentionIntervalInHours | *int                   | Identical |       |
+|                                |                          | PropertyBag                    | genruntime.PropertyBag |    New    |       |
 
 ### PeriodicModeProperties_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210515                  |      | v1api20210515/storage          |                        |  Status   | Notes |
 |:-------------------------------|:-----|:-------------------------------|:-----------------------|:---------:|:------|
@@ -1028,7 +1021,7 @@
 
 ### PrivateEndpointConnection_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210515 |         | v1api20210515/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1037,7 +1030,7 @@
 
 ### SpatialSpec
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210515 |               | v1api20210515/storage |                        |  Status   | Notes |
 |:--------------|:--------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1047,7 +1040,7 @@
 
 ### SpatialSpec_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210515 |                      | v1api20210515/storage |                        |  Status   | Notes |
 |:--------------|:---------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1057,7 +1050,7 @@
 
 ### SqlContainerGetProperties_Resource_STATUS
 
-10 x Identical, 1 x New
+Properties: 10 x Identical, 1 x New
 
 | v1api20210515            |                                  | v1api20210515/storage    |                                  |  Status   | Notes |
 |:-------------------------|:---------------------------------|:-------------------------|:---------------------------------|:---------:|:------|
@@ -1075,7 +1068,7 @@
 
 ### SqlContainerResource
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v1api20210515            |                           | v1api20210515/storage    |                           |  Status   | Notes |
 |:-------------------------|:--------------------------|:-------------------------|:--------------------------|:---------:|:------|
@@ -1090,7 +1083,7 @@
 
 ### SqlDatabaseContainerOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210515        |                               | v1api20210515/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1100,7 +1093,7 @@
 
 ### SqlDatabaseContainerStoredProcedureOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210515        |                               | v1api20210515/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1110,7 +1103,7 @@
 
 ### SqlDatabaseContainerStoredProcedure_STATUS
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v1api20210515 |                                                  | v1api20210515/storage |                                                  |  Status   | Notes |
 |:--------------|:-------------------------------------------------|:----------------------|:-------------------------------------------------|:---------:|:------|
@@ -1125,7 +1118,7 @@
 
 ### SqlDatabaseContainerStoredProcedure_Spec
 
-7 x Identical, 2 x New
+Properties: 7 x Identical, 2 x New
 
 | v1api20210515 |                                                  | v1api20210515/storage |                                                  |  Status   | Notes |
 |:--------------|:-------------------------------------------------|:----------------------|:-------------------------------------------------|:---------:|:------|
@@ -1141,7 +1134,7 @@
 
 ### SqlDatabaseContainerThroughputSettingOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210515        |                               | v1api20210515/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1151,7 +1144,7 @@
 
 ### SqlDatabaseContainerThroughputSetting_STATUS
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v1api20210515 |                                                  | v1api20210515/storage |                                                  |  Status   | Notes |
 |:--------------|:-------------------------------------------------|:----------------------|:-------------------------------------------------|:---------:|:------|
@@ -1166,7 +1159,7 @@
 
 ### SqlDatabaseContainerThroughputSetting_Spec
 
-5 x Identical, 2 x New
+Properties: 5 x Identical, 2 x New
 
 | v1api20210515 |                                                    | v1api20210515/storage |                                                    |  Status   | Notes |
 |:--------------|:---------------------------------------------------|:----------------------|:---------------------------------------------------|:---------:|:------|
@@ -1180,7 +1173,7 @@
 
 ### SqlDatabaseContainerTriggerOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210515        |                               | v1api20210515/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1190,7 +1183,7 @@
 
 ### SqlDatabaseContainerTrigger_STATUS
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v1api20210515 |                                          | v1api20210515/storage |                                          |  Status   | Notes |
 |:--------------|:-----------------------------------------|:----------------------|:-----------------------------------------|:---------:|:------|
@@ -1205,7 +1198,7 @@
 
 ### SqlDatabaseContainerTrigger_Spec
 
-7 x Identical, 2 x New
+Properties: 7 x Identical, 2 x New
 
 | v1api20210515 |                                          | v1api20210515/storage |                                          |  Status   | Notes |
 |:--------------|:-----------------------------------------|:----------------------|:-----------------------------------------|:---------:|:------|
@@ -1221,7 +1214,7 @@
 
 ### SqlDatabaseContainerUserDefinedFunctionOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210515        |                               | v1api20210515/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1231,7 +1224,7 @@
 
 ### SqlDatabaseContainerUserDefinedFunction_STATUS
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v1api20210515 |                                                      | v1api20210515/storage |                                                      |  Status   | Notes |
 |:--------------|:-----------------------------------------------------|:----------------------|:-----------------------------------------------------|:---------:|:------|
@@ -1246,7 +1239,7 @@
 
 ### SqlDatabaseContainerUserDefinedFunction_Spec
 
-7 x Identical, 2 x New
+Properties: 7 x Identical, 2 x New
 
 | v1api20210515 |                                                      | v1api20210515/storage |                                                      |  Status   | Notes |
 |:--------------|:-----------------------------------------------------|:----------------------|:-----------------------------------------------------|:---------:|:------|
@@ -1262,7 +1255,7 @@
 
 ### SqlDatabaseContainer_STATUS
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v1api20210515 |                                            | v1api20210515/storage |                                            |  Status   | Notes |
 |:--------------|:-------------------------------------------|:----------------------|:-------------------------------------------|:---------:|:------|
@@ -1278,7 +1271,7 @@
 
 ### SqlDatabaseContainer_Spec
 
-7 x Identical, 2 x New
+Properties: 7 x Identical, 2 x New
 
 | v1api20210515 |                                    | v1api20210515/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -1294,7 +1287,7 @@
 
 ### SqlDatabaseGetProperties_Resource_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20210515 |          | v1api20210515/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -1308,7 +1301,7 @@
 
 ### SqlDatabaseOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210515        |                               | v1api20210515/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1318,7 +1311,7 @@
 
 ### SqlDatabaseResource
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210515 |         | v1api20210515/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1327,7 +1320,7 @@
 
 ### SqlDatabaseThroughputSettingOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210515        |                               | v1api20210515/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1337,7 +1330,7 @@
 
 ### SqlDatabaseThroughputSetting_STATUS
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v1api20210515 |                                                  | v1api20210515/storage |                                                  |  Status   | Notes |
 |:--------------|:-------------------------------------------------|:----------------------|:-------------------------------------------------|:---------:|:------|
@@ -1352,7 +1345,7 @@
 
 ### SqlDatabaseThroughputSetting_Spec
 
-5 x Identical, 2 x New
+Properties: 5 x Identical, 2 x New
 
 | v1api20210515 |                                           | v1api20210515/storage |                                           |  Status   | Notes |
 |:--------------|:------------------------------------------|:----------------------|:------------------------------------------|:---------:|:------|
@@ -1366,7 +1359,7 @@
 
 ### SqlDatabase_STATUS
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v1api20210515 |                                           | v1api20210515/storage |                                           |  Status   | Notes |
 |:--------------|:------------------------------------------|:----------------------|:------------------------------------------|:---------:|:------|
@@ -1382,7 +1375,7 @@
 
 ### SqlDatabase_Spec
 
-7 x Identical, 2 x New
+Properties: 7 x Identical, 2 x New
 
 | v1api20210515 |                                    | v1api20210515/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -1398,7 +1391,7 @@
 
 ### SqlRoleAssignmentOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210515        |                               | v1api20210515/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1408,7 +1401,7 @@
 
 ### SqlRoleAssignment_STATUS
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v1api20210515    |                        | v1api20210515/storage |                        |  Status   | Notes |
 |:-----------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1423,7 +1416,7 @@
 
 ### SqlRoleAssignment_Spec
 
-7 x Identical, 2 x New
+Properties: 7 x Identical, 2 x New
 
 | v1api20210515         |                                    | v1api20210515/storage |                                    |  Status   | Notes |
 |:----------------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -1439,7 +1432,7 @@
 
 ### SqlStoredProcedureGetProperties_Resource_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20210515 |          | v1api20210515/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -1452,7 +1445,7 @@
 
 ### SqlStoredProcedureResource
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210515 |         | v1api20210515/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1462,7 +1455,7 @@
 
 ### SqlTriggerGetProperties_Resource_STATUS
 
-5 x Identical, 1 x New, 2 x Modified
+Properties: 5 x Identical, 1 x New, 2 x Modified
 
 | v1api20210515    |                                                           | v1api20210515/storage |                        |  Status   | Notes |
 |:-----------------|:----------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1477,7 +1470,7 @@
 
 ### SqlTriggerResource
 
-2 x Identical, 1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New, 2 x Modified
 
 | v1api20210515    |                                      | v1api20210515/storage |                        |  Status   | Notes |
 |:-----------------|:-------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1489,7 +1482,7 @@
 
 ### SqlUserDefinedFunctionGetProperties_Resource_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20210515 |          | v1api20210515/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -1502,7 +1495,7 @@
 
 ### SqlUserDefinedFunctionResource
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210515 |         | v1api20210515/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1512,7 +1505,7 @@
 
 ### ThroughputPolicyResource
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210515    |       | v1api20210515/storage |                        |  Status   | Notes |
 |:-----------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1522,7 +1515,7 @@
 
 ### ThroughputPolicyResource_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210515    |       | v1api20210515/storage |                        |  Status   | Notes |
 |:-----------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1532,7 +1525,7 @@
 
 ### ThroughputSettingsGetProperties_Resource_STATUS
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v1api20210515       |                                   | v1api20210515/storage |                                   |  Status   | Notes |
 |:--------------------|:----------------------------------|:----------------------|:----------------------------------|:---------:|:------|
@@ -1547,7 +1540,7 @@
 
 ### ThroughputSettingsResource
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210515     |                            | v1api20210515/storage |                            |  Status   | Notes |
 |:------------------|:---------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -1557,7 +1550,7 @@
 
 ### UniqueKey
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210515 |          | v1api20210515/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -1566,7 +1559,7 @@
 
 ### UniqueKeyPolicy
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210515 |             | v1api20210515/storage |                        |  Status   | Notes |
 |:--------------|:------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1575,7 +1568,7 @@
 
 ### UniqueKeyPolicy_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210515 |                    | v1api20210515/storage |                        |  Status   | Notes |
 |:--------------|:-------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1584,7 +1577,7 @@
 
 ### UniqueKey_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210515 |          | v1api20210515/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -1593,7 +1586,7 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210515 |                              | v1api20210515/storage |                              |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -1602,7 +1595,7 @@
 
 ### VirtualNetworkRule
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210515                    |                               | v1api20210515/storage            |                               |  Status   | Notes |
 |:---------------------------------|:------------------------------|:---------------------------------|:------------------------------|:---------:|:------|
@@ -1612,10 +1605,19 @@
 
 ### VirtualNetworkRule_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210515                    |         | v1api20210515/storage            |                        |  Status   | Notes |
 |:---------------------------------|:--------|:---------------------------------|:-----------------------|:---------:|:------|
 | Id                               | *string | Id                               | *string                | Identical |       |
 | IgnoreMissingVNetServiceEndpoint | *bool   | IgnoreMissingVNetServiceEndpoint | *bool                  | Identical |       |
 |                                  |         | PropertyBag                      | genruntime.PropertyBag |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

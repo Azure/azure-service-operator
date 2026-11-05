@@ -6,6 +6,8 @@
 |:-----------------------------|:----------------------|:---------:|:------|
 | ScheduledQueryRule           | ScheduledQueryRule    | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
 | v1api20250101preview/storage                 | v1api20220615/storage             |  Status   | Notes |
@@ -31,18 +33,9 @@
 | SystemData_STATUS                            | SystemData_STATUS                 | Identical |       |
 | UserAssignedIdentityDetails                  |                                   |  Retired  |       |
 
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
-
 ### Actions
 
-3 x Identical, 1 x Retired
+Properties: 3 x Identical, 1 x Retired
 
 | v1api20250101preview/storage |                                | v1api20220615/storage  |                                |  Status   | Notes |
 |:-----------------------------|:-------------------------------|:-----------------------|:-------------------------------|:---------:|:------|
@@ -53,7 +46,7 @@
 
 ### Actions_STATUS
 
-3 x Identical, 1 x Retired
+Properties: 3 x Identical, 1 x Retired
 
 | v1api20250101preview/storage |                        | v1api20220615/storage |                        |  Status   | Notes |
 |:-----------------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -64,7 +57,7 @@
 
 ### Condition
 
-10 x Identical, 4 x Retired
+Properties: 10 x Identical, 4 x Retired
 
 | v1api20250101preview/storage |                               | v1api20220615/storage     |                               |  Status   | Notes |
 |:-----------------------------|:------------------------------|:--------------------------|:------------------------------|:---------:|:------|
@@ -85,7 +78,7 @@
 
 ### Condition_STATUS
 
-10 x Identical, 4 x Retired
+Properties: 10 x Identical, 4 x Retired
 
 | v1api20250101preview/storage |                                 | v1api20220615/storage |                                 |  Status   | Notes |
 |:-----------------------------|:--------------------------------|:----------------------|:--------------------------------|:---------:|:------|
@@ -106,7 +99,7 @@
 
 ### ScheduledQueryRule_STATUS
 
-28 x Identical, 2 x Retired
+Properties: 28 x Identical, 2 x Retired
 
 | v1api20250101preview/storage          |                                    | v1api20220615/storage                 |                                    |  Status   | Notes |
 |:--------------------------------------|:-----------------------------------|:--------------------------------------|:-----------------------------------|:---------:|:------|
@@ -143,7 +136,7 @@
 
 ### ScheduledQueryRule_Spec
 
-23 x Identical, 2 x Retired
+Properties: 23 x Identical, 2 x Retired
 
 | v1api20250101preview/storage          |                                    | v1api20220615/storage                 |                                    |  Status   | Notes |
 |:--------------------------------------|:-----------------------------------|:--------------------------------------|:-----------------------------------|:---------:|:------|
@@ -172,3 +165,12 @@
 | Tags                                  | map[string]string                  | Tags                                  | map[string]string                  | Identical |       |
 | TargetResourceTypes                   | string[]                           | TargetResourceTypes                   | string[]                           | Identical |       |
 | WindowSize                            | *string                            | WindowSize                            | *string                            | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

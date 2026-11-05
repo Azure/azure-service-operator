@@ -6,44 +6,37 @@
 |:--------------|:----------------------|:---------:|:------|
 | SearchService | SearchService         | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20231101                         | v1api20231101/storage                 |  Status  | Notes |
-|:--------------------------------------|:--------------------------------------|:--------:|:------|
-| DataPlaneAadOrApiKeyAuthOption        | DataPlaneAadOrApiKeyAuthOption        | Modified |       |
-| DataPlaneAadOrApiKeyAuthOption_STATUS | DataPlaneAadOrApiKeyAuthOption_STATUS | Modified |       |
-| DataPlaneAuthOptions                  | DataPlaneAuthOptions                  | Extended |       |
-| DataPlaneAuthOptions_STATUS           | DataPlaneAuthOptions_STATUS           | Extended |       |
-| EncryptionWithCmk                     | EncryptionWithCmk                     | Modified |       |
-| EncryptionWithCmk_STATUS              | EncryptionWithCmk_STATUS              | Modified |       |
-| Identity                              | Identity                              | Modified |       |
-| Identity_STATUS                       | Identity_STATUS                       | Modified |       |
-| IpRule                                | IpRule                                | Extended |       |
-| IpRule_STATUS                         | IpRule_STATUS                         | Extended |       |
-| NetworkRuleSet                        | NetworkRuleSet                        | Extended |       |
-| NetworkRuleSet_STATUS                 | NetworkRuleSet_STATUS                 | Extended |       |
-| PrivateEndpointConnection_STATUS      | PrivateEndpointConnection_STATUS      | Extended |       |
-| SearchServiceOperatorConfigMaps       | SearchServiceOperatorConfigMaps       | Extended |       |
-| SearchServiceOperatorSecrets          | SearchServiceOperatorSecrets          | Extended |       |
-| SearchServiceOperatorSpec             | SearchServiceOperatorSpec             | Extended |       |
-| SearchService_STATUS                  | SearchService_STATUS                  | Modified |       |
-| SearchService_Spec                    | SearchService_Spec                    | Modified |       |
-| SharedPrivateLinkResource_STATUS      | SharedPrivateLinkResource_STATUS      | Extended |       |
-| Sku                                   | Sku                                   | Modified |       |
-| Sku_STATUS                            | Sku_STATUS                            | Modified |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20231101                         | v1api20231101/storage                 |  Status  | Notes        |
+|:--------------------------------------|:--------------------------------------|:--------:|:-------------|
+| DataPlaneAadOrApiKeyAuthOption        | DataPlaneAadOrApiKeyAuthOption        | Modified |              |
+| DataPlaneAadOrApiKeyAuthOption_STATUS | DataPlaneAadOrApiKeyAuthOption_STATUS | Modified |              |
+| DataPlaneAuthOptions                  | DataPlaneAuthOptions                  | Extended | +PropertyBag |
+| DataPlaneAuthOptions_STATUS           | DataPlaneAuthOptions_STATUS           | Extended | +PropertyBag |
+| EncryptionWithCmk                     | EncryptionWithCmk                     | Modified |              |
+| EncryptionWithCmk_STATUS              | EncryptionWithCmk_STATUS              | Modified |              |
+| Identity                              | Identity                              | Modified |              |
+| Identity_STATUS                       | Identity_STATUS                       | Modified |              |
+| IpRule                                | IpRule                                | Extended | +PropertyBag |
+| IpRule_STATUS                         | IpRule_STATUS                         | Extended | +PropertyBag |
+| NetworkRuleSet                        | NetworkRuleSet                        | Extended | +PropertyBag |
+| NetworkRuleSet_STATUS                 | NetworkRuleSet_STATUS                 | Extended | +PropertyBag |
+| PrivateEndpointConnection_STATUS      | PrivateEndpointConnection_STATUS      | Extended | +PropertyBag |
+| SearchServiceOperatorConfigMaps       | SearchServiceOperatorConfigMaps       | Extended | +PropertyBag |
+| SearchServiceOperatorSecrets          | SearchServiceOperatorSecrets          | Extended | +PropertyBag |
+| SearchServiceOperatorSpec             | SearchServiceOperatorSpec             | Extended | +PropertyBag |
+| SearchService_STATUS                  | SearchService_STATUS                  | Modified |              |
+| SearchService_Spec                    | SearchService_Spec                    | Modified |              |
+| SharedPrivateLinkResource_STATUS      | SharedPrivateLinkResource_STATUS      | Extended | +PropertyBag |
+| Sku                                   | Sku                                   | Modified |              |
+| Sku_STATUS                            | Sku_STATUS                            | Modified |              |
 
 ### DataPlaneAadOrApiKeyAuthOption
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20231101      |                                                    | v1api20231101/storage |                        |  Status  | Notes |
 |:-------------------|:---------------------------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -52,7 +45,7 @@
 
 ### DataPlaneAadOrApiKeyAuthOption_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20231101      |                                                           | v1api20231101/storage |                        |  Status  | Notes |
 |:-------------------|:----------------------------------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -61,7 +54,7 @@
 
 ### DataPlaneAuthOptions
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20231101 |                                 | v1api20231101/storage |                                 |  Status   | Notes |
 |:--------------|:--------------------------------|:----------------------|:--------------------------------|:---------:|:------|
@@ -70,7 +63,7 @@
 
 ### DataPlaneAuthOptions_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20231101 |                                        | v1api20231101/storage |                                        |  Status   | Notes |
 |:--------------|:---------------------------------------|:----------------------|:---------------------------------------|:---------:|:------|
@@ -80,7 +73,7 @@
 
 ### EncryptionWithCmk
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20231101 |                                | v1api20231101/storage |                        |  Status  | Notes |
 |:--------------|:-------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -89,7 +82,7 @@
 
 ### EncryptionWithCmk_STATUS
 
-1 x New, 2 x Modified
+Properties: 1 x New, 2 x Modified
 
 | v1api20231101              |                                                      | v1api20231101/storage      |                        |  Status  | Notes |
 |:---------------------------|:-----------------------------------------------------|:---------------------------|:-----------------------|:--------:|:------|
@@ -99,7 +92,7 @@
 
 ### Identity
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20231101 |                | v1api20231101/storage |                        |  Status  | Notes |
 |:--------------|:---------------|:----------------------|:-----------------------|:--------:|:------|
@@ -108,7 +101,7 @@
 
 ### Identity_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20231101 |                       | v1api20231101/storage |                        |  Status   | Notes |
 |:--------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -119,7 +112,7 @@
 
 ### IpRule
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20231101 |         | v1api20231101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -128,7 +121,7 @@
 
 ### IpRule_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20231101 |         | v1api20231101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -137,7 +130,7 @@
 
 ### NetworkRuleSet
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20231101 |          | v1api20231101/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -146,7 +139,7 @@
 
 ### NetworkRuleSet_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20231101 |                 | v1api20231101/storage |                        |  Status   | Notes |
 |:--------------|:----------------|:----------------------|:-----------------------|:---------:|:------|
@@ -155,7 +148,7 @@
 
 ### PrivateEndpointConnection_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20231101 |         | v1api20231101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -164,7 +157,7 @@
 
 ### SearchServiceOperatorConfigMaps
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20231101       |                                  | v1api20231101/storage |                                  |  Status   | Notes |
 |:--------------------|:---------------------------------|:----------------------|:---------------------------------|:---------:|:------|
@@ -174,7 +167,7 @@
 
 ### SearchServiceOperatorSecrets
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20231101     |                               | v1api20231101/storage |                               |  Status   | Notes |
 |:------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -185,7 +178,7 @@
 
 ### SearchServiceOperatorSpec
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20231101        |                                  | v1api20231101/storage |                                  |  Status   | Notes |
 |:---------------------|:---------------------------------|:----------------------|:---------------------------------|:---------:|:------|
@@ -197,7 +190,7 @@
 
 ### SearchService_STATUS
 
-17 x Identical, 1 x New, 5 x Modified
+Properties: 17 x Identical, 1 x New, 5 x Modified
 
 | v1api20231101              |                                                     | v1api20231101/storage      |                                    |  Status   | Notes |
 |:---------------------------|:----------------------------------------------------|:---------------------------|:-----------------------------------|:---------:|:------|
@@ -227,7 +220,7 @@
 
 ### SearchService_Spec
 
-11 x Identical, 2 x New, 5 x Modified
+Properties: 13 x Identical, 2 x New, 3 x Modified
 
 | v1api20231101       |                                              | v1api20231101/storage |                                    |  Status   | Notes |
 |:--------------------|:---------------------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -242,17 +235,17 @@
 | OperatorSpec        | *SearchServiceOperatorSpec                   | OperatorSpec          | *SearchServiceOperatorSpec         | Identical |       |
 |                     |                                              | OriginalVersion       | string                             |    New    |       |
 | Owner               | *genruntime.KnownResourceReference           | Owner                 | *genruntime.KnownResourceReference | Identical |       |
-| PartitionCount      | Validated<*int> (2 rules)                    | PartitionCount        | *int                               | Modified  |       |
+| PartitionCount      | Validated<*int> (2 rules)                    | PartitionCount        | *int                               | Identical |       |
 |                     |                                              | PropertyBag           | genruntime.PropertyBag             |    New    |       |
 | PublicNetworkAccess | *SearchServiceProperties_PublicNetworkAccess | PublicNetworkAccess   | *string                            | Modified  |       |
-| ReplicaCount        | Validated<*int> (2 rules)                    | ReplicaCount          | *int                               | Modified  |       |
+| ReplicaCount        | Validated<*int> (2 rules)                    | ReplicaCount          | *int                               | Identical |       |
 | SemanticSearch      | *SemanticSearch                              | SemanticSearch        | *string                            | Modified  |       |
 | Sku                 | *Sku                                         | Sku                   | *Sku                               | Identical |       |
 | Tags                | map[string]string                            | Tags                  | map[string]string                  | Identical |       |
 
 ### SharedPrivateLinkResource_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20231101 |         | v1api20231101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -261,7 +254,7 @@
 
 ### Sku
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20231101 |           | v1api20231101/storage |                        |  Status  | Notes |
 |:--------------|:----------|:----------------------|:-----------------------|:--------:|:------|
@@ -270,9 +263,18 @@
 
 ### Sku_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20231101 |                  | v1api20231101/storage |                        |  Status  | Notes |
 |:--------------|:-----------------|:----------------------|:-----------------------|:--------:|:------|
 | Name          | *Sku_Name_STATUS | Name                  | *string                | Modified |       |
 |               |                  | PropertyBag           | genruntime.PropertyBag |   New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

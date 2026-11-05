@@ -9,49 +9,42 @@
 | TrafficManagerProfilesExternalEndpoint | TrafficManagerProfilesExternalEndpoint | Identical |       |
 | TrafficManagerProfilesNestedEndpoint   | TrafficManagerProfilesNestedEndpoint   | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20220401                                      | v1api20220401/storage                              |  Status  | Notes |
-|:---------------------------------------------------|:---------------------------------------------------|:--------:|:------|
-| DnsConfig                                          | DnsConfig                                          | Extended |       |
-| DnsConfig_STATUS                                   | DnsConfig_STATUS                                   | Extended |       |
-| EndpointPropertiesCustomHeadersItem                | EndpointPropertiesCustomHeadersItem                | Extended |       |
-| EndpointPropertiesCustomHeadersItem_STATUS         | EndpointPropertiesCustomHeadersItem_STATUS         | Extended |       |
-| EndpointPropertiesSubnetsItem                      | EndpointPropertiesSubnetsItem                      | Extended |       |
-| EndpointPropertiesSubnetsItem_STATUS               | EndpointPropertiesSubnetsItem_STATUS               | Extended |       |
-| Endpoint_STATUS                                    | Endpoint_STATUS                                    | Modified |       |
-| MonitorConfig                                      | MonitorConfig                                      | Modified |       |
-| MonitorConfigCustomHeadersItem                     | MonitorConfigCustomHeadersItem                     | Extended |       |
-| MonitorConfigCustomHeadersItem_STATUS              | MonitorConfigCustomHeadersItem_STATUS              | Extended |       |
-| MonitorConfigExpectedStatusCodeRangesItem          | MonitorConfigExpectedStatusCodeRangesItem          | Extended |       |
-| MonitorConfigExpectedStatusCodeRangesItem_STATUS   | MonitorConfigExpectedStatusCodeRangesItem_STATUS   | Extended |       |
-| MonitorConfig_STATUS                               | MonitorConfig_STATUS                               | Modified |       |
-| TrafficManagerProfileOperatorConfigMaps            | TrafficManagerProfileOperatorConfigMaps            | Extended |       |
-| TrafficManagerProfileOperatorSpec                  | TrafficManagerProfileOperatorSpec                  | Extended |       |
-| TrafficManagerProfile_STATUS                       | TrafficManagerProfile_STATUS                       | Modified |       |
-| TrafficManagerProfile_Spec                         | TrafficManagerProfile_Spec                         | Modified |       |
-| TrafficManagerProfilesAzureEndpointOperatorSpec    | TrafficManagerProfilesAzureEndpointOperatorSpec    | Extended |       |
-| TrafficManagerProfilesAzureEndpoint_STATUS         | TrafficManagerProfilesAzureEndpoint_STATUS         | Modified |       |
-| TrafficManagerProfilesAzureEndpoint_Spec           | TrafficManagerProfilesAzureEndpoint_Spec           | Modified |       |
-| TrafficManagerProfilesExternalEndpointOperatorSpec | TrafficManagerProfilesExternalEndpointOperatorSpec | Extended |       |
-| TrafficManagerProfilesExternalEndpoint_STATUS      | TrafficManagerProfilesExternalEndpoint_STATUS      | Modified |       |
-| TrafficManagerProfilesExternalEndpoint_Spec        | TrafficManagerProfilesExternalEndpoint_Spec        | Modified |       |
-| TrafficManagerProfilesNestedEndpointOperatorSpec   | TrafficManagerProfilesNestedEndpointOperatorSpec   | Extended |       |
-| TrafficManagerProfilesNestedEndpoint_STATUS        | TrafficManagerProfilesNestedEndpoint_STATUS        | Modified |       |
-| TrafficManagerProfilesNestedEndpoint_Spec          | TrafficManagerProfilesNestedEndpoint_Spec          | Modified |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20220401                                      | v1api20220401/storage                              |  Status  | Notes        |
+|:---------------------------------------------------|:---------------------------------------------------|:--------:|:-------------|
+| DnsConfig                                          | DnsConfig                                          | Extended | +PropertyBag |
+| DnsConfig_STATUS                                   | DnsConfig_STATUS                                   | Extended | +PropertyBag |
+| EndpointPropertiesCustomHeadersItem                | EndpointPropertiesCustomHeadersItem                | Extended | +PropertyBag |
+| EndpointPropertiesCustomHeadersItem_STATUS         | EndpointPropertiesCustomHeadersItem_STATUS         | Extended | +PropertyBag |
+| EndpointPropertiesSubnetsItem                      | EndpointPropertiesSubnetsItem                      | Extended | +PropertyBag |
+| EndpointPropertiesSubnetsItem_STATUS               | EndpointPropertiesSubnetsItem_STATUS               | Extended | +PropertyBag |
+| Endpoint_STATUS                                    | Endpoint_STATUS                                    | Modified |              |
+| MonitorConfig                                      | MonitorConfig                                      | Modified |              |
+| MonitorConfigCustomHeadersItem                     | MonitorConfigCustomHeadersItem                     | Extended | +PropertyBag |
+| MonitorConfigCustomHeadersItem_STATUS              | MonitorConfigCustomHeadersItem_STATUS              | Extended | +PropertyBag |
+| MonitorConfigExpectedStatusCodeRangesItem          | MonitorConfigExpectedStatusCodeRangesItem          | Extended | +PropertyBag |
+| MonitorConfigExpectedStatusCodeRangesItem_STATUS   | MonitorConfigExpectedStatusCodeRangesItem_STATUS   | Extended | +PropertyBag |
+| MonitorConfig_STATUS                               | MonitorConfig_STATUS                               | Modified |              |
+| TrafficManagerProfileOperatorConfigMaps            | TrafficManagerProfileOperatorConfigMaps            | Extended | +PropertyBag |
+| TrafficManagerProfileOperatorSpec                  | TrafficManagerProfileOperatorSpec                  | Extended | +PropertyBag |
+| TrafficManagerProfile_STATUS                       | TrafficManagerProfile_STATUS                       | Modified |              |
+| TrafficManagerProfile_Spec                         | TrafficManagerProfile_Spec                         | Modified |              |
+| TrafficManagerProfilesAzureEndpointOperatorSpec    | TrafficManagerProfilesAzureEndpointOperatorSpec    | Extended | +PropertyBag |
+| TrafficManagerProfilesAzureEndpoint_STATUS         | TrafficManagerProfilesAzureEndpoint_STATUS         | Modified |              |
+| TrafficManagerProfilesAzureEndpoint_Spec           | TrafficManagerProfilesAzureEndpoint_Spec           | Modified |              |
+| TrafficManagerProfilesExternalEndpointOperatorSpec | TrafficManagerProfilesExternalEndpointOperatorSpec | Extended | +PropertyBag |
+| TrafficManagerProfilesExternalEndpoint_STATUS      | TrafficManagerProfilesExternalEndpoint_STATUS      | Modified |              |
+| TrafficManagerProfilesExternalEndpoint_Spec        | TrafficManagerProfilesExternalEndpoint_Spec        | Modified |              |
+| TrafficManagerProfilesNestedEndpointOperatorSpec   | TrafficManagerProfilesNestedEndpointOperatorSpec   | Extended | +PropertyBag |
+| TrafficManagerProfilesNestedEndpoint_STATUS        | TrafficManagerProfilesNestedEndpoint_STATUS        | Modified |              |
+| TrafficManagerProfilesNestedEndpoint_Spec          | TrafficManagerProfilesNestedEndpoint_Spec          | Modified |              |
 
 ### DnsConfig
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220401 |         | v1api20220401/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -61,7 +54,7 @@
 
 ### DnsConfig_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220401 |         | v1api20220401/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -72,7 +65,7 @@
 
 ### EndpointPropertiesCustomHeadersItem
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220401 |         | v1api20220401/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -82,7 +75,7 @@
 
 ### EndpointPropertiesCustomHeadersItem_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220401 |         | v1api20220401/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -92,7 +85,7 @@
 
 ### EndpointPropertiesSubnetsItem
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220401 |         | v1api20220401/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -103,7 +96,7 @@
 
 ### EndpointPropertiesSubnetsItem_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220401 |         | v1api20220401/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -114,7 +107,7 @@
 
 ### Endpoint_STATUS
 
-14 x Identical, 1 x New, 3 x Modified
+Properties: 14 x Identical, 1 x New, 3 x Modified
 
 | v1api20220401         |                                              | v1api20220401/storage |                                              |  Status   | Notes |
 |:----------------------|:---------------------------------------------|:----------------------|:---------------------------------------------|:---------:|:------|
@@ -139,7 +132,7 @@
 
 ### MonitorConfig
 
-7 x Identical, 1 x New, 2 x Modified
+Properties: 7 x Identical, 1 x New, 2 x Modified
 
 | v1api20220401             |                                             | v1api20220401/storage     |                                             |  Status   | Notes |
 |:--------------------------|:--------------------------------------------|:--------------------------|:--------------------------------------------|:---------:|:------|
@@ -156,7 +149,7 @@
 
 ### MonitorConfigCustomHeadersItem
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220401 |         | v1api20220401/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -166,7 +159,7 @@
 
 ### MonitorConfigCustomHeadersItem_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220401 |         | v1api20220401/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -176,7 +169,7 @@
 
 ### MonitorConfigExpectedStatusCodeRangesItem
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220401 |      | v1api20220401/storage |                        |  Status   | Notes |
 |:--------------|:-----|:----------------------|:-----------------------|:---------:|:------|
@@ -186,7 +179,7 @@
 
 ### MonitorConfigExpectedStatusCodeRangesItem_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220401 |      | v1api20220401/storage |                        |  Status   | Notes |
 |:--------------|:-----|:----------------------|:-----------------------|:---------:|:------|
@@ -196,7 +189,7 @@
 
 ### MonitorConfig_STATUS
 
-7 x Identical, 1 x New, 2 x Modified
+Properties: 7 x Identical, 1 x New, 2 x Modified
 
 | v1api20220401             |                                                    | v1api20220401/storage     |                                                    |  Status   | Notes |
 |:--------------------------|:---------------------------------------------------|:--------------------------|:---------------------------------------------------|:---------:|:------|
@@ -213,7 +206,7 @@
 
 ### TrafficManagerProfileOperatorConfigMaps
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220401 |                                  | v1api20220401/storage |                                  |  Status   | Notes |
 |:--------------|:---------------------------------|:----------------------|:---------------------------------|:---------:|:------|
@@ -222,7 +215,7 @@
 
 ### TrafficManagerProfileOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220401        |                                          | v1api20220401/storage |                                          |  Status   | Notes |
 |:---------------------|:-----------------------------------------|:----------------------|:-----------------------------------------|:---------:|:------|
@@ -233,7 +226,7 @@
 
 ### TrafficManagerProfile_STATUS
 
-10 x Identical, 1 x New, 4 x Modified
+Properties: 10 x Identical, 1 x New, 4 x Modified
 
 | v1api20220401               |                                     | v1api20220401/storage       |                        |  Status   | Notes |
 |:----------------------------|:------------------------------------|:----------------------------|:-----------------------|:---------:|:------|
@@ -255,7 +248,7 @@
 
 ### TrafficManagerProfile_Spec
 
-9 x Identical, 2 x New, 4 x Modified
+Properties: 9 x Identical, 2 x New, 4 x Modified
 
 | v1api20220401               |                                    | v1api20220401/storage       |                                    |  Status   | Notes |
 |:----------------------------|:-----------------------------------|:----------------------------|:-----------------------------------|:---------:|:------|
@@ -277,7 +270,7 @@
 
 ### TrafficManagerProfilesAzureEndpointOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220401        |                               | v1api20220401/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -287,7 +280,7 @@
 
 ### TrafficManagerProfilesAzureEndpoint_STATUS
 
-15 x Identical, 1 x New, 3 x Modified
+Properties: 15 x Identical, 1 x New, 3 x Modified
 
 | v1api20220401         |                                              | v1api20220401/storage |                                              |  Status   | Notes |
 |:----------------------|:---------------------------------------------|:----------------------|:---------------------------------------------|:---------:|:------|
@@ -313,7 +306,7 @@
 
 ### TrafficManagerProfilesAzureEndpoint_Spec
 
-15 x Identical, 2 x New, 3 x Modified
+Properties: 15 x Identical, 2 x New, 3 x Modified
 
 | v1api20220401           |                                                  | v1api20220401/storage   |                                                  |  Status   | Notes |
 |:------------------------|:-------------------------------------------------|:------------------------|:-------------------------------------------------|:---------:|:------|
@@ -340,7 +333,7 @@
 
 ### TrafficManagerProfilesExternalEndpointOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220401        |                               | v1api20220401/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -350,7 +343,7 @@
 
 ### TrafficManagerProfilesExternalEndpoint_STATUS
 
-15 x Identical, 1 x New, 3 x Modified
+Properties: 15 x Identical, 1 x New, 3 x Modified
 
 | v1api20220401         |                                              | v1api20220401/storage |                                              |  Status   | Notes |
 |:----------------------|:---------------------------------------------|:----------------------|:---------------------------------------------|:---------:|:------|
@@ -376,7 +369,7 @@
 
 ### TrafficManagerProfilesExternalEndpoint_Spec
 
-15 x Identical, 2 x New, 3 x Modified
+Properties: 15 x Identical, 2 x New, 3 x Modified
 
 | v1api20220401           |                                                     | v1api20220401/storage   |                                                     |  Status   | Notes |
 |:------------------------|:----------------------------------------------------|:------------------------|:----------------------------------------------------|:---------:|:------|
@@ -403,7 +396,7 @@
 
 ### TrafficManagerProfilesNestedEndpointOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220401        |                               | v1api20220401/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -413,7 +406,7 @@
 
 ### TrafficManagerProfilesNestedEndpoint_STATUS
 
-15 x Identical, 1 x New, 3 x Modified
+Properties: 15 x Identical, 1 x New, 3 x Modified
 
 | v1api20220401         |                                              | v1api20220401/storage |                                              |  Status   | Notes |
 |:----------------------|:---------------------------------------------|:----------------------|:---------------------------------------------|:---------:|:------|
@@ -439,7 +432,7 @@
 
 ### TrafficManagerProfilesNestedEndpoint_Spec
 
-15 x Identical, 2 x New, 3 x Modified
+Properties: 15 x Identical, 2 x New, 3 x Modified
 
 | v1api20220401           |                                                   | v1api20220401/storage   |                                                   |  Status   | Notes |
 |:------------------------|:--------------------------------------------------|:------------------------|:--------------------------------------------------|:---------:|:------|
@@ -463,3 +456,12 @@
 | TargetResourceReference | *genruntime.ResourceReference                     | TargetResourceReference | *genruntime.ResourceReference                     | Identical |       |
 | Type                    | *string                                           | Type                    | *string                                           | Identical |       |
 | Weight                  | *int                                              | Weight                  | *int                                              | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

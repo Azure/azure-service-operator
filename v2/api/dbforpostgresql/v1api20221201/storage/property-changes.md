@@ -9,6 +9,8 @@
 | FlexibleServersDatabase      | FlexibleServersDatabase      | Identical |       |
 | FlexibleServersFirewallRule  | FlexibleServersFirewallRule  | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
 | v1api20221201/storage                    | v20221201/storage                        |  Status   | Notes |
@@ -51,7 +53,7 @@
 
 ## Legend
 
-* **Identical**: No properties changed.
+* **Identical**: No properties changed (or the differences are trivial).
 * **New**: The type or property exists only in the newer version.
 * **Retired**: The type or property exists only in the older version.
 * **Renamed**: A configured rename links the old and new names.

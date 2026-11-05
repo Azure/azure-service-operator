@@ -6,26 +6,19 @@
 |:----------------------------|:-----------------------------|:---------:|:------|
 | FederatedIdentityCredential | FederatedIdentityCredential  | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20220131preview                    | v1api20220131preview/storage            |  Status  | Notes |
-|:----------------------------------------|:----------------------------------------|:--------:|:------|
-| FederatedIdentityCredentialOperatorSpec | FederatedIdentityCredentialOperatorSpec | Extended |       |
-| FederatedIdentityCredential_STATUS      | FederatedIdentityCredential_STATUS      | Extended |       |
-| FederatedIdentityCredential_Spec        | FederatedIdentityCredential_Spec        | Modified |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20220131preview                    | v1api20220131preview/storage            |  Status  | Notes                         |
+|:----------------------------------------|:----------------------------------------|:--------:|:------------------------------|
+| FederatedIdentityCredentialOperatorSpec | FederatedIdentityCredentialOperatorSpec | Extended | +PropertyBag                  |
+| FederatedIdentityCredential_STATUS      | FederatedIdentityCredential_STATUS      | Extended | +PropertyBag                  |
+| FederatedIdentityCredential_Spec        | FederatedIdentityCredential_Spec        | Extended | +OriginalVersion +PropertyBag |
 
 ### FederatedIdentityCredentialOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220131preview |                               | v1api20220131preview/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:-----------------------------|:------------------------------|:---------:|:------|
@@ -35,7 +28,7 @@
 
 ### FederatedIdentityCredential_STATUS
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v1api20220131preview |                        | v1api20220131preview/storage |                        |  Status   | Notes |
 |:---------------------|:-----------------------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -50,13 +43,13 @@
 
 ### FederatedIdentityCredential_Spec
 
-7 x Identical, 2 x New, 1 x Modified
+Properties: 8 x Identical, 2 x New
 
 | v1api20220131preview |                                          | v1api20220131preview/storage |                                          |  Status   | Notes |
 |:---------------------|:-----------------------------------------|:-----------------------------|:-----------------------------------------|:---------:|:------|
 | Audiences            | string[]                                 | Audiences                    | string[]                                 | Identical |       |
 | AzureName            | string                                   | AzureName                    | string                                   | Identical |       |
-| Issuer               | Validated<*string> (1 rule)              | Issuer                       | *string                                  | Modified  |       |
+| Issuer               | Validated<*string> (1 rule)              | Issuer                       | *string                                  | Identical |       |
 | IssuerFromConfig     | *genruntime.ConfigMapReference           | IssuerFromConfig             | *genruntime.ConfigMapReference           | Identical |       |
 | OperatorSpec         | *FederatedIdentityCredentialOperatorSpec | OperatorSpec                 | *FederatedIdentityCredentialOperatorSpec | Identical |       |
 |                      |                                          | OriginalVersion              | string                                   |    New    |       |
@@ -64,3 +57,12 @@
 |                      |                                          | PropertyBag                  | genruntime.PropertyBag                   |    New    |       |
 | Subject              | *string                                  | Subject                      | *string                                  | Identical |       |
 | SubjectFromConfig    | *genruntime.ConfigMapReference           | SubjectFromConfig            | *genruntime.ConfigMapReference           | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

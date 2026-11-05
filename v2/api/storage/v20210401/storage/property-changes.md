@@ -11,136 +11,129 @@
 | StorageAccountsQueueService          | StorageAccountsQueueService          | Identical |       |
 | StorageAccountsQueueServicesQueue    | StorageAccountsQueueServicesQueue    | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20210401/storage                                | v20220901/storage                                |  Status   | Notes |
-|:-------------------------------------------------|:-------------------------------------------------|:---------:|:------|
-|                                                  | AccountImmutabilityPolicyProperties              |    New    |       |
-|                                                  | AccountImmutabilityPolicyProperties_STATUS       |    New    |       |
-| ActiveDirectoryProperties                        | ActiveDirectoryProperties                        | Extended  |       |
-| ActiveDirectoryProperties_STATUS                 | ActiveDirectoryProperties_STATUS                 | Extended  |       |
-| AzureFilesIdentityBasedAuthentication            | AzureFilesIdentityBasedAuthentication            | Identical |       |
-| AzureFilesIdentityBasedAuthentication_STATUS     | AzureFilesIdentityBasedAuthentication_STATUS     | Identical |       |
-| BlobRestoreParameters_STATUS                     | BlobRestoreParameters_STATUS                     | Identical |       |
-| BlobRestoreRange_STATUS                          | BlobRestoreRange_STATUS                          | Identical |       |
-| BlobRestoreStatus_STATUS                         | BlobRestoreStatus_STATUS                         | Identical |       |
-| ChangeFeed                                       | ChangeFeed                                       | Identical |       |
-| ChangeFeed_STATUS                                | ChangeFeed_STATUS                                | Identical |       |
-| CorsRule                                         | CorsRule                                         | Identical |       |
-| CorsRule_STATUS                                  | CorsRule_STATUS                                  | Identical |       |
-| CorsRules                                        | CorsRules                                        | Identical |       |
-| CorsRules_STATUS                                 | CorsRules_STATUS                                 | Identical |       |
-| CustomDomain                                     | CustomDomain                                     | Identical |       |
-| CustomDomain_STATUS                              | CustomDomain_STATUS                              | Identical |       |
-| DateAfterCreation                                | DateAfterCreation                                | Extended  |       |
-| DateAfterCreation_STATUS                         | DateAfterCreation_STATUS                         | Extended  |       |
-| DateAfterModification                            | DateAfterModification                            | Extended  |       |
-| DateAfterModification_STATUS                     | DateAfterModification_STATUS                     | Extended  |       |
-| DeleteRetentionPolicy                            | DeleteRetentionPolicy                            | Extended  |       |
-| DeleteRetentionPolicy_STATUS                     | DeleteRetentionPolicy_STATUS                     | Extended  |       |
-| Encryption                                       | Encryption                                       | Identical |       |
-| EncryptionIdentity                               | EncryptionIdentity                               | Extended  |       |
-| EncryptionIdentity_STATUS                        | EncryptionIdentity_STATUS                        | Extended  |       |
-| EncryptionService                                | EncryptionService                                | Identical |       |
-| EncryptionService_STATUS                         | EncryptionService_STATUS                         | Identical |       |
-| EncryptionServices                               | EncryptionServices                               | Identical |       |
-| EncryptionServices_STATUS                        | EncryptionServices_STATUS                        | Identical |       |
-| Encryption_STATUS                                | Encryption_STATUS                                | Identical |       |
-| Endpoints_STATUS                                 | Endpoints_STATUS                                 | Identical |       |
-| ExtendedLocation                                 | ExtendedLocation                                 | Identical |       |
-| ExtendedLocation_STATUS                          | ExtendedLocation_STATUS                          | Identical |       |
-| GeoReplicationStats_STATUS                       | GeoReplicationStats_STATUS                       | Identical |       |
-| IPRule                                           | IPRule                                           | Identical |       |
-| IPRule_STATUS                                    | IPRule_STATUS                                    | Identical |       |
-| Identity                                         | Identity                                         | Identical |       |
-| Identity_STATUS                                  | Identity_STATUS                                  | Identical |       |
-| ImmutabilityPolicyProperties_STATUS              | ImmutabilityPolicyProperties_STATUS              | Extended  |       |
-|                                                  | ImmutableStorageAccount                          |    New    |       |
-|                                                  | ImmutableStorageAccount_STATUS                   |    New    |       |
-| ImmutableStorageWithVersioning                   | ImmutableStorageWithVersioning                   | Identical |       |
-| ImmutableStorageWithVersioning_STATUS            | ImmutableStorageWithVersioning_STATUS            | Identical |       |
-| KeyCreationTime_STATUS                           | KeyCreationTime_STATUS                           | Identical |       |
-| KeyPolicy                                        | KeyPolicy                                        | Identical |       |
-| KeyPolicy_STATUS                                 | KeyPolicy_STATUS                                 | Identical |       |
-| KeyVaultProperties                               | KeyVaultProperties                               | Identical |       |
-| KeyVaultProperties_STATUS                        | KeyVaultProperties_STATUS                        | Extended  |       |
-| LastAccessTimeTrackingPolicy                     | LastAccessTimeTrackingPolicy                     | Identical |       |
-| LastAccessTimeTrackingPolicy_STATUS              | LastAccessTimeTrackingPolicy_STATUS              | Identical |       |
-| LegalHoldProperties_STATUS                       | LegalHoldProperties_STATUS                       | Extended  |       |
-| ManagementPolicyAction                           | ManagementPolicyAction                           | Identical |       |
-| ManagementPolicyAction_STATUS                    | ManagementPolicyAction_STATUS                    | Identical |       |
-| ManagementPolicyBaseBlob                         | ManagementPolicyBaseBlob                         | Extended  |       |
-| ManagementPolicyBaseBlob_STATUS                  | ManagementPolicyBaseBlob_STATUS                  | Extended  |       |
-| ManagementPolicyDefinition                       | ManagementPolicyDefinition                       | Identical |       |
-| ManagementPolicyDefinition_STATUS                | ManagementPolicyDefinition_STATUS                | Identical |       |
-| ManagementPolicyFilter                           | ManagementPolicyFilter                           | Identical |       |
-| ManagementPolicyFilter_STATUS                    | ManagementPolicyFilter_STATUS                    | Identical |       |
-| ManagementPolicyRule                             | ManagementPolicyRule                             | Identical |       |
-| ManagementPolicyRule_STATUS                      | ManagementPolicyRule_STATUS                      | Identical |       |
-| ManagementPolicySchema                           | ManagementPolicySchema                           | Identical |       |
-| ManagementPolicySchema_STATUS                    | ManagementPolicySchema_STATUS                    | Identical |       |
-| ManagementPolicySnapShot                         | ManagementPolicySnapShot                         | Extended  |       |
-| ManagementPolicySnapShot_STATUS                  | ManagementPolicySnapShot_STATUS                  | Extended  |       |
-| ManagementPolicyVersion                          | ManagementPolicyVersion                          | Extended  |       |
-| ManagementPolicyVersion_STATUS                   | ManagementPolicyVersion_STATUS                   | Extended  |       |
-| NetworkRuleSet                                   | NetworkRuleSet                                   | Identical |       |
-| NetworkRuleSet_STATUS                            | NetworkRuleSet_STATUS                            | Identical |       |
-| PrivateEndpointConnection_STATUS                 | PrivateEndpointConnection_STATUS                 | Identical |       |
-|                                                  | ProtectedAppendWritesHistory_STATUS              |    New    |       |
-| ResourceAccessRule                               | ResourceAccessRule                               | Identical |       |
-| ResourceAccessRule_STATUS                        | ResourceAccessRule_STATUS                        | Identical |       |
-| RestorePolicyProperties                          | RestorePolicyProperties                          | Identical |       |
-| RestorePolicyProperties_STATUS                   | RestorePolicyProperties_STATUS                   | Identical |       |
-| RoutingPreference                                | RoutingPreference                                | Identical |       |
-| RoutingPreference_STATUS                         | RoutingPreference_STATUS                         | Identical |       |
-| SasPolicy                                        | SasPolicy                                        | Identical |       |
-| SasPolicy_STATUS                                 | SasPolicy_STATUS                                 | Identical |       |
-| Sku                                              | Sku                                              | Identical |       |
-| Sku_STATUS                                       | Sku_STATUS                                       | Identical |       |
-| StorageAccountInternetEndpoints_STATUS           | StorageAccountInternetEndpoints_STATUS           | Identical |       |
-| StorageAccountMicrosoftEndpoints_STATUS          | StorageAccountMicrosoftEndpoints_STATUS          | Identical |       |
-| StorageAccountOperatorConfigMaps                 | StorageAccountOperatorConfigMaps                 | Identical |       |
-| StorageAccountOperatorSecrets                    | StorageAccountOperatorSecrets                    | Identical |       |
-| StorageAccountOperatorSpec                       | StorageAccountOperatorSpec                       | Identical |       |
-|                                                  | StorageAccountSkuConversionStatus_STATUS         |    New    |       |
-| StorageAccount_STATUS                            | StorageAccount_STATUS                            | Extended  |       |
-| StorageAccount_Spec                              | StorageAccount_Spec                              | Extended  |       |
-| StorageAccountsBlobServiceOperatorSpec           | StorageAccountsBlobServiceOperatorSpec           | Identical |       |
-| StorageAccountsBlobService_STATUS                | StorageAccountsBlobService_STATUS                | Identical |       |
-| StorageAccountsBlobService_Spec                  | StorageAccountsBlobService_Spec                  | Identical |       |
-| StorageAccountsBlobServicesContainerOperatorSpec | StorageAccountsBlobServicesContainerOperatorSpec | Identical |       |
-| StorageAccountsBlobServicesContainer_STATUS      | StorageAccountsBlobServicesContainer_STATUS      | Extended  |       |
-| StorageAccountsBlobServicesContainer_Spec        | StorageAccountsBlobServicesContainer_Spec        | Extended  |       |
-| StorageAccountsManagementPolicyOperatorSpec      | StorageAccountsManagementPolicyOperatorSpec      | Identical |       |
-| StorageAccountsManagementPolicy_STATUS           | StorageAccountsManagementPolicy_STATUS           | Identical |       |
-| StorageAccountsManagementPolicy_Spec             | StorageAccountsManagementPolicy_Spec             | Identical |       |
-| StorageAccountsQueueServiceOperatorSpec          | StorageAccountsQueueServiceOperatorSpec          | Identical |       |
-| StorageAccountsQueueService_STATUS               | StorageAccountsQueueService_STATUS               | Identical |       |
-| StorageAccountsQueueService_Spec                 | StorageAccountsQueueService_Spec                 | Identical |       |
-| StorageAccountsQueueServicesQueueOperatorSpec    | StorageAccountsQueueServicesQueueOperatorSpec    | Identical |       |
-| StorageAccountsQueueServicesQueue_STATUS         | StorageAccountsQueueServicesQueue_STATUS         | Identical |       |
-| StorageAccountsQueueServicesQueue_Spec           | StorageAccountsQueueServicesQueue_Spec           | Identical |       |
-| TagFilter                                        | TagFilter                                        | Identical |       |
-| TagFilter_STATUS                                 | TagFilter_STATUS                                 | Identical |       |
-| TagProperty_STATUS                               | TagProperty_STATUS                               | Identical |       |
-| UpdateHistoryProperty_STATUS                     | UpdateHistoryProperty_STATUS                     | Extended  |       |
-| UserAssignedIdentityDetails                      | UserAssignedIdentityDetails                      | Identical |       |
-| UserAssignedIdentity_STATUS                      | UserAssignedIdentity_STATUS                      | Identical |       |
-| VirtualNetworkRule                               | VirtualNetworkRule                               | Identical |       |
-| VirtualNetworkRule_STATUS                        | VirtualNetworkRule_STATUS                        | Identical |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20210401/storage                                | v20220901/storage                                |  Status   | Notes                                                                                                                                                                                       |
+|:-------------------------------------------------|:-------------------------------------------------|:---------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|                                                  | AccountImmutabilityPolicyProperties              |    New    |                                                                                                                                                                                             |
+|                                                  | AccountImmutabilityPolicyProperties_STATUS       |    New    |                                                                                                                                                                                             |
+| ActiveDirectoryProperties                        | ActiveDirectoryProperties                        | Extended  | +AccountType +SamAccountName                                                                                                                                                                |
+| ActiveDirectoryProperties_STATUS                 | ActiveDirectoryProperties_STATUS                 | Extended  | +AccountType +SamAccountName                                                                                                                                                                |
+| AzureFilesIdentityBasedAuthentication            | AzureFilesIdentityBasedAuthentication            | Identical |                                                                                                                                                                                             |
+| AzureFilesIdentityBasedAuthentication_STATUS     | AzureFilesIdentityBasedAuthentication_STATUS     | Identical |                                                                                                                                                                                             |
+| BlobRestoreParameters_STATUS                     | BlobRestoreParameters_STATUS                     | Identical |                                                                                                                                                                                             |
+| BlobRestoreRange_STATUS                          | BlobRestoreRange_STATUS                          | Identical |                                                                                                                                                                                             |
+| BlobRestoreStatus_STATUS                         | BlobRestoreStatus_STATUS                         | Identical |                                                                                                                                                                                             |
+| ChangeFeed                                       | ChangeFeed                                       | Identical |                                                                                                                                                                                             |
+| ChangeFeed_STATUS                                | ChangeFeed_STATUS                                | Identical |                                                                                                                                                                                             |
+| CorsRule                                         | CorsRule                                         | Identical |                                                                                                                                                                                             |
+| CorsRule_STATUS                                  | CorsRule_STATUS                                  | Identical |                                                                                                                                                                                             |
+| CorsRules                                        | CorsRules                                        | Identical |                                                                                                                                                                                             |
+| CorsRules_STATUS                                 | CorsRules_STATUS                                 | Identical |                                                                                                                                                                                             |
+| CustomDomain                                     | CustomDomain                                     | Identical |                                                                                                                                                                                             |
+| CustomDomain_STATUS                              | CustomDomain_STATUS                              | Identical |                                                                                                                                                                                             |
+| DateAfterCreation                                | DateAfterCreation                                | Extended  | +DaysAfterLastTierChangeGreaterThan                                                                                                                                                         |
+| DateAfterCreation_STATUS                         | DateAfterCreation_STATUS                         | Extended  | +DaysAfterLastTierChangeGreaterThan                                                                                                                                                         |
+| DateAfterModification                            | DateAfterModification                            | Extended  | +DaysAfterCreationGreaterThan +DaysAfterLastTierChangeGreaterThan                                                                                                                           |
+| DateAfterModification_STATUS                     | DateAfterModification_STATUS                     | Extended  | +DaysAfterCreationGreaterThan +DaysAfterLastTierChangeGreaterThan                                                                                                                           |
+| DeleteRetentionPolicy                            | DeleteRetentionPolicy                            | Extended  | +AllowPermanentDelete                                                                                                                                                                       |
+| DeleteRetentionPolicy_STATUS                     | DeleteRetentionPolicy_STATUS                     | Extended  | +AllowPermanentDelete                                                                                                                                                                       |
+| Encryption                                       | Encryption                                       | Identical |                                                                                                                                                                                             |
+| EncryptionIdentity                               | EncryptionIdentity                               | Extended  | +FederatedIdentityClientId                                                                                                                                                                  |
+| EncryptionIdentity_STATUS                        | EncryptionIdentity_STATUS                        | Extended  | +FederatedIdentityClientId                                                                                                                                                                  |
+| EncryptionService                                | EncryptionService                                | Identical |                                                                                                                                                                                             |
+| EncryptionService_STATUS                         | EncryptionService_STATUS                         | Identical |                                                                                                                                                                                             |
+| EncryptionServices                               | EncryptionServices                               | Identical |                                                                                                                                                                                             |
+| EncryptionServices_STATUS                        | EncryptionServices_STATUS                        | Identical |                                                                                                                                                                                             |
+| Encryption_STATUS                                | Encryption_STATUS                                | Identical |                                                                                                                                                                                             |
+| Endpoints_STATUS                                 | Endpoints_STATUS                                 | Identical |                                                                                                                                                                                             |
+| ExtendedLocation                                 | ExtendedLocation                                 | Identical |                                                                                                                                                                                             |
+| ExtendedLocation_STATUS                          | ExtendedLocation_STATUS                          | Identical |                                                                                                                                                                                             |
+| GeoReplicationStats_STATUS                       | GeoReplicationStats_STATUS                       | Identical |                                                                                                                                                                                             |
+| IPRule                                           | IPRule                                           | Identical |                                                                                                                                                                                             |
+| IPRule_STATUS                                    | IPRule_STATUS                                    | Identical |                                                                                                                                                                                             |
+| Identity                                         | Identity                                         | Identical |                                                                                                                                                                                             |
+| Identity_STATUS                                  | Identity_STATUS                                  | Identical |                                                                                                                                                                                             |
+| ImmutabilityPolicyProperties_STATUS              | ImmutabilityPolicyProperties_STATUS              | Extended  | +AllowProtectedAppendWritesAll                                                                                                                                                              |
+|                                                  | ImmutableStorageAccount                          |    New    |                                                                                                                                                                                             |
+|                                                  | ImmutableStorageAccount_STATUS                   |    New    |                                                                                                                                                                                             |
+| ImmutableStorageWithVersioning                   | ImmutableStorageWithVersioning                   | Identical |                                                                                                                                                                                             |
+| ImmutableStorageWithVersioning_STATUS            | ImmutableStorageWithVersioning_STATUS            | Identical |                                                                                                                                                                                             |
+| KeyCreationTime_STATUS                           | KeyCreationTime_STATUS                           | Identical |                                                                                                                                                                                             |
+| KeyPolicy                                        | KeyPolicy                                        | Identical |                                                                                                                                                                                             |
+| KeyPolicy_STATUS                                 | KeyPolicy_STATUS                                 | Identical |                                                                                                                                                                                             |
+| KeyVaultProperties                               | KeyVaultProperties                               | Identical |                                                                                                                                                                                             |
+| KeyVaultProperties_STATUS                        | KeyVaultProperties_STATUS                        | Extended  | +CurrentVersionedKeyExpirationTimestamp                                                                                                                                                     |
+| LastAccessTimeTrackingPolicy                     | LastAccessTimeTrackingPolicy                     | Identical |                                                                                                                                                                                             |
+| LastAccessTimeTrackingPolicy_STATUS              | LastAccessTimeTrackingPolicy_STATUS              | Identical |                                                                                                                                                                                             |
+| LegalHoldProperties_STATUS                       | LegalHoldProperties_STATUS                       | Extended  | +ProtectedAppendWritesHistory                                                                                                                                                               |
+| ManagementPolicyAction                           | ManagementPolicyAction                           | Identical |                                                                                                                                                                                             |
+| ManagementPolicyAction_STATUS                    | ManagementPolicyAction_STATUS                    | Identical |                                                                                                                                                                                             |
+| ManagementPolicyBaseBlob                         | ManagementPolicyBaseBlob                         | Extended  | +TierToCold +TierToHot                                                                                                                                                                      |
+| ManagementPolicyBaseBlob_STATUS                  | ManagementPolicyBaseBlob_STATUS                  | Extended  | +TierToCold +TierToHot                                                                                                                                                                      |
+| ManagementPolicyDefinition                       | ManagementPolicyDefinition                       | Identical |                                                                                                                                                                                             |
+| ManagementPolicyDefinition_STATUS                | ManagementPolicyDefinition_STATUS                | Identical |                                                                                                                                                                                             |
+| ManagementPolicyFilter                           | ManagementPolicyFilter                           | Identical |                                                                                                                                                                                             |
+| ManagementPolicyFilter_STATUS                    | ManagementPolicyFilter_STATUS                    | Identical |                                                                                                                                                                                             |
+| ManagementPolicyRule                             | ManagementPolicyRule                             | Identical |                                                                                                                                                                                             |
+| ManagementPolicyRule_STATUS                      | ManagementPolicyRule_STATUS                      | Identical |                                                                                                                                                                                             |
+| ManagementPolicySchema                           | ManagementPolicySchema                           | Identical |                                                                                                                                                                                             |
+| ManagementPolicySchema_STATUS                    | ManagementPolicySchema_STATUS                    | Identical |                                                                                                                                                                                             |
+| ManagementPolicySnapShot                         | ManagementPolicySnapShot                         | Extended  | +TierToCold +TierToHot                                                                                                                                                                      |
+| ManagementPolicySnapShot_STATUS                  | ManagementPolicySnapShot_STATUS                  | Extended  | +TierToCold +TierToHot                                                                                                                                                                      |
+| ManagementPolicyVersion                          | ManagementPolicyVersion                          | Extended  | +TierToCold +TierToHot                                                                                                                                                                      |
+| ManagementPolicyVersion_STATUS                   | ManagementPolicyVersion_STATUS                   | Extended  | +TierToCold +TierToHot                                                                                                                                                                      |
+| NetworkRuleSet                                   | NetworkRuleSet                                   | Identical |                                                                                                                                                                                             |
+| NetworkRuleSet_STATUS                            | NetworkRuleSet_STATUS                            | Identical |                                                                                                                                                                                             |
+| PrivateEndpointConnection_STATUS                 | PrivateEndpointConnection_STATUS                 | Identical |                                                                                                                                                                                             |
+|                                                  | ProtectedAppendWritesHistory_STATUS              |    New    |                                                                                                                                                                                             |
+| ResourceAccessRule                               | ResourceAccessRule                               | Identical |                                                                                                                                                                                             |
+| ResourceAccessRule_STATUS                        | ResourceAccessRule_STATUS                        | Identical |                                                                                                                                                                                             |
+| RestorePolicyProperties                          | RestorePolicyProperties                          | Identical |                                                                                                                                                                                             |
+| RestorePolicyProperties_STATUS                   | RestorePolicyProperties_STATUS                   | Identical |                                                                                                                                                                                             |
+| RoutingPreference                                | RoutingPreference                                | Identical |                                                                                                                                                                                             |
+| RoutingPreference_STATUS                         | RoutingPreference_STATUS                         | Identical |                                                                                                                                                                                             |
+| SasPolicy                                        | SasPolicy                                        | Identical |                                                                                                                                                                                             |
+| SasPolicy_STATUS                                 | SasPolicy_STATUS                                 | Identical |                                                                                                                                                                                             |
+| Sku                                              | Sku                                              | Identical |                                                                                                                                                                                             |
+| Sku_STATUS                                       | Sku_STATUS                                       | Identical |                                                                                                                                                                                             |
+| StorageAccountInternetEndpoints_STATUS           | StorageAccountInternetEndpoints_STATUS           | Identical |                                                                                                                                                                                             |
+| StorageAccountMicrosoftEndpoints_STATUS          | StorageAccountMicrosoftEndpoints_STATUS          | Identical |                                                                                                                                                                                             |
+| StorageAccountOperatorConfigMaps                 | StorageAccountOperatorConfigMaps                 | Identical |                                                                                                                                                                                             |
+| StorageAccountOperatorSecrets                    | StorageAccountOperatorSecrets                    | Identical |                                                                                                                                                                                             |
+| StorageAccountOperatorSpec                       | StorageAccountOperatorSpec                       | Identical |                                                                                                                                                                                             |
+|                                                  | StorageAccountSkuConversionStatus_STATUS         |    New    |                                                                                                                                                                                             |
+| StorageAccount_STATUS                            | StorageAccount_STATUS                            | Extended  | +AllowedCopyScope +DefaultToOAuthAuthentication +DnsEndpointType +ImmutableStorageWithVersioning +IsLocalUserEnabled +IsSftpEnabled +PublicNetworkAccess +StorageAccountSkuConversionStatus |
+| StorageAccount_Spec                              | StorageAccount_Spec                              | Extended  | +AllowedCopyScope +DefaultToOAuthAuthentication +DnsEndpointType +ImmutableStorageWithVersioning +IsLocalUserEnabled +IsSftpEnabled +PublicNetworkAccess                                    |
+| StorageAccountsBlobServiceOperatorSpec           | StorageAccountsBlobServiceOperatorSpec           | Identical |                                                                                                                                                                                             |
+| StorageAccountsBlobService_STATUS                | StorageAccountsBlobService_STATUS                | Identical |                                                                                                                                                                                             |
+| StorageAccountsBlobService_Spec                  | StorageAccountsBlobService_Spec                  | Identical |                                                                                                                                                                                             |
+| StorageAccountsBlobServicesContainerOperatorSpec | StorageAccountsBlobServicesContainerOperatorSpec | Identical |                                                                                                                                                                                             |
+| StorageAccountsBlobServicesContainer_STATUS      | StorageAccountsBlobServicesContainer_STATUS      | Extended  | +EnableNfsV3AllSquash +EnableNfsV3RootSquash                                                                                                                                                |
+| StorageAccountsBlobServicesContainer_Spec        | StorageAccountsBlobServicesContainer_Spec        | Extended  | +EnableNfsV3AllSquash +EnableNfsV3RootSquash                                                                                                                                                |
+| StorageAccountsManagementPolicyOperatorSpec      | StorageAccountsManagementPolicyOperatorSpec      | Identical |                                                                                                                                                                                             |
+| StorageAccountsManagementPolicy_STATUS           | StorageAccountsManagementPolicy_STATUS           | Identical |                                                                                                                                                                                             |
+| StorageAccountsManagementPolicy_Spec             | StorageAccountsManagementPolicy_Spec             | Identical |                                                                                                                                                                                             |
+| StorageAccountsQueueServiceOperatorSpec          | StorageAccountsQueueServiceOperatorSpec          | Identical |                                                                                                                                                                                             |
+| StorageAccountsQueueService_STATUS               | StorageAccountsQueueService_STATUS               | Identical |                                                                                                                                                                                             |
+| StorageAccountsQueueService_Spec                 | StorageAccountsQueueService_Spec                 | Identical |                                                                                                                                                                                             |
+| StorageAccountsQueueServicesQueueOperatorSpec    | StorageAccountsQueueServicesQueueOperatorSpec    | Identical |                                                                                                                                                                                             |
+| StorageAccountsQueueServicesQueue_STATUS         | StorageAccountsQueueServicesQueue_STATUS         | Identical |                                                                                                                                                                                             |
+| StorageAccountsQueueServicesQueue_Spec           | StorageAccountsQueueServicesQueue_Spec           | Identical |                                                                                                                                                                                             |
+| TagFilter                                        | TagFilter                                        | Identical |                                                                                                                                                                                             |
+| TagFilter_STATUS                                 | TagFilter_STATUS                                 | Identical |                                                                                                                                                                                             |
+| TagProperty_STATUS                               | TagProperty_STATUS                               | Identical |                                                                                                                                                                                             |
+| UpdateHistoryProperty_STATUS                     | UpdateHistoryProperty_STATUS                     | Extended  | +AllowProtectedAppendWrites +AllowProtectedAppendWritesAll                                                                                                                                  |
+| UserAssignedIdentityDetails                      | UserAssignedIdentityDetails                      | Identical |                                                                                                                                                                                             |
+| UserAssignedIdentity_STATUS                      | UserAssignedIdentity_STATUS                      | Identical |                                                                                                                                                                                             |
+| VirtualNetworkRule                               | VirtualNetworkRule                               | Identical |                                                                                                                                                                                             |
+| VirtualNetworkRule_STATUS                        | VirtualNetworkRule_STATUS                        | Identical |                                                                                                                                                                                             |
 
 ### ActiveDirectoryProperties
 
-7 x Identical, 2 x New
+Properties: 7 x Identical, 2 x New
 
 | v20210401/storage |                        | v20220901/storage |                        |  Status   | Notes |
 |:------------------|:-----------------------|:------------------|:-----------------------|:---------:|:------|
@@ -156,7 +149,7 @@
 
 ### ActiveDirectoryProperties_STATUS
 
-7 x Identical, 2 x New
+Properties: 7 x Identical, 2 x New
 
 | v20210401/storage |                        | v20220901/storage |                        |  Status   | Notes |
 |:------------------|:-----------------------|:------------------|:-----------------------|:---------:|:------|
@@ -172,7 +165,7 @@
 
 ### DateAfterCreation
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20210401/storage            |                        | v20220901/storage                  |                        |  Status   | Notes |
 |:-----------------------------|:-----------------------|:-----------------------------------|:-----------------------|:---------:|:------|
@@ -182,7 +175,7 @@
 
 ### DateAfterCreation_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20210401/storage            |                        | v20220901/storage                  |                        |  Status   | Notes |
 |:-----------------------------|:-----------------------|:-----------------------------------|:-----------------------|:---------:|:------|
@@ -192,7 +185,7 @@
 
 ### DateAfterModification
 
-3 x Identical, 2 x New
+Properties: 3 x Identical, 2 x New
 
 | v20210401/storage                  |                        | v20220901/storage                  |                        |  Status   | Notes |
 |:-----------------------------------|:-----------------------|:-----------------------------------|:-----------------------|:---------:|:------|
@@ -204,7 +197,7 @@
 
 ### DateAfterModification_STATUS
 
-3 x Identical, 2 x New
+Properties: 3 x Identical, 2 x New
 
 | v20210401/storage                  |                        | v20220901/storage                  |                        |  Status   | Notes |
 |:-----------------------------------|:-----------------------|:-----------------------------------|:-----------------------|:---------:|:------|
@@ -216,7 +209,7 @@
 
 ### DeleteRetentionPolicy
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20210401/storage |                        | v20220901/storage    |                        |  Status   | Notes |
 |:------------------|:-----------------------|:---------------------|:-----------------------|:---------:|:------|
@@ -227,7 +220,7 @@
 
 ### DeleteRetentionPolicy_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20210401/storage |                        | v20220901/storage    |                        |  Status   | Notes |
 |:------------------|:-----------------------|:---------------------|:-----------------------|:---------:|:------|
@@ -238,7 +231,7 @@
 
 ### EncryptionIdentity
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20210401/storage             |                               | v20220901/storage             |                               |  Status   | Notes |
 |:------------------------------|:------------------------------|:------------------------------|:------------------------------|:---------:|:------|
@@ -248,7 +241,7 @@
 
 ### EncryptionIdentity_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20210401/storage    |                        | v20220901/storage         |                        |  Status   | Notes |
 |:---------------------|:-----------------------|:--------------------------|:-----------------------|:---------:|:------|
@@ -258,7 +251,7 @@
 
 ### ImmutabilityPolicyProperties_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v20210401/storage                     |                                | v20220901/storage                     |                                |  Status   | Notes |
 |:--------------------------------------|:-------------------------------|:--------------------------------------|:-------------------------------|:---------:|:------|
@@ -272,7 +265,7 @@
 
 ### KeyVaultProperties_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v20210401/storage             |                        | v20220901/storage                      |                        |  Status   | Notes |
 |:------------------------------|:-----------------------|:---------------------------------------|:-----------------------|:---------:|:------|
@@ -286,7 +279,7 @@
 
 ### LegalHoldProperties_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20210401/storage |                        | v20220901/storage            |                                      |  Status   | Notes |
 |:------------------|:-----------------------|:-----------------------------|:-------------------------------------|:---------:|:------|
@@ -297,7 +290,7 @@
 
 ### ManagementPolicyBaseBlob
 
-5 x Identical, 2 x New
+Properties: 5 x Identical, 2 x New
 
 | v20210401/storage           |                        | v20220901/storage           |                        |  Status   | Notes |
 |:----------------------------|:-----------------------|:----------------------------|:-----------------------|:---------:|:------|
@@ -311,7 +304,7 @@
 
 ### ManagementPolicyBaseBlob_STATUS
 
-5 x Identical, 2 x New
+Properties: 5 x Identical, 2 x New
 
 | v20210401/storage           |                               | v20220901/storage           |                               |  Status   | Notes |
 |:----------------------------|:------------------------------|:----------------------------|:------------------------------|:---------:|:------|
@@ -325,7 +318,7 @@
 
 ### ManagementPolicySnapShot
 
-4 x Identical, 2 x New
+Properties: 4 x Identical, 2 x New
 
 | v20210401/storage |                        | v20220901/storage |                        |  Status   | Notes |
 |:------------------|:-----------------------|:------------------|:-----------------------|:---------:|:------|
@@ -338,7 +331,7 @@
 
 ### ManagementPolicySnapShot_STATUS
 
-4 x Identical, 2 x New
+Properties: 4 x Identical, 2 x New
 
 | v20210401/storage |                           | v20220901/storage |                           |  Status   | Notes |
 |:------------------|:--------------------------|:------------------|:--------------------------|:---------:|:------|
@@ -351,7 +344,7 @@
 
 ### ManagementPolicyVersion
 
-4 x Identical, 2 x New
+Properties: 4 x Identical, 2 x New
 
 | v20210401/storage |                        | v20220901/storage |                        |  Status   | Notes |
 |:------------------|:-----------------------|:------------------|:-----------------------|:---------:|:------|
@@ -364,7 +357,7 @@
 
 ### ManagementPolicyVersion_STATUS
 
-4 x Identical, 2 x New
+Properties: 4 x Identical, 2 x New
 
 | v20210401/storage |                           | v20220901/storage |                           |  Status   | Notes |
 |:------------------|:--------------------------|:------------------|:--------------------------|:---------:|:------|
@@ -377,7 +370,7 @@
 
 ### StorageAccount_STATUS
 
-41 x Identical, 8 x New
+Properties: 41 x Identical, 8 x New
 
 | v20210401/storage                     |                                               | v20220901/storage                     |                                               |  Status   | Notes |
 |:--------------------------------------|:----------------------------------------------|:--------------------------------------|:----------------------------------------------|:---------:|:------|
@@ -433,7 +426,7 @@
 
 ### StorageAccount_Spec
 
-27 x Identical, 7 x New
+Properties: 27 x Identical, 7 x New
 
 | v20210401/storage                     |                                        | v20220901/storage                     |                                        |  Status   | Notes |
 |:--------------------------------------|:---------------------------------------|:--------------------------------------|:---------------------------------------|:---------:|:------|
@@ -474,7 +467,7 @@
 
 ### StorageAccountsBlobServicesContainer_STATUS
 
-23 x Identical, 2 x New
+Properties: 23 x Identical, 2 x New
 
 | v20210401/storage              |                                        | v20220901/storage              |                                        |  Status   | Notes |
 |:-------------------------------|:---------------------------------------|:-------------------------------|:---------------------------------------|:---------:|:------|
@@ -506,7 +499,7 @@
 
 ### StorageAccountsBlobServicesContainer_Spec
 
-10 x Identical, 2 x New
+Properties: 10 x Identical, 2 x New
 
 | v20210401/storage              |                                                   | v20220901/storage              |                                                   |  Status   | Notes |
 |:-------------------------------|:--------------------------------------------------|:-------------------------------|:--------------------------------------------------|:---------:|:------|
@@ -525,7 +518,7 @@
 
 ### UpdateHistoryProperty_STATUS
 
-7 x Identical, 2 x New
+Properties: 7 x Identical, 2 x New
 
 | v20210401/storage                     |                        | v20220901/storage                     |                        |  Status   | Notes |
 |:--------------------------------------|:-----------------------|:--------------------------------------|:-----------------------|:---------:|:------|
@@ -538,3 +531,12 @@
 | Timestamp                             | *string                | Timestamp                             | *string                | Identical |       |
 | Update                                | *string                | Update                                | *string                | Identical |       |
 | Upn                                   | *string                | Upn                                   | *string                | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

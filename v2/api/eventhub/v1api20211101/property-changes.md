@@ -10,59 +10,52 @@
 | NamespacesEventhubsAuthorizationRule | NamespacesEventhubsAuthorizationRule | Identical |       |
 | NamespacesEventhubsConsumerGroup     | NamespacesEventhubsConsumerGroup     | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20211101                                       | v1api20211101/storage                               |  Status  | Notes |
-|:----------------------------------------------------|:----------------------------------------------------|:--------:|:------|
-| CaptureDescription                                  | CaptureDescription                                  | Modified |       |
-| CaptureDescription_STATUS                           | CaptureDescription_STATUS                           | Modified |       |
-| Destination                                         | Destination                                         | Modified |       |
-| Destination_STATUS                                  | Destination_STATUS                                  | Extended |       |
-| Encryption                                          | Encryption                                          | Modified |       |
-| Encryption_STATUS                                   | Encryption_STATUS                                   | Modified |       |
-| Identity                                            | Identity                                            | Modified |       |
-| Identity_STATUS                                     | Identity_STATUS                                     | Modified |       |
-| KeyVaultProperties                                  | KeyVaultProperties                                  | Extended |       |
-| KeyVaultProperties_STATUS                           | KeyVaultProperties_STATUS                           | Extended |       |
-| NamespaceOperatorSecrets                            | NamespaceOperatorSecrets                            | Extended |       |
-| NamespaceOperatorSpec                               | NamespaceOperatorSpec                               | Extended |       |
-| Namespace_STATUS                                    | Namespace_STATUS                                    | Extended |       |
-| Namespace_Spec                                      | Namespace_Spec                                      | Modified |       |
-| NamespacesAuthorizationRuleOperatorSecrets          | NamespacesAuthorizationRuleOperatorSecrets          | Extended |       |
-| NamespacesAuthorizationRuleOperatorSpec             | NamespacesAuthorizationRuleOperatorSpec             | Extended |       |
-| NamespacesAuthorizationRule_STATUS                  | NamespacesAuthorizationRule_STATUS                  | Modified |       |
-| NamespacesAuthorizationRule_Spec                    | NamespacesAuthorizationRule_Spec                    | Modified |       |
-| NamespacesEventhubOperatorSpec                      | NamespacesEventhubOperatorSpec                      | Extended |       |
-| NamespacesEventhub_STATUS                           | NamespacesEventhub_STATUS                           | Modified |       |
-| NamespacesEventhub_Spec                             | NamespacesEventhub_Spec                             | Modified |       |
-| NamespacesEventhubsAuthorizationRuleOperatorSecrets | NamespacesEventhubsAuthorizationRuleOperatorSecrets | Extended |       |
-| NamespacesEventhubsAuthorizationRuleOperatorSpec    | NamespacesEventhubsAuthorizationRuleOperatorSpec    | Extended |       |
-| NamespacesEventhubsAuthorizationRule_STATUS         | NamespacesEventhubsAuthorizationRule_STATUS         | Modified |       |
-| NamespacesEventhubsAuthorizationRule_Spec           | NamespacesEventhubsAuthorizationRule_Spec           | Modified |       |
-| NamespacesEventhubsConsumerGroupOperatorSpec        | NamespacesEventhubsConsumerGroupOperatorSpec        | Extended |       |
-| NamespacesEventhubsConsumerGroup_STATUS             | NamespacesEventhubsConsumerGroup_STATUS             | Extended |       |
-| NamespacesEventhubsConsumerGroup_Spec               | NamespacesEventhubsConsumerGroup_Spec               | Modified |       |
-| PrivateEndpointConnection_STATUS                    | PrivateEndpointConnection_STATUS                    | Extended |       |
-| Sku                                                 | Sku                                                 | Modified |       |
-| Sku_STATUS                                          | Sku_STATUS                                          | Modified |       |
-| SystemData_STATUS                                   | SystemData_STATUS                                   | Modified |       |
-| UserAssignedIdentityDetails                         | UserAssignedIdentityDetails                         | Extended |       |
-| UserAssignedIdentityProperties                      | UserAssignedIdentityProperties                      | Extended |       |
-| UserAssignedIdentityProperties_STATUS               | UserAssignedIdentityProperties_STATUS               | Extended |       |
-| UserAssignedIdentity_STATUS                         | UserAssignedIdentity_STATUS                         | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20211101                                       | v1api20211101/storage                               |  Status  | Notes        |
+|:----------------------------------------------------|:----------------------------------------------------|:--------:|:-------------|
+| CaptureDescription                                  | CaptureDescription                                  | Modified |              |
+| CaptureDescription_STATUS                           | CaptureDescription_STATUS                           | Modified |              |
+| Destination                                         | Destination                                         | Extended | +PropertyBag |
+| Destination_STATUS                                  | Destination_STATUS                                  | Extended | +PropertyBag |
+| Encryption                                          | Encryption                                          | Modified |              |
+| Encryption_STATUS                                   | Encryption_STATUS                                   | Modified |              |
+| Identity                                            | Identity                                            | Modified |              |
+| Identity_STATUS                                     | Identity_STATUS                                     | Modified |              |
+| KeyVaultProperties                                  | KeyVaultProperties                                  | Extended | +PropertyBag |
+| KeyVaultProperties_STATUS                           | KeyVaultProperties_STATUS                           | Extended | +PropertyBag |
+| NamespaceOperatorSecrets                            | NamespaceOperatorSecrets                            | Extended | +PropertyBag |
+| NamespaceOperatorSpec                               | NamespaceOperatorSpec                               | Extended | +PropertyBag |
+| Namespace_STATUS                                    | Namespace_STATUS                                    | Extended | +PropertyBag |
+| Namespace_Spec                                      | Namespace_Spec                                      | Modified |              |
+| NamespacesAuthorizationRuleOperatorSecrets          | NamespacesAuthorizationRuleOperatorSecrets          | Extended | +PropertyBag |
+| NamespacesAuthorizationRuleOperatorSpec             | NamespacesAuthorizationRuleOperatorSpec             | Extended | +PropertyBag |
+| NamespacesAuthorizationRule_STATUS                  | NamespacesAuthorizationRule_STATUS                  | Modified |              |
+| NamespacesAuthorizationRule_Spec                    | NamespacesAuthorizationRule_Spec                    | Modified |              |
+| NamespacesEventhubOperatorSpec                      | NamespacesEventhubOperatorSpec                      | Extended | +PropertyBag |
+| NamespacesEventhub_STATUS                           | NamespacesEventhub_STATUS                           | Modified |              |
+| NamespacesEventhub_Spec                             | NamespacesEventhub_Spec                             | Modified |              |
+| NamespacesEventhubsAuthorizationRuleOperatorSecrets | NamespacesEventhubsAuthorizationRuleOperatorSecrets | Extended | +PropertyBag |
+| NamespacesEventhubsAuthorizationRuleOperatorSpec    | NamespacesEventhubsAuthorizationRuleOperatorSpec    | Extended | +PropertyBag |
+| NamespacesEventhubsAuthorizationRule_STATUS         | NamespacesEventhubsAuthorizationRule_STATUS         | Modified |              |
+| NamespacesEventhubsAuthorizationRule_Spec           | NamespacesEventhubsAuthorizationRule_Spec           | Modified |              |
+| NamespacesEventhubsConsumerGroupOperatorSpec        | NamespacesEventhubsConsumerGroupOperatorSpec        | Extended | +PropertyBag |
+| NamespacesEventhubsConsumerGroup_STATUS             | NamespacesEventhubsConsumerGroup_STATUS             | Extended | +PropertyBag |
+| NamespacesEventhubsConsumerGroup_Spec               | NamespacesEventhubsConsumerGroup_Spec               | Modified |              |
+| PrivateEndpointConnection_STATUS                    | PrivateEndpointConnection_STATUS                    | Extended | +PropertyBag |
+| Sku                                                 | Sku                                                 | Modified |              |
+| Sku_STATUS                                          | Sku_STATUS                                          | Modified |              |
+| SystemData_STATUS                                   | SystemData_STATUS                                   | Modified |              |
+| UserAssignedIdentityDetails                         | UserAssignedIdentityDetails                         | Extended | +PropertyBag |
+| UserAssignedIdentityProperties                      | UserAssignedIdentityProperties                      | Extended | +PropertyBag |
+| UserAssignedIdentityProperties_STATUS               | UserAssignedIdentityProperties_STATUS               | Extended | +PropertyBag |
+| UserAssignedIdentity_STATUS                         | UserAssignedIdentity_STATUS                         | Extended | +PropertyBag |
 
 ### CaptureDescription
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20211101     |                              | v1api20211101/storage |                        |  Status   | Notes |
 |:------------------|:-----------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -76,7 +69,7 @@
 
 ### CaptureDescription_STATUS
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20211101     |                                     | v1api20211101/storage |                        |  Status   | Notes |
 |:------------------|:------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -90,7 +83,7 @@
 
 ### Destination
 
-6 x Identical, 1 x New, 1 x Modified
+Properties: 7 x Identical, 1 x New
 
 | v1api20211101                   |                               | v1api20211101/storage           |                               |  Status   | Notes |
 |:--------------------------------|:------------------------------|:--------------------------------|:------------------------------|:---------:|:------|
@@ -98,14 +91,14 @@
 | BlobContainer                   | *string                       | BlobContainer                   | *string                       | Identical |       |
 | DataLakeAccountName             | *string                       | DataLakeAccountName             | *string                       | Identical |       |
 | DataLakeFolderPath              | *string                       | DataLakeFolderPath              | *string                       | Identical |       |
-| DataLakeSubscriptionId          | Validated<*string> (1 rule)   | DataLakeSubscriptionId          | *string                       | Modified  |       |
+| DataLakeSubscriptionId          | Validated<*string> (1 rule)   | DataLakeSubscriptionId          | *string                       | Identical |       |
 | Name                            | *string                       | Name                            | *string                       | Identical |       |
 |                                 |                               | PropertyBag                     | genruntime.PropertyBag        |    New    |       |
 | StorageAccountResourceReference | *genruntime.ResourceReference | StorageAccountResourceReference | *genruntime.ResourceReference | Identical |       |
 
 ### Destination_STATUS
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v1api20211101            |         | v1api20211101/storage    |                        |  Status   | Notes |
 |:-------------------------|:--------|:-------------------------|:-----------------------|:---------:|:------|
@@ -120,7 +113,7 @@
 
 ### Encryption
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20211101                   |                       | v1api20211101/storage           |                        |  Status   | Notes |
 |:--------------------------------|:----------------------|:--------------------------------|:-----------------------|:---------:|:------|
@@ -131,7 +124,7 @@
 
 ### Encryption_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20211101                   |                              | v1api20211101/storage           |                             |  Status   | Notes |
 |:--------------------------------|:-----------------------------|:--------------------------------|:----------------------------|:---------:|:------|
@@ -142,7 +135,7 @@
 
 ### Identity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20211101          |                               | v1api20211101/storage  |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -152,7 +145,7 @@
 
 ### Identity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20211101          |                                        | v1api20211101/storage  |                                        |  Status   | Notes |
 |:-----------------------|:---------------------------------------|:-----------------------|:---------------------------------------|:---------:|:------|
@@ -164,7 +157,7 @@
 
 ### KeyVaultProperties
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20211101 |                                 | v1api20211101/storage |                                 |  Status   | Notes |
 |:--------------|:--------------------------------|:----------------------|:--------------------------------|:---------:|:------|
@@ -176,7 +169,7 @@
 
 ### KeyVaultProperties_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20211101 |                                        | v1api20211101/storage |                                        |  Status   | Notes |
 |:--------------|:---------------------------------------|:----------------------|:---------------------------------------|:---------:|:------|
@@ -188,7 +181,7 @@
 
 ### NamespaceOperatorSecrets
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20211101             |                               | v1api20211101/storage     |                               |  Status   | Notes |
 |:--------------------------|:------------------------------|:--------------------------|:------------------------------|:---------:|:------|
@@ -200,7 +193,7 @@
 
 ### NamespaceOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20211101        |                               | v1api20211101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -211,7 +204,7 @@
 
 ### Namespace_STATUS
 
-24 x Identical, 1 x New
+Properties: 24 x Identical, 1 x New
 
 | v1api20211101              |                                    | v1api20211101/storage      |                                    |  Status   | Notes |
 |:---------------------------|:-----------------------------------|:---------------------------|:-----------------------------------|:---------:|:------|
@@ -243,7 +236,7 @@
 
 ### Namespace_Spec
 
-14 x Identical, 2 x New, 1 x Modified
+Properties: 14 x Identical, 2 x New, 1 x Modified
 
 | v1api20211101          |                                    | v1api20211101/storage  |                                    |  Status   | Notes |
 |:-----------------------|:-----------------------------------|:-----------------------|:-----------------------------------|:---------:|:------|
@@ -267,7 +260,7 @@
 
 ### NamespacesAuthorizationRuleOperatorSecrets
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20211101             |                               | v1api20211101/storage     |                               |  Status   | Notes |
 |:--------------------------|:------------------------------|:--------------------------|:------------------------------|:---------:|:------|
@@ -279,7 +272,7 @@
 
 ### NamespacesAuthorizationRuleOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20211101        |                                             | v1api20211101/storage |                                             |  Status   | Notes |
 |:---------------------|:--------------------------------------------|:----------------------|:--------------------------------------------|:---------:|:------|
@@ -290,7 +283,7 @@
 
 ### NamespacesAuthorizationRule_STATUS
 
-6 x Identical, 1 x New, 1 x Modified
+Properties: 6 x Identical, 1 x New, 1 x Modified
 
 | v1api20211101 |                                                         | v1api20211101/storage |                        |  Status   | Notes |
 |:--------------|:--------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -305,7 +298,7 @@
 
 ### NamespacesAuthorizationRule_Spec
 
-2 x Identical, 2 x New, 2 x Modified
+Properties: 2 x Identical, 2 x New, 2 x Modified
 
 | v1api20211101 |                                                       | v1api20211101/storage |                                          |  Status   | Notes |
 |:--------------|:------------------------------------------------------|:----------------------|:-----------------------------------------|:---------:|:------|
@@ -318,7 +311,7 @@
 
 ### NamespacesEventhubOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211101        |                               | v1api20211101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -328,7 +321,7 @@
 
 ### NamespacesEventhub_STATUS
 
-12 x Identical, 1 x New, 1 x Modified
+Properties: 12 x Identical, 1 x New, 1 x Modified
 
 | v1api20211101          |                                               | v1api20211101/storage  |                            |  Status   | Notes |
 |:-----------------------|:----------------------------------------------|:-----------------------|:---------------------------|:---------:|:------|
@@ -349,22 +342,22 @@
 
 ### NamespacesEventhub_Spec
 
-3 x Identical, 2 x New, 3 x Modified
+Properties: 5 x Identical, 2 x New, 1 x Modified
 
 | v1api20211101          |                                    | v1api20211101/storage  |                                    |  Status   | Notes |
 |:-----------------------|:-----------------------------------|:-----------------------|:-----------------------------------|:---------:|:------|
 | AzureName              | Validated<string> (2 rules)        | AzureName              | string                             | Modified  |       |
 | CaptureDescription     | *CaptureDescription                | CaptureDescription     | *CaptureDescription                | Identical |       |
-| MessageRetentionInDays | Validated<*int> (1 rule)           | MessageRetentionInDays | *int                               | Modified  |       |
+| MessageRetentionInDays | Validated<*int> (1 rule)           | MessageRetentionInDays | *int                               | Identical |       |
 | OperatorSpec           | *NamespacesEventhubOperatorSpec    | OperatorSpec           | *NamespacesEventhubOperatorSpec    | Identical |       |
 |                        |                                    | OriginalVersion        | string                             |    New    |       |
 | Owner                  | *genruntime.KnownResourceReference | Owner                  | *genruntime.KnownResourceReference | Identical |       |
-| PartitionCount         | Validated<*int> (1 rule)           | PartitionCount         | *int                               | Modified  |       |
+| PartitionCount         | Validated<*int> (1 rule)           | PartitionCount         | *int                               | Identical |       |
 |                        |                                    | PropertyBag            | genruntime.PropertyBag             |    New    |       |
 
 ### NamespacesEventhubsAuthorizationRuleOperatorSecrets
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20211101             |                               | v1api20211101/storage     |                               |  Status   | Notes |
 |:--------------------------|:------------------------------|:--------------------------|:------------------------------|:---------:|:------|
@@ -376,7 +369,7 @@
 
 ### NamespacesEventhubsAuthorizationRuleOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20211101        |                                                      | v1api20211101/storage |                                                      |  Status   | Notes |
 |:---------------------|:-----------------------------------------------------|:----------------------|:-----------------------------------------------------|:---------:|:------|
@@ -387,7 +380,7 @@
 
 ### NamespacesEventhubsAuthorizationRule_STATUS
 
-6 x Identical, 1 x New, 1 x Modified
+Properties: 6 x Identical, 1 x New, 1 x Modified
 
 | v1api20211101 |                                                                   | v1api20211101/storage |                        |  Status   | Notes |
 |:--------------|:------------------------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -402,7 +395,7 @@
 
 ### NamespacesEventhubsAuthorizationRule_Spec
 
-2 x Identical, 2 x New, 2 x Modified
+Properties: 2 x Identical, 2 x New, 2 x Modified
 
 | v1api20211101 |                                                                 | v1api20211101/storage |                                                   |  Status   | Notes |
 |:--------------|:----------------------------------------------------------------|:----------------------|:--------------------------------------------------|:---------:|:------|
@@ -415,7 +408,7 @@
 
 ### NamespacesEventhubsConsumerGroupOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211101        |                               | v1api20211101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -425,7 +418,7 @@
 
 ### NamespacesEventhubsConsumerGroup_STATUS
 
-9 x Identical, 1 x New
+Properties: 9 x Identical, 1 x New
 
 | v1api20211101 |                        | v1api20211101/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -442,7 +435,7 @@
 
 ### NamespacesEventhubsConsumerGroup_Spec
 
-3 x Identical, 2 x New, 1 x Modified
+Properties: 3 x Identical, 2 x New, 1 x Modified
 
 | v1api20211101 |                                               | v1api20211101/storage |                                               |  Status   | Notes |
 |:--------------|:----------------------------------------------|:----------------------|:----------------------------------------------|:---------:|:------|
@@ -455,7 +448,7 @@
 
 ### PrivateEndpointConnection_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20211101 |         | v1api20211101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -464,18 +457,18 @@
 
 ### Sku
 
-1 x New, 3 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
-| v1api20211101 |                          | v1api20211101/storage |                        |  Status  | Notes |
-|:--------------|:-------------------------|:----------------------|:-----------------------|:--------:|:------|
-| Capacity      | Validated<*int> (1 rule) | Capacity              | *int                   | Modified |       |
-| Name          | *Sku_Name                | Name                  | *string                | Modified |       |
-|               |                          | PropertyBag           | genruntime.PropertyBag |   New    |       |
-| Tier          | *Sku_Tier                | Tier                  | *string                | Modified |       |
+| v1api20211101 |                          | v1api20211101/storage |                        |  Status   | Notes |
+|:--------------|:-------------------------|:----------------------|:-----------------------|:---------:|:------|
+| Capacity      | Validated<*int> (1 rule) | Capacity              | *int                   | Identical |       |
+| Name          | *Sku_Name                | Name                  | *string                | Modified  |       |
+|               |                          | PropertyBag           | genruntime.PropertyBag |    New    |       |
+| Tier          | *Sku_Tier                | Tier                  | *string                | Modified  |       |
 
 ### Sku_STATUS
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v1api20211101 |                  | v1api20211101/storage |                        |  Status   | Notes |
 |:--------------|:-----------------|:----------------------|:-----------------------|:---------:|:------|
@@ -486,7 +479,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20211101      |                                       | v1api20211101/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -500,7 +493,7 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20211101 |                              | v1api20211101/storage |                              |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -509,7 +502,7 @@
 
 ### UserAssignedIdentityProperties
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20211101                 |                               | v1api20211101/storage         |                               |  Status   | Notes |
 |:------------------------------|:------------------------------|:------------------------------|:------------------------------|:---------:|:------|
@@ -518,7 +511,7 @@
 
 ### UserAssignedIdentityProperties_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20211101        |         | v1api20211101/storage |                        |  Status   | Notes |
 |:---------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -527,10 +520,19 @@
 
 ### UserAssignedIdentity_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211101 |         | v1api20211101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
 | ClientId      | *string | ClientId              | *string                | Identical |       |
 | PrincipalId   | *string | PrincipalId           | *string                | Identical |       |
 |               |         | PropertyBag           | genruntime.PropertyBag |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

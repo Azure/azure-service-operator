@@ -15,214 +15,207 @@
 | Secret          | Secret            | Identical |       |
 | SecurityPolicy  | SecurityPolicy    | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20230501                                                                         | v20230501/storage                                                                 |  Status  | Notes |
-|:----------------------------------------------------------------------------------|:----------------------------------------------------------------------------------|:--------:|:------|
-| AFDDomainHttpsParameters                                                          | AFDDomainHttpsParameters                                                          | Modified |       |
-| AFDDomainHttpsParameters_STATUS                                                   | AFDDomainHttpsParameters_STATUS                                                   | Modified |       |
-| ActivatedResourceReference                                                        | ActivatedResourceReference                                                        | Extended |       |
-| ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded | ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded | Extended |       |
-| ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded     | ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded     | Extended |       |
-| AfdCustomDomainOperatorSpec                                                       | AfdCustomDomainOperatorSpec                                                       | Extended |       |
-| AfdCustomDomain_STATUS                                                            | AfdCustomDomain_STATUS                                                            | Modified |       |
-| AfdCustomDomain_Spec                                                              | AfdCustomDomain_Spec                                                              | Extended |       |
-| AfdEndpointOperatorSpec                                                           | AfdEndpointOperatorSpec                                                           | Extended |       |
-| AfdEndpoint_STATUS                                                                | AfdEndpoint_STATUS                                                                | Modified |       |
-| AfdEndpoint_Spec                                                                  | AfdEndpoint_Spec                                                                  | Modified |       |
-| AfdOriginGroupOperatorSpec                                                        | AfdOriginGroupOperatorSpec                                                        | Extended |       |
-| AfdOriginGroup_STATUS                                                             | AfdOriginGroup_STATUS                                                             | Modified |       |
-| AfdOriginGroup_Spec                                                               | AfdOriginGroup_Spec                                                               | Modified |       |
-| AfdOriginOperatorSpec                                                             | AfdOriginOperatorSpec                                                             | Extended |       |
-| AfdOrigin_STATUS                                                                  | AfdOrigin_STATUS                                                                  | Modified |       |
-| AfdOrigin_Spec                                                                    | AfdOrigin_Spec                                                                    | Modified |       |
-| AfdRouteCacheConfiguration                                                        | AfdRouteCacheConfiguration                                                        | Modified |       |
-| AfdRouteCacheConfiguration_STATUS                                                 | AfdRouteCacheConfiguration_STATUS                                                 | Modified |       |
-| AzureFirstPartyManagedCertificateParameters                                       | AzureFirstPartyManagedCertificateParameters                                       | Modified |       |
-| AzureFirstPartyManagedCertificateParameters_STATUS                                | AzureFirstPartyManagedCertificateParameters_STATUS                                | Modified |       |
-| CacheConfiguration                                                                | CacheConfiguration                                                                | Modified |       |
-| CacheConfiguration_STATUS                                                         | CacheConfiguration_STATUS                                                         | Modified |       |
-| CacheExpirationActionParameters                                                   | CacheExpirationActionParameters                                                   | Modified |       |
-| CacheExpirationActionParameters_STATUS                                            | CacheExpirationActionParameters_STATUS                                            | Modified |       |
-| CacheKeyQueryStringActionParameters                                               | CacheKeyQueryStringActionParameters                                               | Modified |       |
-| CacheKeyQueryStringActionParameters_STATUS                                        | CacheKeyQueryStringActionParameters_STATUS                                        | Modified |       |
-| ClientPortMatchConditionParameters                                                | ClientPortMatchConditionParameters                                                | Modified |       |
-| ClientPortMatchConditionParameters_STATUS                                         | ClientPortMatchConditionParameters_STATUS                                         | Modified |       |
-| CompressionSettings                                                               | CompressionSettings                                                               | Extended |       |
-| CompressionSettings_STATUS                                                        | CompressionSettings_STATUS                                                        | Extended |       |
-| CookiesMatchConditionParameters                                                   | CookiesMatchConditionParameters                                                   | Modified |       |
-| CookiesMatchConditionParameters_STATUS                                            | CookiesMatchConditionParameters_STATUS                                            | Modified |       |
-| CustomerCertificateParameters                                                     | CustomerCertificateParameters                                                     | Modified |       |
-| CustomerCertificateParameters_STATUS                                              | CustomerCertificateParameters_STATUS                                              | Modified |       |
-| DeliveryRuleAction                                                                | DeliveryRuleAction                                                                | Extended |       |
-| DeliveryRuleAction_STATUS                                                         | DeliveryRuleAction_STATUS                                                         | Extended |       |
-| DeliveryRuleCacheExpirationAction                                                 | DeliveryRuleCacheExpirationAction                                                 | Modified |       |
-| DeliveryRuleCacheExpirationAction_STATUS                                          | DeliveryRuleCacheExpirationAction_STATUS                                          | Modified |       |
-| DeliveryRuleCacheKeyQueryStringAction                                             | DeliveryRuleCacheKeyQueryStringAction                                             | Modified |       |
-| DeliveryRuleCacheKeyQueryStringAction_STATUS                                      | DeliveryRuleCacheKeyQueryStringAction_STATUS                                      | Modified |       |
-| DeliveryRuleClientPortCondition                                                   | DeliveryRuleClientPortCondition                                                   | Modified |       |
-| DeliveryRuleClientPortCondition_STATUS                                            | DeliveryRuleClientPortCondition_STATUS                                            | Modified |       |
-| DeliveryRuleCondition                                                             | DeliveryRuleCondition                                                             | Extended |       |
-| DeliveryRuleCondition_STATUS                                                      | DeliveryRuleCondition_STATUS                                                      | Extended |       |
-| DeliveryRuleCookiesCondition                                                      | DeliveryRuleCookiesCondition                                                      | Modified |       |
-| DeliveryRuleCookiesCondition_STATUS                                               | DeliveryRuleCookiesCondition_STATUS                                               | Modified |       |
-| DeliveryRuleHostNameCondition                                                     | DeliveryRuleHostNameCondition                                                     | Modified |       |
-| DeliveryRuleHostNameCondition_STATUS                                              | DeliveryRuleHostNameCondition_STATUS                                              | Modified |       |
-| DeliveryRuleHttpVersionCondition                                                  | DeliveryRuleHttpVersionCondition                                                  | Modified |       |
-| DeliveryRuleHttpVersionCondition_STATUS                                           | DeliveryRuleHttpVersionCondition_STATUS                                           | Modified |       |
-| DeliveryRuleIsDeviceCondition                                                     | DeliveryRuleIsDeviceCondition                                                     | Modified |       |
-| DeliveryRuleIsDeviceCondition_STATUS                                              | DeliveryRuleIsDeviceCondition_STATUS                                              | Modified |       |
-| DeliveryRulePostArgsCondition                                                     | DeliveryRulePostArgsCondition                                                     | Modified |       |
-| DeliveryRulePostArgsCondition_STATUS                                              | DeliveryRulePostArgsCondition_STATUS                                              | Modified |       |
-| DeliveryRuleQueryStringCondition                                                  | DeliveryRuleQueryStringCondition                                                  | Modified |       |
-| DeliveryRuleQueryStringCondition_STATUS                                           | DeliveryRuleQueryStringCondition_STATUS                                           | Modified |       |
-| DeliveryRuleRemoteAddressCondition                                                | DeliveryRuleRemoteAddressCondition                                                | Modified |       |
-| DeliveryRuleRemoteAddressCondition_STATUS                                         | DeliveryRuleRemoteAddressCondition_STATUS                                         | Modified |       |
-| DeliveryRuleRequestBodyCondition                                                  | DeliveryRuleRequestBodyCondition                                                  | Modified |       |
-| DeliveryRuleRequestBodyCondition_STATUS                                           | DeliveryRuleRequestBodyCondition_STATUS                                           | Modified |       |
-| DeliveryRuleRequestHeaderAction                                                   | DeliveryRuleRequestHeaderAction                                                   | Modified |       |
-| DeliveryRuleRequestHeaderAction_STATUS                                            | DeliveryRuleRequestHeaderAction_STATUS                                            | Modified |       |
-| DeliveryRuleRequestHeaderCondition                                                | DeliveryRuleRequestHeaderCondition                                                | Modified |       |
-| DeliveryRuleRequestHeaderCondition_STATUS                                         | DeliveryRuleRequestHeaderCondition_STATUS                                         | Modified |       |
-| DeliveryRuleRequestMethodCondition                                                | DeliveryRuleRequestMethodCondition                                                | Modified |       |
-| DeliveryRuleRequestMethodCondition_STATUS                                         | DeliveryRuleRequestMethodCondition_STATUS                                         | Modified |       |
-| DeliveryRuleRequestSchemeCondition                                                | DeliveryRuleRequestSchemeCondition                                                | Modified |       |
-| DeliveryRuleRequestSchemeCondition_STATUS                                         | DeliveryRuleRequestSchemeCondition_STATUS                                         | Modified |       |
-| DeliveryRuleRequestUriCondition                                                   | DeliveryRuleRequestUriCondition                                                   | Modified |       |
-| DeliveryRuleRequestUriCondition_STATUS                                            | DeliveryRuleRequestUriCondition_STATUS                                            | Modified |       |
-| DeliveryRuleResponseHeaderAction                                                  | DeliveryRuleResponseHeaderAction                                                  | Modified |       |
-| DeliveryRuleResponseHeaderAction_STATUS                                           | DeliveryRuleResponseHeaderAction_STATUS                                           | Modified |       |
-| DeliveryRuleRouteConfigurationOverrideAction                                      | DeliveryRuleRouteConfigurationOverrideAction                                      | Modified |       |
-| DeliveryRuleRouteConfigurationOverrideAction_STATUS                               | DeliveryRuleRouteConfigurationOverrideAction_STATUS                               | Modified |       |
-| DeliveryRuleServerPortCondition                                                   | DeliveryRuleServerPortCondition                                                   | Modified |       |
-| DeliveryRuleServerPortCondition_STATUS                                            | DeliveryRuleServerPortCondition_STATUS                                            | Modified |       |
-| DeliveryRuleSocketAddrCondition                                                   | DeliveryRuleSocketAddrCondition                                                   | Modified |       |
-| DeliveryRuleSocketAddrCondition_STATUS                                            | DeliveryRuleSocketAddrCondition_STATUS                                            | Modified |       |
-| DeliveryRuleSslProtocolCondition                                                  | DeliveryRuleSslProtocolCondition                                                  | Modified |       |
-| DeliveryRuleSslProtocolCondition_STATUS                                           | DeliveryRuleSslProtocolCondition_STATUS                                           | Modified |       |
-| DeliveryRuleUrlFileExtensionCondition                                             | DeliveryRuleUrlFileExtensionCondition                                             | Modified |       |
-| DeliveryRuleUrlFileExtensionCondition_STATUS                                      | DeliveryRuleUrlFileExtensionCondition_STATUS                                      | Modified |       |
-| DeliveryRuleUrlFileNameCondition                                                  | DeliveryRuleUrlFileNameCondition                                                  | Modified |       |
-| DeliveryRuleUrlFileNameCondition_STATUS                                           | DeliveryRuleUrlFileNameCondition_STATUS                                           | Modified |       |
-| DeliveryRuleUrlPathCondition                                                      | DeliveryRuleUrlPathCondition                                                      | Modified |       |
-| DeliveryRuleUrlPathCondition_STATUS                                               | DeliveryRuleUrlPathCondition_STATUS                                               | Modified |       |
-| DomainValidationProperties_STATUS                                                 | DomainValidationProperties_STATUS                                                 | Extended |       |
-| HeaderActionParameters                                                            | HeaderActionParameters                                                            | Modified |       |
-| HeaderActionParameters_STATUS                                                     | HeaderActionParameters_STATUS                                                     | Modified |       |
-| HealthProbeParameters                                                             | HealthProbeParameters                                                             | Modified |       |
-| HealthProbeParameters_STATUS                                                      | HealthProbeParameters_STATUS                                                      | Modified |       |
-| HostNameMatchConditionParameters                                                  | HostNameMatchConditionParameters                                                  | Modified |       |
-| HostNameMatchConditionParameters_STATUS                                           | HostNameMatchConditionParameters_STATUS                                           | Modified |       |
-| HttpVersionMatchConditionParameters                                               | HttpVersionMatchConditionParameters                                               | Modified |       |
-| HttpVersionMatchConditionParameters_STATUS                                        | HttpVersionMatchConditionParameters_STATUS                                        | Modified |       |
-| IsDeviceMatchConditionParameters                                                  | IsDeviceMatchConditionParameters                                                  | Modified |       |
-| IsDeviceMatchConditionParameters_STATUS                                           | IsDeviceMatchConditionParameters_STATUS                                           | Modified |       |
-| LoadBalancingSettingsParameters                                                   | LoadBalancingSettingsParameters                                                   | Extended |       |
-| LoadBalancingSettingsParameters_STATUS                                            | LoadBalancingSettingsParameters_STATUS                                            | Extended |       |
-| ManagedCertificateParameters                                                      | ManagedCertificateParameters                                                      | Modified |       |
-| ManagedCertificateParameters_STATUS                                               | ManagedCertificateParameters_STATUS                                               | Modified |       |
-| ManagedServiceIdentity                                                            | ManagedServiceIdentity                                                            | Modified |       |
-| ManagedServiceIdentity_STATUS                                                     | ManagedServiceIdentity_STATUS                                                     | Modified |       |
-| OriginGroupOverride                                                               | OriginGroupOverride                                                               | Modified |       |
-| OriginGroupOverrideAction                                                         | OriginGroupOverrideAction                                                         | Modified |       |
-| OriginGroupOverrideActionParameters                                               | OriginGroupOverrideActionParameters                                               | Modified |       |
-| OriginGroupOverrideActionParameters_STATUS                                        | OriginGroupOverrideActionParameters_STATUS                                        | Modified |       |
-| OriginGroupOverrideAction_STATUS                                                  | OriginGroupOverrideAction_STATUS                                                  | Modified |       |
-| OriginGroupOverride_STATUS                                                        | OriginGroupOverride_STATUS                                                        | Modified |       |
-| PostArgsMatchConditionParameters                                                  | PostArgsMatchConditionParameters                                                  | Modified |       |
-| PostArgsMatchConditionParameters_STATUS                                           | PostArgsMatchConditionParameters_STATUS                                           | Modified |       |
-| ProfileOperatorSpec                                                               | ProfileOperatorSpec                                                               | Extended |       |
-| Profile_STATUS                                                                    | Profile_STATUS                                                                    | Modified |       |
-| Profile_Spec                                                                      | Profile_Spec                                                                      | Modified |       |
-| QueryStringMatchConditionParameters                                               | QueryStringMatchConditionParameters                                               | Modified |       |
-| QueryStringMatchConditionParameters_STATUS                                        | QueryStringMatchConditionParameters_STATUS                                        | Modified |       |
-| RemoteAddressMatchConditionParameters                                             | RemoteAddressMatchConditionParameters                                             | Modified |       |
-| RemoteAddressMatchConditionParameters_STATUS                                      | RemoteAddressMatchConditionParameters_STATUS                                      | Modified |       |
-| RequestBodyMatchConditionParameters                                               | RequestBodyMatchConditionParameters                                               | Modified |       |
-| RequestBodyMatchConditionParameters_STATUS                                        | RequestBodyMatchConditionParameters_STATUS                                        | Modified |       |
-| RequestHeaderMatchConditionParameters                                             | RequestHeaderMatchConditionParameters                                             | Modified |       |
-| RequestHeaderMatchConditionParameters_STATUS                                      | RequestHeaderMatchConditionParameters_STATUS                                      | Modified |       |
-| RequestMethodMatchConditionParameters                                             | RequestMethodMatchConditionParameters                                             | Modified |       |
-| RequestMethodMatchConditionParameters_STATUS                                      | RequestMethodMatchConditionParameters_STATUS                                      | Modified |       |
-| RequestSchemeMatchConditionParameters                                             | RequestSchemeMatchConditionParameters                                             | Modified |       |
-| RequestSchemeMatchConditionParameters_STATUS                                      | RequestSchemeMatchConditionParameters_STATUS                                      | Modified |       |
-| RequestUriMatchConditionParameters                                                | RequestUriMatchConditionParameters                                                | Modified |       |
-| RequestUriMatchConditionParameters_STATUS                                         | RequestUriMatchConditionParameters_STATUS                                         | Modified |       |
-| ResourceReference                                                                 | ResourceReference                                                                 | Extended |       |
-| ResourceReference_STATUS                                                          | ResourceReference_STATUS                                                          | Extended |       |
-| RouteConfigurationOverrideActionParameters                                        | RouteConfigurationOverrideActionParameters                                        | Modified |       |
-| RouteConfigurationOverrideActionParameters_STATUS                                 | RouteConfigurationOverrideActionParameters_STATUS                                 | Modified |       |
-| RouteOperatorSpec                                                                 | RouteOperatorSpec                                                                 | Extended |       |
-| Route_STATUS                                                                      | Route_STATUS                                                                      | Modified |       |
-| Route_Spec                                                                        | Route_Spec                                                                        | Modified |       |
-| RuleOperatorSpec                                                                  | RuleOperatorSpec                                                                  | Extended |       |
-| RuleSetOperatorSpec                                                               | RuleSetOperatorSpec                                                               | Extended |       |
-| RuleSet_STATUS                                                                    | RuleSet_STATUS                                                                    | Modified |       |
-| RuleSet_Spec                                                                      | RuleSet_Spec                                                                      | Extended |       |
-| Rule_STATUS                                                                       | Rule_STATUS                                                                       | Modified |       |
-| Rule_Spec                                                                         | Rule_Spec                                                                         | Modified |       |
-| SecretOperatorSpec                                                                | SecretOperatorSpec                                                                | Extended |       |
-| SecretParameters                                                                  | SecretParameters                                                                  | Extended |       |
-| SecretParameters_STATUS                                                           | SecretParameters_STATUS                                                           | Extended |       |
-| Secret_STATUS                                                                     | Secret_STATUS                                                                     | Modified |       |
-| Secret_Spec                                                                       | Secret_Spec                                                                       | Extended |       |
-| SecurityPolicyOperatorSpec                                                        | SecurityPolicyOperatorSpec                                                        | Extended |       |
-| SecurityPolicyPropertiesParameters                                                | SecurityPolicyPropertiesParameters                                                | Extended |       |
-| SecurityPolicyPropertiesParameters_STATUS                                         | SecurityPolicyPropertiesParameters_STATUS                                         | Extended |       |
-| SecurityPolicyWebApplicationFirewallAssociation                                   | SecurityPolicyWebApplicationFirewallAssociation                                   | Extended |       |
-| SecurityPolicyWebApplicationFirewallAssociation_STATUS                            | SecurityPolicyWebApplicationFirewallAssociation_STATUS                            | Extended |       |
-| SecurityPolicyWebApplicationFirewallParameters                                    | SecurityPolicyWebApplicationFirewallParameters                                    | Modified |       |
-| SecurityPolicyWebApplicationFirewallParameters_STATUS                             | SecurityPolicyWebApplicationFirewallParameters_STATUS                             | Modified |       |
-| SecurityPolicy_STATUS                                                             | SecurityPolicy_STATUS                                                             | Modified |       |
-| SecurityPolicy_Spec                                                               | SecurityPolicy_Spec                                                               | Extended |       |
-| ServerPortMatchConditionParameters                                                | ServerPortMatchConditionParameters                                                | Modified |       |
-| ServerPortMatchConditionParameters_STATUS                                         | ServerPortMatchConditionParameters_STATUS                                         | Modified |       |
-| SharedPrivateLinkResourceProperties                                               | SharedPrivateLinkResourceProperties                                               | Modified |       |
-| SharedPrivateLinkResourceProperties_STATUS                                        | SharedPrivateLinkResourceProperties_STATUS                                        | Modified |       |
-| Sku                                                                               | Sku                                                                               | Modified |       |
-| Sku_STATUS                                                                        | Sku_STATUS                                                                        | Modified |       |
-| SocketAddrMatchConditionParameters                                                | SocketAddrMatchConditionParameters                                                | Modified |       |
-| SocketAddrMatchConditionParameters_STATUS                                         | SocketAddrMatchConditionParameters_STATUS                                         | Modified |       |
-| SslProtocolMatchConditionParameters                                               | SslProtocolMatchConditionParameters                                               | Modified |       |
-| SslProtocolMatchConditionParameters_STATUS                                        | SslProtocolMatchConditionParameters_STATUS                                        | Modified |       |
-| SystemData_STATUS                                                                 | SystemData_STATUS                                                                 | Modified |       |
-| UrlFileExtensionMatchConditionParameters                                          | UrlFileExtensionMatchConditionParameters                                          | Modified |       |
-| UrlFileExtensionMatchConditionParameters_STATUS                                   | UrlFileExtensionMatchConditionParameters_STATUS                                   | Modified |       |
-| UrlFileNameMatchConditionParameters                                               | UrlFileNameMatchConditionParameters                                               | Modified |       |
-| UrlFileNameMatchConditionParameters_STATUS                                        | UrlFileNameMatchConditionParameters_STATUS                                        | Modified |       |
-| UrlPathMatchConditionParameters                                                   | UrlPathMatchConditionParameters                                                   | Modified |       |
-| UrlPathMatchConditionParameters_STATUS                                            | UrlPathMatchConditionParameters_STATUS                                            | Modified |       |
-| UrlRedirectAction                                                                 | UrlRedirectAction                                                                 | Modified |       |
-| UrlRedirectActionParameters                                                       | UrlRedirectActionParameters                                                       | Modified |       |
-| UrlRedirectActionParameters_STATUS                                                | UrlRedirectActionParameters_STATUS                                                | Modified |       |
-| UrlRedirectAction_STATUS                                                          | UrlRedirectAction_STATUS                                                          | Modified |       |
-| UrlRewriteAction                                                                  | UrlRewriteAction                                                                  | Modified |       |
-| UrlRewriteActionParameters                                                        | UrlRewriteActionParameters                                                        | Modified |       |
-| UrlRewriteActionParameters_STATUS                                                 | UrlRewriteActionParameters_STATUS                                                 | Modified |       |
-| UrlRewriteAction_STATUS                                                           | UrlRewriteAction_STATUS                                                           | Modified |       |
-| UrlSigningAction                                                                  | UrlSigningAction                                                                  | Modified |       |
-| UrlSigningActionParameters                                                        | UrlSigningActionParameters                                                        | Modified |       |
-| UrlSigningActionParameters_STATUS                                                 | UrlSigningActionParameters_STATUS                                                 | Modified |       |
-| UrlSigningAction_STATUS                                                           | UrlSigningAction_STATUS                                                           | Modified |       |
-| UrlSigningKeyParameters                                                           | UrlSigningKeyParameters                                                           | Modified |       |
-| UrlSigningKeyParameters_STATUS                                                    | UrlSigningKeyParameters_STATUS                                                    | Modified |       |
-| UrlSigningParamIdentifier                                                         | UrlSigningParamIdentifier                                                         | Modified |       |
-| UrlSigningParamIdentifier_STATUS                                                  | UrlSigningParamIdentifier_STATUS                                                  | Modified |       |
-| UserAssignedIdentityDetails                                                       | UserAssignedIdentityDetails                                                       | Extended |       |
-| UserAssignedIdentity_STATUS                                                       | UserAssignedIdentity_STATUS                                                       | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20230501                                                                         | v20230501/storage                                                                 |  Status  | Notes                         |
+|:----------------------------------------------------------------------------------|:----------------------------------------------------------------------------------|:--------:|:------------------------------|
+| AFDDomainHttpsParameters                                                          | AFDDomainHttpsParameters                                                          | Modified |                               |
+| AFDDomainHttpsParameters_STATUS                                                   | AFDDomainHttpsParameters_STATUS                                                   | Modified |                               |
+| ActivatedResourceReference                                                        | ActivatedResourceReference                                                        | Extended | +PropertyBag                  |
+| ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded | ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded | Extended | +PropertyBag                  |
+| ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded     | ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded     | Extended | +PropertyBag                  |
+| AfdCustomDomainOperatorSpec                                                       | AfdCustomDomainOperatorSpec                                                       | Extended | +PropertyBag                  |
+| AfdCustomDomain_STATUS                                                            | AfdCustomDomain_STATUS                                                            | Modified |                               |
+| AfdCustomDomain_Spec                                                              | AfdCustomDomain_Spec                                                              | Extended | +OriginalVersion +PropertyBag |
+| AfdEndpointOperatorSpec                                                           | AfdEndpointOperatorSpec                                                           | Extended | +PropertyBag                  |
+| AfdEndpoint_STATUS                                                                | AfdEndpoint_STATUS                                                                | Modified |                               |
+| AfdEndpoint_Spec                                                                  | AfdEndpoint_Spec                                                                  | Modified |                               |
+| AfdOriginGroupOperatorSpec                                                        | AfdOriginGroupOperatorSpec                                                        | Extended | +PropertyBag                  |
+| AfdOriginGroup_STATUS                                                             | AfdOriginGroup_STATUS                                                             | Modified |                               |
+| AfdOriginGroup_Spec                                                               | AfdOriginGroup_Spec                                                               | Modified |                               |
+| AfdOriginOperatorSpec                                                             | AfdOriginOperatorSpec                                                             | Extended | +PropertyBag                  |
+| AfdOrigin_STATUS                                                                  | AfdOrigin_STATUS                                                                  | Modified |                               |
+| AfdOrigin_Spec                                                                    | AfdOrigin_Spec                                                                    | Modified |                               |
+| AfdRouteCacheConfiguration                                                        | AfdRouteCacheConfiguration                                                        | Modified |                               |
+| AfdRouteCacheConfiguration_STATUS                                                 | AfdRouteCacheConfiguration_STATUS                                                 | Modified |                               |
+| AzureFirstPartyManagedCertificateParameters                                       | AzureFirstPartyManagedCertificateParameters                                       | Modified |                               |
+| AzureFirstPartyManagedCertificateParameters_STATUS                                | AzureFirstPartyManagedCertificateParameters_STATUS                                | Modified |                               |
+| CacheConfiguration                                                                | CacheConfiguration                                                                | Modified |                               |
+| CacheConfiguration_STATUS                                                         | CacheConfiguration_STATUS                                                         | Modified |                               |
+| CacheExpirationActionParameters                                                   | CacheExpirationActionParameters                                                   | Modified |                               |
+| CacheExpirationActionParameters_STATUS                                            | CacheExpirationActionParameters_STATUS                                            | Modified |                               |
+| CacheKeyQueryStringActionParameters                                               | CacheKeyQueryStringActionParameters                                               | Modified |                               |
+| CacheKeyQueryStringActionParameters_STATUS                                        | CacheKeyQueryStringActionParameters_STATUS                                        | Modified |                               |
+| ClientPortMatchConditionParameters                                                | ClientPortMatchConditionParameters                                                | Modified |                               |
+| ClientPortMatchConditionParameters_STATUS                                         | ClientPortMatchConditionParameters_STATUS                                         | Modified |                               |
+| CompressionSettings                                                               | CompressionSettings                                                               | Extended | +PropertyBag                  |
+| CompressionSettings_STATUS                                                        | CompressionSettings_STATUS                                                        | Extended | +PropertyBag                  |
+| CookiesMatchConditionParameters                                                   | CookiesMatchConditionParameters                                                   | Modified |                               |
+| CookiesMatchConditionParameters_STATUS                                            | CookiesMatchConditionParameters_STATUS                                            | Modified |                               |
+| CustomerCertificateParameters                                                     | CustomerCertificateParameters                                                     | Modified |                               |
+| CustomerCertificateParameters_STATUS                                              | CustomerCertificateParameters_STATUS                                              | Modified |                               |
+| DeliveryRuleAction                                                                | DeliveryRuleAction                                                                | Extended | +PropertyBag                  |
+| DeliveryRuleAction_STATUS                                                         | DeliveryRuleAction_STATUS                                                         | Extended | +PropertyBag                  |
+| DeliveryRuleCacheExpirationAction                                                 | DeliveryRuleCacheExpirationAction                                                 | Modified |                               |
+| DeliveryRuleCacheExpirationAction_STATUS                                          | DeliveryRuleCacheExpirationAction_STATUS                                          | Modified |                               |
+| DeliveryRuleCacheKeyQueryStringAction                                             | DeliveryRuleCacheKeyQueryStringAction                                             | Modified |                               |
+| DeliveryRuleCacheKeyQueryStringAction_STATUS                                      | DeliveryRuleCacheKeyQueryStringAction_STATUS                                      | Modified |                               |
+| DeliveryRuleClientPortCondition                                                   | DeliveryRuleClientPortCondition                                                   | Modified |                               |
+| DeliveryRuleClientPortCondition_STATUS                                            | DeliveryRuleClientPortCondition_STATUS                                            | Modified |                               |
+| DeliveryRuleCondition                                                             | DeliveryRuleCondition                                                             | Extended | +PropertyBag                  |
+| DeliveryRuleCondition_STATUS                                                      | DeliveryRuleCondition_STATUS                                                      | Extended | +PropertyBag                  |
+| DeliveryRuleCookiesCondition                                                      | DeliveryRuleCookiesCondition                                                      | Modified |                               |
+| DeliveryRuleCookiesCondition_STATUS                                               | DeliveryRuleCookiesCondition_STATUS                                               | Modified |                               |
+| DeliveryRuleHostNameCondition                                                     | DeliveryRuleHostNameCondition                                                     | Modified |                               |
+| DeliveryRuleHostNameCondition_STATUS                                              | DeliveryRuleHostNameCondition_STATUS                                              | Modified |                               |
+| DeliveryRuleHttpVersionCondition                                                  | DeliveryRuleHttpVersionCondition                                                  | Modified |                               |
+| DeliveryRuleHttpVersionCondition_STATUS                                           | DeliveryRuleHttpVersionCondition_STATUS                                           | Modified |                               |
+| DeliveryRuleIsDeviceCondition                                                     | DeliveryRuleIsDeviceCondition                                                     | Modified |                               |
+| DeliveryRuleIsDeviceCondition_STATUS                                              | DeliveryRuleIsDeviceCondition_STATUS                                              | Modified |                               |
+| DeliveryRulePostArgsCondition                                                     | DeliveryRulePostArgsCondition                                                     | Modified |                               |
+| DeliveryRulePostArgsCondition_STATUS                                              | DeliveryRulePostArgsCondition_STATUS                                              | Modified |                               |
+| DeliveryRuleQueryStringCondition                                                  | DeliveryRuleQueryStringCondition                                                  | Modified |                               |
+| DeliveryRuleQueryStringCondition_STATUS                                           | DeliveryRuleQueryStringCondition_STATUS                                           | Modified |                               |
+| DeliveryRuleRemoteAddressCondition                                                | DeliveryRuleRemoteAddressCondition                                                | Modified |                               |
+| DeliveryRuleRemoteAddressCondition_STATUS                                         | DeliveryRuleRemoteAddressCondition_STATUS                                         | Modified |                               |
+| DeliveryRuleRequestBodyCondition                                                  | DeliveryRuleRequestBodyCondition                                                  | Modified |                               |
+| DeliveryRuleRequestBodyCondition_STATUS                                           | DeliveryRuleRequestBodyCondition_STATUS                                           | Modified |                               |
+| DeliveryRuleRequestHeaderAction                                                   | DeliveryRuleRequestHeaderAction                                                   | Modified |                               |
+| DeliveryRuleRequestHeaderAction_STATUS                                            | DeliveryRuleRequestHeaderAction_STATUS                                            | Modified |                               |
+| DeliveryRuleRequestHeaderCondition                                                | DeliveryRuleRequestHeaderCondition                                                | Modified |                               |
+| DeliveryRuleRequestHeaderCondition_STATUS                                         | DeliveryRuleRequestHeaderCondition_STATUS                                         | Modified |                               |
+| DeliveryRuleRequestMethodCondition                                                | DeliveryRuleRequestMethodCondition                                                | Modified |                               |
+| DeliveryRuleRequestMethodCondition_STATUS                                         | DeliveryRuleRequestMethodCondition_STATUS                                         | Modified |                               |
+| DeliveryRuleRequestSchemeCondition                                                | DeliveryRuleRequestSchemeCondition                                                | Modified |                               |
+| DeliveryRuleRequestSchemeCondition_STATUS                                         | DeliveryRuleRequestSchemeCondition_STATUS                                         | Modified |                               |
+| DeliveryRuleRequestUriCondition                                                   | DeliveryRuleRequestUriCondition                                                   | Modified |                               |
+| DeliveryRuleRequestUriCondition_STATUS                                            | DeliveryRuleRequestUriCondition_STATUS                                            | Modified |                               |
+| DeliveryRuleResponseHeaderAction                                                  | DeliveryRuleResponseHeaderAction                                                  | Modified |                               |
+| DeliveryRuleResponseHeaderAction_STATUS                                           | DeliveryRuleResponseHeaderAction_STATUS                                           | Modified |                               |
+| DeliveryRuleRouteConfigurationOverrideAction                                      | DeliveryRuleRouteConfigurationOverrideAction                                      | Modified |                               |
+| DeliveryRuleRouteConfigurationOverrideAction_STATUS                               | DeliveryRuleRouteConfigurationOverrideAction_STATUS                               | Modified |                               |
+| DeliveryRuleServerPortCondition                                                   | DeliveryRuleServerPortCondition                                                   | Modified |                               |
+| DeliveryRuleServerPortCondition_STATUS                                            | DeliveryRuleServerPortCondition_STATUS                                            | Modified |                               |
+| DeliveryRuleSocketAddrCondition                                                   | DeliveryRuleSocketAddrCondition                                                   | Modified |                               |
+| DeliveryRuleSocketAddrCondition_STATUS                                            | DeliveryRuleSocketAddrCondition_STATUS                                            | Modified |                               |
+| DeliveryRuleSslProtocolCondition                                                  | DeliveryRuleSslProtocolCondition                                                  | Modified |                               |
+| DeliveryRuleSslProtocolCondition_STATUS                                           | DeliveryRuleSslProtocolCondition_STATUS                                           | Modified |                               |
+| DeliveryRuleUrlFileExtensionCondition                                             | DeliveryRuleUrlFileExtensionCondition                                             | Modified |                               |
+| DeliveryRuleUrlFileExtensionCondition_STATUS                                      | DeliveryRuleUrlFileExtensionCondition_STATUS                                      | Modified |                               |
+| DeliveryRuleUrlFileNameCondition                                                  | DeliveryRuleUrlFileNameCondition                                                  | Modified |                               |
+| DeliveryRuleUrlFileNameCondition_STATUS                                           | DeliveryRuleUrlFileNameCondition_STATUS                                           | Modified |                               |
+| DeliveryRuleUrlPathCondition                                                      | DeliveryRuleUrlPathCondition                                                      | Modified |                               |
+| DeliveryRuleUrlPathCondition_STATUS                                               | DeliveryRuleUrlPathCondition_STATUS                                               | Modified |                               |
+| DomainValidationProperties_STATUS                                                 | DomainValidationProperties_STATUS                                                 | Extended | +PropertyBag                  |
+| HeaderActionParameters                                                            | HeaderActionParameters                                                            | Modified |                               |
+| HeaderActionParameters_STATUS                                                     | HeaderActionParameters_STATUS                                                     | Modified |                               |
+| HealthProbeParameters                                                             | HealthProbeParameters                                                             | Modified |                               |
+| HealthProbeParameters_STATUS                                                      | HealthProbeParameters_STATUS                                                      | Modified |                               |
+| HostNameMatchConditionParameters                                                  | HostNameMatchConditionParameters                                                  | Modified |                               |
+| HostNameMatchConditionParameters_STATUS                                           | HostNameMatchConditionParameters_STATUS                                           | Modified |                               |
+| HttpVersionMatchConditionParameters                                               | HttpVersionMatchConditionParameters                                               | Modified |                               |
+| HttpVersionMatchConditionParameters_STATUS                                        | HttpVersionMatchConditionParameters_STATUS                                        | Modified |                               |
+| IsDeviceMatchConditionParameters                                                  | IsDeviceMatchConditionParameters                                                  | Modified |                               |
+| IsDeviceMatchConditionParameters_STATUS                                           | IsDeviceMatchConditionParameters_STATUS                                           | Modified |                               |
+| LoadBalancingSettingsParameters                                                   | LoadBalancingSettingsParameters                                                   | Extended | +PropertyBag                  |
+| LoadBalancingSettingsParameters_STATUS                                            | LoadBalancingSettingsParameters_STATUS                                            | Extended | +PropertyBag                  |
+| ManagedCertificateParameters                                                      | ManagedCertificateParameters                                                      | Modified |                               |
+| ManagedCertificateParameters_STATUS                                               | ManagedCertificateParameters_STATUS                                               | Modified |                               |
+| ManagedServiceIdentity                                                            | ManagedServiceIdentity                                                            | Modified |                               |
+| ManagedServiceIdentity_STATUS                                                     | ManagedServiceIdentity_STATUS                                                     | Modified |                               |
+| OriginGroupOverride                                                               | OriginGroupOverride                                                               | Modified |                               |
+| OriginGroupOverrideAction                                                         | OriginGroupOverrideAction                                                         | Modified |                               |
+| OriginGroupOverrideActionParameters                                               | OriginGroupOverrideActionParameters                                               | Modified |                               |
+| OriginGroupOverrideActionParameters_STATUS                                        | OriginGroupOverrideActionParameters_STATUS                                        | Modified |                               |
+| OriginGroupOverrideAction_STATUS                                                  | OriginGroupOverrideAction_STATUS                                                  | Modified |                               |
+| OriginGroupOverride_STATUS                                                        | OriginGroupOverride_STATUS                                                        | Modified |                               |
+| PostArgsMatchConditionParameters                                                  | PostArgsMatchConditionParameters                                                  | Modified |                               |
+| PostArgsMatchConditionParameters_STATUS                                           | PostArgsMatchConditionParameters_STATUS                                           | Modified |                               |
+| ProfileOperatorSpec                                                               | ProfileOperatorSpec                                                               | Extended | +PropertyBag                  |
+| Profile_STATUS                                                                    | Profile_STATUS                                                                    | Modified |                               |
+| Profile_Spec                                                                      | Profile_Spec                                                                      | Extended | +OriginalVersion +PropertyBag |
+| QueryStringMatchConditionParameters                                               | QueryStringMatchConditionParameters                                               | Modified |                               |
+| QueryStringMatchConditionParameters_STATUS                                        | QueryStringMatchConditionParameters_STATUS                                        | Modified |                               |
+| RemoteAddressMatchConditionParameters                                             | RemoteAddressMatchConditionParameters                                             | Modified |                               |
+| RemoteAddressMatchConditionParameters_STATUS                                      | RemoteAddressMatchConditionParameters_STATUS                                      | Modified |                               |
+| RequestBodyMatchConditionParameters                                               | RequestBodyMatchConditionParameters                                               | Modified |                               |
+| RequestBodyMatchConditionParameters_STATUS                                        | RequestBodyMatchConditionParameters_STATUS                                        | Modified |                               |
+| RequestHeaderMatchConditionParameters                                             | RequestHeaderMatchConditionParameters                                             | Modified |                               |
+| RequestHeaderMatchConditionParameters_STATUS                                      | RequestHeaderMatchConditionParameters_STATUS                                      | Modified |                               |
+| RequestMethodMatchConditionParameters                                             | RequestMethodMatchConditionParameters                                             | Modified |                               |
+| RequestMethodMatchConditionParameters_STATUS                                      | RequestMethodMatchConditionParameters_STATUS                                      | Modified |                               |
+| RequestSchemeMatchConditionParameters                                             | RequestSchemeMatchConditionParameters                                             | Modified |                               |
+| RequestSchemeMatchConditionParameters_STATUS                                      | RequestSchemeMatchConditionParameters_STATUS                                      | Modified |                               |
+| RequestUriMatchConditionParameters                                                | RequestUriMatchConditionParameters                                                | Modified |                               |
+| RequestUriMatchConditionParameters_STATUS                                         | RequestUriMatchConditionParameters_STATUS                                         | Modified |                               |
+| ResourceReference                                                                 | ResourceReference                                                                 | Extended | +PropertyBag                  |
+| ResourceReference_STATUS                                                          | ResourceReference_STATUS                                                          | Extended | +PropertyBag                  |
+| RouteConfigurationOverrideActionParameters                                        | RouteConfigurationOverrideActionParameters                                        | Modified |                               |
+| RouteConfigurationOverrideActionParameters_STATUS                                 | RouteConfigurationOverrideActionParameters_STATUS                                 | Modified |                               |
+| RouteOperatorSpec                                                                 | RouteOperatorSpec                                                                 | Extended | +PropertyBag                  |
+| Route_STATUS                                                                      | Route_STATUS                                                                      | Modified |                               |
+| Route_Spec                                                                        | Route_Spec                                                                        | Modified |                               |
+| RuleOperatorSpec                                                                  | RuleOperatorSpec                                                                  | Extended | +PropertyBag                  |
+| RuleSetOperatorSpec                                                               | RuleSetOperatorSpec                                                               | Extended | +PropertyBag                  |
+| RuleSet_STATUS                                                                    | RuleSet_STATUS                                                                    | Modified |                               |
+| RuleSet_Spec                                                                      | RuleSet_Spec                                                                      | Extended | +OriginalVersion +PropertyBag |
+| Rule_STATUS                                                                       | Rule_STATUS                                                                       | Modified |                               |
+| Rule_Spec                                                                         | Rule_Spec                                                                         | Modified |                               |
+| SecretOperatorSpec                                                                | SecretOperatorSpec                                                                | Extended | +PropertyBag                  |
+| SecretParameters                                                                  | SecretParameters                                                                  | Extended | +PropertyBag                  |
+| SecretParameters_STATUS                                                           | SecretParameters_STATUS                                                           | Extended | +PropertyBag                  |
+| Secret_STATUS                                                                     | Secret_STATUS                                                                     | Modified |                               |
+| Secret_Spec                                                                       | Secret_Spec                                                                       | Extended | +OriginalVersion +PropertyBag |
+| SecurityPolicyOperatorSpec                                                        | SecurityPolicyOperatorSpec                                                        | Extended | +PropertyBag                  |
+| SecurityPolicyPropertiesParameters                                                | SecurityPolicyPropertiesParameters                                                | Extended | +PropertyBag                  |
+| SecurityPolicyPropertiesParameters_STATUS                                         | SecurityPolicyPropertiesParameters_STATUS                                         | Extended | +PropertyBag                  |
+| SecurityPolicyWebApplicationFirewallAssociation                                   | SecurityPolicyWebApplicationFirewallAssociation                                   | Extended | +PropertyBag                  |
+| SecurityPolicyWebApplicationFirewallAssociation_STATUS                            | SecurityPolicyWebApplicationFirewallAssociation_STATUS                            | Extended | +PropertyBag                  |
+| SecurityPolicyWebApplicationFirewallParameters                                    | SecurityPolicyWebApplicationFirewallParameters                                    | Modified |                               |
+| SecurityPolicyWebApplicationFirewallParameters_STATUS                             | SecurityPolicyWebApplicationFirewallParameters_STATUS                             | Modified |                               |
+| SecurityPolicy_STATUS                                                             | SecurityPolicy_STATUS                                                             | Modified |                               |
+| SecurityPolicy_Spec                                                               | SecurityPolicy_Spec                                                               | Extended | +OriginalVersion +PropertyBag |
+| ServerPortMatchConditionParameters                                                | ServerPortMatchConditionParameters                                                | Modified |                               |
+| ServerPortMatchConditionParameters_STATUS                                         | ServerPortMatchConditionParameters_STATUS                                         | Modified |                               |
+| SharedPrivateLinkResourceProperties                                               | SharedPrivateLinkResourceProperties                                               | Modified |                               |
+| SharedPrivateLinkResourceProperties_STATUS                                        | SharedPrivateLinkResourceProperties_STATUS                                        | Modified |                               |
+| Sku                                                                               | Sku                                                                               | Modified |                               |
+| Sku_STATUS                                                                        | Sku_STATUS                                                                        | Modified |                               |
+| SocketAddrMatchConditionParameters                                                | SocketAddrMatchConditionParameters                                                | Modified |                               |
+| SocketAddrMatchConditionParameters_STATUS                                         | SocketAddrMatchConditionParameters_STATUS                                         | Modified |                               |
+| SslProtocolMatchConditionParameters                                               | SslProtocolMatchConditionParameters                                               | Modified |                               |
+| SslProtocolMatchConditionParameters_STATUS                                        | SslProtocolMatchConditionParameters_STATUS                                        | Modified |                               |
+| SystemData_STATUS                                                                 | SystemData_STATUS                                                                 | Modified |                               |
+| UrlFileExtensionMatchConditionParameters                                          | UrlFileExtensionMatchConditionParameters                                          | Modified |                               |
+| UrlFileExtensionMatchConditionParameters_STATUS                                   | UrlFileExtensionMatchConditionParameters_STATUS                                   | Modified |                               |
+| UrlFileNameMatchConditionParameters                                               | UrlFileNameMatchConditionParameters                                               | Modified |                               |
+| UrlFileNameMatchConditionParameters_STATUS                                        | UrlFileNameMatchConditionParameters_STATUS                                        | Modified |                               |
+| UrlPathMatchConditionParameters                                                   | UrlPathMatchConditionParameters                                                   | Modified |                               |
+| UrlPathMatchConditionParameters_STATUS                                            | UrlPathMatchConditionParameters_STATUS                                            | Modified |                               |
+| UrlRedirectAction                                                                 | UrlRedirectAction                                                                 | Modified |                               |
+| UrlRedirectActionParameters                                                       | UrlRedirectActionParameters                                                       | Modified |                               |
+| UrlRedirectActionParameters_STATUS                                                | UrlRedirectActionParameters_STATUS                                                | Modified |                               |
+| UrlRedirectAction_STATUS                                                          | UrlRedirectAction_STATUS                                                          | Modified |                               |
+| UrlRewriteAction                                                                  | UrlRewriteAction                                                                  | Modified |                               |
+| UrlRewriteActionParameters                                                        | UrlRewriteActionParameters                                                        | Modified |                               |
+| UrlRewriteActionParameters_STATUS                                                 | UrlRewriteActionParameters_STATUS                                                 | Modified |                               |
+| UrlRewriteAction_STATUS                                                           | UrlRewriteAction_STATUS                                                           | Modified |                               |
+| UrlSigningAction                                                                  | UrlSigningAction                                                                  | Modified |                               |
+| UrlSigningActionParameters                                                        | UrlSigningActionParameters                                                        | Modified |                               |
+| UrlSigningActionParameters_STATUS                                                 | UrlSigningActionParameters_STATUS                                                 | Modified |                               |
+| UrlSigningAction_STATUS                                                           | UrlSigningAction_STATUS                                                           | Modified |                               |
+| UrlSigningKeyParameters                                                           | UrlSigningKeyParameters                                                           | Modified |                               |
+| UrlSigningKeyParameters_STATUS                                                    | UrlSigningKeyParameters_STATUS                                                    | Modified |                               |
+| UrlSigningParamIdentifier                                                         | UrlSigningParamIdentifier                                                         | Modified |                               |
+| UrlSigningParamIdentifier_STATUS                                                  | UrlSigningParamIdentifier_STATUS                                                  | Modified |                               |
+| UserAssignedIdentityDetails                                                       | UserAssignedIdentityDetails                                                       | Extended | +PropertyBag                  |
+| UserAssignedIdentity_STATUS                                                       | UserAssignedIdentity_STATUS                                                       | Extended | +PropertyBag                  |
 
 ### AFDDomainHttpsParameters
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v20230501         |                                             | v20230501/storage |                        |  Status   | Notes |
 |:------------------|:--------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -233,7 +226,7 @@
 
 ### AFDDomainHttpsParameters_STATUS
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v20230501         |                                                    | v20230501/storage |                           |  Status   | Notes |
 |:------------------|:---------------------------------------------------|:------------------|:--------------------------|:---------:|:------|
@@ -244,7 +237,7 @@
 
 ### ActivatedResourceReference
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20230501 |                               | v20230501/storage |                               |  Status   | Notes |
 |:----------|:------------------------------|:------------------|:------------------------------|:---------:|:------|
@@ -253,7 +246,7 @@
 
 ### ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20230501 |         | v20230501/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -262,7 +255,7 @@
 
 ### ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20230501 |         | v20230501/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -271,7 +264,7 @@
 
 ### AfdCustomDomainOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20230501            |                               | v20230501/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -281,7 +274,7 @@
 
 ### AfdCustomDomain_STATUS
 
-12 x Identical, 1 x New, 3 x Modified
+Properties: 12 x Identical, 1 x New, 3 x Modified
 
 | v20230501                          |                                                   | v20230501/storage                  |                                    |  Status   | Notes |
 |:-----------------------------------|:--------------------------------------------------|:-----------------------------------|:-----------------------------------|:---------:|:------|
@@ -304,7 +297,7 @@
 
 ### AfdCustomDomain_Spec
 
-8 x Identical, 2 x New
+Properties: 8 x Identical, 2 x New
 
 | v20230501                          |                                    | v20230501/storage                  |                                    |  Status   | Notes |
 |:-----------------------------------|:-----------------------------------|:-----------------------------------|:-----------------------------------|:---------:|:------|
@@ -321,7 +314,7 @@
 
 ### AfdEndpointOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20230501            |                               | v20230501/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -331,7 +324,7 @@
 
 ### AfdEndpoint_STATUS
 
-9 x Identical, 1 x New, 4 x Modified
+Properties: 9 x Identical, 1 x New, 4 x Modified
 
 | v20230501                         |                                                 | v20230501/storage                 |                        |  Status   | Notes |
 |:----------------------------------|:------------------------------------------------|:----------------------------------|:-----------------------|:---------:|:------|
@@ -352,7 +345,7 @@
 
 ### AfdEndpoint_Spec
 
-5 x Identical, 2 x New, 2 x Modified
+Properties: 5 x Identical, 2 x New, 2 x Modified
 
 | v20230501                         |                                     | v20230501/storage                 |                                    |  Status   | Notes |
 |:----------------------------------|:------------------------------------|:----------------------------------|:-----------------------------------|:---------:|:------|
@@ -368,7 +361,7 @@
 
 ### AfdOriginGroupOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20230501            |                               | v20230501/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -378,7 +371,7 @@
 
 ### AfdOriginGroup_STATUS
 
-9 x Identical, 1 x New, 3 x Modified
+Properties: 9 x Identical, 1 x New, 3 x Modified
 
 | v20230501                                             |                                                       | v20230501/storage                                     |                                         |  Status   | Notes |
 |:------------------------------------------------------|:------------------------------------------------------|:------------------------------------------------------|:----------------------------------------|:---------:|:------|
@@ -398,7 +391,7 @@
 
 ### AfdOriginGroup_Spec
 
-5 x Identical, 2 x New, 2 x Modified
+Properties: 6 x Identical, 2 x New, 1 x Modified
 
 | v20230501                                             |                                                | v20230501/storage                                     |                                    |  Status   | Notes |
 |:------------------------------------------------------|:-----------------------------------------------|:------------------------------------------------------|:-----------------------------------|:---------:|:------|
@@ -410,11 +403,11 @@
 | Owner                                                 | *genruntime.KnownResourceReference             | Owner                                                 | *genruntime.KnownResourceReference | Identical |       |
 |                                                       |                                                | PropertyBag                                           | genruntime.PropertyBag             |    New    |       |
 | SessionAffinityState                                  | *AFDOriginGroupProperties_SessionAffinityState | SessionAffinityState                                  | *string                            | Modified  |       |
-| TrafficRestorationTimeToHealedOrNewEndpointsInMinutes | Validated<*int> (2 rules)                      | TrafficRestorationTimeToHealedOrNewEndpointsInMinutes | *int                               | Modified  |       |
+| TrafficRestorationTimeToHealedOrNewEndpointsInMinutes | Validated<*int> (2 rules)                      | TrafficRestorationTimeToHealedOrNewEndpointsInMinutes | *int                               | Identical |       |
 
 ### AfdOriginOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20230501            |                               | v20230501/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -424,7 +417,7 @@
 
 ### AfdOrigin_STATUS
 
-15 x Identical, 1 x New, 3 x Modified
+Properties: 15 x Identical, 1 x New, 3 x Modified
 
 | v20230501                   |                                               | v20230501/storage           |                                             |  Status   | Notes |
 |:----------------------------|:----------------------------------------------|:----------------------------|:--------------------------------------------|:---------:|:------|
@@ -450,7 +443,7 @@
 
 ### AfdOrigin_Spec
 
-9 x Identical, 2 x New, 5 x Modified
+Properties: 13 x Identical, 2 x New, 1 x Modified
 
 | v20230501                   |                                      | v20230501/storage           |                                      |  Status   | Notes |
 |:----------------------------|:-------------------------------------|:----------------------------|:-------------------------------------|:---------:|:------|
@@ -460,20 +453,20 @@
 | EnforceCertificateNameCheck | *bool                                | EnforceCertificateNameCheck | *bool                                | Identical |       |
 | HostName                    | *string                              | HostName                    | *string                              | Identical |       |
 | HostNameFromConfig          | *genruntime.ConfigMapReference       | HostNameFromConfig          | *genruntime.ConfigMapReference       | Identical |       |
-| HttpPort                    | Validated<*int> (2 rules)            | HttpPort                    | *int                                 | Modified  |       |
-| HttpsPort                   | Validated<*int> (2 rules)            | HttpsPort                   | *int                                 | Modified  |       |
+| HttpPort                    | Validated<*int> (2 rules)            | HttpPort                    | *int                                 | Identical |       |
+| HttpsPort                   | Validated<*int> (2 rules)            | HttpsPort                   | *int                                 | Identical |       |
 | OperatorSpec                | *AfdOriginOperatorSpec               | OperatorSpec                | *AfdOriginOperatorSpec               | Identical |       |
 | OriginHostHeader            | *string                              | OriginHostHeader            | *string                              | Identical |       |
 |                             |                                      | OriginalVersion             | string                               |    New    |       |
 | Owner                       | *genruntime.KnownResourceReference   | Owner                       | *genruntime.KnownResourceReference   | Identical |       |
-| Priority                    | Validated<*int> (2 rules)            | Priority                    | *int                                 | Modified  |       |
+| Priority                    | Validated<*int> (2 rules)            | Priority                    | *int                                 | Identical |       |
 |                             |                                      | PropertyBag                 | genruntime.PropertyBag               |    New    |       |
 | SharedPrivateLinkResource   | *SharedPrivateLinkResourceProperties | SharedPrivateLinkResource   | *SharedPrivateLinkResourceProperties | Identical |       |
-| Weight                      | Validated<*int> (2 rules)            | Weight                      | *int                                 | Modified  |       |
+| Weight                      | Validated<*int> (2 rules)            | Weight                      | *int                                 | Identical |       |
 
 ### AfdRouteCacheConfiguration
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20230501                  |                                                        | v20230501/storage          |                        |  Status   | Notes |
 |:---------------------------|:-------------------------------------------------------|:---------------------------|:-----------------------|:---------:|:------|
@@ -484,7 +477,7 @@
 
 ### AfdRouteCacheConfiguration_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20230501                  |                                                               | v20230501/storage          |                             |  Status   | Notes |
 |:---------------------------|:--------------------------------------------------------------|:---------------------------|:----------------------------|:---------:|:------|
@@ -495,7 +488,7 @@
 
 ### AzureFirstPartyManagedCertificateParameters
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501               |                                                   | v20230501/storage       |                        |  Status   | Notes |
 |:------------------------|:--------------------------------------------------|:------------------------|:-----------------------|:---------:|:------|
@@ -505,7 +498,7 @@
 
 ### AzureFirstPartyManagedCertificateParameters_STATUS
 
-6 x Identical, 1 x New, 1 x Modified
+Properties: 6 x Identical, 1 x New, 1 x Modified
 
 | v20230501               |                                                          | v20230501/storage       |                           |  Status   | Notes |
 |:------------------------|:---------------------------------------------------------|:------------------------|:--------------------------|:---------:|:------|
@@ -520,7 +513,7 @@
 
 ### CacheConfiguration
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v20230501                  |                                                | v20230501/storage          |                        |  Status   | Notes |
 |:---------------------------|:-----------------------------------------------|:---------------------------|:-----------------------|:---------:|:------|
@@ -533,7 +526,7 @@
 
 ### CacheConfiguration_STATUS
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v20230501                  |                                                       | v20230501/storage          |                        |  Status   | Notes |
 |:---------------------------|:------------------------------------------------------|:---------------------------|:-----------------------|:---------:|:------|
@@ -546,7 +539,7 @@
 
 ### CacheExpirationActionParameters
 
-1 x Identical, 1 x New, 3 x Modified
+Properties: 1 x Identical, 1 x New, 3 x Modified
 
 | v20230501     |                                                | v20230501/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -558,7 +551,7 @@
 
 ### CacheExpirationActionParameters_STATUS
 
-1 x Identical, 1 x New, 3 x Modified
+Properties: 1 x Identical, 1 x New, 3 x Modified
 
 | v20230501     |                                                       | v20230501/storage |                        |  Status   | Notes |
 |:--------------|:------------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -570,7 +563,7 @@
 
 ### CacheKeyQueryStringActionParameters
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v20230501           |                                                          | v20230501/storage   |                        |  Status   | Notes |
 |:--------------------|:---------------------------------------------------------|:--------------------|:-----------------------|:---------:|:------|
@@ -581,7 +574,7 @@
 
 ### CacheKeyQueryStringActionParameters_STATUS
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v20230501           |                                                                 | v20230501/storage   |                        |  Status   | Notes |
 |:--------------------|:----------------------------------------------------------------|:--------------------|:-----------------------|:---------:|:------|
@@ -592,7 +585,7 @@
 
 ### ClientPortMatchConditionParameters
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v20230501       |                                              | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:---------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -605,7 +598,7 @@
 
 ### ClientPortMatchConditionParameters_STATUS
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v20230501       |                                                     | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:----------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -618,7 +611,7 @@
 
 ### CompressionSettings
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20230501              |          | v20230501/storage      |                        |  Status   | Notes |
 |:-----------------------|:---------|:-----------------------|:-----------------------|:---------:|:------|
@@ -628,7 +621,7 @@
 
 ### CompressionSettings_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20230501              |          | v20230501/storage      |                        |  Status   | Notes |
 |:-----------------------|:---------|:-----------------------|:-----------------------|:---------:|:------|
@@ -638,7 +631,7 @@
 
 ### CookiesMatchConditionParameters
 
-3 x Identical, 1 x New, 3 x Modified
+Properties: 3 x Identical, 1 x New, 3 x Modified
 
 | v20230501       |                                           | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -652,7 +645,7 @@
 
 ### CookiesMatchConditionParameters_STATUS
 
-3 x Identical, 1 x New, 3 x Modified
+Properties: 3 x Identical, 1 x New, 3 x Modified
 
 | v20230501       |                                                  | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:-------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -666,7 +659,7 @@
 
 ### CustomerCertificateParameters
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v20230501               |                                     | v20230501/storage       |                        |  Status   | Notes |
 |:------------------------|:------------------------------------|:------------------------|:-----------------------|:---------:|:------|
@@ -679,7 +672,7 @@
 
 ### CustomerCertificateParameters_STATUS
 
-8 x Identical, 1 x New, 1 x Modified
+Properties: 8 x Identical, 1 x New, 1 x Modified
 
 | v20230501               |                                            | v20230501/storage       |                           |  Status   | Notes |
 |:------------------------|:-------------------------------------------|:------------------------|:--------------------------|:---------:|:------|
@@ -696,7 +689,7 @@
 
 ### DeliveryRuleAction
 
-9 x Identical, 1 x New
+Properties: 9 x Identical, 1 x New
 
 | v20230501                  |                                               | v20230501/storage          |                                               |  Status   | Notes |
 |:---------------------------|:----------------------------------------------|:---------------------------|:----------------------------------------------|:---------:|:------|
@@ -713,7 +706,7 @@
 
 ### DeliveryRuleAction_STATUS
 
-9 x Identical, 1 x New
+Properties: 9 x Identical, 1 x New
 
 | v20230501                  |                                                      | v20230501/storage          |                                                      |  Status   | Notes |
 |:---------------------------|:-----------------------------------------------------|:---------------------------|:-----------------------------------------------------|:---------:|:------|
@@ -730,7 +723,7 @@
 
 ### DeliveryRuleCacheExpirationAction
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                         | v20230501/storage |                                  |  Status   | Notes |
 |:-----------|:----------------------------------------|:------------------|:---------------------------------|:---------:|:------|
@@ -740,7 +733,7 @@
 
 ### DeliveryRuleCacheExpirationAction_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                                | v20230501/storage |                                         |  Status   | Notes |
 |:-----------|:-----------------------------------------------|:------------------|:----------------------------------------|:---------:|:------|
@@ -750,7 +743,7 @@
 
 ### DeliveryRuleCacheKeyQueryStringAction
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                             | v20230501/storage |                                      |  Status   | Notes |
 |:-----------|:--------------------------------------------|:------------------|:-------------------------------------|:---------:|:------|
@@ -760,7 +753,7 @@
 
 ### DeliveryRuleCacheKeyQueryStringAction_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                                    | v20230501/storage |                                             |  Status   | Notes |
 |:-----------|:---------------------------------------------------|:------------------|:--------------------------------------------|:---------:|:------|
@@ -770,7 +763,7 @@
 
 ### DeliveryRuleClientPortCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                       | v20230501/storage |                                     |  Status   | Notes |
 |:-----------|:--------------------------------------|:------------------|:------------------------------------|:---------:|:------|
@@ -780,7 +773,7 @@
 
 ### DeliveryRuleClientPortCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                              | v20230501/storage |                                            |  Status   | Notes |
 |:-----------|:---------------------------------------------|:------------------|:-------------------------------------------|:---------:|:------|
@@ -790,7 +783,7 @@
 
 ### DeliveryRuleCondition
 
-19 x Identical, 1 x New
+Properties: 19 x Identical, 1 x New
 
 | v20230501        |                                        | v20230501/storage |                                        |  Status   | Notes |
 |:-----------------|:---------------------------------------|:------------------|:---------------------------------------|:---------:|:------|
@@ -817,7 +810,7 @@
 
 ### DeliveryRuleCondition_STATUS
 
-19 x Identical, 1 x New
+Properties: 19 x Identical, 1 x New
 
 | v20230501        |                                               | v20230501/storage |                                               |  Status   | Notes |
 |:-----------------|:----------------------------------------------|:------------------|:----------------------------------------------|:---------:|:------|
@@ -844,7 +837,7 @@
 
 ### DeliveryRuleCookiesCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                    | v20230501/storage |                                  |  Status   | Notes |
 |:-----------|:-----------------------------------|:------------------|:---------------------------------|:---------:|:------|
@@ -854,7 +847,7 @@
 
 ### DeliveryRuleCookiesCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                           | v20230501/storage |                                         |  Status   | Notes |
 |:-----------|:------------------------------------------|:------------------|:----------------------------------------|:---------:|:------|
@@ -864,7 +857,7 @@
 
 ### DeliveryRuleHostNameCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                     | v20230501/storage |                                   |  Status   | Notes |
 |:-----------|:------------------------------------|:------------------|:----------------------------------|:---------:|:------|
@@ -874,7 +867,7 @@
 
 ### DeliveryRuleHostNameCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                            | v20230501/storage |                                          |  Status   | Notes |
 |:-----------|:-------------------------------------------|:------------------|:-----------------------------------------|:---------:|:------|
@@ -884,7 +877,7 @@
 
 ### DeliveryRuleHttpVersionCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                        | v20230501/storage |                                      |  Status   | Notes |
 |:-----------|:---------------------------------------|:------------------|:-------------------------------------|:---------:|:------|
@@ -894,7 +887,7 @@
 
 ### DeliveryRuleHttpVersionCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                               | v20230501/storage |                                             |  Status   | Notes |
 |:-----------|:----------------------------------------------|:------------------|:--------------------------------------------|:---------:|:------|
@@ -904,7 +897,7 @@
 
 ### DeliveryRuleIsDeviceCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                     | v20230501/storage |                                   |  Status   | Notes |
 |:-----------|:------------------------------------|:------------------|:----------------------------------|:---------:|:------|
@@ -914,7 +907,7 @@
 
 ### DeliveryRuleIsDeviceCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                            | v20230501/storage |                                          |  Status   | Notes |
 |:-----------|:-------------------------------------------|:------------------|:-----------------------------------------|:---------:|:------|
@@ -924,7 +917,7 @@
 
 ### DeliveryRulePostArgsCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                     | v20230501/storage |                                   |  Status   | Notes |
 |:-----------|:------------------------------------|:------------------|:----------------------------------|:---------:|:------|
@@ -934,7 +927,7 @@
 
 ### DeliveryRulePostArgsCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                            | v20230501/storage |                                          |  Status   | Notes |
 |:-----------|:-------------------------------------------|:------------------|:-----------------------------------------|:---------:|:------|
@@ -944,7 +937,7 @@
 
 ### DeliveryRuleQueryStringCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                        | v20230501/storage |                                      |  Status   | Notes |
 |:-----------|:---------------------------------------|:------------------|:-------------------------------------|:---------:|:------|
@@ -954,7 +947,7 @@
 
 ### DeliveryRuleQueryStringCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                               | v20230501/storage |                                             |  Status   | Notes |
 |:-----------|:----------------------------------------------|:------------------|:--------------------------------------------|:---------:|:------|
@@ -964,7 +957,7 @@
 
 ### DeliveryRuleRemoteAddressCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                          | v20230501/storage |                                        |  Status   | Notes |
 |:-----------|:-----------------------------------------|:------------------|:---------------------------------------|:---------:|:------|
@@ -974,7 +967,7 @@
 
 ### DeliveryRuleRemoteAddressCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                                 | v20230501/storage |                                               |  Status   | Notes |
 |:-----------|:------------------------------------------------|:------------------|:----------------------------------------------|:---------:|:------|
@@ -984,7 +977,7 @@
 
 ### DeliveryRuleRequestBodyCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                        | v20230501/storage |                                      |  Status   | Notes |
 |:-----------|:---------------------------------------|:------------------|:-------------------------------------|:---------:|:------|
@@ -994,7 +987,7 @@
 
 ### DeliveryRuleRequestBodyCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                               | v20230501/storage |                                             |  Status   | Notes |
 |:-----------|:----------------------------------------------|:------------------|:--------------------------------------------|:---------:|:------|
@@ -1004,7 +997,7 @@
 
 ### DeliveryRuleRequestHeaderAction
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                       | v20230501/storage |                         |  Status   | Notes |
 |:-----------|:--------------------------------------|:------------------|:------------------------|:---------:|:------|
@@ -1014,7 +1007,7 @@
 
 ### DeliveryRuleRequestHeaderAction_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                              | v20230501/storage |                                |  Status   | Notes |
 |:-----------|:---------------------------------------------|:------------------|:-------------------------------|:---------:|:------|
@@ -1024,7 +1017,7 @@
 
 ### DeliveryRuleRequestHeaderCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                          | v20230501/storage |                                        |  Status   | Notes |
 |:-----------|:-----------------------------------------|:------------------|:---------------------------------------|:---------:|:------|
@@ -1034,7 +1027,7 @@
 
 ### DeliveryRuleRequestHeaderCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                                 | v20230501/storage |                                               |  Status   | Notes |
 |:-----------|:------------------------------------------------|:------------------|:----------------------------------------------|:---------:|:------|
@@ -1044,7 +1037,7 @@
 
 ### DeliveryRuleRequestMethodCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                          | v20230501/storage |                                        |  Status   | Notes |
 |:-----------|:-----------------------------------------|:------------------|:---------------------------------------|:---------:|:------|
@@ -1054,7 +1047,7 @@
 
 ### DeliveryRuleRequestMethodCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                                 | v20230501/storage |                                               |  Status   | Notes |
 |:-----------|:------------------------------------------------|:------------------|:----------------------------------------------|:---------:|:------|
@@ -1064,7 +1057,7 @@
 
 ### DeliveryRuleRequestSchemeCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                          | v20230501/storage |                                        |  Status   | Notes |
 |:-----------|:-----------------------------------------|:------------------|:---------------------------------------|:---------:|:------|
@@ -1074,7 +1067,7 @@
 
 ### DeliveryRuleRequestSchemeCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                                 | v20230501/storage |                                               |  Status   | Notes |
 |:-----------|:------------------------------------------------|:------------------|:----------------------------------------------|:---------:|:------|
@@ -1084,7 +1077,7 @@
 
 ### DeliveryRuleRequestUriCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                       | v20230501/storage |                                     |  Status   | Notes |
 |:-----------|:--------------------------------------|:------------------|:------------------------------------|:---------:|:------|
@@ -1094,7 +1087,7 @@
 
 ### DeliveryRuleRequestUriCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                              | v20230501/storage |                                            |  Status   | Notes |
 |:-----------|:---------------------------------------------|:------------------|:-------------------------------------------|:---------:|:------|
@@ -1104,7 +1097,7 @@
 
 ### DeliveryRuleResponseHeaderAction
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                        | v20230501/storage |                         |  Status   | Notes |
 |:-----------|:---------------------------------------|:------------------|:------------------------|:---------:|:------|
@@ -1114,7 +1107,7 @@
 
 ### DeliveryRuleResponseHeaderAction_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                               | v20230501/storage |                                |  Status   | Notes |
 |:-----------|:----------------------------------------------|:------------------|:-------------------------------|:---------:|:------|
@@ -1124,7 +1117,7 @@
 
 ### DeliveryRuleRouteConfigurationOverrideAction
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                                    | v20230501/storage |                                             |  Status   | Notes |
 |:-----------|:---------------------------------------------------|:------------------|:--------------------------------------------|:---------:|:------|
@@ -1134,7 +1127,7 @@
 
 ### DeliveryRuleRouteConfigurationOverrideAction_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                                           | v20230501/storage |                                                    |  Status   | Notes |
 |:-----------|:----------------------------------------------------------|:------------------|:---------------------------------------------------|:---------:|:------|
@@ -1144,7 +1137,7 @@
 
 ### DeliveryRuleServerPortCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                       | v20230501/storage |                                     |  Status   | Notes |
 |:-----------|:--------------------------------------|:------------------|:------------------------------------|:---------:|:------|
@@ -1154,7 +1147,7 @@
 
 ### DeliveryRuleServerPortCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                              | v20230501/storage |                                            |  Status   | Notes |
 |:-----------|:---------------------------------------------|:------------------|:-------------------------------------------|:---------:|:------|
@@ -1164,7 +1157,7 @@
 
 ### DeliveryRuleSocketAddrCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                       | v20230501/storage |                                     |  Status   | Notes |
 |:-----------|:--------------------------------------|:------------------|:------------------------------------|:---------:|:------|
@@ -1174,7 +1167,7 @@
 
 ### DeliveryRuleSocketAddrCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                              | v20230501/storage |                                            |  Status   | Notes |
 |:-----------|:---------------------------------------------|:------------------|:-------------------------------------------|:---------:|:------|
@@ -1184,7 +1177,7 @@
 
 ### DeliveryRuleSslProtocolCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                        | v20230501/storage |                                      |  Status   | Notes |
 |:-----------|:---------------------------------------|:------------------|:-------------------------------------|:---------:|:------|
@@ -1194,7 +1187,7 @@
 
 ### DeliveryRuleSslProtocolCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                               | v20230501/storage |                                             |  Status   | Notes |
 |:-----------|:----------------------------------------------|:------------------|:--------------------------------------------|:---------:|:------|
@@ -1204,7 +1197,7 @@
 
 ### DeliveryRuleUrlFileExtensionCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                             | v20230501/storage |                                           |  Status   | Notes |
 |:-----------|:--------------------------------------------|:------------------|:------------------------------------------|:---------:|:------|
@@ -1214,7 +1207,7 @@
 
 ### DeliveryRuleUrlFileExtensionCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                                    | v20230501/storage |                                                  |  Status   | Notes |
 |:-----------|:---------------------------------------------------|:------------------|:-------------------------------------------------|:---------:|:------|
@@ -1224,7 +1217,7 @@
 
 ### DeliveryRuleUrlFileNameCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                        | v20230501/storage |                                      |  Status   | Notes |
 |:-----------|:---------------------------------------|:------------------|:-------------------------------------|:---------:|:------|
@@ -1234,7 +1227,7 @@
 
 ### DeliveryRuleUrlFileNameCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                               | v20230501/storage |                                             |  Status   | Notes |
 |:-----------|:----------------------------------------------|:------------------|:--------------------------------------------|:---------:|:------|
@@ -1244,7 +1237,7 @@
 
 ### DeliveryRuleUrlPathCondition
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                    | v20230501/storage |                                  |  Status   | Notes |
 |:-----------|:-----------------------------------|:------------------|:---------------------------------|:---------:|:------|
@@ -1254,7 +1247,7 @@
 
 ### DeliveryRuleUrlPathCondition_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                           | v20230501/storage |                                         |  Status   | Notes |
 |:-----------|:------------------------------------------|:------------------|:----------------------------------------|:---------:|:------|
@@ -1264,7 +1257,7 @@
 
 ### DomainValidationProperties_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20230501       |         | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -1274,7 +1267,7 @@
 
 ### HeaderActionParameters
 
-2 x Identical, 1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New, 2 x Modified
 
 | v20230501    |                                      | v20230501/storage |                        |  Status   | Notes |
 |:-------------|:-------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1286,7 +1279,7 @@
 
 ### HeaderActionParameters_STATUS
 
-2 x Identical, 1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New, 2 x Modified
 
 | v20230501    |                                             | v20230501/storage |                        |  Status   | Notes |
 |:-------------|:--------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1298,11 +1291,11 @@
 
 ### HealthProbeParameters
 
-1 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 2 x Modified
 
 | v20230501              |                                         | v20230501/storage      |                        |  Status   | Notes |
 |:-----------------------|:----------------------------------------|:-----------------------|:-----------------------|:---------:|:------|
-| ProbeIntervalInSeconds | Validated<*int> (2 rules)               | ProbeIntervalInSeconds | *int                   | Modified  |       |
+| ProbeIntervalInSeconds | Validated<*int> (2 rules)               | ProbeIntervalInSeconds | *int                   | Identical |       |
 | ProbePath              | *string                                 | ProbePath              | *string                | Identical |       |
 | ProbeProtocol          | *HealthProbeParameters_ProbeProtocol    | ProbeProtocol          | *string                | Modified  |       |
 | ProbeRequestType       | *HealthProbeParameters_ProbeRequestType | ProbeRequestType       | *string                | Modified  |       |
@@ -1310,7 +1303,7 @@
 
 ### HealthProbeParameters_STATUS
 
-2 x Identical, 1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New, 2 x Modified
 
 | v20230501              |                                                | v20230501/storage      |                        |  Status   | Notes |
 |:-----------------------|:-----------------------------------------------|:-----------------------|:-----------------------|:---------:|:------|
@@ -1322,7 +1315,7 @@
 
 ### HostNameMatchConditionParameters
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v20230501       |                                            | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:-------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1335,7 +1328,7 @@
 
 ### HostNameMatchConditionParameters_STATUS
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v20230501       |                                                   | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:--------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1348,7 +1341,7 @@
 
 ### HttpVersionMatchConditionParameters
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v20230501       |                                               | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:----------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1361,7 +1354,7 @@
 
 ### HttpVersionMatchConditionParameters_STATUS
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v20230501       |                                                      | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:-----------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1374,7 +1367,7 @@
 
 ### IsDeviceMatchConditionParameters
 
-1 x Identical, 1 x New, 4 x Modified
+Properties: 1 x Identical, 1 x New, 4 x Modified
 
 | v20230501       |                                                | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:-----------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1387,7 +1380,7 @@
 
 ### IsDeviceMatchConditionParameters_STATUS
 
-1 x Identical, 1 x New, 4 x Modified
+Properties: 1 x Identical, 1 x New, 4 x Modified
 
 | v20230501       |                                                       | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:------------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1400,7 +1393,7 @@
 
 ### LoadBalancingSettingsParameters
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20230501                       |      | v20230501/storage               |                        |  Status   | Notes |
 |:--------------------------------|:-----|:--------------------------------|:-----------------------|:---------:|:------|
@@ -1411,7 +1404,7 @@
 
 ### LoadBalancingSettingsParameters_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20230501                       |      | v20230501/storage               |                        |  Status   | Notes |
 |:--------------------------------|:-----|:--------------------------------|:-----------------------|:---------:|:------|
@@ -1422,7 +1415,7 @@
 
 ### ManagedCertificateParameters
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v20230501 |                                    | v20230501/storage |                        |  Status  | Notes |
 |:----------|:-----------------------------------|:------------------|:-----------------------|:--------:|:------|
@@ -1431,7 +1424,7 @@
 
 ### ManagedCertificateParameters_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20230501      |                                           | v20230501/storage |                        |  Status   | Notes |
 |:---------------|:------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1442,7 +1435,7 @@
 
 ### ManagedServiceIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501              |                               | v20230501/storage      |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -1452,7 +1445,7 @@
 
 ### ManagedServiceIdentity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v20230501              |                                        | v20230501/storage      |                                        |  Status   | Notes |
 |:-----------------------|:---------------------------------------|:-----------------------|:---------------------------------------|:---------:|:------|
@@ -1464,7 +1457,7 @@
 
 ### OriginGroupOverride
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501          |                                         | v20230501/storage  |                        |  Status   | Notes |
 |:-------------------|:----------------------------------------|:-------------------|:-----------------------|:---------:|:------|
@@ -1474,7 +1467,7 @@
 
 ### OriginGroupOverrideAction
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                      | v20230501/storage |                                      |  Status   | Notes |
 |:-----------|:-------------------------------------|:------------------|:-------------------------------------|:---------:|:------|
@@ -1484,7 +1477,7 @@
 
 ### OriginGroupOverrideActionParameters
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501   |                                               | v20230501/storage |                        |  Status   | Notes |
 |:------------|:----------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1494,7 +1487,7 @@
 
 ### OriginGroupOverrideActionParameters_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501   |                                                      | v20230501/storage |                           |  Status   | Notes |
 |:------------|:-----------------------------------------------------|:------------------|:--------------------------|:---------:|:------|
@@ -1504,7 +1497,7 @@
 
 ### OriginGroupOverrideAction_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                             | v20230501/storage |                                             |  Status   | Notes |
 |:-----------|:--------------------------------------------|:------------------|:--------------------------------------------|:---------:|:------|
@@ -1514,7 +1507,7 @@
 
 ### OriginGroupOverride_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501          |                                                | v20230501/storage  |                           |  Status   | Notes |
 |:-------------------|:-----------------------------------------------|:-------------------|:--------------------------|:---------:|:------|
@@ -1524,7 +1517,7 @@
 
 ### PostArgsMatchConditionParameters
 
-3 x Identical, 1 x New, 3 x Modified
+Properties: 3 x Identical, 1 x New, 3 x Modified
 
 | v20230501       |                                            | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:-------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1538,7 +1531,7 @@
 
 ### PostArgsMatchConditionParameters_STATUS
 
-3 x Identical, 1 x New, 3 x Modified
+Properties: 3 x Identical, 1 x New, 3 x Modified
 
 | v20230501       |                                                   | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:--------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1552,7 +1545,7 @@
 
 ### ProfileOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20230501            |                               | v20230501/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -1562,7 +1555,7 @@
 
 ### Profile_STATUS
 
-13 x Identical, 1 x New, 2 x Modified
+Properties: 13 x Identical, 1 x New, 2 x Modified
 
 | v20230501                    |                                             | v20230501/storage            |                                |  Status   | Notes |
 |:-----------------------------|:--------------------------------------------|:-----------------------------|:-------------------------------|:---------:|:------|
@@ -1585,7 +1578,7 @@
 
 ### Profile_Spec
 
-7 x Identical, 2 x New, 1 x Modified
+Properties: 8 x Identical, 2 x New
 
 | v20230501                    |                                    | v20230501/storage            |                                    |  Status   | Notes |
 |:-----------------------------|:-----------------------------------|:-----------------------------|:-----------------------------------|:---------:|:------|
@@ -1593,7 +1586,7 @@
 | Identity                     | *ManagedServiceIdentity            | Identity                     | *ManagedServiceIdentity            | Identical |       |
 | Location                     | *string                            | Location                     | *string                            | Identical |       |
 | OperatorSpec                 | *ProfileOperatorSpec               | OperatorSpec                 | *ProfileOperatorSpec               | Identical |       |
-| OriginResponseTimeoutSeconds | Validated<*int> (1 rule)           | OriginResponseTimeoutSeconds | *int                               | Modified  |       |
+| OriginResponseTimeoutSeconds | Validated<*int> (1 rule)           | OriginResponseTimeoutSeconds | *int                               | Identical |       |
 |                              |                                    | OriginalVersion              | string                             |    New    |       |
 | Owner                        | *genruntime.KnownResourceReference | Owner                        | *genruntime.KnownResourceReference | Identical |       |
 |                              |                                    | PropertyBag                  | genruntime.PropertyBag             |    New    |       |
@@ -1602,7 +1595,7 @@
 
 ### QueryStringMatchConditionParameters
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v20230501       |                                               | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:----------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1615,7 +1608,7 @@
 
 ### QueryStringMatchConditionParameters_STATUS
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v20230501       |                                                      | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:-----------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1628,7 +1621,7 @@
 
 ### RemoteAddressMatchConditionParameters
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v20230501       |                                                 | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1641,7 +1634,7 @@
 
 ### RemoteAddressMatchConditionParameters_STATUS
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v20230501       |                                                        | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:-------------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1654,7 +1647,7 @@
 
 ### RequestBodyMatchConditionParameters
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v20230501       |                                               | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:----------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1667,7 +1660,7 @@
 
 ### RequestBodyMatchConditionParameters_STATUS
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v20230501       |                                                      | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:-----------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1680,7 +1673,7 @@
 
 ### RequestHeaderMatchConditionParameters
 
-3 x Identical, 1 x New, 3 x Modified
+Properties: 3 x Identical, 1 x New, 3 x Modified
 
 | v20230501       |                                                 | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1694,7 +1687,7 @@
 
 ### RequestHeaderMatchConditionParameters_STATUS
 
-3 x Identical, 1 x New, 3 x Modified
+Properties: 3 x Identical, 1 x New, 3 x Modified
 
 | v20230501       |                                                        | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:-------------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1708,7 +1701,7 @@
 
 ### RequestMethodMatchConditionParameters
 
-1 x Identical, 1 x New, 4 x Modified
+Properties: 1 x Identical, 1 x New, 4 x Modified
 
 | v20230501       |                                                     | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:----------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1721,7 +1714,7 @@
 
 ### RequestMethodMatchConditionParameters_STATUS
 
-1 x Identical, 1 x New, 4 x Modified
+Properties: 1 x Identical, 1 x New, 4 x Modified
 
 | v20230501       |                                                            | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:-----------------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1734,7 +1727,7 @@
 
 ### RequestSchemeMatchConditionParameters
 
-1 x Identical, 1 x New, 4 x Modified
+Properties: 1 x Identical, 1 x New, 4 x Modified
 
 | v20230501       |                                                     | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:----------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1747,7 +1740,7 @@
 
 ### RequestSchemeMatchConditionParameters_STATUS
 
-1 x Identical, 1 x New, 4 x Modified
+Properties: 1 x Identical, 1 x New, 4 x Modified
 
 | v20230501       |                                                            | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:-----------------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1760,7 +1753,7 @@
 
 ### RequestUriMatchConditionParameters
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v20230501       |                                              | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:---------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1773,7 +1766,7 @@
 
 ### RequestUriMatchConditionParameters_STATUS
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v20230501       |                                                     | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:----------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1786,7 +1779,7 @@
 
 ### ResourceReference
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20230501 |                               | v20230501/storage |                               |  Status   | Notes |
 |:----------|:------------------------------|:------------------|:------------------------------|:---------:|:------|
@@ -1795,7 +1788,7 @@
 
 ### ResourceReference_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20230501 |         | v20230501/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -1804,7 +1797,7 @@
 
 ### RouteConfigurationOverrideActionParameters
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20230501           |                                                      | v20230501/storage   |                        |  Status   | Notes |
 |:--------------------|:-----------------------------------------------------|:--------------------|:-----------------------|:---------:|:------|
@@ -1815,7 +1808,7 @@
 
 ### RouteConfigurationOverrideActionParameters_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20230501           |                                                             | v20230501/storage   |                             |  Status   | Notes |
 |:--------------------|:------------------------------------------------------------|:--------------------|:----------------------------|:---------:|:------|
@@ -1826,7 +1819,7 @@
 
 ### RouteOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20230501            |                               | v20230501/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -1836,7 +1829,7 @@
 
 ### Route_STATUS
 
-12 x Identical, 1 x New, 7 x Modified
+Properties: 12 x Identical, 1 x New, 7 x Modified
 
 | v20230501           |                                                                                     | v20230501/storage   |                                                                                     |  Status   | Notes |
 |:--------------------|:------------------------------------------------------------------------------------|:--------------------|:------------------------------------------------------------------------------------|:---------:|:------|
@@ -1863,7 +1856,7 @@
 
 ### Route_Spec
 
-9 x Identical, 2 x New, 5 x Modified
+Properties: 9 x Identical, 2 x New, 5 x Modified
 
 | v20230501           |                                      | v20230501/storage   |                                    |  Status   | Notes |
 |:--------------------|:-------------------------------------|:--------------------|:-----------------------------------|:---------:|:------|
@@ -1886,7 +1879,7 @@
 
 ### RuleOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20230501            |                               | v20230501/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -1896,7 +1889,7 @@
 
 ### RuleSetOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20230501            |                               | v20230501/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -1906,7 +1899,7 @@
 
 ### RuleSet_STATUS
 
-6 x Identical, 1 x New, 2 x Modified
+Properties: 6 x Identical, 1 x New, 2 x Modified
 
 | v20230501         |                                             | v20230501/storage |                        |  Status   | Notes |
 |:------------------|:--------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1922,7 +1915,7 @@
 
 ### RuleSet_Spec
 
-3 x Identical, 2 x New
+Properties: 3 x Identical, 2 x New
 
 | v20230501    |                                    | v20230501/storage |                                    |  Status   | Notes |
 |:-------------|:-----------------------------------|:------------------|:-----------------------------------|:---------:|:------|
@@ -1934,7 +1927,7 @@
 
 ### Rule_STATUS
 
-9 x Identical, 1 x New, 3 x Modified
+Properties: 9 x Identical, 1 x New, 3 x Modified
 
 | v20230501               |                                                | v20230501/storage       |                                |  Status   | Notes |
 |:------------------------|:-----------------------------------------------|:------------------------|:-------------------------------|:---------:|:------|
@@ -1954,7 +1947,7 @@
 
 ### Rule_Spec
 
-6 x Identical, 2 x New, 1 x Modified
+Properties: 6 x Identical, 2 x New, 1 x Modified
 
 | v20230501               |                                         | v20230501/storage       |                                    |  Status   | Notes |
 |:------------------------|:----------------------------------------|:------------------------|:-----------------------------------|:---------:|:------|
@@ -1970,7 +1963,7 @@
 
 ### SecretOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20230501            |                               | v20230501/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -1980,7 +1973,7 @@
 
 ### SecretParameters
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20230501                         |                                              | v20230501/storage                 |                                              |  Status   | Notes |
 |:----------------------------------|:---------------------------------------------|:----------------------------------|:---------------------------------------------|:---------:|:------|
@@ -1992,7 +1985,7 @@
 
 ### SecretParameters_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20230501                         |                                                     | v20230501/storage                 |                                                     |  Status   | Notes |
 |:----------------------------------|:----------------------------------------------------|:----------------------------------|:----------------------------------------------------|:---------:|:------|
@@ -2004,7 +1997,7 @@
 
 ### Secret_STATUS
 
-7 x Identical, 1 x New, 2 x Modified
+Properties: 7 x Identical, 1 x New, 2 x Modified
 
 | v20230501         |                                            | v20230501/storage |                          |  Status   | Notes |
 |:------------------|:-------------------------------------------|:------------------|:-------------------------|:---------:|:------|
@@ -2021,7 +2014,7 @@
 
 ### Secret_Spec
 
-4 x Identical, 2 x New
+Properties: 4 x Identical, 2 x New
 
 | v20230501    |                                    | v20230501/storage |                                    |  Status   | Notes |
 |:-------------|:-----------------------------------|:------------------|:-----------------------------------|:---------:|:------|
@@ -2034,7 +2027,7 @@
 
 ### SecurityPolicyOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20230501            |                               | v20230501/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -2044,7 +2037,7 @@
 
 ### SecurityPolicyPropertiesParameters
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20230501              |                                                 | v20230501/storage      |                                                 |  Status   | Notes |
 |:-----------------------|:------------------------------------------------|:-----------------------|:------------------------------------------------|:---------:|:------|
@@ -2053,7 +2046,7 @@
 
 ### SecurityPolicyPropertiesParameters_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20230501              |                                                        | v20230501/storage      |                                                        |  Status   | Notes |
 |:-----------------------|:-------------------------------------------------------|:-----------------------|:-------------------------------------------------------|:---------:|:------|
@@ -2062,7 +2055,7 @@
 
 ### SecurityPolicyWebApplicationFirewallAssociation
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20230501       |                              | v20230501/storage |                              |  Status   | Notes |
 |:----------------|:-----------------------------|:------------------|:-----------------------------|:---------:|:------|
@@ -2072,7 +2065,7 @@
 
 ### SecurityPolicyWebApplicationFirewallAssociation_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20230501       |                                                                                 | v20230501/storage |                                                                                 |  Status   | Notes |
 |:----------------|:--------------------------------------------------------------------------------|:------------------|:--------------------------------------------------------------------------------|:---------:|:------|
@@ -2082,7 +2075,7 @@
 
 ### SecurityPolicyWebApplicationFirewallParameters
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20230501    |                                                      | v20230501/storage |                                                   |  Status   | Notes |
 |:-------------|:-----------------------------------------------------|:------------------|:--------------------------------------------------|:---------:|:------|
@@ -2093,7 +2086,7 @@
 
 ### SecurityPolicyWebApplicationFirewallParameters_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20230501    |                                                             | v20230501/storage |                                                          |  Status   | Notes |
 |:-------------|:------------------------------------------------------------|:------------------|:---------------------------------------------------------|:---------:|:------|
@@ -2104,7 +2097,7 @@
 
 ### SecurityPolicy_STATUS
 
-7 x Identical, 1 x New, 2 x Modified
+Properties: 7 x Identical, 1 x New, 2 x Modified
 
 | v20230501         |                                                    | v20230501/storage |                                            |  Status   | Notes |
 |:------------------|:---------------------------------------------------|:------------------|:-------------------------------------------|:---------:|:------|
@@ -2121,7 +2114,7 @@
 
 ### SecurityPolicy_Spec
 
-4 x Identical, 2 x New
+Properties: 4 x Identical, 2 x New
 
 | v20230501    |                                     | v20230501/storage |                                     |  Status   | Notes |
 |:-------------|:------------------------------------|:------------------|:------------------------------------|:---------:|:------|
@@ -2134,7 +2127,7 @@
 
 ### ServerPortMatchConditionParameters
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v20230501       |                                              | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:---------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -2147,7 +2140,7 @@
 
 ### ServerPortMatchConditionParameters_STATUS
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v20230501       |                                                     | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:----------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -2160,7 +2153,7 @@
 
 ### SharedPrivateLinkResourceProperties
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v20230501           |                                             | v20230501/storage   |                        |  Status   | Notes |
 |:--------------------|:--------------------------------------------|:--------------------|:-----------------------|:---------:|:------|
@@ -2173,7 +2166,7 @@
 
 ### SharedPrivateLinkResourceProperties_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v20230501           |                                                    | v20230501/storage   |                           |  Status   | Notes |
 |:--------------------|:---------------------------------------------------|:--------------------|:--------------------------|:---------:|:------|
@@ -2186,7 +2179,7 @@
 
 ### Sku
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v20230501 |           | v20230501/storage |                        |  Status  | Notes |
 |:----------|:----------|:------------------|:-----------------------|:--------:|:------|
@@ -2195,7 +2188,7 @@
 
 ### Sku_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v20230501 |                  | v20230501/storage |                        |  Status  | Notes |
 |:----------|:-----------------|:------------------|:-----------------------|:--------:|:------|
@@ -2204,7 +2197,7 @@
 
 ### SocketAddrMatchConditionParameters
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v20230501       |                                              | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:---------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -2217,7 +2210,7 @@
 
 ### SocketAddrMatchConditionParameters_STATUS
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v20230501       |                                                     | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:----------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -2230,7 +2223,7 @@
 
 ### SslProtocolMatchConditionParameters
 
-1 x Identical, 1 x New, 4 x Modified
+Properties: 1 x Identical, 1 x New, 4 x Modified
 
 | v20230501       |                                               | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:----------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -2243,7 +2236,7 @@
 
 ### SslProtocolMatchConditionParameters_STATUS
 
-1 x Identical, 1 x New, 4 x Modified
+Properties: 1 x Identical, 1 x New, 4 x Modified
 
 | v20230501       |                                                      | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:-----------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -2256,7 +2249,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v20230501          |                      | v20230501/storage  |                        |  Status   | Notes |
 |:-------------------|:---------------------|:-------------------|:-----------------------|:---------:|:------|
@@ -2270,7 +2263,7 @@
 
 ### UrlFileExtensionMatchConditionParameters
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v20230501       |                                                    | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:---------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -2283,7 +2276,7 @@
 
 ### UrlFileExtensionMatchConditionParameters_STATUS
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v20230501       |                                                           | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:----------------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -2296,7 +2289,7 @@
 
 ### UrlFileNameMatchConditionParameters
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v20230501       |                                               | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:----------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -2309,7 +2302,7 @@
 
 ### UrlFileNameMatchConditionParameters_STATUS
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v20230501       |                                                      | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:-----------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -2322,7 +2315,7 @@
 
 ### UrlPathMatchConditionParameters
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v20230501       |                                           | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -2335,7 +2328,7 @@
 
 ### UrlPathMatchConditionParameters_STATUS
 
-2 x Identical, 1 x New, 3 x Modified
+Properties: 2 x Identical, 1 x New, 3 x Modified
 
 | v20230501       |                                                  | v20230501/storage |                        |  Status   | Notes |
 |:----------------|:-------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -2348,7 +2341,7 @@
 
 ### UrlRedirectAction
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                              | v20230501/storage |                              |  Status   | Notes |
 |:-----------|:-----------------------------|:------------------|:-----------------------------|:---------:|:------|
@@ -2358,7 +2351,7 @@
 
 ### UrlRedirectActionParameters
 
-4 x Identical, 1 x New, 3 x Modified
+Properties: 4 x Identical, 1 x New, 3 x Modified
 
 | v20230501           |                                                  | v20230501/storage   |                        |  Status   | Notes |
 |:--------------------|:-------------------------------------------------|:--------------------|:-----------------------|:---------:|:------|
@@ -2373,7 +2366,7 @@
 
 ### UrlRedirectActionParameters_STATUS
 
-4 x Identical, 1 x New, 3 x Modified
+Properties: 4 x Identical, 1 x New, 3 x Modified
 
 | v20230501           |                                                         | v20230501/storage   |                        |  Status   | Notes |
 |:--------------------|:--------------------------------------------------------|:--------------------|:-----------------------|:---------:|:------|
@@ -2388,7 +2381,7 @@
 
 ### UrlRedirectAction_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                     | v20230501/storage |                                     |  Status   | Notes |
 |:-----------|:------------------------------------|:------------------|:------------------------------------|:---------:|:------|
@@ -2398,7 +2391,7 @@
 
 ### UrlRewriteAction
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                             | v20230501/storage |                             |  Status   | Notes |
 |:-----------|:----------------------------|:------------------|:----------------------------|:---------:|:------|
@@ -2408,7 +2401,7 @@
 
 ### UrlRewriteActionParameters
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v20230501             |                                      | v20230501/storage     |                        |  Status   | Notes |
 |:----------------------|:-------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2420,7 +2413,7 @@
 
 ### UrlRewriteActionParameters_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v20230501             |                                             | v20230501/storage     |                        |  Status   | Notes |
 |:----------------------|:--------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2432,7 +2425,7 @@
 
 ### UrlRewriteAction_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                    | v20230501/storage |                                    |  Status   | Notes |
 |:-----------|:-----------------------------------|:------------------|:-----------------------------------|:---------:|:------|
@@ -2442,7 +2435,7 @@
 
 ### UrlSigningAction
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                             | v20230501/storage |                             |  Status   | Notes |
 |:-----------|:----------------------------|:------------------|:----------------------------|:---------:|:------|
@@ -2452,7 +2445,7 @@
 
 ### UrlSigningActionParameters
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v20230501             |                                       | v20230501/storage     |                             |  Status   | Notes |
 |:----------------------|:--------------------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -2463,7 +2456,7 @@
 
 ### UrlSigningActionParameters_STATUS
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v20230501             |                                              | v20230501/storage     |                                    |  Status   | Notes |
 |:----------------------|:---------------------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -2474,7 +2467,7 @@
 
 ### UrlSigningAction_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501  |                                    | v20230501/storage |                                    |  Status   | Notes |
 |:-----------|:-----------------------------------|:------------------|:-----------------------------------|:---------:|:------|
@@ -2484,7 +2477,7 @@
 
 ### UrlSigningKeyParameters
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v20230501     |                               | v20230501/storage |                        |  Status   | Notes |
 |:--------------|:------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -2496,7 +2489,7 @@
 
 ### UrlSigningKeyParameters_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v20230501     |                                      | v20230501/storage |                           |  Status   | Notes |
 |:--------------|:-------------------------------------|:------------------|:--------------------------|:---------:|:------|
@@ -2508,7 +2501,7 @@
 
 ### UrlSigningParamIdentifier
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501      |                                           | v20230501/storage |                        |  Status   | Notes |
 |:---------------|:------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -2518,7 +2511,7 @@
 
 ### UrlSigningParamIdentifier_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230501      |                                                  | v20230501/storage |                        |  Status   | Notes |
 |:---------------|:-------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -2528,7 +2521,7 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20230501 |                              | v20230501/storage |                              |  Status   | Notes |
 |:----------|:-----------------------------|:------------------|:-----------------------------|:---------:|:------|
@@ -2537,10 +2530,19 @@
 
 ### UserAssignedIdentity_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20230501   |         | v20230501/storage |                        |  Status   | Notes |
 |:------------|:--------|:------------------|:-----------------------|:---------:|:------|
 | ClientId    | *string | ClientId          | *string                | Identical |       |
 | PrincipalId | *string | PrincipalId       | *string                | Identical |       |
 |             |         | PropertyBag       | genruntime.PropertyBag |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

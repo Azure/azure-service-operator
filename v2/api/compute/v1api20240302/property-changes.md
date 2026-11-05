@@ -9,78 +9,71 @@
 | DiskEncryptionSet | DiskEncryptionSet     | Identical |       |
 | Snapshot          | Snapshot              | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20240302                       | v1api20240302/storage               |  Status  | Notes |
-|:------------------------------------|:------------------------------------|:--------:|:------|
-| ApiErrorBase_STATUS                 | ApiErrorBase_STATUS                 | Extended |       |
-| ApiError_STATUS                     | ApiError_STATUS                     | Extended |       |
-| CopyCompletionError                 | CopyCompletionError                 | Modified |       |
-| CopyCompletionError_STATUS          | CopyCompletionError_STATUS          | Modified |       |
-| CreationData                        | CreationData                        | Modified |       |
-| CreationData_STATUS                 | CreationData_STATUS                 | Modified |       |
-| DiskAccessOperatorSpec              | DiskAccessOperatorSpec              | Extended |       |
-| DiskAccess_STATUS                   | DiskAccess_STATUS                   | Extended |       |
-| DiskAccess_Spec                     | DiskAccess_Spec                     | Extended |       |
-| DiskEncryptionSetOperatorSpec       | DiskEncryptionSetOperatorSpec       | Extended |       |
-| DiskEncryptionSet_STATUS            | DiskEncryptionSet_STATUS            | Modified |       |
-| DiskEncryptionSet_Spec              | DiskEncryptionSet_Spec              | Modified |       |
-| DiskOperatorSpec                    | DiskOperatorSpec                    | Extended |       |
-| DiskPurchasePlan                    | DiskPurchasePlan                    | Extended |       |
-| DiskPurchasePlan_STATUS             | DiskPurchasePlan_STATUS             | Extended |       |
-| DiskSecurityProfile                 | DiskSecurityProfile                 | Modified |       |
-| DiskSecurityProfile_STATUS          | DiskSecurityProfile_STATUS          | Modified |       |
-| DiskSku                             | DiskSku                             | Modified |       |
-| DiskSku_STATUS                      | DiskSku_STATUS                      | Modified |       |
-| Disk_STATUS                         | Disk_STATUS                         | Modified |       |
-| Disk_Spec                           | Disk_Spec                           | Modified |       |
-| Encryption                          | Encryption                          | Modified |       |
-| EncryptionSetIdentity               | EncryptionSetIdentity               | Modified |       |
-| EncryptionSetIdentity_STATUS        | EncryptionSetIdentity_STATUS        | Modified |       |
-| EncryptionSettingsCollection        | EncryptionSettingsCollection        | Extended |       |
-| EncryptionSettingsCollection_STATUS | EncryptionSettingsCollection_STATUS | Extended |       |
-| EncryptionSettingsElement           | EncryptionSettingsElement           | Extended |       |
-| EncryptionSettingsElement_STATUS    | EncryptionSettingsElement_STATUS    | Extended |       |
-| Encryption_STATUS                   | Encryption_STATUS                   | Modified |       |
-| ExtendedLocation                    | ExtendedLocation                    | Modified |       |
-| ExtendedLocation_STATUS             | ExtendedLocation_STATUS             | Modified |       |
-| ImageDiskReference                  | ImageDiskReference                  | Extended |       |
-| ImageDiskReference_STATUS           | ImageDiskReference_STATUS           | Extended |       |
-| InnerError_STATUS                   | InnerError_STATUS                   | Extended |       |
-| KeyForDiskEncryptionSet             | KeyForDiskEncryptionSet             | Extended |       |
-| KeyForDiskEncryptionSet_STATUS      | KeyForDiskEncryptionSet_STATUS      | Extended |       |
-| KeyVaultAndKeyReference             | KeyVaultAndKeyReference             | Extended |       |
-| KeyVaultAndKeyReference_STATUS      | KeyVaultAndKeyReference_STATUS      | Extended |       |
-| KeyVaultAndSecretReference          | KeyVaultAndSecretReference          | Extended |       |
-| KeyVaultAndSecretReference_STATUS   | KeyVaultAndSecretReference_STATUS   | Extended |       |
-| PrivateEndpointConnection_STATUS    | PrivateEndpointConnection_STATUS    | Extended |       |
-| PropertyUpdatesInProgress_STATUS    | PropertyUpdatesInProgress_STATUS    | Extended |       |
-| ShareInfoElement_STATUS             | ShareInfoElement_STATUS             | Extended |       |
-| SnapshotOperatorSpec                | SnapshotOperatorSpec                | Extended |       |
-| SnapshotSku                         | SnapshotSku                         | Modified |       |
-| SnapshotSku_STATUS                  | SnapshotSku_STATUS                  | Modified |       |
-| Snapshot_STATUS                     | Snapshot_STATUS                     | Modified |       |
-| Snapshot_Spec                       | Snapshot_Spec                       | Modified |       |
-| SourceVault                         | SourceVault                         | Extended |       |
-| SourceVault_STATUS                  | SourceVault_STATUS                  | Extended |       |
-| SupportedCapabilities               | SupportedCapabilities               | Modified |       |
-| SupportedCapabilities_STATUS        | SupportedCapabilities_STATUS        | Modified |       |
-| SystemData_STATUS                   | SystemData_STATUS                   | Modified |       |
-| UserAssignedIdentitiesValue_STATUS  | UserAssignedIdentitiesValue_STATUS  | Extended |       |
-| UserAssignedIdentityDetails         | UserAssignedIdentityDetails         | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20240302                       | v1api20240302/storage               |  Status  | Notes                         |
+|:------------------------------------|:------------------------------------|:--------:|:------------------------------|
+| ApiErrorBase_STATUS                 | ApiErrorBase_STATUS                 | Extended | +PropertyBag                  |
+| ApiError_STATUS                     | ApiError_STATUS                     | Extended | +PropertyBag                  |
+| CopyCompletionError                 | CopyCompletionError                 | Modified |                               |
+| CopyCompletionError_STATUS          | CopyCompletionError_STATUS          | Modified |                               |
+| CreationData                        | CreationData                        | Modified |                               |
+| CreationData_STATUS                 | CreationData_STATUS                 | Modified |                               |
+| DiskAccessOperatorSpec              | DiskAccessOperatorSpec              | Extended | +PropertyBag                  |
+| DiskAccess_STATUS                   | DiskAccess_STATUS                   | Extended | +PropertyBag                  |
+| DiskAccess_Spec                     | DiskAccess_Spec                     | Extended | +OriginalVersion +PropertyBag |
+| DiskEncryptionSetOperatorSpec       | DiskEncryptionSetOperatorSpec       | Extended | +PropertyBag                  |
+| DiskEncryptionSet_STATUS            | DiskEncryptionSet_STATUS            | Modified |                               |
+| DiskEncryptionSet_Spec              | DiskEncryptionSet_Spec              | Modified |                               |
+| DiskOperatorSpec                    | DiskOperatorSpec                    | Extended | +PropertyBag                  |
+| DiskPurchasePlan                    | DiskPurchasePlan                    | Extended | +PropertyBag                  |
+| DiskPurchasePlan_STATUS             | DiskPurchasePlan_STATUS             | Extended | +PropertyBag                  |
+| DiskSecurityProfile                 | DiskSecurityProfile                 | Modified |                               |
+| DiskSecurityProfile_STATUS          | DiskSecurityProfile_STATUS          | Modified |                               |
+| DiskSku                             | DiskSku                             | Modified |                               |
+| DiskSku_STATUS                      | DiskSku_STATUS                      | Modified |                               |
+| Disk_STATUS                         | Disk_STATUS                         | Modified |                               |
+| Disk_Spec                           | Disk_Spec                           | Modified |                               |
+| Encryption                          | Encryption                          | Modified |                               |
+| EncryptionSetIdentity               | EncryptionSetIdentity               | Modified |                               |
+| EncryptionSetIdentity_STATUS        | EncryptionSetIdentity_STATUS        | Modified |                               |
+| EncryptionSettingsCollection        | EncryptionSettingsCollection        | Extended | +PropertyBag                  |
+| EncryptionSettingsCollection_STATUS | EncryptionSettingsCollection_STATUS | Extended | +PropertyBag                  |
+| EncryptionSettingsElement           | EncryptionSettingsElement           | Extended | +PropertyBag                  |
+| EncryptionSettingsElement_STATUS    | EncryptionSettingsElement_STATUS    | Extended | +PropertyBag                  |
+| Encryption_STATUS                   | Encryption_STATUS                   | Modified |                               |
+| ExtendedLocation                    | ExtendedLocation                    | Modified |                               |
+| ExtendedLocation_STATUS             | ExtendedLocation_STATUS             | Modified |                               |
+| ImageDiskReference                  | ImageDiskReference                  | Extended | +PropertyBag                  |
+| ImageDiskReference_STATUS           | ImageDiskReference_STATUS           | Extended | +PropertyBag                  |
+| InnerError_STATUS                   | InnerError_STATUS                   | Extended | +PropertyBag                  |
+| KeyForDiskEncryptionSet             | KeyForDiskEncryptionSet             | Extended | +PropertyBag                  |
+| KeyForDiskEncryptionSet_STATUS      | KeyForDiskEncryptionSet_STATUS      | Extended | +PropertyBag                  |
+| KeyVaultAndKeyReference             | KeyVaultAndKeyReference             | Extended | +PropertyBag                  |
+| KeyVaultAndKeyReference_STATUS      | KeyVaultAndKeyReference_STATUS      | Extended | +PropertyBag                  |
+| KeyVaultAndSecretReference          | KeyVaultAndSecretReference          | Extended | +PropertyBag                  |
+| KeyVaultAndSecretReference_STATUS   | KeyVaultAndSecretReference_STATUS   | Extended | +PropertyBag                  |
+| PrivateEndpointConnection_STATUS    | PrivateEndpointConnection_STATUS    | Extended | +PropertyBag                  |
+| PropertyUpdatesInProgress_STATUS    | PropertyUpdatesInProgress_STATUS    | Extended | +PropertyBag                  |
+| ShareInfoElement_STATUS             | ShareInfoElement_STATUS             | Extended | +PropertyBag                  |
+| SnapshotOperatorSpec                | SnapshotOperatorSpec                | Extended | +PropertyBag                  |
+| SnapshotSku                         | SnapshotSku                         | Modified |                               |
+| SnapshotSku_STATUS                  | SnapshotSku_STATUS                  | Modified |                               |
+| Snapshot_STATUS                     | Snapshot_STATUS                     | Modified |                               |
+| Snapshot_Spec                       | Snapshot_Spec                       | Modified |                               |
+| SourceVault                         | SourceVault                         | Extended | +PropertyBag                  |
+| SourceVault_STATUS                  | SourceVault_STATUS                  | Extended | +PropertyBag                  |
+| SupportedCapabilities               | SupportedCapabilities               | Modified |                               |
+| SupportedCapabilities_STATUS        | SupportedCapabilities_STATUS        | Modified |                               |
+| SystemData_STATUS                   | SystemData_STATUS                   | Modified |                               |
+| UserAssignedIdentitiesValue_STATUS  | UserAssignedIdentitiesValue_STATUS  | Extended | +PropertyBag                  |
+| UserAssignedIdentityDetails         | UserAssignedIdentityDetails         | Extended | +PropertyBag                  |
 
 ### ApiErrorBase_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240302 |         | v1api20240302/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -91,7 +84,7 @@
 
 ### ApiError_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20240302 |                       | v1api20240302/storage |                        |  Status   | Notes |
 |:--------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -104,7 +97,7 @@
 
 ### CopyCompletionError
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240302 |                            | v1api20240302/storage |                        |  Status   | Notes |
 |:--------------|:---------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -114,7 +107,7 @@
 
 ### CopyCompletionError_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240302 |                                   | v1api20240302/storage |                        |  Status   | Notes |
 |:--------------|:----------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -124,7 +117,7 @@
 
 ### CreationData
 
-10 x Identical, 1 x New, 2 x Modified
+Properties: 10 x Identical, 1 x New, 2 x Modified
 
 | v1api20240302                 |                                 | v1api20240302/storage         |                               |  Status   | Notes |
 |:------------------------------|:--------------------------------|:------------------------------|:------------------------------|:---------:|:------|
@@ -144,7 +137,7 @@
 
 ### CreationData_STATUS
 
-11 x Identical, 1 x New, 2 x Modified
+Properties: 11 x Identical, 1 x New, 2 x Modified
 
 | v1api20240302                 |                                        | v1api20240302/storage         |                            |  Status   | Notes |
 |:------------------------------|:---------------------------------------|:------------------------------|:---------------------------|:---------:|:------|
@@ -165,7 +158,7 @@
 
 ### DiskAccessOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240302        |                               | v1api20240302/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -175,7 +168,7 @@
 
 ### DiskAccess_STATUS
 
-11 x Identical, 1 x New
+Properties: 11 x Identical, 1 x New
 
 | v1api20240302              |                                    | v1api20240302/storage      |                                    |  Status   | Notes |
 |:---------------------------|:-----------------------------------|:---------------------------|:-----------------------------------|:---------:|:------|
@@ -194,7 +187,7 @@
 
 ### DiskAccess_Spec
 
-6 x Identical, 2 x New
+Properties: 6 x Identical, 2 x New
 
 | v1api20240302    |                                    | v1api20240302/storage |                                    |  Status   | Notes |
 |:-----------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -209,7 +202,7 @@
 
 ### DiskEncryptionSetOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240302        |                               | v1api20240302/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -219,7 +212,7 @@
 
 ### DiskEncryptionSet_STATUS
 
-15 x Identical, 1 x New, 1 x Modified
+Properties: 15 x Identical, 1 x New, 1 x Modified
 
 | v1api20240302                     |                                  | v1api20240302/storage             |                                  |  Status   | Notes |
 |:----------------------------------|:---------------------------------|:----------------------------------|:---------------------------------|:---------:|:------|
@@ -243,7 +236,7 @@
 
 ### DiskEncryptionSet_Spec
 
-10 x Identical, 2 x New, 1 x Modified
+Properties: 10 x Identical, 2 x New, 1 x Modified
 
 | v1api20240302                     |                                    | v1api20240302/storage             |                                    |  Status   | Notes |
 |:----------------------------------|:-----------------------------------|:----------------------------------|:-----------------------------------|:---------:|:------|
@@ -263,7 +256,7 @@
 
 ### DiskOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240302        |                               | v1api20240302/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -273,7 +266,7 @@
 
 ### DiskPurchasePlan
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240302 |         | v1api20240302/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -285,7 +278,7 @@
 
 ### DiskPurchasePlan_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240302 |         | v1api20240302/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -297,7 +290,7 @@
 
 ### DiskSecurityProfile
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240302                      |                               | v1api20240302/storage              |                               |  Status   | Notes |
 |:-----------------------------------|:------------------------------|:-----------------------------------|:------------------------------|:---------:|:------|
@@ -307,7 +300,7 @@
 
 ### DiskSecurityProfile_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240302               |                           | v1api20240302/storage       |                        |  Status   | Notes |
 |:----------------------------|:--------------------------|:----------------------------|:-----------------------|:---------:|:------|
@@ -317,7 +310,7 @@
 
 ### DiskSku
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20240302 |                          | v1api20240302/storage |                        |  Status  | Notes |
 |:--------------|:-------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -326,7 +319,7 @@
 
 ### DiskSku_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240302 |                                 | v1api20240302/storage |                        |  Status   | Notes |
 |:--------------|:--------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -336,7 +329,7 @@
 
 ### Disk_STATUS
 
-38 x Identical, 1 x New, 6 x Modified
+Properties: 38 x Identical, 1 x New, 6 x Modified
 
 | v1api20240302                |                                      | v1api20240302/storage        |                                      |  Status   | Notes |
 |:-----------------------------|:-------------------------------------|:-----------------------------|:-------------------------------------|:---------:|:------|
@@ -388,7 +381,7 @@
 
 ### Disk_Spec
 
-26 x Identical, 2 x New, 5 x Modified
+Properties: 26 x Identical, 2 x New, 5 x Modified
 
 | v1api20240302                |                                    | v1api20240302/storage        |                                    |  Status   | Notes |
 |:-----------------------------|:-----------------------------------|:-----------------------------|:-----------------------------------|:---------:|:------|
@@ -428,7 +421,7 @@
 
 ### Encryption
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240302              |                               | v1api20240302/storage      |                               |  Status   | Notes |
 |:---------------------------|:------------------------------|:---------------------------|:------------------------------|:---------:|:------|
@@ -438,7 +431,7 @@
 
 ### EncryptionSetIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240302          |                                | v1api20240302/storage  |                               |  Status   | Notes |
 |:-----------------------|:-------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -448,7 +441,7 @@
 
 ### EncryptionSetIdentity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20240302          |                                               | v1api20240302/storage  |                                               |  Status   | Notes |
 |:-----------------------|:----------------------------------------------|:-----------------------|:----------------------------------------------|:---------:|:------|
@@ -460,7 +453,7 @@
 
 ### EncryptionSettingsCollection
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240302             |                             | v1api20240302/storage     |                             |  Status   | Notes |
 |:--------------------------|:----------------------------|:--------------------------|:----------------------------|:---------:|:------|
@@ -471,7 +464,7 @@
 
 ### EncryptionSettingsCollection_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240302             |                                    | v1api20240302/storage     |                                    |  Status   | Notes |
 |:--------------------------|:-----------------------------------|:--------------------------|:-----------------------------------|:---------:|:------|
@@ -482,7 +475,7 @@
 
 ### EncryptionSettingsElement
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240302     |                             | v1api20240302/storage |                             |  Status   | Notes |
 |:------------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -492,7 +485,7 @@
 
 ### EncryptionSettingsElement_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240302     |                                    | v1api20240302/storage |                                    |  Status   | Notes |
 |:------------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -502,7 +495,7 @@
 
 ### Encryption_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240302       |                        | v1api20240302/storage |                        |  Status   | Notes |
 |:--------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -512,7 +505,7 @@
 
 ### ExtendedLocation
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240302 |                       | v1api20240302/storage |                        |  Status   | Notes |
 |:--------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -522,7 +515,7 @@
 
 ### ExtendedLocation_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240302 |                              | v1api20240302/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -532,7 +525,7 @@
 
 ### ImageDiskReference
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240302           |                               | v1api20240302/storage   |                               |  Status   | Notes |
 |:------------------------|:------------------------------|:------------------------|:------------------------------|:---------:|:------|
@@ -544,7 +537,7 @@
 
 ### ImageDiskReference_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240302           |         | v1api20240302/storage   |                        |  Status   | Notes |
 |:------------------------|:--------|:------------------------|:-----------------------|:---------:|:------|
@@ -556,7 +549,7 @@
 
 ### InnerError_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240302 |         | v1api20240302/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -566,7 +559,7 @@
 
 ### KeyForDiskEncryptionSet
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240302    |                                | v1api20240302/storage |                                |  Status   | Notes |
 |:-----------------|:-------------------------------|:----------------------|:-------------------------------|:---------:|:------|
@@ -577,7 +570,7 @@
 
 ### KeyForDiskEncryptionSet_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240302 |                     | v1api20240302/storage |                        |  Status   | Notes |
 |:--------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -587,7 +580,7 @@
 
 ### KeyVaultAndKeyReference
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240302 |              | v1api20240302/storage |                        |  Status   | Notes |
 |:--------------|:-------------|:----------------------|:-----------------------|:---------:|:------|
@@ -597,7 +590,7 @@
 
 ### KeyVaultAndKeyReference_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240302 |                     | v1api20240302/storage |                        |  Status   | Notes |
 |:--------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -607,7 +600,7 @@
 
 ### KeyVaultAndSecretReference
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240302 |              | v1api20240302/storage |                        |  Status   | Notes |
 |:--------------|:-------------|:----------------------|:-----------------------|:---------:|:------|
@@ -617,7 +610,7 @@
 
 ### KeyVaultAndSecretReference_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240302 |                     | v1api20240302/storage |                        |  Status   | Notes |
 |:--------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -627,7 +620,7 @@
 
 ### PrivateEndpointConnection_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240302 |         | v1api20240302/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -636,7 +629,7 @@
 
 ### PropertyUpdatesInProgress_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240302 |         | v1api20240302/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -645,7 +638,7 @@
 
 ### ShareInfoElement_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240302 |         | v1api20240302/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -654,7 +647,7 @@
 
 ### SnapshotOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240302        |                               | v1api20240302/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -664,7 +657,7 @@
 
 ### SnapshotSku
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20240302 |                              | v1api20240302/storage |                        |  Status  | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -673,7 +666,7 @@
 
 ### SnapshotSku_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240302 |                                     | v1api20240302/storage |                        |  Status   | Notes |
 |:--------------|:------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -683,7 +676,7 @@
 
 ### Snapshot_STATUS
 
-27 x Identical, 1 x New, 6 x Modified
+Properties: 27 x Identical, 1 x New, 6 x Modified
 
 | v1api20240302                |                                      | v1api20240302/storage        |                                      |  Status   | Notes |
 |:-----------------------------|:-------------------------------------|:-----------------------------|:-------------------------------------|:---------:|:------|
@@ -724,7 +717,7 @@
 
 ### Snapshot_Spec
 
-19 x Identical, 2 x New, 5 x Modified
+Properties: 19 x Identical, 2 x New, 5 x Modified
 
 | v1api20240302                |                                    | v1api20240302/storage        |                                    |  Status   | Notes |
 |:-----------------------------|:-----------------------------------|:-----------------------------|:-----------------------------------|:---------:|:------|
@@ -757,7 +750,7 @@
 
 ### SourceVault
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240302 |                               | v1api20240302/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -766,7 +759,7 @@
 
 ### SourceVault_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240302 |         | v1api20240302/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -775,7 +768,7 @@
 
 ### SupportedCapabilities
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20240302       |               | v1api20240302/storage |                        |  Status   | Notes |
 |:--------------------|:--------------|:----------------------|:-----------------------|:---------:|:------|
@@ -786,7 +779,7 @@
 
 ### SupportedCapabilities_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20240302       |                      | v1api20240302/storage |                        |  Status   | Notes |
 |:--------------------|:---------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -797,7 +790,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20240302      |                                       | v1api20240302/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -811,7 +804,7 @@
 
 ### UserAssignedIdentitiesValue_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240302 |         | v1api20240302/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -821,9 +814,18 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240302 |                              | v1api20240302/storage |                              |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
 |               |                              | PropertyBag           | genruntime.PropertyBag       |    New    |       |
 | Reference     | genruntime.ResourceReference | Reference             | genruntime.ResourceReference | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

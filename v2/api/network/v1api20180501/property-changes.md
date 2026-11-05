@@ -15,75 +15,68 @@
 | DnsZonesSRVRecord   | DnsZonesSRVRecord     | Identical |       |
 | DnsZonesTXTRecord   | DnsZonesTXTRecord     | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20180501                   | v1api20180501/storage           |  Status  | Notes |
-|:--------------------------------|:--------------------------------|:--------:|:------|
-| ARecord                         | ARecord                         | Extended |       |
-| ARecord_STATUS                  | ARecord_STATUS                  | Extended |       |
-| AaaaRecord                      | AaaaRecord                      | Extended |       |
-| AaaaRecord_STATUS               | AaaaRecord_STATUS               | Extended |       |
-| CaaRecord                       | CaaRecord                       | Extended |       |
-| CaaRecord_STATUS                | CaaRecord_STATUS                | Extended |       |
-| CnameRecord                     | CnameRecord                     | Extended |       |
-| CnameRecord_STATUS              | CnameRecord_STATUS              | Extended |       |
-| DnsZoneOperatorSpec             | DnsZoneOperatorSpec             | Extended |       |
-| DnsZone_STATUS                  | DnsZone_STATUS                  | Modified |       |
-| DnsZone_Spec                    | DnsZone_Spec                    | Modified |       |
-| DnsZonesAAAARecordOperatorSpec  | DnsZonesAAAARecordOperatorSpec  | Extended |       |
-| DnsZonesAAAARecord_STATUS       | DnsZonesAAAARecord_STATUS       | Extended |       |
-| DnsZonesAAAARecord_Spec         | DnsZonesAAAARecord_Spec         | Extended |       |
-| DnsZonesARecordOperatorSpec     | DnsZonesARecordOperatorSpec     | Extended |       |
-| DnsZonesARecord_STATUS          | DnsZonesARecord_STATUS          | Extended |       |
-| DnsZonesARecord_Spec            | DnsZonesARecord_Spec            | Extended |       |
-| DnsZonesCAARecordOperatorSpec   | DnsZonesCAARecordOperatorSpec   | Extended |       |
-| DnsZonesCAARecord_STATUS        | DnsZonesCAARecord_STATUS        | Extended |       |
-| DnsZonesCAARecord_Spec          | DnsZonesCAARecord_Spec          | Extended |       |
-| DnsZonesCNAMERecordOperatorSpec | DnsZonesCNAMERecordOperatorSpec | Extended |       |
-| DnsZonesCNAMERecord_STATUS      | DnsZonesCNAMERecord_STATUS      | Extended |       |
-| DnsZonesCNAMERecord_Spec        | DnsZonesCNAMERecord_Spec        | Extended |       |
-| DnsZonesMXRecordOperatorSpec    | DnsZonesMXRecordOperatorSpec    | Extended |       |
-| DnsZonesMXRecord_STATUS         | DnsZonesMXRecord_STATUS         | Extended |       |
-| DnsZonesMXRecord_Spec           | DnsZonesMXRecord_Spec           | Extended |       |
-| DnsZonesNSRecordOperatorSpec    | DnsZonesNSRecordOperatorSpec    | Extended |       |
-| DnsZonesNSRecord_STATUS         | DnsZonesNSRecord_STATUS         | Extended |       |
-| DnsZonesNSRecord_Spec           | DnsZonesNSRecord_Spec           | Extended |       |
-| DnsZonesPTRRecordOperatorSpec   | DnsZonesPTRRecordOperatorSpec   | Extended |       |
-| DnsZonesPTRRecord_STATUS        | DnsZonesPTRRecord_STATUS        | Extended |       |
-| DnsZonesPTRRecord_Spec          | DnsZonesPTRRecord_Spec          | Extended |       |
-| DnsZonesSRVRecordOperatorSpec   | DnsZonesSRVRecordOperatorSpec   | Extended |       |
-| DnsZonesSRVRecord_STATUS        | DnsZonesSRVRecord_STATUS        | Extended |       |
-| DnsZonesSRVRecord_Spec          | DnsZonesSRVRecord_Spec          | Extended |       |
-| DnsZonesTXTRecordOperatorSpec   | DnsZonesTXTRecordOperatorSpec   | Extended |       |
-| DnsZonesTXTRecord_STATUS        | DnsZonesTXTRecord_STATUS        | Extended |       |
-| DnsZonesTXTRecord_Spec          | DnsZonesTXTRecord_Spec          | Extended |       |
-| MxRecord                        | MxRecord                        | Extended |       |
-| MxRecord_STATUS                 | MxRecord_STATUS                 | Extended |       |
-| NsRecord                        | NsRecord                        | Extended |       |
-| NsRecord_STATUS                 | NsRecord_STATUS                 | Extended |       |
-| PtrRecord                       | PtrRecord                       | Extended |       |
-| PtrRecord_STATUS                | PtrRecord_STATUS                | Extended |       |
-| SoaRecord                       | SoaRecord                       | Extended |       |
-| SoaRecord_STATUS                | SoaRecord_STATUS                | Extended |       |
-| SrvRecord                       | SrvRecord                       | Extended |       |
-| SrvRecord_STATUS                | SrvRecord_STATUS                | Extended |       |
-| SubResource                     | SubResource                     | Extended |       |
-| SubResource_STATUS              | SubResource_STATUS              | Extended |       |
-| TxtRecord                       | TxtRecord                       | Extended |       |
-| TxtRecord_STATUS                | TxtRecord_STATUS                | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20180501                   | v1api20180501/storage           |  Status  | Notes                         |
+|:--------------------------------|:--------------------------------|:--------:|:------------------------------|
+| ARecord                         | ARecord                         | Extended | +PropertyBag                  |
+| ARecord_STATUS                  | ARecord_STATUS                  | Extended | +PropertyBag                  |
+| AaaaRecord                      | AaaaRecord                      | Extended | +PropertyBag                  |
+| AaaaRecord_STATUS               | AaaaRecord_STATUS               | Extended | +PropertyBag                  |
+| CaaRecord                       | CaaRecord                       | Extended | +PropertyBag                  |
+| CaaRecord_STATUS                | CaaRecord_STATUS                | Extended | +PropertyBag                  |
+| CnameRecord                     | CnameRecord                     | Extended | +PropertyBag                  |
+| CnameRecord_STATUS              | CnameRecord_STATUS              | Extended | +PropertyBag                  |
+| DnsZoneOperatorSpec             | DnsZoneOperatorSpec             | Extended | +PropertyBag                  |
+| DnsZone_STATUS                  | DnsZone_STATUS                  | Modified |                               |
+| DnsZone_Spec                    | DnsZone_Spec                    | Modified |                               |
+| DnsZonesAAAARecordOperatorSpec  | DnsZonesAAAARecordOperatorSpec  | Extended | +PropertyBag                  |
+| DnsZonesAAAARecord_STATUS       | DnsZonesAAAARecord_STATUS       | Extended | +PropertyBag                  |
+| DnsZonesAAAARecord_Spec         | DnsZonesAAAARecord_Spec         | Extended | +OriginalVersion +PropertyBag |
+| DnsZonesARecordOperatorSpec     | DnsZonesARecordOperatorSpec     | Extended | +PropertyBag                  |
+| DnsZonesARecord_STATUS          | DnsZonesARecord_STATUS          | Extended | +PropertyBag                  |
+| DnsZonesARecord_Spec            | DnsZonesARecord_Spec            | Extended | +OriginalVersion +PropertyBag |
+| DnsZonesCAARecordOperatorSpec   | DnsZonesCAARecordOperatorSpec   | Extended | +PropertyBag                  |
+| DnsZonesCAARecord_STATUS        | DnsZonesCAARecord_STATUS        | Extended | +PropertyBag                  |
+| DnsZonesCAARecord_Spec          | DnsZonesCAARecord_Spec          | Extended | +OriginalVersion +PropertyBag |
+| DnsZonesCNAMERecordOperatorSpec | DnsZonesCNAMERecordOperatorSpec | Extended | +PropertyBag                  |
+| DnsZonesCNAMERecord_STATUS      | DnsZonesCNAMERecord_STATUS      | Extended | +PropertyBag                  |
+| DnsZonesCNAMERecord_Spec        | DnsZonesCNAMERecord_Spec        | Extended | +OriginalVersion +PropertyBag |
+| DnsZonesMXRecordOperatorSpec    | DnsZonesMXRecordOperatorSpec    | Extended | +PropertyBag                  |
+| DnsZonesMXRecord_STATUS         | DnsZonesMXRecord_STATUS         | Extended | +PropertyBag                  |
+| DnsZonesMXRecord_Spec           | DnsZonesMXRecord_Spec           | Extended | +OriginalVersion +PropertyBag |
+| DnsZonesNSRecordOperatorSpec    | DnsZonesNSRecordOperatorSpec    | Extended | +PropertyBag                  |
+| DnsZonesNSRecord_STATUS         | DnsZonesNSRecord_STATUS         | Extended | +PropertyBag                  |
+| DnsZonesNSRecord_Spec           | DnsZonesNSRecord_Spec           | Extended | +OriginalVersion +PropertyBag |
+| DnsZonesPTRRecordOperatorSpec   | DnsZonesPTRRecordOperatorSpec   | Extended | +PropertyBag                  |
+| DnsZonesPTRRecord_STATUS        | DnsZonesPTRRecord_STATUS        | Extended | +PropertyBag                  |
+| DnsZonesPTRRecord_Spec          | DnsZonesPTRRecord_Spec          | Extended | +OriginalVersion +PropertyBag |
+| DnsZonesSRVRecordOperatorSpec   | DnsZonesSRVRecordOperatorSpec   | Extended | +PropertyBag                  |
+| DnsZonesSRVRecord_STATUS        | DnsZonesSRVRecord_STATUS        | Extended | +PropertyBag                  |
+| DnsZonesSRVRecord_Spec          | DnsZonesSRVRecord_Spec          | Extended | +OriginalVersion +PropertyBag |
+| DnsZonesTXTRecordOperatorSpec   | DnsZonesTXTRecordOperatorSpec   | Extended | +PropertyBag                  |
+| DnsZonesTXTRecord_STATUS        | DnsZonesTXTRecord_STATUS        | Extended | +PropertyBag                  |
+| DnsZonesTXTRecord_Spec          | DnsZonesTXTRecord_Spec          | Extended | +OriginalVersion +PropertyBag |
+| MxRecord                        | MxRecord                        | Extended | +PropertyBag                  |
+| MxRecord_STATUS                 | MxRecord_STATUS                 | Extended | +PropertyBag                  |
+| NsRecord                        | NsRecord                        | Extended | +PropertyBag                  |
+| NsRecord_STATUS                 | NsRecord_STATUS                 | Extended | +PropertyBag                  |
+| PtrRecord                       | PtrRecord                       | Extended | +PropertyBag                  |
+| PtrRecord_STATUS                | PtrRecord_STATUS                | Extended | +PropertyBag                  |
+| SoaRecord                       | SoaRecord                       | Extended | +PropertyBag                  |
+| SoaRecord_STATUS                | SoaRecord_STATUS                | Extended | +PropertyBag                  |
+| SrvRecord                       | SrvRecord                       | Extended | +PropertyBag                  |
+| SrvRecord_STATUS                | SrvRecord_STATUS                | Extended | +PropertyBag                  |
+| SubResource                     | SubResource                     | Extended | +PropertyBag                  |
+| SubResource_STATUS              | SubResource_STATUS              | Extended | +PropertyBag                  |
+| TxtRecord                       | TxtRecord                       | Extended | +PropertyBag                  |
+| TxtRecord_STATUS                | TxtRecord_STATUS                | Extended | +PropertyBag                  |
 
 ### ARecord
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20180501 |         | v1api20180501/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -92,7 +85,7 @@
 
 ### ARecord_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20180501 |         | v1api20180501/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -101,7 +94,7 @@
 
 ### AaaaRecord
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20180501 |         | v1api20180501/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -110,7 +103,7 @@
 
 ### AaaaRecord_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20180501 |         | v1api20180501/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -119,7 +112,7 @@
 
 ### CaaRecord
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20180501 |         | v1api20180501/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -130,7 +123,7 @@
 
 ### CaaRecord_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20180501 |         | v1api20180501/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -141,7 +134,7 @@
 
 ### CnameRecord
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20180501 |         | v1api20180501/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -150,7 +143,7 @@
 
 ### CnameRecord_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20180501 |         | v1api20180501/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -159,7 +152,7 @@
 
 ### DnsZoneOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20180501        |                               | v1api20180501/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -169,7 +162,7 @@
 
 ### DnsZone_STATUS
 
-13 x Identical, 1 x New, 1 x Modified
+Properties: 13 x Identical, 1 x New, 1 x Modified
 
 | v1api20180501                  |                                 | v1api20180501/storage          |                        |  Status   | Notes |
 |:-------------------------------|:--------------------------------|:-------------------------------|:-----------------------|:---------:|:------|
@@ -191,7 +184,7 @@
 
 ### DnsZone_Spec
 
-7 x Identical, 2 x New, 1 x Modified
+Properties: 7 x Identical, 2 x New, 1 x Modified
 
 | v1api20180501               |                                    | v1api20180501/storage       |                                    |  Status   | Notes |
 |:----------------------------|:-----------------------------------|:----------------------------|:-----------------------------------|:---------:|:------|
@@ -208,7 +201,7 @@
 
 ### DnsZonesAAAARecordOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20180501        |                               | v1api20180501/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -218,7 +211,7 @@
 
 ### DnsZonesAAAARecord_STATUS
 
-20 x Identical, 1 x New
+Properties: 20 x Identical, 1 x New
 
 | v1api20180501     |                        | v1api20180501/storage |                        |  Status   | Notes |
 |:------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -246,7 +239,7 @@
 
 ### DnsZonesAAAARecord_Spec
 
-16 x Identical, 2 x New
+Properties: 16 x Identical, 2 x New
 
 | v1api20180501  |                                    | v1api20180501/storage |                                    |  Status   | Notes |
 |:---------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -271,7 +264,7 @@
 
 ### DnsZonesARecordOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20180501        |                               | v1api20180501/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -281,7 +274,7 @@
 
 ### DnsZonesARecord_STATUS
 
-20 x Identical, 1 x New
+Properties: 20 x Identical, 1 x New
 
 | v1api20180501     |                        | v1api20180501/storage |                        |  Status   | Notes |
 |:------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -309,7 +302,7 @@
 
 ### DnsZonesARecord_Spec
 
-17 x Identical, 2 x New
+Properties: 17 x Identical, 2 x New
 
 | v1api20180501  |                                    | v1api20180501/storage |                                    |  Status   | Notes |
 |:---------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -335,7 +328,7 @@
 
 ### DnsZonesCAARecordOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20180501        |                               | v1api20180501/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -345,7 +338,7 @@
 
 ### DnsZonesCAARecord_STATUS
 
-20 x Identical, 1 x New
+Properties: 20 x Identical, 1 x New
 
 | v1api20180501     |                        | v1api20180501/storage |                        |  Status   | Notes |
 |:------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -373,7 +366,7 @@
 
 ### DnsZonesCAARecord_Spec
 
-16 x Identical, 2 x New
+Properties: 16 x Identical, 2 x New
 
 | v1api20180501  |                                    | v1api20180501/storage |                                    |  Status   | Notes |
 |:---------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -398,7 +391,7 @@
 
 ### DnsZonesCNAMERecordOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20180501        |                               | v1api20180501/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -408,7 +401,7 @@
 
 ### DnsZonesCNAMERecord_STATUS
 
-20 x Identical, 1 x New
+Properties: 20 x Identical, 1 x New
 
 | v1api20180501     |                        | v1api20180501/storage |                        |  Status   | Notes |
 |:------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -436,7 +429,7 @@
 
 ### DnsZonesCNAMERecord_Spec
 
-16 x Identical, 2 x New
+Properties: 16 x Identical, 2 x New
 
 | v1api20180501  |                                    | v1api20180501/storage |                                    |  Status   | Notes |
 |:---------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -461,7 +454,7 @@
 
 ### DnsZonesMXRecordOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20180501        |                               | v1api20180501/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -471,7 +464,7 @@
 
 ### DnsZonesMXRecord_STATUS
 
-20 x Identical, 1 x New
+Properties: 20 x Identical, 1 x New
 
 | v1api20180501     |                        | v1api20180501/storage |                        |  Status   | Notes |
 |:------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -499,7 +492,7 @@
 
 ### DnsZonesMXRecord_Spec
 
-16 x Identical, 2 x New
+Properties: 16 x Identical, 2 x New
 
 | v1api20180501  |                                    | v1api20180501/storage |                                    |  Status   | Notes |
 |:---------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -524,7 +517,7 @@
 
 ### DnsZonesNSRecordOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20180501        |                               | v1api20180501/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -534,7 +527,7 @@
 
 ### DnsZonesNSRecord_STATUS
 
-20 x Identical, 1 x New
+Properties: 20 x Identical, 1 x New
 
 | v1api20180501     |                        | v1api20180501/storage |                        |  Status   | Notes |
 |:------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -562,7 +555,7 @@
 
 ### DnsZonesNSRecord_Spec
 
-16 x Identical, 2 x New
+Properties: 16 x Identical, 2 x New
 
 | v1api20180501  |                                    | v1api20180501/storage |                                    |  Status   | Notes |
 |:---------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -587,7 +580,7 @@
 
 ### DnsZonesPTRRecordOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20180501        |                               | v1api20180501/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -597,7 +590,7 @@
 
 ### DnsZonesPTRRecord_STATUS
 
-20 x Identical, 1 x New
+Properties: 20 x Identical, 1 x New
 
 | v1api20180501     |                        | v1api20180501/storage |                        |  Status   | Notes |
 |:------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -625,7 +618,7 @@
 
 ### DnsZonesPTRRecord_Spec
 
-16 x Identical, 2 x New
+Properties: 16 x Identical, 2 x New
 
 | v1api20180501  |                                    | v1api20180501/storage |                                    |  Status   | Notes |
 |:---------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -650,7 +643,7 @@
 
 ### DnsZonesSRVRecordOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20180501        |                               | v1api20180501/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -660,7 +653,7 @@
 
 ### DnsZonesSRVRecord_STATUS
 
-20 x Identical, 1 x New
+Properties: 20 x Identical, 1 x New
 
 | v1api20180501     |                        | v1api20180501/storage |                        |  Status   | Notes |
 |:------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -688,7 +681,7 @@
 
 ### DnsZonesSRVRecord_Spec
 
-16 x Identical, 2 x New
+Properties: 16 x Identical, 2 x New
 
 | v1api20180501  |                                    | v1api20180501/storage |                                    |  Status   | Notes |
 |:---------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -713,7 +706,7 @@
 
 ### DnsZonesTXTRecordOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20180501        |                               | v1api20180501/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -723,7 +716,7 @@
 
 ### DnsZonesTXTRecord_STATUS
 
-20 x Identical, 1 x New
+Properties: 20 x Identical, 1 x New
 
 | v1api20180501     |                        | v1api20180501/storage |                        |  Status   | Notes |
 |:------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -751,7 +744,7 @@
 
 ### DnsZonesTXTRecord_Spec
 
-16 x Identical, 2 x New
+Properties: 16 x Identical, 2 x New
 
 | v1api20180501  |                                    | v1api20180501/storage |                                    |  Status   | Notes |
 |:---------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -776,7 +769,7 @@
 
 ### MxRecord
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20180501 |         | v1api20180501/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -786,7 +779,7 @@
 
 ### MxRecord_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20180501 |         | v1api20180501/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -796,7 +789,7 @@
 
 ### NsRecord
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20180501 |         | v1api20180501/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -805,7 +798,7 @@
 
 ### NsRecord_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20180501 |         | v1api20180501/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -814,7 +807,7 @@
 
 ### PtrRecord
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20180501 |         | v1api20180501/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -823,7 +816,7 @@
 
 ### PtrRecord_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20180501 |         | v1api20180501/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -832,7 +825,7 @@
 
 ### SoaRecord
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v1api20180501 |         | v1api20180501/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -847,7 +840,7 @@
 
 ### SoaRecord_STATUS
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v1api20180501 |         | v1api20180501/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -862,7 +855,7 @@
 
 ### SrvRecord
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20180501 |         | v1api20180501/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -874,7 +867,7 @@
 
 ### SrvRecord_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20180501 |         | v1api20180501/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -886,7 +879,7 @@
 
 ### SubResource
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20180501 |                               | v1api20180501/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -895,7 +888,7 @@
 
 ### SubResource_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20180501 |         | v1api20180501/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -904,7 +897,7 @@
 
 ### TxtRecord
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20180501 |          | v1api20180501/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -913,9 +906,18 @@
 
 ### TxtRecord_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20180501 |          | v1api20180501/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
 |               |          | PropertyBag           | genruntime.PropertyBag |    New    |       |
 | Value         | string[] | Value                 | string[]               | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

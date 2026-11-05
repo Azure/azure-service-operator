@@ -6,44 +6,37 @@
 |:-----------------------------|:----------------------|:---------:|:------|
 | Vault                        | Vault                 | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20210401preview/storage             | v1api20230701/storage                    |  Status   | Notes |
-|:-----------------------------------------|:-----------------------------------------|:---------:|:------|
-| AccessPolicyEntry                        | AccessPolicyEntry                        | Identical |       |
-| AccessPolicyEntry_STATUS                 | AccessPolicyEntry_STATUS                 | Identical |       |
-| IPRule                                   | IPRule                                   | Identical |       |
-| IPRule_STATUS                            | IPRule_STATUS                            | Identical |       |
-| NetworkRuleSet                           | NetworkRuleSet                           | Identical |       |
-| NetworkRuleSet_STATUS                    | NetworkRuleSet_STATUS                    | Identical |       |
-| Permissions                              | Permissions                              | Identical |       |
-| Permissions_STATUS                       | Permissions_STATUS                       | Identical |       |
-| PrivateEndpointConnectionItem_STATUS     | PrivateEndpointConnectionItem_STATUS     | Identical |       |
-| PrivateEndpoint_STATUS                   | PrivateEndpoint_STATUS                   | Identical |       |
-| PrivateLinkServiceConnectionState_STATUS | PrivateLinkServiceConnectionState_STATUS | Identical |       |
-| Sku                                      | Sku                                      | Identical |       |
-| Sku_STATUS                               | Sku_STATUS                               | Identical |       |
-| SystemData_STATUS                        | SystemData_STATUS                        | Identical |       |
-| VaultOperatorSpec                        | VaultOperatorSpec                        | Identical |       |
-| VaultProperties                          | VaultProperties                          | Extended  |       |
-| VaultProperties_STATUS                   | VaultProperties_STATUS                   | Extended  |       |
-| Vault_STATUS                             | Vault_STATUS                             | Identical |       |
-| Vault_Spec                               | Vault_Spec                               | Identical |       |
-| VirtualNetworkRule                       | VirtualNetworkRule                       | Identical |       |
-| VirtualNetworkRule_STATUS                | VirtualNetworkRule_STATUS                | Identical |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20210401preview/storage             | v1api20230701/storage                    |  Status   | Notes                |
+|:-----------------------------------------|:-----------------------------------------|:---------:|:---------------------|
+| AccessPolicyEntry                        | AccessPolicyEntry                        | Identical |                      |
+| AccessPolicyEntry_STATUS                 | AccessPolicyEntry_STATUS                 | Identical |                      |
+| IPRule                                   | IPRule                                   | Identical |                      |
+| IPRule_STATUS                            | IPRule_STATUS                            | Identical |                      |
+| NetworkRuleSet                           | NetworkRuleSet                           | Identical |                      |
+| NetworkRuleSet_STATUS                    | NetworkRuleSet_STATUS                    | Identical |                      |
+| Permissions                              | Permissions                              | Identical |                      |
+| Permissions_STATUS                       | Permissions_STATUS                       | Identical |                      |
+| PrivateEndpointConnectionItem_STATUS     | PrivateEndpointConnectionItem_STATUS     | Identical |                      |
+| PrivateEndpoint_STATUS                   | PrivateEndpoint_STATUS                   | Identical |                      |
+| PrivateLinkServiceConnectionState_STATUS | PrivateLinkServiceConnectionState_STATUS | Identical |                      |
+| Sku                                      | Sku                                      | Identical |                      |
+| Sku_STATUS                               | Sku_STATUS                               | Identical |                      |
+| SystemData_STATUS                        | SystemData_STATUS                        | Identical |                      |
+| VaultOperatorSpec                        | VaultOperatorSpec                        | Identical |                      |
+| VaultProperties                          | VaultProperties                          | Extended  | +PublicNetworkAccess |
+| VaultProperties_STATUS                   | VaultProperties_STATUS                   | Extended  | +PublicNetworkAccess |
+| Vault_STATUS                             | Vault_STATUS                             | Identical |                      |
+| Vault_Spec                               | Vault_Spec                               | Identical |                      |
+| VirtualNetworkRule                       | VirtualNetworkRule                       | Identical |                      |
+| VirtualNetworkRule_STATUS                | VirtualNetworkRule_STATUS                | Identical |                      |
 
 ### VaultProperties
 
-16 x Identical, 1 x New
+Properties: 16 x Identical, 1 x New
 
 | v1api20210401preview/storage |                                | v1api20230701/storage        |                                |  Status   | Notes |
 |:-----------------------------|:-------------------------------|:-----------------------------|:-------------------------------|:---------:|:------|
@@ -67,7 +60,7 @@
 
 ### VaultProperties_STATUS
 
-17 x Identical, 1 x New
+Properties: 17 x Identical, 1 x New
 
 | v1api20210401preview/storage |                                        | v1api20230701/storage        |                                        |  Status   | Notes |
 |:-----------------------------|:---------------------------------------|:-----------------------------|:---------------------------------------|:---------:|:------|
@@ -89,3 +82,12 @@
 | SoftDeleteRetentionInDays    | *int                                   | SoftDeleteRetentionInDays    | *int                                   | Identical |       |
 | TenantId                     | *string                                | TenantId                     | *string                                | Identical |       |
 | VaultUri                     | *string                                | VaultUri                     | *string                                | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

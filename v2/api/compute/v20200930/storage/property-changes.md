@@ -7,62 +7,55 @@
 | Disk              | Disk              | Identical |       |
 | Snapshot          | Snapshot          | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20200930/storage                   | v20240302/storage                   |  Status   | Notes |
-|:------------------------------------|:------------------------------------|:---------:|:------|
-|                                     | CopyCompletionError                 |    New    |       |
-|                                     | CopyCompletionError_STATUS          |    New    |       |
-| CreationData                        | CreationData                        | Extended  |       |
-| CreationData_STATUS                 | CreationData_STATUS                 | Extended  |       |
-| DiskOperatorSpec                    | DiskOperatorSpec                    | Identical |       |
-|                                     | DiskSecurityProfile                 |    New    |       |
-|                                     | DiskSecurityProfile_STATUS          |    New    |       |
-| DiskSku                             | DiskSku                             | Identical |       |
-| DiskSku_STATUS                      | DiskSku_STATUS                      | Identical |       |
-| Disk_STATUS                         | Disk_STATUS                         | Extended  |       |
-| Disk_Spec                           | Disk_Spec                           | Extended  |       |
-| Encryption                          | Encryption                          | Identical |       |
-| EncryptionSettingsCollection        | EncryptionSettingsCollection        | Identical |       |
-| EncryptionSettingsCollection_STATUS | EncryptionSettingsCollection_STATUS | Identical |       |
-| EncryptionSettingsElement           | EncryptionSettingsElement           | Identical |       |
-| EncryptionSettingsElement_STATUS    | EncryptionSettingsElement_STATUS    | Identical |       |
-| Encryption_STATUS                   | Encryption_STATUS                   | Identical |       |
-| ExtendedLocation                    | ExtendedLocation                    | Identical |       |
-| ExtendedLocation_STATUS             | ExtendedLocation_STATUS             | Identical |       |
-| ImageDiskReference                  | ImageDiskReference                  | Extended  |       |
-| ImageDiskReference_STATUS           | ImageDiskReference_STATUS           | Extended  |       |
-| KeyVaultAndKeyReference             | KeyVaultAndKeyReference             | Identical |       |
-| KeyVaultAndKeyReference_STATUS      | KeyVaultAndKeyReference_STATUS      | Identical |       |
-| KeyVaultAndSecretReference          | KeyVaultAndSecretReference          | Identical |       |
-| KeyVaultAndSecretReference_STATUS   | KeyVaultAndSecretReference_STATUS   | Identical |       |
-|                                     | PropertyUpdatesInProgress_STATUS    |    New    |       |
-| PurchasePlan                        | DiskPurchasePlan                    |  Renamed  |       |
-| PurchasePlan_STATUS                 | DiskPurchasePlan_STATUS             |  Renamed  |       |
-| ShareInfoElement_STATUS             | ShareInfoElement_STATUS             | Identical |       |
-| SnapshotOperatorSpec                | SnapshotOperatorSpec                | Identical |       |
-| SnapshotSku                         | SnapshotSku                         | Identical |       |
-| SnapshotSku_STATUS                  | SnapshotSku_STATUS                  | Identical |       |
-| Snapshot_STATUS                     | Snapshot_STATUS                     | Extended  |       |
-| Snapshot_Spec                       | Snapshot_Spec                       | Extended  |       |
-| SourceVault                         | SourceVault                         | Identical |       |
-| SourceVault_STATUS                  | SourceVault_STATUS                  | Identical |       |
-|                                     | SupportedCapabilities               |    New    |       |
-|                                     | SupportedCapabilities_STATUS        |    New    |       |
-|                                     | SystemData_STATUS                   |    New    |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20200930/storage                   | v20240302/storage                   |  Status   | Notes                                                                                                                                                                                                                                     |
+|:------------------------------------|:------------------------------------|:---------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|                                     | CopyCompletionError                 |    New    |                                                                                                                                                                                                                                           |
+|                                     | CopyCompletionError_STATUS          |    New    |                                                                                                                                                                                                                                           |
+| CreationData                        | CreationData                        | Extended  | +ElasticSanResourceReference +PerformancePlus +ProvisionedBandwidthCopySpeed +SecurityDataUri                                                                                                                                             |
+| CreationData_STATUS                 | CreationData_STATUS                 | Extended  | +ElasticSanResourceId +PerformancePlus +ProvisionedBandwidthCopySpeed +SecurityDataUri                                                                                                                                                    |
+| DiskOperatorSpec                    | DiskOperatorSpec                    | Identical |                                                                                                                                                                                                                                           |
+|                                     | DiskSecurityProfile                 |    New    |                                                                                                                                                                                                                                           |
+|                                     | DiskSecurityProfile_STATUS          |    New    |                                                                                                                                                                                                                                           |
+| DiskSku                             | DiskSku                             | Identical |                                                                                                                                                                                                                                           |
+| DiskSku_STATUS                      | DiskSku_STATUS                      | Identical |                                                                                                                                                                                                                                           |
+| Disk_STATUS                         | Disk_STATUS                         | Extended  | +BurstingEnabledTime +CompletionPercent +DataAccessAuthMode +LastOwnershipUpdateTime +OptimizedForFrequentAttach +PropertyUpdatesInProgress +PublicNetworkAccess +SecurityProfile +SupportedCapabilities +SupportsHibernation +SystemData |
+| Disk_Spec                           | Disk_Spec                           | Extended  | +CompletionPercent +DataAccessAuthMode +OptimizedForFrequentAttach +PublicNetworkAccess +SecurityProfile +SupportedCapabilities +SupportsHibernation                                                                                      |
+| Encryption                          | Encryption                          | Identical |                                                                                                                                                                                                                                           |
+| EncryptionSettingsCollection        | EncryptionSettingsCollection        | Identical |                                                                                                                                                                                                                                           |
+| EncryptionSettingsCollection_STATUS | EncryptionSettingsCollection_STATUS | Identical |                                                                                                                                                                                                                                           |
+| EncryptionSettingsElement           | EncryptionSettingsElement           | Identical |                                                                                                                                                                                                                                           |
+| EncryptionSettingsElement_STATUS    | EncryptionSettingsElement_STATUS    | Identical |                                                                                                                                                                                                                                           |
+| Encryption_STATUS                   | Encryption_STATUS                   | Identical |                                                                                                                                                                                                                                           |
+| ExtendedLocation                    | ExtendedLocation                    | Identical |                                                                                                                                                                                                                                           |
+| ExtendedLocation_STATUS             | ExtendedLocation_STATUS             | Identical |                                                                                                                                                                                                                                           |
+| ImageDiskReference                  | ImageDiskReference                  | Extended  | +CommunityGalleryImageId +SharedGalleryImageId                                                                                                                                                                                            |
+| ImageDiskReference_STATUS           | ImageDiskReference_STATUS           | Extended  | +CommunityGalleryImageId +SharedGalleryImageId                                                                                                                                                                                            |
+| KeyVaultAndKeyReference             | KeyVaultAndKeyReference             | Identical |                                                                                                                                                                                                                                           |
+| KeyVaultAndKeyReference_STATUS      | KeyVaultAndKeyReference_STATUS      | Identical |                                                                                                                                                                                                                                           |
+| KeyVaultAndSecretReference          | KeyVaultAndSecretReference          | Identical |                                                                                                                                                                                                                                           |
+| KeyVaultAndSecretReference_STATUS   | KeyVaultAndSecretReference_STATUS   | Identical |                                                                                                                                                                                                                                           |
+|                                     | PropertyUpdatesInProgress_STATUS    |    New    |                                                                                                                                                                                                                                           |
+| PurchasePlan                        | DiskPurchasePlan                    |  Renamed  |                                                                                                                                                                                                                                           |
+| PurchasePlan_STATUS                 | DiskPurchasePlan_STATUS             |  Renamed  |                                                                                                                                                                                                                                           |
+| ShareInfoElement_STATUS             | ShareInfoElement_STATUS             | Identical |                                                                                                                                                                                                                                           |
+| SnapshotOperatorSpec                | SnapshotOperatorSpec                | Identical |                                                                                                                                                                                                                                           |
+| SnapshotSku                         | SnapshotSku                         | Identical |                                                                                                                                                                                                                                           |
+| SnapshotSku_STATUS                  | SnapshotSku_STATUS                  | Identical |                                                                                                                                                                                                                                           |
+| Snapshot_STATUS                     | Snapshot_STATUS                     | Extended  | +CompletionPercent +CopyCompletionError +DataAccessAuthMode +IncrementalSnapshotFamilyId +PublicNetworkAccess +SecurityProfile +SupportedCapabilities +SupportsHibernation +SystemData                                                    |
+| Snapshot_Spec                       | Snapshot_Spec                       | Extended  | +CompletionPercent +CopyCompletionError +DataAccessAuthMode +PublicNetworkAccess +SecurityProfile +SupportedCapabilities +SupportsHibernation                                                                                             |
+| SourceVault                         | SourceVault                         | Identical |                                                                                                                                                                                                                                           |
+| SourceVault_STATUS                  | SourceVault_STATUS                  | Identical |                                                                                                                                                                                                                                           |
+|                                     | SupportedCapabilities               |    New    |                                                                                                                                                                                                                                           |
+|                                     | SupportedCapabilities_STATUS        |    New    |                                                                                                                                                                                                                                           |
+|                                     | SystemData_STATUS                   |    New    |                                                                                                                                                                                                                                           |
 
 ### CreationData
 
-9 x Identical, 4 x New
+Properties: 9 x Identical, 4 x New
 
 | v20200930/storage       |                               | v20240302/storage             |                               |  Status   | Notes |
 |:------------------------|:------------------------------|:------------------------------|:------------------------------|:---------:|:------|
@@ -82,7 +75,7 @@
 
 ### CreationData_STATUS
 
-10 x Identical, 4 x New
+Properties: 10 x Identical, 4 x New
 
 | v20200930/storage     |                            | v20240302/storage             |                            |  Status   | Notes |
 |:----------------------|:---------------------------|:------------------------------|:---------------------------|:---------:|:------|
@@ -103,7 +96,7 @@
 
 ### Disk_STATUS
 
-34 x Identical, 11 x New
+Properties: 34 x Identical, 11 x New
 
 | v20200930/storage            |                                      | v20240302/storage            |                                      |  Status   | Notes                                                   |
 |:-----------------------------|:-------------------------------------|:-----------------------------|:-------------------------------------|:---------:|:--------------------------------------------------------|
@@ -155,7 +148,7 @@
 
 ### Disk_Spec
 
-26 x Identical, 7 x New
+Properties: 26 x Identical, 7 x New
 
 | v20200930/storage            |                                    | v20240302/storage            |                                    |  Status   | Notes                                     |
 |:-----------------------------|:-----------------------------------|:-----------------------------|:-----------------------------------|:---------:|:------------------------------------------|
@@ -195,7 +188,7 @@
 
 ### ImageDiskReference
 
-3 x Identical, 2 x New
+Properties: 3 x Identical, 2 x New
 
 | v20200930/storage |                               | v20240302/storage       |                               |  Status   | Notes |
 |:------------------|:------------------------------|:------------------------|:------------------------------|:---------:|:------|
@@ -207,7 +200,7 @@
 
 ### ImageDiskReference_STATUS
 
-3 x Identical, 2 x New
+Properties: 3 x Identical, 2 x New
 
 | v20200930/storage |                        | v20240302/storage       |                        |  Status   | Notes |
 |:------------------|:-----------------------|:------------------------|:-----------------------|:---------:|:------|
@@ -219,7 +212,7 @@
 
 ### Snapshot_STATUS
 
-25 x Identical, 9 x New
+Properties: 25 x Identical, 9 x New
 
 | v20200930/storage            |                                      | v20240302/storage            |                                      |  Status   | Notes                                                   |
 |:-----------------------------|:-------------------------------------|:-----------------------------|:-------------------------------------|:---------:|:--------------------------------------------------------|
@@ -260,7 +253,7 @@
 
 ### Snapshot_Spec
 
-19 x Identical, 7 x New
+Properties: 19 x Identical, 7 x New
 
 | v20200930/storage            |                                    | v20240302/storage            |                                    |  Status   | Notes                                     |
 |:-----------------------------|:-----------------------------------|:-----------------------------|:-----------------------------------|:---------:|:------------------------------------------|
@@ -290,3 +283,12 @@
 |                              |                                    | SupportedCapabilities        | *SupportedCapabilities             |    New    |                                           |
 |                              |                                    | SupportsHibernation          | *bool                              |    New    |                                           |
 | Tags                         | map[string]string                  | Tags                         | map[string]string                  | Identical |                                           |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

@@ -8,51 +8,44 @@
 | Target            | Target                   | Identical |       |
 | Watcher           | Watcher                  | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20241001preview                           | v20241001preview/storage                   |  Status  | Notes |
-|:-------------------------------------------|:-------------------------------------------|:--------:|:------|
-| Datastore                                  | Datastore                                  | Modified |       |
-| Datastore_STATUS                           | Datastore_STATUS                           | Modified |       |
-| ManagedServiceIdentity                     | ManagedServiceIdentity                     | Modified |       |
-| ManagedServiceIdentity_STATUS              | ManagedServiceIdentity_STATUS              | Modified |       |
-| SharedPrivateLinkOperatorSpec              | SharedPrivateLinkOperatorSpec              | Extended |       |
-| SharedPrivateLink_STATUS                   | SharedPrivateLink_STATUS                   | Modified |       |
-| SharedPrivateLink_Spec                     | SharedPrivateLink_Spec                     | Modified |       |
-| SqlDbElasticPoolTargetProperties           | SqlDbElasticPoolTargetProperties           | Modified |       |
-| SqlDbElasticPoolTargetProperties_STATUS    | SqlDbElasticPoolTargetProperties_STATUS    | Modified |       |
-| SqlDbSingleDatabaseTargetProperties        | SqlDbSingleDatabaseTargetProperties        | Modified |       |
-| SqlDbSingleDatabaseTargetProperties_STATUS | SqlDbSingleDatabaseTargetProperties_STATUS | Modified |       |
-| SqlMiTargetProperties                      | SqlMiTargetProperties                      | Modified |       |
-| SqlMiTargetProperties_STATUS               | SqlMiTargetProperties_STATUS               | Modified |       |
-| SqlVmTargetProperties                      | SqlVmTargetProperties                      | Modified |       |
-| SqlVmTargetProperties_STATUS               | SqlVmTargetProperties_STATUS               | Modified |       |
-| SystemData_STATUS                          | SystemData_STATUS                          | Modified |       |
-| TargetOperatorSpec                         | TargetOperatorSpec                         | Extended |       |
-| TargetProperties                           | TargetProperties                           | Extended |       |
-| TargetProperties_STATUS                    | TargetProperties_STATUS                    | Extended |       |
-| Target_STATUS                              | Target_STATUS                              | Extended |       |
-| Target_Spec                                | Target_Spec                                | Modified |       |
-| UserAssignedIdentityDetails                | UserAssignedIdentityDetails                | Extended |       |
-| UserAssignedIdentity_STATUS                | UserAssignedIdentity_STATUS                | Extended |       |
-| VaultSecret                                | VaultSecret                                | Modified |       |
-| VaultSecret_STATUS                         | VaultSecret_STATUS                         | Extended |       |
-| WatcherOperatorSpec                        | WatcherOperatorSpec                        | Extended |       |
-| Watcher_STATUS                             | Watcher_STATUS                             | Modified |       |
-| Watcher_Spec                               | Watcher_Spec                               | Modified |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20241001preview                           | v20241001preview/storage                   |  Status  | Notes        |
+|:-------------------------------------------|:-------------------------------------------|:--------:|:-------------|
+| Datastore                                  | Datastore                                  | Modified |              |
+| Datastore_STATUS                           | Datastore_STATUS                           | Modified |              |
+| ManagedServiceIdentity                     | ManagedServiceIdentity                     | Modified |              |
+| ManagedServiceIdentity_STATUS              | ManagedServiceIdentity_STATUS              | Modified |              |
+| SharedPrivateLinkOperatorSpec              | SharedPrivateLinkOperatorSpec              | Extended | +PropertyBag |
+| SharedPrivateLink_STATUS                   | SharedPrivateLink_STATUS                   | Modified |              |
+| SharedPrivateLink_Spec                     | SharedPrivateLink_Spec                     | Modified |              |
+| SqlDbElasticPoolTargetProperties           | SqlDbElasticPoolTargetProperties           | Modified |              |
+| SqlDbElasticPoolTargetProperties_STATUS    | SqlDbElasticPoolTargetProperties_STATUS    | Modified |              |
+| SqlDbSingleDatabaseTargetProperties        | SqlDbSingleDatabaseTargetProperties        | Modified |              |
+| SqlDbSingleDatabaseTargetProperties_STATUS | SqlDbSingleDatabaseTargetProperties_STATUS | Modified |              |
+| SqlMiTargetProperties                      | SqlMiTargetProperties                      | Modified |              |
+| SqlMiTargetProperties_STATUS               | SqlMiTargetProperties_STATUS               | Modified |              |
+| SqlVmTargetProperties                      | SqlVmTargetProperties                      | Modified |              |
+| SqlVmTargetProperties_STATUS               | SqlVmTargetProperties_STATUS               | Modified |              |
+| SystemData_STATUS                          | SystemData_STATUS                          | Modified |              |
+| TargetOperatorSpec                         | TargetOperatorSpec                         | Extended | +PropertyBag |
+| TargetProperties                           | TargetProperties                           | Extended | +PropertyBag |
+| TargetProperties_STATUS                    | TargetProperties_STATUS                    | Extended | +PropertyBag |
+| Target_STATUS                              | Target_STATUS                              | Extended | +PropertyBag |
+| Target_Spec                                | Target_Spec                                | Modified |              |
+| UserAssignedIdentityDetails                | UserAssignedIdentityDetails                | Extended | +PropertyBag |
+| UserAssignedIdentity_STATUS                | UserAssignedIdentity_STATUS                | Extended | +PropertyBag |
+| VaultSecret                                | VaultSecret                                | Extended | +PropertyBag |
+| VaultSecret_STATUS                         | VaultSecret_STATUS                         | Extended | +PropertyBag |
+| WatcherOperatorSpec                        | WatcherOperatorSpec                        | Extended | +PropertyBag |
+| Watcher_STATUS                             | Watcher_STATUS                             | Modified |              |
+| Watcher_Spec                               | Watcher_Spec                               | Modified |              |
 
 ### Datastore
 
-9 x Identical, 1 x New, 1 x Modified
+Properties: 9 x Identical, 1 x New, 1 x Modified
 
 | v20241001preview                |                                | v20241001preview/storage        |                                |  Status   | Notes |
 |:--------------------------------|:-------------------------------|:--------------------------------|:-------------------------------|:---------:|:------|
@@ -70,7 +63,7 @@
 
 ### Datastore_STATUS
 
-6 x Identical, 1 x New, 1 x Modified
+Properties: 6 x Identical, 1 x New, 1 x Modified
 
 | v20241001preview        |                           | v20241001preview/storage |                        |  Status   | Notes |
 |:------------------------|:--------------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -85,7 +78,7 @@
 
 ### ManagedServiceIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20241001preview       |                               | v20241001preview/storage |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-------------------------|:------------------------------|:---------:|:------|
@@ -95,7 +88,7 @@
 
 ### ManagedServiceIdentity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v20241001preview       |                                        | v20241001preview/storage |                                        |  Status   | Notes |
 |:-----------------------|:---------------------------------------|:-------------------------|:---------------------------------------|:---------:|:------|
@@ -107,7 +100,7 @@
 
 ### SharedPrivateLinkOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20241001preview     |                               | v20241001preview/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:-------------------------|:------------------------------|:---------:|:------|
@@ -117,7 +110,7 @@
 
 ### SharedPrivateLink_STATUS
 
-9 x Identical, 1 x New, 2 x Modified
+Properties: 9 x Identical, 1 x New, 2 x Modified
 
 | v20241001preview      |                                                       | v20241001preview/storage |                        |  Status   | Notes |
 |:----------------------|:------------------------------------------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -136,7 +129,7 @@
 
 ### SharedPrivateLink_Spec
 
-6 x Identical, 2 x New, 1 x Modified
+Properties: 6 x Identical, 2 x New, 1 x Modified
 
 | v20241001preview             |                                    | v20241001preview/storage     |                                    |  Status   | Notes |
 |:-----------------------------|:-----------------------------------|:-----------------------------|:-----------------------------------|:---------:|:------|
@@ -152,12 +145,12 @@
 
 ### SqlDbElasticPoolTargetProperties
 
-5 x Identical, 1 x New, 3 x Modified
+Properties: 6 x Identical, 1 x New, 2 x Modified
 
 | v20241001preview                |                                              | v20241001preview/storage        |                                |  Status   | Notes |
 |:--------------------------------|:---------------------------------------------|:--------------------------------|:-------------------------------|:---------:|:------|
 | AnchorDatabaseResourceReference | *genruntime.ResourceReference                | AnchorDatabaseResourceReference | *genruntime.ResourceReference  | Identical |       |
-| ConnectionServerName            | Validated<*string> (1 rule)                  | ConnectionServerName            | *string                        | Modified  |       |
+| ConnectionServerName            | Validated<*string> (1 rule)                  | ConnectionServerName            | *string                        | Identical |       |
 | ConnectionServerNameFromConfig  | *genruntime.ConfigMapReference               | ConnectionServerNameFromConfig  | *genruntime.ConfigMapReference | Identical |       |
 |                                 |                                              | PropertyBag                     | genruntime.PropertyBag         |    New    |       |
 | ReadIntent                      | *bool                                        | ReadIntent                      | *bool                          | Identical |       |
@@ -168,7 +161,7 @@
 
 ### SqlDbElasticPoolTargetProperties_STATUS
 
-5 x Identical, 1 x New, 3 x Modified
+Properties: 5 x Identical, 1 x New, 3 x Modified
 
 | v20241001preview         |                                                       | v20241001preview/storage |                        |  Status   | Notes |
 |:-------------------------|:------------------------------------------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -184,11 +177,11 @@
 
 ### SqlDbSingleDatabaseTargetProperties
 
-4 x Identical, 1 x New, 3 x Modified
+Properties: 5 x Identical, 1 x New, 2 x Modified
 
 | v20241001preview               |                                                 | v20241001preview/storage       |                                |  Status   | Notes |
 |:-------------------------------|:------------------------------------------------|:-------------------------------|:-------------------------------|:---------:|:------|
-| ConnectionServerName           | Validated<*string> (1 rule)                     | ConnectionServerName           | *string                        | Modified  |       |
+| ConnectionServerName           | Validated<*string> (1 rule)                     | ConnectionServerName           | *string                        | Identical |       |
 | ConnectionServerNameFromConfig | *genruntime.ConfigMapReference                  | ConnectionServerNameFromConfig | *genruntime.ConfigMapReference | Identical |       |
 |                                |                                                 | PropertyBag                    | genruntime.PropertyBag         |    New    |       |
 | ReadIntent                     | *bool                                           | ReadIntent                     | *bool                          | Identical |       |
@@ -199,7 +192,7 @@
 
 ### SqlDbSingleDatabaseTargetProperties_STATUS
 
-4 x Identical, 1 x New, 3 x Modified
+Properties: 4 x Identical, 1 x New, 3 x Modified
 
 | v20241001preview         |                                                        | v20241001preview/storage |                        |  Status   | Notes |
 |:-------------------------|:-------------------------------------------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -214,11 +207,11 @@
 
 ### SqlMiTargetProperties
 
-5 x Identical, 1 x New, 3 x Modified
+Properties: 6 x Identical, 1 x New, 2 x Modified
 
 | v20241001preview               |                                   | v20241001preview/storage       |                                |  Status   | Notes |
 |:-------------------------------|:----------------------------------|:-------------------------------|:-------------------------------|:---------:|:------|
-| ConnectionServerName           | Validated<*string> (1 rule)       | ConnectionServerName           | *string                        | Modified  |       |
+| ConnectionServerName           | Validated<*string> (1 rule)       | ConnectionServerName           | *string                        | Identical |       |
 | ConnectionServerNameFromConfig | *genruntime.ConfigMapReference    | ConnectionServerNameFromConfig | *genruntime.ConfigMapReference | Identical |       |
 | ConnectionTcpPort              | *int                              | ConnectionTcpPort              | *int                           | Identical |       |
 |                                |                                   | PropertyBag                    | genruntime.PropertyBag         |    New    |       |
@@ -230,7 +223,7 @@
 
 ### SqlMiTargetProperties_STATUS
 
-5 x Identical, 1 x New, 3 x Modified
+Properties: 5 x Identical, 1 x New, 3 x Modified
 
 | v20241001preview         |                                                       | v20241001preview/storage |                        |  Status   | Notes |
 |:-------------------------|:------------------------------------------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -246,11 +239,11 @@
 
 ### SqlVmTargetProperties
 
-5 x Identical, 1 x New, 3 x Modified
+Properties: 6 x Identical, 1 x New, 2 x Modified
 
 | v20241001preview               |                                   | v20241001preview/storage       |                                |  Status   | Notes |
 |:-------------------------------|:----------------------------------|:-------------------------------|:-------------------------------|:---------:|:------|
-| ConnectionServerName           | Validated<*string> (1 rule)       | ConnectionServerName           | *string                        | Modified  |       |
+| ConnectionServerName           | Validated<*string> (1 rule)       | ConnectionServerName           | *string                        | Identical |       |
 | ConnectionServerNameFromConfig | *genruntime.ConfigMapReference    | ConnectionServerNameFromConfig | *genruntime.ConfigMapReference | Identical |       |
 | ConnectionTcpPort              | *int                              | ConnectionTcpPort              | *int                           | Identical |       |
 |                                |                                   | PropertyBag                    | genruntime.PropertyBag         |    New    |       |
@@ -262,7 +255,7 @@
 
 ### SqlVmTargetProperties_STATUS
 
-5 x Identical, 1 x New, 3 x Modified
+Properties: 5 x Identical, 1 x New, 3 x Modified
 
 | v20241001preview         |                                                       | v20241001preview/storage |                        |  Status   | Notes |
 |:-------------------------|:------------------------------------------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -278,7 +271,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v20241001preview   |                                       | v20241001preview/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -292,7 +285,7 @@
 
 ### TargetOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20241001preview     |                               | v20241001preview/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:-------------------------|:------------------------------|:---------:|:------|
@@ -302,7 +295,7 @@
 
 ### TargetProperties
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20241001preview |                                      | v20241001preview/storage |                                      |  Status   | Notes |
 |:-----------------|:-------------------------------------|:-------------------------|:-------------------------------------|:---------:|:------|
@@ -314,7 +307,7 @@
 
 ### TargetProperties_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20241001preview |                                             | v20241001preview/storage |                                             |  Status   | Notes |
 |:-----------------|:--------------------------------------------|:-------------------------|:--------------------------------------------|:---------:|:------|
@@ -326,7 +319,7 @@
 
 ### Target_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v20241001preview |                          | v20241001preview/storage |                          |  Status   | Notes |
 |:-----------------|:-------------------------|:-------------------------|:-------------------------|:---------:|:------|
@@ -340,7 +333,7 @@
 
 ### Target_Spec
 
-3 x Identical, 2 x New, 1 x Modified
+Properties: 3 x Identical, 2 x New, 1 x Modified
 
 | v20241001preview |                                    | v20241001preview/storage |                                    |  Status   | Notes |
 |:-----------------|:-----------------------------------|:-------------------------|:-----------------------------------|:---------:|:------|
@@ -353,7 +346,7 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20241001preview |                              | v20241001preview/storage |                              |  Status   | Notes |
 |:-----------------|:-----------------------------|:-------------------------|:-----------------------------|:---------:|:------|
@@ -362,7 +355,7 @@
 
 ### UserAssignedIdentity_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20241001preview |         | v20241001preview/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:-------------------------|:-----------------------|:---------:|:------|
@@ -372,18 +365,18 @@
 
 ### VaultSecret
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 3 x Identical, 1 x New
 
 | v20241001preview     |                               | v20241001preview/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:-------------------------|:------------------------------|:---------:|:------|
 | AkvResourceReference | *genruntime.ResourceReference | AkvResourceReference     | *genruntime.ResourceReference | Identical |       |
-| AkvTargetPassword    | Validated<*string> (1 rule)   | AkvTargetPassword        | *string                       | Modified  |       |
-| AkvTargetUser        | Validated<*string> (1 rule)   | AkvTargetUser            | *string                       | Modified  |       |
+| AkvTargetPassword    | Validated<*string> (1 rule)   | AkvTargetPassword        | *string                       | Identical |       |
+| AkvTargetUser        | Validated<*string> (1 rule)   | AkvTargetUser            | *string                       | Identical |       |
 |                      |                               | PropertyBag              | genruntime.PropertyBag        |    New    |       |
 
 ### VaultSecret_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20241001preview  |         | v20241001preview/storage |                        |  Status   | Notes |
 |:------------------|:--------|:-------------------------|:-----------------------|:---------:|:------|
@@ -394,7 +387,7 @@
 
 ### WatcherOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20241001preview     |                               | v20241001preview/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:-------------------------|:------------------------------|:---------:|:------|
@@ -405,7 +398,7 @@
 
 ### Watcher_STATUS
 
-10 x Identical, 1 x New, 2 x Modified
+Properties: 10 x Identical, 1 x New, 2 x Modified
 
 | v20241001preview                   |                                          | v20241001preview/storage           |                                |  Status   | Notes |
 |:-----------------------------------|:-----------------------------------------|:-----------------------------------|:-------------------------------|:---------:|:------|
@@ -425,7 +418,7 @@
 
 ### Watcher_Spec
 
-7 x Identical, 2 x New, 1 x Modified
+Properties: 7 x Identical, 2 x New, 1 x Modified
 
 | v20241001preview                          |                                    | v20241001preview/storage                  |                                    |  Status   | Notes |
 |:------------------------------------------|:-----------------------------------|:------------------------------------------|:-----------------------------------|:---------:|:------|
@@ -439,3 +432,12 @@
 | Owner                                     | *genruntime.KnownResourceReference | Owner                                     | *genruntime.KnownResourceReference | Identical |       |
 |                                           |                                    | PropertyBag                               | genruntime.PropertyBag             |    New    |       |
 | Tags                                      | map[string]string                  | Tags                                      | map[string]string                  | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

@@ -10,78 +10,71 @@
 | FleetsUpdateRun          | FleetsUpdateRun          | Identical |       |
 | FleetsUpdateStrategy     | FleetsUpdateStrategy     | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20250301                        | v1api20250301/storage                |  Status  | Notes |
-|:-------------------------------------|:-------------------------------------|:--------:|:------|
-| APIServerAccessProfile               | APIServerAccessProfile               | Extended |       |
-| APIServerAccessProfile_STATUS        | APIServerAccessProfile_STATUS        | Extended |       |
-| AgentProfile                         | AgentProfile                         | Extended |       |
-| AgentProfile_STATUS                  | AgentProfile_STATUS                  | Extended |       |
-| AutoUpgradeNodeImageSelection        | AutoUpgradeNodeImageSelection        | Modified |       |
-| AutoUpgradeNodeImageSelection_STATUS | AutoUpgradeNodeImageSelection_STATUS | Modified |       |
-| AutoUpgradeProfileStatus_STATUS      | AutoUpgradeProfileStatus_STATUS      | Modified |       |
-| CommonUserAssignedIdentity_STATUS    | CommonUserAssignedIdentity_STATUS    | Extended |       |
-| ErrorAdditionalInfo_STATUS           | ErrorAdditionalInfo_STATUS           | Extended |       |
-| ErrorDetail_STATUS                   | ErrorDetail_STATUS                   | Extended |       |
-| ErrorDetail_STATUS_Unrolled          | ErrorDetail_STATUS_Unrolled          | Extended |       |
-| FleetHubProfile                      | FleetHubProfile                      | Modified |       |
-| FleetHubProfile_STATUS               | FleetHubProfile_STATUS               | Extended |       |
-| FleetMemberStatus_STATUS             | FleetMemberStatus_STATUS             | Extended |       |
-| FleetOperatorSecrets                 | FleetOperatorSecrets                 | Extended |       |
-| FleetOperatorSpec                    | FleetOperatorSpec                    | Extended |       |
-| FleetStatus_STATUS                   | FleetStatus_STATUS                   | Extended |       |
-| Fleet_STATUS                         | Fleet_STATUS                         | Modified |       |
-| Fleet_Spec                           | Fleet_Spec                           | Modified |       |
-| FleetsAutoUpgradeProfileOperatorSpec | FleetsAutoUpgradeProfileOperatorSpec | Extended |       |
-| FleetsAutoUpgradeProfile_STATUS      | FleetsAutoUpgradeProfile_STATUS      | Modified |       |
-| FleetsAutoUpgradeProfile_Spec        | FleetsAutoUpgradeProfile_Spec        | Modified |       |
-| FleetsMemberOperatorSpec             | FleetsMemberOperatorSpec             | Extended |       |
-| FleetsMember_STATUS                  | FleetsMember_STATUS                  | Modified |       |
-| FleetsMember_Spec                    | FleetsMember_Spec                    | Modified |       |
-| FleetsUpdateRunOperatorSpec          | FleetsUpdateRunOperatorSpec          | Extended |       |
-| FleetsUpdateRun_STATUS               | FleetsUpdateRun_STATUS               | Modified |       |
-| FleetsUpdateRun_Spec                 | FleetsUpdateRun_Spec                 | Modified |       |
-| FleetsUpdateStrategyOperatorSpec     | FleetsUpdateStrategyOperatorSpec     | Extended |       |
-| FleetsUpdateStrategy_STATUS          | FleetsUpdateStrategy_STATUS          | Modified |       |
-| FleetsUpdateStrategy_Spec            | FleetsUpdateStrategy_Spec            | Modified |       |
-| ManagedClusterUpdate                 | ManagedClusterUpdate                 | Extended |       |
-| ManagedClusterUpdate_STATUS          | ManagedClusterUpdate_STATUS          | Extended |       |
-| ManagedClusterUpgradeSpec            | ManagedClusterUpgradeSpec            | Modified |       |
-| ManagedClusterUpgradeSpec_STATUS     | ManagedClusterUpgradeSpec_STATUS     | Modified |       |
-| ManagedServiceIdentity               | ManagedServiceIdentity               | Modified |       |
-| ManagedServiceIdentity_STATUS        | ManagedServiceIdentity_STATUS        | Modified |       |
-| MemberUpdateStatus_STATUS            | MemberUpdateStatus_STATUS            | Extended |       |
-| NodeImageSelection                   | NodeImageSelection                   | Modified |       |
-| NodeImageSelectionStatus_STATUS      | NodeImageSelectionStatus_STATUS      | Extended |       |
-| NodeImageSelection_STATUS            | NodeImageSelection_STATUS            | Modified |       |
-| NodeImageVersion_STATUS              | NodeImageVersion_STATUS              | Extended |       |
-| SystemData_STATUS                    | SystemData_STATUS                    | Modified |       |
-| UpdateGroup                          | UpdateGroup                          | Modified |       |
-| UpdateGroupStatus_STATUS             | UpdateGroupStatus_STATUS             | Extended |       |
-| UpdateGroup_STATUS                   | UpdateGroup_STATUS                   | Extended |       |
-| UpdateRunStatus_STATUS               | UpdateRunStatus_STATUS               | Extended |       |
-| UpdateRunStrategy                    | UpdateRunStrategy                    | Extended |       |
-| UpdateRunStrategy_STATUS             | UpdateRunStrategy_STATUS             | Extended |       |
-| UpdateStage                          | UpdateStage                          | Modified |       |
-| UpdateStageStatus_STATUS             | UpdateStageStatus_STATUS             | Extended |       |
-| UpdateStage_STATUS                   | UpdateStage_STATUS                   | Extended |       |
-| UpdateStatus_STATUS                  | UpdateStatus_STATUS                  | Modified |       |
-| UserAssignedIdentityDetails          | UserAssignedIdentityDetails          | Extended |       |
-| WaitStatus_STATUS                    | WaitStatus_STATUS                    | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20250301                        | v1api20250301/storage                |  Status  | Notes        |
+|:-------------------------------------|:-------------------------------------|:--------:|:-------------|
+| APIServerAccessProfile               | APIServerAccessProfile               | Extended | +PropertyBag |
+| APIServerAccessProfile_STATUS        | APIServerAccessProfile_STATUS        | Extended | +PropertyBag |
+| AgentProfile                         | AgentProfile                         | Extended | +PropertyBag |
+| AgentProfile_STATUS                  | AgentProfile_STATUS                  | Extended | +PropertyBag |
+| AutoUpgradeNodeImageSelection        | AutoUpgradeNodeImageSelection        | Modified |              |
+| AutoUpgradeNodeImageSelection_STATUS | AutoUpgradeNodeImageSelection_STATUS | Modified |              |
+| AutoUpgradeProfileStatus_STATUS      | AutoUpgradeProfileStatus_STATUS      | Modified |              |
+| CommonUserAssignedIdentity_STATUS    | CommonUserAssignedIdentity_STATUS    | Extended | +PropertyBag |
+| ErrorAdditionalInfo_STATUS           | ErrorAdditionalInfo_STATUS           | Extended | +PropertyBag |
+| ErrorDetail_STATUS                   | ErrorDetail_STATUS                   | Extended | +PropertyBag |
+| ErrorDetail_STATUS_Unrolled          | ErrorDetail_STATUS_Unrolled          | Extended | +PropertyBag |
+| FleetHubProfile                      | FleetHubProfile                      | Extended | +PropertyBag |
+| FleetHubProfile_STATUS               | FleetHubProfile_STATUS               | Extended | +PropertyBag |
+| FleetMemberStatus_STATUS             | FleetMemberStatus_STATUS             | Extended | +PropertyBag |
+| FleetOperatorSecrets                 | FleetOperatorSecrets                 | Extended | +PropertyBag |
+| FleetOperatorSpec                    | FleetOperatorSpec                    | Extended | +PropertyBag |
+| FleetStatus_STATUS                   | FleetStatus_STATUS                   | Extended | +PropertyBag |
+| Fleet_STATUS                         | Fleet_STATUS                         | Modified |              |
+| Fleet_Spec                           | Fleet_Spec                           | Modified |              |
+| FleetsAutoUpgradeProfileOperatorSpec | FleetsAutoUpgradeProfileOperatorSpec | Extended | +PropertyBag |
+| FleetsAutoUpgradeProfile_STATUS      | FleetsAutoUpgradeProfile_STATUS      | Modified |              |
+| FleetsAutoUpgradeProfile_Spec        | FleetsAutoUpgradeProfile_Spec        | Modified |              |
+| FleetsMemberOperatorSpec             | FleetsMemberOperatorSpec             | Extended | +PropertyBag |
+| FleetsMember_STATUS                  | FleetsMember_STATUS                  | Modified |              |
+| FleetsMember_Spec                    | FleetsMember_Spec                    | Modified |              |
+| FleetsUpdateRunOperatorSpec          | FleetsUpdateRunOperatorSpec          | Extended | +PropertyBag |
+| FleetsUpdateRun_STATUS               | FleetsUpdateRun_STATUS               | Modified |              |
+| FleetsUpdateRun_Spec                 | FleetsUpdateRun_Spec                 | Modified |              |
+| FleetsUpdateStrategyOperatorSpec     | FleetsUpdateStrategyOperatorSpec     | Extended | +PropertyBag |
+| FleetsUpdateStrategy_STATUS          | FleetsUpdateStrategy_STATUS          | Modified |              |
+| FleetsUpdateStrategy_Spec            | FleetsUpdateStrategy_Spec            | Modified |              |
+| ManagedClusterUpdate                 | ManagedClusterUpdate                 | Extended | +PropertyBag |
+| ManagedClusterUpdate_STATUS          | ManagedClusterUpdate_STATUS          | Extended | +PropertyBag |
+| ManagedClusterUpgradeSpec            | ManagedClusterUpgradeSpec            | Modified |              |
+| ManagedClusterUpgradeSpec_STATUS     | ManagedClusterUpgradeSpec_STATUS     | Modified |              |
+| ManagedServiceIdentity               | ManagedServiceIdentity               | Modified |              |
+| ManagedServiceIdentity_STATUS        | ManagedServiceIdentity_STATUS        | Modified |              |
+| MemberUpdateStatus_STATUS            | MemberUpdateStatus_STATUS            | Extended | +PropertyBag |
+| NodeImageSelection                   | NodeImageSelection                   | Modified |              |
+| NodeImageSelectionStatus_STATUS      | NodeImageSelectionStatus_STATUS      | Extended | +PropertyBag |
+| NodeImageSelection_STATUS            | NodeImageSelection_STATUS            | Modified |              |
+| NodeImageVersion_STATUS              | NodeImageVersion_STATUS              | Extended | +PropertyBag |
+| SystemData_STATUS                    | SystemData_STATUS                    | Modified |              |
+| UpdateGroup                          | UpdateGroup                          | Extended | +PropertyBag |
+| UpdateGroupStatus_STATUS             | UpdateGroupStatus_STATUS             | Extended | +PropertyBag |
+| UpdateGroup_STATUS                   | UpdateGroup_STATUS                   | Extended | +PropertyBag |
+| UpdateRunStatus_STATUS               | UpdateRunStatus_STATUS               | Extended | +PropertyBag |
+| UpdateRunStrategy                    | UpdateRunStrategy                    | Extended | +PropertyBag |
+| UpdateRunStrategy_STATUS             | UpdateRunStrategy_STATUS             | Extended | +PropertyBag |
+| UpdateStage                          | UpdateStage                          | Extended | +PropertyBag |
+| UpdateStageStatus_STATUS             | UpdateStageStatus_STATUS             | Extended | +PropertyBag |
+| UpdateStage_STATUS                   | UpdateStage_STATUS                   | Extended | +PropertyBag |
+| UpdateStatus_STATUS                  | UpdateStatus_STATUS                  | Modified |              |
+| UserAssignedIdentityDetails          | UserAssignedIdentityDetails          | Extended | +PropertyBag |
+| WaitStatus_STATUS                    | WaitStatus_STATUS                    | Extended | +PropertyBag |
 
 ### APIServerAccessProfile
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250301         |                               | v1api20250301/storage |                               |  Status   | Notes |
 |:----------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -92,7 +85,7 @@
 
 ### APIServerAccessProfile_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250301         |         | v1api20250301/storage |                        |  Status   | Notes |
 |:----------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -103,7 +96,7 @@
 
 ### AgentProfile
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250301   |                               | v1api20250301/storage |                               |  Status   | Notes |
 |:----------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -113,7 +106,7 @@
 
 ### AgentProfile_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250301 |         | v1api20250301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -123,7 +116,7 @@
 
 ### AutoUpgradeNodeImageSelection
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20250301 |                                    | v1api20250301/storage |                        |  Status  | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -132,7 +125,7 @@
 
 ### AutoUpgradeNodeImageSelection_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20250301 |                                           | v1api20250301/storage |                        |  Status  | Notes |
 |:--------------|:------------------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -141,7 +134,7 @@
 
 ### AutoUpgradeProfileStatus_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20250301              |                                      | v1api20250301/storage      |                        |  Status   | Notes |
 |:---------------------------|:-------------------------------------|:---------------------------|:-----------------------|:---------:|:------|
@@ -153,7 +146,7 @@
 
 ### CommonUserAssignedIdentity_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250301 |         | v1api20250301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -163,7 +156,7 @@
 
 ### ErrorAdditionalInfo_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250301 |                    | v1api20250301/storage |                        |  Status   | Notes |
 |:--------------|:-------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -173,7 +166,7 @@
 
 ### ErrorDetail_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20250301  |                               | v1api20250301/storage |                               |  Status   | Notes |
 |:---------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -186,7 +179,7 @@
 
 ### ErrorDetail_STATUS_Unrolled
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20250301  |                              | v1api20250301/storage |                              |  Status   | Notes |
 |:---------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -198,18 +191,18 @@
 
 ### FleetHubProfile
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New
 
 | v1api20250301          |                              | v1api20250301/storage  |                         |  Status   | Notes |
 |:-----------------------|:-----------------------------|:-----------------------|:------------------------|:---------:|:------|
 | AgentProfile           | *AgentProfile                | AgentProfile           | *AgentProfile           | Identical |       |
 | ApiServerAccessProfile | *APIServerAccessProfile      | ApiServerAccessProfile | *APIServerAccessProfile | Identical |       |
-| DnsPrefix              | Validated<*string> (3 rules) | DnsPrefix              | *string                 | Modified  |       |
+| DnsPrefix              | Validated<*string> (3 rules) | DnsPrefix              | *string                 | Identical |       |
 |                        |                              | PropertyBag            | genruntime.PropertyBag  |    New    |       |
 
 ### FleetHubProfile_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20250301          |                                | v1api20250301/storage  |                                |  Status   | Notes |
 |:-----------------------|:-------------------------------|:-----------------------|:-------------------------------|:---------:|:------|
@@ -223,7 +216,7 @@
 
 ### FleetMemberStatus_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250301      |                     | v1api20250301/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -233,7 +226,7 @@
 
 ### FleetOperatorSecrets
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250301   |                               | v1api20250301/storage |                               |  Status   | Notes |
 |:----------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -242,7 +235,7 @@
 
 ### FleetOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250301        |                               | v1api20250301/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -253,7 +246,7 @@
 
 ### FleetStatus_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250301      |                     | v1api20250301/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -263,7 +256,7 @@
 
 ### Fleet_STATUS
 
-11 x Identical, 1 x New, 1 x Modified
+Properties: 11 x Identical, 1 x New, 1 x Modified
 
 | v1api20250301     |                                | v1api20250301/storage |                                |  Status   | Notes |
 |:------------------|:-------------------------------|:----------------------|:-------------------------------|:---------:|:------|
@@ -283,7 +276,7 @@
 
 ### Fleet_Spec
 
-6 x Identical, 2 x New, 1 x Modified
+Properties: 6 x Identical, 2 x New, 1 x Modified
 
 | v1api20250301 |                                    | v1api20250301/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -299,7 +292,7 @@
 
 ### FleetsAutoUpgradeProfileOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250301        |                               | v1api20250301/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -309,7 +302,7 @@
 
 ### FleetsAutoUpgradeProfile_STATUS
 
-10 x Identical, 1 x New, 2 x Modified
+Properties: 10 x Identical, 1 x New, 2 x Modified
 
 | v1api20250301            |                                             | v1api20250301/storage    |                                       |  Status   | Notes |
 |:-------------------------|:--------------------------------------------|:-------------------------|:--------------------------------------|:---------:|:------|
@@ -329,7 +322,7 @@
 
 ### FleetsAutoUpgradeProfile_Spec
 
-5 x Identical, 2 x New, 2 x Modified
+Properties: 5 x Identical, 2 x New, 2 x Modified
 
 | v1api20250301           |                                       | v1api20250301/storage   |                                       |  Status   | Notes |
 |:------------------------|:--------------------------------------|:------------------------|:--------------------------------------|:---------:|:------|
@@ -345,7 +338,7 @@
 
 ### FleetsMemberOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250301        |                               | v1api20250301/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -355,7 +348,7 @@
 
 ### FleetsMember_STATUS
 
-9 x Identical, 1 x New, 1 x Modified
+Properties: 9 x Identical, 1 x New, 1 x Modified
 
 | v1api20250301     |                                      | v1api20250301/storage |                           |  Status   | Notes |
 |:------------------|:-------------------------------------|:----------------------|:--------------------------|:---------:|:------|
@@ -373,13 +366,13 @@
 
 ### FleetsMember_Spec
 
-3 x Identical, 2 x New, 2 x Modified
+Properties: 4 x Identical, 2 x New, 1 x Modified
 
 | v1api20250301            |                                    | v1api20250301/storage    |                                    |  Status   | Notes |
 |:-------------------------|:-----------------------------------|:-------------------------|:-----------------------------------|:---------:|:------|
 | AzureName                | Validated<string> (3 rules)        | AzureName                | string                             | Modified  |       |
 | ClusterResourceReference | *genruntime.ResourceReference      | ClusterResourceReference | *genruntime.ResourceReference      | Identical |       |
-| Group                    | Validated<*string> (3 rules)       | Group                    | *string                            | Modified  |       |
+| Group                    | Validated<*string> (3 rules)       | Group                    | *string                            | Identical |       |
 | OperatorSpec             | *FleetsMemberOperatorSpec          | OperatorSpec             | *FleetsMemberOperatorSpec          | Identical |       |
 |                          |                                    | OriginalVersion          | string                             |    New    |       |
 | Owner                    | *genruntime.KnownResourceReference | Owner                    | *genruntime.KnownResourceReference | Identical |       |
@@ -387,7 +380,7 @@
 
 ### FleetsUpdateRunOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250301        |                               | v1api20250301/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -397,7 +390,7 @@
 
 ### FleetsUpdateRun_STATUS
 
-11 x Identical, 1 x New, 1 x Modified
+Properties: 11 x Identical, 1 x New, 1 x Modified
 
 | v1api20250301        |                                    | v1api20250301/storage |                              |  Status   | Notes |
 |:---------------------|:-----------------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -417,7 +410,7 @@
 
 ### FleetsUpdateRun_Spec
 
-5 x Identical, 2 x New, 1 x Modified
+Properties: 5 x Identical, 2 x New, 1 x Modified
 
 | v1api20250301           |                                    | v1api20250301/storage   |                                    |  Status   | Notes |
 |:------------------------|:-----------------------------------|:------------------------|:-----------------------------------|:---------:|:------|
@@ -432,7 +425,7 @@
 
 ### FleetsUpdateStrategyOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250301        |                               | v1api20250301/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -442,7 +435,7 @@
 
 ### FleetsUpdateStrategy_STATUS
 
-7 x Identical, 1 x New, 1 x Modified
+Properties: 7 x Identical, 1 x New, 1 x Modified
 
 | v1api20250301     |                                              | v1api20250301/storage |                           |  Status   | Notes |
 |:------------------|:---------------------------------------------|:----------------------|:--------------------------|:---------:|:------|
@@ -458,7 +451,7 @@
 
 ### FleetsUpdateStrategy_Spec
 
-3 x Identical, 2 x New, 1 x Modified
+Properties: 3 x Identical, 2 x New, 1 x Modified
 
 | v1api20250301 |                                    | v1api20250301/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -471,7 +464,7 @@
 
 ### ManagedClusterUpdate
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250301      |                            | v1api20250301/storage |                            |  Status   | Notes |
 |:-------------------|:---------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -481,7 +474,7 @@
 
 ### ManagedClusterUpdate_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250301      |                                   | v1api20250301/storage |                                   |  Status   | Notes |
 |:-------------------|:----------------------------------|:----------------------|:----------------------------------|:---------:|:------|
@@ -491,7 +484,7 @@
 
 ### ManagedClusterUpgradeSpec
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20250301     |                            | v1api20250301/storage |                        |  Status   | Notes |
 |:------------------|:---------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -501,7 +494,7 @@
 
 ### ManagedClusterUpgradeSpec_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20250301     |                                   | v1api20250301/storage |                        |  Status   | Notes |
 |:------------------|:----------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -511,7 +504,7 @@
 
 ### ManagedServiceIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20250301          |                               | v1api20250301/storage  |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -521,7 +514,7 @@
 
 ### ManagedServiceIdentity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20250301          |                                              | v1api20250301/storage  |                                              |  Status   | Notes |
 |:-----------------------|:---------------------------------------------|:-----------------------|:---------------------------------------------|:---------:|:------|
@@ -533,7 +526,7 @@
 
 ### MemberUpdateStatus_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20250301     |                      | v1api20250301/storage |                        |  Status   | Notes |
 |:------------------|:---------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -546,7 +539,7 @@
 
 ### NodeImageSelection
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20250301 |                         | v1api20250301/storage |                        |  Status  | Notes |
 |:--------------|:------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -555,7 +548,7 @@
 
 ### NodeImageSelectionStatus_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250301             |                           | v1api20250301/storage     |                           |  Status   | Notes |
 |:--------------------------|:--------------------------|:--------------------------|:--------------------------|:---------:|:------|
@@ -564,7 +557,7 @@
 
 ### NodeImageSelection_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20250301           |                                | v1api20250301/storage   |                           |  Status   | Notes |
 |:------------------------|:-------------------------------|:------------------------|:--------------------------|:---------:|:------|
@@ -574,7 +567,7 @@
 
 ### NodeImageVersion_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250301 |         | v1api20250301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -583,7 +576,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20250301      |                                       | v1api20250301/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -597,16 +590,16 @@
 
 ### UpdateGroup
 
-1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New
 
-| v1api20250301 |                              | v1api20250301/storage |                        |  Status  | Notes |
-|:--------------|:-----------------------------|:----------------------|:-----------------------|:--------:|:------|
-| Name          | Validated<*string> (3 rules) | Name                  | *string                | Modified |       |
-|               |                              | PropertyBag           | genruntime.PropertyBag |   New    |       |
+| v1api20250301 |                              | v1api20250301/storage |                        |  Status   | Notes |
+|:--------------|:-----------------------------|:----------------------|:-----------------------|:---------:|:------|
+| Name          | Validated<*string> (3 rules) | Name                  | *string                | Identical |       |
+|               |                              | PropertyBag           | genruntime.PropertyBag |    New    |       |
 
 ### UpdateGroupStatus_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250301 |                             | v1api20250301/storage |                             |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -617,7 +610,7 @@
 
 ### UpdateGroup_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250301 |         | v1api20250301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -626,7 +619,7 @@
 
 ### UpdateRunStatus_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250301      |                                  | v1api20250301/storage |                                  |  Status   | Notes |
 |:-------------------|:---------------------------------|:----------------------|:---------------------------------|:---------:|:------|
@@ -637,7 +630,7 @@
 
 ### UpdateRunStrategy
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250301 |               | v1api20250301/storage |                        |  Status   | Notes |
 |:--------------|:--------------|:----------------------|:-----------------------|:---------:|:------|
@@ -646,7 +639,7 @@
 
 ### UpdateRunStrategy_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250301 |                      | v1api20250301/storage |                        |  Status   | Notes |
 |:--------------|:---------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -655,18 +648,18 @@
 
 ### UpdateStage
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New
 
 | v1api20250301           |                              | v1api20250301/storage   |                        |  Status   | Notes |
 |:------------------------|:-----------------------------|:------------------------|:-----------------------|:---------:|:------|
 | AfterStageWaitInSeconds | *int                         | AfterStageWaitInSeconds | *int                   | Identical |       |
 | Groups                  | UpdateGroup[]                | Groups                  | UpdateGroup[]          | Identical |       |
-| Name                    | Validated<*string> (3 rules) | Name                    | *string                | Modified  |       |
+| Name                    | Validated<*string> (3 rules) | Name                    | *string                | Identical |       |
 |                         |                              | PropertyBag             | genruntime.PropertyBag |    New    |       |
 
 ### UpdateStageStatus_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20250301        |                            | v1api20250301/storage |                            |  Status   | Notes |
 |:---------------------|:---------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -678,7 +671,7 @@
 
 ### UpdateStage_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250301           |                      | v1api20250301/storage   |                        |  Status   | Notes |
 |:------------------------|:---------------------|:------------------------|:-----------------------|:---------:|:------|
@@ -689,7 +682,7 @@
 
 ### UpdateStatus_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20250301 |                     | v1api20250301/storage |                        |  Status   | Notes |
 |:--------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -701,7 +694,7 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250301 |                              | v1api20250301/storage |                              |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -710,10 +703,19 @@
 
 ### WaitStatus_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250301         |                      | v1api20250301/storage |                        |  Status   | Notes |
 |:----------------------|:---------------------|:----------------------|:-----------------------|:---------:|:------|
 |                       |                      | PropertyBag           | genruntime.PropertyBag |    New    |       |
 | Status                | *UpdateStatus_STATUS | Status                | *UpdateStatus_STATUS   | Identical |       |
 | WaitDurationInSeconds | *int                 | WaitDurationInSeconds | *int                   | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

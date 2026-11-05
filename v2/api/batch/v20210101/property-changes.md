@@ -6,40 +6,33 @@
 |:-------------|:------------------|:---------:|:------|
 | BatchAccount | BatchAccount      | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20210101                                          | v20210101/storage                                  |  Status  | Notes |
-|:---------------------------------------------------|:---------------------------------------------------|:--------:|:------|
-| AutoStorageBaseProperties                          | AutoStorageBaseProperties                          | Extended |       |
-| AutoStorageProperties_STATUS                       | AutoStorageProperties_STATUS                       | Extended |       |
-| BatchAccountIdentity                               | BatchAccountIdentity                               | Modified |       |
-| BatchAccountIdentity_STATUS                        | BatchAccountIdentity_STATUS                        | Modified |       |
-| BatchAccountIdentity_UserAssignedIdentities_STATUS | BatchAccountIdentity_UserAssignedIdentities_STATUS | Extended |       |
-| BatchAccountOperatorSpec                           | BatchAccountOperatorSpec                           | Extended |       |
-| BatchAccount_STATUS                                | BatchAccount_STATUS                                | Modified |       |
-| BatchAccount_Spec                                  | BatchAccount_Spec                                  | Modified |       |
-| EncryptionProperties                               | EncryptionProperties                               | Modified |       |
-| EncryptionProperties_STATUS                        | EncryptionProperties_STATUS                        | Modified |       |
-| KeyVaultProperties                                 | KeyVaultProperties                                 | Extended |       |
-| KeyVaultProperties_STATUS                          | KeyVaultProperties_STATUS                          | Extended |       |
-| KeyVaultReference                                  | KeyVaultReference                                  | Extended |       |
-| KeyVaultReference_STATUS                           | KeyVaultReference_STATUS                           | Extended |       |
-| PrivateEndpointConnection_STATUS                   | PrivateEndpointConnection_STATUS                   | Extended |       |
-| UserAssignedIdentityDetails                        | UserAssignedIdentityDetails                        | Extended |       |
-| VirtualMachineFamilyCoreQuota_STATUS               | VirtualMachineFamilyCoreQuota_STATUS               | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20210101                                          | v20210101/storage                                  |  Status  | Notes        |
+|:---------------------------------------------------|:---------------------------------------------------|:--------:|:-------------|
+| AutoStorageBaseProperties                          | AutoStorageBaseProperties                          | Extended | +PropertyBag |
+| AutoStorageProperties_STATUS                       | AutoStorageProperties_STATUS                       | Extended | +PropertyBag |
+| BatchAccountIdentity                               | BatchAccountIdentity                               | Modified |              |
+| BatchAccountIdentity_STATUS                        | BatchAccountIdentity_STATUS                        | Modified |              |
+| BatchAccountIdentity_UserAssignedIdentities_STATUS | BatchAccountIdentity_UserAssignedIdentities_STATUS | Extended | +PropertyBag |
+| BatchAccountOperatorSpec                           | BatchAccountOperatorSpec                           | Extended | +PropertyBag |
+| BatchAccount_STATUS                                | BatchAccount_STATUS                                | Modified |              |
+| BatchAccount_Spec                                  | BatchAccount_Spec                                  | Modified |              |
+| EncryptionProperties                               | EncryptionProperties                               | Modified |              |
+| EncryptionProperties_STATUS                        | EncryptionProperties_STATUS                        | Modified |              |
+| KeyVaultProperties                                 | KeyVaultProperties                                 | Extended | +PropertyBag |
+| KeyVaultProperties_STATUS                          | KeyVaultProperties_STATUS                          | Extended | +PropertyBag |
+| KeyVaultReference                                  | KeyVaultReference                                  | Extended | +PropertyBag |
+| KeyVaultReference_STATUS                           | KeyVaultReference_STATUS                           | Extended | +PropertyBag |
+| PrivateEndpointConnection_STATUS                   | PrivateEndpointConnection_STATUS                   | Extended | +PropertyBag |
+| UserAssignedIdentityDetails                        | UserAssignedIdentityDetails                        | Extended | +PropertyBag |
+| VirtualMachineFamilyCoreQuota_STATUS               | VirtualMachineFamilyCoreQuota_STATUS               | Extended | +PropertyBag |
 
 ### AutoStorageBaseProperties
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20210101               |                               | v20210101/storage       |                               |  Status   | Notes |
 |:------------------------|:------------------------------|:------------------------|:------------------------------|:---------:|:------|
@@ -48,7 +41,7 @@
 
 ### AutoStorageProperties_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20210101        |         | v20210101/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -58,7 +51,7 @@
 
 ### BatchAccountIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20210101              |                               | v20210101/storage      |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -68,7 +61,7 @@
 
 ### BatchAccountIdentity_STATUS
 
-2 x Identical, 1 x New, 2 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v20210101              |                                                               | v20210101/storage      |                                                               |  Status   | Notes |
 |:-----------------------|:--------------------------------------------------------------|:-----------------------|:--------------------------------------------------------------|:---------:|:------|
@@ -76,11 +69,11 @@
 |                        |                                                               | PropertyBag            | genruntime.PropertyBag                                        |    New    |       |
 | TenantId               | *string                                                       | TenantId               | *string                                                       | Identical |       |
 | Type                   | *BatchAccountIdentity_Type_STATUS                             | Type                   | *string                                                       | Modified  |       |
-| UserAssignedIdentities | map[string]BatchAccountIdentity_UserAssignedIdentities_STATUS | UserAssignedIdentities | map[string]BatchAccountIdentity_UserAssignedIdentities_STATUS | Modified  |       |
+| UserAssignedIdentities | map[string]BatchAccountIdentity_UserAssignedIdentities_STATUS | UserAssignedIdentities | map[string]BatchAccountIdentity_UserAssignedIdentities_STATUS | Identical |       |
 
 ### BatchAccountIdentity_UserAssignedIdentities_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20210101   |         | v20210101/storage |                        |  Status   | Notes |
 |:------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -90,7 +83,7 @@
 
 ### BatchAccountOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20210101            |                               | v20210101/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -100,7 +93,7 @@
 
 ### BatchAccount_STATUS
 
-18 x Identical, 1 x New, 3 x Modified
+Properties: 18 x Identical, 1 x New, 3 x Modified
 
 | v20210101                             |                                                  | v20210101/storage                     |                                        |  Status   | Notes |
 |:--------------------------------------|:-------------------------------------------------|:--------------------------------------|:---------------------------------------|:---------:|:------|
@@ -129,7 +122,7 @@
 
 ### BatchAccount_Spec
 
-8 x Identical, 2 x New, 3 x Modified
+Properties: 8 x Identical, 2 x New, 3 x Modified
 
 | v20210101           |                                    | v20210101/storage   |                                    |  Status   | Notes |
 |:--------------------|:-----------------------------------|:--------------------|:-----------------------------------|:---------:|:------|
@@ -149,7 +142,7 @@
 
 ### EncryptionProperties
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20210101          |                                 | v20210101/storage  |                        |  Status   | Notes |
 |:-------------------|:--------------------------------|:-------------------|:-----------------------|:---------:|:------|
@@ -159,7 +152,7 @@
 
 ### EncryptionProperties_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20210101          |                                        | v20210101/storage  |                            |  Status   | Notes |
 |:-------------------|:---------------------------------------|:-------------------|:---------------------------|:---------:|:------|
@@ -169,7 +162,7 @@
 
 ### KeyVaultProperties
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20210101     |         | v20210101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -178,7 +171,7 @@
 
 ### KeyVaultProperties_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20210101     |         | v20210101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -187,7 +180,7 @@
 
 ### KeyVaultReference
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20210101 |                               | v20210101/storage |                               |  Status   | Notes |
 |:----------|:------------------------------|:------------------|:------------------------------|:---------:|:------|
@@ -197,7 +190,7 @@
 
 ### KeyVaultReference_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20210101 |         | v20210101/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -207,7 +200,7 @@
 
 ### PrivateEndpointConnection_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20210101 |         | v20210101/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -216,7 +209,7 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20210101 |                              | v20210101/storage |                              |  Status   | Notes |
 |:----------|:-----------------------------|:------------------|:-----------------------------|:---------:|:------|
@@ -225,10 +218,19 @@
 
 ### VirtualMachineFamilyCoreQuota_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20210101 |         | v20210101/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
 | CoreQuota | *int    | CoreQuota         | *int                   | Identical |       |
 | Name      | *string | Name              | *string                | Identical |       |
 |           |         | PropertyBag       | genruntime.PropertyBag |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

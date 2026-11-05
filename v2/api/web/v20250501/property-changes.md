@@ -8,149 +8,142 @@
 | Site               | Site               | Identical |       |
 | SitesSourcecontrol | SitesSourcecontrol | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20250501                                       | v20250501/storage                               |  Status  | Notes |
-|:------------------------------------------------|:------------------------------------------------|:--------:|:------|
-| ApiDefinitionInfo                               | ApiDefinitionInfo                               | Extended |       |
-| ApiDefinitionInfo_STATUS                        | ApiDefinitionInfo_STATUS                        | Extended |       |
-| ApiManagementConfig                             | ApiManagementConfig                             | Extended |       |
-| ApiManagementConfig_STATUS                      | ApiManagementConfig_STATUS                      | Extended |       |
-| AutoHealActions                                 | AutoHealActions                                 | Modified |       |
-| AutoHealActions_STATUS                          | AutoHealActions_STATUS                          | Modified |       |
-| AutoHealCustomAction                            | AutoHealCustomAction                            | Extended |       |
-| AutoHealCustomAction_STATUS                     | AutoHealCustomAction_STATUS                     | Extended |       |
-| AutoHealRules                                   | AutoHealRules                                   | Extended |       |
-| AutoHealRules_STATUS                            | AutoHealRules_STATUS                            | Extended |       |
-| AutoHealTriggers                                | AutoHealTriggers                                | Extended |       |
-| AutoHealTriggers_STATUS                         | AutoHealTriggers_STATUS                         | Extended |       |
-| AzureStorageInfoValue                           | AzureStorageInfoValue                           | Modified |       |
-| AzureStorageInfoValue_STATUS                    | AzureStorageInfoValue_STATUS                    | Modified |       |
-| Capability                                      | Capability                                      | Extended |       |
-| Capability_STATUS                               | Capability_STATUS                               | Extended |       |
-| CloningInfo                                     | CloningInfo                                     | Modified |       |
-| CloningInfo_STATUS                              | CloningInfo_STATUS                              | Extended |       |
-| ConnStringInfo                                  | ConnStringInfo                                  | Modified |       |
-| ConnStringInfo_STATUS                           | ConnStringInfo_STATUS                           | Modified |       |
-| CorsSettings                                    | CorsSettings                                    | Extended |       |
-| CorsSettings_STATUS                             | CorsSettings_STATUS                             | Extended |       |
-| DaprConfig                                      | DaprConfig                                      | Modified |       |
-| DaprConfig_STATUS                               | DaprConfig_STATUS                               | Modified |       |
-| DefaultIdentity                                 | DefaultIdentity                                 | Modified |       |
-| DefaultIdentity_STATUS                          | DefaultIdentity_STATUS                          | Modified |       |
-| Experiments                                     | Experiments                                     | Extended |       |
-| Experiments_STATUS                              | Experiments_STATUS                              | Extended |       |
-| ExtendedLocation                                | ExtendedLocation                                | Extended |       |
-| ExtendedLocation_STATUS                         | ExtendedLocation_STATUS                         | Extended |       |
-| FunctionAppConfig                               | FunctionAppConfig                               | Extended |       |
-| FunctionAppConfig_STATUS                        | FunctionAppConfig_STATUS                        | Extended |       |
-| FunctionsAlwaysReadyConfig                      | FunctionsAlwaysReadyConfig                      | Extended |       |
-| FunctionsAlwaysReadyConfig_STATUS               | FunctionsAlwaysReadyConfig_STATUS               | Extended |       |
-| FunctionsDeployment                             | FunctionsDeployment                             | Extended |       |
-| FunctionsDeploymentStorage                      | FunctionsDeploymentStorage                      | Modified |       |
-| FunctionsDeploymentStorageAuthentication        | FunctionsDeploymentStorageAuthentication        | Modified |       |
-| FunctionsDeploymentStorageAuthentication_STATUS | FunctionsDeploymentStorageAuthentication_STATUS | Modified |       |
-| FunctionsDeploymentStorage_STATUS               | FunctionsDeploymentStorage_STATUS               | Modified |       |
-| FunctionsDeployment_STATUS                      | FunctionsDeployment_STATUS                      | Extended |       |
-| FunctionsRuntime                                | FunctionsRuntime                                | Modified |       |
-| FunctionsRuntime_STATUS                         | FunctionsRuntime_STATUS                         | Modified |       |
-| FunctionsScaleAndConcurrency                    | FunctionsScaleAndConcurrency                    | Extended |       |
-| FunctionsScaleAndConcurrencyTriggers            | FunctionsScaleAndConcurrencyTriggers            | Extended |       |
-| FunctionsScaleAndConcurrencyTriggersHttp        | FunctionsScaleAndConcurrencyTriggersHttp        | Extended |       |
-| FunctionsScaleAndConcurrencyTriggersHttp_STATUS | FunctionsScaleAndConcurrencyTriggersHttp_STATUS | Extended |       |
-| FunctionsScaleAndConcurrencyTriggers_STATUS     | FunctionsScaleAndConcurrencyTriggers_STATUS     | Extended |       |
-| FunctionsScaleAndConcurrency_STATUS             | FunctionsScaleAndConcurrency_STATUS             | Extended |       |
-| FunctionsSiteUpdateStrategy                     | FunctionsSiteUpdateStrategy                     | Modified |       |
-| FunctionsSiteUpdateStrategy_STATUS              | FunctionsSiteUpdateStrategy_STATUS              | Modified |       |
-| GitHubActionCodeConfiguration                   | GitHubActionCodeConfiguration                   | Extended |       |
-| GitHubActionCodeConfiguration_STATUS            | GitHubActionCodeConfiguration_STATUS            | Extended |       |
-| GitHubActionConfiguration                       | GitHubActionConfiguration                       | Extended |       |
-| GitHubActionConfiguration_STATUS                | GitHubActionConfiguration_STATUS                | Extended |       |
-| GitHubActionContainerConfiguration              | GitHubActionContainerConfiguration              | Extended |       |
-| GitHubActionContainerConfiguration_STATUS       | GitHubActionContainerConfiguration_STATUS       | Extended |       |
-| HandlerMapping                                  | HandlerMapping                                  | Extended |       |
-| HandlerMapping_STATUS                           | HandlerMapping_STATUS                           | Extended |       |
-| HostNameSslState                                | HostNameSslState                                | Modified |       |
-| HostNameSslState_STATUS                         | HostNameSslState_STATUS                         | Modified |       |
-| HostingEnvironmentProfile                       | HostingEnvironmentProfile                       | Extended |       |
-| HostingEnvironmentProfile_STATUS                | HostingEnvironmentProfile_STATUS                | Extended |       |
-| InstallScript                                   | InstallScript                                   | Extended |       |
-| InstallScriptSource                             | InstallScriptSource                             | Modified |       |
-| InstallScriptSource_STATUS                      | InstallScriptSource_STATUS                      | Modified |       |
-| InstallScript_STATUS                            | InstallScript_STATUS                            | Extended |       |
-| IpSecurityRestriction                           | IpSecurityRestriction                           | Modified |       |
-| IpSecurityRestriction_STATUS                    | IpSecurityRestriction_STATUS                    | Modified |       |
-| KeyVaultReferenceWithStatus                     | KeyVaultReferenceWithStatus                     | Extended |       |
-| KeyVaultReferenceWithStatus_STATUS              | KeyVaultReferenceWithStatus_STATUS              | Extended |       |
-| KubeEnvironmentProfile                          | KubeEnvironmentProfile                          | Extended |       |
-| KubeEnvironmentProfile_STATUS                   | KubeEnvironmentProfile_STATUS                   | Extended |       |
-| ManagedServiceIdentity                          | ManagedServiceIdentity                          | Modified |       |
-| ManagedServiceIdentity_STATUS                   | ManagedServiceIdentity_STATUS                   | Modified |       |
-| NameValuePair                                   | NameValuePair                                   | Extended |       |
-| NameValuePair_STATUS                            | NameValuePair_STATUS                            | Extended |       |
-| OutboundVnetRouting                             | OutboundVnetRouting                             | Extended |       |
-| OutboundVnetRouting_STATUS                      | OutboundVnetRouting_STATUS                      | Extended |       |
-| PushSettings                                    | PushSettings                                    | Extended |       |
-| PushSettings_STATUS                             | PushSettings_STATUS                             | Extended |       |
-| RampUpRule                                      | RampUpRule                                      | Extended |       |
-| RampUpRule_STATUS                               | RampUpRule_STATUS                               | Extended |       |
-| RegistryAdapter                                 | RegistryAdapter                                 | Modified |       |
-| RegistryAdapter_STATUS                          | RegistryAdapter_STATUS                          | Modified |       |
-| RequestsBasedTrigger                            | RequestsBasedTrigger                            | Extended |       |
-| RequestsBasedTrigger_STATUS                     | RequestsBasedTrigger_STATUS                     | Extended |       |
-| ResourceConfig                                  | ResourceConfig                                  | Extended |       |
-| ResourceConfig_STATUS                           | ResourceConfig_STATUS                           | Extended |       |
-| ServerFarmNetworkSettings                       | ServerFarmNetworkSettings                       | Extended |       |
-| ServerFarmNetworkSettings_STATUS                | ServerFarmNetworkSettings_STATUS                | Extended |       |
-| ServerFarmOperatorSpec                          | ServerFarmOperatorSpec                          | Extended |       |
-| ServerFarm_STATUS                               | ServerFarm_STATUS                               | Modified |       |
-| ServerFarm_Spec                                 | ServerFarm_Spec                                 | Extended |       |
-| SiteConfig                                      | SiteConfig                                      | Modified |       |
-| SiteConfig_STATUS                               | SiteConfig_STATUS                               | Modified |       |
-| SiteDnsConfig                                   | SiteDnsConfig                                   | Extended |       |
-| SiteDnsConfig_STATUS                            | SiteDnsConfig_STATUS                            | Extended |       |
-| SiteLimits                                      | SiteLimits                                      | Extended |       |
-| SiteLimits_STATUS                               | SiteLimits_STATUS                               | Extended |       |
-| SiteMachineKey_STATUS                           | SiteMachineKey_STATUS                           | Extended |       |
-| SiteOperatorSpec                                | SiteOperatorSpec                                | Extended |       |
-| Site_STATUS                                     | Site_STATUS                                     | Modified |       |
-| Site_Spec                                       | Site_Spec                                       | Modified |       |
-| SitesSourcecontrolOperatorSpec                  | SitesSourcecontrolOperatorSpec                  | Extended |       |
-| SitesSourcecontrol_STATUS                       | SitesSourcecontrol_STATUS                       | Extended |       |
-| SitesSourcecontrol_Spec                         | SitesSourcecontrol_Spec                         | Extended |       |
-| SkuCapacity                                     | SkuCapacity                                     | Extended |       |
-| SkuCapacity_STATUS                              | SkuCapacity_STATUS                              | Extended |       |
-| SkuDescription                                  | SkuDescription                                  | Extended |       |
-| SkuDescription_STATUS                           | SkuDescription_STATUS                           | Extended |       |
-| SlotSwapStatus_STATUS                           | SlotSwapStatus_STATUS                           | Extended |       |
-| SlowRequestsBasedTrigger                        | SlowRequestsBasedTrigger                        | Extended |       |
-| SlowRequestsBasedTrigger_STATUS                 | SlowRequestsBasedTrigger_STATUS                 | Extended |       |
-| StatusCodesBasedTrigger                         | StatusCodesBasedTrigger                         | Extended |       |
-| StatusCodesBasedTrigger_STATUS                  | StatusCodesBasedTrigger_STATUS                  | Extended |       |
-| StatusCodesRangeBasedTrigger                    | StatusCodesRangeBasedTrigger                    | Extended |       |
-| StatusCodesRangeBasedTrigger_STATUS             | StatusCodesRangeBasedTrigger_STATUS             | Extended |       |
-| StorageMount                                    | StorageMount                                    | Modified |       |
-| StorageMount_STATUS                             | StorageMount_STATUS                             | Modified |       |
-| SystemData_STATUS                               | SystemData_STATUS                               | Modified |       |
-| UserAssignedIdentityDetails                     | UserAssignedIdentityDetails                     | Extended |       |
-| UserAssignedIdentity_STATUS                     | UserAssignedIdentity_STATUS                     | Extended |       |
-| VirtualApplication                              | VirtualApplication                              | Extended |       |
-| VirtualApplication_STATUS                       | VirtualApplication_STATUS                       | Extended |       |
-| VirtualDirectory                                | VirtualDirectory                                | Extended |       |
-| VirtualDirectory_STATUS                         | VirtualDirectory_STATUS                         | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20250501                                       | v20250501/storage                               |  Status  | Notes                         |
+|:------------------------------------------------|:------------------------------------------------|:--------:|:------------------------------|
+| ApiDefinitionInfo                               | ApiDefinitionInfo                               | Extended | +PropertyBag                  |
+| ApiDefinitionInfo_STATUS                        | ApiDefinitionInfo_STATUS                        | Extended | +PropertyBag                  |
+| ApiManagementConfig                             | ApiManagementConfig                             | Extended | +PropertyBag                  |
+| ApiManagementConfig_STATUS                      | ApiManagementConfig_STATUS                      | Extended | +PropertyBag                  |
+| AutoHealActions                                 | AutoHealActions                                 | Modified |                               |
+| AutoHealActions_STATUS                          | AutoHealActions_STATUS                          | Modified |                               |
+| AutoHealCustomAction                            | AutoHealCustomAction                            | Extended | +PropertyBag                  |
+| AutoHealCustomAction_STATUS                     | AutoHealCustomAction_STATUS                     | Extended | +PropertyBag                  |
+| AutoHealRules                                   | AutoHealRules                                   | Extended | +PropertyBag                  |
+| AutoHealRules_STATUS                            | AutoHealRules_STATUS                            | Extended | +PropertyBag                  |
+| AutoHealTriggers                                | AutoHealTriggers                                | Extended | +PropertyBag                  |
+| AutoHealTriggers_STATUS                         | AutoHealTriggers_STATUS                         | Extended | +PropertyBag                  |
+| AzureStorageInfoValue                           | AzureStorageInfoValue                           | Modified |                               |
+| AzureStorageInfoValue_STATUS                    | AzureStorageInfoValue_STATUS                    | Modified |                               |
+| Capability                                      | Capability                                      | Extended | +PropertyBag                  |
+| Capability_STATUS                               | Capability_STATUS                               | Extended | +PropertyBag                  |
+| CloningInfo                                     | CloningInfo                                     | Extended | +PropertyBag                  |
+| CloningInfo_STATUS                              | CloningInfo_STATUS                              | Extended | +PropertyBag                  |
+| ConnStringInfo                                  | ConnStringInfo                                  | Modified |                               |
+| ConnStringInfo_STATUS                           | ConnStringInfo_STATUS                           | Modified |                               |
+| CorsSettings                                    | CorsSettings                                    | Extended | +PropertyBag                  |
+| CorsSettings_STATUS                             | CorsSettings_STATUS                             | Extended | +PropertyBag                  |
+| DaprConfig                                      | DaprConfig                                      | Modified |                               |
+| DaprConfig_STATUS                               | DaprConfig_STATUS                               | Modified |                               |
+| DefaultIdentity                                 | DefaultIdentity                                 | Modified |                               |
+| DefaultIdentity_STATUS                          | DefaultIdentity_STATUS                          | Modified |                               |
+| Experiments                                     | Experiments                                     | Extended | +PropertyBag                  |
+| Experiments_STATUS                              | Experiments_STATUS                              | Extended | +PropertyBag                  |
+| ExtendedLocation                                | ExtendedLocation                                | Extended | +PropertyBag                  |
+| ExtendedLocation_STATUS                         | ExtendedLocation_STATUS                         | Extended | +PropertyBag                  |
+| FunctionAppConfig                               | FunctionAppConfig                               | Extended | +PropertyBag                  |
+| FunctionAppConfig_STATUS                        | FunctionAppConfig_STATUS                        | Extended | +PropertyBag                  |
+| FunctionsAlwaysReadyConfig                      | FunctionsAlwaysReadyConfig                      | Extended | +PropertyBag                  |
+| FunctionsAlwaysReadyConfig_STATUS               | FunctionsAlwaysReadyConfig_STATUS               | Extended | +PropertyBag                  |
+| FunctionsDeployment                             | FunctionsDeployment                             | Extended | +PropertyBag                  |
+| FunctionsDeploymentStorage                      | FunctionsDeploymentStorage                      | Modified |                               |
+| FunctionsDeploymentStorageAuthentication        | FunctionsDeploymentStorageAuthentication        | Modified |                               |
+| FunctionsDeploymentStorageAuthentication_STATUS | FunctionsDeploymentStorageAuthentication_STATUS | Modified |                               |
+| FunctionsDeploymentStorage_STATUS               | FunctionsDeploymentStorage_STATUS               | Modified |                               |
+| FunctionsDeployment_STATUS                      | FunctionsDeployment_STATUS                      | Extended | +PropertyBag                  |
+| FunctionsRuntime                                | FunctionsRuntime                                | Modified |                               |
+| FunctionsRuntime_STATUS                         | FunctionsRuntime_STATUS                         | Modified |                               |
+| FunctionsScaleAndConcurrency                    | FunctionsScaleAndConcurrency                    | Extended | +PropertyBag                  |
+| FunctionsScaleAndConcurrencyTriggers            | FunctionsScaleAndConcurrencyTriggers            | Extended | +PropertyBag                  |
+| FunctionsScaleAndConcurrencyTriggersHttp        | FunctionsScaleAndConcurrencyTriggersHttp        | Extended | +PropertyBag                  |
+| FunctionsScaleAndConcurrencyTriggersHttp_STATUS | FunctionsScaleAndConcurrencyTriggersHttp_STATUS | Extended | +PropertyBag                  |
+| FunctionsScaleAndConcurrencyTriggers_STATUS     | FunctionsScaleAndConcurrencyTriggers_STATUS     | Extended | +PropertyBag                  |
+| FunctionsScaleAndConcurrency_STATUS             | FunctionsScaleAndConcurrency_STATUS             | Extended | +PropertyBag                  |
+| FunctionsSiteUpdateStrategy                     | FunctionsSiteUpdateStrategy                     | Modified |                               |
+| FunctionsSiteUpdateStrategy_STATUS              | FunctionsSiteUpdateStrategy_STATUS              | Modified |                               |
+| GitHubActionCodeConfiguration                   | GitHubActionCodeConfiguration                   | Extended | +PropertyBag                  |
+| GitHubActionCodeConfiguration_STATUS            | GitHubActionCodeConfiguration_STATUS            | Extended | +PropertyBag                  |
+| GitHubActionConfiguration                       | GitHubActionConfiguration                       | Extended | +PropertyBag                  |
+| GitHubActionConfiguration_STATUS                | GitHubActionConfiguration_STATUS                | Extended | +PropertyBag                  |
+| GitHubActionContainerConfiguration              | GitHubActionContainerConfiguration              | Extended | +PropertyBag                  |
+| GitHubActionContainerConfiguration_STATUS       | GitHubActionContainerConfiguration_STATUS       | Extended | +PropertyBag                  |
+| HandlerMapping                                  | HandlerMapping                                  | Extended | +PropertyBag                  |
+| HandlerMapping_STATUS                           | HandlerMapping_STATUS                           | Extended | +PropertyBag                  |
+| HostNameSslState                                | HostNameSslState                                | Modified |                               |
+| HostNameSslState_STATUS                         | HostNameSslState_STATUS                         | Modified |                               |
+| HostingEnvironmentProfile                       | HostingEnvironmentProfile                       | Extended | +PropertyBag                  |
+| HostingEnvironmentProfile_STATUS                | HostingEnvironmentProfile_STATUS                | Extended | +PropertyBag                  |
+| InstallScript                                   | InstallScript                                   | Extended | +PropertyBag                  |
+| InstallScriptSource                             | InstallScriptSource                             | Modified |                               |
+| InstallScriptSource_STATUS                      | InstallScriptSource_STATUS                      | Modified |                               |
+| InstallScript_STATUS                            | InstallScript_STATUS                            | Extended | +PropertyBag                  |
+| IpSecurityRestriction                           | IpSecurityRestriction                           | Modified |                               |
+| IpSecurityRestriction_STATUS                    | IpSecurityRestriction_STATUS                    | Modified |                               |
+| KeyVaultReferenceWithStatus                     | KeyVaultReferenceWithStatus                     | Extended | +PropertyBag                  |
+| KeyVaultReferenceWithStatus_STATUS              | KeyVaultReferenceWithStatus_STATUS              | Extended | +PropertyBag                  |
+| KubeEnvironmentProfile                          | KubeEnvironmentProfile                          | Extended | +PropertyBag                  |
+| KubeEnvironmentProfile_STATUS                   | KubeEnvironmentProfile_STATUS                   | Extended | +PropertyBag                  |
+| ManagedServiceIdentity                          | ManagedServiceIdentity                          | Modified |                               |
+| ManagedServiceIdentity_STATUS                   | ManagedServiceIdentity_STATUS                   | Modified |                               |
+| NameValuePair                                   | NameValuePair                                   | Extended | +PropertyBag                  |
+| NameValuePair_STATUS                            | NameValuePair_STATUS                            | Extended | +PropertyBag                  |
+| OutboundVnetRouting                             | OutboundVnetRouting                             | Extended | +PropertyBag                  |
+| OutboundVnetRouting_STATUS                      | OutboundVnetRouting_STATUS                      | Extended | +PropertyBag                  |
+| PushSettings                                    | PushSettings                                    | Extended | +PropertyBag                  |
+| PushSettings_STATUS                             | PushSettings_STATUS                             | Extended | +PropertyBag                  |
+| RampUpRule                                      | RampUpRule                                      | Extended | +PropertyBag                  |
+| RampUpRule_STATUS                               | RampUpRule_STATUS                               | Extended | +PropertyBag                  |
+| RegistryAdapter                                 | RegistryAdapter                                 | Modified |                               |
+| RegistryAdapter_STATUS                          | RegistryAdapter_STATUS                          | Modified |                               |
+| RequestsBasedTrigger                            | RequestsBasedTrigger                            | Extended | +PropertyBag                  |
+| RequestsBasedTrigger_STATUS                     | RequestsBasedTrigger_STATUS                     | Extended | +PropertyBag                  |
+| ResourceConfig                                  | ResourceConfig                                  | Extended | +PropertyBag                  |
+| ResourceConfig_STATUS                           | ResourceConfig_STATUS                           | Extended | +PropertyBag                  |
+| ServerFarmNetworkSettings                       | ServerFarmNetworkSettings                       | Extended | +PropertyBag                  |
+| ServerFarmNetworkSettings_STATUS                | ServerFarmNetworkSettings_STATUS                | Extended | +PropertyBag                  |
+| ServerFarmOperatorSpec                          | ServerFarmOperatorSpec                          | Extended | +PropertyBag                  |
+| ServerFarm_STATUS                               | ServerFarm_STATUS                               | Modified |                               |
+| ServerFarm_Spec                                 | ServerFarm_Spec                                 | Extended | +OriginalVersion +PropertyBag |
+| SiteConfig                                      | SiteConfig                                      | Modified |                               |
+| SiteConfig_STATUS                               | SiteConfig_STATUS                               | Modified |                               |
+| SiteDnsConfig                                   | SiteDnsConfig                                   | Extended | +PropertyBag                  |
+| SiteDnsConfig_STATUS                            | SiteDnsConfig_STATUS                            | Extended | +PropertyBag                  |
+| SiteLimits                                      | SiteLimits                                      | Extended | +PropertyBag                  |
+| SiteLimits_STATUS                               | SiteLimits_STATUS                               | Extended | +PropertyBag                  |
+| SiteMachineKey_STATUS                           | SiteMachineKey_STATUS                           | Extended | +PropertyBag                  |
+| SiteOperatorSpec                                | SiteOperatorSpec                                | Extended | +PropertyBag                  |
+| Site_STATUS                                     | Site_STATUS                                     | Modified |                               |
+| Site_Spec                                       | Site_Spec                                       | Modified |                               |
+| SitesSourcecontrolOperatorSpec                  | SitesSourcecontrolOperatorSpec                  | Extended | +PropertyBag                  |
+| SitesSourcecontrol_STATUS                       | SitesSourcecontrol_STATUS                       | Extended | +PropertyBag                  |
+| SitesSourcecontrol_Spec                         | SitesSourcecontrol_Spec                         | Extended | +OriginalVersion +PropertyBag |
+| SkuCapacity                                     | SkuCapacity                                     | Extended | +PropertyBag                  |
+| SkuCapacity_STATUS                              | SkuCapacity_STATUS                              | Extended | +PropertyBag                  |
+| SkuDescription                                  | SkuDescription                                  | Extended | +PropertyBag                  |
+| SkuDescription_STATUS                           | SkuDescription_STATUS                           | Extended | +PropertyBag                  |
+| SlotSwapStatus_STATUS                           | SlotSwapStatus_STATUS                           | Extended | +PropertyBag                  |
+| SlowRequestsBasedTrigger                        | SlowRequestsBasedTrigger                        | Extended | +PropertyBag                  |
+| SlowRequestsBasedTrigger_STATUS                 | SlowRequestsBasedTrigger_STATUS                 | Extended | +PropertyBag                  |
+| StatusCodesBasedTrigger                         | StatusCodesBasedTrigger                         | Extended | +PropertyBag                  |
+| StatusCodesBasedTrigger_STATUS                  | StatusCodesBasedTrigger_STATUS                  | Extended | +PropertyBag                  |
+| StatusCodesRangeBasedTrigger                    | StatusCodesRangeBasedTrigger                    | Extended | +PropertyBag                  |
+| StatusCodesRangeBasedTrigger_STATUS             | StatusCodesRangeBasedTrigger_STATUS             | Extended | +PropertyBag                  |
+| StorageMount                                    | StorageMount                                    | Modified |                               |
+| StorageMount_STATUS                             | StorageMount_STATUS                             | Modified |                               |
+| SystemData_STATUS                               | SystemData_STATUS                               | Modified |                               |
+| UserAssignedIdentityDetails                     | UserAssignedIdentityDetails                     | Extended | +PropertyBag                  |
+| UserAssignedIdentity_STATUS                     | UserAssignedIdentity_STATUS                     | Extended | +PropertyBag                  |
+| VirtualApplication                              | VirtualApplication                              | Extended | +PropertyBag                  |
+| VirtualApplication_STATUS                       | VirtualApplication_STATUS                       | Extended | +PropertyBag                  |
+| VirtualDirectory                                | VirtualDirectory                                | Extended | +PropertyBag                  |
+| VirtualDirectory_STATUS                         | VirtualDirectory_STATUS                         | Extended | +PropertyBag                  |
 
 ### ApiDefinitionInfo
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250501 |         | v20250501/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -159,7 +152,7 @@
 
 ### ApiDefinitionInfo_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250501 |         | v20250501/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -168,7 +161,7 @@
 
 ### ApiManagementConfig
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250501 |                               | v20250501/storage |                               |  Status   | Notes |
 |:----------|:------------------------------|:------------------|:------------------------------|:---------:|:------|
@@ -177,7 +170,7 @@
 
 ### ApiManagementConfig_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250501 |         | v20250501/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -186,7 +179,7 @@
 
 ### AutoHealActions
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250501               |                       | v20250501/storage       |                        |  Status   | Notes |
 |:------------------------|:----------------------|:------------------------|:-----------------------|:---------:|:------|
@@ -197,7 +190,7 @@
 
 ### AutoHealActions_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250501               |                              | v20250501/storage       |                              |  Status   | Notes |
 |:------------------------|:-----------------------------|:------------------------|:-----------------------------|:---------:|:------|
@@ -208,7 +201,7 @@
 
 ### AutoHealCustomAction
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250501  |         | v20250501/storage |                        |  Status   | Notes |
 |:-----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -218,7 +211,7 @@
 
 ### AutoHealCustomAction_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250501  |         | v20250501/storage |                        |  Status   | Notes |
 |:-----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -228,7 +221,7 @@
 
 ### AutoHealRules
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250501 |                   | v20250501/storage |                        |  Status   | Notes |
 |:----------|:------------------|:------------------|:-----------------------|:---------:|:------|
@@ -238,7 +231,7 @@
 
 ### AutoHealRules_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250501 |                          | v20250501/storage |                          |  Status   | Notes |
 |:----------|:-------------------------|:------------------|:-------------------------|:---------:|:------|
@@ -248,7 +241,7 @@
 
 ### AutoHealTriggers
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v20250501            |                                | v20250501/storage    |                                |  Status   | Notes |
 |:---------------------|:-------------------------------|:---------------------|:-------------------------------|:---------:|:------|
@@ -262,7 +255,7 @@
 
 ### AutoHealTriggers_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v20250501            |                                       | v20250501/storage    |                                       |  Status   | Notes |
 |:---------------------|:--------------------------------------|:---------------------|:--------------------------------------|:---------:|:------|
@@ -276,7 +269,7 @@
 
 ### AzureStorageInfoValue
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v20250501   |                             | v20250501/storage |                             |  Status   | Notes |
 |:------------|:----------------------------|:------------------|:----------------------------|:---------:|:------|
@@ -290,7 +283,7 @@
 
 ### AzureStorageInfoValue_STATUS
 
-3 x Identical, 1 x New, 3 x Modified
+Properties: 3 x Identical, 1 x New, 3 x Modified
 
 | v20250501   |                              | v20250501/storage |                        |  Status   | Notes |
 |:------------|:-----------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -304,7 +297,7 @@
 
 ### Capability
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250501 |         | v20250501/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -315,7 +308,7 @@
 
 ### Capability_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250501 |         | v20250501/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -326,7 +319,7 @@
 
 ### CloningInfo
 
-10 x Identical, 1 x New, 1 x Modified
+Properties: 11 x Identical, 1 x New
 
 | v20250501                      |                               | v20250501/storage              |                               |  Status   | Notes |
 |:-------------------------------|:------------------------------|:-------------------------------|:------------------------------|:---------:|:------|
@@ -334,7 +327,7 @@
 | CloneCustomHostNames           | *bool                         | CloneCustomHostNames           | *bool                         | Identical |       |
 | CloneSourceControl             | *bool                         | CloneSourceControl             | *bool                         | Identical |       |
 | ConfigureLoadBalancing         | *bool                         | ConfigureLoadBalancing         | *bool                         | Identical |       |
-| CorrelationId                  | Validated<*string> (1 rule)   | CorrelationId                  | *string                       | Modified  |       |
+| CorrelationId                  | Validated<*string> (1 rule)   | CorrelationId                  | *string                       | Identical |       |
 | HostingEnvironment             | *string                       | HostingEnvironment             | *string                       | Identical |       |
 | Overwrite                      | *bool                         | Overwrite                      | *bool                         | Identical |       |
 |                                |                               | PropertyBag                    | genruntime.PropertyBag        |    New    |       |
@@ -345,7 +338,7 @@
 
 ### CloningInfo_STATUS
 
-11 x Identical, 1 x New
+Properties: 11 x Identical, 1 x New
 
 | v20250501                 |                   | v20250501/storage         |                        |  Status   | Notes |
 |:--------------------------|:------------------|:--------------------------|:-----------------------|:---------:|:------|
@@ -364,7 +357,7 @@
 
 ### ConnStringInfo
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250501        |                       | v20250501/storage |                        |  Status   | Notes |
 |:-----------------|:----------------------|:------------------|:-----------------------|:---------:|:------|
@@ -375,7 +368,7 @@
 
 ### ConnStringInfo_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250501        |                              | v20250501/storage |                        |  Status   | Notes |
 |:-----------------|:-----------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -386,7 +379,7 @@
 
 ### CorsSettings
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250501          |          | v20250501/storage  |                        |  Status   | Notes |
 |:-------------------|:---------|:-------------------|:-----------------------|:---------:|:------|
@@ -396,7 +389,7 @@
 
 ### CorsSettings_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250501          |          | v20250501/storage  |                        |  Status   | Notes |
 |:-------------------|:---------|:-------------------|:-----------------------|:---------:|:------|
@@ -406,7 +399,7 @@
 
 ### DaprConfig
 
-6 x Identical, 1 x New, 1 x Modified
+Properties: 6 x Identical, 1 x New, 1 x Modified
 
 | v20250501          |               | v20250501/storage  |                        |  Status   | Notes |
 |:-------------------|:--------------|:-------------------|:-----------------------|:---------:|:------|
@@ -421,7 +414,7 @@
 
 ### DaprConfig_STATUS
 
-6 x Identical, 1 x New, 1 x Modified
+Properties: 6 x Identical, 1 x New, 1 x Modified
 
 | v20250501          |                      | v20250501/storage  |                        |  Status   | Notes |
 |:-------------------|:---------------------|:-------------------|:-----------------------|:---------:|:------|
@@ -436,7 +429,7 @@
 
 ### DefaultIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250501                             |                               | v20250501/storage                     |                               |  Status   | Notes |
 |:--------------------------------------|:------------------------------|:--------------------------------------|:------------------------------|:---------:|:------|
@@ -446,7 +439,7 @@
 
 ### DefaultIdentity_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250501                      |                                    | v20250501/storage              |                        |  Status   | Notes |
 |:-------------------------------|:-----------------------------------|:-------------------------------|:-----------------------|:---------:|:------|
@@ -456,7 +449,7 @@
 
 ### Experiments
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250501   |              | v20250501/storage |                        |  Status   | Notes |
 |:------------|:-------------|:------------------|:-----------------------|:---------:|:------|
@@ -465,7 +458,7 @@
 
 ### Experiments_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250501   |                     | v20250501/storage |                        |  Status   | Notes |
 |:------------|:--------------------|:------------------|:-----------------------|:---------:|:------|
@@ -474,7 +467,7 @@
 
 ### ExtendedLocation
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250501 |         | v20250501/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -483,7 +476,7 @@
 
 ### ExtendedLocation_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250501 |         | v20250501/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -493,7 +486,7 @@
 
 ### FunctionAppConfig
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20250501           |                               | v20250501/storage   |                               |  Status   | Notes |
 |:--------------------|:------------------------------|:--------------------|:------------------------------|:---------:|:------|
@@ -505,7 +498,7 @@
 
 ### FunctionAppConfig_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20250501           |                                      | v20250501/storage   |                                      |  Status   | Notes |
 |:--------------------|:-------------------------------------|:--------------------|:-------------------------------------|:---------:|:------|
@@ -517,7 +510,7 @@
 
 ### FunctionsAlwaysReadyConfig
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250501     |         | v20250501/storage |                        |  Status   | Notes |
 |:--------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -527,7 +520,7 @@
 
 ### FunctionsAlwaysReadyConfig_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250501     |         | v20250501/storage |                        |  Status   | Notes |
 |:--------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -537,7 +530,7 @@
 
 ### FunctionsDeployment
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250501 |                             | v20250501/storage |                             |  Status   | Notes |
 |:----------|:----------------------------|:------------------|:----------------------------|:---------:|:------|
@@ -546,18 +539,18 @@
 
 ### FunctionsDeploymentStorage
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250501      |                                           | v20250501/storage |                                           |  Status   | Notes |
 |:---------------|:------------------------------------------|:------------------|:------------------------------------------|:---------:|:------|
 | Authentication | *FunctionsDeploymentStorageAuthentication | Authentication    | *FunctionsDeploymentStorageAuthentication | Identical |       |
 |                |                                           | PropertyBag       | genruntime.PropertyBag                    |    New    |       |
 | Type           | *FunctionsDeploymentStorageType           | Type              | *string                                   | Modified  |       |
-| Value          | Validated<*string> (1 rule)               | Value             | *string                                   | Modified  |       |
+| Value          | Validated<*string> (1 rule)               | Value             | *string                                   | Identical |       |
 
 ### FunctionsDeploymentStorageAuthentication
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250501                             |                               | v20250501/storage                     |                               |  Status   | Notes |
 |:--------------------------------------|:------------------------------|:--------------------------------------|:------------------------------|:---------:|:------|
@@ -568,7 +561,7 @@
 
 ### FunctionsDeploymentStorageAuthentication_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250501                          |                            | v20250501/storage                  |                        |  Status   | Notes |
 |:-----------------------------------|:---------------------------|:-----------------------------------|:-----------------------|:---------:|:------|
@@ -579,7 +572,7 @@
 
 ### FunctionsDeploymentStorage_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250501      |                                                  | v20250501/storage |                                                  |  Status   | Notes |
 |:---------------|:-------------------------------------------------|:------------------|:-------------------------------------------------|:---------:|:------|
@@ -590,7 +583,7 @@
 
 ### FunctionsDeployment_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250501 |                                    | v20250501/storage |                                    |  Status   | Notes |
 |:----------|:-----------------------------------|:------------------|:-----------------------------------|:---------:|:------|
@@ -599,7 +592,7 @@
 
 ### FunctionsRuntime
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250501 |              | v20250501/storage |                        |  Status   | Notes |
 |:----------|:-------------|:------------------|:-----------------------|:---------:|:------|
@@ -609,7 +602,7 @@
 
 ### FunctionsRuntime_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250501 |                     | v20250501/storage |                        |  Status   | Notes |
 |:----------|:--------------------|:------------------|:-----------------------|:---------:|:------|
@@ -619,7 +612,7 @@
 
 ### FunctionsScaleAndConcurrency
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20250501            |                                       | v20250501/storage    |                                       |  Status   | Notes |
 |:---------------------|:--------------------------------------|:---------------------|:--------------------------------------|:---------:|:------|
@@ -631,7 +624,7 @@
 
 ### FunctionsScaleAndConcurrencyTriggers
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250501 |                                           | v20250501/storage |                                           |  Status   | Notes |
 |:----------|:------------------------------------------|:------------------|:------------------------------------------|:---------:|:------|
@@ -640,7 +633,7 @@
 
 ### FunctionsScaleAndConcurrencyTriggersHttp
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250501              |      | v20250501/storage      |                        |  Status   | Notes |
 |:-----------------------|:-----|:-----------------------|:-----------------------|:---------:|:------|
@@ -649,7 +642,7 @@
 
 ### FunctionsScaleAndConcurrencyTriggersHttp_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250501              |      | v20250501/storage      |                        |  Status   | Notes |
 |:-----------------------|:-----|:-----------------------|:-----------------------|:---------:|:------|
@@ -658,7 +651,7 @@
 
 ### FunctionsScaleAndConcurrencyTriggers_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250501 |                                                  | v20250501/storage |                                                  |  Status   | Notes |
 |:----------|:-------------------------------------------------|:------------------|:-------------------------------------------------|:---------:|:------|
@@ -667,7 +660,7 @@
 
 ### FunctionsScaleAndConcurrency_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20250501            |                                              | v20250501/storage    |                                              |  Status   | Notes |
 |:---------------------|:---------------------------------------------|:---------------------|:---------------------------------------------|:---------:|:------|
@@ -679,7 +672,7 @@
 
 ### FunctionsSiteUpdateStrategy
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v20250501 |                         | v20250501/storage |                        |  Status  | Notes |
 |:----------|:------------------------|:------------------|:-----------------------|:--------:|:------|
@@ -688,7 +681,7 @@
 
 ### FunctionsSiteUpdateStrategy_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v20250501 |                                | v20250501/storage |                        |  Status  | Notes |
 |:----------|:-------------------------------|:------------------|:-----------------------|:--------:|:------|
@@ -697,7 +690,7 @@
 
 ### GitHubActionCodeConfiguration
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250501      |         | v20250501/storage |                        |  Status   | Notes |
 |:---------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -707,7 +700,7 @@
 
 ### GitHubActionCodeConfiguration_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250501      |         | v20250501/storage |                        |  Status   | Notes |
 |:---------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -717,7 +710,7 @@
 
 ### GitHubActionConfiguration
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20250501              |                                     | v20250501/storage      |                                     |  Status   | Notes |
 |:-----------------------|:------------------------------------|:-----------------------|:------------------------------------|:---------:|:------|
@@ -729,7 +722,7 @@
 
 ### GitHubActionConfiguration_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20250501              |                                            | v20250501/storage      |                                            |  Status   | Notes |
 |:-----------------------|:-------------------------------------------|:-----------------------|:-------------------------------------------|:---------:|:------|
@@ -741,7 +734,7 @@
 
 ### GitHubActionContainerConfiguration
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20250501 |                             | v20250501/storage |                             |  Status   | Notes |
 |:----------|:----------------------------|:------------------|:----------------------------|:---------:|:------|
@@ -753,7 +746,7 @@
 
 ### GitHubActionContainerConfiguration_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250501 |         | v20250501/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -764,7 +757,7 @@
 
 ### HandlerMapping
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250501       |         | v20250501/storage |                        |  Status   | Notes |
 |:----------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -775,7 +768,7 @@
 
 ### HandlerMapping_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250501       |         | v20250501/storage |                        |  Status   | Notes |
 |:----------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -786,7 +779,7 @@
 
 ### HostNameSslState
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v20250501  |           | v20250501/storage |                        |  Status   | Notes |
 |:-----------|:----------|:------------------|:-----------------------|:---------:|:------|
@@ -800,7 +793,7 @@
 
 ### HostNameSslState_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v20250501  |                  | v20250501/storage |                        |  Status   | Notes |
 |:-----------|:-----------------|:------------------|:-----------------------|:---------:|:------|
@@ -814,7 +807,7 @@
 
 ### HostingEnvironmentProfile
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250501 |                               | v20250501/storage |                               |  Status   | Notes |
 |:----------|:------------------------------|:------------------|:------------------------------|:---------:|:------|
@@ -823,7 +816,7 @@
 
 ### HostingEnvironmentProfile_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250501 |         | v20250501/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -834,7 +827,7 @@
 
 ### InstallScript
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250501 |                      | v20250501/storage |                        |  Status   | Notes |
 |:----------|:---------------------|:------------------|:-----------------------|:---------:|:------|
@@ -844,7 +837,7 @@
 
 ### InstallScriptSource
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250501 |                    | v20250501/storage |                        |  Status   | Notes |
 |:----------|:-------------------|:------------------|:-----------------------|:---------:|:------|
@@ -854,7 +847,7 @@
 
 ### InstallScriptSource_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250501 |                           | v20250501/storage |                        |  Status   | Notes |
 |:----------|:--------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -864,7 +857,7 @@
 
 ### InstallScript_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250501 |                             | v20250501/storage |                             |  Status   | Notes |
 |:----------|:----------------------------|:------------------|:----------------------------|:---------:|:------|
@@ -874,7 +867,7 @@
 
 ### IpSecurityRestriction
 
-10 x Identical, 1 x New, 1 x Modified
+Properties: 10 x Identical, 1 x New, 1 x Modified
 
 | v20250501                   |                               | v20250501/storage           |                               |  Status   | Notes |
 |:----------------------------|:------------------------------|:----------------------------|:------------------------------|:---------:|:------|
@@ -893,7 +886,7 @@
 
 ### IpSecurityRestriction_STATUS
 
-10 x Identical, 1 x New, 1 x Modified
+Properties: 10 x Identical, 1 x New, 1 x Modified
 
 | v20250501            |                     | v20250501/storage    |                        |  Status   | Notes |
 |:---------------------|:--------------------|:---------------------|:-----------------------|:---------:|:------|
@@ -912,7 +905,7 @@
 
 ### KeyVaultReferenceWithStatus
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250501       |         | v20250501/storage |                        |  Status   | Notes |
 |:----------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -922,7 +915,7 @@
 
 ### KeyVaultReferenceWithStatus_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250501       |         | v20250501/storage |                        |  Status   | Notes |
 |:----------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -932,7 +925,7 @@
 
 ### KubeEnvironmentProfile
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250501 |                               | v20250501/storage |                               |  Status   | Notes |
 |:----------|:------------------------------|:------------------|:------------------------------|:---------:|:------|
@@ -941,7 +934,7 @@
 
 ### KubeEnvironmentProfile_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250501 |         | v20250501/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -952,7 +945,7 @@
 
 ### ManagedServiceIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250501              |                               | v20250501/storage      |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -962,7 +955,7 @@
 
 ### ManagedServiceIdentity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v20250501              |                                        | v20250501/storage      |                                        |  Status   | Notes |
 |:-----------------------|:---------------------------------------|:-----------------------|:---------------------------------------|:---------:|:------|
@@ -974,7 +967,7 @@
 
 ### NameValuePair
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250501 |         | v20250501/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -984,7 +977,7 @@
 
 ### NameValuePair_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250501 |         | v20250501/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -994,7 +987,7 @@
 
 ### OutboundVnetRouting
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v20250501            |       | v20250501/storage    |                        |  Status   | Notes |
 |:---------------------|:------|:---------------------|:-----------------------|:---------:|:------|
@@ -1007,7 +1000,7 @@
 
 ### OutboundVnetRouting_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v20250501            |       | v20250501/storage    |                        |  Status   | Notes |
 |:---------------------|:------|:---------------------|:-----------------------|:---------:|:------|
@@ -1020,7 +1013,7 @@
 
 ### PushSettings
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v20250501         |         | v20250501/storage |                        |  Status   | Notes |
 |:------------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -1033,7 +1026,7 @@
 
 ### PushSettings_STATUS
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v20250501         |         | v20250501/storage |                        |  Status   | Notes |
 |:------------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -1049,7 +1042,7 @@
 
 ### RampUpRule
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v20250501                 |          | v20250501/storage         |                        |  Status   | Notes |
 |:--------------------------|:---------|:--------------------------|:-----------------------|:---------:|:------|
@@ -1065,7 +1058,7 @@
 
 ### RampUpRule_STATUS
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v20250501                 |          | v20250501/storage         |                        |  Status   | Notes |
 |:--------------------------|:---------|:--------------------------|:-----------------------|:---------:|:------|
@@ -1081,7 +1074,7 @@
 
 ### RegistryAdapter
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250501               |                              | v20250501/storage       |                              |  Status   | Notes |
 |:------------------------|:-----------------------------|:------------------------|:-----------------------------|:---------:|:------|
@@ -1092,7 +1085,7 @@
 
 ### RegistryAdapter_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250501               |                                     | v20250501/storage       |                                     |  Status   | Notes |
 |:------------------------|:------------------------------------|:------------------------|:------------------------------------|:---------:|:------|
@@ -1103,7 +1096,7 @@
 
 ### RequestsBasedTrigger
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250501    |         | v20250501/storage |                        |  Status   | Notes |
 |:-------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -1113,7 +1106,7 @@
 
 ### RequestsBasedTrigger_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250501    |         | v20250501/storage |                        |  Status   | Notes |
 |:-------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -1123,7 +1116,7 @@
 
 ### ResourceConfig
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250501 |          | v20250501/storage |                        |  Status   | Notes |
 |:----------|:---------|:------------------|:-----------------------|:---------:|:------|
@@ -1133,7 +1126,7 @@
 
 ### ResourceConfig_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250501 |          | v20250501/storage |                        |  Status   | Notes |
 |:----------|:---------|:------------------|:-----------------------|:---------:|:------|
@@ -1143,7 +1136,7 @@
 
 ### ServerFarmNetworkSettings
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250501                     |                               | v20250501/storage             |                               |  Status   | Notes |
 |:------------------------------|:------------------------------|:------------------------------|:------------------------------|:---------:|:------|
@@ -1152,7 +1145,7 @@
 
 ### ServerFarmNetworkSettings_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250501              |         | v20250501/storage      |                        |  Status   | Notes |
 |:-----------------------|:--------|:-----------------------|:-----------------------|:---------:|:------|
@@ -1161,7 +1154,7 @@
 
 ### ServerFarmOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250501            |                               | v20250501/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -1171,7 +1164,7 @@
 
 ### ServerFarm_STATUS
 
-40 x Identical, 1 x New, 2 x Modified
+Properties: 40 x Identical, 1 x New, 2 x Modified
 
 | v20250501                 |                                   | v20250501/storage         |                                   |  Status   | Notes |
 |:--------------------------|:----------------------------------|:--------------------------|:----------------------------------|:---------:|:------|
@@ -1221,7 +1214,7 @@
 
 ### ServerFarm_Spec
 
-32 x Identical, 2 x New
+Properties: 32 x Identical, 2 x New
 
 | v20250501                 |                                    | v20250501/storage         |                                    |  Status   | Notes |
 |:--------------------------|:-----------------------------------|:--------------------------|:-----------------------------------|:---------:|:------|
@@ -1262,7 +1255,7 @@
 
 ### SiteConfig
 
-59 x Identical, 1 x New, 13 x Modified
+Properties: 63 x Identical, 1 x New, 9 x Modified
 
 | v20250501                              |                                  | v20250501/storage                      |                                  |  Status   | Notes |
 |:---------------------------------------|:---------------------------------|:---------------------------------------|:---------------------------------|:---------:|:------|
@@ -1282,10 +1275,10 @@
 | DefaultDocuments                       | string[]                         | DefaultDocuments                       | string[]                         | Identical |       |
 | DetailedErrorLoggingEnabled            | *bool                            | DetailedErrorLoggingEnabled            | *bool                            | Identical |       |
 | DocumentRoot                           | *string                          | DocumentRoot                           | *string                          | Identical |       |
-| ElasticWebAppScaleLimit                | Validated<*int> (1 rule)         | ElasticWebAppScaleLimit                | *int                             | Modified  |       |
+| ElasticWebAppScaleLimit                | Validated<*int> (1 rule)         | ElasticWebAppScaleLimit                | *int                             | Identical |       |
 | Experiments                            | *Experiments                     | Experiments                            | *Experiments                     | Identical |       |
 | FtpsState                              | *FtpsState                       | FtpsState                              | *string                          | Modified  |       |
-| FunctionAppScaleLimit                  | Validated<*int> (1 rule)         | FunctionAppScaleLimit                  | *int                             | Modified  |       |
+| FunctionAppScaleLimit                  | Validated<*int> (1 rule)         | FunctionAppScaleLimit                  | *int                             | Identical |       |
 | FunctionsRuntimeScaleMonitoringEnabled | *bool                            | FunctionsRuntimeScaleMonitoringEnabled | *bool                            | Identical |       |
 | HandlerMappings                        | HandlerMapping[]                 | HandlerMappings                        | HandlerMapping[]                 | Identical |       |
 | HealthCheckPath                        | *string                          | HealthCheckPath                        | *string                          | Identical |       |
@@ -1308,13 +1301,13 @@
 | Metadata                               | NameValuePair[]                  | Metadata                               | NameValuePair[]                  | Identical |       |
 | MinTlsCipherSuite                      | *TlsCipherSuites                 | MinTlsCipherSuite                      | *string                          | Modified  |       |
 | MinTlsVersion                          | *SupportedTlsVersions            | MinTlsVersion                          | *string                          | Modified  |       |
-| MinimumElasticInstanceCount            | Validated<*int> (2 rules)        | MinimumElasticInstanceCount            | *int                             | Modified  |       |
+| MinimumElasticInstanceCount            | Validated<*int> (2 rules)        | MinimumElasticInstanceCount            | *int                             | Identical |       |
 | NetFrameworkVersion                    | *string                          | NetFrameworkVersion                    | *string                          | Identical |       |
 | NodeVersion                            | *string                          | NodeVersion                            | *string                          | Identical |       |
 | NumberOfWorkers                        | *int                             | NumberOfWorkers                        | *int                             | Identical |       |
 | PhpVersion                             | *string                          | PhpVersion                             | *string                          | Identical |       |
 | PowerShellVersion                      | *string                          | PowerShellVersion                      | *string                          | Identical |       |
-| PreWarmedInstanceCount                 | Validated<*int> (2 rules)        | PreWarmedInstanceCount                 | *int                             | Modified  |       |
+| PreWarmedInstanceCount                 | Validated<*int> (2 rules)        | PreWarmedInstanceCount                 | *int                             | Identical |       |
 |                                        |                                  | PropertyBag                            | genruntime.PropertyBag           |    New    |       |
 | PublicNetworkAccess                    | *string                          | PublicNetworkAccess                    | *string                          | Identical |       |
 | PublishingUsername                     | *string                          | PublishingUsername                     | *string                          | Identical |       |
@@ -1342,7 +1335,7 @@
 
 ### SiteConfig_STATUS
 
-64 x Identical, 1 x New, 9 x Modified
+Properties: 64 x Identical, 1 x New, 9 x Modified
 
 | v20250501                              |                                         | v20250501/storage                      |                                         |  Status   | Notes |
 |:---------------------------------------|:----------------------------------------|:---------------------------------------|:----------------------------------------|:---------:|:------|
@@ -1423,7 +1416,7 @@
 
 ### SiteDnsConfig
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v20250501              |          | v20250501/storage      |                        |  Status   | Notes |
 |:-----------------------|:---------|:-----------------------|:-----------------------|:---------:|:------|
@@ -1436,7 +1429,7 @@
 
 ### SiteDnsConfig_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v20250501              |          | v20250501/storage      |                        |  Status   | Notes |
 |:-----------------------|:---------|:-----------------------|:-----------------------|:---------:|:------|
@@ -1450,7 +1443,7 @@
 
 ### SiteLimits
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250501        |          | v20250501/storage |                        |  Status   | Notes |
 |:-----------------|:---------|:------------------|:-----------------------|:---------:|:------|
@@ -1461,7 +1454,7 @@
 
 ### SiteLimits_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250501        |          | v20250501/storage |                        |  Status   | Notes |
 |:-----------------|:---------|:------------------|:-----------------------|:---------:|:------|
@@ -1472,7 +1465,7 @@
 
 ### SiteMachineKey_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20250501     |         | v20250501/storage |                        |  Status   | Notes |
 |:--------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -1484,7 +1477,7 @@
 
 ### SiteOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250501            |                               | v20250501/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -1494,7 +1487,7 @@
 
 ### Site_STATUS
 
-60 x Identical, 1 x New, 6 x Modified
+Properties: 60 x Identical, 1 x New, 6 x Modified
 
 | v20250501                         |                                           | v20250501/storage                 |                                   |  Status   | Notes |
 |:----------------------------------|:------------------------------------------|:----------------------------------|:----------------------------------|:---------:|:------|
@@ -1568,7 +1561,7 @@
 
 ### Site_Spec
 
-41 x Identical, 2 x New, 4 x Modified
+Properties: 41 x Identical, 2 x New, 4 x Modified
 
 | v20250501                         |                                    | v20250501/storage                 |                                    |  Status   | Notes |
 |:----------------------------------|:-----------------------------------|:----------------------------------|:-----------------------------------|:---------:|:------|
@@ -1622,7 +1615,7 @@
 
 ### SitesSourcecontrolOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250501            |                               | v20250501/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -1632,7 +1625,7 @@
 
 ### SitesSourcecontrol_STATUS
 
-13 x Identical, 1 x New
+Properties: 13 x Identical, 1 x New
 
 | v20250501                 |                                   | v20250501/storage         |                                   |  Status   | Notes |
 |:--------------------------|:----------------------------------|:--------------------------|:----------------------------------|:---------:|:------|
@@ -1653,7 +1646,7 @@
 
 ### SitesSourcecontrol_Spec
 
-10 x Identical, 2 x New
+Properties: 10 x Identical, 2 x New
 
 | v20250501                 |                                    | v20250501/storage         |                                    |  Status   | Notes |
 |:--------------------------|:-----------------------------------|:--------------------------|:-----------------------------------|:---------:|:------|
@@ -1672,7 +1665,7 @@
 
 ### SkuCapacity
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v20250501      |         | v20250501/storage |                        |  Status   | Notes |
 |:---------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -1685,7 +1678,7 @@
 
 ### SkuCapacity_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v20250501      |         | v20250501/storage |                        |  Status   | Notes |
 |:---------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -1698,7 +1691,7 @@
 
 ### SkuDescription
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v20250501    |              | v20250501/storage |                        |  Status   | Notes |
 |:-------------|:-------------|:------------------|:-----------------------|:---------:|:------|
@@ -1714,7 +1707,7 @@
 
 ### SkuDescription_STATUS
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v20250501    |                     | v20250501/storage |                        |  Status   | Notes |
 |:-------------|:--------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1730,7 +1723,7 @@
 
 ### SlotSwapStatus_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250501           |         | v20250501/storage   |                        |  Status   | Notes |
 |:--------------------|:--------|:--------------------|:-----------------------|:---------:|:------|
@@ -1741,7 +1734,7 @@
 
 ### SlowRequestsBasedTrigger
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20250501    |         | v20250501/storage |                        |  Status   | Notes |
 |:-------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -1753,7 +1746,7 @@
 
 ### SlowRequestsBasedTrigger_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20250501    |         | v20250501/storage |                        |  Status   | Notes |
 |:-------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -1765,7 +1758,7 @@
 
 ### StatusCodesBasedTrigger
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v20250501    |         | v20250501/storage |                        |  Status   | Notes |
 |:-------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -1779,7 +1772,7 @@
 
 ### StatusCodesBasedTrigger_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v20250501    |         | v20250501/storage |                        |  Status   | Notes |
 |:-------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -1793,7 +1786,7 @@
 
 ### StatusCodesRangeBasedTrigger
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20250501    |         | v20250501/storage |                        |  Status   | Notes |
 |:-------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -1805,7 +1798,7 @@
 
 ### StatusCodesRangeBasedTrigger_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20250501    |         | v20250501/storage |                        |  Status   | Notes |
 |:-------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -1817,7 +1810,7 @@
 
 ### StorageMount
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v20250501                    |                              | v20250501/storage            |                              |  Status   | Notes |
 |:-----------------------------|:-----------------------------|:-----------------------------|:-----------------------------|:---------:|:------|
@@ -1830,7 +1823,7 @@
 
 ### StorageMount_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v20250501                    |                                     | v20250501/storage            |                                     |  Status   | Notes |
 |:-----------------------------|:------------------------------------|:-----------------------------|:------------------------------------|:---------:|:------|
@@ -1843,7 +1836,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v20250501          |                                       | v20250501/storage  |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:-------------------|:-----------------------|:---------:|:------|
@@ -1857,7 +1850,7 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250501 |                              | v20250501/storage |                              |  Status   | Notes |
 |:----------|:-----------------------------|:------------------|:-----------------------------|:---------:|:------|
@@ -1866,7 +1859,7 @@
 
 ### UserAssignedIdentity_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250501   |         | v20250501/storage |                        |  Status   | Notes |
 |:------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -1876,7 +1869,7 @@
 
 ### VirtualApplication
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20250501          |                    | v20250501/storage  |                        |  Status   | Notes |
 |:-------------------|:-------------------|:-------------------|:-----------------------|:---------:|:------|
@@ -1888,7 +1881,7 @@
 
 ### VirtualApplication_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20250501          |                           | v20250501/storage  |                           |  Status   | Notes |
 |:-------------------|:--------------------------|:-------------------|:--------------------------|:---------:|:------|
@@ -1900,7 +1893,7 @@
 
 ### VirtualDirectory
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250501    |         | v20250501/storage |                        |  Status   | Notes |
 |:-------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -1910,10 +1903,19 @@
 
 ### VirtualDirectory_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250501    |         | v20250501/storage |                        |  Status   | Notes |
 |:-------------|:--------|:------------------|:-----------------------|:---------:|:------|
 | PhysicalPath | *string | PhysicalPath      | *string                | Identical |       |
 |              |         | PropertyBag       | genruntime.PropertyBag |    New    |       |
 | VirtualPath  | *string | VirtualPath       | *string                | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

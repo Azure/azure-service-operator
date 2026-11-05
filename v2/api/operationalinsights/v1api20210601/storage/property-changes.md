@@ -6,42 +6,35 @@
 |:----------------------|:------------------|:---------:|:------|
 | Workspace             | Workspace         | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20210601/storage            | v20250701/storage                     |  Status   | Notes |
-|:---------------------------------|:--------------------------------------|:---------:|:------|
-|                                  | Identity                              |    New    |       |
-|                                  | Identity_STATUS                       |    New    |       |
-| PrivateLinkScopedResource_STATUS | PrivateLinkScopedResource_STATUS      | Identical |       |
-|                                  | SystemData_STATUS                     |    New    |       |
-|                                  | UserAssignedIdentityDetails           |    New    |       |
-|                                  | UserIdentityProperties_STATUS         |    New    |       |
-| WorkspaceCapping                 | WorkspaceCapping                      | Identical |       |
-| WorkspaceCapping_STATUS          | WorkspaceCapping_STATUS               | Identical |       |
-|                                  | WorkspaceFailoverProperties_STATUS    |    New    |       |
-| WorkspaceFeatures                | WorkspaceFeatures                     | Extended  |       |
-| WorkspaceFeatures_STATUS         | WorkspaceFeatures_STATUS              | Extended  |       |
-| WorkspaceOperatorSecrets         | WorkspaceOperatorSecrets              | Identical |       |
-| WorkspaceOperatorSpec            | WorkspaceOperatorSpec                 | Identical |       |
-|                                  | WorkspaceReplicationProperties        |    New    |       |
-|                                  | WorkspaceReplicationProperties_STATUS |    New    |       |
-| WorkspaceSku                     | WorkspaceSku                          | Identical |       |
-| WorkspaceSku_STATUS              | WorkspaceSku_STATUS                   | Identical |       |
-| Workspace_STATUS                 | Workspace_STATUS                      | Extended  |       |
-| Workspace_Spec                   | Workspace_Spec                        | Modified  |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20210601/storage            | v20250701/storage                     |  Status   | Notes                                                                             |
+|:---------------------------------|:--------------------------------------|:---------:|:----------------------------------------------------------------------------------|
+|                                  | Identity                              |    New    |                                                                                   |
+|                                  | Identity_STATUS                       |    New    |                                                                                   |
+| PrivateLinkScopedResource_STATUS | PrivateLinkScopedResource_STATUS      | Identical |                                                                                   |
+|                                  | SystemData_STATUS                     |    New    |                                                                                   |
+|                                  | UserAssignedIdentityDetails           |    New    |                                                                                   |
+|                                  | UserIdentityProperties_STATUS         |    New    |                                                                                   |
+| WorkspaceCapping                 | WorkspaceCapping                      | Identical |                                                                                   |
+| WorkspaceCapping_STATUS          | WorkspaceCapping_STATUS               | Identical |                                                                                   |
+|                                  | WorkspaceFailoverProperties_STATUS    |    New    |                                                                                   |
+| WorkspaceFeatures                | WorkspaceFeatures                     | Extended  | +AdditionalProperties                                                             |
+| WorkspaceFeatures_STATUS         | WorkspaceFeatures_STATUS              | Extended  | +AdditionalProperties +Associations +UnifiedSentinelBillingOnly                   |
+| WorkspaceOperatorSecrets         | WorkspaceOperatorSecrets              | Identical |                                                                                   |
+| WorkspaceOperatorSpec            | WorkspaceOperatorSpec                 | Identical |                                                                                   |
+|                                  | WorkspaceReplicationProperties        |    New    |                                                                                   |
+|                                  | WorkspaceReplicationProperties_STATUS |    New    |                                                                                   |
+| WorkspaceSku                     | WorkspaceSku                          | Identical |                                                                                   |
+| WorkspaceSku_STATUS              | WorkspaceSku_STATUS                   | Identical |                                                                                   |
+| Workspace_STATUS                 | Workspace_STATUS                      | Extended  | +DefaultDataCollectionRuleResourceId +Failover +Identity +Replication +SystemData |
+| Workspace_Spec                   | Workspace_Spec                        | Modified  |                                                                                   |
 
 ### WorkspaceFeatures
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20210601/storage                       |                               | v20250701/storage                           |                               |  Status   | Notes |
 |:--------------------------------------------|:------------------------------|:--------------------------------------------|:------------------------------|:---------:|:------|
@@ -55,7 +48,7 @@
 
 ### WorkspaceFeatures_STATUS
 
-6 x Identical, 3 x New
+Properties: 6 x Identical, 3 x New
 
 | v1api20210601/storage                       |                        | v20250701/storage                           |                        |  Status   | Notes |
 |:--------------------------------------------|:-----------------------|:--------------------------------------------|:-----------------------|:---------:|:------|
@@ -71,7 +64,7 @@
 
 ### Workspace_STATUS
 
-20 x Identical, 5 x New
+Properties: 20 x Identical, 5 x New
 
 | v1api20210601/storage           |                                    | v20250701/storage                   |                                        |  Status   | Notes |
 |:--------------------------------|:-----------------------------------|:------------------------------------|:---------------------------------------|:---------:|:------|
@@ -103,7 +96,7 @@
 
 ### Workspace_Spec
 
-15 x Identical, 3 x New, 1 x Retired
+Properties: 15 x Identical, 3 x New, 1 x Retired
 
 | v1api20210601/storage           |                                    | v20250701/storage                          |                                    |  Status   | Notes |
 |:--------------------------------|:-----------------------------------|:-------------------------------------------|:-----------------------------------|:---------:|:------|
@@ -126,3 +119,12 @@
 | Sku                             | *WorkspaceSku                      | Sku                                        | *WorkspaceSku                      | Identical |       |
 | Tags                            | map[string]string                  | Tags                                       | map[string]string                  | Identical |       |
 | WorkspaceCapping                | *WorkspaceCapping                  | WorkspaceCapping                           | *WorkspaceCapping                  | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

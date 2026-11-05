@@ -6,38 +6,31 @@
 |:---------------------|:-----------------------------|:---------:|:------|
 | Webtest              | Webtest                      | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20180501preview                                       | v1api20180501preview/storage                               |  Status  | Notes |
-|:-----------------------------------------------------------|:-----------------------------------------------------------|:--------:|:------|
-| HeaderField                                                | HeaderField                                                | Extended |       |
-| HeaderField_STATUS                                         | HeaderField_STATUS                                         | Extended |       |
-| WebTestGeolocation                                         | WebTestGeolocation                                         | Extended |       |
-| WebTestGeolocation_STATUS                                  | WebTestGeolocation_STATUS                                  | Extended |       |
-| WebTestProperties_Configuration                            | WebTestProperties_Configuration                            | Extended |       |
-| WebTestProperties_Configuration_STATUS                     | WebTestProperties_Configuration_STATUS                     | Extended |       |
-| WebTestProperties_Request                                  | WebTestProperties_Request                                  | Extended |       |
-| WebTestProperties_Request_STATUS                           | WebTestProperties_Request_STATUS                           | Extended |       |
-| WebTestProperties_ValidationRules                          | WebTestProperties_ValidationRules                          | Modified |       |
-| WebTestProperties_ValidationRules_ContentValidation        | WebTestProperties_ValidationRules_ContentValidation        | Extended |       |
-| WebTestProperties_ValidationRules_ContentValidation_STATUS | WebTestProperties_ValidationRules_ContentValidation_STATUS | Extended |       |
-| WebTestProperties_ValidationRules_STATUS                   | WebTestProperties_ValidationRules_STATUS                   | Modified |       |
-| WebtestOperatorSpec                                        | WebtestOperatorSpec                                        | Extended |       |
-| Webtest_STATUS                                             | Webtest_STATUS                                             | Modified |       |
-| Webtest_Spec                                               | Webtest_Spec                                               | Modified |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20180501preview                                       | v1api20180501preview/storage                               |  Status  | Notes        |
+|:-----------------------------------------------------------|:-----------------------------------------------------------|:--------:|:-------------|
+| HeaderField                                                | HeaderField                                                | Extended | +PropertyBag |
+| HeaderField_STATUS                                         | HeaderField_STATUS                                         | Extended | +PropertyBag |
+| WebTestGeolocation                                         | WebTestGeolocation                                         | Extended | +PropertyBag |
+| WebTestGeolocation_STATUS                                  | WebTestGeolocation_STATUS                                  | Extended | +PropertyBag |
+| WebTestProperties_Configuration                            | WebTestProperties_Configuration                            | Extended | +PropertyBag |
+| WebTestProperties_Configuration_STATUS                     | WebTestProperties_Configuration_STATUS                     | Extended | +PropertyBag |
+| WebTestProperties_Request                                  | WebTestProperties_Request                                  | Extended | +PropertyBag |
+| WebTestProperties_Request_STATUS                           | WebTestProperties_Request_STATUS                           | Extended | +PropertyBag |
+| WebTestProperties_ValidationRules                          | WebTestProperties_ValidationRules                          | Extended | +PropertyBag |
+| WebTestProperties_ValidationRules_ContentValidation        | WebTestProperties_ValidationRules_ContentValidation        | Extended | +PropertyBag |
+| WebTestProperties_ValidationRules_ContentValidation_STATUS | WebTestProperties_ValidationRules_ContentValidation_STATUS | Extended | +PropertyBag |
+| WebTestProperties_ValidationRules_STATUS                   | WebTestProperties_ValidationRules_STATUS                   | Extended | +PropertyBag |
+| WebtestOperatorSpec                                        | WebtestOperatorSpec                                        | Extended | +PropertyBag |
+| Webtest_STATUS                                             | Webtest_STATUS                                             | Modified |              |
+| Webtest_Spec                                               | Webtest_Spec                                               | Modified |              |
 
 ### HeaderField
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20180501preview |         | v1api20180501preview/storage |                        |  Status   | Notes |
 |:---------------------|:--------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -47,7 +40,7 @@
 
 ### HeaderField_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20180501preview |         | v1api20180501preview/storage |                        |  Status   | Notes |
 |:---------------------|:--------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -57,7 +50,7 @@
 
 ### WebTestGeolocation
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20180501preview |         | v1api20180501preview/storage |                        |  Status   | Notes |
 |:---------------------|:--------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -66,7 +59,7 @@
 
 ### WebTestGeolocation_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20180501preview |         | v1api20180501preview/storage |                        |  Status   | Notes |
 |:---------------------|:--------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -75,7 +68,7 @@
 
 ### WebTestProperties_Configuration
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20180501preview |         | v1api20180501preview/storage |                        |  Status   | Notes |
 |:---------------------|:--------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -84,7 +77,7 @@
 
 ### WebTestProperties_Configuration_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20180501preview |         | v1api20180501preview/storage |                        |  Status   | Notes |
 |:---------------------|:--------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -93,7 +86,7 @@
 
 ### WebTestProperties_Request
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20180501preview   |               | v1api20180501preview/storage |                        |  Status   | Notes |
 |:-----------------------|:--------------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -107,7 +100,7 @@
 
 ### WebTestProperties_Request_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20180501preview   |                      | v1api20180501preview/storage |                        |  Status   | Notes |
 |:-----------------------|:---------------------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -121,11 +114,11 @@
 
 ### WebTestProperties_ValidationRules
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New
 
 | v1api20180501preview          |                                                      | v1api20180501preview/storage  |                                                      |  Status   | Notes |
 |:------------------------------|:-----------------------------------------------------|:------------------------------|:-----------------------------------------------------|:---------:|:------|
-| ContentValidation             | *WebTestProperties_ValidationRules_ContentValidation | ContentValidation             | *WebTestProperties_ValidationRules_ContentValidation | Modified  |       |
+| ContentValidation             | *WebTestProperties_ValidationRules_ContentValidation | ContentValidation             | *WebTestProperties_ValidationRules_ContentValidation | Identical |       |
 | ExpectedHttpStatusCode        | *int                                                 | ExpectedHttpStatusCode        | *int                                                 | Identical |       |
 | IgnoreHttpsStatusCode         | *bool                                                | IgnoreHttpsStatusCode         | *bool                                                | Identical |       |
 |                               |                                                      | PropertyBag                   | genruntime.PropertyBag                               |    New    |       |
@@ -134,7 +127,7 @@
 
 ### WebTestProperties_ValidationRules_ContentValidation
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20180501preview |         | v1api20180501preview/storage |                        |  Status   | Notes |
 |:---------------------|:--------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -145,7 +138,7 @@
 
 ### WebTestProperties_ValidationRules_ContentValidation_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20180501preview |         | v1api20180501preview/storage |                        |  Status   | Notes |
 |:---------------------|:--------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -156,11 +149,11 @@
 
 ### WebTestProperties_ValidationRules_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New
 
 | v1api20180501preview          |                                                             | v1api20180501preview/storage  |                                                             |  Status   | Notes |
 |:------------------------------|:------------------------------------------------------------|:------------------------------|:------------------------------------------------------------|:---------:|:------|
-| ContentValidation             | *WebTestProperties_ValidationRules_ContentValidation_STATUS | ContentValidation             | *WebTestProperties_ValidationRules_ContentValidation_STATUS | Modified  |       |
+| ContentValidation             | *WebTestProperties_ValidationRules_ContentValidation_STATUS | ContentValidation             | *WebTestProperties_ValidationRules_ContentValidation_STATUS | Identical |       |
 | ExpectedHttpStatusCode        | *int                                                        | ExpectedHttpStatusCode        | *int                                                        | Identical |       |
 | IgnoreHttpsStatusCode         | *bool                                                       | IgnoreHttpsStatusCode         | *bool                                                       | Identical |       |
 |                               |                                                             | PropertyBag                   | genruntime.PropertyBag                                      |    New    |       |
@@ -169,7 +162,7 @@
 
 ### WebtestOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20180501preview |                               | v1api20180501preview/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:-----------------------------|:------------------------------|:---------:|:------|
@@ -179,12 +172,12 @@
 
 ### Webtest_STATUS
 
-15 x Identical, 1 x New, 4 x Modified
+Properties: 18 x Identical, 1 x New, 1 x Modified
 
 | v1api20180501preview |                                           | v1api20180501preview/storage |                                           |  Status   | Notes |
 |:---------------------|:------------------------------------------|:-----------------------------|:------------------------------------------|:---------:|:------|
 | Conditions           | conditions.Condition[]                    | Conditions                   | conditions.Condition[]                    | Identical |       |
-| Configuration        | *WebTestProperties_Configuration_STATUS   | Configuration                | *WebTestProperties_Configuration_STATUS   | Modified  |       |
+| Configuration        | *WebTestProperties_Configuration_STATUS   | Configuration                | *WebTestProperties_Configuration_STATUS   | Identical |       |
 | Description          | *string                                   | Description                  | *string                                   | Identical |       |
 | Enabled              | *bool                                     | Enabled                      | *bool                                     | Identical |       |
 | Frequency            | *int                                      | Frequency                    | *int                                      | Identical |       |
@@ -196,22 +189,22 @@
 | PropertiesName       | *string                                   | PropertiesName               | *string                                   | Identical |       |
 |                      |                                           | PropertyBag                  | genruntime.PropertyBag                    |    New    |       |
 | ProvisioningState    | *string                                   | ProvisioningState            | *string                                   | Identical |       |
-| Request              | *WebTestProperties_Request_STATUS         | Request                      | *WebTestProperties_Request_STATUS         | Modified  |       |
+| Request              | *WebTestProperties_Request_STATUS         | Request                      | *WebTestProperties_Request_STATUS         | Identical |       |
 | RetryEnabled         | *bool                                     | RetryEnabled                 | *bool                                     | Identical |       |
 | SyntheticMonitorId   | *string                                   | SyntheticMonitorId           | *string                                   | Identical |       |
 | Tags                 | map[string]string                         | Tags                         | map[string]string                         | Identical |       |
 | Timeout              | *int                                      | Timeout                      | *int                                      | Identical |       |
 | Type                 | *string                                   | Type                         | *string                                   | Identical |       |
-| ValidationRules      | *WebTestProperties_ValidationRules_STATUS | ValidationRules              | *WebTestProperties_ValidationRules_STATUS | Modified  |       |
+| ValidationRules      | *WebTestProperties_ValidationRules_STATUS | ValidationRules              | *WebTestProperties_ValidationRules_STATUS | Identical |       |
 
 ### Webtest_Spec
 
-13 x Identical, 2 x New, 4 x Modified
+Properties: 16 x Identical, 2 x New, 1 x Modified
 
 | v1api20180501preview |                                    | v1api20180501preview/storage |                                    |  Status   | Notes |
 |:---------------------|:-----------------------------------|:-----------------------------|:-----------------------------------|:---------:|:------|
 | AzureName            | string                             | AzureName                    | string                             | Identical |       |
-| Configuration        | *WebTestProperties_Configuration   | Configuration                | *WebTestProperties_Configuration   | Modified  |       |
+| Configuration        | *WebTestProperties_Configuration   | Configuration                | *WebTestProperties_Configuration   | Identical |       |
 | Description          | *string                            | Description                  | *string                            | Identical |       |
 | Enabled              | *bool                              | Enabled                      | *bool                              | Identical |       |
 | Frequency            | *int                               | Frequency                    | *int                               | Identical |       |
@@ -223,9 +216,18 @@
 |                      |                                    | OriginalVersion              | string                             |    New    |       |
 | Owner                | *genruntime.KnownResourceReference | Owner                        | *genruntime.KnownResourceReference | Identical |       |
 |                      |                                    | PropertyBag                  | genruntime.PropertyBag             |    New    |       |
-| Request              | *WebTestProperties_Request         | Request                      | *WebTestProperties_Request         | Modified  |       |
+| Request              | *WebTestProperties_Request         | Request                      | *WebTestProperties_Request         | Identical |       |
 | RetryEnabled         | *bool                              | RetryEnabled                 | *bool                              | Identical |       |
 | SyntheticMonitorId   | *string                            | SyntheticMonitorId           | *string                            | Identical |       |
 | Tags                 | map[string]string                  | Tags                         | map[string]string                  | Identical |       |
 | Timeout              | *int                               | Timeout                      | *int                               | Identical |       |
-| ValidationRules      | *WebTestProperties_ValidationRules | ValidationRules              | *WebTestProperties_ValidationRules | Modified  |       |
+| ValidationRules      | *WebTestProperties_ValidationRules | ValidationRules              | *WebTestProperties_ValidationRules | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

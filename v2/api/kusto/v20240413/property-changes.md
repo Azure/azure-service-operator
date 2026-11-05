@@ -6,26 +6,19 @@
 |:---------------------------|:---------------------------|:---------:|:------|
 | ClusterPrincipalAssignment | ClusterPrincipalAssignment | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20240413                              | v20240413/storage                      |  Status  | Notes |
-|:---------------------------------------|:---------------------------------------|:--------:|:------|
-| ClusterPrincipalAssignmentOperatorSpec | ClusterPrincipalAssignmentOperatorSpec | Extended |       |
-| ClusterPrincipalAssignment_STATUS      | ClusterPrincipalAssignment_STATUS      | Modified |       |
-| ClusterPrincipalAssignment_Spec        | ClusterPrincipalAssignment_Spec        | Modified |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20240413                              | v20240413/storage                      |  Status  | Notes        |
+|:---------------------------------------|:---------------------------------------|:--------:|:-------------|
+| ClusterPrincipalAssignmentOperatorSpec | ClusterPrincipalAssignmentOperatorSpec | Extended | +PropertyBag |
+| ClusterPrincipalAssignment_STATUS      | ClusterPrincipalAssignment_STATUS      | Modified |              |
+| ClusterPrincipalAssignment_Spec        | ClusterPrincipalAssignment_Spec        | Modified |              |
 
 ### ClusterPrincipalAssignmentOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20240413            |                               | v20240413/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -35,7 +28,7 @@
 
 ### ClusterPrincipalAssignment_STATUS
 
-9 x Identical, 1 x New, 3 x Modified
+Properties: 9 x Identical, 1 x New, 3 x Modified
 
 | v20240413         |                                                  | v20240413/storage |                        |  Status   | Notes |
 |:------------------|:-------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -55,7 +48,7 @@
 
 ### ClusterPrincipalAssignment_Spec
 
-6 x Identical, 2 x New, 3 x Modified
+Properties: 6 x Identical, 2 x New, 3 x Modified
 
 | v20240413             |                                           | v20240413/storage     |                                         |  Status   | Notes |
 |:----------------------|:------------------------------------------|:----------------------|:----------------------------------------|:---------:|:------|
@@ -70,3 +63,12 @@
 | Role                  | *ClusterPrincipalProperties_Role          | Role                  | *string                                 | Modified  |       |
 | TenantId              | *string                                   | TenantId              | *string                                 | Identical |       |
 | TenantIdFromConfig    | *genruntime.ConfigMapReference            | TenantIdFromConfig    | *genruntime.ConfigMapReference          | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

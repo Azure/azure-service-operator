@@ -6,65 +6,58 @@
 |:-----------------------------|:-----------------------------|:---------:|:------|
 | WebApplicationFirewallPolicy | WebApplicationFirewallPolicy | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20220501                            | v1api20220501/storage                    |  Status  | Notes |
-|:-----------------------------------------|:-----------------------------------------|:--------:|:------|
-| CustomRule                               | CustomRule                               | Modified |       |
-| CustomRuleList                           | CustomRuleList                           | Extended |       |
-| CustomRuleList_STATUS                    | CustomRuleList_STATUS                    | Extended |       |
-| CustomRule_STATUS                        | CustomRule_STATUS                        | Modified |       |
-| FrontendEndpointLink_STATUS              | FrontendEndpointLink_STATUS              | Extended |       |
-| ManagedRuleExclusion                     | ManagedRuleExclusion                     | Modified |       |
-| ManagedRuleExclusion_STATUS              | ManagedRuleExclusion_STATUS              | Modified |       |
-| ManagedRuleGroupOverride                 | ManagedRuleGroupOverride                 | Extended |       |
-| ManagedRuleGroupOverride_STATUS          | ManagedRuleGroupOverride_STATUS          | Extended |       |
-| ManagedRuleOverride                      | ManagedRuleOverride                      | Modified |       |
-| ManagedRuleOverride_STATUS               | ManagedRuleOverride_STATUS               | Modified |       |
-| ManagedRuleSet                           | ManagedRuleSet                           | Modified |       |
-| ManagedRuleSetList                       | ManagedRuleSetList                       | Extended |       |
-| ManagedRuleSetList_STATUS                | ManagedRuleSetList_STATUS                | Extended |       |
-| ManagedRuleSet_STATUS                    | ManagedRuleSet_STATUS                    | Modified |       |
-| MatchCondition                           | MatchCondition                           | Modified |       |
-| MatchCondition_STATUS                    | MatchCondition_STATUS                    | Modified |       |
-| PolicySettings                           | PolicySettings                           | Modified |       |
-| PolicySettings_STATUS                    | PolicySettings_STATUS                    | Modified |       |
-| RoutingRuleLink_STATUS                   | RoutingRuleLink_STATUS                   | Extended |       |
-| SecurityPolicyLink_STATUS                | SecurityPolicyLink_STATUS                | Extended |       |
-| Sku                                      | Sku                                      | Modified |       |
-| Sku_STATUS                               | Sku_STATUS                               | Modified |       |
-| WebApplicationFirewallPolicyOperatorSpec | WebApplicationFirewallPolicyOperatorSpec | Extended |       |
-| WebApplicationFirewallPolicy_STATUS      | WebApplicationFirewallPolicy_STATUS      | Modified |       |
-| WebApplicationFirewallPolicy_Spec        | WebApplicationFirewallPolicy_Spec        | Modified |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20220501                            | v1api20220501/storage                    |  Status  | Notes        |
+|:-----------------------------------------|:-----------------------------------------|:--------:|:-------------|
+| CustomRule                               | CustomRule                               | Modified |              |
+| CustomRuleList                           | CustomRuleList                           | Extended | +PropertyBag |
+| CustomRuleList_STATUS                    | CustomRuleList_STATUS                    | Extended | +PropertyBag |
+| CustomRule_STATUS                        | CustomRule_STATUS                        | Modified |              |
+| FrontendEndpointLink_STATUS              | FrontendEndpointLink_STATUS              | Extended | +PropertyBag |
+| ManagedRuleExclusion                     | ManagedRuleExclusion                     | Modified |              |
+| ManagedRuleExclusion_STATUS              | ManagedRuleExclusion_STATUS              | Modified |              |
+| ManagedRuleGroupOverride                 | ManagedRuleGroupOverride                 | Extended | +PropertyBag |
+| ManagedRuleGroupOverride_STATUS          | ManagedRuleGroupOverride_STATUS          | Extended | +PropertyBag |
+| ManagedRuleOverride                      | ManagedRuleOverride                      | Modified |              |
+| ManagedRuleOverride_STATUS               | ManagedRuleOverride_STATUS               | Modified |              |
+| ManagedRuleSet                           | ManagedRuleSet                           | Modified |              |
+| ManagedRuleSetList                       | ManagedRuleSetList                       | Extended | +PropertyBag |
+| ManagedRuleSetList_STATUS                | ManagedRuleSetList_STATUS                | Extended | +PropertyBag |
+| ManagedRuleSet_STATUS                    | ManagedRuleSet_STATUS                    | Modified |              |
+| MatchCondition                           | MatchCondition                           | Modified |              |
+| MatchCondition_STATUS                    | MatchCondition_STATUS                    | Modified |              |
+| PolicySettings                           | PolicySettings                           | Modified |              |
+| PolicySettings_STATUS                    | PolicySettings_STATUS                    | Modified |              |
+| RoutingRuleLink_STATUS                   | RoutingRuleLink_STATUS                   | Extended | +PropertyBag |
+| SecurityPolicyLink_STATUS                | SecurityPolicyLink_STATUS                | Extended | +PropertyBag |
+| Sku                                      | Sku                                      | Modified |              |
+| Sku_STATUS                               | Sku_STATUS                               | Modified |              |
+| WebApplicationFirewallPolicyOperatorSpec | WebApplicationFirewallPolicyOperatorSpec | Extended | +PropertyBag |
+| WebApplicationFirewallPolicy_STATUS      | WebApplicationFirewallPolicy_STATUS      | Modified |              |
+| WebApplicationFirewallPolicy_Spec        | WebApplicationFirewallPolicy_Spec        | Modified |              |
 
 ### CustomRule
 
-2 x Identical, 1 x New, 6 x Modified
+Properties: 5 x Identical, 1 x New, 3 x Modified
 
 | v1api20220501              |                             | v1api20220501/storage      |                        |  Status   | Notes |
 |:---------------------------|:----------------------------|:---------------------------|:-----------------------|:---------:|:------|
 | Action                     | *ActionType                 | Action                     | *string                | Modified  |       |
 | EnabledState               | *CustomRule_EnabledState    | EnabledState               | *string                | Modified  |       |
 | MatchConditions            | MatchCondition[]            | MatchConditions            | MatchCondition[]       | Identical |       |
-| Name                       | Validated<*string> (1 rule) | Name                       | *string                | Modified  |       |
+| Name                       | Validated<*string> (1 rule) | Name                       | *string                | Identical |       |
 | Priority                   | *int                        | Priority                   | *int                   | Identical |       |
 |                            |                             | PropertyBag                | genruntime.PropertyBag |    New    |       |
-| RateLimitDurationInMinutes | Validated<*int> (2 rules)   | RateLimitDurationInMinutes | *int                   | Modified  |       |
-| RateLimitThreshold         | Validated<*int> (1 rule)    | RateLimitThreshold         | *int                   | Modified  |       |
+| RateLimitDurationInMinutes | Validated<*int> (2 rules)   | RateLimitDurationInMinutes | *int                   | Identical |       |
+| RateLimitThreshold         | Validated<*int> (1 rule)    | RateLimitThreshold         | *int                   | Identical |       |
 | RuleType                   | *CustomRule_RuleType        | RuleType                   | *string                | Modified  |       |
 
 ### CustomRuleList
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220501 |              | v1api20220501/storage |                        |  Status   | Notes |
 |:--------------|:-------------|:----------------------|:-----------------------|:---------:|:------|
@@ -73,7 +66,7 @@
 
 ### CustomRuleList_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220501 |                     | v1api20220501/storage |                        |  Status   | Notes |
 |:--------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -82,7 +75,7 @@
 
 ### CustomRule_STATUS
 
-5 x Identical, 1 x New, 3 x Modified
+Properties: 5 x Identical, 1 x New, 3 x Modified
 
 | v1api20220501              |                                 | v1api20220501/storage      |                         |  Status   | Notes |
 |:---------------------------|:--------------------------------|:---------------------------|:------------------------|:---------:|:------|
@@ -98,7 +91,7 @@
 
 ### FrontendEndpointLink_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220501 |         | v1api20220501/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -107,7 +100,7 @@
 
 ### ManagedRuleExclusion
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v1api20220501         |                                             | v1api20220501/storage |                        |  Status   | Notes |
 |:----------------------|:--------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -118,7 +111,7 @@
 
 ### ManagedRuleExclusion_STATUS
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v1api20220501         |                                                    | v1api20220501/storage |                        |  Status   | Notes |
 |:----------------------|:---------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -129,7 +122,7 @@
 
 ### ManagedRuleGroupOverride
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220501 |                        | v1api20220501/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -140,7 +133,7 @@
 
 ### ManagedRuleGroupOverride_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220501 |                               | v1api20220501/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -151,7 +144,7 @@
 
 ### ManagedRuleOverride
 
-2 x Identical, 1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New, 2 x Modified
 
 | v1api20220501 |                          | v1api20220501/storage |                        |  Status   | Notes |
 |:--------------|:-------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -163,7 +156,7 @@
 
 ### ManagedRuleOverride_STATUS
 
-2 x Identical, 1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New, 2 x Modified
 
 | v1api20220501 |                                 | v1api20220501/storage |                               |  Status   | Notes |
 |:--------------|:--------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -175,7 +168,7 @@
 
 ### ManagedRuleSet
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20220501      |                            | v1api20220501/storage |                            |  Status   | Notes |
 |:-------------------|:---------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -188,7 +181,7 @@
 
 ### ManagedRuleSetList
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220501   |                  | v1api20220501/storage |                        |  Status   | Notes |
 |:----------------|:-----------------|:----------------------|:-----------------------|:---------:|:------|
@@ -197,7 +190,7 @@
 
 ### ManagedRuleSetList_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220501   |                         | v1api20220501/storage |                         |  Status   | Notes |
 |:----------------|:------------------------|:----------------------|:------------------------|:---------:|:------|
@@ -206,7 +199,7 @@
 
 ### ManagedRuleSet_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20220501      |                                   | v1api20220501/storage |                                   |  Status   | Notes |
 |:-------------------|:----------------------------------|:----------------------|:----------------------------------|:---------:|:------|
@@ -219,7 +212,7 @@
 
 ### MatchCondition
 
-3 x Identical, 1 x New, 3 x Modified
+Properties: 3 x Identical, 1 x New, 3 x Modified
 
 | v1api20220501   |                               | v1api20220501/storage |                        |  Status   | Notes |
 |:----------------|:------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -233,7 +226,7 @@
 
 ### MatchCondition_STATUS
 
-3 x Identical, 1 x New, 3 x Modified
+Properties: 3 x Identical, 1 x New, 3 x Modified
 
 | v1api20220501   |                                      | v1api20220501/storage |                        |  Status   | Notes |
 |:----------------|:-------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -247,11 +240,11 @@
 
 ### PolicySettings
 
-2 x Identical, 1 x New, 4 x Modified
+Properties: 3 x Identical, 1 x New, 3 x Modified
 
 | v1api20220501                 |                                  | v1api20220501/storage         |                        |  Status   | Notes |
 |:------------------------------|:---------------------------------|:------------------------------|:-----------------------|:---------:|:------|
-| CustomBlockResponseBody       | Validated<*string> (1 rule)      | CustomBlockResponseBody       | *string                | Modified  |       |
+| CustomBlockResponseBody       | Validated<*string> (1 rule)      | CustomBlockResponseBody       | *string                | Identical |       |
 | CustomBlockResponseStatusCode | *int                             | CustomBlockResponseStatusCode | *int                   | Identical |       |
 | EnabledState                  | *PolicySettings_EnabledState     | EnabledState                  | *string                | Modified  |       |
 | Mode                          | *PolicySettings_Mode             | Mode                          | *string                | Modified  |       |
@@ -261,7 +254,7 @@
 
 ### PolicySettings_STATUS
 
-3 x Identical, 1 x New, 3 x Modified
+Properties: 3 x Identical, 1 x New, 3 x Modified
 
 | v1api20220501                 |                                         | v1api20220501/storage         |                        |  Status   | Notes |
 |:------------------------------|:----------------------------------------|:------------------------------|:-----------------------|:---------:|:------|
@@ -275,7 +268,7 @@
 
 ### RoutingRuleLink_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220501 |         | v1api20220501/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -284,7 +277,7 @@
 
 ### SecurityPolicyLink_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220501 |         | v1api20220501/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -293,7 +286,7 @@
 
 ### Sku
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20220501 |           | v1api20220501/storage |                        |  Status  | Notes |
 |:--------------|:----------|:----------------------|:-----------------------|:--------:|:------|
@@ -302,7 +295,7 @@
 
 ### Sku_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20220501 |                  | v1api20220501/storage |                        |  Status  | Notes |
 |:--------------|:-----------------|:----------------------|:-----------------------|:--------:|:------|
@@ -311,7 +304,7 @@
 
 ### WebApplicationFirewallPolicyOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220501        |                               | v1api20220501/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -321,7 +314,7 @@
 
 ### WebApplicationFirewallPolicy_STATUS
 
-15 x Identical, 1 x New, 1 x Modified
+Properties: 15 x Identical, 1 x New, 1 x Modified
 
 | v1api20220501         |                                                              | v1api20220501/storage |                               |  Status   | Notes |
 |:----------------------|:-------------------------------------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -345,7 +338,7 @@
 
 ### WebApplicationFirewallPolicy_Spec
 
-9 x Identical, 2 x New, 1 x Modified
+Properties: 9 x Identical, 2 x New, 1 x Modified
 
 | v1api20220501  |                                           | v1api20220501/storage |                                           |  Status   | Notes |
 |:---------------|:------------------------------------------|:----------------------|:------------------------------------------|:---------:|:------|
@@ -361,3 +354,12 @@
 |                |                                           | PropertyBag           | genruntime.PropertyBag                    |    New    |       |
 | Sku            | *Sku                                      | Sku                   | *Sku                                      | Identical |       |
 | Tags           | map[string]string                         | Tags                  | map[string]string                         | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

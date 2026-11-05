@@ -7,54 +7,47 @@
 | Disk          | Disk                  | Identical |       |
 | Snapshot      | Snapshot              | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20200930                       | v1api20200930/storage               |  Status  | Notes |
-|:------------------------------------|:------------------------------------|:--------:|:------|
-| CreationData                        | CreationData                        | Modified |       |
-| CreationData_STATUS                 | CreationData_STATUS                 | Modified |       |
-| DiskOperatorSpec                    | DiskOperatorSpec                    | Extended |       |
-| DiskSku                             | DiskSku                             | Modified |       |
-| DiskSku_STATUS                      | DiskSku_STATUS                      | Modified |       |
-| Disk_STATUS                         | Disk_STATUS                         | Modified |       |
-| Disk_Spec                           | Disk_Spec                           | Modified |       |
-| Encryption                          | Encryption                          | Modified |       |
-| EncryptionSettingsCollection        | EncryptionSettingsCollection        | Extended |       |
-| EncryptionSettingsCollection_STATUS | EncryptionSettingsCollection_STATUS | Extended |       |
-| EncryptionSettingsElement           | EncryptionSettingsElement           | Extended |       |
-| EncryptionSettingsElement_STATUS    | EncryptionSettingsElement_STATUS    | Extended |       |
-| Encryption_STATUS                   | Encryption_STATUS                   | Modified |       |
-| ExtendedLocation                    | ExtendedLocation                    | Modified |       |
-| ExtendedLocation_STATUS             | ExtendedLocation_STATUS             | Modified |       |
-| ImageDiskReference                  | ImageDiskReference                  | Extended |       |
-| ImageDiskReference_STATUS           | ImageDiskReference_STATUS           | Extended |       |
-| KeyVaultAndKeyReference             | KeyVaultAndKeyReference             | Extended |       |
-| KeyVaultAndKeyReference_STATUS      | KeyVaultAndKeyReference_STATUS      | Extended |       |
-| KeyVaultAndSecretReference          | KeyVaultAndSecretReference          | Extended |       |
-| KeyVaultAndSecretReference_STATUS   | KeyVaultAndSecretReference_STATUS   | Extended |       |
-| PurchasePlan                        | PurchasePlan                        | Extended |       |
-| PurchasePlan_STATUS                 | PurchasePlan_STATUS                 | Extended |       |
-| ShareInfoElement_STATUS             | ShareInfoElement_STATUS             | Extended |       |
-| SnapshotOperatorSpec                | SnapshotOperatorSpec                | Extended |       |
-| SnapshotSku                         | SnapshotSku                         | Modified |       |
-| SnapshotSku_STATUS                  | SnapshotSku_STATUS                  | Modified |       |
-| Snapshot_STATUS                     | Snapshot_STATUS                     | Modified |       |
-| Snapshot_Spec                       | Snapshot_Spec                       | Modified |       |
-| SourceVault                         | SourceVault                         | Extended |       |
-| SourceVault_STATUS                  | SourceVault_STATUS                  | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20200930                       | v1api20200930/storage               |  Status  | Notes        |
+|:------------------------------------|:------------------------------------|:--------:|:-------------|
+| CreationData                        | CreationData                        | Modified |              |
+| CreationData_STATUS                 | CreationData_STATUS                 | Modified |              |
+| DiskOperatorSpec                    | DiskOperatorSpec                    | Extended | +PropertyBag |
+| DiskSku                             | DiskSku                             | Modified |              |
+| DiskSku_STATUS                      | DiskSku_STATUS                      | Modified |              |
+| Disk_STATUS                         | Disk_STATUS                         | Modified |              |
+| Disk_Spec                           | Disk_Spec                           | Modified |              |
+| Encryption                          | Encryption                          | Modified |              |
+| EncryptionSettingsCollection        | EncryptionSettingsCollection        | Extended | +PropertyBag |
+| EncryptionSettingsCollection_STATUS | EncryptionSettingsCollection_STATUS | Extended | +PropertyBag |
+| EncryptionSettingsElement           | EncryptionSettingsElement           | Extended | +PropertyBag |
+| EncryptionSettingsElement_STATUS    | EncryptionSettingsElement_STATUS    | Extended | +PropertyBag |
+| Encryption_STATUS                   | Encryption_STATUS                   | Modified |              |
+| ExtendedLocation                    | ExtendedLocation                    | Modified |              |
+| ExtendedLocation_STATUS             | ExtendedLocation_STATUS             | Modified |              |
+| ImageDiskReference                  | ImageDiskReference                  | Extended | +PropertyBag |
+| ImageDiskReference_STATUS           | ImageDiskReference_STATUS           | Extended | +PropertyBag |
+| KeyVaultAndKeyReference             | KeyVaultAndKeyReference             | Extended | +PropertyBag |
+| KeyVaultAndKeyReference_STATUS      | KeyVaultAndKeyReference_STATUS      | Extended | +PropertyBag |
+| KeyVaultAndSecretReference          | KeyVaultAndSecretReference          | Extended | +PropertyBag |
+| KeyVaultAndSecretReference_STATUS   | KeyVaultAndSecretReference_STATUS   | Extended | +PropertyBag |
+| PurchasePlan                        | PurchasePlan                        | Extended | +PropertyBag |
+| PurchasePlan_STATUS                 | PurchasePlan_STATUS                 | Extended | +PropertyBag |
+| ShareInfoElement_STATUS             | ShareInfoElement_STATUS             | Extended | +PropertyBag |
+| SnapshotOperatorSpec                | SnapshotOperatorSpec                | Extended | +PropertyBag |
+| SnapshotSku                         | SnapshotSku                         | Modified |              |
+| SnapshotSku_STATUS                  | SnapshotSku_STATUS                  | Modified |              |
+| Snapshot_STATUS                     | Snapshot_STATUS                     | Modified |              |
+| Snapshot_Spec                       | Snapshot_Spec                       | Modified |              |
+| SourceVault                         | SourceVault                         | Extended | +PropertyBag |
+| SourceVault_STATUS                  | SourceVault_STATUS                  | Extended | +PropertyBag |
 
 ### CreationData
 
-7 x Identical, 1 x New, 1 x Modified
+Properties: 7 x Identical, 1 x New, 1 x Modified
 
 | v1api20200930           |                               | v1api20200930/storage   |                               |  Status   | Notes |
 |:------------------------|:------------------------------|:------------------------|:------------------------------|:---------:|:------|
@@ -70,7 +63,7 @@
 
 ### CreationData_STATUS
 
-8 x Identical, 1 x New, 1 x Modified
+Properties: 8 x Identical, 1 x New, 1 x Modified
 
 | v1api20200930         |                                   | v1api20200930/storage |                            |  Status   | Notes |
 |:----------------------|:----------------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -87,7 +80,7 @@
 
 ### DiskOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20200930        |                               | v1api20200930/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -97,7 +90,7 @@
 
 ### DiskSku
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20200930 |               | v1api20200930/storage |                        |  Status  | Notes |
 |:--------------|:--------------|:----------------------|:-----------------------|:--------:|:------|
@@ -106,7 +99,7 @@
 
 ### DiskSku_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20200930 |                      | v1api20200930/storage |                        |  Status   | Notes |
 |:--------------|:---------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -116,7 +109,7 @@
 
 ### Disk_STATUS
 
-28 x Identical, 1 x New, 5 x Modified
+Properties: 29 x Identical, 1 x New, 4 x Modified
 
 | v1api20200930                |                                         | v1api20200930/storage        |                                      |  Status   | Notes |
 |:-----------------------------|:----------------------------------------|:-----------------------------|:-------------------------------------|:---------:|:------|
@@ -145,7 +138,7 @@
 | OsType                       | *DiskProperties_OsType_STATUS           | OsType                       | *string                              | Modified  |       |
 |                              |                                         | PropertyBag                  | genruntime.PropertyBag               |    New    |       |
 | ProvisioningState            | *string                                 | ProvisioningState            | *string                              | Identical |       |
-| PurchasePlan                 | *PurchasePlan_STATUS                    | PurchasePlan                 | *PurchasePlan_STATUS                 | Modified  |       |
+| PurchasePlan                 | *PurchasePlan_STATUS                    | PurchasePlan                 | *PurchasePlan_STATUS                 | Identical |       |
 | ShareInfo                    | ShareInfoElement_STATUS[]               | ShareInfo                    | ShareInfoElement_STATUS[]            | Identical |       |
 | Sku                          | *DiskSku_STATUS                         | Sku                          | *DiskSku_STATUS                      | Identical |       |
 | Tags                         | map[string]string                       | Tags                         | map[string]string                    | Identical |       |
@@ -157,7 +150,7 @@
 
 ### Disk_Spec
 
-20 x Identical, 2 x New, 4 x Modified
+Properties: 21 x Identical, 2 x New, 3 x Modified
 
 | v1api20200930                |                                    | v1api20200930/storage        |                                    |  Status   | Notes |
 |:-----------------------------|:-----------------------------------|:-----------------------------|:-----------------------------------|:---------:|:------|
@@ -182,7 +175,7 @@
 | OsType                       | *DiskProperties_OsType             | OsType                       | *string                            | Modified  |       |
 | Owner                        | *genruntime.KnownResourceReference | Owner                        | *genruntime.KnownResourceReference | Identical |       |
 |                              |                                    | PropertyBag                  | genruntime.PropertyBag             |    New    |       |
-| PurchasePlan                 | *PurchasePlan                      | PurchasePlan                 | *PurchasePlan                      | Modified  |       |
+| PurchasePlan                 | *PurchasePlan                      | PurchasePlan                 | *PurchasePlan                      | Identical |       |
 | Sku                          | *DiskSku                           | Sku                          | *DiskSku                           | Identical |       |
 | Tags                         | map[string]string                  | Tags                         | map[string]string                  | Identical |       |
 | Tier                         | *string                            | Tier                         | *string                            | Identical |       |
@@ -190,7 +183,7 @@
 
 ### Encryption
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20200930              |                               | v1api20200930/storage      |                               |  Status   | Notes |
 |:---------------------------|:------------------------------|:---------------------------|:------------------------------|:---------:|:------|
@@ -200,7 +193,7 @@
 
 ### EncryptionSettingsCollection
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20200930             |                             | v1api20200930/storage     |                             |  Status   | Notes |
 |:--------------------------|:----------------------------|:--------------------------|:----------------------------|:---------:|:------|
@@ -211,7 +204,7 @@
 
 ### EncryptionSettingsCollection_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20200930             |                                    | v1api20200930/storage     |                                    |  Status   | Notes |
 |:--------------------------|:-----------------------------------|:--------------------------|:-----------------------------------|:---------:|:------|
@@ -222,7 +215,7 @@
 
 ### EncryptionSettingsElement
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20200930     |                             | v1api20200930/storage |                             |  Status   | Notes |
 |:------------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -232,7 +225,7 @@
 
 ### EncryptionSettingsElement_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20200930     |                                    | v1api20200930/storage |                                    |  Status   | Notes |
 |:------------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -242,7 +235,7 @@
 
 ### Encryption_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20200930       |                        | v1api20200930/storage |                        |  Status   | Notes |
 |:--------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -252,7 +245,7 @@
 
 ### ExtendedLocation
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20200930 |                       | v1api20200930/storage |                        |  Status   | Notes |
 |:--------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -262,7 +255,7 @@
 
 ### ExtendedLocation_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20200930 |                              | v1api20200930/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -272,7 +265,7 @@
 
 ### ImageDiskReference
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20200930 |                               | v1api20200930/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -282,7 +275,7 @@
 
 ### ImageDiskReference_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20200930 |         | v1api20200930/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -292,7 +285,7 @@
 
 ### KeyVaultAndKeyReference
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20200930 |              | v1api20200930/storage |                        |  Status   | Notes |
 |:--------------|:-------------|:----------------------|:-----------------------|:---------:|:------|
@@ -302,7 +295,7 @@
 
 ### KeyVaultAndKeyReference_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20200930 |                     | v1api20200930/storage |                        |  Status   | Notes |
 |:--------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -312,7 +305,7 @@
 
 ### KeyVaultAndSecretReference
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20200930 |              | v1api20200930/storage |                        |  Status   | Notes |
 |:--------------|:-------------|:----------------------|:-----------------------|:---------:|:------|
@@ -322,7 +315,7 @@
 
 ### KeyVaultAndSecretReference_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20200930 |                     | v1api20200930/storage |                        |  Status   | Notes |
 |:--------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -332,7 +325,7 @@
 
 ### PurchasePlan
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20200930 |         | v1api20200930/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -344,7 +337,7 @@
 
 ### PurchasePlan_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20200930 |         | v1api20200930/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -356,7 +349,7 @@
 
 ### ShareInfoElement_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20200930 |         | v1api20200930/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -365,7 +358,7 @@
 
 ### SnapshotOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20200930        |                               | v1api20200930/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -375,7 +368,7 @@
 
 ### SnapshotSku
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20200930 |                   | v1api20200930/storage |                        |  Status  | Notes |
 |:--------------|:------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -384,7 +377,7 @@
 
 ### SnapshotSku_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20200930 |                          | v1api20200930/storage |                        |  Status   | Notes |
 |:--------------|:-------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -394,7 +387,7 @@
 
 ### Snapshot_STATUS
 
-19 x Identical, 1 x New, 5 x Modified
+Properties: 20 x Identical, 1 x New, 4 x Modified
 
 | v1api20200930                |                                             | v1api20200930/storage        |                                      |  Status   | Notes |
 |:-----------------------------|:--------------------------------------------|:-----------------------------|:-------------------------------------|:---------:|:------|
@@ -417,7 +410,7 @@
 | OsType                       | *SnapshotProperties_OsType_STATUS           | OsType                       | *string                              | Modified  |       |
 |                              |                                             | PropertyBag                  | genruntime.PropertyBag               |    New    |       |
 | ProvisioningState            | *string                                     | ProvisioningState            | *string                              | Identical |       |
-| PurchasePlan                 | *PurchasePlan_STATUS                        | PurchasePlan                 | *PurchasePlan_STATUS                 | Modified  |       |
+| PurchasePlan                 | *PurchasePlan_STATUS                        | PurchasePlan                 | *PurchasePlan_STATUS                 | Identical |       |
 | Sku                          | *SnapshotSku_STATUS                         | Sku                          | *SnapshotSku_STATUS                  | Identical |       |
 | Tags                         | map[string]string                           | Tags                         | map[string]string                    | Identical |       |
 | TimeCreated                  | *string                                     | TimeCreated                  | *string                              | Identical |       |
@@ -426,7 +419,7 @@
 
 ### Snapshot_Spec
 
-13 x Identical, 2 x New, 4 x Modified
+Properties: 14 x Identical, 2 x New, 3 x Modified
 
 | v1api20200930                |                                      | v1api20200930/storage        |                                    |  Status   | Notes |
 |:-----------------------------|:-------------------------------------|:-----------------------------|:-----------------------------------|:---------:|:------|
@@ -446,13 +439,13 @@
 | OsType                       | *SnapshotProperties_OsType           | OsType                       | *string                            | Modified  |       |
 | Owner                        | *genruntime.KnownResourceReference   | Owner                        | *genruntime.KnownResourceReference | Identical |       |
 |                              |                                      | PropertyBag                  | genruntime.PropertyBag             |    New    |       |
-| PurchasePlan                 | *PurchasePlan                        | PurchasePlan                 | *PurchasePlan                      | Modified  |       |
+| PurchasePlan                 | *PurchasePlan                        | PurchasePlan                 | *PurchasePlan                      | Identical |       |
 | Sku                          | *SnapshotSku                         | Sku                          | *SnapshotSku                       | Identical |       |
 | Tags                         | map[string]string                    | Tags                         | map[string]string                  | Identical |       |
 
 ### SourceVault
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20200930 |                               | v1api20200930/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -461,9 +454,18 @@
 
 ### SourceVault_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20200930 |         | v1api20200930/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
 | Id            | *string | Id                    | *string                | Identical |       |
 |               |         | PropertyBag           | genruntime.PropertyBag |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

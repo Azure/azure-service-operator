@@ -26,346 +26,339 @@
 | VirtualNetworksSubnet                | VirtualNetworksSubnet                | Identical |       |
 | VirtualNetworksVirtualNetworkPeering | VirtualNetworksVirtualNetworkPeering | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20240301/storage                                                                   | v20250301/storage                                                                       |  Status   | Notes |
-|:----------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------|:---------:|:------|
-| AddressSpace                                                                            | AddressSpace                                                                            | Extended  |       |
-| AddressSpace_STATUS                                                                     | AddressSpace_STATUS                                                                     | Extended  |       |
-| ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded               | ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded               | Identical |       |
-| ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded        | ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded        | Identical |       |
-| ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded     | ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded     | Identical |       |
-| ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded            | ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded            | Identical |       |
-| ApplicationRule                                                                         | ApplicationRule                                                                         | Identical |       |
-| ApplicationRule_STATUS                                                                  | ApplicationRule_STATUS                                                                  | Identical |       |
-| ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded                       | ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded                       | Identical |       |
-| ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded     | ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded     | Identical |       |
-| ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded                        | ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded                        | Identical |       |
-| ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded                    | ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded                    | Identical |       |
-| ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded  | ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded  | Identical |       |
-| ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded                     | ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded                     | Identical |       |
-| AzureFirewallApplicationRule                                                            | AzureFirewallApplicationRule                                                            | Identical |       |
-| AzureFirewallApplicationRuleCollection                                                  | AzureFirewallApplicationRuleCollection                                                  | Identical |       |
-| AzureFirewallApplicationRuleCollection_STATUS                                           | AzureFirewallApplicationRuleCollection_STATUS                                           | Identical |       |
-| AzureFirewallApplicationRuleProtocol                                                    | AzureFirewallApplicationRuleProtocol                                                    | Identical |       |
-| AzureFirewallAutoscaleConfiguration                                                     | AzureFirewallAutoscaleConfiguration                                                     | Identical |       |
-| AzureFirewallAutoscaleConfiguration_STATUS                                              | AzureFirewallAutoscaleConfiguration_STATUS                                              | Identical |       |
-| AzureFirewallIPConfiguration                                                            | AzureFirewallIPConfiguration                                                            | Identical |       |
-| AzureFirewallIPConfiguration_STATUS                                                     | AzureFirewallIPConfiguration_STATUS                                                     | Identical |       |
-| AzureFirewallIpGroups_STATUS                                                            | AzureFirewallIpGroups_STATUS                                                            | Identical |       |
-| AzureFirewallNatRCAction                                                                | AzureFirewallNatRCAction                                                                | Identical |       |
-| AzureFirewallNatRule                                                                    | AzureFirewallNatRule                                                                    | Identical |       |
-| AzureFirewallNatRuleCollection                                                          | AzureFirewallNatRuleCollection                                                          | Identical |       |
-| AzureFirewallNatRuleCollection_STATUS                                                   | AzureFirewallNatRuleCollection_STATUS                                                   | Identical |       |
-| AzureFirewallNetworkRule                                                                | AzureFirewallNetworkRule                                                                | Identical |       |
-| AzureFirewallNetworkRuleCollection                                                      | AzureFirewallNetworkRuleCollection                                                      | Identical |       |
-| AzureFirewallNetworkRuleCollection_STATUS                                               | AzureFirewallNetworkRuleCollection_STATUS                                               | Identical |       |
-| AzureFirewallOperatorSpec                                                               | AzureFirewallOperatorSpec                                                               | Identical |       |
-| AzureFirewallPublicIPAddress                                                            | AzureFirewallPublicIPAddress                                                            | Identical |       |
-| AzureFirewallPublicIPAddress_STATUS                                                     | AzureFirewallPublicIPAddress_STATUS                                                     | Identical |       |
-| AzureFirewallRCAction                                                                   | AzureFirewallRCAction                                                                   | Identical |       |
-| AzureFirewallSku                                                                        | AzureFirewallSku                                                                        | Identical |       |
-| AzureFirewallSku_STATUS                                                                 | AzureFirewallSku_STATUS                                                                 | Identical |       |
-| AzureFirewall_STATUS                                                                    | AzureFirewall_STATUS                                                                    | Extended  |       |
-| AzureFirewall_Spec                                                                      | AzureFirewall_Spec                                                                      | Extended  |       |
-| BackendAddressPool_LoadBalancer_SubResourceEmbedded                                     | BackendAddressPool_LoadBalancer_SubResourceEmbedded                                     | Identical |       |
-| BackendAddressPool_NetworkInterface_SubResourceEmbedded                                 | BackendAddressPool_NetworkInterface_SubResourceEmbedded                                 | Identical |       |
-| BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded                              | BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded                              | Identical |       |
-| BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded                          | BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded                          | Identical |       |
-| BastionHostIPConfiguration                                                              | BastionHostIPConfiguration                                                              | Identical |       |
-| BastionHostIPConfiguration_STATUS                                                       | BastionHostIPConfiguration_STATUS                                                       | Identical |       |
-| BastionHostOperatorSpec                                                                 | BastionHostOperatorSpec                                                                 | Identical |       |
-| BastionHostPropertiesFormat_NetworkAcls                                                 | BastionHostPropertiesFormat_NetworkAcls                                                 | Identical |       |
-| BastionHostPropertiesFormat_NetworkAcls_STATUS                                          | BastionHostPropertiesFormat_NetworkAcls_STATUS                                          | Identical |       |
-| BastionHost_STATUS                                                                      | BastionHost_STATUS                                                                      | Extended  |       |
-| BastionHost_Spec                                                                        | BastionHost_Spec                                                                        | Extended  |       |
-| BgpSettings                                                                             | BgpSettings                                                                             | Identical |       |
-| BgpSettings_STATUS                                                                      | BgpSettings_STATUS                                                                      | Identical |       |
-| CustomDnsConfigPropertiesFormat_STATUS                                                  | CustomDnsConfigPropertiesFormat_STATUS                                                  | Identical |       |
-| DdosSettings                                                                            | DdosSettings                                                                            | Identical |       |
-| DdosSettings_STATUS                                                                     | DdosSettings_STATUS                                                                     | Identical |       |
-| Delegation                                                                              | Delegation                                                                              | Identical |       |
-| Delegation_STATUS                                                                       | Delegation_STATUS                                                                       | Identical |       |
-| DhcpOptions                                                                             | DhcpOptions                                                                             | Identical |       |
-| DhcpOptions_STATUS                                                                      | DhcpOptions_STATUS                                                                      | Identical |       |
-| DnsSettings                                                                             | DnsSettings                                                                             | Identical |       |
-| DnsSettings_STATUS                                                                      | DnsSettings_STATUS                                                                      | Identical |       |
-| ExplicitProxy                                                                           | ExplicitProxy                                                                           | Identical |       |
-| ExplicitProxy_STATUS                                                                    | ExplicitProxy_STATUS                                                                    | Identical |       |
-|                                                                                         | ExtendedLocation                                                                        |    New    |       |
-| ExtendedLocation                                                                        | ExtendedLocation                                                                        | Identical |       |
-|                                                                                         | ExtendedLocation_STATUS                                                                 |    New    |       |
-| ExtendedLocation_STATUS                                                                 | ExtendedLocation_STATUS                                                                 | Identical |       |
-| FirewallPoliciesRuleCollectionGroupOperatorSpec                                         | FirewallPoliciesRuleCollectionGroupOperatorSpec                                         | Identical |       |
-| FirewallPoliciesRuleCollectionGroup_STATUS                                              | FirewallPoliciesRuleCollectionGroup_STATUS                                              | Identical |       |
-| FirewallPoliciesRuleCollectionGroup_Spec                                                | FirewallPoliciesRuleCollectionGroup_Spec                                                | Identical |       |
-| FirewallPolicyCertificateAuthority                                                      | FirewallPolicyCertificateAuthority                                                      | Identical |       |
-| FirewallPolicyCertificateAuthority_STATUS                                               | FirewallPolicyCertificateAuthority_STATUS                                               | Identical |       |
-| FirewallPolicyFilterRuleCollection                                                      | FirewallPolicyFilterRuleCollection                                                      | Identical |       |
-| FirewallPolicyFilterRuleCollectionAction                                                | FirewallPolicyFilterRuleCollectionAction                                                | Identical |       |
-| FirewallPolicyFilterRuleCollectionAction_STATUS                                         | FirewallPolicyFilterRuleCollectionAction_STATUS                                         | Identical |       |
-| FirewallPolicyFilterRuleCollection_STATUS                                               | FirewallPolicyFilterRuleCollection_STATUS                                               | Identical |       |
-| FirewallPolicyHttpHeaderToInsert                                                        | FirewallPolicyHttpHeaderToInsert                                                        | Identical |       |
-| FirewallPolicyHttpHeaderToInsert_STATUS                                                 | FirewallPolicyHttpHeaderToInsert_STATUS                                                 | Identical |       |
-| FirewallPolicyInsights                                                                  | FirewallPolicyInsights                                                                  | Identical |       |
-| FirewallPolicyInsights_STATUS                                                           | FirewallPolicyInsights_STATUS                                                           | Identical |       |
-| FirewallPolicyIntrusionDetection                                                        | FirewallPolicyIntrusionDetection                                                        | Identical |       |
-| FirewallPolicyIntrusionDetectionBypassTrafficSpecifications                             | FirewallPolicyIntrusionDetectionBypassTrafficSpecifications                             | Identical |       |
-| FirewallPolicyIntrusionDetectionBypassTrafficSpecifications_STATUS                      | FirewallPolicyIntrusionDetectionBypassTrafficSpecifications_STATUS                      | Identical |       |
-| FirewallPolicyIntrusionDetectionConfiguration                                           | FirewallPolicyIntrusionDetectionConfiguration                                           | Identical |       |
-| FirewallPolicyIntrusionDetectionConfiguration_STATUS                                    | FirewallPolicyIntrusionDetectionConfiguration_STATUS                                    | Identical |       |
-| FirewallPolicyIntrusionDetectionSignatureSpecification                                  | FirewallPolicyIntrusionDetectionSignatureSpecification                                  | Identical |       |
-| FirewallPolicyIntrusionDetectionSignatureSpecification_STATUS                           | FirewallPolicyIntrusionDetectionSignatureSpecification_STATUS                           | Identical |       |
-| FirewallPolicyIntrusionDetection_STATUS                                                 | FirewallPolicyIntrusionDetection_STATUS                                                 | Identical |       |
-| FirewallPolicyLogAnalyticsResources                                                     | FirewallPolicyLogAnalyticsResources                                                     | Identical |       |
-| FirewallPolicyLogAnalyticsResources_STATUS                                              | FirewallPolicyLogAnalyticsResources_STATUS                                              | Identical |       |
-| FirewallPolicyLogAnalyticsWorkspace                                                     | FirewallPolicyLogAnalyticsWorkspace                                                     | Identical |       |
-| FirewallPolicyLogAnalyticsWorkspace_STATUS                                              | FirewallPolicyLogAnalyticsWorkspace_STATUS                                              | Identical |       |
-| FirewallPolicyNatRuleCollection                                                         | FirewallPolicyNatRuleCollection                                                         | Identical |       |
-| FirewallPolicyNatRuleCollectionAction                                                   | FirewallPolicyNatRuleCollectionAction                                                   | Identical |       |
-| FirewallPolicyNatRuleCollectionAction_STATUS                                            | FirewallPolicyNatRuleCollectionAction_STATUS                                            | Identical |       |
-| FirewallPolicyNatRuleCollection_STATUS                                                  | FirewallPolicyNatRuleCollection_STATUS                                                  | Identical |       |
-| FirewallPolicyOperatorSpec                                                              | FirewallPolicyOperatorSpec                                                              | Identical |       |
-| FirewallPolicyRule                                                                      | FirewallPolicyRule                                                                      | Identical |       |
-| FirewallPolicyRuleApplicationProtocol                                                   | FirewallPolicyRuleApplicationProtocol                                                   | Identical |       |
-| FirewallPolicyRuleApplicationProtocol_STATUS                                            | FirewallPolicyRuleApplicationProtocol_STATUS                                            | Identical |       |
-| FirewallPolicyRuleCollection                                                            | FirewallPolicyRuleCollection                                                            | Identical |       |
-| FirewallPolicyRuleCollection_STATUS                                                     | FirewallPolicyRuleCollection_STATUS                                                     | Identical |       |
-| FirewallPolicyRule_STATUS                                                               | FirewallPolicyRule_STATUS                                                               | Identical |       |
-| FirewallPolicySNAT                                                                      | FirewallPolicySNAT                                                                      | Identical |       |
-| FirewallPolicySNAT_STATUS                                                               | FirewallPolicySNAT_STATUS                                                               | Identical |       |
-| FirewallPolicySQL                                                                       | FirewallPolicySQL                                                                       | Identical |       |
-| FirewallPolicySQL_STATUS                                                                | FirewallPolicySQL_STATUS                                                                | Identical |       |
-| FirewallPolicySku                                                                       | FirewallPolicySku                                                                       | Identical |       |
-| FirewallPolicySku_STATUS                                                                | FirewallPolicySku_STATUS                                                                | Identical |       |
-| FirewallPolicyThreatIntelWhitelist                                                      | FirewallPolicyThreatIntelWhitelist                                                      | Identical |       |
-| FirewallPolicyThreatIntelWhitelist_STATUS                                               | FirewallPolicyThreatIntelWhitelist_STATUS                                               | Identical |       |
-| FirewallPolicyTransportSecurity                                                         | FirewallPolicyTransportSecurity                                                         | Identical |       |
-| FirewallPolicyTransportSecurity_STATUS                                                  | FirewallPolicyTransportSecurity_STATUS                                                  | Identical |       |
-| FirewallPolicy_STATUS                                                                   | FirewallPolicy_STATUS                                                                   | Identical |       |
-| FirewallPolicy_Spec                                                                     | FirewallPolicy_Spec                                                                     | Identical |       |
-| FlowLog_STATUS_SubResourceEmbedded                                                      | FlowLog_STATUS_SubResourceEmbedded                                                      | Identical |       |
-| FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded                                | FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded                                | Identical |       |
-| FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded                          | FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded                          | Identical |       |
-| FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded                         | FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded                         | Identical |       |
-| FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded                   | FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded                   | Identical |       |
-| GatewayLoadBalancerTunnelInterface                                                      | GatewayLoadBalancerTunnelInterface                                                      | Identical |       |
-| GatewayLoadBalancerTunnelInterface_STATUS                                               | GatewayLoadBalancerTunnelInterface_STATUS                                               | Identical |       |
-| HubIPAddresses                                                                          | HubIPAddresses                                                                          | Identical |       |
-| HubIPAddresses_STATUS                                                                   | HubIPAddresses_STATUS                                                                   | Identical |       |
-| HubPublicIPAddresses                                                                    | HubPublicIPAddresses                                                                    | Identical |       |
-| HubPublicIPAddresses_STATUS                                                             | HubPublicIPAddresses_STATUS                                                             | Identical |       |
-| IPConfigurationBgpPeeringAddress                                                        | IPConfigurationBgpPeeringAddress                                                        | Identical |       |
-| IPConfigurationBgpPeeringAddress_STATUS                                                 | IPConfigurationBgpPeeringAddress_STATUS                                                 | Identical |       |
-| IPConfigurationProfile_STATUS                                                           | IPConfigurationProfile_STATUS                                                           | Identical |       |
-| IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded                              | IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded                              | Identical |       |
-| IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                       | IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                       | Identical |       |
-| IPRule                                                                                  | IPRule                                                                                  | Identical |       |
-| IPRule_STATUS                                                                           | IPRule_STATUS                                                                           | Identical |       |
-| InboundNatPool                                                                          | InboundNatPool                                                                          | Identical |       |
-| InboundNatPool_STATUS                                                                   | InboundNatPool_STATUS                                                                   | Identical |       |
-| InboundNatRule_LoadBalancer_SubResourceEmbedded                                         | InboundNatRule_LoadBalancer_SubResourceEmbedded                                         | Identical |       |
-| InboundNatRule_NetworkInterface_SubResourceEmbedded                                     | InboundNatRule_NetworkInterface_SubResourceEmbedded                                     | Identical |       |
-| InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded                                  | InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded                                  | Identical |       |
-| InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded                              | InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded                              | Identical |       |
-| IpTag                                                                                   | IpTag                                                                                   | Identical |       |
-| IpTag_STATUS                                                                            | IpTag_STATUS                                                                            | Identical |       |
-|                                                                                         | IpamPoolPrefixAllocation                                                                |    New    |       |
-|                                                                                         | IpamPoolPrefixAllocation_STATUS                                                         |    New    |       |
-| IpsecPolicy                                                                             | IpsecPolicy                                                                             | Identical |       |
-| IpsecPolicy_STATUS                                                                      | IpsecPolicy_STATUS                                                                      | Identical |       |
-| LoadBalancerBackendAddress                                                              | LoadBalancerBackendAddress                                                              | Identical |       |
-| LoadBalancerBackendAddress_STATUS                                                       | LoadBalancerBackendAddress_STATUS                                                       | Identical |       |
-| LoadBalancerOperatorSpec                                                                | LoadBalancerOperatorSpec                                                                | Identical |       |
-| LoadBalancerSku                                                                         | LoadBalancerSku                                                                         | Identical |       |
-| LoadBalancerSku_STATUS                                                                  | LoadBalancerSku_STATUS                                                                  | Identical |       |
-| LoadBalancer_STATUS                                                                     | LoadBalancer_STATUS                                                                     | Extended  |       |
-| LoadBalancer_Spec                                                                       | LoadBalancer_Spec                                                                       | Extended  |       |
-| LoadBalancersInboundNatRuleOperatorSpec                                                 | LoadBalancersInboundNatRuleOperatorSpec                                                 | Identical |       |
-| LoadBalancersInboundNatRule_STATUS                                                      | LoadBalancersInboundNatRule_STATUS                                                      | Identical |       |
-| LoadBalancersInboundNatRule_Spec                                                        | LoadBalancersInboundNatRule_Spec                                                        | Identical |       |
-| LoadBalancingRule                                                                       | LoadBalancingRule                                                                       | Extended  |       |
-| LoadBalancingRule_STATUS                                                                | LoadBalancingRule_STATUS                                                                | Extended  |       |
-| ManagedServiceIdentity                                                                  | ManagedServiceIdentity                                                                  | Identical |       |
-| ManagedServiceIdentity_STATUS                                                           | ManagedServiceIdentity_STATUS                                                           | Identical |       |
-| ManagedServiceIdentity_UserAssignedIdentities_STATUS                                    | ManagedServiceIdentity_UserAssignedIdentities_STATUS                                    | Identical |       |
-| NatGatewayOperatorSpec                                                                  | NatGatewayOperatorSpec                                                                  | Identical |       |
-| NatGatewaySku                                                                           | NatGatewaySku                                                                           | Identical |       |
-| NatGatewaySku_STATUS                                                                    | NatGatewaySku_STATUS                                                                    | Identical |       |
-| NatGatewaySpec_PublicIPAddress_SubResourceEmbedded                                      | NatGatewaySpec_PublicIPAddress_SubResourceEmbedded                                      | Identical |       |
-| NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded                                       | NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded                                       | Identical |       |
-| NatGateway_STATUS                                                                       | NatGateway_STATUS                                                                       | Extended  |       |
-| NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded                                   | NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded                                   | Identical |       |
-| NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded                                    | NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded                                    | Identical |       |
-| NatGateway_Spec                                                                         | NatGateway_Spec                                                                         | Extended  |       |
-| NatRule                                                                                 | NatRule                                                                                 | Identical |       |
-| NatRulePortMapping_STATUS                                                               | NatRulePortMapping_STATUS                                                               | Identical |       |
-| NatRule_STATUS                                                                          | NatRule_STATUS                                                                          | Identical |       |
-| NetworkInterfaceDnsSettings                                                             | NetworkInterfaceDnsSettings                                                             | Identical |       |
-| NetworkInterfaceDnsSettings_STATUS                                                      | NetworkInterfaceDnsSettings_STATUS                                                      | Identical |       |
-| NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS                   | NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS                   | Identical |       |
-| NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded                    | NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded                    | Identical |       |
-| NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded                 | NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded                 | Identical |       |
-| NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded | NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded | Identical |       |
-| NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded             | NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded             | Identical |       |
-| NetworkInterfaceOperatorSpec                                                            | NetworkInterfaceOperatorSpec                                                            | Identical |       |
-| NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded            | NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded            | Identical |       |
-| NetworkInterface_STATUS                                                                 | NetworkInterface_STATUS                                                                 | Extended  |       |
-| NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded                        | NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded                        | Identical |       |
-| NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded                             | NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded                             | Identical |       |
-| NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded                          | NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded                          | Identical |       |
-| NetworkInterface_Spec                                                                   | NetworkInterface_Spec                                                                   | Identical |       |
-| NetworkRule                                                                             | NetworkRule                                                                             | Identical |       |
-| NetworkRule_STATUS                                                                      | NetworkRule_STATUS                                                                      | Identical |       |
-| NetworkSecurityGroupOperatorSpec                                                        | NetworkSecurityGroupOperatorSpec                                                        | Identical |       |
-| NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded                           | NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded                           | Identical |       |
-| NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded                     | NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded                     | Identical |       |
-| NetworkSecurityGroup_STATUS                                                             | NetworkSecurityGroup_STATUS                                                             | Identical |       |
-| NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded                        | NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded                        | Identical |       |
-| NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                  | NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                  | Identical |       |
-| NetworkSecurityGroup_Spec                                                               | NetworkSecurityGroup_Spec                                                               | Identical |       |
-| NetworkSecurityGroupsSecurityRuleOperatorSpec                                           | NetworkSecurityGroupsSecurityRuleOperatorSpec                                           | Identical |       |
-| NetworkSecurityGroupsSecurityRule_STATUS                                                | NetworkSecurityGroupsSecurityRule_STATUS                                                | Identical |       |
-| NetworkSecurityGroupsSecurityRule_Spec                                                  | NetworkSecurityGroupsSecurityRule_Spec                                                  | Identical |       |
-| OutboundRule                                                                            | OutboundRule                                                                            | Identical |       |
-| OutboundRule_STATUS                                                                     | OutboundRule_STATUS                                                                     | Identical |       |
-| PrivateDnsZoneConfig                                                                    | PrivateDnsZoneConfig                                                                    | Identical |       |
-| PrivateDnsZoneConfig_STATUS                                                             | PrivateDnsZoneConfig_STATUS                                                             | Identical |       |
-| PrivateEndpointConnection_STATUS                                                        | PrivateEndpointConnection_STATUS                                                        | Identical |       |
-| PrivateEndpointIPConfiguration                                                          | PrivateEndpointIPConfiguration                                                          | Identical |       |
-| PrivateEndpointIPConfiguration_STATUS                                                   | PrivateEndpointIPConfiguration_STATUS                                                   | Identical |       |
-| PrivateEndpointOperatorConfigMaps                                                       | PrivateEndpointOperatorConfigMaps                                                       | Identical |       |
-| PrivateEndpointOperatorSpec                                                             | PrivateEndpointOperatorSpec                                                             | Identical |       |
-| PrivateEndpoint_STATUS                                                                  | PrivateEndpoint_STATUS                                                                  | Extended  |       |
-| PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded                             | PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded                             | Identical |       |
-| PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                       | PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                       | Identical |       |
-| PrivateEndpoint_Spec                                                                    | PrivateEndpoint_Spec                                                                    | Extended  |       |
-| PrivateEndpointsPrivateDnsZoneGroupOperatorSpec                                         | PrivateEndpointsPrivateDnsZoneGroupOperatorSpec                                         | Identical |       |
-| PrivateEndpointsPrivateDnsZoneGroup_STATUS                                              | PrivateEndpointsPrivateDnsZoneGroup_STATUS                                              | Identical |       |
-| PrivateEndpointsPrivateDnsZoneGroup_Spec                                                | PrivateEndpointsPrivateDnsZoneGroup_Spec                                                | Identical |       |
-| PrivateLinkServiceConnection                                                            | PrivateLinkServiceConnection                                                            | Identical |       |
-| PrivateLinkServiceConnectionState                                                       | PrivateLinkServiceConnectionState                                                       | Identical |       |
-| PrivateLinkServiceConnectionState_STATUS                                                | PrivateLinkServiceConnectionState_STATUS                                                | Identical |       |
-| PrivateLinkServiceConnection_STATUS                                                     | PrivateLinkServiceConnection_STATUS                                                     | Identical |       |
-| PrivateLinkServiceIpConfiguration                                                       | PrivateLinkServiceIpConfiguration                                                       | Identical |       |
-| PrivateLinkServiceIpConfiguration_STATUS                                                | PrivateLinkServiceIpConfiguration_STATUS                                                | Identical |       |
-| PrivateLinkServiceOperatorConfigMaps                                                    | PrivateLinkServiceOperatorConfigMaps                                                    | Identical |       |
-| PrivateLinkServiceOperatorSpec                                                          | PrivateLinkServiceOperatorSpec                                                          | Identical |       |
-| PrivateLinkServiceSpec                                                                  | PrivateLinkServiceSpec                                                                  | Identical |       |
-| PrivateLinkService_STATUS                                                               | PrivateLinkService_STATUS                                                               | Extended  |       |
-| PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded                          | PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded                          | Identical |       |
-| PrivateLinkService_Spec                                                                 | PrivateLinkService_Spec                                                                 | Extended  |       |
-| Probe                                                                                   | Probe                                                                                   | Identical |       |
-| Probe_STATUS                                                                            | Probe_STATUS                                                                            | Identical |       |
-| PublicIPAddressDnsSettings                                                              | PublicIPAddressDnsSettings                                                              | Identical |       |
-| PublicIPAddressDnsSettings_STATUS                                                       | PublicIPAddressDnsSettings_STATUS                                                       | Identical |       |
-| PublicIPAddressOperatorSpec                                                             | PublicIPAddressOperatorSpec                                                             | Identical |       |
-| PublicIPAddressSku                                                                      | PublicIPAddressSku                                                                      | Identical |       |
-| PublicIPAddressSku_STATUS                                                               | PublicIPAddressSku_STATUS                                                               | Identical |       |
-| PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded                                    | PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded                                    | Identical |       |
-| PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded                                | PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded                                | Identical |       |
-| PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded                                 | PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded                                 | Identical |       |
-| PublicIPAddress_STATUS                                                                  | PublicIPAddress_STATUS                                                                  | Identical |       |
-| PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded                                 | PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded                                 | Identical |       |
-| PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded                             | PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded                             | Identical |       |
-| PublicIPAddress_Spec                                                                    | PublicIPAddress_Spec                                                                    | Identical |       |
-| PublicIPPrefixOperatorSpec                                                              | PublicIPPrefixOperatorSpec                                                              | Identical |       |
-| PublicIPPrefixSku                                                                       | PublicIPPrefixSku                                                                       | Identical |       |
-| PublicIPPrefixSku_STATUS                                                                | PublicIPPrefixSku_STATUS                                                                | Identical |       |
-| PublicIPPrefix_STATUS                                                                   | PublicIPPrefix_STATUS                                                                   | Identical |       |
-| PublicIPPrefix_Spec                                                                     | PublicIPPrefix_Spec                                                                     | Identical |       |
-| RadiusServer                                                                            | RadiusServer                                                                            | Identical |       |
-| RadiusServer_STATUS                                                                     | RadiusServer_STATUS                                                                     | Identical |       |
-| RecordSet_STATUS                                                                        | RecordSet_STATUS                                                                        | Identical |       |
-| ReferencedPublicIpAddress_STATUS                                                        | ReferencedPublicIpAddress_STATUS                                                        | Identical |       |
-| ResourceNavigationLink_STATUS                                                           | ResourceNavigationLink_STATUS                                                           | Identical |       |
-| ResourceSet                                                                             | ResourceSet                                                                             | Identical |       |
-| ResourceSet_STATUS                                                                      | ResourceSet_STATUS                                                                      | Identical |       |
-| RouteTableOperatorSpec                                                                  | RouteTableOperatorSpec                                                                  | Identical |       |
-| RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded                               | RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded                               | Identical |       |
-| RouteTable_STATUS                                                                       | RouteTable_STATUS                                                                       | Identical |       |
-| RouteTable_STATUS_SubResourceEmbedded                                                   | RouteTable_STATUS_SubResourceEmbedded                                                   | Identical |       |
-| RouteTable_Spec                                                                         | RouteTable_Spec                                                                         | Identical |       |
-| RouteTablesRouteOperatorSpec                                                            | RouteTablesRouteOperatorSpec                                                            | Identical |       |
-| RouteTablesRoute_STATUS                                                                 | RouteTablesRoute_STATUS                                                                 | Identical |       |
-| RouteTablesRoute_Spec                                                                   | RouteTablesRoute_Spec                                                                   | Identical |       |
-| SecurityRule_STATUS                                                                     | SecurityRule_STATUS                                                                     | Identical |       |
-| ServiceAssociationLink_STATUS                                                           | ServiceAssociationLink_STATUS                                                           | Identical |       |
-| ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded                    | ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded                    | Identical |       |
-| ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                 | ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                 | Identical |       |
-| ServiceEndpointPropertiesFormat                                                         | ServiceEndpointPropertiesFormat                                                         | Identical |       |
-| ServiceEndpointPropertiesFormat_STATUS                                                  | ServiceEndpointPropertiesFormat_STATUS                                                  | Identical |       |
-| Sku                                                                                     | Sku                                                                                     | Identical |       |
-| Sku_STATUS                                                                              | Sku_STATUS                                                                              | Identical |       |
-| SubResource                                                                             | SubResource                                                                             | Identical |       |
-| SubResource_STATUS                                                                      | SubResource_STATUS                                                                      | Identical |       |
-| Subnet_LoadBalancer_SubResourceEmbedded                                                 | Subnet_LoadBalancer_SubResourceEmbedded                                                 | Identical |       |
-| Subnet_NetworkInterface_SubResourceEmbedded                                             | Subnet_NetworkInterface_SubResourceEmbedded                                             | Identical |       |
-| Subnet_PrivateEndpoint_SubResourceEmbedded                                              | Subnet_PrivateEndpoint_SubResourceEmbedded                                              | Identical |       |
-| Subnet_PrivateLinkService_SubResourceEmbedded                                           | Subnet_PrivateLinkService_SubResourceEmbedded                                           | Identical |       |
-| Subnet_STATUS_LoadBalancer_SubResourceEmbedded                                          | Subnet_STATUS_LoadBalancer_SubResourceEmbedded                                          | Identical |       |
-| Subnet_STATUS_NetworkInterface_SubResourceEmbedded                                      | Subnet_STATUS_NetworkInterface_SubResourceEmbedded                                      | Identical |       |
-| Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded                                  | Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded                                  | Identical |       |
-| Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded                                       | Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded                                       | Identical |       |
-| Subnet_STATUS_PrivateLinkService_SubResourceEmbedded                                    | Subnet_STATUS_PrivateLinkService_SubResourceEmbedded                                    | Identical |       |
-| UserAssignedIdentityDetails                                                             | UserAssignedIdentityDetails                                                             | Identical |       |
-| VirtualNetworkBgpCommunities                                                            | VirtualNetworkBgpCommunities                                                            | Identical |       |
-| VirtualNetworkBgpCommunities_STATUS                                                     | VirtualNetworkBgpCommunities_STATUS                                                     | Identical |       |
-| VirtualNetworkEncryption                                                                | VirtualNetworkEncryption                                                                | Identical |       |
-| VirtualNetworkEncryption_STATUS                                                         | VirtualNetworkEncryption_STATUS                                                         | Identical |       |
-| VirtualNetworkGatewayAutoScaleBounds                                                    | VirtualNetworkGatewayAutoScaleBounds                                                    | Identical |       |
-| VirtualNetworkGatewayAutoScaleBounds_STATUS                                             | VirtualNetworkGatewayAutoScaleBounds_STATUS                                             | Identical |       |
-| VirtualNetworkGatewayAutoScaleConfiguration                                             | VirtualNetworkGatewayAutoScaleConfiguration                                             | Identical |       |
-| VirtualNetworkGatewayAutoScaleConfiguration_STATUS                                      | VirtualNetworkGatewayAutoScaleConfiguration_STATUS                                      | Identical |       |
-| VirtualNetworkGatewayIPConfiguration                                                    | VirtualNetworkGatewayIPConfiguration                                                    | Identical |       |
-| VirtualNetworkGatewayIPConfiguration_STATUS                                             | VirtualNetworkGatewayIPConfiguration_STATUS                                             | Identical |       |
-|                                                                                         | VirtualNetworkGatewayMigrationStatus                                                    |    New    |       |
-|                                                                                         | VirtualNetworkGatewayMigrationStatus_STATUS                                             |    New    |       |
-| VirtualNetworkGatewayNatRule                                                            | VirtualNetworkGatewayNatRule                                                            | Identical |       |
-| VirtualNetworkGatewayNatRule_STATUS                                                     | VirtualNetworkGatewayNatRule_STATUS                                                     | Identical |       |
-| VirtualNetworkGatewayOperatorSpec                                                       | VirtualNetworkGatewayOperatorSpec                                                       | Identical |       |
-| VirtualNetworkGatewayPolicyGroup                                                        | VirtualNetworkGatewayPolicyGroup                                                        | Identical |       |
-| VirtualNetworkGatewayPolicyGroupMember                                                  | VirtualNetworkGatewayPolicyGroupMember                                                  | Identical |       |
-| VirtualNetworkGatewayPolicyGroupMember_STATUS                                           | VirtualNetworkGatewayPolicyGroupMember_STATUS                                           | Identical |       |
-| VirtualNetworkGatewayPolicyGroup_STATUS                                                 | VirtualNetworkGatewayPolicyGroup_STATUS                                                 | Identical |       |
-| VirtualNetworkGatewaySku                                                                | VirtualNetworkGatewaySku                                                                | Identical |       |
-| VirtualNetworkGatewaySku_STATUS                                                         | VirtualNetworkGatewaySku_STATUS                                                         | Identical |       |
-| VirtualNetworkGateway_STATUS                                                            | VirtualNetworkGateway_STATUS                                                            | Extended  |       |
-| VirtualNetworkGateway_Spec                                                              | VirtualNetworkGateway_Spec                                                              | Extended  |       |
-| VirtualNetworkOperatorSpec                                                              | VirtualNetworkOperatorSpec                                                              | Identical |       |
-| VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded                              | VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded                              | Identical |       |
-| VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded                           | VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded                           | Identical |       |
-| VirtualNetwork_STATUS                                                                   | VirtualNetwork_STATUS                                                                   | Extended  |       |
-| VirtualNetwork_Spec                                                                     | VirtualNetwork_Spec                                                                     | Identical |       |
-| VirtualNetworksSubnetOperatorSpec                                                       | VirtualNetworksSubnetOperatorSpec                                                       | Identical |       |
-| VirtualNetworksSubnet_STATUS                                                            | VirtualNetworksSubnet_STATUS                                                            | Extended  |       |
-| VirtualNetworksSubnet_Spec                                                              | VirtualNetworksSubnet_Spec                                                              | Extended  |       |
-| VirtualNetworksVirtualNetworkPeeringOperatorSpec                                        | VirtualNetworksVirtualNetworkPeeringOperatorSpec                                        | Identical |       |
-| VirtualNetworksVirtualNetworkPeering_STATUS                                             | VirtualNetworksVirtualNetworkPeering_STATUS                                             | Identical |       |
-| VirtualNetworksVirtualNetworkPeering_Spec                                               | VirtualNetworksVirtualNetworkPeering_Spec                                               | Identical |       |
-| VngClientConnectionConfiguration                                                        | VngClientConnectionConfiguration                                                        | Identical |       |
-| VngClientConnectionConfiguration_STATUS                                                 | VngClientConnectionConfiguration_STATUS                                                 | Identical |       |
-| VpnClientConfiguration                                                                  | VpnClientConfiguration                                                                  | Identical |       |
-| VpnClientConfiguration_STATUS                                                           | VpnClientConfiguration_STATUS                                                           | Identical |       |
-| VpnClientRevokedCertificate                                                             | VpnClientRevokedCertificate                                                             | Identical |       |
-| VpnClientRevokedCertificate_STATUS                                                      | VpnClientRevokedCertificate_STATUS                                                      | Identical |       |
-| VpnClientRootCertificate                                                                | VpnClientRootCertificate                                                                | Identical |       |
-| VpnClientRootCertificate_STATUS                                                         | VpnClientRootCertificate_STATUS                                                         | Identical |       |
-| VpnNatRuleMapping                                                                       | VpnNatRuleMapping                                                                       | Identical |       |
-| VpnNatRuleMapping_STATUS                                                                | VpnNatRuleMapping_STATUS                                                                | Identical |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20240301/storage                                                                   | v20250301/storage                                                                       |  Status   | Notes                                                                |
+|:----------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------|:---------:|:---------------------------------------------------------------------|
+| AddressSpace                                                                            | AddressSpace                                                                            | Extended  | +IpamPoolPrefixAllocations                                           |
+| AddressSpace_STATUS                                                                     | AddressSpace_STATUS                                                                     | Extended  | +IpamPoolPrefixAllocations                                           |
+| ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded               | ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded               | Identical |                                                                      |
+| ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded        | ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded        | Identical |                                                                      |
+| ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded     | ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded     | Identical |                                                                      |
+| ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded            | ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded            | Identical |                                                                      |
+| ApplicationRule                                                                         | ApplicationRule                                                                         | Identical |                                                                      |
+| ApplicationRule_STATUS                                                                  | ApplicationRule_STATUS                                                                  | Identical |                                                                      |
+| ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded                       | ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded                       | Identical |                                                                      |
+| ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded     | ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded     | Identical |                                                                      |
+| ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded                        | ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded                        | Identical |                                                                      |
+| ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded                    | ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded                    | Identical |                                                                      |
+| ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded  | ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded  | Identical |                                                                      |
+| ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded                     | ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded                     | Identical |                                                                      |
+| AzureFirewallApplicationRule                                                            | AzureFirewallApplicationRule                                                            | Identical |                                                                      |
+| AzureFirewallApplicationRuleCollection                                                  | AzureFirewallApplicationRuleCollection                                                  | Identical |                                                                      |
+| AzureFirewallApplicationRuleCollection_STATUS                                           | AzureFirewallApplicationRuleCollection_STATUS                                           | Identical |                                                                      |
+| AzureFirewallApplicationRuleProtocol                                                    | AzureFirewallApplicationRuleProtocol                                                    | Identical |                                                                      |
+| AzureFirewallAutoscaleConfiguration                                                     | AzureFirewallAutoscaleConfiguration                                                     | Identical |                                                                      |
+| AzureFirewallAutoscaleConfiguration_STATUS                                              | AzureFirewallAutoscaleConfiguration_STATUS                                              | Identical |                                                                      |
+| AzureFirewallIPConfiguration                                                            | AzureFirewallIPConfiguration                                                            | Identical |                                                                      |
+| AzureFirewallIPConfiguration_STATUS                                                     | AzureFirewallIPConfiguration_STATUS                                                     | Identical |                                                                      |
+| AzureFirewallIpGroups_STATUS                                                            | AzureFirewallIpGroups_STATUS                                                            | Identical |                                                                      |
+| AzureFirewallNatRCAction                                                                | AzureFirewallNatRCAction                                                                | Identical |                                                                      |
+| AzureFirewallNatRule                                                                    | AzureFirewallNatRule                                                                    | Identical |                                                                      |
+| AzureFirewallNatRuleCollection                                                          | AzureFirewallNatRuleCollection                                                          | Identical |                                                                      |
+| AzureFirewallNatRuleCollection_STATUS                                                   | AzureFirewallNatRuleCollection_STATUS                                                   | Identical |                                                                      |
+| AzureFirewallNetworkRule                                                                | AzureFirewallNetworkRule                                                                | Identical |                                                                      |
+| AzureFirewallNetworkRuleCollection                                                      | AzureFirewallNetworkRuleCollection                                                      | Identical |                                                                      |
+| AzureFirewallNetworkRuleCollection_STATUS                                               | AzureFirewallNetworkRuleCollection_STATUS                                               | Identical |                                                                      |
+| AzureFirewallOperatorSpec                                                               | AzureFirewallOperatorSpec                                                               | Identical |                                                                      |
+| AzureFirewallPublicIPAddress                                                            | AzureFirewallPublicIPAddress                                                            | Identical |                                                                      |
+| AzureFirewallPublicIPAddress_STATUS                                                     | AzureFirewallPublicIPAddress_STATUS                                                     | Identical |                                                                      |
+| AzureFirewallRCAction                                                                   | AzureFirewallRCAction                                                                   | Identical |                                                                      |
+| AzureFirewallSku                                                                        | AzureFirewallSku                                                                        | Identical |                                                                      |
+| AzureFirewallSku_STATUS                                                                 | AzureFirewallSku_STATUS                                                                 | Identical |                                                                      |
+| AzureFirewall_STATUS                                                                    | AzureFirewall_STATUS                                                                    | Extended  | +ExtendedLocation                                                    |
+| AzureFirewall_Spec                                                                      | AzureFirewall_Spec                                                                      | Extended  | +ExtendedLocation                                                    |
+| BackendAddressPool_LoadBalancer_SubResourceEmbedded                                     | BackendAddressPool_LoadBalancer_SubResourceEmbedded                                     | Identical |                                                                      |
+| BackendAddressPool_NetworkInterface_SubResourceEmbedded                                 | BackendAddressPool_NetworkInterface_SubResourceEmbedded                                 | Identical |                                                                      |
+| BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded                              | BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded                              | Identical |                                                                      |
+| BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded                          | BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded                          | Identical |                                                                      |
+| BastionHostIPConfiguration                                                              | BastionHostIPConfiguration                                                              | Identical |                                                                      |
+| BastionHostIPConfiguration_STATUS                                                       | BastionHostIPConfiguration_STATUS                                                       | Identical |                                                                      |
+| BastionHostOperatorSpec                                                                 | BastionHostOperatorSpec                                                                 | Identical |                                                                      |
+| BastionHostPropertiesFormat_NetworkAcls                                                 | BastionHostPropertiesFormat_NetworkAcls                                                 | Identical |                                                                      |
+| BastionHostPropertiesFormat_NetworkAcls_STATUS                                          | BastionHostPropertiesFormat_NetworkAcls_STATUS                                          | Identical |                                                                      |
+| BastionHost_STATUS                                                                      | BastionHost_STATUS                                                                      | Extended  | +EnablePrivateOnlyBastion                                            |
+| BastionHost_Spec                                                                        | BastionHost_Spec                                                                        | Extended  | +EnablePrivateOnlyBastion                                            |
+| BgpSettings                                                                             | BgpSettings                                                                             | Identical |                                                                      |
+| BgpSettings_STATUS                                                                      | BgpSettings_STATUS                                                                      | Identical |                                                                      |
+| CustomDnsConfigPropertiesFormat_STATUS                                                  | CustomDnsConfigPropertiesFormat_STATUS                                                  | Identical |                                                                      |
+| DdosSettings                                                                            | DdosSettings                                                                            | Identical |                                                                      |
+| DdosSettings_STATUS                                                                     | DdosSettings_STATUS                                                                     | Identical |                                                                      |
+| Delegation                                                                              | Delegation                                                                              | Identical |                                                                      |
+| Delegation_STATUS                                                                       | Delegation_STATUS                                                                       | Identical |                                                                      |
+| DhcpOptions                                                                             | DhcpOptions                                                                             | Identical |                                                                      |
+| DhcpOptions_STATUS                                                                      | DhcpOptions_STATUS                                                                      | Identical |                                                                      |
+| DnsSettings                                                                             | DnsSettings                                                                             | Identical |                                                                      |
+| DnsSettings_STATUS                                                                      | DnsSettings_STATUS                                                                      | Identical |                                                                      |
+| ExplicitProxy                                                                           | ExplicitProxy                                                                           | Identical |                                                                      |
+| ExplicitProxy_STATUS                                                                    | ExplicitProxy_STATUS                                                                    | Identical |                                                                      |
+|                                                                                         | ExtendedLocation                                                                        |    New    |                                                                      |
+| ExtendedLocation                                                                        | ExtendedLocation                                                                        | Identical |                                                                      |
+|                                                                                         | ExtendedLocation_STATUS                                                                 |    New    |                                                                      |
+| ExtendedLocation_STATUS                                                                 | ExtendedLocation_STATUS                                                                 | Identical |                                                                      |
+| FirewallPoliciesRuleCollectionGroupOperatorSpec                                         | FirewallPoliciesRuleCollectionGroupOperatorSpec                                         | Identical |                                                                      |
+| FirewallPoliciesRuleCollectionGroup_STATUS                                              | FirewallPoliciesRuleCollectionGroup_STATUS                                              | Identical |                                                                      |
+| FirewallPoliciesRuleCollectionGroup_Spec                                                | FirewallPoliciesRuleCollectionGroup_Spec                                                | Identical |                                                                      |
+| FirewallPolicyCertificateAuthority                                                      | FirewallPolicyCertificateAuthority                                                      | Identical |                                                                      |
+| FirewallPolicyCertificateAuthority_STATUS                                               | FirewallPolicyCertificateAuthority_STATUS                                               | Identical |                                                                      |
+| FirewallPolicyFilterRuleCollection                                                      | FirewallPolicyFilterRuleCollection                                                      | Identical |                                                                      |
+| FirewallPolicyFilterRuleCollectionAction                                                | FirewallPolicyFilterRuleCollectionAction                                                | Identical |                                                                      |
+| FirewallPolicyFilterRuleCollectionAction_STATUS                                         | FirewallPolicyFilterRuleCollectionAction_STATUS                                         | Identical |                                                                      |
+| FirewallPolicyFilterRuleCollection_STATUS                                               | FirewallPolicyFilterRuleCollection_STATUS                                               | Identical |                                                                      |
+| FirewallPolicyHttpHeaderToInsert                                                        | FirewallPolicyHttpHeaderToInsert                                                        | Identical |                                                                      |
+| FirewallPolicyHttpHeaderToInsert_STATUS                                                 | FirewallPolicyHttpHeaderToInsert_STATUS                                                 | Identical |                                                                      |
+| FirewallPolicyInsights                                                                  | FirewallPolicyInsights                                                                  | Identical |                                                                      |
+| FirewallPolicyInsights_STATUS                                                           | FirewallPolicyInsights_STATUS                                                           | Identical |                                                                      |
+| FirewallPolicyIntrusionDetection                                                        | FirewallPolicyIntrusionDetection                                                        | Identical |                                                                      |
+| FirewallPolicyIntrusionDetectionBypassTrafficSpecifications                             | FirewallPolicyIntrusionDetectionBypassTrafficSpecifications                             | Identical |                                                                      |
+| FirewallPolicyIntrusionDetectionBypassTrafficSpecifications_STATUS                      | FirewallPolicyIntrusionDetectionBypassTrafficSpecifications_STATUS                      | Identical |                                                                      |
+| FirewallPolicyIntrusionDetectionConfiguration                                           | FirewallPolicyIntrusionDetectionConfiguration                                           | Identical |                                                                      |
+| FirewallPolicyIntrusionDetectionConfiguration_STATUS                                    | FirewallPolicyIntrusionDetectionConfiguration_STATUS                                    | Identical |                                                                      |
+| FirewallPolicyIntrusionDetectionSignatureSpecification                                  | FirewallPolicyIntrusionDetectionSignatureSpecification                                  | Identical |                                                                      |
+| FirewallPolicyIntrusionDetectionSignatureSpecification_STATUS                           | FirewallPolicyIntrusionDetectionSignatureSpecification_STATUS                           | Identical |                                                                      |
+| FirewallPolicyIntrusionDetection_STATUS                                                 | FirewallPolicyIntrusionDetection_STATUS                                                 | Identical |                                                                      |
+| FirewallPolicyLogAnalyticsResources                                                     | FirewallPolicyLogAnalyticsResources                                                     | Identical |                                                                      |
+| FirewallPolicyLogAnalyticsResources_STATUS                                              | FirewallPolicyLogAnalyticsResources_STATUS                                              | Identical |                                                                      |
+| FirewallPolicyLogAnalyticsWorkspace                                                     | FirewallPolicyLogAnalyticsWorkspace                                                     | Identical |                                                                      |
+| FirewallPolicyLogAnalyticsWorkspace_STATUS                                              | FirewallPolicyLogAnalyticsWorkspace_STATUS                                              | Identical |                                                                      |
+| FirewallPolicyNatRuleCollection                                                         | FirewallPolicyNatRuleCollection                                                         | Identical |                                                                      |
+| FirewallPolicyNatRuleCollectionAction                                                   | FirewallPolicyNatRuleCollectionAction                                                   | Identical |                                                                      |
+| FirewallPolicyNatRuleCollectionAction_STATUS                                            | FirewallPolicyNatRuleCollectionAction_STATUS                                            | Identical |                                                                      |
+| FirewallPolicyNatRuleCollection_STATUS                                                  | FirewallPolicyNatRuleCollection_STATUS                                                  | Identical |                                                                      |
+| FirewallPolicyOperatorSpec                                                              | FirewallPolicyOperatorSpec                                                              | Identical |                                                                      |
+| FirewallPolicyRule                                                                      | FirewallPolicyRule                                                                      | Identical |                                                                      |
+| FirewallPolicyRuleApplicationProtocol                                                   | FirewallPolicyRuleApplicationProtocol                                                   | Identical |                                                                      |
+| FirewallPolicyRuleApplicationProtocol_STATUS                                            | FirewallPolicyRuleApplicationProtocol_STATUS                                            | Identical |                                                                      |
+| FirewallPolicyRuleCollection                                                            | FirewallPolicyRuleCollection                                                            | Identical |                                                                      |
+| FirewallPolicyRuleCollection_STATUS                                                     | FirewallPolicyRuleCollection_STATUS                                                     | Identical |                                                                      |
+| FirewallPolicyRule_STATUS                                                               | FirewallPolicyRule_STATUS                                                               | Identical |                                                                      |
+| FirewallPolicySNAT                                                                      | FirewallPolicySNAT                                                                      | Identical |                                                                      |
+| FirewallPolicySNAT_STATUS                                                               | FirewallPolicySNAT_STATUS                                                               | Identical |                                                                      |
+| FirewallPolicySQL                                                                       | FirewallPolicySQL                                                                       | Identical |                                                                      |
+| FirewallPolicySQL_STATUS                                                                | FirewallPolicySQL_STATUS                                                                | Identical |                                                                      |
+| FirewallPolicySku                                                                       | FirewallPolicySku                                                                       | Identical |                                                                      |
+| FirewallPolicySku_STATUS                                                                | FirewallPolicySku_STATUS                                                                | Identical |                                                                      |
+| FirewallPolicyThreatIntelWhitelist                                                      | FirewallPolicyThreatIntelWhitelist                                                      | Identical |                                                                      |
+| FirewallPolicyThreatIntelWhitelist_STATUS                                               | FirewallPolicyThreatIntelWhitelist_STATUS                                               | Identical |                                                                      |
+| FirewallPolicyTransportSecurity                                                         | FirewallPolicyTransportSecurity                                                         | Identical |                                                                      |
+| FirewallPolicyTransportSecurity_STATUS                                                  | FirewallPolicyTransportSecurity_STATUS                                                  | Identical |                                                                      |
+| FirewallPolicy_STATUS                                                                   | FirewallPolicy_STATUS                                                                   | Identical |                                                                      |
+| FirewallPolicy_Spec                                                                     | FirewallPolicy_Spec                                                                     | Identical |                                                                      |
+| FlowLog_STATUS_SubResourceEmbedded                                                      | FlowLog_STATUS_SubResourceEmbedded                                                      | Identical |                                                                      |
+| FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded                                | FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded                                | Identical |                                                                      |
+| FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded                          | FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded                          | Identical |                                                                      |
+| FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded                         | FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded                         | Identical |                                                                      |
+| FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded                   | FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded                   | Identical |                                                                      |
+| GatewayLoadBalancerTunnelInterface                                                      | GatewayLoadBalancerTunnelInterface                                                      | Identical |                                                                      |
+| GatewayLoadBalancerTunnelInterface_STATUS                                               | GatewayLoadBalancerTunnelInterface_STATUS                                               | Identical |                                                                      |
+| HubIPAddresses                                                                          | HubIPAddresses                                                                          | Identical |                                                                      |
+| HubIPAddresses_STATUS                                                                   | HubIPAddresses_STATUS                                                                   | Identical |                                                                      |
+| HubPublicIPAddresses                                                                    | HubPublicIPAddresses                                                                    | Identical |                                                                      |
+| HubPublicIPAddresses_STATUS                                                             | HubPublicIPAddresses_STATUS                                                             | Identical |                                                                      |
+| IPConfigurationBgpPeeringAddress                                                        | IPConfigurationBgpPeeringAddress                                                        | Identical |                                                                      |
+| IPConfigurationBgpPeeringAddress_STATUS                                                 | IPConfigurationBgpPeeringAddress_STATUS                                                 | Identical |                                                                      |
+| IPConfigurationProfile_STATUS                                                           | IPConfigurationProfile_STATUS                                                           | Identical |                                                                      |
+| IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded                              | IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded                              | Identical |                                                                      |
+| IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                       | IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                       | Identical |                                                                      |
+| IPRule                                                                                  | IPRule                                                                                  | Identical |                                                                      |
+| IPRule_STATUS                                                                           | IPRule_STATUS                                                                           | Identical |                                                                      |
+| InboundNatPool                                                                          | InboundNatPool                                                                          | Identical |                                                                      |
+| InboundNatPool_STATUS                                                                   | InboundNatPool_STATUS                                                                   | Identical |                                                                      |
+| InboundNatRule_LoadBalancer_SubResourceEmbedded                                         | InboundNatRule_LoadBalancer_SubResourceEmbedded                                         | Identical |                                                                      |
+| InboundNatRule_NetworkInterface_SubResourceEmbedded                                     | InboundNatRule_NetworkInterface_SubResourceEmbedded                                     | Identical |                                                                      |
+| InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded                                  | InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded                                  | Identical |                                                                      |
+| InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded                              | InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded                              | Identical |                                                                      |
+| IpTag                                                                                   | IpTag                                                                                   | Identical |                                                                      |
+| IpTag_STATUS                                                                            | IpTag_STATUS                                                                            | Identical |                                                                      |
+|                                                                                         | IpamPoolPrefixAllocation                                                                |    New    |                                                                      |
+|                                                                                         | IpamPoolPrefixAllocation_STATUS                                                         |    New    |                                                                      |
+| IpsecPolicy                                                                             | IpsecPolicy                                                                             | Identical |                                                                      |
+| IpsecPolicy_STATUS                                                                      | IpsecPolicy_STATUS                                                                      | Identical |                                                                      |
+| LoadBalancerBackendAddress                                                              | LoadBalancerBackendAddress                                                              | Identical |                                                                      |
+| LoadBalancerBackendAddress_STATUS                                                       | LoadBalancerBackendAddress_STATUS                                                       | Identical |                                                                      |
+| LoadBalancerOperatorSpec                                                                | LoadBalancerOperatorSpec                                                                | Identical |                                                                      |
+| LoadBalancerSku                                                                         | LoadBalancerSku                                                                         | Identical |                                                                      |
+| LoadBalancerSku_STATUS                                                                  | LoadBalancerSku_STATUS                                                                  | Identical |                                                                      |
+| LoadBalancer_STATUS                                                                     | LoadBalancer_STATUS                                                                     | Extended  | +Scope                                                               |
+| LoadBalancer_Spec                                                                       | LoadBalancer_Spec                                                                       | Extended  | +Scope                                                               |
+| LoadBalancersInboundNatRuleOperatorSpec                                                 | LoadBalancersInboundNatRuleOperatorSpec                                                 | Identical |                                                                      |
+| LoadBalancersInboundNatRule_STATUS                                                      | LoadBalancersInboundNatRule_STATUS                                                      | Identical |                                                                      |
+| LoadBalancersInboundNatRule_Spec                                                        | LoadBalancersInboundNatRule_Spec                                                        | Identical |                                                                      |
+| LoadBalancingRule                                                                       | LoadBalancingRule                                                                       | Extended  | +EnableConnectionTracking                                            |
+| LoadBalancingRule_STATUS                                                                | LoadBalancingRule_STATUS                                                                | Extended  | +EnableConnectionTracking                                            |
+| ManagedServiceIdentity                                                                  | ManagedServiceIdentity                                                                  | Identical |                                                                      |
+| ManagedServiceIdentity_STATUS                                                           | ManagedServiceIdentity_STATUS                                                           | Identical |                                                                      |
+| ManagedServiceIdentity_UserAssignedIdentities_STATUS                                    | ManagedServiceIdentity_UserAssignedIdentities_STATUS                                    | Identical |                                                                      |
+| NatGatewayOperatorSpec                                                                  | NatGatewayOperatorSpec                                                                  | Identical |                                                                      |
+| NatGatewaySku                                                                           | NatGatewaySku                                                                           | Identical |                                                                      |
+| NatGatewaySku_STATUS                                                                    | NatGatewaySku_STATUS                                                                    | Identical |                                                                      |
+| NatGatewaySpec_PublicIPAddress_SubResourceEmbedded                                      | NatGatewaySpec_PublicIPAddress_SubResourceEmbedded                                      | Identical |                                                                      |
+| NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded                                       | NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded                                       | Identical |                                                                      |
+| NatGateway_STATUS                                                                       | NatGateway_STATUS                                                                       | Extended  | +PublicIpAddressesV6 +PublicIpPrefixesV6 +SourceVirtualNetwork       |
+| NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded                                   | NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded                                   | Identical |                                                                      |
+| NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded                                    | NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded                                    | Identical |                                                                      |
+| NatGateway_Spec                                                                         | NatGateway_Spec                                                                         | Extended  | +PublicIpAddressesV6 +PublicIpPrefixesV6 +SourceVirtualNetwork       |
+| NatRule                                                                                 | NatRule                                                                                 | Identical |                                                                      |
+| NatRulePortMapping_STATUS                                                               | NatRulePortMapping_STATUS                                                               | Identical |                                                                      |
+| NatRule_STATUS                                                                          | NatRule_STATUS                                                                          | Identical |                                                                      |
+| NetworkInterfaceDnsSettings                                                             | NetworkInterfaceDnsSettings                                                             | Identical |                                                                      |
+| NetworkInterfaceDnsSettings_STATUS                                                      | NetworkInterfaceDnsSettings_STATUS                                                      | Identical |                                                                      |
+| NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS                   | NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS                   | Identical |                                                                      |
+| NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded                    | NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded                    | Identical |                                                                      |
+| NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded                 | NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded                 | Identical |                                                                      |
+| NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded | NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded | Identical |                                                                      |
+| NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded             | NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded             | Identical |                                                                      |
+| NetworkInterfaceOperatorSpec                                                            | NetworkInterfaceOperatorSpec                                                            | Identical |                                                                      |
+| NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded            | NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded            | Identical |                                                                      |
+| NetworkInterface_STATUS                                                                 | NetworkInterface_STATUS                                                                 | Extended  | +DefaultOutboundConnectivityEnabled                                  |
+| NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded                        | NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded                        | Identical |                                                                      |
+| NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded                             | NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded                             | Identical |                                                                      |
+| NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded                          | NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded                          | Identical |                                                                      |
+| NetworkInterface_Spec                                                                   | NetworkInterface_Spec                                                                   | Identical |                                                                      |
+| NetworkRule                                                                             | NetworkRule                                                                             | Identical |                                                                      |
+| NetworkRule_STATUS                                                                      | NetworkRule_STATUS                                                                      | Identical |                                                                      |
+| NetworkSecurityGroupOperatorSpec                                                        | NetworkSecurityGroupOperatorSpec                                                        | Identical |                                                                      |
+| NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded                           | NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded                           | Identical |                                                                      |
+| NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded                     | NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded                     | Identical |                                                                      |
+| NetworkSecurityGroup_STATUS                                                             | NetworkSecurityGroup_STATUS                                                             | Identical |                                                                      |
+| NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded                        | NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded                        | Identical |                                                                      |
+| NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                  | NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                  | Identical |                                                                      |
+| NetworkSecurityGroup_Spec                                                               | NetworkSecurityGroup_Spec                                                               | Identical |                                                                      |
+| NetworkSecurityGroupsSecurityRuleOperatorSpec                                           | NetworkSecurityGroupsSecurityRuleOperatorSpec                                           | Identical |                                                                      |
+| NetworkSecurityGroupsSecurityRule_STATUS                                                | NetworkSecurityGroupsSecurityRule_STATUS                                                | Identical |                                                                      |
+| NetworkSecurityGroupsSecurityRule_Spec                                                  | NetworkSecurityGroupsSecurityRule_Spec                                                  | Identical |                                                                      |
+| OutboundRule                                                                            | OutboundRule                                                                            | Identical |                                                                      |
+| OutboundRule_STATUS                                                                     | OutboundRule_STATUS                                                                     | Identical |                                                                      |
+| PrivateDnsZoneConfig                                                                    | PrivateDnsZoneConfig                                                                    | Identical |                                                                      |
+| PrivateDnsZoneConfig_STATUS                                                             | PrivateDnsZoneConfig_STATUS                                                             | Identical |                                                                      |
+| PrivateEndpointConnection_STATUS                                                        | PrivateEndpointConnection_STATUS                                                        | Identical |                                                                      |
+| PrivateEndpointIPConfiguration                                                          | PrivateEndpointIPConfiguration                                                          | Identical |                                                                      |
+| PrivateEndpointIPConfiguration_STATUS                                                   | PrivateEndpointIPConfiguration_STATUS                                                   | Identical |                                                                      |
+| PrivateEndpointOperatorConfigMaps                                                       | PrivateEndpointOperatorConfigMaps                                                       | Identical |                                                                      |
+| PrivateEndpointOperatorSpec                                                             | PrivateEndpointOperatorSpec                                                             | Identical |                                                                      |
+| PrivateEndpoint_STATUS                                                                  | PrivateEndpoint_STATUS                                                                  | Extended  | +IpVersionType                                                       |
+| PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded                             | PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded                             | Identical |                                                                      |
+| PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                       | PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                       | Identical |                                                                      |
+| PrivateEndpoint_Spec                                                                    | PrivateEndpoint_Spec                                                                    | Extended  | +IpVersionType                                                       |
+| PrivateEndpointsPrivateDnsZoneGroupOperatorSpec                                         | PrivateEndpointsPrivateDnsZoneGroupOperatorSpec                                         | Identical |                                                                      |
+| PrivateEndpointsPrivateDnsZoneGroup_STATUS                                              | PrivateEndpointsPrivateDnsZoneGroup_STATUS                                              | Identical |                                                                      |
+| PrivateEndpointsPrivateDnsZoneGroup_Spec                                                | PrivateEndpointsPrivateDnsZoneGroup_Spec                                                | Identical |                                                                      |
+| PrivateLinkServiceConnection                                                            | PrivateLinkServiceConnection                                                            | Identical |                                                                      |
+| PrivateLinkServiceConnectionState                                                       | PrivateLinkServiceConnectionState                                                       | Identical |                                                                      |
+| PrivateLinkServiceConnectionState_STATUS                                                | PrivateLinkServiceConnectionState_STATUS                                                | Identical |                                                                      |
+| PrivateLinkServiceConnection_STATUS                                                     | PrivateLinkServiceConnection_STATUS                                                     | Identical |                                                                      |
+| PrivateLinkServiceIpConfiguration                                                       | PrivateLinkServiceIpConfiguration                                                       | Identical |                                                                      |
+| PrivateLinkServiceIpConfiguration_STATUS                                                | PrivateLinkServiceIpConfiguration_STATUS                                                | Identical |                                                                      |
+| PrivateLinkServiceOperatorConfigMaps                                                    | PrivateLinkServiceOperatorConfigMaps                                                    | Identical |                                                                      |
+| PrivateLinkServiceOperatorSpec                                                          | PrivateLinkServiceOperatorSpec                                                          | Identical |                                                                      |
+| PrivateLinkServiceSpec                                                                  | PrivateLinkServiceSpec                                                                  | Identical |                                                                      |
+| PrivateLinkService_STATUS                                                               | PrivateLinkService_STATUS                                                               | Extended  | +AccessMode                                                          |
+| PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded                          | PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded                          | Identical |                                                                      |
+| PrivateLinkService_Spec                                                                 | PrivateLinkService_Spec                                                                 | Extended  | +AccessMode                                                          |
+| Probe                                                                                   | Probe                                                                                   | Identical |                                                                      |
+| Probe_STATUS                                                                            | Probe_STATUS                                                                            | Identical |                                                                      |
+| PublicIPAddressDnsSettings                                                              | PublicIPAddressDnsSettings                                                              | Identical |                                                                      |
+| PublicIPAddressDnsSettings_STATUS                                                       | PublicIPAddressDnsSettings_STATUS                                                       | Identical |                                                                      |
+| PublicIPAddressOperatorSpec                                                             | PublicIPAddressOperatorSpec                                                             | Identical |                                                                      |
+| PublicIPAddressSku                                                                      | PublicIPAddressSku                                                                      | Identical |                                                                      |
+| PublicIPAddressSku_STATUS                                                               | PublicIPAddressSku_STATUS                                                               | Identical |                                                                      |
+| PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded                                    | PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded                                    | Identical |                                                                      |
+| PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded                                | PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded                                | Identical |                                                                      |
+| PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded                                 | PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded                                 | Identical |                                                                      |
+| PublicIPAddress_STATUS                                                                  | PublicIPAddress_STATUS                                                                  | Identical |                                                                      |
+| PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded                                 | PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded                                 | Identical |                                                                      |
+| PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded                             | PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded                             | Identical |                                                                      |
+| PublicIPAddress_Spec                                                                    | PublicIPAddress_Spec                                                                    | Identical |                                                                      |
+| PublicIPPrefixOperatorSpec                                                              | PublicIPPrefixOperatorSpec                                                              | Identical |                                                                      |
+| PublicIPPrefixSku                                                                       | PublicIPPrefixSku                                                                       | Identical |                                                                      |
+| PublicIPPrefixSku_STATUS                                                                | PublicIPPrefixSku_STATUS                                                                | Identical |                                                                      |
+| PublicIPPrefix_STATUS                                                                   | PublicIPPrefix_STATUS                                                                   | Identical |                                                                      |
+| PublicIPPrefix_Spec                                                                     | PublicIPPrefix_Spec                                                                     | Identical |                                                                      |
+| RadiusServer                                                                            | RadiusServer                                                                            | Identical |                                                                      |
+| RadiusServer_STATUS                                                                     | RadiusServer_STATUS                                                                     | Identical |                                                                      |
+| RecordSet_STATUS                                                                        | RecordSet_STATUS                                                                        | Identical |                                                                      |
+| ReferencedPublicIpAddress_STATUS                                                        | ReferencedPublicIpAddress_STATUS                                                        | Identical |                                                                      |
+| ResourceNavigationLink_STATUS                                                           | ResourceNavigationLink_STATUS                                                           | Identical |                                                                      |
+| ResourceSet                                                                             | ResourceSet                                                                             | Identical |                                                                      |
+| ResourceSet_STATUS                                                                      | ResourceSet_STATUS                                                                      | Identical |                                                                      |
+| RouteTableOperatorSpec                                                                  | RouteTableOperatorSpec                                                                  | Identical |                                                                      |
+| RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded                               | RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded                               | Identical |                                                                      |
+| RouteTable_STATUS                                                                       | RouteTable_STATUS                                                                       | Identical |                                                                      |
+| RouteTable_STATUS_SubResourceEmbedded                                                   | RouteTable_STATUS_SubResourceEmbedded                                                   | Identical |                                                                      |
+| RouteTable_Spec                                                                         | RouteTable_Spec                                                                         | Identical |                                                                      |
+| RouteTablesRouteOperatorSpec                                                            | RouteTablesRouteOperatorSpec                                                            | Identical |                                                                      |
+| RouteTablesRoute_STATUS                                                                 | RouteTablesRoute_STATUS                                                                 | Identical |                                                                      |
+| RouteTablesRoute_Spec                                                                   | RouteTablesRoute_Spec                                                                   | Identical |                                                                      |
+| SecurityRule_STATUS                                                                     | SecurityRule_STATUS                                                                     | Identical |                                                                      |
+| ServiceAssociationLink_STATUS                                                           | ServiceAssociationLink_STATUS                                                           | Identical |                                                                      |
+| ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded                    | ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded                    | Identical |                                                                      |
+| ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                 | ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                 | Identical |                                                                      |
+| ServiceEndpointPropertiesFormat                                                         | ServiceEndpointPropertiesFormat                                                         | Identical |                                                                      |
+| ServiceEndpointPropertiesFormat_STATUS                                                  | ServiceEndpointPropertiesFormat_STATUS                                                  | Identical |                                                                      |
+| Sku                                                                                     | Sku                                                                                     | Identical |                                                                      |
+| Sku_STATUS                                                                              | Sku_STATUS                                                                              | Identical |                                                                      |
+| SubResource                                                                             | SubResource                                                                             | Identical |                                                                      |
+| SubResource_STATUS                                                                      | SubResource_STATUS                                                                      | Identical |                                                                      |
+| Subnet_LoadBalancer_SubResourceEmbedded                                                 | Subnet_LoadBalancer_SubResourceEmbedded                                                 | Identical |                                                                      |
+| Subnet_NetworkInterface_SubResourceEmbedded                                             | Subnet_NetworkInterface_SubResourceEmbedded                                             | Identical |                                                                      |
+| Subnet_PrivateEndpoint_SubResourceEmbedded                                              | Subnet_PrivateEndpoint_SubResourceEmbedded                                              | Identical |                                                                      |
+| Subnet_PrivateLinkService_SubResourceEmbedded                                           | Subnet_PrivateLinkService_SubResourceEmbedded                                           | Identical |                                                                      |
+| Subnet_STATUS_LoadBalancer_SubResourceEmbedded                                          | Subnet_STATUS_LoadBalancer_SubResourceEmbedded                                          | Identical |                                                                      |
+| Subnet_STATUS_NetworkInterface_SubResourceEmbedded                                      | Subnet_STATUS_NetworkInterface_SubResourceEmbedded                                      | Identical |                                                                      |
+| Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded                                  | Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded                                  | Identical |                                                                      |
+| Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded                                       | Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded                                       | Identical |                                                                      |
+| Subnet_STATUS_PrivateLinkService_SubResourceEmbedded                                    | Subnet_STATUS_PrivateLinkService_SubResourceEmbedded                                    | Identical |                                                                      |
+| UserAssignedIdentityDetails                                                             | UserAssignedIdentityDetails                                                             | Identical |                                                                      |
+| VirtualNetworkBgpCommunities                                                            | VirtualNetworkBgpCommunities                                                            | Identical |                                                                      |
+| VirtualNetworkBgpCommunities_STATUS                                                     | VirtualNetworkBgpCommunities_STATUS                                                     | Identical |                                                                      |
+| VirtualNetworkEncryption                                                                | VirtualNetworkEncryption                                                                | Identical |                                                                      |
+| VirtualNetworkEncryption_STATUS                                                         | VirtualNetworkEncryption_STATUS                                                         | Identical |                                                                      |
+| VirtualNetworkGatewayAutoScaleBounds                                                    | VirtualNetworkGatewayAutoScaleBounds                                                    | Identical |                                                                      |
+| VirtualNetworkGatewayAutoScaleBounds_STATUS                                             | VirtualNetworkGatewayAutoScaleBounds_STATUS                                             | Identical |                                                                      |
+| VirtualNetworkGatewayAutoScaleConfiguration                                             | VirtualNetworkGatewayAutoScaleConfiguration                                             | Identical |                                                                      |
+| VirtualNetworkGatewayAutoScaleConfiguration_STATUS                                      | VirtualNetworkGatewayAutoScaleConfiguration_STATUS                                      | Identical |                                                                      |
+| VirtualNetworkGatewayIPConfiguration                                                    | VirtualNetworkGatewayIPConfiguration                                                    | Identical |                                                                      |
+| VirtualNetworkGatewayIPConfiguration_STATUS                                             | VirtualNetworkGatewayIPConfiguration_STATUS                                             | Identical |                                                                      |
+|                                                                                         | VirtualNetworkGatewayMigrationStatus                                                    |    New    |                                                                      |
+|                                                                                         | VirtualNetworkGatewayMigrationStatus_STATUS                                             |    New    |                                                                      |
+| VirtualNetworkGatewayNatRule                                                            | VirtualNetworkGatewayNatRule                                                            | Identical |                                                                      |
+| VirtualNetworkGatewayNatRule_STATUS                                                     | VirtualNetworkGatewayNatRule_STATUS                                                     | Identical |                                                                      |
+| VirtualNetworkGatewayOperatorSpec                                                       | VirtualNetworkGatewayOperatorSpec                                                       | Identical |                                                                      |
+| VirtualNetworkGatewayPolicyGroup                                                        | VirtualNetworkGatewayPolicyGroup                                                        | Identical |                                                                      |
+| VirtualNetworkGatewayPolicyGroupMember                                                  | VirtualNetworkGatewayPolicyGroupMember                                                  | Identical |                                                                      |
+| VirtualNetworkGatewayPolicyGroupMember_STATUS                                           | VirtualNetworkGatewayPolicyGroupMember_STATUS                                           | Identical |                                                                      |
+| VirtualNetworkGatewayPolicyGroup_STATUS                                                 | VirtualNetworkGatewayPolicyGroup_STATUS                                                 | Identical |                                                                      |
+| VirtualNetworkGatewaySku                                                                | VirtualNetworkGatewaySku                                                                | Identical |                                                                      |
+| VirtualNetworkGatewaySku_STATUS                                                         | VirtualNetworkGatewaySku_STATUS                                                         | Identical |                                                                      |
+| VirtualNetworkGateway_STATUS                                                            | VirtualNetworkGateway_STATUS                                                            | Extended  | +EnableHighBandwidthVpnGateway +VirtualNetworkGatewayMigrationStatus |
+| VirtualNetworkGateway_Spec                                                              | VirtualNetworkGateway_Spec                                                              | Extended  | +EnableHighBandwidthVpnGateway +VirtualNetworkGatewayMigrationStatus |
+| VirtualNetworkOperatorSpec                                                              | VirtualNetworkOperatorSpec                                                              | Identical |                                                                      |
+| VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded                              | VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded                              | Identical |                                                                      |
+| VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded                           | VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded                           | Identical |                                                                      |
+| VirtualNetwork_STATUS                                                                   | VirtualNetwork_STATUS                                                                   | Extended  | +DefaultPublicNatGateway                                             |
+| VirtualNetwork_Spec                                                                     | VirtualNetwork_Spec                                                                     | Identical |                                                                      |
+| VirtualNetworksSubnetOperatorSpec                                                       | VirtualNetworksSubnetOperatorSpec                                                       | Identical |                                                                      |
+| VirtualNetworksSubnet_STATUS                                                            | VirtualNetworksSubnet_STATUS                                                            | Extended  | +IpamPoolPrefixAllocations                                           |
+| VirtualNetworksSubnet_Spec                                                              | VirtualNetworksSubnet_Spec                                                              | Extended  | +IpamPoolPrefixAllocations                                           |
+| VirtualNetworksVirtualNetworkPeeringOperatorSpec                                        | VirtualNetworksVirtualNetworkPeeringOperatorSpec                                        | Identical |                                                                      |
+| VirtualNetworksVirtualNetworkPeering_STATUS                                             | VirtualNetworksVirtualNetworkPeering_STATUS                                             | Identical |                                                                      |
+| VirtualNetworksVirtualNetworkPeering_Spec                                               | VirtualNetworksVirtualNetworkPeering_Spec                                               | Identical |                                                                      |
+| VngClientConnectionConfiguration                                                        | VngClientConnectionConfiguration                                                        | Identical |                                                                      |
+| VngClientConnectionConfiguration_STATUS                                                 | VngClientConnectionConfiguration_STATUS                                                 | Identical |                                                                      |
+| VpnClientConfiguration                                                                  | VpnClientConfiguration                                                                  | Identical |                                                                      |
+| VpnClientConfiguration_STATUS                                                           | VpnClientConfiguration_STATUS                                                           | Identical |                                                                      |
+| VpnClientRevokedCertificate                                                             | VpnClientRevokedCertificate                                                             | Identical |                                                                      |
+| VpnClientRevokedCertificate_STATUS                                                      | VpnClientRevokedCertificate_STATUS                                                      | Identical |                                                                      |
+| VpnClientRootCertificate                                                                | VpnClientRootCertificate                                                                | Identical |                                                                      |
+| VpnClientRootCertificate_STATUS                                                         | VpnClientRootCertificate_STATUS                                                         | Identical |                                                                      |
+| VpnNatRuleMapping                                                                       | VpnNatRuleMapping                                                                       | Identical |                                                                      |
+| VpnNatRuleMapping_STATUS                                                                | VpnNatRuleMapping_STATUS                                                                | Identical |                                                                      |
 
 ### AddressSpace
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240301/storage |                        | v20250301/storage         |                            |  Status   | Notes |
 |:----------------------|:-----------------------|:--------------------------|:---------------------------|:---------:|:------|
@@ -375,7 +368,7 @@
 
 ### AddressSpace_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240301/storage |                        | v20250301/storage         |                                   |  Status   | Notes |
 |:----------------------|:-----------------------|:--------------------------|:----------------------------------|:---------:|:------|
@@ -385,7 +378,7 @@
 
 ### AzureFirewall_STATUS
 
-23 x Identical, 1 x New
+Properties: 23 x Identical, 1 x New
 
 | v1api20240301/storage      |                                                 | v20250301/storage          |                                                 |  Status   | Notes |
 |:---------------------------|:------------------------------------------------|:---------------------------|:------------------------------------------------|:---------:|:------|
@@ -416,7 +409,7 @@
 
 ### AzureFirewall_Spec
 
-20 x Identical, 1 x New
+Properties: 20 x Identical, 1 x New
 
 | v1api20240301/storage      |                                          | v20250301/storage          |                                          |  Status   | Notes |
 |:---------------------------|:-----------------------------------------|:---------------------------|:-----------------------------------------|:---------:|:------|
@@ -444,7 +437,7 @@
 
 ### BastionHost_STATUS
 
-23 x Identical, 1 x New
+Properties: 23 x Identical, 1 x New
 
 | v1api20240301/storage  |                                                 | v20250301/storage        |                                                 |  Status   | Notes |
 |:-----------------------|:------------------------------------------------|:-------------------------|:------------------------------------------------|:---------:|:------|
@@ -475,7 +468,7 @@
 
 ### BastionHost_Spec
 
-21 x Identical, 1 x New
+Properties: 21 x Identical, 1 x New
 
 | v1api20240301/storage  |                                          | v20250301/storage        |                                          |  Status   | Notes |
 |:-----------------------|:-----------------------------------------|:-------------------------|:-----------------------------------------|:---------:|:------|
@@ -504,7 +497,7 @@
 
 ### LoadBalancer_STATUS
 
-19 x Identical, 1 x New
+Properties: 19 x Identical, 1 x New
 
 | v1api20240301/storage    |                                                                   | v20250301/storage        |                                                                   |  Status   | Notes |
 |:-------------------------|:------------------------------------------------------------------|:-------------------------|:------------------------------------------------------------------|:---------:|:------|
@@ -531,7 +524,7 @@
 
 ### LoadBalancer_Spec
 
-16 x Identical, 1 x New
+Properties: 16 x Identical, 1 x New
 
 | v1api20240301/storage    |                                                            | v20250301/storage        |                                                            |  Status   | Notes |
 |:-------------------------|:-----------------------------------------------------------|:-------------------------|:-----------------------------------------------------------|:---------:|:------|
@@ -555,7 +548,7 @@
 
 ### LoadBalancingRule
 
-14 x Identical, 1 x New
+Properties: 14 x Identical, 1 x New
 
 | v1api20240301/storage   |                        | v20250301/storage        |                        |  Status   | Notes |
 |:------------------------|:-----------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -577,7 +570,7 @@
 
 ### LoadBalancingRule_STATUS
 
-18 x Identical, 1 x New
+Properties: 18 x Identical, 1 x New
 
 | v1api20240301/storage   |                        | v20250301/storage        |                        |  Status   | Notes |
 |:------------------------|:-----------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -603,7 +596,7 @@
 
 ### NatGateway_STATUS
 
-16 x Identical, 3 x New
+Properties: 16 x Identical, 3 x New
 
 | v1api20240301/storage |                        | v20250301/storage    |                        |  Status   | Notes |
 |:----------------------|:-----------------------|:---------------------|:-----------------------|:---------:|:------|
@@ -629,7 +622,7 @@
 
 ### NatGateway_Spec
 
-12 x Identical, 3 x New
+Properties: 12 x Identical, 3 x New
 
 | v1api20240301/storage |                                    | v20250301/storage    |                                    |  Status   | Notes |
 |:----------------------|:-----------------------------------|:---------------------|:-----------------------------------|:---------:|:------|
@@ -651,7 +644,7 @@
 
 ### NetworkInterface_STATUS
 
-31 x Identical, 1 x New
+Properties: 31 x Identical, 1 x New
 
 | v1api20240301/storage       |                                                                                | v20250301/storage                  |                                                                                |  Status   | Notes |
 |:----------------------------|:-------------------------------------------------------------------------------|:-----------------------------------|:-------------------------------------------------------------------------------|:---------:|:------|
@@ -690,7 +683,7 @@
 
 ### PrivateEndpoint_STATUS
 
-18 x Identical, 1 x New
+Properties: 18 x Identical, 1 x New
 
 | v1api20240301/storage               |                                                                       | v20250301/storage                   |                                                                       |  Status   | Notes |
 |:------------------------------------|:----------------------------------------------------------------------|:------------------------------------|:----------------------------------------------------------------------|:---------:|:------|
@@ -716,7 +709,7 @@
 
 ### PrivateEndpoint_Spec
 
-14 x Identical, 1 x New
+Properties: 14 x Identical, 1 x New
 
 | v1api20240301/storage               |                                                                    | v20250301/storage                   |                                                                    |  Status   | Notes |
 |:------------------------------------|:-------------------------------------------------------------------|:------------------------------------|:-------------------------------------------------------------------|:---------:|:------|
@@ -738,7 +731,7 @@
 
 ### PrivateLinkService_STATUS
 
-20 x Identical, 1 x New
+Properties: 20 x Identical, 1 x New
 
 | v1api20240301/storage                |                                                                         | v20250301/storage                    |                                                                         |  Status   | Notes |
 |:-------------------------------------|:------------------------------------------------------------------------|:-------------------------------------|:------------------------------------------------------------------------|:---------:|:------|
@@ -766,7 +759,7 @@
 
 ### PrivateLinkService_Spec
 
-15 x Identical, 1 x New
+Properties: 15 x Identical, 1 x New
 
 | v1api20240301/storage                |                                                                  | v20250301/storage                    |                                                                  |  Status   | Notes |
 |:-------------------------------------|:-----------------------------------------------------------------|:-------------------------------------|:-----------------------------------------------------------------|:---------:|:------|
@@ -789,7 +782,7 @@
 
 ### VirtualNetworkGateway_STATUS
 
-36 x Identical, 2 x New
+Properties: 36 x Identical, 2 x New
 
 | v1api20240301/storage             |                                                     | v20250301/storage                    |                                                     |  Status   | Notes |
 |:----------------------------------|:----------------------------------------------------|:-------------------------------------|:----------------------------------------------------|:---------:|:------|
@@ -834,7 +827,7 @@
 
 ### VirtualNetworkGateway_Spec
 
-32 x Identical, 2 x New
+Properties: 32 x Identical, 2 x New
 
 | v1api20240301/storage                 |                                              | v20250301/storage                     |                                              |  Status   | Notes |
 |:--------------------------------------|:---------------------------------------------|:--------------------------------------|:---------------------------------------------|:---------:|:------|
@@ -875,7 +868,7 @@
 
 ### VirtualNetwork_STATUS
 
-22 x Identical, 1 x New
+Properties: 22 x Identical, 1 x New
 
 | v1api20240301/storage       |                                      | v20250301/storage           |                                      |  Status   | Notes |
 |:----------------------------|:-------------------------------------|:----------------------------|:-------------------------------------|:---------:|:------|
@@ -905,7 +898,7 @@
 
 ### VirtualNetworksSubnet_STATUS
 
-27 x Identical, 1 x New
+Properties: 27 x Identical, 1 x New
 
 | v1api20240301/storage              |                                                                                       | v20250301/storage                  |                                                                                       |  Status   | Notes |
 |:-----------------------------------|:--------------------------------------------------------------------------------------|:-----------------------------------|:--------------------------------------------------------------------------------------|:---------:|:------|
@@ -940,7 +933,7 @@
 
 ### VirtualNetworksSubnet_Spec
 
-19 x Identical, 1 x New
+Properties: 19 x Identical, 1 x New
 
 | v1api20240301/storage              |                                                                                | v20250301/storage                  |                                                                                |  Status   | Notes |
 |:-----------------------------------|:-------------------------------------------------------------------------------|:-----------------------------------|:-------------------------------------------------------------------------------|:---------:|:------|
@@ -964,3 +957,12 @@
 | ServiceEndpointPolicies            | ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded[]         | ServiceEndpointPolicies            | ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded[]         | Identical |       |
 | ServiceEndpoints                   | ServiceEndpointPropertiesFormat[]                                              | ServiceEndpoints                   | ServiceEndpointPropertiesFormat[]                                              | Identical |       |
 | SharingScope                       | *string                                                                        | SharingScope                       | *string                                                                        | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

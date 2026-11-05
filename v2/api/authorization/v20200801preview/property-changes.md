@@ -6,26 +6,19 @@
 |:-----------------|:-------------------------|:---------:|:------|
 | RoleAssignment   | RoleAssignment           | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20200801preview           | v20200801preview/storage   |  Status  | Notes |
-|:---------------------------|:---------------------------|:--------:|:------|
-| RoleAssignmentOperatorSpec | RoleAssignmentOperatorSpec | Extended |       |
-| RoleAssignment_STATUS      | RoleAssignment_STATUS      | Modified |       |
-| RoleAssignment_Spec        | RoleAssignment_Spec        | Modified |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20200801preview           | v20200801preview/storage   |  Status  | Notes        |
+|:---------------------------|:---------------------------|:--------:|:-------------|
+| RoleAssignmentOperatorSpec | RoleAssignmentOperatorSpec | Extended | +PropertyBag |
+| RoleAssignment_STATUS      | RoleAssignment_STATUS      | Modified |              |
+| RoleAssignment_Spec        | RoleAssignment_Spec        | Modified |              |
 
 ### RoleAssignmentOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20200801preview     |                               | v20200801preview/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:-------------------------|:------------------------------|:---------:|:------|
@@ -36,7 +29,7 @@
 
 ### RoleAssignment_STATUS
 
-15 x Identical, 1 x New, 1 x Modified
+Properties: 15 x Identical, 1 x New, 1 x Modified
 
 | v20200801preview                   |                                                | v20200801preview/storage           |                        |  Status   | Notes |
 |:-----------------------------------|:-----------------------------------------------|:-----------------------------------|:-----------------------|:---------:|:------|
@@ -60,7 +53,7 @@
 
 ### RoleAssignment_Spec
 
-10 x Identical, 2 x New, 1 x Modified
+Properties: 10 x Identical, 2 x New, 1 x Modified
 
 | v20200801preview                          |                                         | v20200801preview/storage                  |                                        |  Status   | Notes |
 |:------------------------------------------|:----------------------------------------|:------------------------------------------|:---------------------------------------|:---------:|:------|
@@ -77,3 +70,12 @@
 | PrincipalType                             | *RoleAssignmentProperties_PrincipalType | PrincipalType                             | *string                                | Modified  |       |
 |                                           |                                         | PropertyBag                               | genruntime.PropertyBag                 |    New    |       |
 | RoleDefinitionReference                   | *genruntime.WellKnownResourceReference  | RoleDefinitionReference                   | *genruntime.WellKnownResourceReference | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

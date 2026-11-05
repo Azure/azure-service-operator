@@ -13,74 +13,67 @@
 | QueueAuthorizationRule            | QueueAuthorizationRule            | Identical |       |
 | TopicAuthorizationRule            | TopicAuthorizationRule            | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20240101                                     | v20240101/storage                             |  Status  | Notes |
-|:----------------------------------------------|:----------------------------------------------|:--------:|:------|
-| Action                                        | Action                                        | Extended |       |
-| Action_STATUS                                 | Action_STATUS                                 | Extended |       |
-| CorrelationFilter                             | CorrelationFilter                             | Extended |       |
-| CorrelationFilter_STATUS                      | CorrelationFilter_STATUS                      | Extended |       |
-| Encryption                                    | Encryption                                    | Modified |       |
-| Encryption_STATUS                             | Encryption_STATUS                             | Modified |       |
-| Identity                                      | Identity                                      | Modified |       |
-| Identity_STATUS                               | Identity_STATUS                               | Modified |       |
-| KeyVaultProperties                            | KeyVaultProperties                            | Extended |       |
-| KeyVaultProperties_STATUS                     | KeyVaultProperties_STATUS                     | Extended |       |
-| MessageCountDetails_STATUS                    | MessageCountDetails_STATUS                    | Extended |       |
-| NamespaceOperatorSecrets                      | NamespaceOperatorSecrets                      | Extended |       |
-| NamespaceOperatorSpec                         | NamespaceOperatorSpec                         | Extended |       |
-| Namespace_STATUS                              | Namespace_STATUS                              | Modified |       |
-| Namespace_Spec                                | Namespace_Spec                                | Modified |       |
-| NamespacesAuthorizationRuleOperatorSecrets    | NamespacesAuthorizationRuleOperatorSecrets    | Extended |       |
-| NamespacesAuthorizationRuleOperatorSpec       | NamespacesAuthorizationRuleOperatorSpec       | Extended |       |
-| NamespacesAuthorizationRule_STATUS            | NamespacesAuthorizationRule_STATUS            | Modified |       |
-| NamespacesAuthorizationRule_Spec              | NamespacesAuthorizationRule_Spec              | Modified |       |
-| NamespacesQueueOperatorSpec                   | NamespacesQueueOperatorSpec                   | Extended |       |
-| NamespacesQueue_STATUS                        | NamespacesQueue_STATUS                        | Modified |       |
-| NamespacesQueue_Spec                          | NamespacesQueue_Spec                          | Modified |       |
-| NamespacesTopicOperatorSpec                   | NamespacesTopicOperatorSpec                   | Extended |       |
-| NamespacesTopic_STATUS                        | NamespacesTopic_STATUS                        | Modified |       |
-| NamespacesTopic_Spec                          | NamespacesTopic_Spec                          | Modified |       |
-| NamespacesTopicsSubscriptionOperatorSpec      | NamespacesTopicsSubscriptionOperatorSpec      | Extended |       |
-| NamespacesTopicsSubscription_STATUS           | NamespacesTopicsSubscription_STATUS           | Modified |       |
-| NamespacesTopicsSubscription_Spec             | NamespacesTopicsSubscription_Spec             | Modified |       |
-| NamespacesTopicsSubscriptionsRuleOperatorSpec | NamespacesTopicsSubscriptionsRuleOperatorSpec | Extended |       |
-| NamespacesTopicsSubscriptionsRule_STATUS      | NamespacesTopicsSubscriptionsRule_STATUS      | Modified |       |
-| NamespacesTopicsSubscriptionsRule_Spec        | NamespacesTopicsSubscriptionsRule_Spec        | Modified |       |
-| PrivateEndpointConnection_STATUS              | PrivateEndpointConnection_STATUS              | Extended |       |
-| QueueAuthorizationRuleOperatorSecrets         | QueueAuthorizationRuleOperatorSecrets         | Extended |       |
-| QueueAuthorizationRuleOperatorSpec            | QueueAuthorizationRuleOperatorSpec            | Extended |       |
-| QueueAuthorizationRule_STATUS                 | QueueAuthorizationRule_STATUS                 | Modified |       |
-| QueueAuthorizationRule_Spec                   | QueueAuthorizationRule_Spec                   | Modified |       |
-| SBClientAffineProperties                      | SBClientAffineProperties                      | Extended |       |
-| SBClientAffineProperties_STATUS               | SBClientAffineProperties_STATUS               | Extended |       |
-| SBSku                                         | SBSku                                         | Modified |       |
-| SBSku_STATUS                                  | SBSku_STATUS                                  | Modified |       |
-| SqlFilter                                     | SqlFilter                                     | Extended |       |
-| SqlFilter_STATUS                              | SqlFilter_STATUS                              | Extended |       |
-| SystemData_STATUS                             | SystemData_STATUS                             | Modified |       |
-| TopicAuthorizationRuleOperatorSecrets         | TopicAuthorizationRuleOperatorSecrets         | Extended |       |
-| TopicAuthorizationRuleOperatorSpec            | TopicAuthorizationRuleOperatorSpec            | Extended |       |
-| TopicAuthorizationRule_STATUS                 | TopicAuthorizationRule_STATUS                 | Modified |       |
-| TopicAuthorizationRule_Spec                   | TopicAuthorizationRule_Spec                   | Modified |       |
-| UserAssignedIdentityDetails                   | UserAssignedIdentityDetails                   | Extended |       |
-| UserAssignedIdentityProperties                | UserAssignedIdentityProperties                | Extended |       |
-| UserAssignedIdentityProperties_STATUS         | UserAssignedIdentityProperties_STATUS         | Extended |       |
-| UserAssignedIdentity_STATUS                   | UserAssignedIdentity_STATUS                   | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20240101                                     | v20240101/storage                             |  Status  | Notes        |
+|:----------------------------------------------|:----------------------------------------------|:--------:|:-------------|
+| Action                                        | Action                                        | Extended | +PropertyBag |
+| Action_STATUS                                 | Action_STATUS                                 | Extended | +PropertyBag |
+| CorrelationFilter                             | CorrelationFilter                             | Extended | +PropertyBag |
+| CorrelationFilter_STATUS                      | CorrelationFilter_STATUS                      | Extended | +PropertyBag |
+| Encryption                                    | Encryption                                    | Modified |              |
+| Encryption_STATUS                             | Encryption_STATUS                             | Modified |              |
+| Identity                                      | Identity                                      | Modified |              |
+| Identity_STATUS                               | Identity_STATUS                               | Modified |              |
+| KeyVaultProperties                            | KeyVaultProperties                            | Extended | +PropertyBag |
+| KeyVaultProperties_STATUS                     | KeyVaultProperties_STATUS                     | Extended | +PropertyBag |
+| MessageCountDetails_STATUS                    | MessageCountDetails_STATUS                    | Extended | +PropertyBag |
+| NamespaceOperatorSecrets                      | NamespaceOperatorSecrets                      | Extended | +PropertyBag |
+| NamespaceOperatorSpec                         | NamespaceOperatorSpec                         | Extended | +PropertyBag |
+| Namespace_STATUS                              | Namespace_STATUS                              | Modified |              |
+| Namespace_Spec                                | Namespace_Spec                                | Modified |              |
+| NamespacesAuthorizationRuleOperatorSecrets    | NamespacesAuthorizationRuleOperatorSecrets    | Extended | +PropertyBag |
+| NamespacesAuthorizationRuleOperatorSpec       | NamespacesAuthorizationRuleOperatorSpec       | Extended | +PropertyBag |
+| NamespacesAuthorizationRule_STATUS            | NamespacesAuthorizationRule_STATUS            | Modified |              |
+| NamespacesAuthorizationRule_Spec              | NamespacesAuthorizationRule_Spec              | Modified |              |
+| NamespacesQueueOperatorSpec                   | NamespacesQueueOperatorSpec                   | Extended | +PropertyBag |
+| NamespacesQueue_STATUS                        | NamespacesQueue_STATUS                        | Modified |              |
+| NamespacesQueue_Spec                          | NamespacesQueue_Spec                          | Modified |              |
+| NamespacesTopicOperatorSpec                   | NamespacesTopicOperatorSpec                   | Extended | +PropertyBag |
+| NamespacesTopic_STATUS                        | NamespacesTopic_STATUS                        | Modified |              |
+| NamespacesTopic_Spec                          | NamespacesTopic_Spec                          | Modified |              |
+| NamespacesTopicsSubscriptionOperatorSpec      | NamespacesTopicsSubscriptionOperatorSpec      | Extended | +PropertyBag |
+| NamespacesTopicsSubscription_STATUS           | NamespacesTopicsSubscription_STATUS           | Modified |              |
+| NamespacesTopicsSubscription_Spec             | NamespacesTopicsSubscription_Spec             | Modified |              |
+| NamespacesTopicsSubscriptionsRuleOperatorSpec | NamespacesTopicsSubscriptionsRuleOperatorSpec | Extended | +PropertyBag |
+| NamespacesTopicsSubscriptionsRule_STATUS      | NamespacesTopicsSubscriptionsRule_STATUS      | Modified |              |
+| NamespacesTopicsSubscriptionsRule_Spec        | NamespacesTopicsSubscriptionsRule_Spec        | Modified |              |
+| PrivateEndpointConnection_STATUS              | PrivateEndpointConnection_STATUS              | Extended | +PropertyBag |
+| QueueAuthorizationRuleOperatorSecrets         | QueueAuthorizationRuleOperatorSecrets         | Extended | +PropertyBag |
+| QueueAuthorizationRuleOperatorSpec            | QueueAuthorizationRuleOperatorSpec            | Extended | +PropertyBag |
+| QueueAuthorizationRule_STATUS                 | QueueAuthorizationRule_STATUS                 | Modified |              |
+| QueueAuthorizationRule_Spec                   | QueueAuthorizationRule_Spec                   | Modified |              |
+| SBClientAffineProperties                      | SBClientAffineProperties                      | Extended | +PropertyBag |
+| SBClientAffineProperties_STATUS               | SBClientAffineProperties_STATUS               | Extended | +PropertyBag |
+| SBSku                                         | SBSku                                         | Modified |              |
+| SBSku_STATUS                                  | SBSku_STATUS                                  | Modified |              |
+| SqlFilter                                     | SqlFilter                                     | Extended | +PropertyBag |
+| SqlFilter_STATUS                              | SqlFilter_STATUS                              | Extended | +PropertyBag |
+| SystemData_STATUS                             | SystemData_STATUS                             | Modified |              |
+| TopicAuthorizationRuleOperatorSecrets         | TopicAuthorizationRuleOperatorSecrets         | Extended | +PropertyBag |
+| TopicAuthorizationRuleOperatorSpec            | TopicAuthorizationRuleOperatorSpec            | Extended | +PropertyBag |
+| TopicAuthorizationRule_STATUS                 | TopicAuthorizationRule_STATUS                 | Modified |              |
+| TopicAuthorizationRule_Spec                   | TopicAuthorizationRule_Spec                   | Modified |              |
+| UserAssignedIdentityDetails                   | UserAssignedIdentityDetails                   | Extended | +PropertyBag |
+| UserAssignedIdentityProperties                | UserAssignedIdentityProperties                | Extended | +PropertyBag |
+| UserAssignedIdentityProperties_STATUS         | UserAssignedIdentityProperties_STATUS         | Extended | +PropertyBag |
+| UserAssignedIdentity_STATUS                   | UserAssignedIdentity_STATUS                   | Extended | +PropertyBag |
 
 ### Action
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20240101             |         | v20240101/storage     |                        |  Status   | Notes |
 |:----------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -91,7 +84,7 @@
 
 ### Action_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20240101             |         | v20240101/storage     |                        |  Status   | Notes |
 |:----------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -102,7 +95,7 @@
 
 ### CorrelationFilter
 
-10 x Identical, 1 x New
+Properties: 10 x Identical, 1 x New
 
 | v20240101             |                   | v20240101/storage     |                        |  Status   | Notes |
 |:----------------------|:------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -120,7 +113,7 @@
 
 ### CorrelationFilter_STATUS
 
-10 x Identical, 1 x New
+Properties: 10 x Identical, 1 x New
 
 | v20240101             |                   | v20240101/storage     |                        |  Status   | Notes |
 |:----------------------|:------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -138,7 +131,7 @@
 
 ### Encryption
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20240101                       |                       | v20240101/storage               |                        |  Status   | Notes |
 |:--------------------------------|:----------------------|:--------------------------------|:-----------------------|:---------:|:------|
@@ -149,7 +142,7 @@
 
 ### Encryption_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20240101                       |                              | v20240101/storage               |                             |  Status   | Notes |
 |:--------------------------------|:-----------------------------|:--------------------------------|:----------------------------|:---------:|:------|
@@ -160,7 +153,7 @@
 
 ### Identity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20240101              |                               | v20240101/storage      |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -170,7 +163,7 @@
 
 ### Identity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v20240101              |                                        | v20240101/storage      |                                        |  Status   | Notes |
 |:-----------------------|:---------------------------------------|:-----------------------|:---------------------------------------|:---------:|:------|
@@ -182,7 +175,7 @@
 
 ### KeyVaultProperties
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20240101   |                                 | v20240101/storage |                                 |  Status   | Notes |
 |:------------|:--------------------------------|:------------------|:--------------------------------|:---------:|:------|
@@ -194,7 +187,7 @@
 
 ### KeyVaultProperties_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20240101   |                                        | v20240101/storage |                                        |  Status   | Notes |
 |:------------|:---------------------------------------|:------------------|:---------------------------------------|:---------:|:------|
@@ -206,7 +199,7 @@
 
 ### MessageCountDetails_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v20240101                      |      | v20240101/storage              |                        |  Status   | Notes |
 |:-------------------------------|:-----|:-------------------------------|:-----------------------|:---------:|:------|
@@ -219,7 +212,7 @@
 
 ### NamespaceOperatorSecrets
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v20240101                 |                               | v20240101/storage         |                               |  Status   | Notes |
 |:--------------------------|:------------------------------|:--------------------------|:------------------------------|:---------:|:------|
@@ -232,7 +225,7 @@
 
 ### NamespaceOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20240101            |                               | v20240101/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -243,7 +236,7 @@
 
 ### Namespace_STATUS
 
-21 x Identical, 1 x New, 2 x Modified
+Properties: 21 x Identical, 1 x New, 2 x Modified
 
 | v20240101                  |                                                   | v20240101/storage          |                                    |  Status   | Notes |
 |:---------------------------|:--------------------------------------------------|:---------------------------|:-----------------------------------|:---------:|:------|
@@ -274,7 +267,7 @@
 
 ### Namespace_Spec
 
-12 x Identical, 2 x New, 2 x Modified
+Properties: 12 x Identical, 2 x New, 2 x Modified
 
 | v20240101                  |                                            | v20240101/storage          |                                    |  Status   | Notes |
 |:---------------------------|:-------------------------------------------|:---------------------------|:-----------------------------------|:---------:|:------|
@@ -297,7 +290,7 @@
 
 ### NamespacesAuthorizationRuleOperatorSecrets
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20240101                 |                               | v20240101/storage         |                               |  Status   | Notes |
 |:--------------------------|:------------------------------|:--------------------------|:------------------------------|:---------:|:------|
@@ -309,7 +302,7 @@
 
 ### NamespacesAuthorizationRuleOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20240101            |                                             | v20240101/storage    |                                             |  Status   | Notes |
 |:---------------------|:--------------------------------------------|:---------------------|:--------------------------------------------|:---------:|:------|
@@ -320,7 +313,7 @@
 
 ### NamespacesAuthorizationRule_STATUS
 
-6 x Identical, 1 x New, 1 x Modified
+Properties: 6 x Identical, 1 x New, 1 x Modified
 
 | v20240101  |                                                         | v20240101/storage |                        |  Status   | Notes |
 |:-----------|:--------------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -335,7 +328,7 @@
 
 ### NamespacesAuthorizationRule_Spec
 
-2 x Identical, 2 x New, 2 x Modified
+Properties: 2 x Identical, 2 x New, 2 x Modified
 
 | v20240101    |                                                       | v20240101/storage |                                          |  Status   | Notes |
 |:-------------|:------------------------------------------------------|:------------------|:-----------------------------------------|:---------:|:------|
@@ -348,7 +341,7 @@
 
 ### NamespacesQueueOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20240101            |                               | v20240101/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -358,7 +351,7 @@
 
 ### NamespacesQueue_STATUS
 
-27 x Identical, 1 x New, 1 x Modified
+Properties: 27 x Identical, 1 x New, 1 x Modified
 
 | v20240101                           |                             | v20240101/storage                   |                             |  Status   | Notes |
 |:------------------------------------|:----------------------------|:------------------------------------|:----------------------------|:---------:|:------|
@@ -394,7 +387,7 @@
 
 ### NamespacesQueue_Spec
 
-17 x Identical, 2 x New, 1 x Modified
+Properties: 17 x Identical, 2 x New, 1 x Modified
 
 | v20240101                           |                                    | v20240101/storage                   |                                    |  Status   | Notes |
 |:------------------------------------|:-----------------------------------|:------------------------------------|:-----------------------------------|:---------:|:------|
@@ -421,7 +414,7 @@
 
 ### NamespacesTopicOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20240101            |                               | v20240101/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -431,7 +424,7 @@
 
 ### NamespacesTopic_STATUS
 
-22 x Identical, 1 x New, 1 x Modified
+Properties: 22 x Identical, 1 x New, 1 x Modified
 
 | v20240101                           |                             | v20240101/storage                   |                             |  Status   | Notes |
 |:------------------------------------|:----------------------------|:------------------------------------|:----------------------------|:---------:|:------|
@@ -462,7 +455,7 @@
 
 ### NamespacesTopic_Spec
 
-12 x Identical, 2 x New, 1 x Modified
+Properties: 12 x Identical, 2 x New, 1 x Modified
 
 | v20240101                           |                                    | v20240101/storage                   |                                    |  Status   | Notes |
 |:------------------------------------|:-----------------------------------|:------------------------------------|:-----------------------------------|:---------:|:------|
@@ -484,7 +477,7 @@
 
 ### NamespacesTopicsSubscriptionOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20240101            |                               | v20240101/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -494,7 +487,7 @@
 
 ### NamespacesTopicsSubscription_STATUS
 
-24 x Identical, 1 x New, 1 x Modified
+Properties: 24 x Identical, 1 x New, 1 x Modified
 
 | v20240101                                 |                                  | v20240101/storage                         |                                  |  Status   | Notes |
 |:------------------------------------------|:---------------------------------|:------------------------------------------|:---------------------------------|:---------:|:------|
@@ -527,7 +520,7 @@
 
 ### NamespacesTopicsSubscription_Spec
 
-15 x Identical, 2 x New, 1 x Modified
+Properties: 15 x Identical, 2 x New, 1 x Modified
 
 | v20240101                                 |                                           | v20240101/storage                         |                                           |  Status   | Notes |
 |:------------------------------------------|:------------------------------------------|:------------------------------------------|:------------------------------------------|:---------:|:------|
@@ -552,7 +545,7 @@
 
 ### NamespacesTopicsSubscriptionsRuleOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20240101            |                               | v20240101/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -562,7 +555,7 @@
 
 ### NamespacesTopicsSubscriptionsRule_STATUS
 
-9 x Identical, 1 x New, 1 x Modified
+Properties: 9 x Identical, 1 x New, 1 x Modified
 
 | v20240101         |                           | v20240101/storage |                           |  Status   | Notes |
 |:------------------|:--------------------------|:------------------|:--------------------------|:---------:|:------|
@@ -580,7 +573,7 @@
 
 ### NamespacesTopicsSubscriptionsRule_Spec
 
-5 x Identical, 2 x New, 2 x Modified
+Properties: 5 x Identical, 2 x New, 2 x Modified
 
 | v20240101         |                                                | v20240101/storage |                                                |  Status   | Notes |
 |:------------------|:-----------------------------------------------|:------------------|:-----------------------------------------------|:---------:|:------|
@@ -596,7 +589,7 @@
 
 ### PrivateEndpointConnection_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20240101 |         | v20240101/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -605,7 +598,7 @@
 
 ### QueueAuthorizationRuleOperatorSecrets
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20240101                 |                               | v20240101/storage         |                               |  Status   | Notes |
 |:--------------------------|:------------------------------|:--------------------------|:------------------------------|:---------:|:------|
@@ -617,7 +610,7 @@
 
 ### QueueAuthorizationRuleOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20240101            |                                        | v20240101/storage    |                                        |  Status   | Notes |
 |:---------------------|:---------------------------------------|:---------------------|:---------------------------------------|:---------:|:------|
@@ -628,7 +621,7 @@
 
 ### QueueAuthorizationRule_STATUS
 
-6 x Identical, 1 x New, 1 x Modified
+Properties: 6 x Identical, 1 x New, 1 x Modified
 
 | v20240101  |                                       | v20240101/storage |                        |  Status   | Notes |
 |:-----------|:--------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -643,7 +636,7 @@
 
 ### QueueAuthorizationRule_Spec
 
-2 x Identical, 2 x New, 2 x Modified
+Properties: 2 x Identical, 2 x New, 2 x Modified
 
 | v20240101    |                                     | v20240101/storage |                                     |  Status   | Notes |
 |:-------------|:------------------------------------|:------------------|:------------------------------------|:---------:|:------|
@@ -656,7 +649,7 @@
 
 ### SBClientAffineProperties
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20240101 |         | v20240101/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -667,7 +660,7 @@
 
 ### SBClientAffineProperties_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20240101 |         | v20240101/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -678,7 +671,7 @@
 
 ### SBSku
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v20240101 |             | v20240101/storage |                        |  Status   | Notes |
 |:----------|:------------|:------------------|:-----------------------|:---------:|:------|
@@ -689,7 +682,7 @@
 
 ### SBSku_STATUS
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v20240101 |                    | v20240101/storage |                        |  Status   | Notes |
 |:----------|:-------------------|:------------------|:-----------------------|:---------:|:------|
@@ -700,7 +693,7 @@
 
 ### SqlFilter
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20240101             |         | v20240101/storage     |                        |  Status   | Notes |
 |:----------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -711,7 +704,7 @@
 
 ### SqlFilter_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20240101             |         | v20240101/storage     |                        |  Status   | Notes |
 |:----------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -722,7 +715,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v20240101          |                                       | v20240101/storage  |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:-------------------|:-----------------------|:---------:|:------|
@@ -736,7 +729,7 @@
 
 ### TopicAuthorizationRuleOperatorSecrets
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20240101                 |                               | v20240101/storage         |                               |  Status   | Notes |
 |:--------------------------|:------------------------------|:--------------------------|:------------------------------|:---------:|:------|
@@ -748,7 +741,7 @@
 
 ### TopicAuthorizationRuleOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20240101            |                                        | v20240101/storage    |                                        |  Status   | Notes |
 |:---------------------|:---------------------------------------|:---------------------|:---------------------------------------|:---------:|:------|
@@ -759,7 +752,7 @@
 
 ### TopicAuthorizationRule_STATUS
 
-6 x Identical, 1 x New, 1 x Modified
+Properties: 6 x Identical, 1 x New, 1 x Modified
 
 | v20240101  |                                       | v20240101/storage |                        |  Status   | Notes |
 |:-----------|:--------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -774,7 +767,7 @@
 
 ### TopicAuthorizationRule_Spec
 
-2 x Identical, 2 x New, 2 x Modified
+Properties: 2 x Identical, 2 x New, 2 x Modified
 
 | v20240101    |                                     | v20240101/storage |                                     |  Status   | Notes |
 |:-------------|:------------------------------------|:------------------|:------------------------------------|:---------:|:------|
@@ -787,7 +780,7 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20240101 |                              | v20240101/storage |                              |  Status   | Notes |
 |:----------|:-----------------------------|:------------------|:-----------------------------|:---------:|:------|
@@ -796,7 +789,7 @@
 
 ### UserAssignedIdentityProperties
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20240101                     |                               | v20240101/storage             |                               |  Status   | Notes |
 |:------------------------------|:------------------------------|:------------------------------|:------------------------------|:---------:|:------|
@@ -805,7 +798,7 @@
 
 ### UserAssignedIdentityProperties_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20240101            |         | v20240101/storage    |                        |  Status   | Notes |
 |:---------------------|:--------|:---------------------|:-----------------------|:---------:|:------|
@@ -814,10 +807,19 @@
 
 ### UserAssignedIdentity_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20240101   |         | v20240101/storage |                        |  Status   | Notes |
 |:------------|:--------|:------------------|:-----------------------|:---------:|:------|
 | ClientId    | *string | ClientId          | *string                | Identical |       |
 | PrincipalId | *string | PrincipalId       | *string                | Identical |       |
 |             |         | PropertyBag       | genruntime.PropertyBag |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

@@ -11,66 +11,59 @@
 | NamespacesTopicsSubscription      | NamespacesTopicsSubscription      | Identical |       |
 | NamespacesTopicsSubscriptionsRule | NamespacesTopicsSubscriptionsRule | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20210101preview/storage                      | v20211101/storage                             |  Status   | Notes |
-|:----------------------------------------------|:----------------------------------------------|:---------:|:------|
-| Action                                        | Action                                        | Identical |       |
-| Action_STATUS                                 | Action_STATUS                                 | Identical |       |
-| CorrelationFilter                             | CorrelationFilter                             | Identical |       |
-| CorrelationFilter_STATUS                      | CorrelationFilter_STATUS                      | Identical |       |
-| DictionaryValue_STATUS                        | UserAssignedIdentity_STATUS                   |  Renamed  |       |
-| Encryption                                    | Encryption                                    | Identical |       |
-| Encryption_STATUS                             | Encryption_STATUS                             | Identical |       |
-| Identity                                      | Identity                                      | Identical |       |
-| Identity_STATUS                               | Identity_STATUS                               | Identical |       |
-| KeyVaultProperties                            | KeyVaultProperties                            | Identical |       |
-| KeyVaultProperties_STATUS                     | KeyVaultProperties_STATUS                     | Identical |       |
-| MessageCountDetails_STATUS                    | MessageCountDetails_STATUS                    | Identical |       |
-| NamespaceOperatorSecrets                      | NamespaceOperatorSecrets                      | Identical |       |
-| NamespaceOperatorSpec                         | NamespaceOperatorSpec                         | Identical |       |
-| Namespace_STATUS                              | Namespace_STATUS                              | Extended  |       |
-| Namespace_Spec                                | Namespace_Spec                                | Extended  |       |
-| NamespacesAuthorizationRuleOperatorSecrets    | NamespacesAuthorizationRuleOperatorSecrets    | Identical |       |
-| NamespacesAuthorizationRuleOperatorSpec       | NamespacesAuthorizationRuleOperatorSpec       | Identical |       |
-| NamespacesAuthorizationRule_STATUS            | NamespacesAuthorizationRule_STATUS            | Extended  |       |
-| NamespacesAuthorizationRule_Spec              | NamespacesAuthorizationRule_Spec              | Identical |       |
-| NamespacesQueueOperatorSpec                   | NamespacesQueueOperatorSpec                   | Identical |       |
-| NamespacesQueue_STATUS                        | NamespacesQueue_STATUS                        | Extended  |       |
-| NamespacesQueue_Spec                          | NamespacesQueue_Spec                          | Extended  |       |
-| NamespacesTopicOperatorSpec                   | NamespacesTopicOperatorSpec                   | Identical |       |
-| NamespacesTopic_STATUS                        | NamespacesTopic_STATUS                        | Extended  |       |
-| NamespacesTopic_Spec                          | NamespacesTopic_Spec                          | Extended  |       |
-| NamespacesTopicsSubscriptionOperatorSpec      | NamespacesTopicsSubscriptionOperatorSpec      | Identical |       |
-| NamespacesTopicsSubscription_STATUS           | NamespacesTopicsSubscription_STATUS           | Extended  |       |
-| NamespacesTopicsSubscription_Spec             | NamespacesTopicsSubscription_Spec             | Extended  |       |
-| NamespacesTopicsSubscriptionsRuleOperatorSpec | NamespacesTopicsSubscriptionsRuleOperatorSpec | Identical |       |
-| NamespacesTopicsSubscriptionsRule_STATUS      | NamespacesTopicsSubscriptionsRule_STATUS      | Extended  |       |
-| NamespacesTopicsSubscriptionsRule_Spec        | NamespacesTopicsSubscriptionsRule_Spec        | Identical |       |
-| PrivateEndpointConnection_STATUS              | PrivateEndpointConnection_STATUS              | Identical |       |
-|                                               | SBClientAffineProperties                      |    New    |       |
-|                                               | SBClientAffineProperties_STATUS               |    New    |       |
-| SBSku                                         | SBSku                                         | Identical |       |
-| SBSku_STATUS                                  | SBSku_STATUS                                  | Identical |       |
-| SqlFilter                                     | SqlFilter                                     | Identical |       |
-| SqlFilter_STATUS                              | SqlFilter_STATUS                              | Identical |       |
-| SystemData_STATUS                             | SystemData_STATUS                             | Identical |       |
-| UserAssignedIdentityDetails                   | UserAssignedIdentityDetails                   | Identical |       |
-| UserAssignedIdentityProperties                | UserAssignedIdentityProperties                | Identical |       |
-| UserAssignedIdentityProperties_STATUS         | UserAssignedIdentityProperties_STATUS         | Identical |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20210101preview/storage                      | v20211101/storage                             |  Status   | Notes                                             |
+|:----------------------------------------------|:----------------------------------------------|:---------:|:--------------------------------------------------|
+| Action                                        | Action                                        | Identical |                                                   |
+| Action_STATUS                                 | Action_STATUS                                 | Identical |                                                   |
+| CorrelationFilter                             | CorrelationFilter                             | Identical |                                                   |
+| CorrelationFilter_STATUS                      | CorrelationFilter_STATUS                      | Identical |                                                   |
+| DictionaryValue_STATUS                        | UserAssignedIdentity_STATUS                   |  Renamed  |                                                   |
+| Encryption                                    | Encryption                                    | Identical |                                                   |
+| Encryption_STATUS                             | Encryption_STATUS                             | Identical |                                                   |
+| Identity                                      | Identity                                      | Identical |                                                   |
+| Identity_STATUS                               | Identity_STATUS                               | Identical |                                                   |
+| KeyVaultProperties                            | KeyVaultProperties                            | Identical |                                                   |
+| KeyVaultProperties_STATUS                     | KeyVaultProperties_STATUS                     | Identical |                                                   |
+| MessageCountDetails_STATUS                    | MessageCountDetails_STATUS                    | Identical |                                                   |
+| NamespaceOperatorSecrets                      | NamespaceOperatorSecrets                      | Identical |                                                   |
+| NamespaceOperatorSpec                         | NamespaceOperatorSpec                         | Identical |                                                   |
+| Namespace_STATUS                              | Namespace_STATUS                              | Extended  | +AlternateName +DisableLocalAuth                  |
+| Namespace_Spec                                | Namespace_Spec                                | Extended  | +AlternateName +DisableLocalAuth                  |
+| NamespacesAuthorizationRuleOperatorSecrets    | NamespacesAuthorizationRuleOperatorSecrets    | Identical |                                                   |
+| NamespacesAuthorizationRuleOperatorSpec       | NamespacesAuthorizationRuleOperatorSpec       | Identical |                                                   |
+| NamespacesAuthorizationRule_STATUS            | NamespacesAuthorizationRule_STATUS            | Extended  | +Location                                         |
+| NamespacesAuthorizationRule_Spec              | NamespacesAuthorizationRule_Spec              | Identical |                                                   |
+| NamespacesQueueOperatorSpec                   | NamespacesQueueOperatorSpec                   | Identical |                                                   |
+| NamespacesQueue_STATUS                        | NamespacesQueue_STATUS                        | Extended  | +Location +MaxMessageSizeInKilobytes              |
+| NamespacesQueue_Spec                          | NamespacesQueue_Spec                          | Extended  | +MaxMessageSizeInKilobytes                        |
+| NamespacesTopicOperatorSpec                   | NamespacesTopicOperatorSpec                   | Identical |                                                   |
+| NamespacesTopic_STATUS                        | NamespacesTopic_STATUS                        | Extended  | +Location +MaxMessageSizeInKilobytes              |
+| NamespacesTopic_Spec                          | NamespacesTopic_Spec                          | Extended  | +MaxMessageSizeInKilobytes                        |
+| NamespacesTopicsSubscriptionOperatorSpec      | NamespacesTopicsSubscriptionOperatorSpec      | Identical |                                                   |
+| NamespacesTopicsSubscription_STATUS           | NamespacesTopicsSubscription_STATUS           | Extended  | +ClientAffineProperties +IsClientAffine +Location |
+| NamespacesTopicsSubscription_Spec             | NamespacesTopicsSubscription_Spec             | Extended  | +ClientAffineProperties +IsClientAffine           |
+| NamespacesTopicsSubscriptionsRuleOperatorSpec | NamespacesTopicsSubscriptionsRuleOperatorSpec | Identical |                                                   |
+| NamespacesTopicsSubscriptionsRule_STATUS      | NamespacesTopicsSubscriptionsRule_STATUS      | Extended  | +Location                                         |
+| NamespacesTopicsSubscriptionsRule_Spec        | NamespacesTopicsSubscriptionsRule_Spec        | Identical |                                                   |
+| PrivateEndpointConnection_STATUS              | PrivateEndpointConnection_STATUS              | Identical |                                                   |
+|                                               | SBClientAffineProperties                      |    New    |                                                   |
+|                                               | SBClientAffineProperties_STATUS               |    New    |                                                   |
+| SBSku                                         | SBSku                                         | Identical |                                                   |
+| SBSku_STATUS                                  | SBSku_STATUS                                  | Identical |                                                   |
+| SqlFilter                                     | SqlFilter                                     | Identical |                                                   |
+| SqlFilter_STATUS                              | SqlFilter_STATUS                              | Identical |                                                   |
+| SystemData_STATUS                             | SystemData_STATUS                             | Identical |                                                   |
+| UserAssignedIdentityDetails                   | UserAssignedIdentityDetails                   | Identical |                                                   |
+| UserAssignedIdentityProperties                | UserAssignedIdentityProperties                | Identical |                                                   |
+| UserAssignedIdentityProperties_STATUS         | UserAssignedIdentityProperties_STATUS         | Identical |                                                   |
 
 ### Namespace_STATUS
 
-19 x Identical, 2 x New
+Properties: 19 x Identical, 2 x New
 
 | v20210101preview/storage   |                                    | v20211101/storage          |                                    |  Status   | Notes |
 |:---------------------------|:-----------------------------------|:---------------------------|:-----------------------------------|:---------:|:------|
@@ -98,7 +91,7 @@
 
 ### Namespace_Spec
 
-11 x Identical, 2 x New
+Properties: 11 x Identical, 2 x New
 
 | v20210101preview/storage |                                    | v20211101/storage |                                    |  Status   | Notes |
 |:-------------------------|:-----------------------------------|:------------------|:-----------------------------------|:---------:|:------|
@@ -118,7 +111,7 @@
 
 ### NamespacesAuthorizationRule_STATUS
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v20210101preview/storage |                        | v20211101/storage |                        |  Status   | Notes |
 |:-------------------------|:-----------------------|:------------------|:-----------------------|:---------:|:------|
@@ -133,7 +126,7 @@
 
 ### NamespacesQueue_STATUS
 
-27 x Identical, 2 x New
+Properties: 27 x Identical, 2 x New
 
 | v20210101preview/storage            |                             | v20211101/storage                   |                             |  Status   | Notes |
 |:------------------------------------|:----------------------------|:------------------------------------|:----------------------------|:---------:|:------|
@@ -169,7 +162,7 @@
 
 ### NamespacesQueue_Spec
 
-19 x Identical, 1 x New
+Properties: 19 x Identical, 1 x New
 
 | v20210101preview/storage            |                                    | v20211101/storage                   |                                    |  Status   | Notes |
 |:------------------------------------|:-----------------------------------|:------------------------------------|:-----------------------------------|:---------:|:------|
@@ -196,7 +189,7 @@
 
 ### NamespacesTopic_STATUS
 
-22 x Identical, 2 x New
+Properties: 22 x Identical, 2 x New
 
 | v20210101preview/storage            |                             | v20211101/storage                   |                             |  Status   | Notes |
 |:------------------------------------|:----------------------------|:------------------------------------|:----------------------------|:---------:|:------|
@@ -227,7 +220,7 @@
 
 ### NamespacesTopic_Spec
 
-14 x Identical, 1 x New
+Properties: 14 x Identical, 1 x New
 
 | v20210101preview/storage            |                                    | v20211101/storage                   |                                    |  Status   | Notes |
 |:------------------------------------|:-----------------------------------|:------------------------------------|:-----------------------------------|:---------:|:------|
@@ -249,7 +242,7 @@
 
 ### NamespacesTopicsSubscription_STATUS
 
-23 x Identical, 3 x New
+Properties: 23 x Identical, 3 x New
 
 | v20210101preview/storage                  |                             | v20211101/storage                         |                                  |  Status   | Notes |
 |:------------------------------------------|:----------------------------|:------------------------------------------|:---------------------------------|:---------:|:------|
@@ -282,7 +275,7 @@
 
 ### NamespacesTopicsSubscription_Spec
 
-16 x Identical, 2 x New
+Properties: 16 x Identical, 2 x New
 
 | v20210101preview/storage                  |                                           | v20211101/storage                         |                                           |  Status   | Notes |
 |:------------------------------------------|:------------------------------------------|:------------------------------------------|:------------------------------------------|:---------:|:------|
@@ -307,7 +300,7 @@
 
 ### NamespacesTopicsSubscriptionsRule_STATUS
 
-10 x Identical, 1 x New
+Properties: 10 x Identical, 1 x New
 
 | v20210101preview/storage |                           | v20211101/storage |                           |  Status   | Notes |
 |:-------------------------|:--------------------------|:------------------|:--------------------------|:---------:|:------|
@@ -322,3 +315,12 @@
 | SqlFilter                | *SqlFilter_STATUS         | SqlFilter         | *SqlFilter_STATUS         | Identical |       |
 | SystemData               | *SystemData_STATUS        | SystemData        | *SystemData_STATUS        | Identical |       |
 | Type                     | *string                   | Type              | *string                   | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

@@ -2,150 +2,177 @@
 
 ## Resources
 
-| v20250101                                       | v20250101/storage                               |  Status   | Notes |
-|:------------------------------------------------|:------------------------------------------------|:---------:|:------|
-| Server                                          | Server                                          | Identical |       |
-| ServersAdministrator                            | ServersAdministrator                            | Identical |       |
-| ServersAdvancedThreatProtectionSetting          | ServersAdvancedThreatProtectionSetting          | Identical |       |
-| ServersAuditingSetting                          | ServersAuditingSetting                          | Identical |       |
-| ServersAzureADOnlyAuthentication                | ServersAzureADOnlyAuthentication                | Identical |       |
-| ServersConnectionPolicy                         | ServersConnectionPolicy                         | Identical |       |
-| ServersDatabase                                 | ServersDatabase                                 | Identical |       |
-| ServersDatabasesAdvancedThreatProtectionSetting | ServersDatabasesAdvancedThreatProtectionSetting | Identical |       |
-| ServersDatabasesAuditingSetting                 | ServersDatabasesAuditingSetting                 | Identical |       |
-| ServersDatabasesBackupLongTermRetentionPolicy   | ServersDatabasesBackupLongTermRetentionPolicy   | Identical |       |
-| ServersDatabasesBackupShortTermRetentionPolicy  | ServersDatabasesBackupShortTermRetentionPolicy  | Identical |       |
-| ServersDatabasesSecurityAlertPolicy             | ServersDatabasesSecurityAlertPolicy             | Identical |       |
-| ServersDatabasesTransparentDataEncryption       | ServersDatabasesTransparentDataEncryption       | Identical |       |
-| ServersDatabasesVulnerabilityAssessment         | ServersDatabasesVulnerabilityAssessment         | Identical |       |
-| ServersElasticPool                              | ServersElasticPool                              | Identical |       |
-| ServersEncryptionProtector                      | ServersEncryptionProtector                      | Identical |       |
-| ServersFailoverGroup                            | ServersFailoverGroup                            | Identical |       |
-| ServersFirewallRule                             | ServersFirewallRule                             | Identical |       |
-| ServersIPV6FirewallRule                         | ServersIPV6FirewallRule                         | Identical |       |
-| ServersKey                                      | ServersKey                                      | Identical |       |
-| ServersOutboundFirewallRule                     | ServersOutboundFirewallRule                     | Identical |       |
-| ServersSecurityAlertPolicy                      | ServersSecurityAlertPolicy                      | Identical |       |
-| ServersVirtualNetworkRule                       | ServersVirtualNetworkRule                       | Identical |       |
-| ServersVulnerabilityAssessment                  | ServersVulnerabilityAssessment                  | Identical |       |
+| v20250101                                          | v20250101/storage                                  |  Status   | Notes |
+|:---------------------------------------------------|:---------------------------------------------------|:---------:|:------|
+| InstanceFailoverGroup                              | InstanceFailoverGroup                              | Identical |       |
+| ManagedInstance                                    | ManagedInstance                                    | Identical |       |
+| ManagedInstancesDatabase                           | ManagedInstancesDatabase                           | Identical |       |
+| ManagedInstancesDatabasesTransparentDataEncryption | ManagedInstancesDatabasesTransparentDataEncryption | Identical |       |
+| Server                                             | Server                                             | Identical |       |
+| ServersAdministrator                               | ServersAdministrator                               | Identical |       |
+| ServersAdvancedThreatProtectionSetting             | ServersAdvancedThreatProtectionSetting             | Identical |       |
+| ServersAuditingSetting                             | ServersAuditingSetting                             | Identical |       |
+| ServersAzureADOnlyAuthentication                   | ServersAzureADOnlyAuthentication                   | Identical |       |
+| ServersConnectionPolicy                            | ServersConnectionPolicy                            | Identical |       |
+| ServersDatabase                                    | ServersDatabase                                    | Identical |       |
+| ServersDatabasesAdvancedThreatProtectionSetting    | ServersDatabasesAdvancedThreatProtectionSetting    | Identical |       |
+| ServersDatabasesAuditingSetting                    | ServersDatabasesAuditingSetting                    | Identical |       |
+| ServersDatabasesBackupLongTermRetentionPolicy      | ServersDatabasesBackupLongTermRetentionPolicy      | Identical |       |
+| ServersDatabasesBackupShortTermRetentionPolicy     | ServersDatabasesBackupShortTermRetentionPolicy     | Identical |       |
+| ServersDatabasesSecurityAlertPolicy                | ServersDatabasesSecurityAlertPolicy                | Identical |       |
+| ServersDatabasesTransparentDataEncryption          | ServersDatabasesTransparentDataEncryption          | Identical |       |
+| ServersDatabasesVulnerabilityAssessment            | ServersDatabasesVulnerabilityAssessment            | Identical |       |
+| ServersElasticPool                                 | ServersElasticPool                                 | Identical |       |
+| ServersEncryptionProtector                         | ServersEncryptionProtector                         | Identical |       |
+| ServersFailoverGroup                               | ServersFailoverGroup                               | Identical |       |
+| ServersFirewallRule                                | ServersFirewallRule                                | Identical |       |
+| ServersIPV6FirewallRule                            | ServersIPV6FirewallRule                            | Identical |       |
+| ServersKey                                         | ServersKey                                         | Identical |       |
+| ServersOutboundFirewallRule                        | ServersOutboundFirewallRule                        | Identical |       |
+| ServersSecurityAlertPolicy                         | ServersSecurityAlertPolicy                         | Identical |       |
+| ServersVirtualNetworkRule                          | ServersVirtualNetworkRule                          | Identical |       |
+| ServersVulnerabilityAssessment                     | ServersVulnerabilityAssessment                     | Identical |       |
+
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
 
 ## Objects
 
-| v20250101                                                   | v20250101/storage                                           |  Status  | Notes |
-|:------------------------------------------------------------|:------------------------------------------------------------|:--------:|:------|
-| DatabaseIdentity                                            | DatabaseIdentity                                            | Modified |       |
-| DatabaseIdentity_STATUS                                     | DatabaseIdentity_STATUS                                     | Modified |       |
-| DatabaseKey_STATUS                                          | DatabaseKey_STATUS                                          | Modified |       |
-| DatabaseUserIdentity_STATUS                                 | DatabaseUserIdentity_STATUS                                 | Extended |       |
-| ElasticPoolPerDatabaseSettings                              | ElasticPoolPerDatabaseSettings                              | Extended |       |
-| ElasticPoolPerDatabaseSettings_STATUS                       | ElasticPoolPerDatabaseSettings_STATUS                       | Extended |       |
-| FailoverGroupReadOnlyEndpoint                               | FailoverGroupReadOnlyEndpoint                               | Modified |       |
-| FailoverGroupReadOnlyEndpoint_STATUS                        | FailoverGroupReadOnlyEndpoint_STATUS                        | Modified |       |
-| FailoverGroupReadWriteEndpoint                              | FailoverGroupReadWriteEndpoint                              | Modified |       |
-| FailoverGroupReadWriteEndpoint_STATUS                       | FailoverGroupReadWriteEndpoint_STATUS                       | Modified |       |
-| PartnerInfo                                                 | PartnerInfo                                                 | Extended |       |
-| PartnerInfo_STATUS                                          | PartnerInfo_STATUS                                          | Modified |       |
-| PrivateEndpointConnectionProperties_STATUS                  | PrivateEndpointConnectionProperties_STATUS                  | Modified |       |
-| PrivateEndpointProperty_STATUS                              | PrivateEndpointProperty_STATUS                              | Extended |       |
-| PrivateLinkServiceConnectionStateProperty_STATUS            | PrivateLinkServiceConnectionStateProperty_STATUS            | Modified |       |
-| ResourceIdentity                                            | ResourceIdentity                                            | Modified |       |
-| ResourceIdentity_STATUS                                     | ResourceIdentity_STATUS                                     | Modified |       |
-| ServerExternalAdministrator                                 | ServerExternalAdministrator                                 | Modified |       |
-| ServerExternalAdministrator_STATUS                          | ServerExternalAdministrator_STATUS                          | Modified |       |
-| ServerOperatorConfigMaps                                    | ServerOperatorConfigMaps                                    | Extended |       |
-| ServerOperatorSpec                                          | ServerOperatorSpec                                          | Extended |       |
-| ServerPrivateEndpointConnection_STATUS                      | ServerPrivateEndpointConnection_STATUS                      | Extended |       |
-| Server_STATUS                                               | Server_STATUS                                               | Modified |       |
-| Server_Spec                                                 | Server_Spec                                                 | Modified |       |
-| ServersAdministratorOperatorSpec                            | ServersAdministratorOperatorSpec                            | Extended |       |
-| ServersAdministrator_STATUS                                 | ServersAdministrator_STATUS                                 | Modified |       |
-| ServersAdministrator_Spec                                   | ServersAdministrator_Spec                                   | Modified |       |
-| ServersAdvancedThreatProtectionSettingOperatorSpec          | ServersAdvancedThreatProtectionSettingOperatorSpec          | Extended |       |
-| ServersAdvancedThreatProtectionSetting_STATUS               | ServersAdvancedThreatProtectionSetting_STATUS               | Modified |       |
-| ServersAdvancedThreatProtectionSetting_Spec                 | ServersAdvancedThreatProtectionSetting_Spec                 | Modified |       |
-| ServersAuditingSettingOperatorSpec                          | ServersAuditingSettingOperatorSpec                          | Extended |       |
-| ServersAuditingSetting_STATUS                               | ServersAuditingSetting_STATUS                               | Modified |       |
-| ServersAuditingSetting_Spec                                 | ServersAuditingSetting_Spec                                 | Modified |       |
-| ServersAzureADOnlyAuthenticationOperatorSpec                | ServersAzureADOnlyAuthenticationOperatorSpec                | Extended |       |
-| ServersAzureADOnlyAuthentication_STATUS                     | ServersAzureADOnlyAuthentication_STATUS                     | Extended |       |
-| ServersAzureADOnlyAuthentication_Spec                       | ServersAzureADOnlyAuthentication_Spec                       | Extended |       |
-| ServersConnectionPolicyOperatorSpec                         | ServersConnectionPolicyOperatorSpec                         | Extended |       |
-| ServersConnectionPolicy_STATUS                              | ServersConnectionPolicy_STATUS                              | Modified |       |
-| ServersConnectionPolicy_Spec                                | ServersConnectionPolicy_Spec                                | Modified |       |
-| ServersDatabaseOperatorSpec                                 | ServersDatabaseOperatorSpec                                 | Extended |       |
-| ServersDatabase_STATUS                                      | ServersDatabase_STATUS                                      | Modified |       |
-| ServersDatabase_Spec                                        | ServersDatabase_Spec                                        | Modified |       |
-| ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec | ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec | Extended |       |
-| ServersDatabasesAdvancedThreatProtectionSetting_STATUS      | ServersDatabasesAdvancedThreatProtectionSetting_STATUS      | Modified |       |
-| ServersDatabasesAdvancedThreatProtectionSetting_Spec        | ServersDatabasesAdvancedThreatProtectionSetting_Spec        | Modified |       |
-| ServersDatabasesAuditingSettingOperatorSpec                 | ServersDatabasesAuditingSettingOperatorSpec                 | Extended |       |
-| ServersDatabasesAuditingSetting_STATUS                      | ServersDatabasesAuditingSetting_STATUS                      | Modified |       |
-| ServersDatabasesAuditingSetting_Spec                        | ServersDatabasesAuditingSetting_Spec                        | Modified |       |
-| ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec   | ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec   | Extended |       |
-| ServersDatabasesBackupLongTermRetentionPolicy_STATUS        | ServersDatabasesBackupLongTermRetentionPolicy_STATUS        | Modified |       |
-| ServersDatabasesBackupLongTermRetentionPolicy_Spec          | ServersDatabasesBackupLongTermRetentionPolicy_Spec          | Modified |       |
-| ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec  | ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec  | Extended |       |
-| ServersDatabasesBackupShortTermRetentionPolicy_STATUS       | ServersDatabasesBackupShortTermRetentionPolicy_STATUS       | Modified |       |
-| ServersDatabasesBackupShortTermRetentionPolicy_Spec         | ServersDatabasesBackupShortTermRetentionPolicy_Spec         | Modified |       |
-| ServersDatabasesSecurityAlertPolicyOperatorSpec             | ServersDatabasesSecurityAlertPolicyOperatorSpec             | Extended |       |
-| ServersDatabasesSecurityAlertPolicy_STATUS                  | ServersDatabasesSecurityAlertPolicy_STATUS                  | Modified |       |
-| ServersDatabasesSecurityAlertPolicy_Spec                    | ServersDatabasesSecurityAlertPolicy_Spec                    | Modified |       |
-| ServersDatabasesTransparentDataEncryptionOperatorSpec       | ServersDatabasesTransparentDataEncryptionOperatorSpec       | Extended |       |
-| ServersDatabasesTransparentDataEncryption_STATUS            | ServersDatabasesTransparentDataEncryption_STATUS            | Modified |       |
-| ServersDatabasesTransparentDataEncryption_Spec              | ServersDatabasesTransparentDataEncryption_Spec              | Modified |       |
-| ServersDatabasesVulnerabilityAssessmentOperatorSpec         | ServersDatabasesVulnerabilityAssessmentOperatorSpec         | Extended |       |
-| ServersDatabasesVulnerabilityAssessment_STATUS              | ServersDatabasesVulnerabilityAssessment_STATUS              | Extended |       |
-| ServersDatabasesVulnerabilityAssessment_Spec                | ServersDatabasesVulnerabilityAssessment_Spec                | Extended |       |
-| ServersElasticPoolOperatorSpec                              | ServersElasticPoolOperatorSpec                              | Extended |       |
-| ServersElasticPool_STATUS                                   | ServersElasticPool_STATUS                                   | Modified |       |
-| ServersElasticPool_Spec                                     | ServersElasticPool_Spec                                     | Modified |       |
-| ServersEncryptionProtectorOperatorSpec                      | ServersEncryptionProtectorOperatorSpec                      | Extended |       |
-| ServersEncryptionProtector_STATUS                           | ServersEncryptionProtector_STATUS                           | Modified |       |
-| ServersEncryptionProtector_Spec                             | ServersEncryptionProtector_Spec                             | Modified |       |
-| ServersFailoverGroupOperatorSpec                            | ServersFailoverGroupOperatorSpec                            | Extended |       |
-| ServersFailoverGroup_STATUS                                 | ServersFailoverGroup_STATUS                                 | Modified |       |
-| ServersFailoverGroup_Spec                                   | ServersFailoverGroup_Spec                                   | Modified |       |
-| ServersFirewallRuleOperatorSpec                             | ServersFirewallRuleOperatorSpec                             | Extended |       |
-| ServersFirewallRule_STATUS                                  | ServersFirewallRule_STATUS                                  | Extended |       |
-| ServersFirewallRule_Spec                                    | ServersFirewallRule_Spec                                    | Extended |       |
-| ServersIPV6FirewallRuleOperatorSpec                         | ServersIPV6FirewallRuleOperatorSpec                         | Extended |       |
-| ServersIPV6FirewallRule_STATUS                              | ServersIPV6FirewallRule_STATUS                              | Extended |       |
-| ServersIPV6FirewallRule_Spec                                | ServersIPV6FirewallRule_Spec                                | Extended |       |
-| ServersKeyOperatorSpec                                      | ServersKeyOperatorSpec                                      | Extended |       |
-| ServersKey_STATUS                                           | ServersKey_STATUS                                           | Modified |       |
-| ServersKey_Spec                                             | ServersKey_Spec                                             | Modified |       |
-| ServersOutboundFirewallRuleOperatorSpec                     | ServersOutboundFirewallRuleOperatorSpec                     | Extended |       |
-| ServersOutboundFirewallRule_STATUS                          | ServersOutboundFirewallRule_STATUS                          | Extended |       |
-| ServersOutboundFirewallRule_Spec                            | ServersOutboundFirewallRule_Spec                            | Extended |       |
-| ServersSecurityAlertPolicyOperatorSpec                      | ServersSecurityAlertPolicyOperatorSpec                      | Extended |       |
-| ServersSecurityAlertPolicy_STATUS                           | ServersSecurityAlertPolicy_STATUS                           | Modified |       |
-| ServersSecurityAlertPolicy_Spec                             | ServersSecurityAlertPolicy_Spec                             | Modified |       |
-| ServersVirtualNetworkRuleOperatorSpec                       | ServersVirtualNetworkRuleOperatorSpec                       | Extended |       |
-| ServersVirtualNetworkRule_STATUS                            | ServersVirtualNetworkRule_STATUS                            | Modified |       |
-| ServersVirtualNetworkRule_Spec                              | ServersVirtualNetworkRule_Spec                              | Extended |       |
-| ServersVulnerabilityAssessmentOperatorSpec                  | ServersVulnerabilityAssessmentOperatorSpec                  | Extended |       |
-| ServersVulnerabilityAssessment_STATUS                       | ServersVulnerabilityAssessment_STATUS                       | Extended |       |
-| ServersVulnerabilityAssessment_Spec                         | ServersVulnerabilityAssessment_Spec                         | Extended |       |
-| Sku                                                         | Sku                                                         | Extended |       |
-| Sku_STATUS                                                  | Sku_STATUS                                                  | Extended |       |
-| SystemData_STATUS                                           | SystemData_STATUS                                           | Modified |       |
-| UserAssignedIdentityDetails                                 | UserAssignedIdentityDetails                                 | Extended |       |
-| UserIdentity_STATUS                                         | UserIdentity_STATUS                                         | Extended |       |
-| VulnerabilityAssessmentRecurringScansProperties             | VulnerabilityAssessmentRecurringScansProperties             | Extended |       |
-| VulnerabilityAssessmentRecurringScansProperties_STATUS      | VulnerabilityAssessmentRecurringScansProperties_STATUS      | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20250101                                                       | v20250101/storage                                               |  Status  | Notes                         |
+|:----------------------------------------------------------------|:----------------------------------------------------------------|:--------:|:------------------------------|
+| DatabaseIdentity                                                | DatabaseIdentity                                                | Modified |                               |
+| DatabaseIdentity_STATUS                                         | DatabaseIdentity_STATUS                                         | Modified |                               |
+| DatabaseKey_STATUS                                              | DatabaseKey_STATUS                                              | Modified |                               |
+| DatabaseUserIdentity_STATUS                                     | DatabaseUserIdentity_STATUS                                     | Extended | +PropertyBag                  |
+| ElasticPoolPerDatabaseSettings                                  | ElasticPoolPerDatabaseSettings                                  | Extended | +PropertyBag                  |
+| ElasticPoolPerDatabaseSettings_STATUS                           | ElasticPoolPerDatabaseSettings_STATUS                           | Extended | +PropertyBag                  |
+| FailoverGroupReadOnlyEndpoint                                   | FailoverGroupReadOnlyEndpoint                                   | Modified |                               |
+| FailoverGroupReadOnlyEndpoint_STATUS                            | FailoverGroupReadOnlyEndpoint_STATUS                            | Modified |                               |
+| FailoverGroupReadWriteEndpoint                                  | FailoverGroupReadWriteEndpoint                                  | Modified |                               |
+| FailoverGroupReadWriteEndpoint_STATUS                           | FailoverGroupReadWriteEndpoint_STATUS                           | Modified |                               |
+| InstanceFailoverGroupOperatorSpec                               | InstanceFailoverGroupOperatorSpec                               | Extended | +PropertyBag                  |
+| InstanceFailoverGroupReadOnlyEndpoint                           | InstanceFailoverGroupReadOnlyEndpoint                           | Modified |                               |
+| InstanceFailoverGroupReadOnlyEndpoint_STATUS                    | InstanceFailoverGroupReadOnlyEndpoint_STATUS                    | Modified |                               |
+| InstanceFailoverGroupReadWriteEndpoint                          | InstanceFailoverGroupReadWriteEndpoint                          | Modified |                               |
+| InstanceFailoverGroupReadWriteEndpoint_STATUS                   | InstanceFailoverGroupReadWriteEndpoint_STATUS                   | Modified |                               |
+| InstanceFailoverGroup_STATUS                                    | InstanceFailoverGroup_STATUS                                    | Modified |                               |
+| InstanceFailoverGroup_Spec                                      | InstanceFailoverGroup_Spec                                      | Modified |                               |
+| ManagedDatabaseExtendedAccessibilityInfo_STATUS                 | ManagedDatabaseExtendedAccessibilityInfo_STATUS                 | Modified |                               |
+| ManagedInstanceExternalAdministrator                            | ManagedInstanceExternalAdministrator                            | Modified |                               |
+| ManagedInstanceExternalAdministrator_STATUS                     | ManagedInstanceExternalAdministrator_STATUS                     | Modified |                               |
+| ManagedInstanceOperatorConfigMaps                               | ManagedInstanceOperatorConfigMaps                               | Extended | +PropertyBag                  |
+| ManagedInstanceOperatorSpec                                     | ManagedInstanceOperatorSpec                                     | Extended | +PropertyBag                  |
+| ManagedInstancePairInfo                                         | ManagedInstancePairInfo                                         | Extended | +PropertyBag                  |
+| ManagedInstancePairInfo_STATUS                                  | ManagedInstancePairInfo_STATUS                                  | Extended | +PropertyBag                  |
+| ManagedInstancePecProperty_STATUS                               | ManagedInstancePecProperty_STATUS                               | Extended | +PropertyBag                  |
+| ManagedInstancePrivateEndpointConnectionProperties_STATUS       | ManagedInstancePrivateEndpointConnectionProperties_STATUS       | Extended | +PropertyBag                  |
+| ManagedInstancePrivateEndpointProperty_STATUS                   | ManagedInstancePrivateEndpointProperty_STATUS                   | Extended | +PropertyBag                  |
+| ManagedInstancePrivateLinkServiceConnectionStateProperty_STATUS | ManagedInstancePrivateLinkServiceConnectionStateProperty_STATUS | Extended | +PropertyBag                  |
+| ManagedInstance_STATUS                                          | ManagedInstance_STATUS                                          | Modified |                               |
+| ManagedInstance_Spec                                            | ManagedInstance_Spec                                            | Modified |                               |
+| ManagedInstancesDatabaseOperatorSpec                            | ManagedInstancesDatabaseOperatorSpec                            | Extended | +PropertyBag                  |
+| ManagedInstancesDatabase_STATUS                                 | ManagedInstancesDatabase_STATUS                                 | Modified |                               |
+| ManagedInstancesDatabase_Spec                                   | ManagedInstancesDatabase_Spec                                   | Modified |                               |
+| ManagedInstancesDatabasesTransparentDataEncryptionOperatorSpec  | ManagedInstancesDatabasesTransparentDataEncryptionOperatorSpec  | Extended | +PropertyBag                  |
+| ManagedInstancesDatabasesTransparentDataEncryption_STATUS       | ManagedInstancesDatabasesTransparentDataEncryption_STATUS       | Modified |                               |
+| ManagedInstancesDatabasesTransparentDataEncryption_Spec         | ManagedInstancesDatabasesTransparentDataEncryption_Spec         | Modified |                               |
+| PartnerInfo                                                     | PartnerInfo                                                     | Extended | +PropertyBag                  |
+| PartnerInfo_STATUS                                              | PartnerInfo_STATUS                                              | Modified |                               |
+| PartnerRegionInfo                                               | PartnerRegionInfo                                               | Extended | +PropertyBag                  |
+| PartnerRegionInfo_STATUS                                        | PartnerRegionInfo_STATUS                                        | Modified |                               |
+| PrivateEndpointConnectionProperties_STATUS                      | PrivateEndpointConnectionProperties_STATUS                      | Modified |                               |
+| PrivateEndpointProperty_STATUS                                  | PrivateEndpointProperty_STATUS                                  | Extended | +PropertyBag                  |
+| PrivateLinkServiceConnectionStateProperty_STATUS                | PrivateLinkServiceConnectionStateProperty_STATUS                | Modified |                               |
+| ResourceIdentity                                                | ResourceIdentity                                                | Modified |                               |
+| ResourceIdentity_STATUS                                         | ResourceIdentity_STATUS                                         | Modified |                               |
+| ServerExternalAdministrator                                     | ServerExternalAdministrator                                     | Modified |                               |
+| ServerExternalAdministrator_STATUS                              | ServerExternalAdministrator_STATUS                              | Modified |                               |
+| ServerOperatorConfigMaps                                        | ServerOperatorConfigMaps                                        | Extended | +PropertyBag                  |
+| ServerOperatorSpec                                              | ServerOperatorSpec                                              | Extended | +PropertyBag                  |
+| ServerPrivateEndpointConnection_STATUS                          | ServerPrivateEndpointConnection_STATUS                          | Extended | +PropertyBag                  |
+| Server_STATUS                                                   | Server_STATUS                                                   | Modified |                               |
+| Server_Spec                                                     | Server_Spec                                                     | Modified |                               |
+| ServersAdministratorOperatorSpec                                | ServersAdministratorOperatorSpec                                | Extended | +PropertyBag                  |
+| ServersAdministrator_STATUS                                     | ServersAdministrator_STATUS                                     | Modified |                               |
+| ServersAdministrator_Spec                                       | ServersAdministrator_Spec                                       | Modified |                               |
+| ServersAdvancedThreatProtectionSettingOperatorSpec              | ServersAdvancedThreatProtectionSettingOperatorSpec              | Extended | +PropertyBag                  |
+| ServersAdvancedThreatProtectionSetting_STATUS                   | ServersAdvancedThreatProtectionSetting_STATUS                   | Modified |                               |
+| ServersAdvancedThreatProtectionSetting_Spec                     | ServersAdvancedThreatProtectionSetting_Spec                     | Modified |                               |
+| ServersAuditingSettingOperatorSpec                              | ServersAuditingSettingOperatorSpec                              | Extended | +PropertyBag                  |
+| ServersAuditingSetting_STATUS                                   | ServersAuditingSetting_STATUS                                   | Modified |                               |
+| ServersAuditingSetting_Spec                                     | ServersAuditingSetting_Spec                                     | Modified |                               |
+| ServersAzureADOnlyAuthenticationOperatorSpec                    | ServersAzureADOnlyAuthenticationOperatorSpec                    | Extended | +PropertyBag                  |
+| ServersAzureADOnlyAuthentication_STATUS                         | ServersAzureADOnlyAuthentication_STATUS                         | Extended | +PropertyBag                  |
+| ServersAzureADOnlyAuthentication_Spec                           | ServersAzureADOnlyAuthentication_Spec                           | Extended | +OriginalVersion +PropertyBag |
+| ServersConnectionPolicyOperatorSpec                             | ServersConnectionPolicyOperatorSpec                             | Extended | +PropertyBag                  |
+| ServersConnectionPolicy_STATUS                                  | ServersConnectionPolicy_STATUS                                  | Modified |                               |
+| ServersConnectionPolicy_Spec                                    | ServersConnectionPolicy_Spec                                    | Modified |                               |
+| ServersDatabaseOperatorSpec                                     | ServersDatabaseOperatorSpec                                     | Extended | +PropertyBag                  |
+| ServersDatabase_STATUS                                          | ServersDatabase_STATUS                                          | Modified |                               |
+| ServersDatabase_Spec                                            | ServersDatabase_Spec                                            | Modified |                               |
+| ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec     | ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec     | Extended | +PropertyBag                  |
+| ServersDatabasesAdvancedThreatProtectionSetting_STATUS          | ServersDatabasesAdvancedThreatProtectionSetting_STATUS          | Modified |                               |
+| ServersDatabasesAdvancedThreatProtectionSetting_Spec            | ServersDatabasesAdvancedThreatProtectionSetting_Spec            | Modified |                               |
+| ServersDatabasesAuditingSettingOperatorSpec                     | ServersDatabasesAuditingSettingOperatorSpec                     | Extended | +PropertyBag                  |
+| ServersDatabasesAuditingSetting_STATUS                          | ServersDatabasesAuditingSetting_STATUS                          | Modified |                               |
+| ServersDatabasesAuditingSetting_Spec                            | ServersDatabasesAuditingSetting_Spec                            | Modified |                               |
+| ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec       | ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec       | Extended | +PropertyBag                  |
+| ServersDatabasesBackupLongTermRetentionPolicy_STATUS            | ServersDatabasesBackupLongTermRetentionPolicy_STATUS            | Modified |                               |
+| ServersDatabasesBackupLongTermRetentionPolicy_Spec              | ServersDatabasesBackupLongTermRetentionPolicy_Spec              | Modified |                               |
+| ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec      | ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec      | Extended | +PropertyBag                  |
+| ServersDatabasesBackupShortTermRetentionPolicy_STATUS           | ServersDatabasesBackupShortTermRetentionPolicy_STATUS           | Modified |                               |
+| ServersDatabasesBackupShortTermRetentionPolicy_Spec             | ServersDatabasesBackupShortTermRetentionPolicy_Spec             | Modified |                               |
+| ServersDatabasesSecurityAlertPolicyOperatorSpec                 | ServersDatabasesSecurityAlertPolicyOperatorSpec                 | Extended | +PropertyBag                  |
+| ServersDatabasesSecurityAlertPolicy_STATUS                      | ServersDatabasesSecurityAlertPolicy_STATUS                      | Modified |                               |
+| ServersDatabasesSecurityAlertPolicy_Spec                        | ServersDatabasesSecurityAlertPolicy_Spec                        | Modified |                               |
+| ServersDatabasesTransparentDataEncryptionOperatorSpec           | ServersDatabasesTransparentDataEncryptionOperatorSpec           | Extended | +PropertyBag                  |
+| ServersDatabasesTransparentDataEncryption_STATUS                | ServersDatabasesTransparentDataEncryption_STATUS                | Modified |                               |
+| ServersDatabasesTransparentDataEncryption_Spec                  | ServersDatabasesTransparentDataEncryption_Spec                  | Modified |                               |
+| ServersDatabasesVulnerabilityAssessmentOperatorSpec             | ServersDatabasesVulnerabilityAssessmentOperatorSpec             | Extended | +PropertyBag                  |
+| ServersDatabasesVulnerabilityAssessment_STATUS                  | ServersDatabasesVulnerabilityAssessment_STATUS                  | Extended | +PropertyBag                  |
+| ServersDatabasesVulnerabilityAssessment_Spec                    | ServersDatabasesVulnerabilityAssessment_Spec                    | Extended | +OriginalVersion +PropertyBag |
+| ServersElasticPoolOperatorSpec                                  | ServersElasticPoolOperatorSpec                                  | Extended | +PropertyBag                  |
+| ServersElasticPool_STATUS                                       | ServersElasticPool_STATUS                                       | Modified |                               |
+| ServersElasticPool_Spec                                         | ServersElasticPool_Spec                                         | Modified |                               |
+| ServersEncryptionProtectorOperatorSpec                          | ServersEncryptionProtectorOperatorSpec                          | Extended | +PropertyBag                  |
+| ServersEncryptionProtector_STATUS                               | ServersEncryptionProtector_STATUS                               | Modified |                               |
+| ServersEncryptionProtector_Spec                                 | ServersEncryptionProtector_Spec                                 | Modified |                               |
+| ServersFailoverGroupOperatorSpec                                | ServersFailoverGroupOperatorSpec                                | Extended | +PropertyBag                  |
+| ServersFailoverGroup_STATUS                                     | ServersFailoverGroup_STATUS                                     | Modified |                               |
+| ServersFailoverGroup_Spec                                       | ServersFailoverGroup_Spec                                       | Modified |                               |
+| ServersFirewallRuleOperatorSpec                                 | ServersFirewallRuleOperatorSpec                                 | Extended | +PropertyBag                  |
+| ServersFirewallRule_STATUS                                      | ServersFirewallRule_STATUS                                      | Extended | +PropertyBag                  |
+| ServersFirewallRule_Spec                                        | ServersFirewallRule_Spec                                        | Extended | +OriginalVersion +PropertyBag |
+| ServersIPV6FirewallRuleOperatorSpec                             | ServersIPV6FirewallRuleOperatorSpec                             | Extended | +PropertyBag                  |
+| ServersIPV6FirewallRule_STATUS                                  | ServersIPV6FirewallRule_STATUS                                  | Extended | +PropertyBag                  |
+| ServersIPV6FirewallRule_Spec                                    | ServersIPV6FirewallRule_Spec                                    | Extended | +OriginalVersion +PropertyBag |
+| ServersKeyOperatorSpec                                          | ServersKeyOperatorSpec                                          | Extended | +PropertyBag                  |
+| ServersKey_STATUS                                               | ServersKey_STATUS                                               | Modified |                               |
+| ServersKey_Spec                                                 | ServersKey_Spec                                                 | Modified |                               |
+| ServersOutboundFirewallRuleOperatorSpec                         | ServersOutboundFirewallRuleOperatorSpec                         | Extended | +PropertyBag                  |
+| ServersOutboundFirewallRule_STATUS                              | ServersOutboundFirewallRule_STATUS                              | Extended | +PropertyBag                  |
+| ServersOutboundFirewallRule_Spec                                | ServersOutboundFirewallRule_Spec                                | Extended | +OriginalVersion +PropertyBag |
+| ServersSecurityAlertPolicyOperatorSpec                          | ServersSecurityAlertPolicyOperatorSpec                          | Extended | +PropertyBag                  |
+| ServersSecurityAlertPolicy_STATUS                               | ServersSecurityAlertPolicy_STATUS                               | Modified |                               |
+| ServersSecurityAlertPolicy_Spec                                 | ServersSecurityAlertPolicy_Spec                                 | Modified |                               |
+| ServersVirtualNetworkRuleOperatorSpec                           | ServersVirtualNetworkRuleOperatorSpec                           | Extended | +PropertyBag                  |
+| ServersVirtualNetworkRule_STATUS                                | ServersVirtualNetworkRule_STATUS                                | Modified |                               |
+| ServersVirtualNetworkRule_Spec                                  | ServersVirtualNetworkRule_Spec                                  | Extended | +OriginalVersion +PropertyBag |
+| ServersVulnerabilityAssessmentOperatorSpec                      | ServersVulnerabilityAssessmentOperatorSpec                      | Extended | +PropertyBag                  |
+| ServersVulnerabilityAssessment_STATUS                           | ServersVulnerabilityAssessment_STATUS                           | Extended | +PropertyBag                  |
+| ServersVulnerabilityAssessment_Spec                             | ServersVulnerabilityAssessment_Spec                             | Extended | +OriginalVersion +PropertyBag |
+| ServicePrincipal                                                | ServicePrincipal                                                | Modified |                               |
+| ServicePrincipal_STATUS                                         | ServicePrincipal_STATUS                                         | Modified |                               |
+| Sku                                                             | Sku                                                             | Extended | +PropertyBag                  |
+| Sku_STATUS                                                      | Sku_STATUS                                                      | Extended | +PropertyBag                  |
+| SystemData_STATUS                                               | SystemData_STATUS                                               | Modified |                               |
+| UserAssignedIdentityDetails                                     | UserAssignedIdentityDetails                                     | Extended | +PropertyBag                  |
+| UserIdentity_STATUS                                             | UserIdentity_STATUS                                             | Extended | +PropertyBag                  |
+| VulnerabilityAssessmentRecurringScansProperties                 | VulnerabilityAssessmentRecurringScansProperties                 | Extended | +PropertyBag                  |
+| VulnerabilityAssessmentRecurringScansProperties_STATUS          | VulnerabilityAssessmentRecurringScansProperties_STATUS          | Extended | +PropertyBag                  |
 
 ### DatabaseIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250101              |                               | v20250101/storage      |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -155,7 +182,7 @@
 
 ### DatabaseIdentity_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250101              |                                        | v20250101/storage      |                                        |  Status   | Notes |
 |:-----------------------|:---------------------------------------|:-----------------------|:---------------------------------------|:---------:|:------|
@@ -166,7 +193,7 @@
 
 ### DatabaseKey_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v20250101    |                         | v20250101/storage |                        |  Status   | Notes |
 |:-------------|:------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -179,7 +206,7 @@
 
 ### DatabaseUserIdentity_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250101   |         | v20250101/storage |                        |  Status   | Notes |
 |:------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -189,7 +216,7 @@
 
 ### ElasticPoolPerDatabaseSettings
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250101      |          | v20250101/storage |                        |  Status   | Notes |
 |:---------------|:---------|:------------------|:-----------------------|:---------:|:------|
@@ -200,7 +227,7 @@
 
 ### ElasticPoolPerDatabaseSettings_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250101      |          | v20250101/storage |                        |  Status   | Notes |
 |:---------------|:---------|:------------------|:-----------------------|:---------:|:------|
@@ -211,7 +238,7 @@
 
 ### FailoverGroupReadOnlyEndpoint
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250101             |                                 | v20250101/storage     |                               |  Status   | Notes |
 |:----------------------|:--------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -221,7 +248,7 @@
 
 ### FailoverGroupReadOnlyEndpoint_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250101      |                                        | v20250101/storage |                        |  Status   | Notes |
 |:---------------|:---------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -231,7 +258,7 @@
 
 ### FailoverGroupReadWriteEndpoint
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250101                              |                                  | v20250101/storage                      |                        |  Status   | Notes |
 |:---------------------------------------|:---------------------------------|:---------------------------------------|:-----------------------|:---------:|:------|
@@ -241,7 +268,7 @@
 
 ### FailoverGroupReadWriteEndpoint_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250101                              |                                         | v20250101/storage                      |                        |  Status   | Notes |
 |:---------------------------------------|:----------------------------------------|:---------------------------------------|:-----------------------|:---------:|:------|
@@ -249,9 +276,439 @@
 | FailoverWithDataLossGracePeriodMinutes | *int                                    | FailoverWithDataLossGracePeriodMinutes | *int                   | Identical |       |
 |                                        |                                         | PropertyBag                            | genruntime.PropertyBag |    New    |       |
 
+### InstanceFailoverGroupOperatorSpec
+
+Properties: 2 x Identical, 1 x New
+
+| v20250101            |                               | v20250101/storage    |                               |  Status   | Notes |
+|:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
+| ConfigMapExpressions | *core.DestinationExpression[] | ConfigMapExpressions | *core.DestinationExpression[] | Identical |       |
+|                      |                               | PropertyBag          | genruntime.PropertyBag        |    New    |       |
+| SecretExpressions    | *core.DestinationExpression[] | SecretExpressions    | *core.DestinationExpression[] | Identical |       |
+
+### InstanceFailoverGroupReadOnlyEndpoint
+
+Properties: 1 x New, 1 x Modified
+
+| v20250101      |                                 | v20250101/storage |                        |  Status  | Notes |
+|:---------------|:--------------------------------|:------------------|:-----------------------|:--------:|:------|
+| FailoverPolicy | *ReadOnlyEndpointFailoverPolicy | FailoverPolicy    | *string                | Modified |       |
+|                |                                 | PropertyBag       | genruntime.PropertyBag |   New    |       |
+
+### InstanceFailoverGroupReadOnlyEndpoint_STATUS
+
+Properties: 1 x New, 1 x Modified
+
+| v20250101      |                                        | v20250101/storage |                        |  Status  | Notes |
+|:---------------|:---------------------------------------|:------------------|:-----------------------|:--------:|:------|
+| FailoverPolicy | *ReadOnlyEndpointFailoverPolicy_STATUS | FailoverPolicy    | *string                | Modified |       |
+|                |                                        | PropertyBag       | genruntime.PropertyBag |   New    |       |
+
+### InstanceFailoverGroupReadWriteEndpoint
+
+Properties: 1 x Identical, 1 x New, 1 x Modified
+
+| v20250101                              |                                  | v20250101/storage                      |                        |  Status   | Notes |
+|:---------------------------------------|:---------------------------------|:---------------------------------------|:-----------------------|:---------:|:------|
+| FailoverPolicy                         | *ReadWriteEndpointFailoverPolicy | FailoverPolicy                         | *string                | Modified  |       |
+| FailoverWithDataLossGracePeriodMinutes | *int                             | FailoverWithDataLossGracePeriodMinutes | *int                   | Identical |       |
+|                                        |                                  | PropertyBag                            | genruntime.PropertyBag |    New    |       |
+
+### InstanceFailoverGroupReadWriteEndpoint_STATUS
+
+Properties: 1 x Identical, 1 x New, 1 x Modified
+
+| v20250101                              |                                         | v20250101/storage                      |                        |  Status   | Notes |
+|:---------------------------------------|:----------------------------------------|:---------------------------------------|:-----------------------|:---------:|:------|
+| FailoverPolicy                         | *ReadWriteEndpointFailoverPolicy_STATUS | FailoverPolicy                         | *string                | Modified  |       |
+| FailoverWithDataLossGracePeriodMinutes | *int                                    | FailoverWithDataLossGracePeriodMinutes | *int                   | Identical |       |
+|                                        |                                         | PropertyBag                            | genruntime.PropertyBag |    New    |       |
+
+### InstanceFailoverGroup_STATUS
+
+Properties: 10 x Identical, 1 x New, 2 x Modified
+
+| v20250101            |                                                | v20250101/storage    |                                                |  Status   | Notes |
+|:---------------------|:-----------------------------------------------|:---------------------|:-----------------------------------------------|:---------:|:------|
+| Conditions           | conditions.Condition[]                         | Conditions           | conditions.Condition[]                         | Identical |       |
+| Id                   | *string                                        | Id                   | *string                                        | Identical |       |
+| ManagedInstancePairs | ManagedInstancePairInfo_STATUS[]               | ManagedInstancePairs | ManagedInstancePairInfo_STATUS[]               | Identical |       |
+| Name                 | *string                                        | Name                 | *string                                        | Identical |       |
+| PartnerRegions       | PartnerRegionInfo_STATUS[]                     | PartnerRegions       | PartnerRegionInfo_STATUS[]                     | Identical |       |
+|                      |                                                | PropertyBag          | genruntime.PropertyBag                         |    New    |       |
+| ReadOnlyEndpoint     | *InstanceFailoverGroupReadOnlyEndpoint_STATUS  | ReadOnlyEndpoint     | *InstanceFailoverGroupReadOnlyEndpoint_STATUS  | Identical |       |
+| ReadWriteEndpoint    | *InstanceFailoverGroupReadWriteEndpoint_STATUS | ReadWriteEndpoint    | *InstanceFailoverGroupReadWriteEndpoint_STATUS | Identical |       |
+| ReplicationRole      | *InstanceFailoverGroupReplicationRole_STATUS   | ReplicationRole      | *string                                        | Modified  |       |
+| ReplicationState     | *string                                        | ReplicationState     | *string                                        | Identical |       |
+| SecondaryType        | *SecondaryInstanceType_STATUS                  | SecondaryType        | *string                                        | Modified  |       |
+| SystemData           | *SystemData_STATUS                             | SystemData           | *SystemData_STATUS                             | Identical |       |
+| Type                 | *string                                        | Type                 | *string                                        | Identical |       |
+
+### InstanceFailoverGroup_Spec
+
+Properties: 7 x Identical, 2 x New, 1 x Modified
+
+| v20250101            |                                         | v20250101/storage    |                                         |  Status   | Notes |
+|:---------------------|:----------------------------------------|:---------------------|:----------------------------------------|:---------:|:------|
+| AzureName            | string                                  | AzureName            | string                                  | Identical |       |
+| ManagedInstancePairs | ManagedInstancePairInfo[]               | ManagedInstancePairs | ManagedInstancePairInfo[]               | Identical |       |
+| OperatorSpec         | *InstanceFailoverGroupOperatorSpec      | OperatorSpec         | *InstanceFailoverGroupOperatorSpec      | Identical |       |
+|                      |                                         | OriginalVersion      | string                                  |    New    |       |
+| Owner                | *genruntime.KnownResourceReference      | Owner                | *genruntime.KnownResourceReference      | Identical |       |
+| PartnerRegions       | PartnerRegionInfo[]                     | PartnerRegions       | PartnerRegionInfo[]                     | Identical |       |
+|                      |                                         | PropertyBag          | genruntime.PropertyBag                  |    New    |       |
+| ReadOnlyEndpoint     | *InstanceFailoverGroupReadOnlyEndpoint  | ReadOnlyEndpoint     | *InstanceFailoverGroupReadOnlyEndpoint  | Identical |       |
+| ReadWriteEndpoint    | *InstanceFailoverGroupReadWriteEndpoint | ReadWriteEndpoint    | *InstanceFailoverGroupReadWriteEndpoint | Identical |       |
+| SecondaryType        | *SecondaryInstanceType                  | SecondaryType        | *string                                 | Modified  |       |
+
+### ManagedDatabaseExtendedAccessibilityInfo_STATUS
+
+Properties: 3 x Identical, 1 x New, 1 x Modified
+
+| v20250101                        |                               | v20250101/storage                |                        |  Status   | Notes |
+|:---------------------------------|:------------------------------|:---------------------------------|:-----------------------|:---------:|:------|
+| InaccessibilityReasonDescription | *string                       | InaccessibilityReasonDescription | *string                | Identical |       |
+| InaccessibilityReasonErrorCode   | *string                       | InaccessibilityReasonErrorCode   | *string                | Identical |       |
+| InaccessibilityReasonKind        | *InaccessibilityReason_STATUS | InaccessibilityReasonKind        | *string                | Modified  |       |
+| InaccessibilityReasonTdeKeyUri   | *string                       | InaccessibilityReasonTdeKeyUri   | *string                | Identical |       |
+|                                  |                               | PropertyBag                      | genruntime.PropertyBag |    New    |       |
+
+### ManagedInstanceExternalAdministrator
+
+Properties: 5 x Identical, 1 x New, 4 x Modified
+
+| v20250101                 |                                | v20250101/storage         |                                |  Status   | Notes |
+|:--------------------------|:-------------------------------|:--------------------------|:-------------------------------|:---------:|:------|
+| AdministratorType         | *AdministratorType             | AdministratorType         | *string                        | Modified  |       |
+| AzureADOnlyAuthentication | *bool                          | AzureADOnlyAuthentication | *bool                          | Identical |       |
+| Login                     | *string                        | Login                     | *string                        | Identical |       |
+| LoginFromConfig           | *genruntime.ConfigMapReference | LoginFromConfig           | *genruntime.ConfigMapReference | Identical |       |
+| PrincipalType             | *PrincipalType                 | PrincipalType             | *string                        | Modified  |       |
+|                           |                                | PropertyBag               | genruntime.PropertyBag         |    New    |       |
+| Sid                       | *AzureCoreUuid                 | Sid                       | *string                        | Modified  |       |
+| SidFromConfig             | *genruntime.ConfigMapReference | SidFromConfig             | *genruntime.ConfigMapReference | Identical |       |
+| TenantId                  | *AzureCoreUuid                 | TenantId                  | *string                        | Modified  |       |
+| TenantIdFromConfig        | *genruntime.ConfigMapReference | TenantIdFromConfig        | *genruntime.ConfigMapReference | Identical |       |
+
+### ManagedInstanceExternalAdministrator_STATUS
+
+Properties: 4 x Identical, 1 x New, 2 x Modified
+
+| v20250101                 |                           | v20250101/storage         |                        |  Status   | Notes |
+|:--------------------------|:--------------------------|:--------------------------|:-----------------------|:---------:|:------|
+| AdministratorType         | *AdministratorType_STATUS | AdministratorType         | *string                | Modified  |       |
+| AzureADOnlyAuthentication | *bool                     | AzureADOnlyAuthentication | *bool                  | Identical |       |
+| Login                     | *string                   | Login                     | *string                | Identical |       |
+| PrincipalType             | *PrincipalType_STATUS     | PrincipalType             | *string                | Modified  |       |
+|                           |                           | PropertyBag               | genruntime.PropertyBag |    New    |       |
+| Sid                       | *string                   | Sid                       | *string                | Identical |       |
+| TenantId                  | *string                   | TenantId                  | *string                | Identical |       |
+
+### ManagedInstanceOperatorConfigMaps
+
+Properties: 1 x Identical, 1 x New
+
+| v20250101                |                                  | v20250101/storage        |                                  |  Status   | Notes |
+|:-------------------------|:---------------------------------|:-------------------------|:---------------------------------|:---------:|:------|
+| FullyQualifiedDomainName | *genruntime.ConfigMapDestination | FullyQualifiedDomainName | *genruntime.ConfigMapDestination | Identical |       |
+|                          |                                  | PropertyBag              | genruntime.PropertyBag           |    New    |       |
+
+### ManagedInstanceOperatorSpec
+
+Properties: 3 x Identical, 1 x New
+
+| v20250101            |                                    | v20250101/storage    |                                    |  Status   | Notes |
+|:---------------------|:-----------------------------------|:---------------------|:-----------------------------------|:---------:|:------|
+| ConfigMapExpressions | *core.DestinationExpression[]      | ConfigMapExpressions | *core.DestinationExpression[]      | Identical |       |
+| ConfigMaps           | *ManagedInstanceOperatorConfigMaps | ConfigMaps           | *ManagedInstanceOperatorConfigMaps | Identical |       |
+|                      |                                    | PropertyBag          | genruntime.PropertyBag             |    New    |       |
+| SecretExpressions    | *core.DestinationExpression[]      | SecretExpressions    | *core.DestinationExpression[]      | Identical |       |
+
+### ManagedInstancePairInfo
+
+Properties: 2 x Identical, 1 x New
+
+| v20250101                       |                               | v20250101/storage               |                               |  Status   | Notes |
+|:--------------------------------|:------------------------------|:--------------------------------|:------------------------------|:---------:|:------|
+| PartnerManagedInstanceReference | *genruntime.ResourceReference | PartnerManagedInstanceReference | *genruntime.ResourceReference | Identical |       |
+| PrimaryManagedInstanceReference | *genruntime.ResourceReference | PrimaryManagedInstanceReference | *genruntime.ResourceReference | Identical |       |
+|                                 |                               | PropertyBag                     | genruntime.PropertyBag        |    New    |       |
+
+### ManagedInstancePairInfo_STATUS
+
+Properties: 2 x Identical, 1 x New
+
+| v20250101                |         | v20250101/storage        |                        |  Status   | Notes |
+|:-------------------------|:--------|:-------------------------|:-----------------------|:---------:|:------|
+| PartnerManagedInstanceId | *string | PartnerManagedInstanceId | *string                | Identical |       |
+| PrimaryManagedInstanceId | *string | PrimaryManagedInstanceId | *string                | Identical |       |
+|                          |         | PropertyBag              | genruntime.PropertyBag |    New    |       |
+
+### ManagedInstancePecProperty_STATUS
+
+Properties: 2 x Identical, 1 x New
+
+| v20250101  |                                                            | v20250101/storage |                                                            |  Status   | Notes |
+|:-----------|:-----------------------------------------------------------|:------------------|:-----------------------------------------------------------|:---------:|:------|
+| Id         | *string                                                    | Id                | *string                                                    | Identical |       |
+| Properties | *ManagedInstancePrivateEndpointConnectionProperties_STATUS | Properties        | *ManagedInstancePrivateEndpointConnectionProperties_STATUS | Identical |       |
+|            |                                                            | PropertyBag       | genruntime.PropertyBag                                     |    New    |       |
+
+### ManagedInstancePrivateEndpointConnectionProperties_STATUS
+
+Properties: 3 x Identical, 1 x New
+
+| v20250101                         |                                                                  | v20250101/storage                 |                                                                  |  Status   | Notes |
+|:----------------------------------|:-----------------------------------------------------------------|:----------------------------------|:-----------------------------------------------------------------|:---------:|:------|
+| PrivateEndpoint                   | *ManagedInstancePrivateEndpointProperty_STATUS                   | PrivateEndpoint                   | *ManagedInstancePrivateEndpointProperty_STATUS                   | Identical |       |
+| PrivateLinkServiceConnectionState | *ManagedInstancePrivateLinkServiceConnectionStateProperty_STATUS | PrivateLinkServiceConnectionState | *ManagedInstancePrivateLinkServiceConnectionStateProperty_STATUS | Identical |       |
+|                                   |                                                                  | PropertyBag                       | genruntime.PropertyBag                                           |    New    |       |
+| ProvisioningState                 | *string                                                          | ProvisioningState                 | *string                                                          | Identical |       |
+
+### ManagedInstancePrivateEndpointProperty_STATUS
+
+Properties: 1 x Identical, 1 x New
+
+| v20250101 |         | v20250101/storage |                        |  Status   | Notes |
+|:----------|:--------|:------------------|:-----------------------|:---------:|:------|
+| Id        | *string | Id                | *string                | Identical |       |
+|           |         | PropertyBag       | genruntime.PropertyBag |    New    |       |
+
+### ManagedInstancePrivateLinkServiceConnectionStateProperty_STATUS
+
+Properties: 3 x Identical, 1 x New
+
+| v20250101       |         | v20250101/storage |                        |  Status   | Notes |
+|:----------------|:--------|:------------------|:-----------------------|:---------:|:------|
+| ActionsRequired | *string | ActionsRequired   | *string                | Identical |       |
+| Description     | *string | Description       | *string                | Identical |       |
+|                 |         | PropertyBag       | genruntime.PropertyBag |    New    |       |
+| Status          | *string | Status            | *string                | Identical |       |
+
+### ManagedInstance_STATUS
+
+Properties: 37 x Identical, 1 x New, 13 x Modified
+
+| v20250101                        |                                              | v20250101/storage                |                                              |  Status   | Notes |
+|:---------------------------------|:---------------------------------------------|:---------------------------------|:---------------------------------------------|:---------:|:------|
+| AdministratorLogin               | *string                                      | AdministratorLogin               | *string                                      | Identical |       |
+| Administrators                   | *ManagedInstanceExternalAdministrator_STATUS | Administrators                   | *ManagedInstanceExternalAdministrator_STATUS | Identical |       |
+| AuthenticationMetadata           | *AuthMetadataLookupModes_STATUS              | AuthenticationMetadata           | *string                                      | Modified  |       |
+| Collation                        | *string                                      | Collation                        | *string                                      | Identical |       |
+| Conditions                       | conditions.Condition[]                       | Conditions                       | conditions.Condition[]                       | Identical |       |
+| CreateTime                       | *string                                      | CreateTime                       | *string                                      | Identical |       |
+| CurrentBackupStorageRedundancy   | *BackupStorageRedundancy_STATUS              | CurrentBackupStorageRedundancy   | *string                                      | Modified  |       |
+| DatabaseFormat                   | *ManagedInstanceDatabaseFormat_STATUS        | DatabaseFormat                   | *string                                      | Modified  |       |
+| DnsZone                          | *string                                      | DnsZone                          | *string                                      | Identical |       |
+| DnsZonePartner                   | *string                                      | DnsZonePartner                   | *string                                      | Identical |       |
+| ExternalGovernanceStatus         | *ExternalGovernanceStatus_STATUS             | ExternalGovernanceStatus         | *string                                      | Modified  |       |
+| FullyQualifiedDomainName         | *string                                      | FullyQualifiedDomainName         | *string                                      | Identical |       |
+| HybridSecondaryUsage             | *HybridSecondaryUsage_STATUS                 | HybridSecondaryUsage             | *string                                      | Modified  |       |
+| HybridSecondaryUsageDetected     | *HybridSecondaryUsageDetected_STATUS         | HybridSecondaryUsageDetected     | *string                                      | Modified  |       |
+| Id                               | *string                                      | Id                               | *string                                      | Identical |       |
+| Identity                         | *ResourceIdentity_STATUS                     | Identity                         | *ResourceIdentity_STATUS                     | Identical |       |
+| InstancePoolId                   | *string                                      | InstancePoolId                   | *string                                      | Identical |       |
+| IsGeneralPurposeV2               | *bool                                        | IsGeneralPurposeV2               | *bool                                        | Identical |       |
+| KeyId                            | *string                                      | KeyId                            | *string                                      | Identical |       |
+| LicenseType                      | *ManagedInstanceLicenseType_STATUS           | LicenseType                      | *string                                      | Modified  |       |
+| Location                         | *string                                      | Location                         | *string                                      | Identical |       |
+| MaintenanceConfigurationId       | *string                                      | MaintenanceConfigurationId       | *string                                      | Identical |       |
+| ManagedInstanceCreateMode        | *ManagedServerCreateMode_STATUS              | ManagedInstanceCreateMode        | *string                                      | Modified  |       |
+| MemorySizeInGB                   | *int                                         | MemorySizeInGB                   | *int                                         | Identical |       |
+| MinimalTlsVersion                | *string                                      | MinimalTlsVersion                | *string                                      | Identical |       |
+| Name                             | *string                                      | Name                             | *string                                      | Identical |       |
+| PricingModel                     | *PricingModel_STATUS                         | PricingModel                     | *string                                      | Modified  |       |
+| PrimaryUserAssignedIdentityId    | *string                                      | PrimaryUserAssignedIdentityId    | *string                                      | Identical |       |
+| PrivateEndpointConnections       | ManagedInstancePecProperty_STATUS[]          | PrivateEndpointConnections       | ManagedInstancePecProperty_STATUS[]          | Identical |       |
+|                                  |                                              | PropertyBag                      | genruntime.PropertyBag                       |    New    |       |
+| ProvisioningState                | *ProvisioningState_STATUS                    | ProvisioningState                | *string                                      | Modified  |       |
+| ProxyOverride                    | *ManagedInstanceProxyOverride_STATUS         | ProxyOverride                    | *string                                      | Modified  |       |
+| PublicDataEndpointEnabled        | *bool                                        | PublicDataEndpointEnabled        | *bool                                        | Identical |       |
+| RequestedBackupStorageRedundancy | *BackupStorageRedundancy_STATUS              | RequestedBackupStorageRedundancy | *string                                      | Modified  |       |
+| RequestedLogicalAvailabilityZone | *AvailabilityZoneType_STATUS                 | RequestedLogicalAvailabilityZone | *string                                      | Modified  |       |
+| RestorePointInTime               | *string                                      | RestorePointInTime               | *string                                      | Identical |       |
+| ServicePrincipal                 | *ServicePrincipal_STATUS                     | ServicePrincipal                 | *ServicePrincipal_STATUS                     | Identical |       |
+| Sku                              | *Sku_STATUS                                  | Sku                              | *Sku_STATUS                                  | Identical |       |
+| SourceManagedInstanceId          | *string                                      | SourceManagedInstanceId          | *string                                      | Identical |       |
+| State                            | *string                                      | State                            | *string                                      | Identical |       |
+| StorageIOps                      | *int                                         | StorageIOps                      | *int                                         | Identical |       |
+| StorageSizeInGB                  | *int                                         | StorageSizeInGB                  | *int                                         | Identical |       |
+| StorageThroughputMBps            | *int                                         | StorageThroughputMBps            | *int                                         | Identical |       |
+| SubnetId                         | *string                                      | SubnetId                         | *string                                      | Identical |       |
+| SystemData                       | *SystemData_STATUS                           | SystemData                       | *SystemData_STATUS                           | Identical |       |
+| Tags                             | map[string]string                            | Tags                             | map[string]string                            | Identical |       |
+| TimezoneId                       | *string                                      | TimezoneId                       | *string                                      | Identical |       |
+| Type                             | *string                                      | Type                             | *string                                      | Identical |       |
+| VCores                           | *int                                         | VCores                           | *int                                         | Identical |       |
+| VirtualClusterId                 | *string                                      | VirtualClusterId                 | *string                                      | Identical |       |
+| ZoneRedundant                    | *bool                                        | ZoneRedundant                    | *bool                                        | Identical |       |
+
+### ManagedInstance_Spec
+
+Properties: 30 x Identical, 2 x New, 9 x Modified
+
+| v20250101                            |                                       | v20250101/storage                    |                                       |  Status   | Notes |
+|:-------------------------------------|:--------------------------------------|:-------------------------------------|:--------------------------------------|:---------:|:------|
+| AdministratorLogin                   | *string                               | AdministratorLogin                   | *string                               | Identical |       |
+| AdministratorLoginPassword           | *genruntime.SecretReference           | AdministratorLoginPassword           | *genruntime.SecretReference           | Identical |       |
+| Administrators                       | *ManagedInstanceExternalAdministrator | Administrators                       | *ManagedInstanceExternalAdministrator | Identical |       |
+| AuthenticationMetadata               | *AuthMetadataLookupModes              | AuthenticationMetadata               | *string                               | Modified  |       |
+| AzureName                            | string                                | AzureName                            | string                                | Identical |       |
+| Collation                            | *string                               | Collation                            | *string                               | Identical |       |
+| DatabaseFormat                       | *ManagedInstanceDatabaseFormat        | DatabaseFormat                       | *string                               | Modified  |       |
+| DnsZonePartnerReference              | *genruntime.ResourceReference         | DnsZonePartnerReference              | *genruntime.ResourceReference         | Identical |       |
+| HybridSecondaryUsage                 | *HybridSecondaryUsage                 | HybridSecondaryUsage                 | *string                               | Modified  |       |
+| Identity                             | *ResourceIdentity                     | Identity                             | *ResourceIdentity                     | Identical |       |
+| InstancePoolReference                | *genruntime.ResourceReference         | InstancePoolReference                | *genruntime.ResourceReference         | Identical |       |
+| IsGeneralPurposeV2                   | *bool                                 | IsGeneralPurposeV2                   | *bool                                 | Identical |       |
+| KeyId                                | *string                               | KeyId                                | *string                               | Identical |       |
+| LicenseType                          | *ManagedInstanceLicenseType           | LicenseType                          | *string                               | Modified  |       |
+| Location                             | *string                               | Location                             | *string                               | Identical |       |
+| MaintenanceConfigurationId           | *string                               | MaintenanceConfigurationId           | *string                               | Identical |       |
+| ManagedInstanceCreateMode            | *ManagedServerCreateMode              | ManagedInstanceCreateMode            | *string                               | Modified  |       |
+| MemorySizeInGB                       | *int                                  | MemorySizeInGB                       | *int                                  | Identical |       |
+| MinimalTlsVersion                    | *string                               | MinimalTlsVersion                    | *string                               | Identical |       |
+| OperatorSpec                         | *ManagedInstanceOperatorSpec          | OperatorSpec                         | *ManagedInstanceOperatorSpec          | Identical |       |
+|                                      |                                       | OriginalVersion                      | string                                |    New    |       |
+| Owner                                | *genruntime.KnownResourceReference    | Owner                                | *genruntime.KnownResourceReference    | Identical |       |
+| PricingModel                         | *PricingModel                         | PricingModel                         | *string                               | Modified  |       |
+| PrimaryUserAssignedIdentityReference | *genruntime.ResourceReference         | PrimaryUserAssignedIdentityReference | *genruntime.ResourceReference         | Identical |       |
+|                                      |                                       | PropertyBag                          | genruntime.PropertyBag                |    New    |       |
+| ProxyOverride                        | *ManagedInstanceProxyOverride         | ProxyOverride                        | *string                               | Modified  |       |
+| PublicDataEndpointEnabled            | *bool                                 | PublicDataEndpointEnabled            | *bool                                 | Identical |       |
+| RequestedBackupStorageRedundancy     | *BackupStorageRedundancy              | RequestedBackupStorageRedundancy     | *string                               | Modified  |       |
+| RequestedLogicalAvailabilityZone     | *AvailabilityZoneType                 | RequestedLogicalAvailabilityZone     | *string                               | Modified  |       |
+| RestorePointInTime                   | *string                               | RestorePointInTime                   | *string                               | Identical |       |
+| ServicePrincipal                     | *ServicePrincipal                     | ServicePrincipal                     | *ServicePrincipal                     | Identical |       |
+| Sku                                  | *Sku                                  | Sku                                  | *Sku                                  | Identical |       |
+| SourceManagedInstanceReference       | *genruntime.ResourceReference         | SourceManagedInstanceReference       | *genruntime.ResourceReference         | Identical |       |
+| StorageIOps                          | *int                                  | StorageIOps                          | *int                                  | Identical |       |
+| StorageSizeInGB                      | *int                                  | StorageSizeInGB                      | *int                                  | Identical |       |
+| StorageThroughputMBps                | *int                                  | StorageThroughputMBps                | *int                                  | Identical |       |
+| SubnetReference                      | *genruntime.ResourceReference         | SubnetReference                      | *genruntime.ResourceReference         | Identical |       |
+| Tags                                 | map[string]string                     | Tags                                 | map[string]string                     | Identical |       |
+| TimezoneId                           | *string                               | TimezoneId                           | *string                               | Identical |       |
+| VCores                               | *int                                  | VCores                               | *int                                  | Identical |       |
+| ZoneRedundant                        | *bool                                 | ZoneRedundant                        | *bool                                 | Identical |       |
+
+### ManagedInstancesDatabaseOperatorSpec
+
+Properties: 2 x Identical, 1 x New
+
+| v20250101            |                               | v20250101/storage    |                               |  Status   | Notes |
+|:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
+| ConfigMapExpressions | *core.DestinationExpression[] | ConfigMapExpressions | *core.DestinationExpression[] | Identical |       |
+|                      |                               | PropertyBag          | genruntime.PropertyBag        |    New    |       |
+| SecretExpressions    | *core.DestinationExpression[] | SecretExpressions    | *core.DestinationExpression[] | Identical |       |
+
+### ManagedInstancesDatabase_STATUS
+
+Properties: 26 x Identical, 1 x New, 3 x Modified
+
+| v20250101                                    |                                                  | v20250101/storage                            |                                                  |  Status   | Notes |
+|:---------------------------------------------|:-------------------------------------------------|:---------------------------------------------|:-------------------------------------------------|:---------:|:------|
+| AutoCompleteRestore                          | *bool                                            | AutoCompleteRestore                          | *bool                                            | Identical |       |
+| CatalogCollation                             | *CatalogCollationType_STATUS                     | CatalogCollation                             | *string                                          | Modified  |       |
+| Collation                                    | *string                                          | Collation                                    | *string                                          | Identical |       |
+| Conditions                                   | conditions.Condition[]                           | Conditions                                   | conditions.Condition[]                           | Identical |       |
+| CreateMode                                   | *ManagedDatabaseCreateMode_STATUS                | CreateMode                                   | *string                                          | Modified  |       |
+| CreationDate                                 | *string                                          | CreationDate                                 | *string                                          | Identical |       |
+| CrossSubscriptionRestorableDroppedDatabaseId | *string                                          | CrossSubscriptionRestorableDroppedDatabaseId | *string                                          | Identical |       |
+| CrossSubscriptionSourceDatabaseId            | *string                                          | CrossSubscriptionSourceDatabaseId            | *string                                          | Identical |       |
+| CrossSubscriptionTargetManagedInstanceId     | *string                                          | CrossSubscriptionTargetManagedInstanceId     | *string                                          | Identical |       |
+| DefaultSecondaryLocation                     | *string                                          | DefaultSecondaryLocation                     | *string                                          | Identical |       |
+| EarliestRestorePoint                         | *string                                          | EarliestRestorePoint                         | *string                                          | Identical |       |
+| ExtendedAccessibilityInfo                    | *ManagedDatabaseExtendedAccessibilityInfo_STATUS | ExtendedAccessibilityInfo                    | *ManagedDatabaseExtendedAccessibilityInfo_STATUS | Identical |       |
+| FailoverGroupId                              | *string                                          | FailoverGroupId                              | *string                                          | Identical |       |
+| Id                                           | *string                                          | Id                                           | *string                                          | Identical |       |
+| IsLedgerOn                                   | *bool                                            | IsLedgerOn                                   | *bool                                            | Identical |       |
+| LastBackupName                               | *string                                          | LastBackupName                               | *string                                          | Identical |       |
+| Location                                     | *string                                          | Location                                     | *string                                          | Identical |       |
+| LongTermRetentionBackupResourceId            | *string                                          | LongTermRetentionBackupResourceId            | *string                                          | Identical |       |
+| Name                                         | *string                                          | Name                                         | *string                                          | Identical |       |
+|                                              |                                                  | PropertyBag                                  | genruntime.PropertyBag                           |    New    |       |
+| RecoverableDatabaseId                        | *string                                          | RecoverableDatabaseId                        | *string                                          | Identical |       |
+| RestorableDroppedDatabaseId                  | *string                                          | RestorableDroppedDatabaseId                  | *string                                          | Identical |       |
+| RestorePointInTime                           | *string                                          | RestorePointInTime                           | *string                                          | Identical |       |
+| SourceDatabaseId                             | *string                                          | SourceDatabaseId                             | *string                                          | Identical |       |
+| Status                                       | *ManagedDatabaseStatus_STATUS                    | Status                                       | *string                                          | Modified  |       |
+| StorageContainerIdentity                     | *string                                          | StorageContainerIdentity                     | *string                                          | Identical |       |
+| StorageContainerUri                          | *string                                          | StorageContainerUri                          | *string                                          | Identical |       |
+| SystemData                                   | *SystemData_STATUS                               | SystemData                                   | *SystemData_STATUS                               | Identical |       |
+| Tags                                         | map[string]string                                | Tags                                         | map[string]string                                | Identical |       |
+| Type                                         | *string                                          | Type                                         | *string                                          | Identical |       |
+
+### ManagedInstancesDatabase_Spec
+
+Properties: 21 x Identical, 2 x New, 2 x Modified
+
+| v20250101                                           |                                       | v20250101/storage                                   |                                       |  Status   | Notes |
+|:----------------------------------------------------|:--------------------------------------|:----------------------------------------------------|:--------------------------------------|:---------:|:------|
+| AutoCompleteRestore                                 | *bool                                 | AutoCompleteRestore                                 | *bool                                 | Identical |       |
+| AzureName                                           | string                                | AzureName                                           | string                                | Identical |       |
+| CatalogCollation                                    | *CatalogCollationType                 | CatalogCollation                                    | *string                               | Modified  |       |
+| Collation                                           | *string                               | Collation                                           | *string                               | Identical |       |
+| CreateMode                                          | *ManagedDatabaseCreateMode            | CreateMode                                          | *string                               | Modified  |       |
+| CrossSubscriptionRestorableDroppedDatabaseReference | *genruntime.ResourceReference         | CrossSubscriptionRestorableDroppedDatabaseReference | *genruntime.ResourceReference         | Identical |       |
+| CrossSubscriptionSourceDatabaseReference            | *genruntime.ResourceReference         | CrossSubscriptionSourceDatabaseReference            | *genruntime.ResourceReference         | Identical |       |
+| CrossSubscriptionTargetManagedInstanceId            | *string                               | CrossSubscriptionTargetManagedInstanceId            | *string                               | Identical |       |
+| IsLedgerOn                                          | *bool                                 | IsLedgerOn                                          | *bool                                 | Identical |       |
+| LastBackupName                                      | *string                               | LastBackupName                                      | *string                               | Identical |       |
+| Location                                            | *string                               | Location                                            | *string                               | Identical |       |
+| LongTermRetentionBackupResourceReference            | *genruntime.ResourceReference         | LongTermRetentionBackupResourceReference            | *genruntime.ResourceReference         | Identical |       |
+| OperatorSpec                                        | *ManagedInstancesDatabaseOperatorSpec | OperatorSpec                                        | *ManagedInstancesDatabaseOperatorSpec | Identical |       |
+|                                                     |                                       | OriginalVersion                                     | string                                |    New    |       |
+| Owner                                               | *genruntime.KnownResourceReference    | Owner                                               | *genruntime.KnownResourceReference    | Identical |       |
+|                                                     |                                       | PropertyBag                                         | genruntime.PropertyBag                |    New    |       |
+| RecoverableDatabaseReference                        | *genruntime.ResourceReference         | RecoverableDatabaseReference                        | *genruntime.ResourceReference         | Identical |       |
+| RestorableDroppedDatabaseReference                  | *genruntime.ResourceReference         | RestorableDroppedDatabaseReference                  | *genruntime.ResourceReference         | Identical |       |
+| RestorePointInTime                                  | *string                               | RestorePointInTime                                  | *string                               | Identical |       |
+| SourceDatabaseReference                             | *genruntime.ResourceReference         | SourceDatabaseReference                             | *genruntime.ResourceReference         | Identical |       |
+| StorageContainerIdentity                            | *string                               | StorageContainerIdentity                            | *string                               | Identical |       |
+| StorageContainerSasToken                            | *string                               | StorageContainerSasToken                            | *string                               | Identical |       |
+| StorageContainerSasTokenFromSecret                  | *genruntime.SecretReference           | StorageContainerSasTokenFromSecret                  | *genruntime.SecretReference           | Identical |       |
+| StorageContainerUri                                 | *string                               | StorageContainerUri                                 | *string                               | Identical |       |
+| Tags                                                | map[string]string                     | Tags                                                | map[string]string                     | Identical |       |
+
+### ManagedInstancesDatabasesTransparentDataEncryptionOperatorSpec
+
+Properties: 2 x Identical, 1 x New
+
+| v20250101            |                               | v20250101/storage    |                               |  Status   | Notes |
+|:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
+| ConfigMapExpressions | *core.DestinationExpression[] | ConfigMapExpressions | *core.DestinationExpression[] | Identical |       |
+|                      |                               | PropertyBag          | genruntime.PropertyBag        |    New    |       |
+| SecretExpressions    | *core.DestinationExpression[] | SecretExpressions    | *core.DestinationExpression[] | Identical |       |
+
+### ManagedInstancesDatabasesTransparentDataEncryption_STATUS
+
+Properties: 5 x Identical, 1 x New, 1 x Modified
+
+| v20250101  |                                        | v20250101/storage |                        |  Status   | Notes |
+|:-----------|:---------------------------------------|:------------------|:-----------------------|:---------:|:------|
+| Conditions | conditions.Condition[]                 | Conditions        | conditions.Condition[] | Identical |       |
+| Id         | *string                                | Id                | *string                | Identical |       |
+| Name       | *string                                | Name              | *string                | Identical |       |
+|            |                                        | PropertyBag       | genruntime.PropertyBag |    New    |       |
+| State      | *TransparentDataEncryptionState_STATUS | State             | *string                | Modified  |       |
+| SystemData | *SystemData_STATUS                     | SystemData        | *SystemData_STATUS     | Identical |       |
+| Type       | *string                                | Type              | *string                | Identical |       |
+
+### ManagedInstancesDatabasesTransparentDataEncryption_Spec
+
+Properties: 2 x Identical, 2 x New, 1 x Modified
+
+| v20250101    |                                                                 | v20250101/storage |                                                                 |  Status   | Notes |
+|:-------------|:----------------------------------------------------------------|:------------------|:----------------------------------------------------------------|:---------:|:------|
+| OperatorSpec | *ManagedInstancesDatabasesTransparentDataEncryptionOperatorSpec | OperatorSpec      | *ManagedInstancesDatabasesTransparentDataEncryptionOperatorSpec | Identical |       |
+|              |                                                                 | OriginalVersion   | string                                                          |    New    |       |
+| Owner        | *genruntime.KnownResourceReference                              | Owner             | *genruntime.KnownResourceReference                              | Identical |       |
+|              |                                                                 | PropertyBag       | genruntime.PropertyBag                                          |    New    |       |
+| State        | *TransparentDataEncryptionState                                 | State             | *string                                                         | Modified  |       |
+
 ### PartnerInfo
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250101 |                               | v20250101/storage |                               |  Status   | Notes |
 |:----------|:------------------------------|:------------------|:------------------------------|:---------:|:------|
@@ -260,7 +717,7 @@
 
 ### PartnerInfo_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250101       |                                      | v20250101/storage |                        |  Status   | Notes |
 |:----------------|:-------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -269,9 +726,28 @@
 |                 |                                      | PropertyBag       | genruntime.PropertyBag |    New    |       |
 | ReplicationRole | *FailoverGroupReplicationRole_STATUS | ReplicationRole   | *string                | Modified  |       |
 
+### PartnerRegionInfo
+
+Properties: 1 x Identical, 1 x New
+
+| v20250101 |         | v20250101/storage |                        |  Status   | Notes |
+|:----------|:--------|:------------------|:-----------------------|:---------:|:------|
+| Location  | *string | Location          | *string                | Identical |       |
+|           |         | PropertyBag       | genruntime.PropertyBag |    New    |       |
+
+### PartnerRegionInfo_STATUS
+
+Properties: 1 x Identical, 1 x New, 1 x Modified
+
+| v20250101       |                                              | v20250101/storage |                        |  Status   | Notes |
+|:----------------|:---------------------------------------------|:------------------|:-----------------------|:---------:|:------|
+| Location        | *string                                      | Location          | *string                | Identical |       |
+|                 |                                              | PropertyBag       | genruntime.PropertyBag |    New    |       |
+| ReplicationRole | *InstanceFailoverGroupReplicationRole_STATUS | ReplicationRole   | *string                | Modified  |       |
+
 ### PrivateEndpointConnectionProperties_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v20250101                         |                                                   | v20250101/storage                 |                                                   |  Status   | Notes |
 |:----------------------------------|:--------------------------------------------------|:----------------------------------|:--------------------------------------------------|:---------:|:------|
@@ -283,7 +759,7 @@
 
 ### PrivateEndpointProperty_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250101 |         | v20250101/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -292,7 +768,7 @@
 
 ### PrivateLinkServiceConnectionStateProperty_STATUS
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v20250101       |                                                         | v20250101/storage |                        |  Status   | Notes |
 |:----------------|:--------------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -303,7 +779,7 @@
 
 ### ResourceIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250101              |                               | v20250101/storage      |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -313,7 +789,7 @@
 
 ### ResourceIdentity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v20250101              |                                | v20250101/storage      |                                |  Status   | Notes |
 |:-----------------------|:-------------------------------|:-----------------------|:-------------------------------|:---------:|:------|
@@ -325,7 +801,7 @@
 
 ### ServerExternalAdministrator
 
-5 x Identical, 1 x New, 4 x Modified
+Properties: 5 x Identical, 1 x New, 4 x Modified
 
 | v20250101                 |                                | v20250101/storage         |                                |  Status   | Notes |
 |:--------------------------|:-------------------------------|:--------------------------|:-------------------------------|:---------:|:------|
@@ -342,7 +818,7 @@
 
 ### ServerExternalAdministrator_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v20250101                 |                           | v20250101/storage         |                        |  Status   | Notes |
 |:--------------------------|:--------------------------|:--------------------------|:-----------------------|:---------:|:------|
@@ -356,7 +832,7 @@
 
 ### ServerOperatorConfigMaps
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250101                |                                  | v20250101/storage        |                                  |  Status   | Notes |
 |:-------------------------|:---------------------------------|:-------------------------|:---------------------------------|:---------:|:------|
@@ -365,7 +841,7 @@
 
 ### ServerOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250101            |                               | v20250101/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -376,7 +852,7 @@
 
 ### ServerPrivateEndpointConnection_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250101  |                                             | v20250101/storage |                                             |  Status   | Notes |
 |:-----------|:--------------------------------------------|:------------------|:--------------------------------------------|:---------:|:------|
@@ -386,7 +862,7 @@
 
 ### Server_STATUS
 
-19 x Identical, 1 x New, 7 x Modified
+Properties: 19 x Identical, 1 x New, 7 x Modified
 
 | v20250101                     |                                          | v20250101/storage             |                                          |  Status   | Notes |
 |:------------------------------|:-----------------------------------------|:------------------------------|:-----------------------------------------|:---------:|:------|
@@ -420,7 +896,7 @@
 
 ### Server_Spec
 
-13 x Identical, 2 x New, 6 x Modified
+Properties: 13 x Identical, 2 x New, 6 x Modified
 
 | v20250101                            |                                    | v20250101/storage                    |                                    |  Status   | Notes |
 |:-------------------------------------|:-----------------------------------|:-------------------------------------|:-----------------------------------|:---------:|:------|
@@ -448,7 +924,7 @@
 
 ### ServersAdministratorOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250101            |                               | v20250101/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -458,7 +934,7 @@
 
 ### ServersAdministrator_STATUS
 
-9 x Identical, 1 x New, 1 x Modified
+Properties: 9 x Identical, 1 x New, 1 x Modified
 
 | v20250101                 |                           | v20250101/storage         |                        |  Status   | Notes |
 |:--------------------------|:--------------------------|:--------------------------|:-----------------------|:---------:|:------|
@@ -476,7 +952,7 @@
 
 ### ServersAdministrator_Spec
 
-5 x Identical, 2 x New, 3 x Modified
+Properties: 5 x Identical, 2 x New, 3 x Modified
 
 | v20250101          |                                    | v20250101/storage  |                                    |  Status   | Notes |
 |:-------------------|:-----------------------------------|:-------------------|:-----------------------------------|:---------:|:------|
@@ -493,7 +969,7 @@
 
 ### ServersAdvancedThreatProtectionSettingOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250101            |                               | v20250101/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -503,7 +979,7 @@
 
 ### ServersAdvancedThreatProtectionSetting_STATUS
 
-6 x Identical, 1 x New, 1 x Modified
+Properties: 6 x Identical, 1 x New, 1 x Modified
 
 | v20250101    |                                       | v20250101/storage |                        |  Status   | Notes |
 |:-------------|:--------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -518,7 +994,7 @@
 
 ### ServersAdvancedThreatProtectionSetting_Spec
 
-2 x Identical, 2 x New, 1 x Modified
+Properties: 2 x Identical, 2 x New, 1 x Modified
 
 | v20250101    |                                                     | v20250101/storage |                                                     |  Status   | Notes |
 |:-------------|:----------------------------------------------------|:------------------|:----------------------------------------------------|:---------:|:------|
@@ -530,7 +1006,7 @@
 
 ### ServersAuditingSettingOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250101            |                               | v20250101/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -540,7 +1016,7 @@
 
 ### ServersAuditingSetting_STATUS
 
-14 x Identical, 1 x New, 1 x Modified
+Properties: 14 x Identical, 1 x New, 1 x Modified
 
 | v20250101                    |                                 | v20250101/storage            |                        |  Status   | Notes |
 |:-----------------------------|:--------------------------------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -563,7 +1039,7 @@
 
 ### ServersAuditingSetting_Spec
 
-11 x Identical, 2 x New, 2 x Modified
+Properties: 11 x Identical, 2 x New, 2 x Modified
 
 | v20250101                    |                                     | v20250101/storage            |                                     |  Status   | Notes |
 |:-----------------------------|:------------------------------------|:-----------------------------|:------------------------------------|:---------:|:------|
@@ -585,7 +1061,7 @@
 
 ### ServersAzureADOnlyAuthenticationOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250101            |                               | v20250101/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -595,7 +1071,7 @@
 
 ### ServersAzureADOnlyAuthentication_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v20250101                 |                        | v20250101/storage         |                        |  Status   | Notes |
 |:--------------------------|:-----------------------|:--------------------------|:-----------------------|:---------:|:------|
@@ -609,7 +1085,7 @@
 
 ### ServersAzureADOnlyAuthentication_Spec
 
-3 x Identical, 2 x New
+Properties: 3 x Identical, 2 x New
 
 | v20250101                 |                                               | v20250101/storage         |                                               |  Status   | Notes |
 |:--------------------------|:----------------------------------------------|:--------------------------|:----------------------------------------------|:---------:|:------|
@@ -621,7 +1097,7 @@
 
 ### ServersConnectionPolicyOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250101            |                               | v20250101/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -631,7 +1107,7 @@
 
 ### ServersConnectionPolicy_STATUS
 
-7 x Identical, 1 x New, 1 x Modified
+Properties: 7 x Identical, 1 x New, 1 x Modified
 
 | v20250101      |                              | v20250101/storage |                        |  Status   | Notes |
 |:---------------|:-----------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -647,7 +1123,7 @@
 
 ### ServersConnectionPolicy_Spec
 
-2 x Identical, 2 x New, 1 x Modified
+Properties: 2 x Identical, 2 x New, 1 x Modified
 
 | v20250101      |                                      | v20250101/storage |                                      |  Status   | Notes |
 |:---------------|:-------------------------------------|:------------------|:-------------------------------------|:---------:|:------|
@@ -659,7 +1135,7 @@
 
 ### ServersDatabaseOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250101            |                               | v20250101/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -669,7 +1145,7 @@
 
 ### ServersDatabase_STATUS
 
-47 x Identical, 1 x New, 12 x Modified
+Properties: 47 x Identical, 1 x New, 12 x Modified
 
 | v20250101                         |                                     | v20250101/storage                 |                               |  Status   | Notes |
 |:----------------------------------|:------------------------------------|:----------------------------------|:------------------------------|:---------:|:------|
@@ -736,7 +1212,7 @@
 
 ### ServersDatabase_Spec
 
-29 x Identical, 2 x New, 11 x Modified
+Properties: 29 x Identical, 2 x New, 11 x Modified
 
 | v20250101                                |                                    | v20250101/storage                        |                                    |  Status   | Notes |
 |:-----------------------------------------|:-----------------------------------|:-----------------------------------------|:-----------------------------------|:---------:|:------|
@@ -785,7 +1261,7 @@
 
 ### ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250101            |                               | v20250101/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -795,7 +1271,7 @@
 
 ### ServersDatabasesAdvancedThreatProtectionSetting_STATUS
 
-6 x Identical, 1 x New, 1 x Modified
+Properties: 6 x Identical, 1 x New, 1 x Modified
 
 | v20250101    |                                       | v20250101/storage |                        |  Status   | Notes |
 |:-------------|:--------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -810,7 +1286,7 @@
 
 ### ServersDatabasesAdvancedThreatProtectionSetting_Spec
 
-2 x Identical, 2 x New, 1 x Modified
+Properties: 2 x Identical, 2 x New, 1 x Modified
 
 | v20250101    |                                                              | v20250101/storage |                                                              |  Status   | Notes |
 |:-------------|:-------------------------------------------------------------|:------------------|:-------------------------------------------------------------|:---------:|:------|
@@ -822,7 +1298,7 @@
 
 ### ServersDatabasesAuditingSettingOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250101            |                               | v20250101/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -832,7 +1308,7 @@
 
 ### ServersDatabasesAuditingSetting_STATUS
 
-14 x Identical, 1 x New, 1 x Modified
+Properties: 14 x Identical, 1 x New, 1 x Modified
 
 | v20250101                    |                                 | v20250101/storage            |                        |  Status   | Notes |
 |:-----------------------------|:--------------------------------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -855,7 +1331,7 @@
 
 ### ServersDatabasesAuditingSetting_Spec
 
-10 x Identical, 2 x New, 2 x Modified
+Properties: 10 x Identical, 2 x New, 2 x Modified
 
 | v20250101                    |                                              | v20250101/storage            |                                              |  Status   | Notes |
 |:-----------------------------|:---------------------------------------------|:-----------------------------|:---------------------------------------------|:---------:|:------|
@@ -876,7 +1352,7 @@
 
 ### ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250101            |                               | v20250101/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -886,7 +1362,7 @@
 
 ### ServersDatabasesBackupLongTermRetentionPolicy_STATUS
 
-9 x Identical, 1 x New, 2 x Modified
+Properties: 9 x Identical, 1 x New, 2 x Modified
 
 | v20250101                 |                                   | v20250101/storage         |                        |  Status   | Notes |
 |:--------------------------|:----------------------------------|:--------------------------|:-----------------------|:---------:|:------|
@@ -905,7 +1381,7 @@
 
 ### ServersDatabasesBackupLongTermRetentionPolicy_Spec
 
-6 x Identical, 2 x New, 2 x Modified
+Properties: 6 x Identical, 2 x New, 2 x Modified
 
 | v20250101                 |                                                            | v20250101/storage         |                                                            |  Status   | Notes |
 |:--------------------------|:-----------------------------------------------------------|:--------------------------|:-----------------------------------------------------------|:---------:|:------|
@@ -922,7 +1398,7 @@
 
 ### ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250101            |                               | v20250101/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -932,7 +1408,7 @@
 
 ### ServersDatabasesBackupShortTermRetentionPolicy_STATUS
 
-6 x Identical, 1 x New, 1 x Modified
+Properties: 6 x Identical, 1 x New, 1 x Modified
 
 | v20250101                 |                                   | v20250101/storage         |                        |  Status   | Notes |
 |:--------------------------|:----------------------------------|:--------------------------|:-----------------------|:---------:|:------|
@@ -947,7 +1423,7 @@
 
 ### ServersDatabasesBackupShortTermRetentionPolicy_Spec
 
-3 x Identical, 2 x New, 1 x Modified
+Properties: 3 x Identical, 2 x New, 1 x Modified
 
 | v20250101                 |                                                             | v20250101/storage         |                                                             |  Status   | Notes |
 |:--------------------------|:------------------------------------------------------------|:--------------------------|:------------------------------------------------------------|:---------:|:------|
@@ -960,7 +1436,7 @@
 
 ### ServersDatabasesSecurityAlertPolicyOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250101            |                               | v20250101/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -970,7 +1446,7 @@
 
 ### ServersDatabasesSecurityAlertPolicy_STATUS
 
-11 x Identical, 1 x New, 1 x Modified
+Properties: 11 x Identical, 1 x New, 1 x Modified
 
 | v20250101          |                                   | v20250101/storage  |                        |  Status   | Notes |
 |:-------------------|:----------------------------------|:-------------------|:-----------------------|:---------:|:------|
@@ -990,7 +1466,7 @@
 
 ### ServersDatabasesSecurityAlertPolicy_Spec
 
-8 x Identical, 2 x New, 1 x Modified
+Properties: 8 x Identical, 2 x New, 1 x Modified
 
 | v20250101               |                                                  | v20250101/storage       |                                                  |  Status   | Notes |
 |:------------------------|:-------------------------------------------------|:------------------------|:-------------------------------------------------|:---------:|:------|
@@ -1008,7 +1484,7 @@
 
 ### ServersDatabasesTransparentDataEncryptionOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250101            |                               | v20250101/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -1018,7 +1494,7 @@
 
 ### ServersDatabasesTransparentDataEncryption_STATUS
 
-5 x Identical, 1 x New, 2 x Modified
+Properties: 5 x Identical, 1 x New, 2 x Modified
 
 | v20250101  |                                            | v20250101/storage |                        |  Status   | Notes |
 |:-----------|:-------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1033,7 +1509,7 @@
 
 ### ServersDatabasesTransparentDataEncryption_Spec
 
-2 x Identical, 2 x New, 2 x Modified
+Properties: 2 x Identical, 2 x New, 2 x Modified
 
 | v20250101    |                                                        | v20250101/storage |                                                        |  Status   | Notes |
 |:-------------|:-------------------------------------------------------|:------------------|:-------------------------------------------------------|:---------:|:------|
@@ -1046,7 +1522,7 @@
 
 ### ServersDatabasesVulnerabilityAssessmentOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250101            |                               | v20250101/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -1056,7 +1532,7 @@
 
 ### ServersDatabasesVulnerabilityAssessment_STATUS
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v20250101            |                                                         | v20250101/storage    |                                                         |  Status   | Notes |
 |:---------------------|:--------------------------------------------------------|:---------------------|:--------------------------------------------------------|:---------:|:------|
@@ -1071,7 +1547,7 @@
 
 ### ServersDatabasesVulnerabilityAssessment_Spec
 
-7 x Identical, 2 x New
+Properties: 7 x Identical, 2 x New
 
 | v20250101                      |                                                      | v20250101/storage              |                                                      |  Status   | Notes |
 |:-------------------------------|:-----------------------------------------------------|:-------------------------------|:-----------------------------------------------------|:---------:|:------|
@@ -1087,7 +1563,7 @@
 
 ### ServersElasticPoolOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250101            |                               | v20250101/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -1097,7 +1573,7 @@
 
 ### ServersElasticPool_STATUS
 
-17 x Identical, 1 x New, 4 x Modified
+Properties: 17 x Identical, 1 x New, 4 x Modified
 
 | v20250101                    |                                        | v20250101/storage            |                                        |  Status   | Notes |
 |:-----------------------------|:---------------------------------------|:-----------------------------|:---------------------------------------|:---------:|:------|
@@ -1126,7 +1602,7 @@
 
 ### ServersElasticPool_Spec
 
-13 x Identical, 2 x New, 3 x Modified
+Properties: 13 x Identical, 2 x New, 3 x Modified
 
 | v20250101                    |                                    | v20250101/storage            |                                    |  Status   | Notes |
 |:-----------------------------|:-----------------------------------|:-----------------------------|:-----------------------------------|:---------:|:------|
@@ -1151,7 +1627,7 @@
 
 ### ServersEncryptionProtectorOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250101            |                               | v20250101/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -1161,7 +1637,7 @@
 
 ### ServersEncryptionProtector_STATUS
 
-13 x Identical, 1 x New, 1 x Modified
+Properties: 13 x Identical, 1 x New, 1 x Modified
 
 | v20250101           |                        | v20250101/storage   |                        |  Status   | Notes |
 |:--------------------|:-----------------------|:--------------------|:-----------------------|:---------:|:------|
@@ -1183,7 +1659,7 @@
 
 ### ServersEncryptionProtector_Spec
 
-4 x Identical, 2 x New, 1 x Modified
+Properties: 4 x Identical, 2 x New, 1 x Modified
 
 | v20250101           |                                         | v20250101/storage   |                                         |  Status   | Notes |
 |:--------------------|:----------------------------------------|:--------------------|:----------------------------------------|:---------:|:------|
@@ -1197,7 +1673,7 @@
 
 ### ServersFailoverGroupOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250101            |                               | v20250101/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -1207,7 +1683,7 @@
 
 ### ServersFailoverGroup_STATUS
 
-12 x Identical, 1 x New, 2 x Modified
+Properties: 12 x Identical, 1 x New, 2 x Modified
 
 | v20250101         |                                             | v20250101/storage |                                        |  Status   | Notes |
 |:------------------|:--------------------------------------------|:------------------|:---------------------------------------|:---------:|:------|
@@ -1229,7 +1705,7 @@
 
 ### ServersFailoverGroup_Spec
 
-8 x Identical, 2 x New, 1 x Modified
+Properties: 8 x Identical, 2 x New, 1 x Modified
 
 | v20250101           |                                      | v20250101/storage   |                                    |  Status   | Notes |
 |:--------------------|:-------------------------------------|:--------------------|:-----------------------------------|:---------:|:------|
@@ -1247,7 +1723,7 @@
 
 ### ServersFirewallRuleOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250101            |                               | v20250101/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -1257,7 +1733,7 @@
 
 ### ServersFirewallRule_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v20250101      |                        | v20250101/storage |                        |  Status   | Notes |
 |:---------------|:-----------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1271,7 +1747,7 @@
 
 ### ServersFirewallRule_Spec
 
-5 x Identical, 2 x New
+Properties: 5 x Identical, 2 x New
 
 | v20250101      |                                    | v20250101/storage |                                    |  Status   | Notes |
 |:---------------|:-----------------------------------|:------------------|:-----------------------------------|:---------:|:------|
@@ -1285,7 +1761,7 @@
 
 ### ServersIPV6FirewallRuleOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250101            |                               | v20250101/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -1295,7 +1771,7 @@
 
 ### ServersIPV6FirewallRule_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v20250101        |                        | v20250101/storage |                        |  Status   | Notes |
 |:-----------------|:-----------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1309,7 +1785,7 @@
 
 ### ServersIPV6FirewallRule_Spec
 
-5 x Identical, 2 x New
+Properties: 5 x Identical, 2 x New
 
 | v20250101        |                                      | v20250101/storage |                                      |  Status   | Notes |
 |:-----------------|:-------------------------------------|:------------------|:-------------------------------------|:---------:|:------|
@@ -1323,7 +1799,7 @@
 
 ### ServersKeyOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250101            |                               | v20250101/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -1333,7 +1809,7 @@
 
 ### ServersKey_STATUS
 
-13 x Identical, 1 x New, 1 x Modified
+Properties: 13 x Identical, 1 x New, 1 x Modified
 
 | v20250101           |                        | v20250101/storage   |                        |  Status   | Notes |
 |:--------------------|:-----------------------|:--------------------|:-----------------------|:---------:|:------|
@@ -1355,7 +1831,7 @@
 
 ### ServersKey_Spec
 
-4 x Identical, 2 x New, 1 x Modified
+Properties: 4 x Identical, 2 x New, 1 x Modified
 
 | v20250101     |                                    | v20250101/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------|:------------------|:-----------------------------------|:---------:|:------|
@@ -1369,7 +1845,7 @@
 
 ### ServersOutboundFirewallRuleOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250101            |                               | v20250101/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -1379,7 +1855,7 @@
 
 ### ServersOutboundFirewallRule_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v20250101         |                        | v20250101/storage |                        |  Status   | Notes |
 |:------------------|:-----------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1393,7 +1869,7 @@
 
 ### ServersOutboundFirewallRule_Spec
 
-3 x Identical, 2 x New
+Properties: 3 x Identical, 2 x New
 
 | v20250101    |                                          | v20250101/storage |                                          |  Status   | Notes |
 |:-------------|:-----------------------------------------|:------------------|:-----------------------------------------|:---------:|:------|
@@ -1405,7 +1881,7 @@
 
 ### ServersSecurityAlertPolicyOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250101            |                               | v20250101/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -1415,7 +1891,7 @@
 
 ### ServersSecurityAlertPolicy_STATUS
 
-11 x Identical, 1 x New, 1 x Modified
+Properties: 11 x Identical, 1 x New, 1 x Modified
 
 | v20250101          |                                   | v20250101/storage  |                        |  Status   | Notes |
 |:-------------------|:----------------------------------|:-------------------|:-----------------------|:---------:|:------|
@@ -1435,7 +1911,7 @@
 
 ### ServersSecurityAlertPolicy_Spec
 
-8 x Identical, 2 x New, 1 x Modified
+Properties: 8 x Identical, 2 x New, 1 x Modified
 
 | v20250101               |                                         | v20250101/storage       |                                         |  Status   | Notes |
 |:------------------------|:----------------------------------------|:------------------------|:----------------------------------------|:---------:|:------|
@@ -1453,7 +1929,7 @@
 
 ### ServersVirtualNetworkRuleOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250101            |                               | v20250101/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -1463,7 +1939,7 @@
 
 ### ServersVirtualNetworkRule_STATUS
 
-7 x Identical, 1 x New, 1 x Modified
+Properties: 7 x Identical, 1 x New, 1 x Modified
 
 | v20250101                        |                                 | v20250101/storage                |                        |  Status   | Notes |
 |:---------------------------------|:--------------------------------|:---------------------------------|:-----------------------|:---------:|:------|
@@ -1479,7 +1955,7 @@
 
 ### ServersVirtualNetworkRule_Spec
 
-5 x Identical, 2 x New
+Properties: 5 x Identical, 2 x New
 
 | v20250101                        |                                        | v20250101/storage                |                                        |  Status   | Notes |
 |:---------------------------------|:---------------------------------------|:---------------------------------|:---------------------------------------|:---------:|:------|
@@ -1493,7 +1969,7 @@
 
 ### ServersVulnerabilityAssessmentOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250101            |                               | v20250101/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -1503,7 +1979,7 @@
 
 ### ServersVulnerabilityAssessment_STATUS
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v20250101            |                                                         | v20250101/storage    |                                                         |  Status   | Notes |
 |:---------------------|:--------------------------------------------------------|:---------------------|:--------------------------------------------------------|:---------:|:------|
@@ -1518,7 +1994,7 @@
 
 ### ServersVulnerabilityAssessment_Spec
 
-7 x Identical, 2 x New
+Properties: 7 x Identical, 2 x New
 
 | v20250101                      |                                                  | v20250101/storage              |                                                  |  Status   | Notes |
 |:-------------------------------|:-------------------------------------------------|:-------------------------------|:-------------------------------------------------|:---------:|:------|
@@ -1532,9 +2008,30 @@
 | StorageContainerPathFromConfig | *genruntime.ConfigMapReference                   | StorageContainerPathFromConfig | *genruntime.ConfigMapReference                   | Identical |       |
 | StorageContainerSasKey         | *genruntime.SecretReference                      | StorageContainerSasKey         | *genruntime.SecretReference                      | Identical |       |
 
+### ServicePrincipal
+
+Properties: 1 x New, 1 x Modified
+
+| v20250101 |                       | v20250101/storage |                        |  Status  | Notes |
+|:----------|:----------------------|:------------------|:-----------------------|:--------:|:------|
+|           |                       | PropertyBag       | genruntime.PropertyBag |   New    |       |
+| Type      | *ServicePrincipalType | Type              | *string                | Modified |       |
+
+### ServicePrincipal_STATUS
+
+Properties: 3 x Identical, 1 x New, 1 x Modified
+
+| v20250101   |                              | v20250101/storage |                        |  Status   | Notes |
+|:------------|:-----------------------------|:------------------|:-----------------------|:---------:|:------|
+| ClientId    | *string                      | ClientId          | *string                | Identical |       |
+| PrincipalId | *string                      | PrincipalId       | *string                | Identical |       |
+|             |                              | PropertyBag       | genruntime.PropertyBag |    New    |       |
+| TenantId    | *string                      | TenantId          | *string                | Identical |       |
+| Type        | *ServicePrincipalType_STATUS | Type              | *string                | Modified  |       |
+
 ### Sku
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v20250101 |         | v20250101/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -1547,7 +2044,7 @@
 
 ### Sku_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v20250101 |         | v20250101/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -1560,7 +2057,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v20250101          |                                       | v20250101/storage  |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:-------------------|:-----------------------|:---------:|:------|
@@ -1574,7 +2071,7 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250101 |                              | v20250101/storage |                              |  Status   | Notes |
 |:----------|:-----------------------------|:------------------|:-----------------------------|:---------:|:------|
@@ -1583,7 +2080,7 @@
 
 ### UserIdentity_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250101   |         | v20250101/storage |                        |  Status   | Notes |
 |:------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -1593,7 +2090,7 @@
 
 ### VulnerabilityAssessmentRecurringScansProperties
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250101               |          | v20250101/storage       |                        |  Status   | Notes |
 |:------------------------|:---------|:------------------------|:-----------------------|:---------:|:------|
@@ -1604,7 +2101,7 @@
 
 ### VulnerabilityAssessmentRecurringScansProperties_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250101               |          | v20250101/storage       |                        |  Status   | Notes |
 |:------------------------|:---------|:------------------------|:-----------------------|:---------:|:------|
@@ -1612,3 +2109,12 @@
 | Emails                  | string[] | Emails                  | string[]               | Identical |       |
 | IsEnabled               | *bool    | IsEnabled               | *bool                  | Identical |       |
 |                         |          | PropertyBag             | genruntime.PropertyBag |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

@@ -6,33 +6,26 @@
 |:--------------------|:--------------------|:---------:|:------|
 | PrometheusRuleGroup | PrometheusRuleGroup | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20230301                                 | v20230301/storage                         |  Status  | Notes |
-|:------------------------------------------|:------------------------------------------|:--------:|:------|
-| PrometheusRule                            | PrometheusRule                            | Extended |       |
-| PrometheusRuleGroupAction                 | PrometheusRuleGroupAction                 | Extended |       |
-| PrometheusRuleGroupAction_STATUS          | PrometheusRuleGroupAction_STATUS          | Extended |       |
-| PrometheusRuleGroupOperatorSpec           | PrometheusRuleGroupOperatorSpec           | Extended |       |
-| PrometheusRuleGroup_STATUS                | PrometheusRuleGroup_STATUS                | Extended |       |
-| PrometheusRuleGroup_Spec                  | PrometheusRuleGroup_Spec                  | Modified |       |
-| PrometheusRuleResolveConfiguration        | PrometheusRuleResolveConfiguration        | Extended |       |
-| PrometheusRuleResolveConfiguration_STATUS | PrometheusRuleResolveConfiguration_STATUS | Extended |       |
-| PrometheusRule_STATUS                     | PrometheusRule_STATUS                     | Extended |       |
-| SystemData_STATUS                         | SystemData_STATUS                         | Modified |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20230301                                 | v20230301/storage                         |  Status  | Notes        |
+|:------------------------------------------|:------------------------------------------|:--------:|:-------------|
+| PrometheusRule                            | PrometheusRule                            | Extended | +PropertyBag |
+| PrometheusRuleGroupAction                 | PrometheusRuleGroupAction                 | Extended | +PropertyBag |
+| PrometheusRuleGroupAction_STATUS          | PrometheusRuleGroupAction_STATUS          | Extended | +PropertyBag |
+| PrometheusRuleGroupOperatorSpec           | PrometheusRuleGroupOperatorSpec           | Extended | +PropertyBag |
+| PrometheusRuleGroup_STATUS                | PrometheusRuleGroup_STATUS                | Extended | +PropertyBag |
+| PrometheusRuleGroup_Spec                  | PrometheusRuleGroup_Spec                  | Modified |              |
+| PrometheusRuleResolveConfiguration        | PrometheusRuleResolveConfiguration        | Extended | +PropertyBag |
+| PrometheusRuleResolveConfiguration_STATUS | PrometheusRuleResolveConfiguration_STATUS | Extended | +PropertyBag |
+| PrometheusRule_STATUS                     | PrometheusRule_STATUS                     | Extended | +PropertyBag |
+| SystemData_STATUS                         | SystemData_STATUS                         | Modified |              |
 
 ### PrometheusRule
 
-10 x Identical, 1 x New
+Properties: 10 x Identical, 1 x New
 
 | v20230301            |                                     | v20230301/storage    |                                     |  Status   | Notes |
 |:---------------------|:------------------------------------|:---------------------|:------------------------------------|:---------:|:------|
@@ -50,7 +43,7 @@
 
 ### PrometheusRuleGroupAction
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20230301            |                               | v20230301/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -60,7 +53,7 @@
 
 ### PrometheusRuleGroupAction_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20230301        |                   | v20230301/storage |                        |  Status   | Notes |
 |:-----------------|:------------------|:------------------|:-----------------------|:---------:|:------|
@@ -70,7 +63,7 @@
 
 ### PrometheusRuleGroupOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20230301            |                               | v20230301/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -80,7 +73,7 @@
 
 ### PrometheusRuleGroup_STATUS
 
-13 x Identical, 1 x New
+Properties: 13 x Identical, 1 x New
 
 | v20230301   |                         | v20230301/storage |                         |  Status   | Notes |
 |:------------|:------------------------|:------------------|:------------------------|:---------:|:------|
@@ -101,7 +94,7 @@
 
 ### PrometheusRuleGroup_Spec
 
-10 x Identical, 2 x New, 1 x Modified
+Properties: 10 x Identical, 2 x New, 1 x Modified
 
 | v20230301        |                                    | v20230301/storage |                                    |  Status   | Notes |
 |:-----------------|:-----------------------------------|:------------------|:-----------------------------------|:---------:|:------|
@@ -121,7 +114,7 @@
 
 ### PrometheusRuleResolveConfiguration
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20230301     |         | v20230301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -131,7 +124,7 @@
 
 ### PrometheusRuleResolveConfiguration_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20230301     |         | v20230301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -141,7 +134,7 @@
 
 ### PrometheusRule_STATUS
 
-10 x Identical, 1 x New
+Properties: 10 x Identical, 1 x New
 
 | v20230301            |                                            | v20230301/storage    |                                            |  Status   | Notes |
 |:---------------------|:-------------------------------------------|:---------------------|:-------------------------------------------|:---------:|:------|
@@ -159,7 +152,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v20230301          |                                       | v20230301/storage  |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:-------------------|:-----------------------|:---------:|:------|
@@ -170,3 +163,12 @@
 | LastModifiedBy     | *string                               | LastModifiedBy     | *string                | Identical |       |
 | LastModifiedByType | *SystemData_LastModifiedByType_STATUS | LastModifiedByType | *string                | Modified  |       |
 |                    |                                       | PropertyBag        | genruntime.PropertyBag |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

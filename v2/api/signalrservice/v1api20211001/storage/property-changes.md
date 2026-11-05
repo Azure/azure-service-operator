@@ -6,68 +6,61 @@
 |:----------------------|:----------------------|:---------:|:------|
 | SignalR               | SignalR               | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20211001/storage                                        | v1api20240301/storage                                        |  Status   | Notes |
-|:-------------------------------------------------------------|:-------------------------------------------------------------|:---------:|:------|
-|                                                              | IPRule                                                       |    New    |       |
-|                                                              | IPRule_STATUS                                                |    New    |       |
-|                                                              | LiveTraceCategory                                            |    New    |       |
-|                                                              | LiveTraceCategory_STATUS                                     |    New    |       |
-|                                                              | LiveTraceConfiguration                                       |    New    |       |
-|                                                              | LiveTraceConfiguration_STATUS                                |    New    |       |
-| ManagedIdentity                                              | ManagedIdentity                                              | Identical |       |
-| ManagedIdentitySettings                                      | ManagedIdentitySettings                                      | Identical |       |
-| ManagedIdentitySettings_STATUS                               | ManagedIdentitySettings_STATUS                               | Identical |       |
-| ManagedIdentity_STATUS                                       | ManagedIdentity_STATUS                                       | Identical |       |
-| NetworkACL                                                   | NetworkACL                                                   | Identical |       |
-| NetworkACL_STATUS                                            | NetworkACL_STATUS                                            | Identical |       |
-| PrivateEndpointACL                                           | PrivateEndpointACL                                           | Identical |       |
-| PrivateEndpointACL_STATUS                                    | PrivateEndpointACL_STATUS                                    | Identical |       |
-| PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded | PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded | Identical |       |
-| ResourceLogCategory                                          | ResourceLogCategory                                          | Identical |       |
-| ResourceLogCategory_STATUS                                   | ResourceLogCategory_STATUS                                   | Identical |       |
-| ResourceLogConfiguration                                     | ResourceLogConfiguration                                     | Identical |       |
-| ResourceLogConfiguration_STATUS                              | ResourceLogConfiguration_STATUS                              | Identical |       |
-| ResourceSku                                                  | ResourceSku                                                  | Identical |       |
-| ResourceSku_STATUS                                           | ResourceSku_STATUS                                           | Identical |       |
-|                                                              | ServerlessSettings                                           |    New    |       |
-|                                                              | ServerlessSettings_STATUS                                    |    New    |       |
-| ServerlessUpstreamSettings                                   | ServerlessUpstreamSettings                                   | Identical |       |
-| ServerlessUpstreamSettings_STATUS                            | ServerlessUpstreamSettings_STATUS                            | Identical |       |
-| SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded | SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded | Identical |       |
-| SignalRCorsSettings                                          | SignalRCorsSettings                                          | Identical |       |
-| SignalRCorsSettings_STATUS                                   | SignalRCorsSettings_STATUS                                   | Identical |       |
-| SignalRFeature                                               | SignalRFeature                                               | Identical |       |
-| SignalRFeature_STATUS                                        | SignalRFeature_STATUS                                        | Identical |       |
-| SignalRNetworkACLs                                           | SignalRNetworkACLs                                           | Extended  |       |
-| SignalRNetworkACLs_STATUS                                    | SignalRNetworkACLs_STATUS                                    | Extended  |       |
-| SignalROperatorSecrets                                       | SignalROperatorSecrets                                       | Identical |       |
-| SignalROperatorSpec                                          | SignalROperatorSpec                                          | Identical |       |
-| SignalRTlsSettings                                           | SignalRTlsSettings                                           | Identical |       |
-| SignalRTlsSettings_STATUS                                    | SignalRTlsSettings_STATUS                                    | Identical |       |
-| SignalR_STATUS                                               | SignalR_STATUS                                               | Extended  |       |
-| SignalR_Spec                                                 | SignalR_Spec                                                 | Extended  |       |
-| SystemData_STATUS                                            | SystemData_STATUS                                            | Identical |       |
-| UpstreamAuthSettings                                         | UpstreamAuthSettings                                         | Identical |       |
-| UpstreamAuthSettings_STATUS                                  | UpstreamAuthSettings_STATUS                                  | Identical |       |
-| UpstreamTemplate                                             | UpstreamTemplate                                             | Identical |       |
-| UpstreamTemplate_STATUS                                      | UpstreamTemplate_STATUS                                      | Identical |       |
-| UserAssignedIdentityDetails                                  | UserAssignedIdentityDetails                                  | Identical |       |
-| UserAssignedIdentityProperty_STATUS                          | UserAssignedIdentityProperty_STATUS                          | Identical |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20211001/storage                                        | v1api20240301/storage                                        |  Status   | Notes                                                                       |
+|:-------------------------------------------------------------|:-------------------------------------------------------------|:---------:|:----------------------------------------------------------------------------|
+|                                                              | IPRule                                                       |    New    |                                                                             |
+|                                                              | IPRule_STATUS                                                |    New    |                                                                             |
+|                                                              | LiveTraceCategory                                            |    New    |                                                                             |
+|                                                              | LiveTraceCategory_STATUS                                     |    New    |                                                                             |
+|                                                              | LiveTraceConfiguration                                       |    New    |                                                                             |
+|                                                              | LiveTraceConfiguration_STATUS                                |    New    |                                                                             |
+| ManagedIdentity                                              | ManagedIdentity                                              | Identical |                                                                             |
+| ManagedIdentitySettings                                      | ManagedIdentitySettings                                      | Identical |                                                                             |
+| ManagedIdentitySettings_STATUS                               | ManagedIdentitySettings_STATUS                               | Identical |                                                                             |
+| ManagedIdentity_STATUS                                       | ManagedIdentity_STATUS                                       | Identical |                                                                             |
+| NetworkACL                                                   | NetworkACL                                                   | Identical |                                                                             |
+| NetworkACL_STATUS                                            | NetworkACL_STATUS                                            | Identical |                                                                             |
+| PrivateEndpointACL                                           | PrivateEndpointACL                                           | Identical |                                                                             |
+| PrivateEndpointACL_STATUS                                    | PrivateEndpointACL_STATUS                                    | Identical |                                                                             |
+| PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded | PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded | Identical |                                                                             |
+| ResourceLogCategory                                          | ResourceLogCategory                                          | Identical |                                                                             |
+| ResourceLogCategory_STATUS                                   | ResourceLogCategory_STATUS                                   | Identical |                                                                             |
+| ResourceLogConfiguration                                     | ResourceLogConfiguration                                     | Identical |                                                                             |
+| ResourceLogConfiguration_STATUS                              | ResourceLogConfiguration_STATUS                              | Identical |                                                                             |
+| ResourceSku                                                  | ResourceSku                                                  | Identical |                                                                             |
+| ResourceSku_STATUS                                           | ResourceSku_STATUS                                           | Identical |                                                                             |
+|                                                              | ServerlessSettings                                           |    New    |                                                                             |
+|                                                              | ServerlessSettings_STATUS                                    |    New    |                                                                             |
+| ServerlessUpstreamSettings                                   | ServerlessUpstreamSettings                                   | Identical |                                                                             |
+| ServerlessUpstreamSettings_STATUS                            | ServerlessUpstreamSettings_STATUS                            | Identical |                                                                             |
+| SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded | SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded | Identical |                                                                             |
+| SignalRCorsSettings                                          | SignalRCorsSettings                                          | Identical |                                                                             |
+| SignalRCorsSettings_STATUS                                   | SignalRCorsSettings_STATUS                                   | Identical |                                                                             |
+| SignalRFeature                                               | SignalRFeature                                               | Identical |                                                                             |
+| SignalRFeature_STATUS                                        | SignalRFeature_STATUS                                        | Identical |                                                                             |
+| SignalRNetworkACLs                                           | SignalRNetworkACLs                                           | Extended  | +IpRules                                                                    |
+| SignalRNetworkACLs_STATUS                                    | SignalRNetworkACLs_STATUS                                    | Extended  | +IpRules                                                                    |
+| SignalROperatorSecrets                                       | SignalROperatorSecrets                                       | Identical |                                                                             |
+| SignalROperatorSpec                                          | SignalROperatorSpec                                          | Identical |                                                                             |
+| SignalRTlsSettings                                           | SignalRTlsSettings                                           | Identical |                                                                             |
+| SignalRTlsSettings_STATUS                                    | SignalRTlsSettings_STATUS                                    | Identical |                                                                             |
+| SignalR_STATUS                                               | SignalR_STATUS                                               | Extended  | +LiveTraceConfiguration +RegionEndpointEnabled +ResourceStopped +Serverless |
+| SignalR_Spec                                                 | SignalR_Spec                                                 | Extended  | +LiveTraceConfiguration +RegionEndpointEnabled +ResourceStopped +Serverless |
+| SystemData_STATUS                                            | SystemData_STATUS                                            | Identical |                                                                             |
+| UpstreamAuthSettings                                         | UpstreamAuthSettings                                         | Identical |                                                                             |
+| UpstreamAuthSettings_STATUS                                  | UpstreamAuthSettings_STATUS                                  | Identical |                                                                             |
+| UpstreamTemplate                                             | UpstreamTemplate                                             | Identical |                                                                             |
+| UpstreamTemplate_STATUS                                      | UpstreamTemplate_STATUS                                      | Identical |                                                                             |
+| UserAssignedIdentityDetails                                  | UserAssignedIdentityDetails                                  | Identical |                                                                             |
+| UserAssignedIdentityProperty_STATUS                          | UserAssignedIdentityProperty_STATUS                          | Identical |                                                                             |
 
 ### SignalRNetworkACLs
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20211001/storage |                        | v1api20240301/storage |                        |  Status   | Notes |
 |:----------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -79,7 +72,7 @@
 
 ### SignalRNetworkACLs_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20211001/storage |                             | v1api20240301/storage |                             |  Status   | Notes |
 |:----------------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -91,7 +84,7 @@
 
 ### SignalR_STATUS
 
-29 x Identical, 4 x New
+Properties: 29 x Identical, 4 x New
 
 | v1api20211001/storage      |                                                                | v1api20240301/storage      |                                                                |  Status   | Notes |
 |:---------------------------|:---------------------------------------------------------------|:---------------------------|:---------------------------------------------------------------|:---------:|:------|
@@ -131,7 +124,7 @@
 
 ### SignalR_Spec
 
-19 x Identical, 4 x New
+Properties: 19 x Identical, 4 x New
 
 | v1api20211001/storage    |                                    | v1api20240301/storage    |                                    |  Status   | Notes |
 |:-------------------------|:-----------------------------------|:-------------------------|:-----------------------------------|:---------:|:------|
@@ -158,3 +151,12 @@
 | Tags                     | map[string]string                  | Tags                     | map[string]string                  | Identical |       |
 | Tls                      | *SignalRTlsSettings                | Tls                      | *SignalRTlsSettings                | Identical |       |
 | Upstream                 | *ServerlessUpstreamSettings        | Upstream                 | *ServerlessUpstreamSettings        | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

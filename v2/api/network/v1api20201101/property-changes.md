@@ -17,171 +17,164 @@
 | VirtualNetworksSubnet                | VirtualNetworksSubnet                | Identical |       |
 | VirtualNetworksVirtualNetworkPeering | VirtualNetworksVirtualNetworkPeering | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20201101                                                                           | v1api20201101/storage                                                                   |  Status  | Notes |
-|:----------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------|:--------:|:------|
-| AddressSpace                                                                            | AddressSpace                                                                            | Extended |       |
-| AddressSpace_STATUS                                                                     | AddressSpace_STATUS                                                                     | Extended |       |
-| ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded               | ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded               | Extended |       |
-| ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded        | ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded        | Extended |       |
-| ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded     | ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded     | Extended |       |
-| ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded            | ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded            | Extended |       |
-| ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded                       | ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded                       | Extended |       |
-| ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded     | ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded     | Extended |       |
-| ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded                    | ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded                    | Extended |       |
-| ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded  | ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded  | Extended |       |
-| BackendAddressPool_LoadBalancer_SubResourceEmbedded                                     | BackendAddressPool_LoadBalancer_SubResourceEmbedded                                     | Extended |       |
-| BackendAddressPool_NetworkInterface_SubResourceEmbedded                                 | BackendAddressPool_NetworkInterface_SubResourceEmbedded                                 | Extended |       |
-| BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded                              | BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded                              | Modified |       |
-| BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded                          | BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded                          | Extended |       |
-| BgpSettings                                                                             | BgpSettings                                                                             | Extended |       |
-| BgpSettings_STATUS                                                                      | BgpSettings_STATUS                                                                      | Extended |       |
-| DdosSettings                                                                            | DdosSettings                                                                            | Modified |       |
-| DdosSettings_STATUS                                                                     | DdosSettings_STATUS                                                                     | Modified |       |
-| Delegation                                                                              | Delegation                                                                              | Extended |       |
-| Delegation_STATUS                                                                       | Delegation_STATUS                                                                       | Modified |       |
-| DhcpOptions                                                                             | DhcpOptions                                                                             | Extended |       |
-| DhcpOptions_STATUS                                                                      | DhcpOptions_STATUS                                                                      | Extended |       |
-| ExtendedLocation                                                                        | ExtendedLocation                                                                        | Modified |       |
-| ExtendedLocation_STATUS                                                                 | ExtendedLocation_STATUS                                                                 | Modified |       |
-| FlowLog_STATUS                                                                          | FlowLog_STATUS                                                                          | Extended |       |
-| FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded                                | FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded                                | Modified |       |
-| FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded                         | FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded                         | Modified |       |
-| IPConfigurationBgpPeeringAddress                                                        | IPConfigurationBgpPeeringAddress                                                        | Extended |       |
-| IPConfigurationBgpPeeringAddress_STATUS                                                 | IPConfigurationBgpPeeringAddress_STATUS                                                 | Extended |       |
-| IPConfigurationProfile_STATUS                                                           | IPConfigurationProfile_STATUS                                                           | Extended |       |
-| IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded                              | IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded                              | Extended |       |
-| IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                       | IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                       | Extended |       |
-| InboundNatPool                                                                          | InboundNatPool                                                                          | Modified |       |
-| InboundNatPool_STATUS                                                                   | InboundNatPool_STATUS                                                                   | Modified |       |
-| InboundNatRule_LoadBalancer_SubResourceEmbedded                                         | InboundNatRule_LoadBalancer_SubResourceEmbedded                                         | Modified |       |
-| InboundNatRule_NetworkInterface_SubResourceEmbedded                                     | InboundNatRule_NetworkInterface_SubResourceEmbedded                                     | Extended |       |
-| InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded                                  | InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded                                  | Modified |       |
-| InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded                              | InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded                              | Extended |       |
-| IpTag                                                                                   | IpTag                                                                                   | Extended |       |
-| IpTag_STATUS                                                                            | IpTag_STATUS                                                                            | Extended |       |
-| IpsecPolicy                                                                             | IpsecPolicy                                                                             | Modified |       |
-| IpsecPolicy_STATUS                                                                      | IpsecPolicy_STATUS                                                                      | Modified |       |
-| LoadBalancerBackendAddress                                                              | LoadBalancerBackendAddress                                                              | Extended |       |
-| LoadBalancerBackendAddress_STATUS                                                       | LoadBalancerBackendAddress_STATUS                                                       | Extended |       |
-| LoadBalancerOperatorSpec                                                                | LoadBalancerOperatorSpec                                                                | Extended |       |
-| LoadBalancerSku                                                                         | LoadBalancerSku                                                                         | Modified |       |
-| LoadBalancerSku_STATUS                                                                  | LoadBalancerSku_STATUS                                                                  | Modified |       |
-| LoadBalancer_STATUS                                                                     | LoadBalancer_STATUS                                                                     | Modified |       |
-| LoadBalancer_Spec                                                                       | LoadBalancer_Spec                                                                       | Extended |       |
-| LoadBalancersInboundNatRuleOperatorSpec                                                 | LoadBalancersInboundNatRuleOperatorSpec                                                 | Extended |       |
-| LoadBalancersInboundNatRule_STATUS                                                      | LoadBalancersInboundNatRule_STATUS                                                      | Modified |       |
-| LoadBalancersInboundNatRule_Spec                                                        | LoadBalancersInboundNatRule_Spec                                                        | Modified |       |
-| LoadBalancingRule                                                                       | LoadBalancingRule                                                                       | Modified |       |
-| LoadBalancingRule_STATUS                                                                | LoadBalancingRule_STATUS                                                                | Modified |       |
-| NatGatewaySpec_PublicIPAddress_SubResourceEmbedded                                      | NatGatewaySpec_PublicIPAddress_SubResourceEmbedded                                      | Extended |       |
-| NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded                                   | NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded                                   | Extended |       |
-| NetworkInterfaceDnsSettings                                                             | NetworkInterfaceDnsSettings                                                             | Extended |       |
-| NetworkInterfaceDnsSettings_STATUS                                                      | NetworkInterfaceDnsSettings_STATUS                                                      | Extended |       |
-| NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS                   | NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS                   | Extended |       |
-| NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded                    | NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded                    | Modified |       |
-| NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded                 | NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded                 | Extended |       |
-| NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded | NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded | Extended |       |
-| NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded             | NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded             | Modified |       |
-| NetworkInterfaceOperatorSpec                                                            | NetworkInterfaceOperatorSpec                                                            | Extended |       |
-| NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded            | NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded            | Extended |       |
-| NetworkInterface_STATUS                                                                 | NetworkInterface_STATUS                                                                 | Modified |       |
-| NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded                        | NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded                        | Extended |       |
-| NetworkInterface_Spec                                                                   | NetworkInterface_Spec                                                                   | Modified |       |
-| NetworkSecurityGroupOperatorSpec                                                        | NetworkSecurityGroupOperatorSpec                                                        | Extended |       |
-| NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded                           | NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded                           | Extended |       |
-| NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded                     | NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded                     | Extended |       |
-| NetworkSecurityGroup_STATUS                                                             | NetworkSecurityGroup_STATUS                                                             | Modified |       |
-| NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded                        | NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded                        | Extended |       |
-| NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                  | NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                  | Extended |       |
-| NetworkSecurityGroup_Spec                                                               | NetworkSecurityGroup_Spec                                                               | Extended |       |
-| NetworkSecurityGroupsSecurityRuleOperatorSpec                                           | NetworkSecurityGroupsSecurityRuleOperatorSpec                                           | Extended |       |
-| NetworkSecurityGroupsSecurityRule_STATUS                                                | NetworkSecurityGroupsSecurityRule_STATUS                                                | Modified |       |
-| NetworkSecurityGroupsSecurityRule_Spec                                                  | NetworkSecurityGroupsSecurityRule_Spec                                                  | Modified |       |
-| OutboundRule                                                                            | OutboundRule                                                                            | Modified |       |
-| OutboundRule_STATUS                                                                     | OutboundRule_STATUS                                                                     | Modified |       |
-| PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded                             | PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded                             | Extended |       |
-| PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                       | PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                       | Extended |       |
-| PrivateLinkServiceSpec                                                                  | PrivateLinkServiceSpec                                                                  | Extended |       |
-| PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded                          | PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded                          | Extended |       |
-| Probe                                                                                   | Probe                                                                                   | Modified |       |
-| Probe_STATUS                                                                            | Probe_STATUS                                                                            | Modified |       |
-| PublicIPAddressDnsSettings                                                              | PublicIPAddressDnsSettings                                                              | Extended |       |
-| PublicIPAddressDnsSettings_STATUS                                                       | PublicIPAddressDnsSettings_STATUS                                                       | Extended |       |
-| PublicIPAddressOperatorSpec                                                             | PublicIPAddressOperatorSpec                                                             | Extended |       |
-| PublicIPAddressSku                                                                      | PublicIPAddressSku                                                                      | Modified |       |
-| PublicIPAddressSku_STATUS                                                               | PublicIPAddressSku_STATUS                                                               | Modified |       |
-| PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded                                    | PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded                                    | Extended |       |
-| PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded                                | PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded                                | Extended |       |
-| PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded                                 | PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded                                 | Extended |       |
-| PublicIPAddress_STATUS                                                                  | PublicIPAddress_STATUS                                                                  | Modified |       |
-| PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded                                 | PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded                                 | Extended |       |
-| PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded                             | PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded                             | Extended |       |
-| PublicIPAddress_Spec                                                                    | PublicIPAddress_Spec                                                                    | Modified |       |
-| RadiusServer                                                                            | RadiusServer                                                                            | Extended |       |
-| RadiusServer_STATUS                                                                     | RadiusServer_STATUS                                                                     | Extended |       |
-| ResourceNavigationLink_STATUS                                                           | ResourceNavigationLink_STATUS                                                           | Extended |       |
-| RouteTableOperatorSpec                                                                  | RouteTableOperatorSpec                                                                  | Extended |       |
-| RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded                               | RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded                               | Extended |       |
-| RouteTable_STATUS                                                                       | RouteTable_STATUS                                                                       | Modified |       |
-| RouteTable_STATUS_SubResourceEmbedded                                                   | RouteTable_STATUS_SubResourceEmbedded                                                   | Extended |       |
-| RouteTable_Spec                                                                         | RouteTable_Spec                                                                         | Extended |       |
-| RouteTablesRouteOperatorSpec                                                            | RouteTablesRouteOperatorSpec                                                            | Extended |       |
-| RouteTablesRoute_STATUS                                                                 | RouteTablesRoute_STATUS                                                                 | Modified |       |
-| RouteTablesRoute_Spec                                                                   | RouteTablesRoute_Spec                                                                   | Modified |       |
-| SecurityRule_STATUS                                                                     | SecurityRule_STATUS                                                                     | Extended |       |
-| ServiceAssociationLink_STATUS                                                           | ServiceAssociationLink_STATUS                                                           | Extended |       |
-| ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded                    | ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded                    | Extended |       |
-| ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                 | ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                 | Extended |       |
-| ServiceEndpointPropertiesFormat                                                         | ServiceEndpointPropertiesFormat                                                         | Extended |       |
-| ServiceEndpointPropertiesFormat_STATUS                                                  | ServiceEndpointPropertiesFormat_STATUS                                                  | Modified |       |
-| SubResource                                                                             | SubResource                                                                             | Extended |       |
-| SubResource_STATUS                                                                      | SubResource_STATUS                                                                      | Extended |       |
-| Subnet_LoadBalancer_SubResourceEmbedded                                                 | Subnet_LoadBalancer_SubResourceEmbedded                                                 | Extended |       |
-| Subnet_NetworkInterface_SubResourceEmbedded                                             | Subnet_NetworkInterface_SubResourceEmbedded                                             | Extended |       |
-| Subnet_STATUS_LoadBalancer_SubResourceEmbedded                                          | Subnet_STATUS_LoadBalancer_SubResourceEmbedded                                          | Extended |       |
-| Subnet_STATUS_NetworkInterface_SubResourceEmbedded                                      | Subnet_STATUS_NetworkInterface_SubResourceEmbedded                                      | Extended |       |
-| Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded                                  | Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded                                  | Extended |       |
-| VirtualNetworkBgpCommunities                                                            | VirtualNetworkBgpCommunities                                                            | Extended |       |
-| VirtualNetworkBgpCommunities_STATUS                                                     | VirtualNetworkBgpCommunities_STATUS                                                     | Extended |       |
-| VirtualNetworkGatewayIPConfiguration                                                    | VirtualNetworkGatewayIPConfiguration                                                    | Modified |       |
-| VirtualNetworkGatewayIPConfiguration_STATUS                                             | VirtualNetworkGatewayIPConfiguration_STATUS                                             | Modified |       |
-| VirtualNetworkGatewayOperatorSpec                                                       | VirtualNetworkGatewayOperatorSpec                                                       | Extended |       |
-| VirtualNetworkGatewaySku                                                                | VirtualNetworkGatewaySku                                                                | Modified |       |
-| VirtualNetworkGatewaySku_STATUS                                                         | VirtualNetworkGatewaySku_STATUS                                                         | Modified |       |
-| VirtualNetworkGateway_STATUS                                                            | VirtualNetworkGateway_STATUS                                                            | Modified |       |
-| VirtualNetworkGateway_Spec                                                              | VirtualNetworkGateway_Spec                                                              | Modified |       |
-| VirtualNetworkOperatorSpec                                                              | VirtualNetworkOperatorSpec                                                              | Extended |       |
-| VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded                              | VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded                              | Extended |       |
-| VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded                           | VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded                           | Extended |       |
-| VirtualNetwork_STATUS                                                                   | VirtualNetwork_STATUS                                                                   | Modified |       |
-| VirtualNetwork_Spec                                                                     | VirtualNetwork_Spec                                                                     | Extended |       |
-| VirtualNetworksSubnetOperatorSpec                                                       | VirtualNetworksSubnetOperatorSpec                                                       | Extended |       |
-| VirtualNetworksSubnet_STATUS                                                            | VirtualNetworksSubnet_STATUS                                                            | Modified |       |
-| VirtualNetworksSubnet_Spec                                                              | VirtualNetworksSubnet_Spec                                                              | Modified |       |
-| VirtualNetworksVirtualNetworkPeeringOperatorSpec                                        | VirtualNetworksVirtualNetworkPeeringOperatorSpec                                        | Extended |       |
-| VirtualNetworksVirtualNetworkPeering_STATUS                                             | VirtualNetworksVirtualNetworkPeering_STATUS                                             | Modified |       |
-| VirtualNetworksVirtualNetworkPeering_Spec                                               | VirtualNetworksVirtualNetworkPeering_Spec                                               | Modified |       |
-| VpnClientConfiguration                                                                  | VpnClientConfiguration                                                                  | Modified |       |
-| VpnClientConfiguration_STATUS                                                           | VpnClientConfiguration_STATUS                                                           | Modified |       |
-| VpnClientRevokedCertificate                                                             | VpnClientRevokedCertificate                                                             | Extended |       |
-| VpnClientRevokedCertificate_STATUS                                                      | VpnClientRevokedCertificate_STATUS                                                      | Modified |       |
-| VpnClientRootCertificate                                                                | VpnClientRootCertificate                                                                | Extended |       |
-| VpnClientRootCertificate_STATUS                                                         | VpnClientRootCertificate_STATUS                                                         | Modified |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20201101                                                                           | v1api20201101/storage                                                                   |  Status  | Notes                         |
+|:----------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------|:--------:|:------------------------------|
+| AddressSpace                                                                            | AddressSpace                                                                            | Extended | +PropertyBag                  |
+| AddressSpace_STATUS                                                                     | AddressSpace_STATUS                                                                     | Extended | +PropertyBag                  |
+| ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded               | ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded               | Extended | +PropertyBag                  |
+| ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded        | ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded        | Extended | +PropertyBag                  |
+| ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded     | ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded     | Extended | +PropertyBag                  |
+| ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded            | ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded            | Extended | +PropertyBag                  |
+| ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded                       | ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded                       | Extended | +PropertyBag                  |
+| ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded     | ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded     | Extended | +PropertyBag                  |
+| ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded                    | ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded                    | Extended | +PropertyBag                  |
+| ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded  | ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded  | Extended | +PropertyBag                  |
+| BackendAddressPool_LoadBalancer_SubResourceEmbedded                                     | BackendAddressPool_LoadBalancer_SubResourceEmbedded                                     | Extended | +PropertyBag                  |
+| BackendAddressPool_NetworkInterface_SubResourceEmbedded                                 | BackendAddressPool_NetworkInterface_SubResourceEmbedded                                 | Extended | +PropertyBag                  |
+| BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded                              | BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded                              | Modified |                               |
+| BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded                          | BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded                          | Extended | +PropertyBag                  |
+| BgpSettings                                                                             | BgpSettings                                                                             | Extended | +PropertyBag                  |
+| BgpSettings_STATUS                                                                      | BgpSettings_STATUS                                                                      | Extended | +PropertyBag                  |
+| DdosSettings                                                                            | DdosSettings                                                                            | Modified |                               |
+| DdosSettings_STATUS                                                                     | DdosSettings_STATUS                                                                     | Modified |                               |
+| Delegation                                                                              | Delegation                                                                              | Extended | +PropertyBag                  |
+| Delegation_STATUS                                                                       | Delegation_STATUS                                                                       | Modified |                               |
+| DhcpOptions                                                                             | DhcpOptions                                                                             | Extended | +PropertyBag                  |
+| DhcpOptions_STATUS                                                                      | DhcpOptions_STATUS                                                                      | Extended | +PropertyBag                  |
+| ExtendedLocation                                                                        | ExtendedLocation                                                                        | Modified |                               |
+| ExtendedLocation_STATUS                                                                 | ExtendedLocation_STATUS                                                                 | Modified |                               |
+| FlowLog_STATUS                                                                          | FlowLog_STATUS                                                                          | Extended | +PropertyBag                  |
+| FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded                                | FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded                                | Modified |                               |
+| FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded                         | FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded                         | Modified |                               |
+| IPConfigurationBgpPeeringAddress                                                        | IPConfigurationBgpPeeringAddress                                                        | Extended | +PropertyBag                  |
+| IPConfigurationBgpPeeringAddress_STATUS                                                 | IPConfigurationBgpPeeringAddress_STATUS                                                 | Extended | +PropertyBag                  |
+| IPConfigurationProfile_STATUS                                                           | IPConfigurationProfile_STATUS                                                           | Extended | +PropertyBag                  |
+| IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded                              | IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded                              | Extended | +PropertyBag                  |
+| IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                       | IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                       | Extended | +PropertyBag                  |
+| InboundNatPool                                                                          | InboundNatPool                                                                          | Modified |                               |
+| InboundNatPool_STATUS                                                                   | InboundNatPool_STATUS                                                                   | Modified |                               |
+| InboundNatRule_LoadBalancer_SubResourceEmbedded                                         | InboundNatRule_LoadBalancer_SubResourceEmbedded                                         | Modified |                               |
+| InboundNatRule_NetworkInterface_SubResourceEmbedded                                     | InboundNatRule_NetworkInterface_SubResourceEmbedded                                     | Extended | +PropertyBag                  |
+| InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded                                  | InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded                                  | Modified |                               |
+| InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded                              | InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded                              | Extended | +PropertyBag                  |
+| IpTag                                                                                   | IpTag                                                                                   | Extended | +PropertyBag                  |
+| IpTag_STATUS                                                                            | IpTag_STATUS                                                                            | Extended | +PropertyBag                  |
+| IpsecPolicy                                                                             | IpsecPolicy                                                                             | Modified |                               |
+| IpsecPolicy_STATUS                                                                      | IpsecPolicy_STATUS                                                                      | Modified |                               |
+| LoadBalancerBackendAddress                                                              | LoadBalancerBackendAddress                                                              | Extended | +PropertyBag                  |
+| LoadBalancerBackendAddress_STATUS                                                       | LoadBalancerBackendAddress_STATUS                                                       | Extended | +PropertyBag                  |
+| LoadBalancerOperatorSpec                                                                | LoadBalancerOperatorSpec                                                                | Extended | +PropertyBag                  |
+| LoadBalancerSku                                                                         | LoadBalancerSku                                                                         | Modified |                               |
+| LoadBalancerSku_STATUS                                                                  | LoadBalancerSku_STATUS                                                                  | Modified |                               |
+| LoadBalancer_STATUS                                                                     | LoadBalancer_STATUS                                                                     | Modified |                               |
+| LoadBalancer_Spec                                                                       | LoadBalancer_Spec                                                                       | Extended | +OriginalVersion +PropertyBag |
+| LoadBalancersInboundNatRuleOperatorSpec                                                 | LoadBalancersInboundNatRuleOperatorSpec                                                 | Extended | +PropertyBag                  |
+| LoadBalancersInboundNatRule_STATUS                                                      | LoadBalancersInboundNatRule_STATUS                                                      | Modified |                               |
+| LoadBalancersInboundNatRule_Spec                                                        | LoadBalancersInboundNatRule_Spec                                                        | Modified |                               |
+| LoadBalancingRule                                                                       | LoadBalancingRule                                                                       | Modified |                               |
+| LoadBalancingRule_STATUS                                                                | LoadBalancingRule_STATUS                                                                | Modified |                               |
+| NatGatewaySpec_PublicIPAddress_SubResourceEmbedded                                      | NatGatewaySpec_PublicIPAddress_SubResourceEmbedded                                      | Extended | +PropertyBag                  |
+| NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded                                   | NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded                                   | Extended | +PropertyBag                  |
+| NetworkInterfaceDnsSettings                                                             | NetworkInterfaceDnsSettings                                                             | Extended | +PropertyBag                  |
+| NetworkInterfaceDnsSettings_STATUS                                                      | NetworkInterfaceDnsSettings_STATUS                                                      | Extended | +PropertyBag                  |
+| NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS                   | NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS                   | Extended | +PropertyBag                  |
+| NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded                    | NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded                    | Modified |                               |
+| NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded                 | NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded                 | Extended | +PropertyBag                  |
+| NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded | NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded | Extended | +PropertyBag                  |
+| NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded             | NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded             | Modified |                               |
+| NetworkInterfaceOperatorSpec                                                            | NetworkInterfaceOperatorSpec                                                            | Extended | +PropertyBag                  |
+| NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded            | NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded            | Extended | +PropertyBag                  |
+| NetworkInterface_STATUS                                                                 | NetworkInterface_STATUS                                                                 | Modified |                               |
+| NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded                        | NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded                        | Extended | +PropertyBag                  |
+| NetworkInterface_Spec                                                                   | NetworkInterface_Spec                                                                   | Modified |                               |
+| NetworkSecurityGroupOperatorSpec                                                        | NetworkSecurityGroupOperatorSpec                                                        | Extended | +PropertyBag                  |
+| NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded                           | NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded                           | Extended | +PropertyBag                  |
+| NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded                     | NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded                     | Extended | +PropertyBag                  |
+| NetworkSecurityGroup_STATUS                                                             | NetworkSecurityGroup_STATUS                                                             | Modified |                               |
+| NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded                        | NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded                        | Extended | +PropertyBag                  |
+| NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                  | NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                  | Extended | +PropertyBag                  |
+| NetworkSecurityGroup_Spec                                                               | NetworkSecurityGroup_Spec                                                               | Extended | +OriginalVersion +PropertyBag |
+| NetworkSecurityGroupsSecurityRuleOperatorSpec                                           | NetworkSecurityGroupsSecurityRuleOperatorSpec                                           | Extended | +PropertyBag                  |
+| NetworkSecurityGroupsSecurityRule_STATUS                                                | NetworkSecurityGroupsSecurityRule_STATUS                                                | Modified |                               |
+| NetworkSecurityGroupsSecurityRule_Spec                                                  | NetworkSecurityGroupsSecurityRule_Spec                                                  | Modified |                               |
+| OutboundRule                                                                            | OutboundRule                                                                            | Modified |                               |
+| OutboundRule_STATUS                                                                     | OutboundRule_STATUS                                                                     | Modified |                               |
+| PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded                             | PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded                             | Extended | +PropertyBag                  |
+| PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                       | PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                       | Extended | +PropertyBag                  |
+| PrivateLinkServiceSpec                                                                  | PrivateLinkServiceSpec                                                                  | Extended | +PropertyBag                  |
+| PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded                          | PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded                          | Extended | +PropertyBag                  |
+| Probe                                                                                   | Probe                                                                                   | Modified |                               |
+| Probe_STATUS                                                                            | Probe_STATUS                                                                            | Modified |                               |
+| PublicIPAddressDnsSettings                                                              | PublicIPAddressDnsSettings                                                              | Extended | +PropertyBag                  |
+| PublicIPAddressDnsSettings_STATUS                                                       | PublicIPAddressDnsSettings_STATUS                                                       | Extended | +PropertyBag                  |
+| PublicIPAddressOperatorSpec                                                             | PublicIPAddressOperatorSpec                                                             | Extended | +PropertyBag                  |
+| PublicIPAddressSku                                                                      | PublicIPAddressSku                                                                      | Modified |                               |
+| PublicIPAddressSku_STATUS                                                               | PublicIPAddressSku_STATUS                                                               | Modified |                               |
+| PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded                                    | PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded                                    | Extended | +PropertyBag                  |
+| PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded                                | PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded                                | Extended | +PropertyBag                  |
+| PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded                                 | PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded                                 | Extended | +PropertyBag                  |
+| PublicIPAddress_STATUS                                                                  | PublicIPAddress_STATUS                                                                  | Modified |                               |
+| PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded                                 | PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded                                 | Extended | +PropertyBag                  |
+| PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded                             | PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded                             | Extended | +PropertyBag                  |
+| PublicIPAddress_Spec                                                                    | PublicIPAddress_Spec                                                                    | Modified |                               |
+| RadiusServer                                                                            | RadiusServer                                                                            | Extended | +PropertyBag                  |
+| RadiusServer_STATUS                                                                     | RadiusServer_STATUS                                                                     | Extended | +PropertyBag                  |
+| ResourceNavigationLink_STATUS                                                           | ResourceNavigationLink_STATUS                                                           | Extended | +PropertyBag                  |
+| RouteTableOperatorSpec                                                                  | RouteTableOperatorSpec                                                                  | Extended | +PropertyBag                  |
+| RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded                               | RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded                               | Extended | +PropertyBag                  |
+| RouteTable_STATUS                                                                       | RouteTable_STATUS                                                                       | Modified |                               |
+| RouteTable_STATUS_SubResourceEmbedded                                                   | RouteTable_STATUS_SubResourceEmbedded                                                   | Extended | +PropertyBag                  |
+| RouteTable_Spec                                                                         | RouteTable_Spec                                                                         | Extended | +OriginalVersion +PropertyBag |
+| RouteTablesRouteOperatorSpec                                                            | RouteTablesRouteOperatorSpec                                                            | Extended | +PropertyBag                  |
+| RouteTablesRoute_STATUS                                                                 | RouteTablesRoute_STATUS                                                                 | Modified |                               |
+| RouteTablesRoute_Spec                                                                   | RouteTablesRoute_Spec                                                                   | Modified |                               |
+| SecurityRule_STATUS                                                                     | SecurityRule_STATUS                                                                     | Extended | +PropertyBag                  |
+| ServiceAssociationLink_STATUS                                                           | ServiceAssociationLink_STATUS                                                           | Extended | +PropertyBag                  |
+| ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded                    | ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded                    | Extended | +PropertyBag                  |
+| ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                 | ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                 | Extended | +PropertyBag                  |
+| ServiceEndpointPropertiesFormat                                                         | ServiceEndpointPropertiesFormat                                                         | Extended | +PropertyBag                  |
+| ServiceEndpointPropertiesFormat_STATUS                                                  | ServiceEndpointPropertiesFormat_STATUS                                                  | Modified |                               |
+| SubResource                                                                             | SubResource                                                                             | Extended | +PropertyBag                  |
+| SubResource_STATUS                                                                      | SubResource_STATUS                                                                      | Extended | +PropertyBag                  |
+| Subnet_LoadBalancer_SubResourceEmbedded                                                 | Subnet_LoadBalancer_SubResourceEmbedded                                                 | Extended | +PropertyBag                  |
+| Subnet_NetworkInterface_SubResourceEmbedded                                             | Subnet_NetworkInterface_SubResourceEmbedded                                             | Extended | +PropertyBag                  |
+| Subnet_STATUS_LoadBalancer_SubResourceEmbedded                                          | Subnet_STATUS_LoadBalancer_SubResourceEmbedded                                          | Extended | +PropertyBag                  |
+| Subnet_STATUS_NetworkInterface_SubResourceEmbedded                                      | Subnet_STATUS_NetworkInterface_SubResourceEmbedded                                      | Extended | +PropertyBag                  |
+| Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded                                  | Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded                                  | Extended | +PropertyBag                  |
+| VirtualNetworkBgpCommunities                                                            | VirtualNetworkBgpCommunities                                                            | Extended | +PropertyBag                  |
+| VirtualNetworkBgpCommunities_STATUS                                                     | VirtualNetworkBgpCommunities_STATUS                                                     | Extended | +PropertyBag                  |
+| VirtualNetworkGatewayIPConfiguration                                                    | VirtualNetworkGatewayIPConfiguration                                                    | Modified |                               |
+| VirtualNetworkGatewayIPConfiguration_STATUS                                             | VirtualNetworkGatewayIPConfiguration_STATUS                                             | Modified |                               |
+| VirtualNetworkGatewayOperatorSpec                                                       | VirtualNetworkGatewayOperatorSpec                                                       | Extended | +PropertyBag                  |
+| VirtualNetworkGatewaySku                                                                | VirtualNetworkGatewaySku                                                                | Modified |                               |
+| VirtualNetworkGatewaySku_STATUS                                                         | VirtualNetworkGatewaySku_STATUS                                                         | Modified |                               |
+| VirtualNetworkGateway_STATUS                                                            | VirtualNetworkGateway_STATUS                                                            | Modified |                               |
+| VirtualNetworkGateway_Spec                                                              | VirtualNetworkGateway_Spec                                                              | Modified |                               |
+| VirtualNetworkOperatorSpec                                                              | VirtualNetworkOperatorSpec                                                              | Extended | +PropertyBag                  |
+| VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded                              | VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded                              | Extended | +PropertyBag                  |
+| VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded                           | VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded                           | Extended | +PropertyBag                  |
+| VirtualNetwork_STATUS                                                                   | VirtualNetwork_STATUS                                                                   | Modified |                               |
+| VirtualNetwork_Spec                                                                     | VirtualNetwork_Spec                                                                     | Extended | +OriginalVersion +PropertyBag |
+| VirtualNetworksSubnetOperatorSpec                                                       | VirtualNetworksSubnetOperatorSpec                                                       | Extended | +PropertyBag                  |
+| VirtualNetworksSubnet_STATUS                                                            | VirtualNetworksSubnet_STATUS                                                            | Modified |                               |
+| VirtualNetworksSubnet_Spec                                                              | VirtualNetworksSubnet_Spec                                                              | Modified |                               |
+| VirtualNetworksVirtualNetworkPeeringOperatorSpec                                        | VirtualNetworksVirtualNetworkPeeringOperatorSpec                                        | Extended | +PropertyBag                  |
+| VirtualNetworksVirtualNetworkPeering_STATUS                                             | VirtualNetworksVirtualNetworkPeering_STATUS                                             | Modified |                               |
+| VirtualNetworksVirtualNetworkPeering_Spec                                               | VirtualNetworksVirtualNetworkPeering_Spec                                               | Modified |                               |
+| VpnClientConfiguration                                                                  | VpnClientConfiguration                                                                  | Modified |                               |
+| VpnClientConfiguration_STATUS                                                           | VpnClientConfiguration_STATUS                                                           | Modified |                               |
+| VpnClientRevokedCertificate                                                             | VpnClientRevokedCertificate                                                             | Extended | +PropertyBag                  |
+| VpnClientRevokedCertificate_STATUS                                                      | VpnClientRevokedCertificate_STATUS                                                      | Modified |                               |
+| VpnClientRootCertificate                                                                | VpnClientRootCertificate                                                                | Extended | +PropertyBag                  |
+| VpnClientRootCertificate_STATUS                                                         | VpnClientRootCertificate_STATUS                                                         | Modified |                               |
 
 ### AddressSpace
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101   |          | v1api20201101/storage |                        |  Status   | Notes |
 |:----------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -190,7 +183,7 @@
 
 ### AddressSpace_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101   |          | v1api20201101/storage |                        |  Status   | Notes |
 |:----------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -199,7 +192,7 @@
 
 ### ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |                               | v1api20201101/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -208,7 +201,7 @@
 
 ### ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -217,7 +210,7 @@
 
 ### ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -226,7 +219,7 @@
 
 ### ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |                               | v1api20201101/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -235,7 +228,7 @@
 
 ### ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |                               | v1api20201101/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -244,7 +237,7 @@
 
 ### ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |                               | v1api20201101/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -253,7 +246,7 @@
 
 ### ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -262,7 +255,7 @@
 
 ### ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -271,7 +264,7 @@
 
 ### BackendAddressPool_LoadBalancer_SubResourceEmbedded
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201101                |                              | v1api20201101/storage        |                              |  Status   | Notes |
 |:-----------------------------|:-----------------------------|:-----------------------------|:-----------------------------|:---------:|:------|
@@ -281,7 +274,7 @@
 
 ### BackendAddressPool_NetworkInterface_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |                               | v1api20201101/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -290,7 +283,7 @@
 
 ### BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded
 
-9 x Identical, 1 x New, 1 x Modified
+Properties: 9 x Identical, 1 x New, 1 x Modified
 
 | v1api20201101                |                                                                           | v1api20201101/storage        |                                                                           |  Status   | Notes |
 |:-----------------------------|:--------------------------------------------------------------------------|:-----------------------------|:--------------------------------------------------------------------------|:---------:|:------|
@@ -308,7 +301,7 @@
 
 ### BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -317,7 +310,7 @@
 
 ### BgpSettings
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20201101       |                                    | v1api20201101/storage |                                    |  Status   | Notes |
 |:--------------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -329,7 +322,7 @@
 
 ### BgpSettings_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20201101       |                                           | v1api20201101/storage |                                           |  Status   | Notes |
 |:--------------------|:------------------------------------------|:----------------------|:------------------------------------------|:---------:|:------|
@@ -341,7 +334,7 @@
 
 ### DdosSettings
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20201101      |                                  | v1api20201101/storage |                        |  Status   | Notes |
 |:-------------------|:---------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -352,7 +345,7 @@
 
 ### DdosSettings_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20201101      |                                         | v1api20201101/storage |                        |  Status   | Notes |
 |:-------------------|:----------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -363,7 +356,7 @@
 
 ### Delegation
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -373,7 +366,7 @@
 
 ### Delegation_STATUS
 
-6 x Identical, 1 x New, 1 x Modified
+Properties: 6 x Identical, 1 x New, 1 x Modified
 
 | v1api20201101     |                           | v1api20201101/storage |                        |  Status   | Notes |
 |:------------------|:--------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -388,7 +381,7 @@
 
 ### DhcpOptions
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |          | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -397,7 +390,7 @@
 
 ### DhcpOptions_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |          | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -406,7 +399,7 @@
 
 ### ExtendedLocation
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20201101 |                       | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -416,7 +409,7 @@
 
 ### ExtendedLocation_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20201101 |                              | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -426,7 +419,7 @@
 
 ### FlowLog_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -435,7 +428,7 @@
 
 ### FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded
 
-6 x Identical, 1 x New, 2 x Modified
+Properties: 6 x Identical, 1 x New, 2 x Modified
 
 | v1api20201101             |                                                       | v1api20201101/storage     |                                                       |  Status   | Notes |
 |:--------------------------|:------------------------------------------------------|:--------------------------|:------------------------------------------------------|:---------:|:------|
@@ -451,7 +444,7 @@
 
 ### FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
 
-13 x Identical, 1 x New, 3 x Modified
+Properties: 13 x Identical, 1 x New, 3 x Modified
 
 | v1api20201101             |                                                          | v1api20201101/storage     |                                                          |  Status   | Notes |
 |:--------------------------|:---------------------------------------------------------|:--------------------------|:---------------------------------------------------------|:---------:|:------|
@@ -475,7 +468,7 @@
 
 ### IPConfigurationBgpPeeringAddress
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201101        |          | v1api20201101/storage |                        |  Status   | Notes |
 |:---------------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -485,7 +478,7 @@
 
 ### IPConfigurationBgpPeeringAddress_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20201101         |          | v1api20201101/storage |                        |  Status   | Notes |
 |:----------------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -497,7 +490,7 @@
 
 ### IPConfigurationProfile_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -506,7 +499,7 @@
 
 ### IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -515,7 +508,7 @@
 
 ### IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -524,7 +517,7 @@
 
 ### InboundNatPool
 
-8 x Identical, 1 x New, 1 x Modified
+Properties: 8 x Identical, 1 x New, 1 x Modified
 
 | v1api20201101           |                    | v1api20201101/storage   |                        |  Status   | Notes |
 |:------------------------|:-------------------|:------------------------|:-----------------------|:---------:|:------|
@@ -541,7 +534,7 @@
 
 ### InboundNatPool_STATUS
 
-11 x Identical, 1 x New, 2 x Modified
+Properties: 11 x Identical, 1 x New, 2 x Modified
 
 | v1api20201101           |                           | v1api20201101/storage   |                        |  Status   | Notes |
 |:------------------------|:--------------------------|:------------------------|:-----------------------|:---------:|:------|
@@ -562,7 +555,7 @@
 
 ### InboundNatRule_LoadBalancer_SubResourceEmbedded
 
-7 x Identical, 1 x New, 1 x Modified
+Properties: 7 x Identical, 1 x New, 1 x Modified
 
 | v1api20201101           |                    | v1api20201101/storage   |                        |  Status   | Notes |
 |:------------------------|:-------------------|:------------------------|:-----------------------|:---------:|:------|
@@ -578,7 +571,7 @@
 
 ### InboundNatRule_NetworkInterface_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |                               | v1api20201101/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -587,7 +580,7 @@
 
 ### InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded
 
-11 x Identical, 1 x New, 2 x Modified
+Properties: 11 x Identical, 1 x New, 2 x Modified
 
 | v1api20201101           |                                                                          | v1api20201101/storage   |                                                                          |  Status   | Notes |
 |:------------------------|:-------------------------------------------------------------------------|:------------------------|:-------------------------------------------------------------------------|:---------:|:------|
@@ -608,7 +601,7 @@
 
 ### InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -617,7 +610,7 @@
 
 ### IpTag
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -627,7 +620,7 @@
 
 ### IpTag_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -637,7 +630,7 @@
 
 ### IpsecPolicy
 
-2 x Identical, 1 x New, 6 x Modified
+Properties: 2 x Identical, 1 x New, 6 x Modified
 
 | v1api20201101       |                  | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------------|:-----------------|:----------------------|:-----------------------|:---------:|:------|
@@ -653,7 +646,7 @@
 
 ### IpsecPolicy_STATUS
 
-2 x Identical, 1 x New, 6 x Modified
+Properties: 2 x Identical, 1 x New, 6 x Modified
 
 | v1api20201101       |                         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------------|:------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -669,7 +662,7 @@
 
 ### LoadBalancerBackendAddress
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20201101                       |              | v1api20201101/storage               |                        |  Status   | Notes |
 |:------------------------------------|:-------------|:------------------------------------|:-----------------------|:---------:|:------|
@@ -682,7 +675,7 @@
 
 ### LoadBalancerBackendAddress_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20201101                       |                     | v1api20201101/storage               |                        |  Status   | Notes |
 |:------------------------------------|:--------------------|:------------------------------------|:-----------------------|:---------:|:------|
@@ -696,7 +689,7 @@
 
 ### LoadBalancerOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201101        |                               | v1api20201101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -706,7 +699,7 @@
 
 ### LoadBalancerSku
 
-1 x New, 2 x Modified
+Properties: 1 x New, 2 x Modified
 
 | v1api20201101 |                       | v1api20201101/storage |                        |  Status  | Notes |
 |:--------------|:----------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -716,7 +709,7 @@
 
 ### LoadBalancerSku_STATUS
 
-1 x New, 2 x Modified
+Properties: 1 x New, 2 x Modified
 
 | v1api20201101 |                              | v1api20201101/storage |                        |  Status  | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -726,7 +719,7 @@
 
 ### LoadBalancer_STATUS
 
-17 x Identical, 1 x New, 1 x Modified
+Properties: 17 x Identical, 1 x New, 1 x Modified
 
 | v1api20201101            |                                                                   | v1api20201101/storage    |                                                                   |  Status   | Notes |
 |:-------------------------|:------------------------------------------------------------------|:-------------------------|:------------------------------------------------------------------|:---------:|:------|
@@ -752,7 +745,7 @@
 
 ### LoadBalancer_Spec
 
-14 x Identical, 2 x New
+Properties: 14 x Identical, 2 x New
 
 | v1api20201101            |                                                            | v1api20201101/storage    |                                                            |  Status   | Notes |
 |:-------------------------|:-----------------------------------------------------------|:-------------------------|:-----------------------------------------------------------|:---------:|:------|
@@ -775,7 +768,7 @@
 
 ### LoadBalancersInboundNatRuleOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201101        |                               | v1api20201101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -785,7 +778,7 @@
 
 ### LoadBalancersInboundNatRule_STATUS
 
-12 x Identical, 1 x New, 2 x Modified
+Properties: 12 x Identical, 1 x New, 2 x Modified
 
 | v1api20201101           |                                                                                          | v1api20201101/storage   |                                                                                          |  Status   | Notes |
 |:------------------------|:-----------------------------------------------------------------------------------------|:------------------------|:-----------------------------------------------------------------------------------------|:---------:|:------|
@@ -807,7 +800,7 @@
 
 ### LoadBalancersInboundNatRule_Spec
 
-9 x Identical, 2 x New, 1 x Modified
+Properties: 9 x Identical, 2 x New, 1 x Modified
 
 | v1api20201101           |                                          | v1api20201101/storage   |                                          |  Status   | Notes |
 |:------------------------|:-----------------------------------------|:------------------------|:-----------------------------------------|:---------:|:------|
@@ -826,7 +819,7 @@
 
 ### LoadBalancingRule
 
-10 x Identical, 1 x New, 2 x Modified
+Properties: 10 x Identical, 1 x New, 2 x Modified
 
 | v1api20201101           |                                                     | v1api20201101/storage   |                        |  Status   | Notes |
 |:------------------------|:----------------------------------------------------|:------------------------|:-----------------------|:---------:|:------|
@@ -846,7 +839,7 @@
 
 ### LoadBalancingRule_STATUS
 
-13 x Identical, 1 x New, 3 x Modified
+Properties: 13 x Identical, 1 x New, 3 x Modified
 
 | v1api20201101           |                                                            | v1api20201101/storage   |                        |  Status   | Notes |
 |:------------------------|:-----------------------------------------------------------|:------------------------|:-----------------------|:---------:|:------|
@@ -870,7 +863,7 @@
 
 ### NatGatewaySpec_PublicIPAddress_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |                               | v1api20201101/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -879,7 +872,7 @@
 
 ### NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -888,7 +881,7 @@
 
 ### NetworkInterfaceDnsSettings
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201101        |          | v1api20201101/storage |                        |  Status   | Notes |
 |:---------------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -898,7 +891,7 @@
 
 ### NetworkInterfaceDnsSettings_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20201101            |          | v1api20201101/storage    |                        |  Status   | Notes |
 |:-------------------------|:---------|:-------------------------|:-----------------------|:---------:|:------|
@@ -911,7 +904,7 @@
 
 ### NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20201101      |          | v1api20201101/storage |                        |  Status   | Notes |
 |:-------------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -922,7 +915,7 @@
 
 ### NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded
 
-10 x Identical, 1 x New, 2 x Modified
+Properties: 10 x Identical, 1 x New, 2 x Modified
 
 | v1api20201101                         |                                                                             | v1api20201101/storage                 |                                                                             |  Status   | Notes |
 |:--------------------------------------|:----------------------------------------------------------------------------|:--------------------------------------|:----------------------------------------------------------------------------|:---------:|:------|
@@ -942,7 +935,7 @@
 
 ### NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -951,7 +944,7 @@
 
 ### NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -960,7 +953,7 @@
 
 ### NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
 
-14 x Identical, 1 x New, 3 x Modified
+Properties: 14 x Identical, 1 x New, 3 x Modified
 
 | v1api20201101                         |                                                                                    | v1api20201101/storage                 |                                                                                    |  Status   | Notes |
 |:--------------------------------------|:-----------------------------------------------------------------------------------|:--------------------------------------|:-----------------------------------------------------------------------------------|:---------:|:------|
@@ -985,7 +978,7 @@
 
 ### NetworkInterfaceOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201101        |                               | v1api20201101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -995,7 +988,7 @@
 
 ### NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1004,7 +997,7 @@
 
 ### NetworkInterface_STATUS
 
-22 x Identical, 1 x New, 3 x Modified
+Properties: 22 x Identical, 1 x New, 3 x Modified
 
 | v1api20201101               |                                                                                | v1api20201101/storage       |                                                                                |  Status   | Notes |
 |:----------------------------|:-------------------------------------------------------------------------------|:----------------------------|:-------------------------------------------------------------------------------|:---------:|:------|
@@ -1037,7 +1030,7 @@
 
 ### NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1046,7 +1039,7 @@
 
 ### NetworkInterface_Spec
 
-12 x Identical, 2 x New, 1 x Modified
+Properties: 12 x Identical, 2 x New, 1 x Modified
 
 | v1api20201101               |                                                                        | v1api20201101/storage       |                                                                        |  Status   | Notes |
 |:----------------------------|:-----------------------------------------------------------------------|:----------------------------|:-----------------------------------------------------------------------|:---------:|:------|
@@ -1068,7 +1061,7 @@
 
 ### NetworkSecurityGroupOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201101        |                               | v1api20201101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1078,7 +1071,7 @@
 
 ### NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |                               | v1api20201101/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1087,7 +1080,7 @@
 
 ### NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |                               | v1api20201101/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1096,7 +1089,7 @@
 
 ### NetworkSecurityGroup_STATUS
 
-12 x Identical, 1 x New, 1 x Modified
+Properties: 12 x Identical, 1 x New, 1 x Modified
 
 | v1api20201101        |                                                                    | v1api20201101/storage |                                                                    |  Status   | Notes |
 |:---------------------|:-------------------------------------------------------------------|:----------------------|:-------------------------------------------------------------------|:---------:|:------|
@@ -1117,7 +1110,7 @@
 
 ### NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1126,7 +1119,7 @@
 
 ### NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1135,7 +1128,7 @@
 
 ### NetworkSecurityGroup_Spec
 
-5 x Identical, 2 x New
+Properties: 5 x Identical, 2 x New
 
 | v1api20201101 |                                    | v1api20201101/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -1149,7 +1142,7 @@
 
 ### NetworkSecurityGroupsSecurityRuleOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201101        |                               | v1api20201101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1159,7 +1152,7 @@
 
 ### NetworkSecurityGroupsSecurityRule_STATUS
 
-17 x Identical, 1 x New, 4 x Modified
+Properties: 17 x Identical, 1 x New, 4 x Modified
 
 | v1api20201101                        |                                                                                          | v1api20201101/storage                |                                                                                          |  Status   | Notes |
 |:-------------------------------------|:-----------------------------------------------------------------------------------------|:-------------------------------------|:-----------------------------------------------------------------------------------------|:---------:|:------|
@@ -1188,7 +1181,7 @@
 
 ### NetworkSecurityGroupsSecurityRule_Spec
 
-15 x Identical, 2 x New, 3 x Modified
+Properties: 15 x Identical, 2 x New, 3 x Modified
 
 | v1api20201101                        |                                                                                       | v1api20201101/storage                |                                                                                       |  Status   | Notes |
 |:-------------------------------------|:--------------------------------------------------------------------------------------|:-------------------------------------|:--------------------------------------------------------------------------------------|:---------:|:------|
@@ -1215,7 +1208,7 @@
 
 ### OutboundRule
 
-6 x Identical, 1 x New, 1 x Modified
+Properties: 6 x Identical, 1 x New, 1 x Modified
 
 | v1api20201101            |                                        | v1api20201101/storage    |                        |  Status   | Notes |
 |:-------------------------|:---------------------------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -1230,7 +1223,7 @@
 
 ### OutboundRule_STATUS
 
-9 x Identical, 1 x New, 2 x Modified
+Properties: 9 x Identical, 1 x New, 2 x Modified
 
 | v1api20201101            |                                               | v1api20201101/storage    |                        |  Status   | Notes |
 |:-------------------------|:----------------------------------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -1249,7 +1242,7 @@
 
 ### PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1258,7 +1251,7 @@
 
 ### PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1267,7 +1260,7 @@
 
 ### PrivateLinkServiceSpec
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |                               | v1api20201101/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1276,7 +1269,7 @@
 
 ### PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1285,7 +1278,7 @@
 
 ### Probe
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v1api20201101     |                                 | v1api20201101/storage |                        |  Status   | Notes |
 |:------------------|:--------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1299,7 +1292,7 @@
 
 ### Probe_STATUS
 
-9 x Identical, 1 x New, 2 x Modified
+Properties: 9 x Identical, 1 x New, 2 x Modified
 
 | v1api20201101      |                                        | v1api20201101/storage |                        |  Status   | Notes |
 |:-------------------|:---------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1318,7 +1311,7 @@
 
 ### PublicIPAddressDnsSettings
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20201101   |         | v1api20201101/storage |                        |  Status   | Notes |
 |:----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1329,7 +1322,7 @@
 
 ### PublicIPAddressDnsSettings_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20201101   |         | v1api20201101/storage |                        |  Status   | Notes |
 |:----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1340,7 +1333,7 @@
 
 ### PublicIPAddressOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201101        |                               | v1api20201101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1350,7 +1343,7 @@
 
 ### PublicIPAddressSku
 
-1 x New, 2 x Modified
+Properties: 1 x New, 2 x Modified
 
 | v1api20201101 |                          | v1api20201101/storage |                        |  Status  | Notes |
 |:--------------|:-------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -1360,7 +1353,7 @@
 
 ### PublicIPAddressSku_STATUS
 
-1 x New, 2 x Modified
+Properties: 1 x New, 2 x Modified
 
 | v1api20201101 |                                 | v1api20201101/storage |                        |  Status  | Notes |
 |:--------------|:--------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -1370,7 +1363,7 @@
 
 ### PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |                               | v1api20201101/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1379,7 +1372,7 @@
 
 ### PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |                               | v1api20201101/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1388,7 +1381,7 @@
 
 ### PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |                               | v1api20201101/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1397,7 +1390,7 @@
 
 ### PublicIPAddress_STATUS
 
-19 x Identical, 1 x New, 4 x Modified
+Properties: 19 x Identical, 1 x New, 4 x Modified
 
 | v1api20201101            |                                                             | v1api20201101/storage    |                                                             |  Status   | Notes |
 |:-------------------------|:------------------------------------------------------------|:-------------------------|:------------------------------------------------------------|:---------:|:------|
@@ -1428,7 +1421,7 @@
 
 ### PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1437,7 +1430,7 @@
 
 ### PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1446,7 +1439,7 @@
 
 ### PublicIPAddress_Spec
 
-17 x Identical, 2 x New, 2 x Modified
+Properties: 17 x Identical, 2 x New, 2 x Modified
 
 | v1api20201101            |                                                          | v1api20201101/storage    |                                                          |  Status   | Notes |
 |:-------------------------|:---------------------------------------------------------|:-------------------------|:---------------------------------------------------------|:---------:|:------|
@@ -1474,7 +1467,7 @@
 
 ### RadiusServer
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20201101       |                             | v1api20201101/storage |                             |  Status   | Notes |
 |:--------------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -1485,7 +1478,7 @@
 
 ### RadiusServer_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201101       |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1495,7 +1488,7 @@
 
 ### ResourceNavigationLink_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1504,7 +1497,7 @@
 
 ### RouteTableOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201101        |                               | v1api20201101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1514,7 +1507,7 @@
 
 ### RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |                               | v1api20201101/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1523,7 +1516,7 @@
 
 ### RouteTable_STATUS
 
-9 x Identical, 1 x New, 1 x Modified
+Properties: 9 x Identical, 1 x New, 1 x Modified
 
 | v1api20201101              |                           | v1api20201101/storage      |                        |  Status   | Notes |
 |:---------------------------|:--------------------------|:---------------------------|:-----------------------|:---------:|:------|
@@ -1541,7 +1534,7 @@
 
 ### RouteTable_STATUS_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1550,7 +1543,7 @@
 
 ### RouteTable_Spec
 
-6 x Identical, 2 x New
+Properties: 6 x Identical, 2 x New
 
 | v1api20201101              |                                    | v1api20201101/storage      |                                    |  Status   | Notes |
 |:---------------------------|:-----------------------------------|:---------------------------|:-----------------------------------|:---------:|:------|
@@ -1565,7 +1558,7 @@
 
 ### RouteTablesRouteOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201101        |                               | v1api20201101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1575,7 +1568,7 @@
 
 ### RouteTablesRoute_STATUS
 
-8 x Identical, 1 x New, 2 x Modified
+Properties: 8 x Identical, 1 x New, 2 x Modified
 
 | v1api20201101     |                           | v1api20201101/storage |                        |  Status   | Notes |
 |:------------------|:--------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1593,7 +1586,7 @@
 
 ### RouteTablesRoute_Spec
 
-5 x Identical, 2 x New, 1 x Modified
+Properties: 5 x Identical, 2 x New, 1 x Modified
 
 | v1api20201101    |                                    | v1api20201101/storage |                                    |  Status   | Notes |
 |:-----------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -1608,7 +1601,7 @@
 
 ### SecurityRule_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1617,7 +1610,7 @@
 
 ### ServiceAssociationLink_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1626,7 +1619,7 @@
 
 ### ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |                               | v1api20201101/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1635,7 +1628,7 @@
 
 ### ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1644,7 +1637,7 @@
 
 ### ServiceEndpointPropertiesFormat
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201101 |          | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -1654,7 +1647,7 @@
 
 ### ServiceEndpointPropertiesFormat_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20201101     |                           | v1api20201101/storage |                        |  Status   | Notes |
 |:------------------|:--------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1665,7 +1658,7 @@
 
 ### SubResource
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |                               | v1api20201101/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1674,7 +1667,7 @@
 
 ### SubResource_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1683,7 +1676,7 @@
 
 ### Subnet_LoadBalancer_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |                               | v1api20201101/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1692,7 +1685,7 @@
 
 ### Subnet_NetworkInterface_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |                               | v1api20201101/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1701,7 +1694,7 @@
 
 ### Subnet_STATUS_LoadBalancer_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1710,7 +1703,7 @@
 
 ### Subnet_STATUS_NetworkInterface_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1719,7 +1712,7 @@
 
 ### Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1728,7 +1721,7 @@
 
 ### VirtualNetworkBgpCommunities
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101           |         | v1api20201101/storage   |                        |  Status   | Notes |
 |:------------------------|:--------|:------------------------|:-----------------------|:---------:|:------|
@@ -1737,7 +1730,7 @@
 
 ### VirtualNetworkBgpCommunities_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201101           |         | v1api20201101/storage   |                        |  Status   | Notes |
 |:------------------------|:--------|:------------------------|:-----------------------|:---------:|:------|
@@ -1747,7 +1740,7 @@
 
 ### VirtualNetworkGatewayIPConfiguration
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20201101             |                     | v1api20201101/storage     |                        |  Status   | Notes |
 |:--------------------------|:--------------------|:--------------------------|:-----------------------|:---------:|:------|
@@ -1759,7 +1752,7 @@
 
 ### VirtualNetworkGatewayIPConfiguration_STATUS
 
-6 x Identical, 1 x New, 2 x Modified
+Properties: 6 x Identical, 1 x New, 2 x Modified
 
 | v1api20201101             |                            | v1api20201101/storage     |                        |  Status   | Notes |
 |:--------------------------|:---------------------------|:--------------------------|:-----------------------|:---------:|:------|
@@ -1775,7 +1768,7 @@
 
 ### VirtualNetworkGatewayOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201101        |                               | v1api20201101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1785,7 +1778,7 @@
 
 ### VirtualNetworkGatewaySku
 
-1 x New, 2 x Modified
+Properties: 1 x New, 2 x Modified
 
 | v1api20201101 |                                | v1api20201101/storage |                        |  Status  | Notes |
 |:--------------|:-------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -1795,7 +1788,7 @@
 
 ### VirtualNetworkGatewaySku_STATUS
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v1api20201101 |                                       | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1806,7 +1799,7 @@
 
 ### VirtualNetworkGateway_STATUS
 
-21 x Identical, 1 x New, 4 x Modified
+Properties: 21 x Identical, 1 x New, 4 x Modified
 
 | v1api20201101                  |                                                                    | v1api20201101/storage          |                                               |  Status   | Notes |
 |:-------------------------------|:-------------------------------------------------------------------|:-------------------------------|:----------------------------------------------|:---------:|:------|
@@ -1839,7 +1832,7 @@
 
 ### VirtualNetworkGateway_Spec
 
-17 x Identical, 2 x New, 3 x Modified
+Properties: 17 x Identical, 2 x New, 3 x Modified
 
 | v1api20201101                         |                                                             | v1api20201101/storage                 |                                        |  Status   | Notes |
 |:--------------------------------------|:------------------------------------------------------------|:--------------------------------------|:---------------------------------------|:---------:|:------|
@@ -1868,7 +1861,7 @@
 
 ### VirtualNetworkOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201101        |                               | v1api20201101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1878,7 +1871,7 @@
 
 ### VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |                               | v1api20201101/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1887,7 +1880,7 @@
 
 ### VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1896,7 +1889,7 @@
 
 ### VirtualNetwork_STATUS
 
-16 x Identical, 1 x New, 1 x Modified
+Properties: 16 x Identical, 1 x New, 1 x Modified
 
 | v1api20201101        |                                      | v1api20201101/storage |                                      |  Status   | Notes |
 |:---------------------|:-------------------------------------|:----------------------|:-------------------------------------|:---------:|:------|
@@ -1921,7 +1914,7 @@
 
 ### VirtualNetwork_Spec
 
-13 x Identical, 2 x New
+Properties: 13 x Identical, 2 x New
 
 | v1api20201101        |                                    | v1api20201101/storage |                                    |  Status   | Notes |
 |:---------------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -1943,7 +1936,7 @@
 
 ### VirtualNetworksSubnetOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201101        |                               | v1api20201101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1953,7 +1946,7 @@
 
 ### VirtualNetworksSubnet_STATUS
 
-21 x Identical, 1 x New, 3 x Modified
+Properties: 21 x Identical, 1 x New, 3 x Modified
 
 | v1api20201101                      |                                                                                       | v1api20201101/storage              |                                                                                       |  Status   | Notes |
 |:-----------------------------------|:--------------------------------------------------------------------------------------|:-----------------------------------|:--------------------------------------------------------------------------------------|:---------:|:------|
@@ -1985,7 +1978,7 @@
 
 ### VirtualNetworksSubnet_Spec
 
-13 x Identical, 2 x New, 2 x Modified
+Properties: 13 x Identical, 2 x New, 2 x Modified
 
 | v1api20201101                      |                                                                                | v1api20201101/storage              |                                                                                |  Status   | Notes |
 |:-----------------------------------|:-------------------------------------------------------------------------------|:-----------------------------------|:-------------------------------------------------------------------------------|:---------:|:------|
@@ -2009,7 +2002,7 @@
 
 ### VirtualNetworksVirtualNetworkPeeringOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201101        |                               | v1api20201101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -2019,7 +2012,7 @@
 
 ### VirtualNetworksVirtualNetworkPeering_STATUS
 
-14 x Identical, 1 x New, 2 x Modified
+Properties: 14 x Identical, 1 x New, 2 x Modified
 
 | v1api20201101             |                                                            | v1api20201101/storage     |                                      |  Status   | Notes |
 |:--------------------------|:-----------------------------------------------------------|:--------------------------|:-------------------------------------|:---------:|:------|
@@ -2043,7 +2036,7 @@
 
 ### VirtualNetworksVirtualNetworkPeering_Spec
 
-11 x Identical, 2 x New, 1 x Modified
+Properties: 11 x Identical, 2 x New, 1 x Modified
 
 | v1api20201101             |                                                     | v1api20201101/storage     |                                                   |  Status   | Notes |
 |:--------------------------|:----------------------------------------------------|:--------------------------|:--------------------------------------------------|:---------:|:------|
@@ -2064,7 +2057,7 @@
 
 ### VpnClientConfiguration
 
-10 x Identical, 1 x New, 2 x Modified
+Properties: 10 x Identical, 1 x New, 2 x Modified
 
 | v1api20201101                |                                                 | v1api20201101/storage        |                               |  Status   | Notes |
 |:-----------------------------|:------------------------------------------------|:-----------------------------|:------------------------------|:---------:|:------|
@@ -2084,7 +2077,7 @@
 
 ### VpnClientConfiguration_STATUS
 
-9 x Identical, 1 x New, 2 x Modified
+Properties: 9 x Identical, 1 x New, 2 x Modified
 
 | v1api20201101                |                                                        | v1api20201101/storage        |                                      |  Status   | Notes |
 |:-----------------------------|:-------------------------------------------------------|:-----------------------------|:-------------------------------------|:---------:|:------|
@@ -2103,7 +2096,7 @@
 
 ### VpnClientRevokedCertificate
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201101 |         | v1api20201101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2113,7 +2106,7 @@
 
 ### VpnClientRevokedCertificate_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20201101     |                           | v1api20201101/storage |                        |  Status   | Notes |
 |:------------------|:--------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2126,7 +2119,7 @@
 
 ### VpnClientRootCertificate
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20201101  |         | v1api20201101/storage |                        |  Status   | Notes |
 |:---------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2136,7 +2129,7 @@
 
 ### VpnClientRootCertificate_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20201101     |                           | v1api20201101/storage |                        |  Status   | Notes |
 |:------------------|:--------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2146,3 +2139,12 @@
 |                   |                           | PropertyBag           | genruntime.PropertyBag |    New    |       |
 | ProvisioningState | *ProvisioningState_STATUS | ProvisioningState     | *string                | Modified  |       |
 | PublicCertData    | *string                   | PublicCertData        | *string                | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

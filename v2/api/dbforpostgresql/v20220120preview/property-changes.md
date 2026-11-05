@@ -9,50 +9,43 @@
 | FlexibleServersDatabase      | FlexibleServersDatabase      | Identical |       |
 | FlexibleServersFirewallRule  | FlexibleServersFirewallRule  | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20220120preview                         | v20220120preview/storage                 |  Status  | Notes |
-|:-----------------------------------------|:-----------------------------------------|:--------:|:------|
-| Backup                                   | Backup                                   | Modified |       |
-| Backup_STATUS                            | Backup_STATUS                            | Modified |       |
-| FlexibleServerOperatorConfigMaps         | FlexibleServerOperatorConfigMaps         | Extended |       |
-| FlexibleServerOperatorSecrets            | FlexibleServerOperatorSecrets            | Extended |       |
-| FlexibleServerOperatorSpec               | FlexibleServerOperatorSpec               | Extended |       |
-| FlexibleServer_STATUS                    | FlexibleServer_STATUS                    | Modified |       |
-| FlexibleServer_Spec                      | FlexibleServer_Spec                      | Modified |       |
-| FlexibleServersConfigurationOperatorSpec | FlexibleServersConfigurationOperatorSpec | Extended |       |
-| FlexibleServersConfiguration_STATUS      | FlexibleServersConfiguration_STATUS      | Modified |       |
-| FlexibleServersConfiguration_Spec        | FlexibleServersConfiguration_Spec        | Extended |       |
-| FlexibleServersDatabaseOperatorSpec      | FlexibleServersDatabaseOperatorSpec      | Extended |       |
-| FlexibleServersDatabase_STATUS           | FlexibleServersDatabase_STATUS           | Extended |       |
-| FlexibleServersDatabase_Spec             | FlexibleServersDatabase_Spec             | Extended |       |
-| FlexibleServersFirewallRuleOperatorSpec  | FlexibleServersFirewallRuleOperatorSpec  | Extended |       |
-| FlexibleServersFirewallRule_STATUS       | FlexibleServersFirewallRule_STATUS       | Extended |       |
-| FlexibleServersFirewallRule_Spec         | FlexibleServersFirewallRule_Spec         | Modified |       |
-| HighAvailability                         | HighAvailability                         | Modified |       |
-| HighAvailability_STATUS                  | HighAvailability_STATUS                  | Modified |       |
-| MaintenanceWindow                        | MaintenanceWindow                        | Extended |       |
-| MaintenanceWindow_STATUS                 | MaintenanceWindow_STATUS                 | Extended |       |
-| Network                                  | Network                                  | Extended |       |
-| Network_STATUS                           | Network_STATUS                           | Modified |       |
-| Sku                                      | Sku                                      | Modified |       |
-| Sku_STATUS                               | Sku_STATUS                               | Modified |       |
-| Storage                                  | Storage                                  | Extended |       |
-| Storage_STATUS                           | Storage_STATUS                           | Extended |       |
-| SystemData_STATUS                        | SystemData_STATUS                        | Modified |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20220120preview                         | v20220120preview/storage                 |  Status  | Notes                         |
+|:-----------------------------------------|:-----------------------------------------|:--------:|:------------------------------|
+| Backup                                   | Backup                                   | Modified |                               |
+| Backup_STATUS                            | Backup_STATUS                            | Modified |                               |
+| FlexibleServerOperatorConfigMaps         | FlexibleServerOperatorConfigMaps         | Extended | +PropertyBag                  |
+| FlexibleServerOperatorSecrets            | FlexibleServerOperatorSecrets            | Extended | +PropertyBag                  |
+| FlexibleServerOperatorSpec               | FlexibleServerOperatorSpec               | Extended | +PropertyBag                  |
+| FlexibleServer_STATUS                    | FlexibleServer_STATUS                    | Modified |                               |
+| FlexibleServer_Spec                      | FlexibleServer_Spec                      | Modified |                               |
+| FlexibleServersConfigurationOperatorSpec | FlexibleServersConfigurationOperatorSpec | Extended | +PropertyBag                  |
+| FlexibleServersConfiguration_STATUS      | FlexibleServersConfiguration_STATUS      | Modified |                               |
+| FlexibleServersConfiguration_Spec        | FlexibleServersConfiguration_Spec        | Extended | +OriginalVersion +PropertyBag |
+| FlexibleServersDatabaseOperatorSpec      | FlexibleServersDatabaseOperatorSpec      | Extended | +PropertyBag                  |
+| FlexibleServersDatabase_STATUS           | FlexibleServersDatabase_STATUS           | Extended | +PropertyBag                  |
+| FlexibleServersDatabase_Spec             | FlexibleServersDatabase_Spec             | Extended | +OriginalVersion +PropertyBag |
+| FlexibleServersFirewallRuleOperatorSpec  | FlexibleServersFirewallRuleOperatorSpec  | Extended | +PropertyBag                  |
+| FlexibleServersFirewallRule_STATUS       | FlexibleServersFirewallRule_STATUS       | Extended | +PropertyBag                  |
+| FlexibleServersFirewallRule_Spec         | FlexibleServersFirewallRule_Spec         | Extended | +OriginalVersion +PropertyBag |
+| HighAvailability                         | HighAvailability                         | Modified |                               |
+| HighAvailability_STATUS                  | HighAvailability_STATUS                  | Modified |                               |
+| MaintenanceWindow                        | MaintenanceWindow                        | Extended | +PropertyBag                  |
+| MaintenanceWindow_STATUS                 | MaintenanceWindow_STATUS                 | Extended | +PropertyBag                  |
+| Network                                  | Network                                  | Extended | +PropertyBag                  |
+| Network_STATUS                           | Network_STATUS                           | Modified |                               |
+| Sku                                      | Sku                                      | Modified |                               |
+| Sku_STATUS                               | Sku_STATUS                               | Modified |                               |
+| Storage                                  | Storage                                  | Extended | +PropertyBag                  |
+| Storage_STATUS                           | Storage_STATUS                           | Extended | +PropertyBag                  |
+| SystemData_STATUS                        | SystemData_STATUS                        | Modified |                               |
 
 ### Backup
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20220120preview    |                            | v20220120preview/storage |                        |  Status   | Notes |
 |:--------------------|:---------------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -62,7 +55,7 @@
 
 ### Backup_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20220120preview    |                                   | v20220120preview/storage |                        |  Status   | Notes |
 |:--------------------|:----------------------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -73,7 +66,7 @@
 
 ### FlexibleServerOperatorConfigMaps
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20220120preview         |                                  | v20220120preview/storage |                                  |  Status   | Notes |
 |:-------------------------|:---------------------------------|:-------------------------|:---------------------------------|:---------:|:------|
@@ -82,7 +75,7 @@
 
 ### FlexibleServerOperatorSecrets
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20220120preview         |                               | v20220120preview/storage |                               |  Status   | Notes |
 |:-------------------------|:------------------------------|:-------------------------|:------------------------------|:---------:|:------|
@@ -91,7 +84,7 @@
 
 ### FlexibleServerOperatorSpec
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20220120preview     |                                   | v20220120preview/storage |                                   |  Status   | Notes |
 |:---------------------|:----------------------------------|:-------------------------|:----------------------------------|:---------:|:------|
@@ -103,7 +96,7 @@
 
 ### FlexibleServer_STATUS
 
-19 x Identical, 1 x New, 3 x Modified
+Properties: 19 x Identical, 1 x New, 3 x Modified
 
 | v20220120preview         |                                     | v20220120preview/storage |                           |  Status   | Notes |
 |:-------------------------|:------------------------------------|:-------------------------|:--------------------------|:---------:|:------|
@@ -133,7 +126,7 @@
 
 ### FlexibleServer_Spec
 
-16 x Identical, 2 x New, 2 x Modified
+Properties: 16 x Identical, 2 x New, 2 x Modified
 
 | v20220120preview              |                                    | v20220120preview/storage      |                                    |  Status   | Notes |
 |:------------------------------|:-----------------------------------|:------------------------------|:-----------------------------------|:---------:|:------|
@@ -160,7 +153,7 @@
 
 ### FlexibleServersConfigurationOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20220120preview     |                               | v20220120preview/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:-------------------------|:------------------------------|:---------:|:------|
@@ -170,7 +163,7 @@
 
 ### FlexibleServersConfiguration_STATUS
 
-15 x Identical, 1 x New, 1 x Modified
+Properties: 15 x Identical, 1 x New, 1 x Modified
 
 | v20220120preview       |                                          | v20220120preview/storage |                        |  Status   | Notes |
 |:-----------------------|:-----------------------------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -194,7 +187,7 @@
 
 ### FlexibleServersConfiguration_Spec
 
-5 x Identical, 2 x New
+Properties: 5 x Identical, 2 x New
 
 | v20220120preview |                                           | v20220120preview/storage |                                           |  Status   | Notes |
 |:-----------------|:------------------------------------------|:-------------------------|:------------------------------------------|:---------:|:------|
@@ -208,7 +201,7 @@
 
 ### FlexibleServersDatabaseOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20220120preview     |                               | v20220120preview/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:-------------------------|:------------------------------|:---------:|:------|
@@ -218,7 +211,7 @@
 
 ### FlexibleServersDatabase_STATUS
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v20220120preview |                        | v20220120preview/storage |                        |  Status   | Notes |
 |:-----------------|:-----------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -233,7 +226,7 @@
 
 ### FlexibleServersDatabase_Spec
 
-5 x Identical, 2 x New
+Properties: 5 x Identical, 2 x New
 
 | v20220120preview |                                      | v20220120preview/storage |                                      |  Status   | Notes |
 |:-----------------|:-------------------------------------|:-------------------------|:-------------------------------------|:---------:|:------|
@@ -247,7 +240,7 @@
 
 ### FlexibleServersFirewallRuleOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20220120preview     |                               | v20220120preview/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:-------------------------|:------------------------------|:---------:|:------|
@@ -257,7 +250,7 @@
 
 ### FlexibleServersFirewallRule_STATUS
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v20220120preview |                        | v20220120preview/storage |                        |  Status   | Notes |
 |:-----------------|:-----------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -272,21 +265,21 @@
 
 ### FlexibleServersFirewallRule_Spec
 
-3 x Identical, 2 x New, 2 x Modified
+Properties: 5 x Identical, 2 x New
 
 | v20220120preview |                                          | v20220120preview/storage |                                          |  Status   | Notes |
 |:-----------------|:-----------------------------------------|:-------------------------|:-----------------------------------------|:---------:|:------|
 | AzureName        | string                                   | AzureName                | string                                   | Identical |       |
-| EndIpAddress     | Validated<*string> (1 rule)              | EndIpAddress             | *string                                  | Modified  |       |
+| EndIpAddress     | Validated<*string> (1 rule)              | EndIpAddress             | *string                                  | Identical |       |
 | OperatorSpec     | *FlexibleServersFirewallRuleOperatorSpec | OperatorSpec             | *FlexibleServersFirewallRuleOperatorSpec | Identical |       |
 |                  |                                          | OriginalVersion          | string                                   |    New    |       |
 | Owner            | *genruntime.KnownResourceReference       | Owner                    | *genruntime.KnownResourceReference       | Identical |       |
 |                  |                                          | PropertyBag              | genruntime.PropertyBag                   |    New    |       |
-| StartIpAddress   | Validated<*string> (1 rule)              | StartIpAddress           | *string                                  | Modified  |       |
+| StartIpAddress   | Validated<*string> (1 rule)              | StartIpAddress           | *string                                  | Identical |       |
 
 ### HighAvailability
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20220120preview        |                        | v20220120preview/storage |                        |  Status   | Notes |
 |:------------------------|:-----------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -296,7 +289,7 @@
 
 ### HighAvailability_STATUS
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v20220120preview        |                                | v20220120preview/storage |                        |  Status   | Notes |
 |:------------------------|:-------------------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -307,7 +300,7 @@
 
 ### MaintenanceWindow
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20220120preview |         | v20220120preview/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:-------------------------|:-----------------------|:---------:|:------|
@@ -319,7 +312,7 @@
 
 ### MaintenanceWindow_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20220120preview |         | v20220120preview/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:-------------------------|:-----------------------|:---------:|:------|
@@ -331,7 +324,7 @@
 
 ### Network
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20220120preview                   |                               | v20220120preview/storage           |                               |  Status   | Notes |
 |:-----------------------------------|:------------------------------|:-----------------------------------|:------------------------------|:---------:|:------|
@@ -341,7 +334,7 @@
 
 ### Network_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20220120preview            |                                     | v20220120preview/storage    |                        |  Status   | Notes |
 |:----------------------------|:------------------------------------|:----------------------------|:-----------------------|:---------:|:------|
@@ -352,7 +345,7 @@
 
 ### Sku
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20220120preview |           | v20220120preview/storage |                        |  Status   | Notes |
 |:-----------------|:----------|:-------------------------|:-----------------------|:---------:|:------|
@@ -362,7 +355,7 @@
 
 ### Sku_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20220120preview |                  | v20220120preview/storage |                        |  Status   | Notes |
 |:-----------------|:-----------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -372,7 +365,7 @@
 
 ### Storage
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20220120preview |      | v20220120preview/storage |                        |  Status   | Notes |
 |:-----------------|:-----|:-------------------------|:-----------------------|:---------:|:------|
@@ -381,7 +374,7 @@
 
 ### Storage_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20220120preview |      | v20220120preview/storage |                        |  Status   | Notes |
 |:-----------------|:-----|:-------------------------|:-----------------------|:---------:|:------|
@@ -390,7 +383,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v20220120preview   |                                       | v20220120preview/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -401,3 +394,12 @@
 | LastModifiedBy     | *string                               | LastModifiedBy           | *string                | Identical |       |
 | LastModifiedByType | *SystemData_LastModifiedByType_STATUS | LastModifiedByType       | *string                | Modified  |       |
 |                    |                                       | PropertyBag              | genruntime.PropertyBag |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

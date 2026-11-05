@@ -6,46 +6,39 @@
 |:--------------|:----------------------|:---------:|:------|
 | Factory       | Factory               | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20180601                       | v1api20180601/storage               |  Status  | Notes |
-|:------------------------------------|:------------------------------------|:--------:|:------|
-| CMKIdentityDefinition               | CMKIdentityDefinition               | Extended |       |
-| CMKIdentityDefinition_STATUS        | CMKIdentityDefinition_STATUS        | Extended |       |
-| EncryptionConfiguration             | EncryptionConfiguration             | Extended |       |
-| EncryptionConfiguration_STATUS      | EncryptionConfiguration_STATUS      | Extended |       |
-| FactoryGitHubConfiguration          | FactoryGitHubConfiguration          | Modified |       |
-| FactoryGitHubConfiguration_STATUS   | FactoryGitHubConfiguration_STATUS   | Modified |       |
-| FactoryIdentity                     | FactoryIdentity                     | Modified |       |
-| FactoryIdentity_STATUS              | FactoryIdentity_STATUS              | Modified |       |
-| FactoryOperatorSpec                 | FactoryOperatorSpec                 | Extended |       |
-| FactoryRepoConfiguration            | FactoryRepoConfiguration            | Extended |       |
-| FactoryRepoConfiguration_STATUS     | FactoryRepoConfiguration_STATUS     | Extended |       |
-| FactoryVSTSConfiguration            | FactoryVSTSConfiguration            | Modified |       |
-| FactoryVSTSConfiguration_STATUS     | FactoryVSTSConfiguration_STATUS     | Modified |       |
-| Factory_STATUS                      | Factory_STATUS                      | Modified |       |
-| Factory_Spec                        | Factory_Spec                        | Modified |       |
-| GitHubClientSecret                  | GitHubClientSecret                  | Extended |       |
-| GitHubClientSecret_STATUS           | GitHubClientSecret_STATUS           | Extended |       |
-| GlobalParameterSpecification        | GlobalParameterSpecification        | Modified |       |
-| GlobalParameterSpecification_STATUS | GlobalParameterSpecification_STATUS | Modified |       |
-| PurviewConfiguration                | PurviewConfiguration                | Extended |       |
-| PurviewConfiguration_STATUS         | PurviewConfiguration_STATUS         | Extended |       |
-| SystemData_STATUS                   | SystemData_STATUS                   | Modified |       |
-| UserAssignedIdentityDetails         | UserAssignedIdentityDetails         | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20180601                       | v1api20180601/storage               |  Status  | Notes        |
+|:------------------------------------|:------------------------------------|:--------:|:-------------|
+| CMKIdentityDefinition               | CMKIdentityDefinition               | Extended | +PropertyBag |
+| CMKIdentityDefinition_STATUS        | CMKIdentityDefinition_STATUS        | Extended | +PropertyBag |
+| EncryptionConfiguration             | EncryptionConfiguration             | Extended | +PropertyBag |
+| EncryptionConfiguration_STATUS      | EncryptionConfiguration_STATUS      | Extended | +PropertyBag |
+| FactoryGitHubConfiguration          | FactoryGitHubConfiguration          | Modified |              |
+| FactoryGitHubConfiguration_STATUS   | FactoryGitHubConfiguration_STATUS   | Modified |              |
+| FactoryIdentity                     | FactoryIdentity                     | Modified |              |
+| FactoryIdentity_STATUS              | FactoryIdentity_STATUS              | Modified |              |
+| FactoryOperatorSpec                 | FactoryOperatorSpec                 | Extended | +PropertyBag |
+| FactoryRepoConfiguration            | FactoryRepoConfiguration            | Extended | +PropertyBag |
+| FactoryRepoConfiguration_STATUS     | FactoryRepoConfiguration_STATUS     | Extended | +PropertyBag |
+| FactoryVSTSConfiguration            | FactoryVSTSConfiguration            | Modified |              |
+| FactoryVSTSConfiguration_STATUS     | FactoryVSTSConfiguration_STATUS     | Modified |              |
+| Factory_STATUS                      | Factory_STATUS                      | Modified |              |
+| Factory_Spec                        | Factory_Spec                        | Modified |              |
+| GitHubClientSecret                  | GitHubClientSecret                  | Extended | +PropertyBag |
+| GitHubClientSecret_STATUS           | GitHubClientSecret_STATUS           | Extended | +PropertyBag |
+| GlobalParameterSpecification        | GlobalParameterSpecification        | Modified |              |
+| GlobalParameterSpecification_STATUS | GlobalParameterSpecification_STATUS | Modified |              |
+| PurviewConfiguration                | PurviewConfiguration                | Extended | +PropertyBag |
+| PurviewConfiguration_STATUS         | PurviewConfiguration_STATUS         | Extended | +PropertyBag |
+| SystemData_STATUS                   | SystemData_STATUS                   | Modified |              |
+| UserAssignedIdentityDetails         | UserAssignedIdentityDetails         | Extended | +PropertyBag |
 
 ### CMKIdentityDefinition
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20180601                 |                               | v1api20180601/storage         |                               |  Status   | Notes |
 |:------------------------------|:------------------------------|:------------------------------|:------------------------------|:---------:|:------|
@@ -54,7 +47,7 @@
 
 ### CMKIdentityDefinition_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20180601        |         | v1api20180601/storage |                        |  Status   | Notes |
 |:---------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -63,7 +56,7 @@
 
 ### EncryptionConfiguration
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20180601 |                        | v1api20180601/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -75,7 +68,7 @@
 
 ### EncryptionConfiguration_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20180601 |                               | v1api20180601/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -87,7 +80,7 @@
 
 ### FactoryGitHubConfiguration
 
-9 x Identical, 1 x New, 1 x Modified
+Properties: 9 x Identical, 1 x New, 1 x Modified
 
 | v1api20180601       |                                  | v1api20180601/storage |                        |  Status   | Notes |
 |:--------------------|:---------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -105,7 +98,7 @@
 
 ### FactoryGitHubConfiguration_STATUS
 
-9 x Identical, 1 x New, 1 x Modified
+Properties: 9 x Identical, 1 x New, 1 x Modified
 
 | v1api20180601       |                                         | v1api20180601/storage |                            |  Status   | Notes |
 |:--------------------|:----------------------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -123,7 +116,7 @@
 
 ### FactoryIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20180601          |                               | v1api20180601/storage  |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -133,7 +126,7 @@
 
 ### FactoryIdentity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20180601          |                             | v1api20180601/storage  |                        |  Status   | Notes |
 |:-----------------------|:----------------------------|:-----------------------|:-----------------------|:---------:|:------|
@@ -145,7 +138,7 @@
 
 ### FactoryOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20180601        |                               | v1api20180601/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -155,7 +148,7 @@
 
 ### FactoryRepoConfiguration
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20180601 |                             | v1api20180601/storage |                             |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -165,7 +158,7 @@
 
 ### FactoryRepoConfiguration_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20180601 |                                    | v1api20180601/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -175,7 +168,7 @@
 
 ### FactoryVSTSConfiguration
 
-8 x Identical, 1 x New, 1 x Modified
+Properties: 8 x Identical, 1 x New, 1 x Modified
 
 | v1api20180601       |                                | v1api20180601/storage |                        |  Status   | Notes |
 |:--------------------|:-------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -192,7 +185,7 @@
 
 ### FactoryVSTSConfiguration_STATUS
 
-8 x Identical, 1 x New, 1 x Modified
+Properties: 8 x Identical, 1 x New, 1 x Modified
 
 | v1api20180601       |                                       | v1api20180601/storage |                        |  Status   | Notes |
 |:--------------------|:--------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -209,7 +202,7 @@
 
 ### Factory_STATUS
 
-17 x Identical, 1 x New, 1 x Modified
+Properties: 17 x Identical, 1 x New, 1 x Modified
 
 | v1api20180601        |                                                | v1api20180601/storage |                                                |  Status   | Notes |
 |:---------------------|:-----------------------------------------------|:----------------------|:-----------------------------------------------|:---------:|:------|
@@ -235,7 +228,7 @@
 
 ### Factory_Spec
 
-10 x Identical, 2 x New, 2 x Modified
+Properties: 10 x Identical, 2 x New, 2 x Modified
 
 | v1api20180601        |                                         | v1api20180601/storage |                                         |  Status   | Notes |
 |:---------------------|:----------------------------------------|:----------------------|:----------------------------------------|:---------:|:------|
@@ -256,7 +249,7 @@
 
 ### GitHubClientSecret
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20180601    |         | v1api20180601/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -266,7 +259,7 @@
 
 ### GitHubClientSecret_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20180601    |         | v1api20180601/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -276,7 +269,7 @@
 
 ### GlobalParameterSpecification
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20180601 |                      | v1api20180601/storage |                        |  Status   | Notes |
 |:--------------|:---------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -286,7 +279,7 @@
 
 ### GlobalParameterSpecification_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20180601 |                             | v1api20180601/storage |                        |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -296,7 +289,7 @@
 
 ### PurviewConfiguration
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20180601            |                               | v1api20180601/storage    |                               |  Status   | Notes |
 |:-------------------------|:------------------------------|:-------------------------|:------------------------------|:---------:|:------|
@@ -305,7 +298,7 @@
 
 ### PurviewConfiguration_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20180601     |         | v1api20180601/storage |                        |  Status   | Notes |
 |:------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -314,7 +307,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20180601      |                                       | v1api20180601/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -328,9 +321,18 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20180601 |                              | v1api20180601/storage |                              |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
 |               |                              | PropertyBag           | genruntime.PropertyBag       |    New    |       |
 | Reference     | genruntime.ResourceReference | Reference             | genruntime.ResourceReference | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

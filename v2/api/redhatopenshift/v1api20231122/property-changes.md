@@ -6,48 +6,41 @@
 |:-----------------|:----------------------|:---------:|:------|
 | OpenShiftCluster | OpenShiftCluster      | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20231122                   | v1api20231122/storage           |  Status  | Notes |
-|:--------------------------------|:--------------------------------|:--------:|:------|
-| APIServerProfile                | APIServerProfile                | Modified |       |
-| APIServerProfile_STATUS         | APIServerProfile_STATUS         | Modified |       |
-| ClusterProfile                  | ClusterProfile                  | Modified |       |
-| ClusterProfile_STATUS           | ClusterProfile_STATUS           | Modified |       |
-| ConsoleProfile_STATUS           | ConsoleProfile_STATUS           | Extended |       |
-| EffectiveOutboundIP_STATUS      | EffectiveOutboundIP_STATUS      | Extended |       |
-| IngressProfile                  | IngressProfile                  | Modified |       |
-| IngressProfile_STATUS           | IngressProfile_STATUS           | Modified |       |
-| LoadBalancerProfile             | LoadBalancerProfile             | Extended |       |
-| LoadBalancerProfile_STATUS      | LoadBalancerProfile_STATUS      | Extended |       |
-| ManagedOutboundIPs              | ManagedOutboundIPs              | Extended |       |
-| ManagedOutboundIPs_STATUS       | ManagedOutboundIPs_STATUS       | Extended |       |
-| MasterProfile                   | MasterProfile                   | Modified |       |
-| MasterProfile_STATUS            | MasterProfile_STATUS            | Modified |       |
-| NetworkProfile                  | NetworkProfile                  | Modified |       |
-| NetworkProfile_STATUS           | NetworkProfile_STATUS           | Modified |       |
-| OpenShiftClusterOperatorSecrets | OpenShiftClusterOperatorSecrets | Extended |       |
-| OpenShiftClusterOperatorSpec    | OpenShiftClusterOperatorSpec    | Extended |       |
-| OpenShiftCluster_STATUS         | OpenShiftCluster_STATUS         | Modified |       |
-| OpenShiftCluster_Spec           | OpenShiftCluster_Spec           | Extended |       |
-| ServicePrincipalProfile         | ServicePrincipalProfile         | Extended |       |
-| ServicePrincipalProfile_STATUS  | ServicePrincipalProfile_STATUS  | Extended |       |
-| SystemData_STATUS               | SystemData_STATUS               | Modified |       |
-| WorkerProfile                   | WorkerProfile                   | Modified |       |
-| WorkerProfile_STATUS            | WorkerProfile_STATUS            | Modified |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20231122                   | v1api20231122/storage           |  Status  | Notes                         |
+|:--------------------------------|:--------------------------------|:--------:|:------------------------------|
+| APIServerProfile                | APIServerProfile                | Modified |                               |
+| APIServerProfile_STATUS         | APIServerProfile_STATUS         | Modified |                               |
+| ClusterProfile                  | ClusterProfile                  | Modified |                               |
+| ClusterProfile_STATUS           | ClusterProfile_STATUS           | Modified |                               |
+| ConsoleProfile_STATUS           | ConsoleProfile_STATUS           | Extended | +PropertyBag                  |
+| EffectiveOutboundIP_STATUS      | EffectiveOutboundIP_STATUS      | Extended | +PropertyBag                  |
+| IngressProfile                  | IngressProfile                  | Modified |                               |
+| IngressProfile_STATUS           | IngressProfile_STATUS           | Modified |                               |
+| LoadBalancerProfile             | LoadBalancerProfile             | Extended | +PropertyBag                  |
+| LoadBalancerProfile_STATUS      | LoadBalancerProfile_STATUS      | Extended | +PropertyBag                  |
+| ManagedOutboundIPs              | ManagedOutboundIPs              | Extended | +PropertyBag                  |
+| ManagedOutboundIPs_STATUS       | ManagedOutboundIPs_STATUS       | Extended | +PropertyBag                  |
+| MasterProfile                   | MasterProfile                   | Modified |                               |
+| MasterProfile_STATUS            | MasterProfile_STATUS            | Modified |                               |
+| NetworkProfile                  | NetworkProfile                  | Modified |                               |
+| NetworkProfile_STATUS           | NetworkProfile_STATUS           | Modified |                               |
+| OpenShiftClusterOperatorSecrets | OpenShiftClusterOperatorSecrets | Extended | +PropertyBag                  |
+| OpenShiftClusterOperatorSpec    | OpenShiftClusterOperatorSpec    | Extended | +PropertyBag                  |
+| OpenShiftCluster_STATUS         | OpenShiftCluster_STATUS         | Modified |                               |
+| OpenShiftCluster_Spec           | OpenShiftCluster_Spec           | Extended | +OriginalVersion +PropertyBag |
+| ServicePrincipalProfile         | ServicePrincipalProfile         | Extended | +PropertyBag                  |
+| ServicePrincipalProfile_STATUS  | ServicePrincipalProfile_STATUS  | Extended | +PropertyBag                  |
+| SystemData_STATUS               | SystemData_STATUS               | Modified |                               |
+| WorkerProfile                   | WorkerProfile                   | Modified |                               |
+| WorkerProfile_STATUS            | WorkerProfile_STATUS            | Modified |                               |
 
 ### APIServerProfile
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20231122 |             | v1api20231122/storage |                        |  Status  | Notes |
 |:--------------|:------------|:----------------------|:-----------------------|:--------:|:------|
@@ -56,7 +49,7 @@
 
 ### APIServerProfile_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20231122 |                    | v1api20231122/storage |                        |  Status   | Notes |
 |:--------------|:-------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -67,7 +60,7 @@
 
 ### ClusterProfile
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20231122        |                             | v1api20231122/storage |                             |  Status   | Notes |
 |:---------------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -80,7 +73,7 @@
 
 ### ClusterProfile_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20231122        |                              | v1api20231122/storage |                        |  Status   | Notes |
 |:---------------------|:-----------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -92,7 +85,7 @@
 
 ### ConsoleProfile_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20231122 |         | v1api20231122/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -101,7 +94,7 @@
 
 ### EffectiveOutboundIP_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20231122 |         | v1api20231122/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -110,7 +103,7 @@
 
 ### IngressProfile
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20231122 |             | v1api20231122/storage |                        |  Status   | Notes |
 |:--------------|:------------|:----------------------|:-----------------------|:---------:|:------|
@@ -120,7 +113,7 @@
 
 ### IngressProfile_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20231122 |                    | v1api20231122/storage |                        |  Status   | Notes |
 |:--------------|:-------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -131,7 +124,7 @@
 
 ### LoadBalancerProfile
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20231122      |                     | v1api20231122/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -140,7 +133,7 @@
 
 ### LoadBalancerProfile_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20231122        |                              | v1api20231122/storage |                              |  Status   | Notes |
 |:---------------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -150,7 +143,7 @@
 
 ### ManagedOutboundIPs
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20231122 |      | v1api20231122/storage |                        |  Status   | Notes |
 |:--------------|:-----|:----------------------|:-----------------------|:---------:|:------|
@@ -159,7 +152,7 @@
 
 ### ManagedOutboundIPs_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20231122 |      | v1api20231122/storage |                        |  Status   | Notes |
 |:--------------|:-----|:----------------------|:-----------------------|:---------:|:------|
@@ -168,7 +161,7 @@
 
 ### MasterProfile
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20231122              |                               | v1api20231122/storage      |                               |  Status   | Notes |
 |:---------------------------|:------------------------------|:---------------------------|:------------------------------|:---------:|:------|
@@ -180,7 +173,7 @@
 
 ### MasterProfile_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20231122       |                          | v1api20231122/storage |                        |  Status   | Notes |
 |:--------------------|:-------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -192,7 +185,7 @@
 
 ### NetworkProfile
 
-3 x Identical, 1 x New, 2 x Modified
+Properties: 3 x Identical, 1 x New, 2 x Modified
 
 | v1api20231122       |                      | v1api20231122/storage |                        |  Status   | Notes |
 |:--------------------|:---------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -205,7 +198,7 @@
 
 ### NetworkProfile_STATUS
 
-3 x Identical, 1 x New, 2 x Modified
+Properties: 3 x Identical, 1 x New, 2 x Modified
 
 | v1api20231122       |                             | v1api20231122/storage |                             |  Status   | Notes |
 |:--------------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -218,7 +211,7 @@
 
 ### OpenShiftClusterOperatorSecrets
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20231122    |                               | v1api20231122/storage |                               |  Status   | Notes |
 |:-----------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -229,7 +222,7 @@
 
 ### OpenShiftClusterOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20231122        |                                  | v1api20231122/storage |                                  |  Status   | Notes |
 |:---------------------|:---------------------------------|:----------------------|:---------------------------------|:---------:|:------|
@@ -240,7 +233,7 @@
 
 ### OpenShiftCluster_STATUS
 
-16 x Identical, 1 x New, 1 x Modified
+Properties: 16 x Identical, 1 x New, 1 x Modified
 
 | v1api20231122           |                                 | v1api20231122/storage   |                                 |  Status   | Notes |
 |:------------------------|:--------------------------------|:------------------------|:--------------------------------|:---------:|:------|
@@ -265,7 +258,7 @@
 
 ### OpenShiftCluster_Spec
 
-12 x Identical, 2 x New
+Properties: 12 x Identical, 2 x New
 
 | v1api20231122           |                                    | v1api20231122/storage   |                                    |  Status   | Notes |
 |:------------------------|:-----------------------------------|:------------------------|:-----------------------------------|:---------:|:------|
@@ -286,7 +279,7 @@
 
 ### ServicePrincipalProfile
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20231122      |                                | v1api20231122/storage |                                |  Status   | Notes |
 |:-------------------|:-------------------------------|:----------------------|:-------------------------------|:---------:|:------|
@@ -297,7 +290,7 @@
 
 ### ServicePrincipalProfile_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20231122 |         | v1api20231122/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -306,7 +299,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20231122      |                                       | v1api20231122/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -320,7 +313,7 @@
 
 ### WorkerProfile
 
-6 x Identical, 1 x New, 1 x Modified
+Properties: 6 x Identical, 1 x New, 1 x Modified
 
 | v1api20231122              |                               | v1api20231122/storage      |                               |  Status   | Notes |
 |:---------------------------|:------------------------------|:---------------------------|:------------------------------|:---------:|:------|
@@ -335,7 +328,7 @@
 
 ### WorkerProfile_STATUS
 
-6 x Identical, 1 x New, 1 x Modified
+Properties: 6 x Identical, 1 x New, 1 x Modified
 
 | v1api20231122       |                          | v1api20231122/storage |                        |  Status   | Notes |
 |:--------------------|:-------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -347,3 +340,12 @@
 |                     |                          | PropertyBag           | genruntime.PropertyBag |    New    |       |
 | SubnetId            | *string                  | SubnetId              | *string                | Identical |       |
 | VmSize              | *string                  | VmSize                | *string                | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

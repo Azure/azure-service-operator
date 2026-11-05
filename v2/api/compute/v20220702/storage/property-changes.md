@@ -6,38 +6,31 @@
 |:------------------|:------------------|:---------:|:------|
 | DiskEncryptionSet | DiskEncryptionSet | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20220702/storage                  | v20240302/storage                  |  Status   | Notes |
-|:-----------------------------------|:-----------------------------------|:---------:|:------|
-| ApiErrorBase_STATUS                | ApiErrorBase_STATUS                | Identical |       |
-| ApiError_STATUS                    | ApiError_STATUS                    | Identical |       |
-| DiskEncryptionSetOperatorSpec      | DiskEncryptionSetOperatorSpec      | Identical |       |
-| DiskEncryptionSet_STATUS           | DiskEncryptionSet_STATUS           | Extended  |       |
-| DiskEncryptionSet_Spec             | DiskEncryptionSet_Spec             | Identical |       |
-| EncryptionSetIdentity              | EncryptionSetIdentity              | Identical |       |
-| EncryptionSetIdentity_STATUS       | EncryptionSetIdentity_STATUS       | Identical |       |
-| InnerError_STATUS                  | InnerError_STATUS                  | Identical |       |
-| KeyForDiskEncryptionSet            | KeyForDiskEncryptionSet            | Identical |       |
-| KeyForDiskEncryptionSet_STATUS     | KeyForDiskEncryptionSet_STATUS     | Identical |       |
-| SourceVault                        | SourceVault                        | Identical |       |
-| SourceVault_STATUS                 | SourceVault_STATUS                 | Identical |       |
-|                                    | SystemData_STATUS                  |    New    |       |
-| UserAssignedIdentitiesValue_STATUS | UserAssignedIdentitiesValue_STATUS | Identical |       |
-| UserAssignedIdentityDetails        | UserAssignedIdentityDetails        | Identical |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20220702/storage                  | v20240302/storage                  |  Status   | Notes       |
+|:-----------------------------------|:-----------------------------------|:---------:|:------------|
+| ApiErrorBase_STATUS                | ApiErrorBase_STATUS                | Identical |             |
+| ApiError_STATUS                    | ApiError_STATUS                    | Identical |             |
+| DiskEncryptionSetOperatorSpec      | DiskEncryptionSetOperatorSpec      | Identical |             |
+| DiskEncryptionSet_STATUS           | DiskEncryptionSet_STATUS           | Extended  | +SystemData |
+| DiskEncryptionSet_Spec             | DiskEncryptionSet_Spec             | Identical |             |
+| EncryptionSetIdentity              | EncryptionSetIdentity              | Identical |             |
+| EncryptionSetIdentity_STATUS       | EncryptionSetIdentity_STATUS       | Identical |             |
+| InnerError_STATUS                  | InnerError_STATUS                  | Identical |             |
+| KeyForDiskEncryptionSet            | KeyForDiskEncryptionSet            | Identical |             |
+| KeyForDiskEncryptionSet_STATUS     | KeyForDiskEncryptionSet_STATUS     | Identical |             |
+| SourceVault                        | SourceVault                        | Identical |             |
+| SourceVault_STATUS                 | SourceVault_STATUS                 | Identical |             |
+|                                    | SystemData_STATUS                  |    New    |             |
+| UserAssignedIdentitiesValue_STATUS | UserAssignedIdentitiesValue_STATUS | Identical |             |
+| UserAssignedIdentityDetails        | UserAssignedIdentityDetails        | Identical |             |
 
 ### DiskEncryptionSet_STATUS
 
-16 x Identical, 1 x New
+Properties: 16 x Identical, 1 x New
 
 | v20220702/storage                 |                                  | v20240302/storage                 |                                  |  Status   | Notes |
 |:----------------------------------|:---------------------------------|:----------------------------------|:---------------------------------|:---------:|:------|
@@ -58,3 +51,12 @@
 |                                   |                                  | SystemData                        | *SystemData_STATUS               |    New    |       |
 | Tags                              | map[string]string                | Tags                              | map[string]string                | Identical |       |
 | Type                              | *string                          | Type                              | *string                          | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

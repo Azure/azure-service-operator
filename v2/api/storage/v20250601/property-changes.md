@@ -15,178 +15,171 @@
 | StorageAccountsTableService          | StorageAccountsTableService          | Identical |       |
 | StorageAccountsTableServicesTable    | StorageAccountsTableServicesTable    | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20250601                                        | v20250601/storage                                |  Status  | Notes |
-|:-------------------------------------------------|:-------------------------------------------------|:--------:|:------|
-| AccessPolicy                                     | AccessPolicy                                     | Extended |       |
-| AccessPolicy_STATUS                              | AccessPolicy_STATUS                              | Extended |       |
-| AccountImmutabilityPolicyProperties              | AccountImmutabilityPolicyProperties              | Modified |       |
-| AccountImmutabilityPolicyProperties_STATUS       | AccountImmutabilityPolicyProperties_STATUS       | Modified |       |
-| ActiveDirectoryProperties                        | ActiveDirectoryProperties                        | Modified |       |
-| ActiveDirectoryProperties_STATUS                 | ActiveDirectoryProperties_STATUS                 | Modified |       |
-| AzureFilesIdentityBasedAuthentication            | AzureFilesIdentityBasedAuthentication            | Modified |       |
-| AzureFilesIdentityBasedAuthentication_STATUS     | AzureFilesIdentityBasedAuthentication_STATUS     | Modified |       |
-| BlobRestoreParameters_STATUS                     | BlobRestoreParameters_STATUS                     | Extended |       |
-| BlobRestoreRange_STATUS                          | BlobRestoreRange_STATUS                          | Extended |       |
-| BlobRestoreStatus_STATUS                         | BlobRestoreStatus_STATUS                         | Modified |       |
-| ChangeFeed                                       | ChangeFeed                                       | Modified |       |
-| ChangeFeed_STATUS                                | ChangeFeed_STATUS                                | Extended |       |
-| CorsRule                                         | CorsRule                                         | Modified |       |
-| CorsRule_STATUS                                  | CorsRule_STATUS                                  | Modified |       |
-| CorsRules                                        | CorsRules                                        | Extended |       |
-| CorsRules_STATUS                                 | CorsRules_STATUS                                 | Extended |       |
-| CustomDomain                                     | CustomDomain                                     | Extended |       |
-| CustomDomain_STATUS                              | CustomDomain_STATUS                              | Extended |       |
-| DateAfterCreation                                | DateAfterCreation                                | Modified |       |
-| DateAfterCreation_STATUS                         | DateAfterCreation_STATUS                         | Extended |       |
-| DateAfterModification                            | DateAfterModification                            | Modified |       |
-| DateAfterModification_STATUS                     | DateAfterModification_STATUS                     | Extended |       |
-| DeleteRetentionPolicy                            | DeleteRetentionPolicy                            | Modified |       |
-| DeleteRetentionPolicy_STATUS                     | DeleteRetentionPolicy_STATUS                     | Extended |       |
-| DualStackEndpointPreference                      | DualStackEndpointPreference                      | Extended |       |
-| DualStackEndpointPreference_STATUS               | DualStackEndpointPreference_STATUS               | Extended |       |
-| Encryption                                       | Encryption                                       | Modified |       |
-| EncryptionIdentity                               | EncryptionIdentity                               | Extended |       |
-| EncryptionIdentity_STATUS                        | EncryptionIdentity_STATUS                        | Extended |       |
-| EncryptionInTransit                              | EncryptionInTransit                              | Extended |       |
-| EncryptionInTransit_STATUS                       | EncryptionInTransit_STATUS                       | Extended |       |
-| EncryptionService                                | EncryptionService                                | Modified |       |
-| EncryptionService_STATUS                         | EncryptionService_STATUS                         | Modified |       |
-| EncryptionServices                               | EncryptionServices                               | Extended |       |
-| EncryptionServices_STATUS                        | EncryptionServices_STATUS                        | Extended |       |
-| Encryption_STATUS                                | Encryption_STATUS                                | Modified |       |
-| Endpoints_STATUS                                 | Endpoints_STATUS                                 | Extended |       |
-| ExtendedLocation                                 | ExtendedLocation                                 | Modified |       |
-| ExtendedLocation_STATUS                          | ExtendedLocation_STATUS                          | Modified |       |
-| FileSharePropertiesFileSharePaidBursting         | FileSharePropertiesFileSharePaidBursting         | Extended |       |
-| FileSharePropertiesFileSharePaidBursting_STATUS  | FileSharePropertiesFileSharePaidBursting_STATUS  | Extended |       |
-| GeoPriorityReplicationStatus                     | GeoPriorityReplicationStatus                     | Extended |       |
-| GeoPriorityReplicationStatus_STATUS              | GeoPriorityReplicationStatus_STATUS              | Extended |       |
-| GeoReplicationStats_STATUS                       | GeoReplicationStats_STATUS                       | Modified |       |
-| IPRule                                           | IPRule                                           | Modified |       |
-| IPRule_STATUS                                    | IPRule_STATUS                                    | Modified |       |
-| Identity                                         | Identity                                         | Modified |       |
-| Identity_STATUS                                  | Identity_STATUS                                  | Modified |       |
-| ImmutabilityPolicyProperties_STATUS              | ImmutabilityPolicyProperties_STATUS              | Modified |       |
-| ImmutableStorageAccount                          | ImmutableStorageAccount                          | Extended |       |
-| ImmutableStorageAccount_STATUS                   | ImmutableStorageAccount_STATUS                   | Extended |       |
-| ImmutableStorageWithVersioning                   | ImmutableStorageWithVersioning                   | Extended |       |
-| ImmutableStorageWithVersioning_STATUS            | ImmutableStorageWithVersioning_STATUS            | Modified |       |
-| KeyCreationTime_STATUS                           | KeyCreationTime_STATUS                           | Extended |       |
-| KeyPolicy                                        | KeyPolicy                                        | Extended |       |
-| KeyPolicy_STATUS                                 | KeyPolicy_STATUS                                 | Extended |       |
-| KeyVaultProperties                               | KeyVaultProperties                               | Extended |       |
-| KeyVaultProperties_STATUS                        | KeyVaultProperties_STATUS                        | Extended |       |
-| LastAccessTimeTrackingPolicy                     | LastAccessTimeTrackingPolicy                     | Modified |       |
-| LastAccessTimeTrackingPolicy_STATUS              | LastAccessTimeTrackingPolicy_STATUS              | Modified |       |
-| LegalHoldProperties_STATUS                       | LegalHoldProperties_STATUS                       | Extended |       |
-| ManagementPolicyAction                           | ManagementPolicyAction                           | Extended |       |
-| ManagementPolicyAction_STATUS                    | ManagementPolicyAction_STATUS                    | Extended |       |
-| ManagementPolicyBaseBlob                         | ManagementPolicyBaseBlob                         | Extended |       |
-| ManagementPolicyBaseBlob_STATUS                  | ManagementPolicyBaseBlob_STATUS                  | Extended |       |
-| ManagementPolicyDefinition                       | ManagementPolicyDefinition                       | Extended |       |
-| ManagementPolicyDefinition_STATUS                | ManagementPolicyDefinition_STATUS                | Extended |       |
-| ManagementPolicyFilter                           | ManagementPolicyFilter                           | Extended |       |
-| ManagementPolicyFilter_STATUS                    | ManagementPolicyFilter_STATUS                    | Extended |       |
-| ManagementPolicyRule                             | ManagementPolicyRule                             | Modified |       |
-| ManagementPolicyRule_STATUS                      | ManagementPolicyRule_STATUS                      | Modified |       |
-| ManagementPolicySchema                           | ManagementPolicySchema                           | Extended |       |
-| ManagementPolicySchema_STATUS                    | ManagementPolicySchema_STATUS                    | Extended |       |
-| ManagementPolicySnapShot                         | ManagementPolicySnapShot                         | Extended |       |
-| ManagementPolicySnapShot_STATUS                  | ManagementPolicySnapShot_STATUS                  | Extended |       |
-| ManagementPolicyVersion                          | ManagementPolicyVersion                          | Extended |       |
-| ManagementPolicyVersion_STATUS                   | ManagementPolicyVersion_STATUS                   | Extended |       |
-| Multichannel                                     | Multichannel                                     | Extended |       |
-| Multichannel_STATUS                              | Multichannel_STATUS                              | Extended |       |
-| NetworkRuleSet                                   | NetworkRuleSet                                   | Modified |       |
-| NetworkRuleSet_STATUS                            | NetworkRuleSet_STATUS                            | Modified |       |
-| NfsSetting                                       | NfsSetting                                       | Extended |       |
-| NfsSetting_STATUS                                | NfsSetting_STATUS                                | Extended |       |
-| Placement                                        | Placement                                        | Modified |       |
-| Placement_STATUS                                 | Placement_STATUS                                 | Modified |       |
-| PrivateEndpointConnection_STATUS                 | PrivateEndpointConnection_STATUS                 | Extended |       |
-| ProtectedAppendWritesHistory_STATUS              | ProtectedAppendWritesHistory_STATUS              | Extended |       |
-| ProtocolSettings                                 | ProtocolSettings                                 | Extended |       |
-| ProtocolSettings_STATUS                          | ProtocolSettings_STATUS                          | Extended |       |
-| ResourceAccessRule                               | ResourceAccessRule                               | Extended |       |
-| ResourceAccessRule_STATUS                        | ResourceAccessRule_STATUS                        | Extended |       |
-| RestorePolicyProperties                          | RestorePolicyProperties                          | Modified |       |
-| RestorePolicyProperties_STATUS                   | RestorePolicyProperties_STATUS                   | Extended |       |
-| RoutingPreference                                | RoutingPreference                                | Modified |       |
-| RoutingPreference_STATUS                         | RoutingPreference_STATUS                         | Modified |       |
-| SasPolicy                                        | SasPolicy                                        | Modified |       |
-| SasPolicy_STATUS                                 | SasPolicy_STATUS                                 | Modified |       |
-| SignedIdentifier                                 | SignedIdentifier                                 | Extended |       |
-| SignedIdentifier_STATUS                          | SignedIdentifier_STATUS                          | Extended |       |
-| Sku                                              | Sku                                              | Modified |       |
-| Sku_STATUS                                       | Sku_STATUS                                       | Modified |       |
-| SmbOAuthSettings                                 | SmbOAuthSettings                                 | Extended |       |
-| SmbOAuthSettings_STATUS                          | SmbOAuthSettings_STATUS                          | Extended |       |
-| SmbSetting                                       | SmbSetting                                       | Extended |       |
-| SmbSetting_STATUS                                | SmbSetting_STATUS                                | Extended |       |
-| StorageAccountInternetEndpoints_STATUS           | StorageAccountInternetEndpoints_STATUS           | Extended |       |
-| StorageAccountIpv6Endpoints_STATUS               | StorageAccountIpv6Endpoints_STATUS               | Extended |       |
-| StorageAccountMicrosoftEndpoints_STATUS          | StorageAccountMicrosoftEndpoints_STATUS          | Extended |       |
-| StorageAccountOperatorConfigMaps                 | StorageAccountOperatorConfigMaps                 | Extended |       |
-| StorageAccountOperatorSecrets                    | StorageAccountOperatorSecrets                    | Extended |       |
-| StorageAccountOperatorSpec                       | StorageAccountOperatorSpec                       | Extended |       |
-| StorageAccountSkuConversionStatus_STATUS         | StorageAccountSkuConversionStatus_STATUS         | Modified |       |
-| StorageAccount_STATUS                            | StorageAccount_STATUS                            | Modified |       |
-| StorageAccount_Spec                              | StorageAccount_Spec                              | Modified |       |
-| StorageAccountsBlobServiceOperatorSpec           | StorageAccountsBlobServiceOperatorSpec           | Extended |       |
-| StorageAccountsBlobService_STATUS                | StorageAccountsBlobService_STATUS                | Extended |       |
-| StorageAccountsBlobService_Spec                  | StorageAccountsBlobService_Spec                  | Extended |       |
-| StorageAccountsBlobServicesContainerOperatorSpec | StorageAccountsBlobServicesContainerOperatorSpec | Extended |       |
-| StorageAccountsBlobServicesContainer_STATUS      | StorageAccountsBlobServicesContainer_STATUS      | Modified |       |
-| StorageAccountsBlobServicesContainer_Spec        | StorageAccountsBlobServicesContainer_Spec        | Modified |       |
-| StorageAccountsFileServiceOperatorSpec           | StorageAccountsFileServiceOperatorSpec           | Extended |       |
-| StorageAccountsFileService_STATUS                | StorageAccountsFileService_STATUS                | Extended |       |
-| StorageAccountsFileService_Spec                  | StorageAccountsFileService_Spec                  | Extended |       |
-| StorageAccountsFileServicesShareOperatorSpec     | StorageAccountsFileServicesShareOperatorSpec     | Extended |       |
-| StorageAccountsFileServicesShare_STATUS          | StorageAccountsFileServicesShare_STATUS          | Modified |       |
-| StorageAccountsFileServicesShare_Spec            | StorageAccountsFileServicesShare_Spec            | Modified |       |
-| StorageAccountsManagementPolicyOperatorSpec      | StorageAccountsManagementPolicyOperatorSpec      | Extended |       |
-| StorageAccountsManagementPolicy_STATUS           | StorageAccountsManagementPolicy_STATUS           | Extended |       |
-| StorageAccountsManagementPolicy_Spec             | StorageAccountsManagementPolicy_Spec             | Extended |       |
-| StorageAccountsQueueServiceOperatorSpec          | StorageAccountsQueueServiceOperatorSpec          | Extended |       |
-| StorageAccountsQueueService_STATUS               | StorageAccountsQueueService_STATUS               | Extended |       |
-| StorageAccountsQueueService_Spec                 | StorageAccountsQueueService_Spec                 | Extended |       |
-| StorageAccountsQueueServicesQueueOperatorSpec    | StorageAccountsQueueServicesQueueOperatorSpec    | Extended |       |
-| StorageAccountsQueueServicesQueue_STATUS         | StorageAccountsQueueServicesQueue_STATUS         | Extended |       |
-| StorageAccountsQueueServicesQueue_Spec           | StorageAccountsQueueServicesQueue_Spec           | Modified |       |
-| StorageAccountsTableServiceOperatorSpec          | StorageAccountsTableServiceOperatorSpec          | Extended |       |
-| StorageAccountsTableService_STATUS               | StorageAccountsTableService_STATUS               | Extended |       |
-| StorageAccountsTableService_Spec                 | StorageAccountsTableService_Spec                 | Extended |       |
-| StorageAccountsTableServicesTableOperatorSpec    | StorageAccountsTableServicesTableOperatorSpec    | Extended |       |
-| StorageAccountsTableServicesTable_STATUS         | StorageAccountsTableServicesTable_STATUS         | Extended |       |
-| StorageAccountsTableServicesTable_Spec           | StorageAccountsTableServicesTable_Spec           | Modified |       |
-| SystemData_STATUS                                | SystemData_STATUS                                | Modified |       |
-| TableAccessPolicy                                | TableAccessPolicy                                | Extended |       |
-| TableAccessPolicy_STATUS                         | TableAccessPolicy_STATUS                         | Extended |       |
-| TableSignedIdentifier                            | TableSignedIdentifier                            | Extended |       |
-| TableSignedIdentifier_STATUS                     | TableSignedIdentifier_STATUS                     | Extended |       |
-| TagFilter                                        | TagFilter                                        | Modified |       |
-| TagFilter_STATUS                                 | TagFilter_STATUS                                 | Extended |       |
-| TagProperty_STATUS                               | TagProperty_STATUS                               | Extended |       |
-| UpdateHistoryProperty_STATUS                     | UpdateHistoryProperty_STATUS                     | Modified |       |
-| UserAssignedIdentityDetails                      | UserAssignedIdentityDetails                      | Extended |       |
-| UserAssignedIdentity_STATUS                      | UserAssignedIdentity_STATUS                      | Extended |       |
-| VirtualNetworkRule                               | VirtualNetworkRule                               | Modified |       |
-| VirtualNetworkRule_STATUS                        | VirtualNetworkRule_STATUS                        | Modified |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20250601                                        | v20250601/storage                                |  Status  | Notes                         |
+|:-------------------------------------------------|:-------------------------------------------------|:--------:|:------------------------------|
+| AccessPolicy                                     | AccessPolicy                                     | Extended | +PropertyBag                  |
+| AccessPolicy_STATUS                              | AccessPolicy_STATUS                              | Extended | +PropertyBag                  |
+| AccountImmutabilityPolicyProperties              | AccountImmutabilityPolicyProperties              | Modified |                               |
+| AccountImmutabilityPolicyProperties_STATUS       | AccountImmutabilityPolicyProperties_STATUS       | Modified |                               |
+| ActiveDirectoryProperties                        | ActiveDirectoryProperties                        | Modified |                               |
+| ActiveDirectoryProperties_STATUS                 | ActiveDirectoryProperties_STATUS                 | Modified |                               |
+| AzureFilesIdentityBasedAuthentication            | AzureFilesIdentityBasedAuthentication            | Modified |                               |
+| AzureFilesIdentityBasedAuthentication_STATUS     | AzureFilesIdentityBasedAuthentication_STATUS     | Modified |                               |
+| BlobRestoreParameters_STATUS                     | BlobRestoreParameters_STATUS                     | Extended | +PropertyBag                  |
+| BlobRestoreRange_STATUS                          | BlobRestoreRange_STATUS                          | Extended | +PropertyBag                  |
+| BlobRestoreStatus_STATUS                         | BlobRestoreStatus_STATUS                         | Modified |                               |
+| ChangeFeed                                       | ChangeFeed                                       | Extended | +PropertyBag                  |
+| ChangeFeed_STATUS                                | ChangeFeed_STATUS                                | Extended | +PropertyBag                  |
+| CorsRule                                         | CorsRule                                         | Modified |                               |
+| CorsRule_STATUS                                  | CorsRule_STATUS                                  | Modified |                               |
+| CorsRules                                        | CorsRules                                        | Extended | +PropertyBag                  |
+| CorsRules_STATUS                                 | CorsRules_STATUS                                 | Extended | +PropertyBag                  |
+| CustomDomain                                     | CustomDomain                                     | Extended | +PropertyBag                  |
+| CustomDomain_STATUS                              | CustomDomain_STATUS                              | Extended | +PropertyBag                  |
+| DateAfterCreation                                | DateAfterCreation                                | Extended | +PropertyBag                  |
+| DateAfterCreation_STATUS                         | DateAfterCreation_STATUS                         | Extended | +PropertyBag                  |
+| DateAfterModification                            | DateAfterModification                            | Extended | +PropertyBag                  |
+| DateAfterModification_STATUS                     | DateAfterModification_STATUS                     | Extended | +PropertyBag                  |
+| DeleteRetentionPolicy                            | DeleteRetentionPolicy                            | Extended | +PropertyBag                  |
+| DeleteRetentionPolicy_STATUS                     | DeleteRetentionPolicy_STATUS                     | Extended | +PropertyBag                  |
+| DualStackEndpointPreference                      | DualStackEndpointPreference                      | Extended | +PropertyBag                  |
+| DualStackEndpointPreference_STATUS               | DualStackEndpointPreference_STATUS               | Extended | +PropertyBag                  |
+| Encryption                                       | Encryption                                       | Modified |                               |
+| EncryptionIdentity                               | EncryptionIdentity                               | Extended | +PropertyBag                  |
+| EncryptionIdentity_STATUS                        | EncryptionIdentity_STATUS                        | Extended | +PropertyBag                  |
+| EncryptionInTransit                              | EncryptionInTransit                              | Extended | +PropertyBag                  |
+| EncryptionInTransit_STATUS                       | EncryptionInTransit_STATUS                       | Extended | +PropertyBag                  |
+| EncryptionService                                | EncryptionService                                | Modified |                               |
+| EncryptionService_STATUS                         | EncryptionService_STATUS                         | Modified |                               |
+| EncryptionServices                               | EncryptionServices                               | Extended | +PropertyBag                  |
+| EncryptionServices_STATUS                        | EncryptionServices_STATUS                        | Extended | +PropertyBag                  |
+| Encryption_STATUS                                | Encryption_STATUS                                | Modified |                               |
+| Endpoints_STATUS                                 | Endpoints_STATUS                                 | Extended | +PropertyBag                  |
+| ExtendedLocation                                 | ExtendedLocation                                 | Modified |                               |
+| ExtendedLocation_STATUS                          | ExtendedLocation_STATUS                          | Modified |                               |
+| FileSharePropertiesFileSharePaidBursting         | FileSharePropertiesFileSharePaidBursting         | Extended | +PropertyBag                  |
+| FileSharePropertiesFileSharePaidBursting_STATUS  | FileSharePropertiesFileSharePaidBursting_STATUS  | Extended | +PropertyBag                  |
+| GeoPriorityReplicationStatus                     | GeoPriorityReplicationStatus                     | Extended | +PropertyBag                  |
+| GeoPriorityReplicationStatus_STATUS              | GeoPriorityReplicationStatus_STATUS              | Extended | +PropertyBag                  |
+| GeoReplicationStats_STATUS                       | GeoReplicationStats_STATUS                       | Modified |                               |
+| IPRule                                           | IPRule                                           | Modified |                               |
+| IPRule_STATUS                                    | IPRule_STATUS                                    | Modified |                               |
+| Identity                                         | Identity                                         | Modified |                               |
+| Identity_STATUS                                  | Identity_STATUS                                  | Modified |                               |
+| ImmutabilityPolicyProperties_STATUS              | ImmutabilityPolicyProperties_STATUS              | Modified |                               |
+| ImmutableStorageAccount                          | ImmutableStorageAccount                          | Extended | +PropertyBag                  |
+| ImmutableStorageAccount_STATUS                   | ImmutableStorageAccount_STATUS                   | Extended | +PropertyBag                  |
+| ImmutableStorageWithVersioning                   | ImmutableStorageWithVersioning                   | Extended | +PropertyBag                  |
+| ImmutableStorageWithVersioning_STATUS            | ImmutableStorageWithVersioning_STATUS            | Modified |                               |
+| KeyCreationTime_STATUS                           | KeyCreationTime_STATUS                           | Extended | +PropertyBag                  |
+| KeyPolicy                                        | KeyPolicy                                        | Extended | +PropertyBag                  |
+| KeyPolicy_STATUS                                 | KeyPolicy_STATUS                                 | Extended | +PropertyBag                  |
+| KeyVaultProperties                               | KeyVaultProperties                               | Extended | +PropertyBag                  |
+| KeyVaultProperties_STATUS                        | KeyVaultProperties_STATUS                        | Extended | +PropertyBag                  |
+| LastAccessTimeTrackingPolicy                     | LastAccessTimeTrackingPolicy                     | Modified |                               |
+| LastAccessTimeTrackingPolicy_STATUS              | LastAccessTimeTrackingPolicy_STATUS              | Modified |                               |
+| LegalHoldProperties_STATUS                       | LegalHoldProperties_STATUS                       | Extended | +PropertyBag                  |
+| ManagementPolicyAction                           | ManagementPolicyAction                           | Extended | +PropertyBag                  |
+| ManagementPolicyAction_STATUS                    | ManagementPolicyAction_STATUS                    | Extended | +PropertyBag                  |
+| ManagementPolicyBaseBlob                         | ManagementPolicyBaseBlob                         | Extended | +PropertyBag                  |
+| ManagementPolicyBaseBlob_STATUS                  | ManagementPolicyBaseBlob_STATUS                  | Extended | +PropertyBag                  |
+| ManagementPolicyDefinition                       | ManagementPolicyDefinition                       | Extended | +PropertyBag                  |
+| ManagementPolicyDefinition_STATUS                | ManagementPolicyDefinition_STATUS                | Extended | +PropertyBag                  |
+| ManagementPolicyFilter                           | ManagementPolicyFilter                           | Extended | +PropertyBag                  |
+| ManagementPolicyFilter_STATUS                    | ManagementPolicyFilter_STATUS                    | Extended | +PropertyBag                  |
+| ManagementPolicyRule                             | ManagementPolicyRule                             | Modified |                               |
+| ManagementPolicyRule_STATUS                      | ManagementPolicyRule_STATUS                      | Modified |                               |
+| ManagementPolicySchema                           | ManagementPolicySchema                           | Extended | +PropertyBag                  |
+| ManagementPolicySchema_STATUS                    | ManagementPolicySchema_STATUS                    | Extended | +PropertyBag                  |
+| ManagementPolicySnapShot                         | ManagementPolicySnapShot                         | Extended | +PropertyBag                  |
+| ManagementPolicySnapShot_STATUS                  | ManagementPolicySnapShot_STATUS                  | Extended | +PropertyBag                  |
+| ManagementPolicyVersion                          | ManagementPolicyVersion                          | Extended | +PropertyBag                  |
+| ManagementPolicyVersion_STATUS                   | ManagementPolicyVersion_STATUS                   | Extended | +PropertyBag                  |
+| Multichannel                                     | Multichannel                                     | Extended | +PropertyBag                  |
+| Multichannel_STATUS                              | Multichannel_STATUS                              | Extended | +PropertyBag                  |
+| NetworkRuleSet                                   | NetworkRuleSet                                   | Modified |                               |
+| NetworkRuleSet_STATUS                            | NetworkRuleSet_STATUS                            | Modified |                               |
+| NfsSetting                                       | NfsSetting                                       | Extended | +PropertyBag                  |
+| NfsSetting_STATUS                                | NfsSetting_STATUS                                | Extended | +PropertyBag                  |
+| Placement                                        | Placement                                        | Modified |                               |
+| Placement_STATUS                                 | Placement_STATUS                                 | Modified |                               |
+| PrivateEndpointConnection_STATUS                 | PrivateEndpointConnection_STATUS                 | Extended | +PropertyBag                  |
+| ProtectedAppendWritesHistory_STATUS              | ProtectedAppendWritesHistory_STATUS              | Extended | +PropertyBag                  |
+| ProtocolSettings                                 | ProtocolSettings                                 | Extended | +PropertyBag                  |
+| ProtocolSettings_STATUS                          | ProtocolSettings_STATUS                          | Extended | +PropertyBag                  |
+| ResourceAccessRule                               | ResourceAccessRule                               | Extended | +PropertyBag                  |
+| ResourceAccessRule_STATUS                        | ResourceAccessRule_STATUS                        | Extended | +PropertyBag                  |
+| RestorePolicyProperties                          | RestorePolicyProperties                          | Extended | +PropertyBag                  |
+| RestorePolicyProperties_STATUS                   | RestorePolicyProperties_STATUS                   | Extended | +PropertyBag                  |
+| RoutingPreference                                | RoutingPreference                                | Modified |                               |
+| RoutingPreference_STATUS                         | RoutingPreference_STATUS                         | Modified |                               |
+| SasPolicy                                        | SasPolicy                                        | Modified |                               |
+| SasPolicy_STATUS                                 | SasPolicy_STATUS                                 | Modified |                               |
+| SignedIdentifier                                 | SignedIdentifier                                 | Extended | +PropertyBag                  |
+| SignedIdentifier_STATUS                          | SignedIdentifier_STATUS                          | Extended | +PropertyBag                  |
+| Sku                                              | Sku                                              | Modified |                               |
+| Sku_STATUS                                       | Sku_STATUS                                       | Modified |                               |
+| SmbOAuthSettings                                 | SmbOAuthSettings                                 | Extended | +PropertyBag                  |
+| SmbOAuthSettings_STATUS                          | SmbOAuthSettings_STATUS                          | Extended | +PropertyBag                  |
+| SmbSetting                                       | SmbSetting                                       | Extended | +PropertyBag                  |
+| SmbSetting_STATUS                                | SmbSetting_STATUS                                | Extended | +PropertyBag                  |
+| StorageAccountInternetEndpoints_STATUS           | StorageAccountInternetEndpoints_STATUS           | Extended | +PropertyBag                  |
+| StorageAccountIpv6Endpoints_STATUS               | StorageAccountIpv6Endpoints_STATUS               | Extended | +PropertyBag                  |
+| StorageAccountMicrosoftEndpoints_STATUS          | StorageAccountMicrosoftEndpoints_STATUS          | Extended | +PropertyBag                  |
+| StorageAccountOperatorConfigMaps                 | StorageAccountOperatorConfigMaps                 | Extended | +PropertyBag                  |
+| StorageAccountOperatorSecrets                    | StorageAccountOperatorSecrets                    | Extended | +PropertyBag                  |
+| StorageAccountOperatorSpec                       | StorageAccountOperatorSpec                       | Extended | +PropertyBag                  |
+| StorageAccountSkuConversionStatus_STATUS         | StorageAccountSkuConversionStatus_STATUS         | Modified |                               |
+| StorageAccount_STATUS                            | StorageAccount_STATUS                            | Modified |                               |
+| StorageAccount_Spec                              | StorageAccount_Spec                              | Modified |                               |
+| StorageAccountsBlobServiceOperatorSpec           | StorageAccountsBlobServiceOperatorSpec           | Extended | +PropertyBag                  |
+| StorageAccountsBlobService_STATUS                | StorageAccountsBlobService_STATUS                | Extended | +PropertyBag                  |
+| StorageAccountsBlobService_Spec                  | StorageAccountsBlobService_Spec                  | Extended | +OriginalVersion +PropertyBag |
+| StorageAccountsBlobServicesContainerOperatorSpec | StorageAccountsBlobServicesContainerOperatorSpec | Extended | +PropertyBag                  |
+| StorageAccountsBlobServicesContainer_STATUS      | StorageAccountsBlobServicesContainer_STATUS      | Modified |                               |
+| StorageAccountsBlobServicesContainer_Spec        | StorageAccountsBlobServicesContainer_Spec        | Modified |                               |
+| StorageAccountsFileServiceOperatorSpec           | StorageAccountsFileServiceOperatorSpec           | Extended | +PropertyBag                  |
+| StorageAccountsFileService_STATUS                | StorageAccountsFileService_STATUS                | Extended | +PropertyBag                  |
+| StorageAccountsFileService_Spec                  | StorageAccountsFileService_Spec                  | Extended | +OriginalVersion +PropertyBag |
+| StorageAccountsFileServicesShareOperatorSpec     | StorageAccountsFileServicesShareOperatorSpec     | Extended | +PropertyBag                  |
+| StorageAccountsFileServicesShare_STATUS          | StorageAccountsFileServicesShare_STATUS          | Modified |                               |
+| StorageAccountsFileServicesShare_Spec            | StorageAccountsFileServicesShare_Spec            | Modified |                               |
+| StorageAccountsManagementPolicyOperatorSpec      | StorageAccountsManagementPolicyOperatorSpec      | Extended | +PropertyBag                  |
+| StorageAccountsManagementPolicy_STATUS           | StorageAccountsManagementPolicy_STATUS           | Extended | +PropertyBag                  |
+| StorageAccountsManagementPolicy_Spec             | StorageAccountsManagementPolicy_Spec             | Extended | +OriginalVersion +PropertyBag |
+| StorageAccountsQueueServiceOperatorSpec          | StorageAccountsQueueServiceOperatorSpec          | Extended | +PropertyBag                  |
+| StorageAccountsQueueService_STATUS               | StorageAccountsQueueService_STATUS               | Extended | +PropertyBag                  |
+| StorageAccountsQueueService_Spec                 | StorageAccountsQueueService_Spec                 | Extended | +OriginalVersion +PropertyBag |
+| StorageAccountsQueueServicesQueueOperatorSpec    | StorageAccountsQueueServicesQueueOperatorSpec    | Extended | +PropertyBag                  |
+| StorageAccountsQueueServicesQueue_STATUS         | StorageAccountsQueueServicesQueue_STATUS         | Extended | +PropertyBag                  |
+| StorageAccountsQueueServicesQueue_Spec           | StorageAccountsQueueServicesQueue_Spec           | Modified |                               |
+| StorageAccountsTableServiceOperatorSpec          | StorageAccountsTableServiceOperatorSpec          | Extended | +PropertyBag                  |
+| StorageAccountsTableService_STATUS               | StorageAccountsTableService_STATUS               | Extended | +PropertyBag                  |
+| StorageAccountsTableService_Spec                 | StorageAccountsTableService_Spec                 | Extended | +OriginalVersion +PropertyBag |
+| StorageAccountsTableServicesTableOperatorSpec    | StorageAccountsTableServicesTableOperatorSpec    | Extended | +PropertyBag                  |
+| StorageAccountsTableServicesTable_STATUS         | StorageAccountsTableServicesTable_STATUS         | Extended | +PropertyBag                  |
+| StorageAccountsTableServicesTable_Spec           | StorageAccountsTableServicesTable_Spec           | Modified |                               |
+| SystemData_STATUS                                | SystemData_STATUS                                | Modified |                               |
+| TableAccessPolicy                                | TableAccessPolicy                                | Extended | +PropertyBag                  |
+| TableAccessPolicy_STATUS                         | TableAccessPolicy_STATUS                         | Extended | +PropertyBag                  |
+| TableSignedIdentifier                            | TableSignedIdentifier                            | Extended | +PropertyBag                  |
+| TableSignedIdentifier_STATUS                     | TableSignedIdentifier_STATUS                     | Extended | +PropertyBag                  |
+| TagFilter                                        | TagFilter                                        | Extended | +PropertyBag                  |
+| TagFilter_STATUS                                 | TagFilter_STATUS                                 | Extended | +PropertyBag                  |
+| TagProperty_STATUS                               | TagProperty_STATUS                               | Extended | +PropertyBag                  |
+| UpdateHistoryProperty_STATUS                     | UpdateHistoryProperty_STATUS                     | Modified |                               |
+| UserAssignedIdentityDetails                      | UserAssignedIdentityDetails                      | Extended | +PropertyBag                  |
+| UserAssignedIdentity_STATUS                      | UserAssignedIdentity_STATUS                      | Extended | +PropertyBag                  |
+| VirtualNetworkRule                               | VirtualNetworkRule                               | Modified |                               |
+| VirtualNetworkRule_STATUS                        | VirtualNetworkRule_STATUS                        | Modified |                               |
 
 ### AccessPolicy
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250601  |         | v20250601/storage |                        |  Status   | Notes |
 |:-----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -197,7 +190,7 @@
 
 ### AccessPolicy_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250601  |         | v20250601/storage |                        |  Status   | Notes |
 |:-----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -208,18 +201,18 @@
 
 ### AccountImmutabilityPolicyProperties
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250601                             |                                 | v20250601/storage                     |                        |  Status   | Notes |
 |:--------------------------------------|:--------------------------------|:--------------------------------------|:-----------------------|:---------:|:------|
 | AllowProtectedAppendWrites            | *bool                           | AllowProtectedAppendWrites            | *bool                  | Identical |       |
-| ImmutabilityPeriodSinceCreationInDays | Validated<*int> (2 rules)       | ImmutabilityPeriodSinceCreationInDays | *int                   | Modified  |       |
+| ImmutabilityPeriodSinceCreationInDays | Validated<*int> (2 rules)       | ImmutabilityPeriodSinceCreationInDays | *int                   | Identical |       |
 |                                       |                                 | PropertyBag                           | genruntime.PropertyBag |    New    |       |
 | State                                 | *AccountImmutabilityPolicyState | State                                 | *string                | Modified  |       |
 
 ### AccountImmutabilityPolicyProperties_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250601                             |                                        | v20250601/storage                     |                        |  Status   | Notes |
 |:--------------------------------------|:---------------------------------------|:--------------------------------------|:-----------------------|:---------:|:------|
@@ -230,7 +223,7 @@
 
 ### ActiveDirectoryProperties
 
-7 x Identical, 1 x New, 1 x Modified
+Properties: 7 x Identical, 1 x New, 1 x Modified
 
 | v20250601         |              | v20250601/storage |                        |  Status   | Notes |
 |:------------------|:-------------|:------------------|:-----------------------|:---------:|:------|
@@ -246,7 +239,7 @@
 
 ### ActiveDirectoryProperties_STATUS
 
-7 x Identical, 1 x New, 1 x Modified
+Properties: 7 x Identical, 1 x New, 1 x Modified
 
 | v20250601         |                     | v20250601/storage |                        |  Status   | Notes |
 |:------------------|:--------------------|:------------------|:-----------------------|:---------:|:------|
@@ -262,7 +255,7 @@
 
 ### AzureFilesIdentityBasedAuthentication
 
-2 x Identical, 1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New, 2 x Modified
 
 | v20250601                 |                            | v20250601/storage         |                            |  Status   | Notes |
 |:--------------------------|:---------------------------|:--------------------------|:---------------------------|:---------:|:------|
@@ -274,7 +267,7 @@
 
 ### AzureFilesIdentityBasedAuthentication_STATUS
 
-2 x Identical, 1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New, 2 x Modified
 
 | v20250601                 |                                   | v20250601/storage         |                                   |  Status   | Notes |
 |:--------------------------|:----------------------------------|:--------------------------|:----------------------------------|:---------:|:------|
@@ -286,7 +279,7 @@
 
 ### BlobRestoreParameters_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250601     |                           | v20250601/storage |                           |  Status   | Notes |
 |:--------------|:--------------------------|:------------------|:--------------------------|:---------:|:------|
@@ -296,7 +289,7 @@
 
 ### BlobRestoreRange_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250601  |         | v20250601/storage |                        |  Status   | Notes |
 |:-----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -306,7 +299,7 @@
 
 ### BlobRestoreStatus_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v20250601     |                                   | v20250601/storage |                               |  Status   | Notes |
 |:--------------|:----------------------------------|:------------------|:------------------------------|:---------:|:------|
@@ -318,17 +311,17 @@
 
 ### ChangeFeed
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New
 
 | v20250601       |                           | v20250601/storage |                        |  Status   | Notes |
 |:----------------|:--------------------------|:------------------|:-----------------------|:---------:|:------|
 | Enabled         | *bool                     | Enabled           | *bool                  | Identical |       |
 |                 |                           | PropertyBag       | genruntime.PropertyBag |    New    |       |
-| RetentionInDays | Validated<*int> (2 rules) | RetentionInDays   | *int                   | Modified  |       |
+| RetentionInDays | Validated<*int> (2 rules) | RetentionInDays   | *int                   | Identical |       |
 
 ### ChangeFeed_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250601       |       | v20250601/storage |                        |  Status   | Notes |
 |:----------------|:------|:------------------|:-----------------------|:---------:|:------|
@@ -338,7 +331,7 @@
 
 ### CorsRule
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v20250601       |                  | v20250601/storage |                        |  Status   | Notes |
 |:----------------|:-----------------|:------------------|:-----------------------|:---------:|:------|
@@ -351,7 +344,7 @@
 
 ### CorsRule_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v20250601       |                         | v20250601/storage |                        |  Status   | Notes |
 |:----------------|:------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -364,7 +357,7 @@
 
 ### CorsRules
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250601 |            | v20250601/storage |                        |  Status   | Notes |
 |:----------|:-----------|:------------------|:-----------------------|:---------:|:------|
@@ -373,7 +366,7 @@
 
 ### CorsRules_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250601 |                   | v20250601/storage |                        |  Status   | Notes |
 |:----------|:------------------|:------------------|:-----------------------|:---------:|:------|
@@ -382,7 +375,7 @@
 
 ### CustomDomain
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250601        |         | v20250601/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -392,7 +385,7 @@
 
 ### CustomDomain_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250601        |         | v20250601/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -402,17 +395,17 @@
 
 ### DateAfterCreation
 
-1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New
 
-| v20250601                          |                          | v20250601/storage                  |                        |  Status  | Notes |
-|:-----------------------------------|:-------------------------|:-----------------------------------|:-----------------------|:--------:|:------|
-| DaysAfterCreationGreaterThan       | Validated<*int> (1 rule) | DaysAfterCreationGreaterThan       | *int                   | Modified |       |
-| DaysAfterLastTierChangeGreaterThan | Validated<*int> (1 rule) | DaysAfterLastTierChangeGreaterThan | *int                   | Modified |       |
-|                                    |                          | PropertyBag                        | genruntime.PropertyBag |   New    |       |
+| v20250601                          |                          | v20250601/storage                  |                        |  Status   | Notes |
+|:-----------------------------------|:-------------------------|:-----------------------------------|:-----------------------|:---------:|:------|
+| DaysAfterCreationGreaterThan       | Validated<*int> (1 rule) | DaysAfterCreationGreaterThan       | *int                   | Identical |       |
+| DaysAfterLastTierChangeGreaterThan | Validated<*int> (1 rule) | DaysAfterLastTierChangeGreaterThan | *int                   | Identical |       |
+|                                    |                          | PropertyBag                        | genruntime.PropertyBag |    New    |       |
 
 ### DateAfterCreation_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250601                          |          | v20250601/storage                  |                        |  Status   | Notes |
 |:-----------------------------------|:---------|:-----------------------------------|:-----------------------|:---------:|:------|
@@ -422,19 +415,19 @@
 
 ### DateAfterModification
 
-1 x New, 4 x Modified
+Properties: 4 x Identical, 1 x New
 
-| v20250601                          |                          | v20250601/storage                  |                        |  Status  | Notes |
-|:-----------------------------------|:-------------------------|:-----------------------------------|:-----------------------|:--------:|:------|
-| DaysAfterCreationGreaterThan       | Validated<*int> (1 rule) | DaysAfterCreationGreaterThan       | *int                   | Modified |       |
-| DaysAfterLastAccessTimeGreaterThan | Validated<*int> (1 rule) | DaysAfterLastAccessTimeGreaterThan | *int                   | Modified |       |
-| DaysAfterLastTierChangeGreaterThan | Validated<*int> (1 rule) | DaysAfterLastTierChangeGreaterThan | *int                   | Modified |       |
-| DaysAfterModificationGreaterThan   | Validated<*int> (1 rule) | DaysAfterModificationGreaterThan   | *int                   | Modified |       |
-|                                    |                          | PropertyBag                        | genruntime.PropertyBag |   New    |       |
+| v20250601                          |                          | v20250601/storage                  |                        |  Status   | Notes |
+|:-----------------------------------|:-------------------------|:-----------------------------------|:-----------------------|:---------:|:------|
+| DaysAfterCreationGreaterThan       | Validated<*int> (1 rule) | DaysAfterCreationGreaterThan       | *int                   | Identical |       |
+| DaysAfterLastAccessTimeGreaterThan | Validated<*int> (1 rule) | DaysAfterLastAccessTimeGreaterThan | *int                   | Identical |       |
+| DaysAfterLastTierChangeGreaterThan | Validated<*int> (1 rule) | DaysAfterLastTierChangeGreaterThan | *int                   | Identical |       |
+| DaysAfterModificationGreaterThan   | Validated<*int> (1 rule) | DaysAfterModificationGreaterThan   | *int                   | Identical |       |
+|                                    |                          | PropertyBag                        | genruntime.PropertyBag |    New    |       |
 
 ### DateAfterModification_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20250601                          |          | v20250601/storage                  |                        |  Status   | Notes |
 |:-----------------------------------|:---------|:-----------------------------------|:-----------------------|:---------:|:------|
@@ -446,18 +439,18 @@
 
 ### DeleteRetentionPolicy
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New
 
 | v20250601            |                           | v20250601/storage    |                        |  Status   | Notes |
 |:---------------------|:--------------------------|:---------------------|:-----------------------|:---------:|:------|
 | AllowPermanentDelete | *bool                     | AllowPermanentDelete | *bool                  | Identical |       |
-| Days                 | Validated<*int> (2 rules) | Days                 | *int                   | Modified  |       |
+| Days                 | Validated<*int> (2 rules) | Days                 | *int                   | Identical |       |
 | Enabled              | *bool                     | Enabled              | *bool                  | Identical |       |
 |                      |                           | PropertyBag          | genruntime.PropertyBag |    New    |       |
 
 ### DeleteRetentionPolicy_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250601            |       | v20250601/storage    |                        |  Status   | Notes |
 |:---------------------|:------|:---------------------|:-----------------------|:---------:|:------|
@@ -468,7 +461,7 @@
 
 ### DualStackEndpointPreference
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250601           |       | v20250601/storage   |                        |  Status   | Notes |
 |:--------------------|:------|:--------------------|:-----------------------|:---------:|:------|
@@ -477,7 +470,7 @@
 
 ### DualStackEndpointPreference_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250601           |       | v20250601/storage   |                        |  Status   | Notes |
 |:--------------------|:------|:--------------------|:-----------------------|:---------:|:------|
@@ -486,7 +479,7 @@
 
 ### Encryption
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v20250601                       |                       | v20250601/storage               |                        |  Status   | Notes |
 |:--------------------------------|:----------------------|:--------------------------------|:-----------------------|:---------:|:------|
@@ -499,7 +492,7 @@
 
 ### EncryptionIdentity
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250601                           |                                | v20250601/storage                   |                                |  Status   | Notes |
 |:------------------------------------|:-------------------------------|:------------------------------------|:-------------------------------|:---------:|:------|
@@ -510,7 +503,7 @@
 
 ### EncryptionIdentity_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250601                 |         | v20250601/storage         |                        |  Status   | Notes |
 |:--------------------------|:--------|:--------------------------|:-----------------------|:---------:|:------|
@@ -520,7 +513,7 @@
 
 ### EncryptionInTransit
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250601 |       | v20250601/storage |                        |  Status   | Notes |
 |:----------|:------|:------------------|:-----------------------|:---------:|:------|
@@ -529,7 +522,7 @@
 
 ### EncryptionInTransit_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250601 |       | v20250601/storage |                        |  Status   | Notes |
 |:----------|:------|:------------------|:-----------------------|:---------:|:------|
@@ -538,7 +531,7 @@
 
 ### EncryptionService
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250601 |          | v20250601/storage |                        |  Status   | Notes |
 |:----------|:---------|:------------------|:-----------------------|:---------:|:------|
@@ -548,7 +541,7 @@
 
 ### EncryptionService_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250601       |                 | v20250601/storage |                        |  Status   | Notes |
 |:----------------|:----------------|:------------------|:-----------------------|:---------:|:------|
@@ -559,7 +552,7 @@
 
 ### EncryptionServices
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20250601 |                    | v20250601/storage |                        |  Status   | Notes |
 |:----------|:-------------------|:------------------|:-----------------------|:---------:|:------|
@@ -571,7 +564,7 @@
 
 ### EncryptionServices_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20250601 |                           | v20250601/storage |                           |  Status   | Notes |
 |:----------|:--------------------------|:------------------|:--------------------------|:---------:|:------|
@@ -583,7 +576,7 @@
 
 ### Encryption_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v20250601                       |                              | v20250601/storage               |                            |  Status   | Notes |
 |:--------------------------------|:-----------------------------|:--------------------------------|:---------------------------|:---------:|:------|
@@ -596,7 +589,7 @@
 
 ### Endpoints_STATUS
 
-9 x Identical, 1 x New
+Properties: 9 x Identical, 1 x New
 
 | v20250601          |                                          | v20250601/storage  |                                          |  Status   | Notes |
 |:-------------------|:-----------------------------------------|:-------------------|:-----------------------------------------|:---------:|:------|
@@ -613,7 +606,7 @@
 
 ### ExtendedLocation
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250601 |                        | v20250601/storage |                        |  Status   | Notes |
 |:----------|:-----------------------|:------------------|:-----------------------|:---------:|:------|
@@ -623,7 +616,7 @@
 
 ### ExtendedLocation_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250601 |                               | v20250601/storage |                        |  Status   | Notes |
 |:----------|:------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -633,7 +626,7 @@
 
 ### FileSharePropertiesFileSharePaidBursting
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250601                     |       | v20250601/storage             |                        |  Status   | Notes |
 |:------------------------------|:------|:------------------------------|:-----------------------|:---------:|:------|
@@ -644,7 +637,7 @@
 
 ### FileSharePropertiesFileSharePaidBursting_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250601                     |       | v20250601/storage             |                        |  Status   | Notes |
 |:------------------------------|:------|:------------------------------|:-----------------------|:---------:|:------|
@@ -655,7 +648,7 @@
 
 ### GeoPriorityReplicationStatus
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250601     |       | v20250601/storage |                        |  Status   | Notes |
 |:--------------|:------|:------------------|:-----------------------|:---------:|:------|
@@ -664,7 +657,7 @@
 
 ### GeoPriorityReplicationStatus_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250601     |       | v20250601/storage |                        |  Status   | Notes |
 |:--------------|:------|:------------------|:-----------------------|:---------:|:------|
@@ -673,7 +666,7 @@
 
 ### GeoReplicationStats_STATUS
 
-3 x Identical, 1 x New, 3 x Modified
+Properties: 3 x Identical, 1 x New, 3 x Modified
 
 | v20250601                     |                                       | v20250601/storage             |                        |  Status   | Notes |
 |:------------------------------|:--------------------------------------|:------------------------------|:-----------------------|:---------:|:------|
@@ -687,7 +680,7 @@
 
 ### IPRule
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250601       |                                | v20250601/storage |                                |  Status   | Notes |
 |:----------------|:-------------------------------|:------------------|:-------------------------------|:---------:|:------|
@@ -698,7 +691,7 @@
 
 ### IPRule_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250601 |                       | v20250601/storage |                        |  Status   | Notes |
 |:----------|:----------------------|:------------------|:-----------------------|:---------:|:------|
@@ -708,7 +701,7 @@
 
 ### Identity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250601              |                               | v20250601/storage      |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -718,7 +711,7 @@
 
 ### Identity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v20250601              |                                        | v20250601/storage      |                                        |  Status   | Notes |
 |:-----------------------|:---------------------------------------|:-----------------------|:---------------------------------------|:---------:|:------|
@@ -730,7 +723,7 @@
 
 ### ImmutabilityPolicyProperties_STATUS
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v20250601                             |                                 | v20250601/storage                     |                                |  Status   | Notes |
 |:--------------------------------------|:--------------------------------|:--------------------------------------|:-------------------------------|:---------:|:------|
@@ -744,7 +737,7 @@
 
 ### ImmutableStorageAccount
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250601          |                                      | v20250601/storage  |                                      |  Status   | Notes |
 |:-------------------|:-------------------------------------|:-------------------|:-------------------------------------|:---------:|:------|
@@ -754,7 +747,7 @@
 
 ### ImmutableStorageAccount_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250601          |                                             | v20250601/storage  |                                             |  Status   | Notes |
 |:-------------------|:--------------------------------------------|:-------------------|:--------------------------------------------|:---------:|:------|
@@ -764,7 +757,7 @@
 
 ### ImmutableStorageWithVersioning
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250601 |       | v20250601/storage |                        |  Status   | Notes |
 |:----------|:------|:------------------|:-----------------------|:---------:|:------|
@@ -773,7 +766,7 @@
 
 ### ImmutableStorageWithVersioning_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250601      |                        | v20250601/storage |                        |  Status   | Notes |
 |:---------------|:-----------------------|:------------------|:-----------------------|:---------:|:------|
@@ -784,7 +777,7 @@
 
 ### KeyCreationTime_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250601 |         | v20250601/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -794,7 +787,7 @@
 
 ### KeyPolicy
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250601                 |      | v20250601/storage         |                        |  Status   | Notes |
 |:--------------------------|:-----|:--------------------------|:-----------------------|:---------:|:------|
@@ -803,7 +796,7 @@
 
 ### KeyPolicy_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250601                 |      | v20250601/storage         |                        |  Status   | Notes |
 |:--------------------------|:-----|:--------------------------|:-----------------------|:---------:|:------|
@@ -812,7 +805,7 @@
 
 ### KeyVaultProperties
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v20250601             |                                | v20250601/storage     |                                |  Status   | Notes |
 |:----------------------|:-------------------------------|:----------------------|:-------------------------------|:---------:|:------|
@@ -826,7 +819,7 @@
 
 ### KeyVaultProperties_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v20250601                              |         | v20250601/storage                      |                        |  Status   | Notes |
 |:---------------------------------------|:--------|:---------------------------------------|:-----------------------|:---------:|:------|
@@ -840,7 +833,7 @@
 
 ### LastAccessTimeTrackingPolicy
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v20250601                 |          | v20250601/storage         |                        |  Status   | Notes |
 |:--------------------------|:---------|:--------------------------|:-----------------------|:---------:|:------|
@@ -852,7 +845,7 @@
 
 ### LastAccessTimeTrackingPolicy_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v20250601                 |              | v20250601/storage         |                        |  Status   | Notes |
 |:--------------------------|:-------------|:--------------------------|:-----------------------|:---------:|:------|
@@ -864,7 +857,7 @@
 
 ### LegalHoldProperties_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250601                    |                                      | v20250601/storage            |                                      |  Status   | Notes |
 |:-----------------------------|:-------------------------------------|:-----------------------------|:-------------------------------------|:---------:|:------|
@@ -875,7 +868,7 @@
 
 ### ManagementPolicyAction
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250601 |                           | v20250601/storage |                           |  Status   | Notes |
 |:----------|:--------------------------|:------------------|:--------------------------|:---------:|:------|
@@ -886,7 +879,7 @@
 
 ### ManagementPolicyAction_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250601 |                                  | v20250601/storage |                                  |  Status   | Notes |
 |:----------|:---------------------------------|:------------------|:---------------------------------|:---------:|:------|
@@ -897,7 +890,7 @@
 
 ### ManagementPolicyBaseBlob
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v20250601                   |                        | v20250601/storage           |                        |  Status   | Notes |
 |:----------------------------|:-----------------------|:----------------------------|:-----------------------|:---------:|:------|
@@ -911,7 +904,7 @@
 
 ### ManagementPolicyBaseBlob_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v20250601                   |                               | v20250601/storage           |                               |  Status   | Notes |
 |:----------------------------|:------------------------------|:----------------------------|:------------------------------|:---------:|:------|
@@ -925,7 +918,7 @@
 
 ### ManagementPolicyDefinition
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250601 |                         | v20250601/storage |                         |  Status   | Notes |
 |:----------|:------------------------|:------------------|:------------------------|:---------:|:------|
@@ -935,7 +928,7 @@
 
 ### ManagementPolicyDefinition_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250601 |                                | v20250601/storage |                                |  Status   | Notes |
 |:----------|:-------------------------------|:------------------|:-------------------------------|:---------:|:------|
@@ -945,7 +938,7 @@
 
 ### ManagementPolicyFilter
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250601      |             | v20250601/storage |                        |  Status   | Notes |
 |:---------------|:------------|:------------------|:-----------------------|:---------:|:------|
@@ -956,7 +949,7 @@
 
 ### ManagementPolicyFilter_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250601      |                    | v20250601/storage |                        |  Status   | Notes |
 |:---------------|:-------------------|:------------------|:-----------------------|:---------:|:------|
@@ -967,7 +960,7 @@
 
 ### ManagementPolicyRule
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v20250601  |                             | v20250601/storage |                             |  Status   | Notes |
 |:-----------|:----------------------------|:------------------|:----------------------------|:---------:|:------|
@@ -979,7 +972,7 @@
 
 ### ManagementPolicyRule_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v20250601  |                                    | v20250601/storage |                                    |  Status   | Notes |
 |:-----------|:-----------------------------------|:------------------|:-----------------------------------|:---------:|:------|
@@ -991,7 +984,7 @@
 
 ### ManagementPolicySchema
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250601 |                        | v20250601/storage |                        |  Status   | Notes |
 |:----------|:-----------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1000,7 +993,7 @@
 
 ### ManagementPolicySchema_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250601 |                               | v20250601/storage |                               |  Status   | Notes |
 |:----------|:------------------------------|:------------------|:------------------------------|:---------:|:------|
@@ -1009,7 +1002,7 @@
 
 ### ManagementPolicySnapShot
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v20250601     |                    | v20250601/storage |                        |  Status   | Notes |
 |:--------------|:-------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1022,7 +1015,7 @@
 
 ### ManagementPolicySnapShot_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v20250601     |                           | v20250601/storage |                           |  Status   | Notes |
 |:--------------|:--------------------------|:------------------|:--------------------------|:---------:|:------|
@@ -1035,7 +1028,7 @@
 
 ### ManagementPolicyVersion
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v20250601     |                    | v20250601/storage |                        |  Status   | Notes |
 |:--------------|:-------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1048,7 +1041,7 @@
 
 ### ManagementPolicyVersion_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v20250601     |                           | v20250601/storage |                           |  Status   | Notes |
 |:--------------|:--------------------------|:------------------|:--------------------------|:---------:|:------|
@@ -1061,7 +1054,7 @@
 
 ### Multichannel
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250601 |       | v20250601/storage |                        |  Status   | Notes |
 |:----------|:------|:------------------|:-----------------------|:---------:|:------|
@@ -1070,7 +1063,7 @@
 
 ### Multichannel_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250601 |       | v20250601/storage |                        |  Status   | Notes |
 |:----------|:------|:------------------|:-----------------------|:---------:|:------|
@@ -1079,7 +1072,7 @@
 
 ### NetworkRuleSet
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v20250601           |                               | v20250601/storage   |                        |  Status   | Notes |
 |:--------------------|:------------------------------|:--------------------|:-----------------------|:---------:|:------|
@@ -1093,7 +1086,7 @@
 
 ### NetworkRuleSet_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v20250601           |                                      | v20250601/storage   |                             |  Status   | Notes |
 |:--------------------|:-------------------------------------|:--------------------|:----------------------------|:---------:|:------|
@@ -1107,7 +1100,7 @@
 
 ### NfsSetting
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250601           |                      | v20250601/storage   |                        |  Status   | Notes |
 |:--------------------|:---------------------|:--------------------|:-----------------------|:---------:|:------|
@@ -1116,7 +1109,7 @@
 
 ### NfsSetting_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250601           |                             | v20250601/storage   |                             |  Status   | Notes |
 |:--------------------|:----------------------------|:--------------------|:----------------------------|:---------:|:------|
@@ -1125,7 +1118,7 @@
 
 ### Placement
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v20250601           |                      | v20250601/storage   |                        |  Status  | Notes |
 |:--------------------|:---------------------|:--------------------|:-----------------------|:--------:|:------|
@@ -1134,7 +1127,7 @@
 
 ### Placement_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v20250601           |                             | v20250601/storage   |                        |  Status  | Notes |
 |:--------------------|:----------------------------|:--------------------|:-----------------------|:--------:|:------|
@@ -1143,7 +1136,7 @@
 
 ### PrivateEndpointConnection_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250601 |         | v20250601/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -1152,7 +1145,7 @@
 
 ### ProtectedAppendWritesHistory_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250601                     |         | v20250601/storage             |                        |  Status   | Notes |
 |:------------------------------|:--------|:------------------------------|:-----------------------|:---------:|:------|
@@ -1162,7 +1155,7 @@
 
 ### ProtocolSettings
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250601 |             | v20250601/storage |                        |  Status   | Notes |
 |:----------|:------------|:------------------|:-----------------------|:---------:|:------|
@@ -1172,7 +1165,7 @@
 
 ### ProtocolSettings_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250601 |                    | v20250601/storage |                        |  Status   | Notes |
 |:----------|:-------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1182,7 +1175,7 @@
 
 ### ResourceAccessRule
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250601         |                               | v20250601/storage |                               |  Status   | Notes |
 |:------------------|:------------------------------|:------------------|:------------------------------|:---------:|:------|
@@ -1192,7 +1185,7 @@
 
 ### ResourceAccessRule_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250601  |         | v20250601/storage |                        |  Status   | Notes |
 |:-----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -1202,17 +1195,17 @@
 
 ### RestorePolicyProperties
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New
 
 | v20250601 |                           | v20250601/storage |                        |  Status   | Notes |
 |:----------|:--------------------------|:------------------|:-----------------------|:---------:|:------|
-| Days      | Validated<*int> (2 rules) | Days              | *int                   | Modified  |       |
+| Days      | Validated<*int> (2 rules) | Days              | *int                   | Identical |       |
 | Enabled   | *bool                     | Enabled           | *bool                  | Identical |       |
 |           |                           | PropertyBag       | genruntime.PropertyBag |    New    |       |
 
 ### RestorePolicyProperties_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20250601       |         | v20250601/storage |                        |  Status   | Notes |
 |:----------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -1224,7 +1217,7 @@
 
 ### RoutingPreference
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250601                 |                | v20250601/storage         |                        |  Status   | Notes |
 |:--------------------------|:---------------|:--------------------------|:-----------------------|:---------:|:------|
@@ -1235,7 +1228,7 @@
 
 ### RoutingPreference_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250601                 |                       | v20250601/storage         |                        |  Status   | Notes |
 |:--------------------------|:----------------------|:--------------------------|:-----------------------|:---------:|:------|
@@ -1246,7 +1239,7 @@
 
 ### SasPolicy
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250601           |                             | v20250601/storage   |                        |  Status   | Notes |
 |:--------------------|:----------------------------|:--------------------|:-----------------------|:---------:|:------|
@@ -1256,7 +1249,7 @@
 
 ### SasPolicy_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250601           |                                    | v20250601/storage   |                        |  Status   | Notes |
 |:--------------------|:-----------------------------------|:--------------------|:-----------------------|:---------:|:------|
@@ -1266,7 +1259,7 @@
 
 ### SignedIdentifier
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250601    |                               | v20250601/storage |                               |  Status   | Notes |
 |:-------------|:------------------------------|:------------------|:------------------------------|:---------:|:------|
@@ -1276,7 +1269,7 @@
 
 ### SignedIdentifier_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250601    |                      | v20250601/storage |                        |  Status   | Notes |
 |:-------------|:---------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1286,7 +1279,7 @@
 
 ### Sku
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v20250601 |          | v20250601/storage |                        |  Status  | Notes |
 |:----------|:---------|:------------------|:-----------------------|:--------:|:------|
@@ -1295,7 +1288,7 @@
 
 ### Sku_STATUS
 
-1 x New, 2 x Modified
+Properties: 1 x New, 2 x Modified
 
 | v20250601 |                 | v20250601/storage |                        |  Status  | Notes |
 |:----------|:----------------|:------------------|:-----------------------|:--------:|:------|
@@ -1305,7 +1298,7 @@
 
 ### SmbOAuthSettings
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250601         |       | v20250601/storage |                        |  Status   | Notes |
 |:------------------|:------|:------------------|:-----------------------|:---------:|:------|
@@ -1314,7 +1307,7 @@
 
 ### SmbOAuthSettings_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250601         |       | v20250601/storage |                        |  Status   | Notes |
 |:------------------|:------|:------------------|:-----------------------|:---------:|:------|
@@ -1323,7 +1316,7 @@
 
 ### SmbSetting
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v20250601                |                      | v20250601/storage        |                        |  Status   | Notes |
 |:-------------------------|:---------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -1337,7 +1330,7 @@
 
 ### SmbSetting_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v20250601                |                             | v20250601/storage        |                             |  Status   | Notes |
 |:-------------------------|:----------------------------|:-------------------------|:----------------------------|:---------:|:------|
@@ -1351,7 +1344,7 @@
 
 ### StorageAccountInternetEndpoints_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20250601 |         | v20250601/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -1363,7 +1356,7 @@
 
 ### StorageAccountIpv6Endpoints_STATUS
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v20250601          |                                          | v20250601/storage  |                                          |  Status   | Notes |
 |:-------------------|:-----------------------------------------|:-------------------|:-----------------------------------------|:---------:|:------|
@@ -1379,7 +1372,7 @@
 
 ### StorageAccountMicrosoftEndpoints_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v20250601 |         | v20250601/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -1393,7 +1386,7 @@
 
 ### StorageAccountOperatorConfigMaps
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v20250601     |                                  | v20250601/storage |                                  |  Status   | Notes |
 |:--------------|:---------------------------------|:------------------|:---------------------------------|:---------:|:------|
@@ -1407,7 +1400,7 @@
 
 ### StorageAccountOperatorSecrets
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v20250601     |                               | v20250601/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:------------------|:------------------------------|:---------:|:------|
@@ -1423,7 +1416,7 @@
 
 ### StorageAccountOperatorSpec
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20250601            |                                   | v20250601/storage    |                                   |  Status   | Notes |
 |:---------------------|:----------------------------------|:---------------------|:----------------------------------|:---------:|:------|
@@ -1435,7 +1428,7 @@
 
 ### StorageAccountSkuConversionStatus_STATUS
 
-2 x Identical, 1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New, 2 x Modified
 
 | v20250601           |                             | v20250601/storage   |                        |  Status   | Notes |
 |:--------------------|:----------------------------|:--------------------|:-----------------------|:---------:|:------|
@@ -1447,7 +1440,7 @@
 
 ### StorageAccount_STATUS
 
-46 x Identical, 1 x New, 10 x Modified
+Properties: 46 x Identical, 1 x New, 10 x Modified
 
 | v20250601                             |                                               | v20250601/storage                     |                                               |  Status   | Notes |
 |:--------------------------------------|:----------------------------------------------|:--------------------------------------|:----------------------------------------------|:---------:|:------|
@@ -1511,7 +1504,7 @@
 
 ### StorageAccount_Spec
 
-29 x Identical, 2 x New, 8 x Modified
+Properties: 29 x Identical, 2 x New, 8 x Modified
 
 | v20250601                             |                                        | v20250601/storage                     |                                        |  Status   | Notes |
 |:--------------------------------------|:---------------------------------------|:--------------------------------------|:---------------------------------------|:---------:|:------|
@@ -1557,7 +1550,7 @@
 
 ### StorageAccountsBlobServiceOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250601            |                               | v20250601/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -1567,7 +1560,7 @@
 
 ### StorageAccountsBlobService_STATUS
 
-15 x Identical, 1 x New
+Properties: 15 x Identical, 1 x New
 
 | v20250601                      |                                      | v20250601/storage              |                                      |  Status   | Notes |
 |:-------------------------------|:-------------------------------------|:-------------------------------|:-------------------------------------|:---------:|:------|
@@ -1590,7 +1583,7 @@
 
 ### StorageAccountsBlobService_Spec
 
-11 x Identical, 2 x New
+Properties: 11 x Identical, 2 x New
 
 | v20250601                      |                                         | v20250601/storage              |                                         |  Status   | Notes |
 |:-------------------------------|:----------------------------------------|:-------------------------------|:----------------------------------------|:---------:|:------|
@@ -1610,7 +1603,7 @@
 
 ### StorageAccountsBlobServicesContainerOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250601            |                               | v20250601/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -1620,7 +1613,7 @@
 
 ### StorageAccountsBlobServicesContainer_STATUS
 
-21 x Identical, 1 x New, 4 x Modified
+Properties: 21 x Identical, 1 x New, 4 x Modified
 
 | v20250601                      |                                        | v20250601/storage              |                                        |  Status   | Notes |
 |:-------------------------------|:---------------------------------------|:-------------------------------|:---------------------------------------|:---------:|:------|
@@ -1653,7 +1646,7 @@
 
 ### StorageAccountsBlobServicesContainer_Spec
 
-8 x Identical, 2 x New, 2 x Modified
+Properties: 8 x Identical, 2 x New, 2 x Modified
 
 | v20250601                      |                                                   | v20250601/storage              |                                                   |  Status   | Notes |
 |:-------------------------------|:--------------------------------------------------|:-------------------------------|:--------------------------------------------------|:---------:|:------|
@@ -1672,7 +1665,7 @@
 
 ### StorageAccountsFileServiceOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250601            |                               | v20250601/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -1682,7 +1675,7 @@
 
 ### StorageAccountsFileService_STATUS
 
-9 x Identical, 1 x New
+Properties: 9 x Identical, 1 x New
 
 | v20250601                  |                               | v20250601/storage          |                               |  Status   | Notes |
 |:---------------------------|:------------------------------|:---------------------------|:------------------------------|:---------:|:------|
@@ -1699,7 +1692,7 @@
 
 ### StorageAccountsFileService_Spec
 
-5 x Identical, 2 x New
+Properties: 5 x Identical, 2 x New
 
 | v20250601                  |                                         | v20250601/storage          |                                         |  Status   | Notes |
 |:---------------------------|:----------------------------------------|:---------------------------|:----------------------------------------|:---------:|:------|
@@ -1713,7 +1706,7 @@
 
 ### StorageAccountsFileServicesShareOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250601            |                               | v20250601/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -1723,7 +1716,7 @@
 
 ### StorageAccountsFileServicesShare_STATUS
 
-26 x Identical, 1 x New, 6 x Modified
+Properties: 26 x Identical, 1 x New, 6 x Modified
 
 | v20250601                                    |                                                  | v20250601/storage                            |                                                  |  Status   | Notes |
 |:---------------------------------------------|:-------------------------------------------------|:---------------------------------------------|:-------------------------------------------------|:---------:|:------|
@@ -1763,7 +1756,7 @@
 
 ### StorageAccountsFileServicesShare_Spec
 
-8 x Identical, 2 x New, 4 x Modified
+Properties: 8 x Identical, 2 x New, 4 x Modified
 
 | v20250601                 |                                               | v20250601/storage         |                                               |  Status   | Notes |
 |:--------------------------|:----------------------------------------------|:--------------------------|:----------------------------------------------|:---------:|:------|
@@ -1784,7 +1777,7 @@
 
 ### StorageAccountsManagementPolicyOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250601            |                               | v20250601/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -1794,7 +1787,7 @@
 
 ### StorageAccountsManagementPolicy_STATUS
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v20250601        |                                | v20250601/storage |                                |  Status   | Notes |
 |:-----------------|:-------------------------------|:------------------|:-------------------------------|:---------:|:------|
@@ -1809,7 +1802,7 @@
 
 ### StorageAccountsManagementPolicy_Spec
 
-3 x Identical, 2 x New
+Properties: 3 x Identical, 2 x New
 
 | v20250601    |                                              | v20250601/storage |                                              |  Status   | Notes |
 |:-------------|:---------------------------------------------|:------------------|:---------------------------------------------|:---------:|:------|
@@ -1821,7 +1814,7 @@
 
 ### StorageAccountsQueueServiceOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250601            |                               | v20250601/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -1831,7 +1824,7 @@
 
 ### StorageAccountsQueueService_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v20250601  |                        | v20250601/storage |                        |  Status   | Notes |
 |:-----------|:-----------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1845,7 +1838,7 @@
 
 ### StorageAccountsQueueService_Spec
 
-3 x Identical, 2 x New
+Properties: 3 x Identical, 2 x New
 
 | v20250601    |                                          | v20250601/storage |                                          |  Status   | Notes |
 |:-------------|:-----------------------------------------|:------------------|:-----------------------------------------|:---------:|:------|
@@ -1857,7 +1850,7 @@
 
 ### StorageAccountsQueueServicesQueueOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250601            |                               | v20250601/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -1867,7 +1860,7 @@
 
 ### StorageAccountsQueueServicesQueue_STATUS
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v20250601               |                        | v20250601/storage       |                        |  Status   | Notes |
 |:------------------------|:-----------------------|:------------------------|:-----------------------|:---------:|:------|
@@ -1882,7 +1875,7 @@
 
 ### StorageAccountsQueueServicesQueue_Spec
 
-3 x Identical, 2 x New, 1 x Modified
+Properties: 3 x Identical, 2 x New, 1 x Modified
 
 | v20250601    |                                                | v20250601/storage |                                                |  Status   | Notes |
 |:-------------|:-----------------------------------------------|:------------------|:-----------------------------------------------|:---------:|:------|
@@ -1895,7 +1888,7 @@
 
 ### StorageAccountsTableServiceOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250601            |                               | v20250601/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -1905,7 +1898,7 @@
 
 ### StorageAccountsTableService_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v20250601  |                        | v20250601/storage |                        |  Status   | Notes |
 |:-----------|:-----------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1919,7 +1912,7 @@
 
 ### StorageAccountsTableService_Spec
 
-3 x Identical, 2 x New
+Properties: 3 x Identical, 2 x New
 
 | v20250601    |                                          | v20250601/storage |                                          |  Status   | Notes |
 |:-------------|:-----------------------------------------|:------------------|:-----------------------------------------|:---------:|:------|
@@ -1931,7 +1924,7 @@
 
 ### StorageAccountsTableServicesTableOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250601            |                               | v20250601/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -1941,7 +1934,7 @@
 
 ### StorageAccountsTableServicesTable_STATUS
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v20250601         |                                | v20250601/storage |                                |  Status   | Notes |
 |:------------------|:-------------------------------|:------------------|:-------------------------------|:---------:|:------|
@@ -1956,7 +1949,7 @@
 
 ### StorageAccountsTableServicesTable_Spec
 
-3 x Identical, 2 x New, 1 x Modified
+Properties: 3 x Identical, 2 x New, 1 x Modified
 
 | v20250601         |                                                | v20250601/storage |                                                |  Status   | Notes |
 |:------------------|:-----------------------------------------------|:------------------|:-----------------------------------------------|:---------:|:------|
@@ -1969,7 +1962,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v20250601          |                                       | v20250601/storage  |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:-------------------|:-----------------------|:---------:|:------|
@@ -1983,7 +1976,7 @@
 
 ### TableAccessPolicy
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250601  |         | v20250601/storage |                        |  Status   | Notes |
 |:-----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -1994,7 +1987,7 @@
 
 ### TableAccessPolicy_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250601  |         | v20250601/storage |                        |  Status   | Notes |
 |:-----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -2005,7 +1998,7 @@
 
 ### TableSignedIdentifier
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250601    |                               | v20250601/storage |                               |  Status   | Notes |
 |:-------------|:------------------------------|:------------------|:------------------------------|:---------:|:------|
@@ -2015,7 +2008,7 @@
 
 ### TableSignedIdentifier_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250601    |                           | v20250601/storage |                           |  Status   | Notes |
 |:-------------|:--------------------------|:------------------|:--------------------------|:---------:|:------|
@@ -2025,18 +2018,18 @@
 
 ### TagFilter
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 3 x Identical, 1 x New
 
 | v20250601 |                              | v20250601/storage |                        |  Status   | Notes |
 |:----------|:-----------------------------|:------------------|:-----------------------|:---------:|:------|
-| Name      | Validated<*string> (2 rules) | Name              | *string                | Modified  |       |
+| Name      | Validated<*string> (2 rules) | Name              | *string                | Identical |       |
 | Op        | *string                      | Op                | *string                | Identical |       |
 |           |                              | PropertyBag       | genruntime.PropertyBag |    New    |       |
-| Value     | Validated<*string> (2 rules) | Value             | *string                | Modified  |       |
+| Value     | Validated<*string> (2 rules) | Value             | *string                | Identical |       |
 
 ### TagFilter_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250601 |         | v20250601/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -2047,7 +2040,7 @@
 
 ### TagProperty_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v20250601        |         | v20250601/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -2060,7 +2053,7 @@
 
 ### UpdateHistoryProperty_STATUS
 
-7 x Identical, 1 x New, 1 x Modified
+Properties: 7 x Identical, 1 x New, 1 x Modified
 
 | v20250601                             |                                      | v20250601/storage                     |                        |  Status   | Notes |
 |:--------------------------------------|:-------------------------------------|:--------------------------------------|:-----------------------|:---------:|:------|
@@ -2076,7 +2069,7 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250601 |                              | v20250601/storage |                              |  Status   | Notes |
 |:----------|:-----------------------------|:------------------|:-----------------------------|:---------:|:------|
@@ -2085,7 +2078,7 @@
 
 ### UserAssignedIdentity_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250601   |         | v20250601/storage |                        |  Status   | Notes |
 |:------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -2095,7 +2088,7 @@
 
 ### VirtualNetworkRule
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v20250601 |                               | v20250601/storage |                               |  Status   | Notes |
 |:----------|:------------------------------|:------------------|:------------------------------|:---------:|:------|
@@ -2106,7 +2099,7 @@
 
 ### VirtualNetworkRule_STATUS
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v20250601 |                                   | v20250601/storage |                        |  Status   | Notes |
 |:----------|:----------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -2114,3 +2107,12 @@
 | Id        | *string                           | Id                | *string                | Identical |       |
 |           |                                   | PropertyBag       | genruntime.PropertyBag |    New    |       |
 | State     | *State_STATUS                     | State             | *string                | Modified  |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

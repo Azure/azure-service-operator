@@ -6,33 +6,26 @@
 |:---------------------|:-----------------------------|:---------:|:------|
 | DiagnosticSetting    | DiagnosticSetting            | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20210501preview                  | v1api20210501preview/storage          |  Status  | Notes |
-|:--------------------------------------|:--------------------------------------|:--------:|:------|
-| DiagnosticSettingOperatorSpec         | DiagnosticSettingOperatorSpec         | Extended |       |
-| DiagnosticSetting_STATUS              | DiagnosticSetting_STATUS              | Extended |       |
-| DiagnosticSetting_Spec                | DiagnosticSetting_Spec                | Extended |       |
-| DiagnosticsLogSettings                | DiagnosticsLogSettings                | Extended |       |
-| DiagnosticsLogSettings_STATUS         | DiagnosticsLogSettings_STATUS         | Extended |       |
-| DiagnosticsMetricSettings             | DiagnosticsMetricSettings             | Extended |       |
-| DiagnosticsMetricSettings_STATUS      | DiagnosticsMetricSettings_STATUS      | Extended |       |
-| MicrosoftCommonRetentionPolicy        | MicrosoftCommonRetentionPolicy        | Modified |       |
-| MicrosoftCommonRetentionPolicy_STATUS | MicrosoftCommonRetentionPolicy_STATUS | Extended |       |
-| SystemData_STATUS                     | SystemData_STATUS                     | Modified |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20210501preview                  | v1api20210501preview/storage          |  Status  | Notes                         |
+|:--------------------------------------|:--------------------------------------|:--------:|:------------------------------|
+| DiagnosticSettingOperatorSpec         | DiagnosticSettingOperatorSpec         | Extended | +PropertyBag                  |
+| DiagnosticSetting_STATUS              | DiagnosticSetting_STATUS              | Extended | +PropertyBag                  |
+| DiagnosticSetting_Spec                | DiagnosticSetting_Spec                | Extended | +OriginalVersion +PropertyBag |
+| DiagnosticsLogSettings                | DiagnosticsLogSettings                | Extended | +PropertyBag                  |
+| DiagnosticsLogSettings_STATUS         | DiagnosticsLogSettings_STATUS         | Extended | +PropertyBag                  |
+| DiagnosticsMetricSettings             | DiagnosticsMetricSettings             | Extended | +PropertyBag                  |
+| DiagnosticsMetricSettings_STATUS      | DiagnosticsMetricSettings_STATUS      | Extended | +PropertyBag                  |
+| MicrosoftCommonRetentionPolicy        | MicrosoftCommonRetentionPolicy        | Extended | +PropertyBag                  |
+| MicrosoftCommonRetentionPolicy_STATUS | MicrosoftCommonRetentionPolicy_STATUS | Extended | +PropertyBag                  |
+| SystemData_STATUS                     | SystemData_STATUS                     | Modified |                               |
 
 ### DiagnosticSettingOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210501preview |                               | v1api20210501preview/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:-----------------------------|:------------------------------|:---------:|:------|
@@ -42,7 +35,7 @@
 
 ### DiagnosticSetting_STATUS
 
-14 x Identical, 1 x New
+Properties: 14 x Identical, 1 x New
 
 | v1api20210501preview        |                                    | v1api20210501preview/storage |                                    |  Status   | Notes |
 |:----------------------------|:-----------------------------------|:-----------------------------|:-----------------------------------|:---------:|:------|
@@ -64,7 +57,7 @@
 
 ### DiagnosticSetting_Spec
 
-12 x Identical, 2 x New
+Properties: 12 x Identical, 2 x New
 
 | v1api20210501preview               |                                     | v1api20210501preview/storage       |                                     |  Status   | Notes |
 |:-----------------------------------|:------------------------------------|:-----------------------------------|:------------------------------------|:---------:|:------|
@@ -85,7 +78,7 @@
 
 ### DiagnosticsLogSettings
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20210501preview |                                 | v1api20210501preview/storage |                                 |  Status   | Notes |
 |:---------------------|:--------------------------------|:-----------------------------|:--------------------------------|:---------:|:------|
@@ -97,7 +90,7 @@
 
 ### DiagnosticsLogSettings_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20210501preview |                                        | v1api20210501preview/storage |                                        |  Status   | Notes |
 |:---------------------|:---------------------------------------|:-----------------------------|:---------------------------------------|:---------:|:------|
@@ -109,7 +102,7 @@
 
 ### DiagnosticsMetricSettings
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20210501preview |                                 | v1api20210501preview/storage |                                 |  Status   | Notes |
 |:---------------------|:--------------------------------|:-----------------------------|:--------------------------------|:---------:|:------|
@@ -121,7 +114,7 @@
 
 ### DiagnosticsMetricSettings_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20210501preview |                                        | v1api20210501preview/storage |                                        |  Status   | Notes |
 |:---------------------|:---------------------------------------|:-----------------------------|:---------------------------------------|:---------:|:------|
@@ -133,17 +126,17 @@
 
 ### MicrosoftCommonRetentionPolicy
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New
 
 | v1api20210501preview |                          | v1api20210501preview/storage |                        |  Status   | Notes |
 |:---------------------|:-------------------------|:-----------------------------|:-----------------------|:---------:|:------|
-| Days                 | Validated<*int> (1 rule) | Days                         | *int                   | Modified  |       |
+| Days                 | Validated<*int> (1 rule) | Days                         | *int                   | Identical |       |
 | Enabled              | *bool                    | Enabled                      | *bool                  | Identical |       |
 |                      |                          | PropertyBag                  | genruntime.PropertyBag |    New    |       |
 
 ### MicrosoftCommonRetentionPolicy_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210501preview |       | v1api20210501preview/storage |                        |  Status   | Notes |
 |:---------------------|:------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -153,7 +146,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20210501preview |                                       | v1api20210501preview/storage |                        |  Status   | Notes |
 |:---------------------|:--------------------------------------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -164,3 +157,12 @@
 | LastModifiedBy       | *string                               | LastModifiedBy               | *string                | Identical |       |
 | LastModifiedByType   | *SystemData_LastModifiedByType_STATUS | LastModifiedByType           | *string                | Modified  |       |
 |                      |                                       | PropertyBag                  | genruntime.PropertyBag |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

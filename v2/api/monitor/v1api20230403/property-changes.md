@@ -6,30 +6,23 @@
 |:--------------|:----------------------|:---------:|:------|
 | Account       | Account               | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20230403                    | v1api20230403/storage            |  Status  | Notes |
-|:---------------------------------|:---------------------------------|:--------:|:------|
-| AccountOperatorSpec              | AccountOperatorSpec              | Extended |       |
-| Account_STATUS                   | Account_STATUS                   | Modified |       |
-| Account_Spec                     | Account_Spec                     | Modified |       |
-| IngestionSettings_STATUS         | IngestionSettings_STATUS         | Extended |       |
-| Metrics_STATUS                   | Metrics_STATUS                   | Extended |       |
-| PrivateEndpointConnection_STATUS | PrivateEndpointConnection_STATUS | Extended |       |
-| SystemData_STATUS                | SystemData_STATUS                | Modified |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20230403                    | v1api20230403/storage            |  Status  | Notes        |
+|:---------------------------------|:---------------------------------|:--------:|:-------------|
+| AccountOperatorSpec              | AccountOperatorSpec              | Extended | +PropertyBag |
+| Account_STATUS                   | Account_STATUS                   | Modified |              |
+| Account_Spec                     | Account_Spec                     | Modified |              |
+| IngestionSettings_STATUS         | IngestionSettings_STATUS         | Extended | +PropertyBag |
+| Metrics_STATUS                   | Metrics_STATUS                   | Extended | +PropertyBag |
+| PrivateEndpointConnection_STATUS | PrivateEndpointConnection_STATUS | Extended | +PropertyBag |
+| SystemData_STATUS                | SystemData_STATUS                | Modified |              |
 
 ### AccountOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20230403        |                               | v1api20230403/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -39,7 +32,7 @@
 
 ### Account_STATUS
 
-12 x Identical, 1 x New, 2 x Modified
+Properties: 12 x Identical, 1 x New, 2 x Modified
 
 | v1api20230403              |                                                   | v1api20230403/storage      |                                    |  Status   | Notes |
 |:---------------------------|:--------------------------------------------------|:---------------------------|:-----------------------------------|:---------:|:------|
@@ -61,7 +54,7 @@
 
 ### Account_Spec
 
-5 x Identical, 2 x New, 1 x Modified
+Properties: 5 x Identical, 2 x New, 1 x Modified
 
 | v1api20230403       |                                            | v1api20230403/storage |                                    |  Status   | Notes |
 |:--------------------|:-------------------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -76,7 +69,7 @@
 
 ### IngestionSettings_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20230403                    |         | v1api20230403/storage            |                        |  Status   | Notes |
 |:---------------------------------|:--------|:---------------------------------|:-----------------------|:---------:|:------|
@@ -86,7 +79,7 @@
 
 ### Metrics_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20230403           |         | v1api20230403/storage   |                        |  Status   | Notes |
 |:------------------------|:--------|:------------------------|:-----------------------|:---------:|:------|
@@ -96,7 +89,7 @@
 
 ### PrivateEndpointConnection_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230403 |         | v1api20230403/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -105,7 +98,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20230403      |                                       | v1api20230403/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -116,3 +109,12 @@
 | LastModifiedBy     | *string                               | LastModifiedBy        | *string                | Identical |       |
 | LastModifiedByType | *SystemData_LastModifiedByType_STATUS | LastModifiedByType    | *string                | Modified  |       |
 |                    |                                       | PropertyBag           | genruntime.PropertyBag |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

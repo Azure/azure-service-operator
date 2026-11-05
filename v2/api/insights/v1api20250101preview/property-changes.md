@@ -6,43 +6,36 @@
 |:---------------------|:-----------------------------|:---------:|:------|
 | ScheduledQueryRule   | ScheduledQueryRule           | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20250101preview                         | v1api20250101preview/storage                 |  Status  | Notes |
-|:---------------------------------------------|:---------------------------------------------|:--------:|:------|
-| Actions                                      | Actions                                      | Extended |       |
-| Actions_STATUS                               | Actions_STATUS                               | Extended |       |
-| Condition                                    | Condition                                    | Modified |       |
-| ConditionFailingPeriods                      | ConditionFailingPeriods                      | Extended |       |
-| ConditionFailingPeriods_STATUS               | ConditionFailingPeriods_STATUS               | Extended |       |
-| Condition_STATUS                             | Condition_STATUS                             | Modified |       |
-| Dimension                                    | Dimension                                    | Modified |       |
-| Dimension_STATUS                             | Dimension_STATUS                             | Modified |       |
-| MicrosoftCommonIdentity                      | MicrosoftCommonIdentity                      | Modified |       |
-| MicrosoftCommonIdentity_STATUS               | MicrosoftCommonIdentity_STATUS               | Modified |       |
-| MicrosoftCommonUserIdentityProperties_STATUS | MicrosoftCommonUserIdentityProperties_STATUS | Extended |       |
-| RuleResolveConfiguration                     | RuleResolveConfiguration                     | Extended |       |
-| RuleResolveConfiguration_STATUS              | RuleResolveConfiguration_STATUS              | Extended |       |
-| ScheduledQueryRuleCriteria                   | ScheduledQueryRuleCriteria                   | Extended |       |
-| ScheduledQueryRuleCriteria_STATUS            | ScheduledQueryRuleCriteria_STATUS            | Extended |       |
-| ScheduledQueryRuleOperatorSpec               | ScheduledQueryRuleOperatorSpec               | Extended |       |
-| ScheduledQueryRule_STATUS                    | ScheduledQueryRule_STATUS                    | Modified |       |
-| ScheduledQueryRule_Spec                      | ScheduledQueryRule_Spec                      | Modified |       |
-| SystemData_STATUS                            | SystemData_STATUS                            | Modified |       |
-| UserAssignedIdentityDetails                  | UserAssignedIdentityDetails                  | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20250101preview                         | v1api20250101preview/storage                 |  Status  | Notes        |
+|:---------------------------------------------|:---------------------------------------------|:--------:|:-------------|
+| Actions                                      | Actions                                      | Extended | +PropertyBag |
+| Actions_STATUS                               | Actions_STATUS                               | Extended | +PropertyBag |
+| Condition                                    | Condition                                    | Modified |              |
+| ConditionFailingPeriods                      | ConditionFailingPeriods                      | Extended | +PropertyBag |
+| ConditionFailingPeriods_STATUS               | ConditionFailingPeriods_STATUS               | Extended | +PropertyBag |
+| Condition_STATUS                             | Condition_STATUS                             | Modified |              |
+| Dimension                                    | Dimension                                    | Modified |              |
+| Dimension_STATUS                             | Dimension_STATUS                             | Modified |              |
+| MicrosoftCommonIdentity                      | MicrosoftCommonIdentity                      | Modified |              |
+| MicrosoftCommonIdentity_STATUS               | MicrosoftCommonIdentity_STATUS               | Modified |              |
+| MicrosoftCommonUserIdentityProperties_STATUS | MicrosoftCommonUserIdentityProperties_STATUS | Extended | +PropertyBag |
+| RuleResolveConfiguration                     | RuleResolveConfiguration                     | Extended | +PropertyBag |
+| RuleResolveConfiguration_STATUS              | RuleResolveConfiguration_STATUS              | Extended | +PropertyBag |
+| ScheduledQueryRuleCriteria                   | ScheduledQueryRuleCriteria                   | Extended | +PropertyBag |
+| ScheduledQueryRuleCriteria_STATUS            | ScheduledQueryRuleCriteria_STATUS            | Extended | +PropertyBag |
+| ScheduledQueryRuleOperatorSpec               | ScheduledQueryRuleOperatorSpec               | Extended | +PropertyBag |
+| ScheduledQueryRule_STATUS                    | ScheduledQueryRule_STATUS                    | Modified |              |
+| ScheduledQueryRule_Spec                      | ScheduledQueryRule_Spec                      | Modified |              |
+| SystemData_STATUS                            | SystemData_STATUS                            | Modified |              |
+| UserAssignedIdentityDetails                  | UserAssignedIdentityDetails                  | Extended | +PropertyBag |
 
 ### Actions
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101preview   |                                | v1api20250101preview/storage |                                |  Status   | Notes |
 |:-----------------------|:-------------------------------|:-----------------------------|:-------------------------------|:---------:|:------|
@@ -53,7 +46,7 @@
 
 ### Actions_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101preview |                   | v1api20250101preview/storage |                        |  Status   | Notes |
 |:---------------------|:------------------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -64,7 +57,7 @@
 
 ### Condition
 
-10 x Identical, 1 x New, 3 x Modified
+Properties: 10 x Identical, 1 x New, 3 x Modified
 
 | v1api20250101preview      |                               | v1api20250101preview/storage |                               |  Status   | Notes |
 |:--------------------------|:------------------------------|:-----------------------------|:------------------------------|:---------:|:------|
@@ -85,7 +78,7 @@
 
 ### ConditionFailingPeriods
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101preview      |      | v1api20250101preview/storage |                        |  Status   | Notes |
 |:--------------------------|:-----|:-----------------------------|:-----------------------|:---------:|:------|
@@ -95,7 +88,7 @@
 
 ### ConditionFailingPeriods_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101preview      |      | v1api20250101preview/storage |                        |  Status   | Notes |
 |:--------------------------|:-----|:-----------------------------|:-----------------------|:---------:|:------|
@@ -105,7 +98,7 @@
 
 ### Condition_STATUS
 
-10 x Identical, 1 x New, 3 x Modified
+Properties: 10 x Identical, 1 x New, 3 x Modified
 
 | v1api20250101preview |                                      | v1api20250101preview/storage |                                 |  Status   | Notes |
 |:---------------------|:-------------------------------------|:-----------------------------|:--------------------------------|:---------:|:------|
@@ -126,7 +119,7 @@
 
 ### Dimension
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101preview |                    | v1api20250101preview/storage |                        |  Status   | Notes |
 |:---------------------|:-------------------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -137,7 +130,7 @@
 
 ### Dimension_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101preview |                           | v1api20250101preview/storage |                        |  Status   | Notes |
 |:---------------------|:--------------------------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -148,7 +141,7 @@
 
 ### MicrosoftCommonIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101preview   |                               | v1api20250101preview/storage |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------------|:------------------------------|:---------:|:------|
@@ -158,7 +151,7 @@
 
 ### MicrosoftCommonIdentity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101preview   |                                                         | v1api20250101preview/storage |                                                         |  Status   | Notes |
 |:-----------------------|:--------------------------------------------------------|:-----------------------------|:--------------------------------------------------------|:---------:|:------|
@@ -170,7 +163,7 @@
 
 ### MicrosoftCommonUserIdentityProperties_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101preview |         | v1api20250101preview/storage |                        |  Status   | Notes |
 |:---------------------|:--------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -180,7 +173,7 @@
 
 ### RuleResolveConfiguration
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101preview |         | v1api20250101preview/storage |                        |  Status   | Notes |
 |:---------------------|:--------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -190,7 +183,7 @@
 
 ### RuleResolveConfiguration_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101preview |         | v1api20250101preview/storage |                        |  Status   | Notes |
 |:---------------------|:--------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -200,7 +193,7 @@
 
 ### ScheduledQueryRuleCriteria
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250101preview |             | v1api20250101preview/storage |                        |  Status   | Notes |
 |:---------------------|:------------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -209,7 +202,7 @@
 
 ### ScheduledQueryRuleCriteria_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250101preview |                    | v1api20250101preview/storage |                        |  Status   | Notes |
 |:---------------------|:-------------------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -218,7 +211,7 @@
 
 ### ScheduledQueryRuleOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101preview |                               | v1api20250101preview/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:-----------------------------|:------------------------------|:---------:|:------|
@@ -228,7 +221,7 @@
 
 ### ScheduledQueryRule_STATUS
 
-27 x Identical, 1 x New, 2 x Modified
+Properties: 27 x Identical, 1 x New, 2 x Modified
 
 | v1api20250101preview                  |                                    | v1api20250101preview/storage          |                                    |  Status   | Notes |
 |:--------------------------------------|:-----------------------------------|:--------------------------------------|:-----------------------------------|:---------:|:------|
@@ -265,7 +258,7 @@
 
 ### ScheduledQueryRule_Spec
 
-20 x Identical, 2 x New, 3 x Modified
+Properties: 20 x Identical, 2 x New, 3 x Modified
 
 | v1api20250101preview                  |                                    | v1api20250101preview/storage          |                                    |  Status   | Notes |
 |:--------------------------------------|:-----------------------------------|:--------------------------------------|:-----------------------------------|:---------:|:------|
@@ -297,7 +290,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20250101preview |                                       | v1api20250101preview/storage |                        |  Status   | Notes |
 |:---------------------|:--------------------------------------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -311,9 +304,18 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250101preview |                              | v1api20250101preview/storage |                              |  Status   | Notes |
 |:---------------------|:-----------------------------|:-----------------------------|:-----------------------------|:---------:|:------|
 |                      |                              | PropertyBag                  | genruntime.PropertyBag       |    New    |       |
 | Reference            | genruntime.ResourceReference | Reference                    | genruntime.ResourceReference | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

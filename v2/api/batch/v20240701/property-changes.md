@@ -6,49 +6,42 @@
 |:-------------|:------------------|:---------:|:------|
 | BatchAccount | BatchAccount      | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20240701                            | v20240701/storage                    |  Status  | Notes |
-|:-------------------------------------|:-------------------------------------|:--------:|:------|
-| AutoStorageBaseProperties            | AutoStorageBaseProperties            | Modified |       |
-| AutoStorageProperties_STATUS         | AutoStorageProperties_STATUS         | Modified |       |
-| BatchAccountIdentity                 | BatchAccountIdentity                 | Modified |       |
-| BatchAccountIdentity_STATUS          | BatchAccountIdentity_STATUS          | Modified |       |
-| BatchAccountOperatorSpec             | BatchAccountOperatorSpec             | Extended |       |
-| BatchAccount_STATUS                  | BatchAccount_STATUS                  | Modified |       |
-| BatchAccount_Spec                    | BatchAccount_Spec                    | Modified |       |
-| ComputeNodeIdentityReference         | ComputeNodeIdentityReference         | Extended |       |
-| ComputeNodeIdentityReference_STATUS  | ComputeNodeIdentityReference_STATUS  | Extended |       |
-| EncryptionProperties                 | EncryptionProperties                 | Modified |       |
-| EncryptionProperties_STATUS          | EncryptionProperties_STATUS          | Modified |       |
-| EndpointAccessProfile                | EndpointAccessProfile                | Modified |       |
-| EndpointAccessProfile_STATUS         | EndpointAccessProfile_STATUS         | Modified |       |
-| IPRule                               | IPRule                               | Modified |       |
-| IPRule_STATUS                        | IPRule_STATUS                        | Modified |       |
-| KeyVaultProperties                   | KeyVaultProperties                   | Extended |       |
-| KeyVaultProperties_STATUS            | KeyVaultProperties_STATUS            | Extended |       |
-| KeyVaultReference                    | KeyVaultReference                    | Extended |       |
-| KeyVaultReference_STATUS             | KeyVaultReference_STATUS             | Extended |       |
-| NetworkProfile                       | NetworkProfile                       | Extended |       |
-| NetworkProfile_STATUS                | NetworkProfile_STATUS                | Extended |       |
-| PrivateEndpointConnection_STATUS     | PrivateEndpointConnection_STATUS     | Extended |       |
-| SystemData_STATUS                    | SystemData_STATUS                    | Modified |       |
-| UserAssignedIdentities_STATUS        | UserAssignedIdentities_STATUS        | Extended |       |
-| UserAssignedIdentityDetails          | UserAssignedIdentityDetails          | Extended |       |
-| VirtualMachineFamilyCoreQuota_STATUS | VirtualMachineFamilyCoreQuota_STATUS | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20240701                            | v20240701/storage                    |  Status  | Notes        |
+|:-------------------------------------|:-------------------------------------|:--------:|:-------------|
+| AutoStorageBaseProperties            | AutoStorageBaseProperties            | Modified |              |
+| AutoStorageProperties_STATUS         | AutoStorageProperties_STATUS         | Modified |              |
+| BatchAccountIdentity                 | BatchAccountIdentity                 | Modified |              |
+| BatchAccountIdentity_STATUS          | BatchAccountIdentity_STATUS          | Modified |              |
+| BatchAccountOperatorSpec             | BatchAccountOperatorSpec             | Extended | +PropertyBag |
+| BatchAccount_STATUS                  | BatchAccount_STATUS                  | Modified |              |
+| BatchAccount_Spec                    | BatchAccount_Spec                    | Modified |              |
+| ComputeNodeIdentityReference         | ComputeNodeIdentityReference         | Extended | +PropertyBag |
+| ComputeNodeIdentityReference_STATUS  | ComputeNodeIdentityReference_STATUS  | Extended | +PropertyBag |
+| EncryptionProperties                 | EncryptionProperties                 | Modified |              |
+| EncryptionProperties_STATUS          | EncryptionProperties_STATUS          | Modified |              |
+| EndpointAccessProfile                | EndpointAccessProfile                | Modified |              |
+| EndpointAccessProfile_STATUS         | EndpointAccessProfile_STATUS         | Modified |              |
+| IPRule                               | IPRule                               | Modified |              |
+| IPRule_STATUS                        | IPRule_STATUS                        | Modified |              |
+| KeyVaultProperties                   | KeyVaultProperties                   | Extended | +PropertyBag |
+| KeyVaultProperties_STATUS            | KeyVaultProperties_STATUS            | Extended | +PropertyBag |
+| KeyVaultReference                    | KeyVaultReference                    | Extended | +PropertyBag |
+| KeyVaultReference_STATUS             | KeyVaultReference_STATUS             | Extended | +PropertyBag |
+| NetworkProfile                       | NetworkProfile                       | Extended | +PropertyBag |
+| NetworkProfile_STATUS                | NetworkProfile_STATUS                | Extended | +PropertyBag |
+| PrivateEndpointConnection_STATUS     | PrivateEndpointConnection_STATUS     | Extended | +PropertyBag |
+| SystemData_STATUS                    | SystemData_STATUS                    | Modified |              |
+| UserAssignedIdentities_STATUS        | UserAssignedIdentities_STATUS        | Extended | +PropertyBag |
+| UserAssignedIdentityDetails          | UserAssignedIdentityDetails          | Extended | +PropertyBag |
+| VirtualMachineFamilyCoreQuota_STATUS | VirtualMachineFamilyCoreQuota_STATUS | Extended | +PropertyBag |
 
 ### AutoStorageBaseProperties
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20240701               |                                               | v20240701/storage       |                               |  Status   | Notes |
 |:------------------------|:----------------------------------------------|:------------------------|:------------------------------|:---------:|:------|
@@ -59,7 +52,7 @@
 
 ### AutoStorageProperties_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v20240701             |                                                  | v20240701/storage     |                                      |  Status   | Notes |
 |:----------------------|:-------------------------------------------------|:----------------------|:-------------------------------------|:---------:|:------|
@@ -71,7 +64,7 @@
 
 ### BatchAccountIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20240701              |                               | v20240701/storage      |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -81,7 +74,7 @@
 
 ### BatchAccountIdentity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v20240701              |                                          | v20240701/storage      |                                          |  Status   | Notes |
 |:-----------------------|:-----------------------------------------|:-----------------------|:-----------------------------------------|:---------:|:------|
@@ -93,7 +86,7 @@
 
 ### BatchAccountOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20240701            |                               | v20240701/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -103,7 +96,7 @@
 
 ### BatchAccount_STATUS
 
-21 x Identical, 1 x New, 4 x Modified
+Properties: 21 x Identical, 1 x New, 4 x Modified
 
 | v20240701                             |                                                    | v20240701/storage                     |                                        |  Status   | Notes |
 |:--------------------------------------|:---------------------------------------------------|:--------------------------------------|:---------------------------------------|:---------:|:------|
@@ -136,7 +129,7 @@
 
 ### BatchAccount_Spec
 
-9 x Identical, 2 x New, 4 x Modified
+Properties: 9 x Identical, 2 x New, 4 x Modified
 
 | v20240701                  |                                                   | v20240701/storage          |                                    |  Status   | Notes |
 |:---------------------------|:--------------------------------------------------|:---------------------------|:-----------------------------------|:---------:|:------|
@@ -158,7 +151,7 @@
 
 ### ComputeNodeIdentityReference
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20240701         |                               | v20240701/storage |                               |  Status   | Notes |
 |:------------------|:------------------------------|:------------------|:------------------------------|:---------:|:------|
@@ -167,7 +160,7 @@
 
 ### ComputeNodeIdentityReference_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20240701  |         | v20240701/storage |                        |  Status   | Notes |
 |:-----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -176,7 +169,7 @@
 
 ### EncryptionProperties
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20240701          |                     | v20240701/storage  |                        |  Status   | Notes |
 |:-------------------|:--------------------|:-------------------|:-----------------------|:---------:|:------|
@@ -186,7 +179,7 @@
 
 ### EncryptionProperties_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20240701          |                            | v20240701/storage  |                            |  Status   | Notes |
 |:-------------------|:---------------------------|:-------------------|:---------------------------|:---------:|:------|
@@ -196,7 +189,7 @@
 
 ### EndpointAccessProfile
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20240701     |                              | v20240701/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -206,7 +199,7 @@
 
 ### EndpointAccessProfile_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20240701     |                                     | v20240701/storage |                        |  Status   | Notes |
 |:--------------|:------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -216,7 +209,7 @@
 
 ### IPRule
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20240701 |               | v20240701/storage |                        |  Status   | Notes |
 |:----------|:--------------|:------------------|:-----------------------|:---------:|:------|
@@ -226,7 +219,7 @@
 
 ### IPRule_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20240701 |                      | v20240701/storage |                        |  Status   | Notes |
 |:----------|:---------------------|:------------------|:-----------------------|:---------:|:------|
@@ -236,7 +229,7 @@
 
 ### KeyVaultProperties
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20240701     |         | v20240701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -245,7 +238,7 @@
 
 ### KeyVaultProperties_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20240701     |         | v20240701/storage |                        |  Status   | Notes |
 |:--------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -254,7 +247,7 @@
 
 ### KeyVaultReference
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20240701 |                               | v20240701/storage |                               |  Status   | Notes |
 |:----------|:------------------------------|:------------------|:------------------------------|:---------:|:------|
@@ -264,7 +257,7 @@
 
 ### KeyVaultReference_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20240701 |         | v20240701/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -274,7 +267,7 @@
 
 ### NetworkProfile
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20240701            |                        | v20240701/storage    |                        |  Status   | Notes |
 |:---------------------|:-----------------------|:---------------------|:-----------------------|:---------:|:------|
@@ -284,7 +277,7 @@
 
 ### NetworkProfile_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20240701            |                               | v20240701/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -294,7 +287,7 @@
 
 ### PrivateEndpointConnection_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20240701 |         | v20240701/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -303,7 +296,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v20240701          |                                       | v20240701/storage  |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:-------------------|:-----------------------|:---------:|:------|
@@ -317,7 +310,7 @@
 
 ### UserAssignedIdentities_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20240701   |         | v20240701/storage |                        |  Status   | Notes |
 |:------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -327,7 +320,7 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20240701 |                              | v20240701/storage |                              |  Status   | Notes |
 |:----------|:-----------------------------|:------------------|:-----------------------------|:---------:|:------|
@@ -336,10 +329,19 @@
 
 ### VirtualMachineFamilyCoreQuota_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20240701 |         | v20240701/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
 | CoreQuota | *int    | CoreQuota         | *int                   | Identical |       |
 | Name      | *string | Name              | *string                | Identical |       |
 |           |         | PropertyBag       | genruntime.PropertyBag |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

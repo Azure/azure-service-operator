@@ -6,28 +6,21 @@
 |:--------------|:----------------------|:---------:|:------|
 | Component     | Component             | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20200202                    | v1api20200202/storage            |  Status  | Notes |
-|:---------------------------------|:---------------------------------|:--------:|:------|
-| ComponentOperatorConfigMaps      | ComponentOperatorConfigMaps      | Extended |       |
-| ComponentOperatorSpec            | ComponentOperatorSpec            | Extended |       |
-| Component_STATUS                 | Component_STATUS                 | Modified |       |
-| Component_Spec                   | Component_Spec                   | Modified |       |
-| PrivateLinkScopedResource_STATUS | PrivateLinkScopedResource_STATUS | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20200202                    | v1api20200202/storage            |  Status  | Notes        |
+|:---------------------------------|:---------------------------------|:--------:|:-------------|
+| ComponentOperatorConfigMaps      | ComponentOperatorConfigMaps      | Extended | +PropertyBag |
+| ComponentOperatorSpec            | ComponentOperatorSpec            | Extended | +PropertyBag |
+| Component_STATUS                 | Component_STATUS                 | Modified |              |
+| Component_Spec                   | Component_Spec                   | Modified |              |
+| PrivateLinkScopedResource_STATUS | PrivateLinkScopedResource_STATUS | Extended | +PropertyBag |
 
 ### ComponentOperatorConfigMaps
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20200202      |                                  | v1api20200202/storage |                                  |  Status   | Notes |
 |:-------------------|:---------------------------------|:----------------------|:---------------------------------|:---------:|:------|
@@ -37,7 +30,7 @@
 
 ### ComponentOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20200202        |                               | v1api20200202/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -48,7 +41,7 @@
 
 ### Component_STATUS
 
-27 x Identical, 1 x New, 6 x Modified
+Properties: 27 x Identical, 1 x New, 6 x Modified
 
 | v1api20200202                   |                                                                                | v1api20200202/storage           |                                    |  Status   | Notes |
 |:--------------------------------|:-------------------------------------------------------------------------------|:--------------------------------|:-----------------------------------|:---------:|:------|
@@ -89,7 +82,7 @@
 
 ### Component_Spec
 
-15 x Identical, 2 x New, 6 x Modified
+Properties: 15 x Identical, 2 x New, 6 x Modified
 
 | v1api20200202                   |                                                                         | v1api20200202/storage           |                                    |  Status   | Notes |
 |:--------------------------------|:------------------------------------------------------------------------|:--------------------------------|:-----------------------------------|:---------:|:------|
@@ -119,10 +112,19 @@
 
 ### PrivateLinkScopedResource_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20200202 |         | v1api20200202/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
 |               |         | PropertyBag           | genruntime.PropertyBag |    New    |       |
 | ResourceId    | *string | ResourceId            | *string                | Identical |       |
 | ScopeId       | *string | ScopeId               | *string                | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

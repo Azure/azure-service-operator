@@ -7,44 +7,37 @@
 | CapacityReservation      | CapacityReservation      | Identical |       |
 | CapacityReservationGroup | CapacityReservationGroup | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20250401                                      | v20250401/storage                              |  Status  | Notes |
-|:-----------------------------------------------|:-----------------------------------------------|:--------:|:------|
-| CapacityReservationGroupInstanceView_STATUS    | CapacityReservationGroupInstanceView_STATUS    | Extended |       |
-| CapacityReservationGroupOperatorSpec           | CapacityReservationGroupOperatorSpec           | Extended |       |
-| CapacityReservationGroup_STATUS                | CapacityReservationGroup_STATUS                | Modified |       |
-| CapacityReservationGroup_Spec                  | CapacityReservationGroup_Spec                  | Modified |       |
-| CapacityReservationInstanceViewWithName_STATUS | CapacityReservationInstanceViewWithName_STATUS | Extended |       |
-| CapacityReservationInstanceView_STATUS         | CapacityReservationInstanceView_STATUS         | Extended |       |
-| CapacityReservationOperatorSpec                | CapacityReservationOperatorSpec                | Extended |       |
-| CapacityReservationUtilization_STATUS          | CapacityReservationUtilization_STATUS          | Extended |       |
-| CapacityReservation_STATUS                     | CapacityReservation_STATUS                     | Extended |       |
-| CapacityReservation_Spec                       | CapacityReservation_Spec                       | Extended |       |
-| InstanceViewStatus_STATUS                      | InstanceViewStatus_STATUS                      | Modified |       |
-| ResourceSharingProfile                         | ResourceSharingProfile                         | Extended |       |
-| ResourceSharingProfile_STATUS                  | ResourceSharingProfile_STATUS                  | Extended |       |
-| ScheduleProfile                                | ScheduleProfile                                | Extended |       |
-| ScheduleProfile_STATUS                         | ScheduleProfile_STATUS                         | Extended |       |
-| Sku                                            | Sku                                            | Extended |       |
-| Sku_STATUS                                     | Sku_STATUS                                     | Extended |       |
-| SubResource                                    | SubResource                                    | Extended |       |
-| SubResourceReadOnly_STATUS                     | SubResourceReadOnly_STATUS                     | Extended |       |
-| SubResource_STATUS                             | SubResource_STATUS                             | Extended |       |
-| SystemData_STATUS                              | SystemData_STATUS                              | Modified |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20250401                                      | v20250401/storage                              |  Status  | Notes                         |
+|:-----------------------------------------------|:-----------------------------------------------|:--------:|:------------------------------|
+| CapacityReservationGroupInstanceView_STATUS    | CapacityReservationGroupInstanceView_STATUS    | Extended | +PropertyBag                  |
+| CapacityReservationGroupOperatorSpec           | CapacityReservationGroupOperatorSpec           | Extended | +PropertyBag                  |
+| CapacityReservationGroup_STATUS                | CapacityReservationGroup_STATUS                | Modified |                               |
+| CapacityReservationGroup_Spec                  | CapacityReservationGroup_Spec                  | Modified |                               |
+| CapacityReservationInstanceViewWithName_STATUS | CapacityReservationInstanceViewWithName_STATUS | Extended | +PropertyBag                  |
+| CapacityReservationInstanceView_STATUS         | CapacityReservationInstanceView_STATUS         | Extended | +PropertyBag                  |
+| CapacityReservationOperatorSpec                | CapacityReservationOperatorSpec                | Extended | +PropertyBag                  |
+| CapacityReservationUtilization_STATUS          | CapacityReservationUtilization_STATUS          | Extended | +PropertyBag                  |
+| CapacityReservation_STATUS                     | CapacityReservation_STATUS                     | Extended | +PropertyBag                  |
+| CapacityReservation_Spec                       | CapacityReservation_Spec                       | Extended | +OriginalVersion +PropertyBag |
+| InstanceViewStatus_STATUS                      | InstanceViewStatus_STATUS                      | Modified |                               |
+| ResourceSharingProfile                         | ResourceSharingProfile                         | Extended | +PropertyBag                  |
+| ResourceSharingProfile_STATUS                  | ResourceSharingProfile_STATUS                  | Extended | +PropertyBag                  |
+| ScheduleProfile                                | ScheduleProfile                                | Extended | +PropertyBag                  |
+| ScheduleProfile_STATUS                         | ScheduleProfile_STATUS                         | Extended | +PropertyBag                  |
+| Sku                                            | Sku                                            | Extended | +PropertyBag                  |
+| Sku_STATUS                                     | Sku_STATUS                                     | Extended | +PropertyBag                  |
+| SubResource                                    | SubResource                                    | Extended | +PropertyBag                  |
+| SubResourceReadOnly_STATUS                     | SubResourceReadOnly_STATUS                     | Extended | +PropertyBag                  |
+| SubResource_STATUS                             | SubResource_STATUS                             | Extended | +PropertyBag                  |
+| SystemData_STATUS                              | SystemData_STATUS                              | Modified |                               |
 
 ### CapacityReservationGroupInstanceView_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250401             |                                                  | v20250401/storage     |                                                  |  Status   | Notes |
 |:----------------------|:-------------------------------------------------|:----------------------|:-------------------------------------------------|:---------:|:------|
@@ -54,7 +47,7 @@
 
 ### CapacityReservationGroupOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250401            |                               | v20250401/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -64,7 +57,7 @@
 
 ### CapacityReservationGroup_STATUS
 
-12 x Identical, 1 x New, 1 x Modified
+Properties: 12 x Identical, 1 x New, 1 x Modified
 
 | v20250401                 |                                              | v20250401/storage         |                                              |  Status   | Notes |
 |:--------------------------|:---------------------------------------------|:--------------------------|:---------------------------------------------|:---------:|:------|
@@ -85,7 +78,7 @@
 
 ### CapacityReservationGroup_Spec
 
-7 x Identical, 2 x New, 1 x Modified
+Properties: 7 x Identical, 2 x New, 1 x Modified
 
 | v20250401       |                                       | v20250401/storage |                                       |  Status   | Notes |
 |:----------------|:--------------------------------------|:------------------|:--------------------------------------|:---------:|:------|
@@ -102,7 +95,7 @@
 
 ### CapacityReservationInstanceViewWithName_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250401       |                                        | v20250401/storage |                                        |  Status   | Notes |
 |:----------------|:---------------------------------------|:------------------|:---------------------------------------|:---------:|:------|
@@ -113,7 +106,7 @@
 
 ### CapacityReservationInstanceView_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250401       |                                        | v20250401/storage |                                        |  Status   | Notes |
 |:----------------|:---------------------------------------|:------------------|:---------------------------------------|:---------:|:------|
@@ -123,7 +116,7 @@
 
 ### CapacityReservationOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250401            |                               | v20250401/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -133,7 +126,7 @@
 
 ### CapacityReservationUtilization_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250401                |                              | v20250401/storage        |                              |  Status   | Notes |
 |:-------------------------|:-----------------------------|:-------------------------|:-----------------------------|:---------:|:------|
@@ -143,7 +136,7 @@
 
 ### CapacityReservation_STATUS
 
-17 x Identical, 1 x New
+Properties: 17 x Identical, 1 x New
 
 | v20250401                 |                                         | v20250401/storage         |                                         |  Status   | Notes |
 |:--------------------------|:----------------------------------------|:--------------------------|:----------------------------------------|:---------:|:------|
@@ -168,7 +161,7 @@
 
 ### CapacityReservation_Spec
 
-8 x Identical, 2 x New
+Properties: 8 x Identical, 2 x New
 
 | v20250401       |                                    | v20250401/storage |                                    |  Status   | Notes |
 |:----------------|:-----------------------------------|:------------------|:-----------------------------------|:---------:|:------|
@@ -185,7 +178,7 @@
 
 ### InstanceViewStatus_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v20250401     |                          | v20250401/storage |                        |  Status   | Notes |
 |:--------------|:-------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -198,7 +191,7 @@
 
 ### ResourceSharingProfile
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250401       |               | v20250401/storage |                        |  Status   | Notes |
 |:----------------|:--------------|:------------------|:-----------------------|:---------:|:------|
@@ -207,7 +200,7 @@
 
 ### ResourceSharingProfile_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250401       |                      | v20250401/storage |                        |  Status   | Notes |
 |:----------------|:---------------------|:------------------|:-----------------------|:---------:|:------|
@@ -216,7 +209,7 @@
 
 ### ScheduleProfile
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250401 |         | v20250401/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -226,7 +219,7 @@
 
 ### ScheduleProfile_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250401 |         | v20250401/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -236,7 +229,7 @@
 
 ### Sku
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250401 |         | v20250401/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -247,7 +240,7 @@
 
 ### Sku_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250401 |         | v20250401/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -258,7 +251,7 @@
 
 ### SubResource
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250401 |                               | v20250401/storage |                               |  Status   | Notes |
 |:----------|:------------------------------|:------------------|:------------------------------|:---------:|:------|
@@ -267,7 +260,7 @@
 
 ### SubResourceReadOnly_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250401 |         | v20250401/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -276,7 +269,7 @@
 
 ### SubResource_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250401 |         | v20250401/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -285,7 +278,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v20250401          |                                       | v20250401/storage  |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:-------------------|:-----------------------|:---------:|:------|
@@ -296,3 +289,12 @@
 | LastModifiedBy     | *string                               | LastModifiedBy     | *string                | Identical |       |
 | LastModifiedByType | *SystemData_LastModifiedByType_STATUS | LastModifiedByType | *string                | Modified  |       |
 |                    |                                       | PropertyBag        | genruntime.PropertyBag |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

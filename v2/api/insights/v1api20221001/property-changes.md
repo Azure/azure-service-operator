@@ -6,53 +6,46 @@
 |:-----------------|:----------------------|:---------:|:------|
 | AutoscaleSetting | AutoscaleSetting      | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20221001                    | v1api20221001/storage            |  Status  | Notes |
-|:---------------------------------|:---------------------------------|:--------:|:------|
-| AutoscaleNotification            | AutoscaleNotification            | Modified |       |
-| AutoscaleNotification_STATUS     | AutoscaleNotification_STATUS     | Modified |       |
-| AutoscaleProfile                 | AutoscaleProfile                 | Extended |       |
-| AutoscaleProfile_STATUS          | AutoscaleProfile_STATUS          | Extended |       |
-| AutoscaleSettingOperatorSpec     | AutoscaleSettingOperatorSpec     | Extended |       |
-| AutoscaleSetting_Spec            | AutoscaleSetting_Spec            | Modified |       |
-| Autoscalesetting_STATUS          | Autoscalesetting_STATUS          | Extended |       |
-| EmailNotification                | EmailNotification                | Extended |       |
-| EmailNotification_STATUS         | EmailNotification_STATUS         | Extended |       |
-| MetricTrigger                    | MetricTrigger                    | Modified |       |
-| MetricTrigger_STATUS             | MetricTrigger_STATUS             | Modified |       |
-| PredictiveAutoscalePolicy        | PredictiveAutoscalePolicy        | Modified |       |
-| PredictiveAutoscalePolicy_STATUS | PredictiveAutoscalePolicy_STATUS | Modified |       |
-| Recurrence                       | Recurrence                       | Modified |       |
-| Recurrence_STATUS                | Recurrence_STATUS                | Modified |       |
-| RecurrentSchedule                | RecurrentSchedule                | Extended |       |
-| RecurrentSchedule_STATUS         | RecurrentSchedule_STATUS         | Extended |       |
-| ScaleAction                      | ScaleAction                      | Modified |       |
-| ScaleAction_STATUS               | ScaleAction_STATUS               | Modified |       |
-| ScaleCapacity                    | ScaleCapacity                    | Extended |       |
-| ScaleCapacity_STATUS             | ScaleCapacity_STATUS             | Extended |       |
-| ScaleRule                        | ScaleRule                        | Extended |       |
-| ScaleRuleMetricDimension         | ScaleRuleMetricDimension         | Modified |       |
-| ScaleRuleMetricDimension_STATUS  | ScaleRuleMetricDimension_STATUS  | Modified |       |
-| ScaleRule_STATUS                 | ScaleRule_STATUS                 | Extended |       |
-| SystemData_STATUS                | SystemData_STATUS                | Modified |       |
-| TimeWindow                       | TimeWindow                       | Extended |       |
-| TimeWindow_STATUS                | TimeWindow_STATUS                | Extended |       |
-| WebhookNotification              | WebhookNotification              | Extended |       |
-| WebhookNotification_STATUS       | WebhookNotification_STATUS       | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20221001                    | v1api20221001/storage            |  Status  | Notes        |
+|:---------------------------------|:---------------------------------|:--------:|:-------------|
+| AutoscaleNotification            | AutoscaleNotification            | Modified |              |
+| AutoscaleNotification_STATUS     | AutoscaleNotification_STATUS     | Modified |              |
+| AutoscaleProfile                 | AutoscaleProfile                 | Extended | +PropertyBag |
+| AutoscaleProfile_STATUS          | AutoscaleProfile_STATUS          | Extended | +PropertyBag |
+| AutoscaleSettingOperatorSpec     | AutoscaleSettingOperatorSpec     | Extended | +PropertyBag |
+| AutoscaleSetting_Spec            | AutoscaleSetting_Spec            | Modified |              |
+| Autoscalesetting_STATUS          | Autoscalesetting_STATUS          | Extended | +PropertyBag |
+| EmailNotification                | EmailNotification                | Extended | +PropertyBag |
+| EmailNotification_STATUS         | EmailNotification_STATUS         | Extended | +PropertyBag |
+| MetricTrigger                    | MetricTrigger                    | Modified |              |
+| MetricTrigger_STATUS             | MetricTrigger_STATUS             | Modified |              |
+| PredictiveAutoscalePolicy        | PredictiveAutoscalePolicy        | Modified |              |
+| PredictiveAutoscalePolicy_STATUS | PredictiveAutoscalePolicy_STATUS | Modified |              |
+| Recurrence                       | Recurrence                       | Modified |              |
+| Recurrence_STATUS                | Recurrence_STATUS                | Modified |              |
+| RecurrentSchedule                | RecurrentSchedule                | Extended | +PropertyBag |
+| RecurrentSchedule_STATUS         | RecurrentSchedule_STATUS         | Extended | +PropertyBag |
+| ScaleAction                      | ScaleAction                      | Modified |              |
+| ScaleAction_STATUS               | ScaleAction_STATUS               | Modified |              |
+| ScaleCapacity                    | ScaleCapacity                    | Extended | +PropertyBag |
+| ScaleCapacity_STATUS             | ScaleCapacity_STATUS             | Extended | +PropertyBag |
+| ScaleRule                        | ScaleRule                        | Extended | +PropertyBag |
+| ScaleRuleMetricDimension         | ScaleRuleMetricDimension         | Modified |              |
+| ScaleRuleMetricDimension_STATUS  | ScaleRuleMetricDimension_STATUS  | Modified |              |
+| ScaleRule_STATUS                 | ScaleRule_STATUS                 | Extended | +PropertyBag |
+| SystemData_STATUS                | SystemData_STATUS                | Modified |              |
+| TimeWindow                       | TimeWindow                       | Extended | +PropertyBag |
+| TimeWindow_STATUS                | TimeWindow_STATUS                | Extended | +PropertyBag |
+| WebhookNotification              | WebhookNotification              | Extended | +PropertyBag |
+| WebhookNotification_STATUS       | WebhookNotification_STATUS       | Extended | +PropertyBag |
 
 ### AutoscaleNotification
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20221001 |                       | v1api20221001/storage |                        |  Status   | Notes |
 |:--------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -63,7 +56,7 @@
 
 ### AutoscaleNotification_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20221001 |                              | v1api20221001/storage |                              |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -74,7 +67,7 @@
 
 ### AutoscaleProfile
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20221001 |                | v1api20221001/storage |                        |  Status   | Notes |
 |:--------------|:---------------|:----------------------|:-----------------------|:---------:|:------|
@@ -87,7 +80,7 @@
 
 ### AutoscaleProfile_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20221001 |                       | v1api20221001/storage |                        |  Status   | Notes |
 |:--------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -100,7 +93,7 @@
 
 ### AutoscaleSettingOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20221001        |                               | v1api20221001/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -110,7 +103,7 @@
 
 ### AutoscaleSetting_Spec
 
-11 x Identical, 2 x New, 1 x Modified
+Properties: 11 x Identical, 2 x New, 1 x Modified
 
 | v1api20221001              |                                        | v1api20221001/storage      |                                    |  Status   | Notes |
 |:---------------------------|:---------------------------------------|:---------------------------|:-----------------------------------|:---------:|:------|
@@ -131,7 +124,7 @@
 
 ### Autoscalesetting_STATUS
 
-14 x Identical, 1 x New
+Properties: 14 x Identical, 1 x New
 
 | v1api20221001             |                                   | v1api20221001/storage     |                                   |  Status   | Notes |
 |:--------------------------|:----------------------------------|:--------------------------|:----------------------------------|:---------:|:------|
@@ -153,7 +146,7 @@
 
 ### EmailNotification
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20221001                      |          | v1api20221001/storage              |                        |  Status   | Notes |
 |:-----------------------------------|:---------|:-----------------------------------|:-----------------------|:---------:|:------|
@@ -164,7 +157,7 @@
 
 ### EmailNotification_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20221001                      |          | v1api20221001/storage              |                        |  Status   | Notes |
 |:-----------------------------------|:---------|:-----------------------------------|:-----------------------|:---------:|:------|
@@ -175,7 +168,7 @@
 
 ### MetricTrigger
 
-9 x Identical, 1 x New, 3 x Modified
+Properties: 9 x Identical, 1 x New, 3 x Modified
 
 | v1api20221001              |                               | v1api20221001/storage      |                               |  Status   | Notes |
 |:---------------------------|:------------------------------|:---------------------------|:------------------------------|:---------:|:------|
@@ -195,7 +188,7 @@
 
 ### MetricTrigger_STATUS
 
-9 x Identical, 1 x New, 3 x Modified
+Properties: 9 x Identical, 1 x New, 3 x Modified
 
 | v1api20221001          |                                   | v1api20221001/storage  |                                   |  Status   | Notes |
 |:-----------------------|:----------------------------------|:-----------------------|:----------------------------------|:---------:|:------|
@@ -215,7 +208,7 @@
 
 ### PredictiveAutoscalePolicy
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20221001      |                                     | v1api20221001/storage |                        |  Status   | Notes |
 |:-------------------|:------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -225,7 +218,7 @@
 
 ### PredictiveAutoscalePolicy_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20221001      |                                            | v1api20221001/storage |                        |  Status   | Notes |
 |:-------------------|:-------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -235,7 +228,7 @@
 
 ### Recurrence
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20221001 |                      | v1api20221001/storage |                        |  Status   | Notes |
 |:--------------|:---------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -245,7 +238,7 @@
 
 ### Recurrence_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20221001 |                             | v1api20221001/storage |                           |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:--------------------------|:---------:|:------|
@@ -255,7 +248,7 @@
 
 ### RecurrentSchedule
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20221001 |          | v1api20221001/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -267,7 +260,7 @@
 
 ### RecurrentSchedule_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20221001 |          | v1api20221001/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -279,7 +272,7 @@
 
 ### ScaleAction
 
-2 x Identical, 1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New, 2 x Modified
 
 | v1api20221001 |                 | v1api20221001/storage |                        |  Status   | Notes |
 |:--------------|:----------------|:----------------------|:-----------------------|:---------:|:------|
@@ -291,7 +284,7 @@
 
 ### ScaleAction_STATUS
 
-2 x Identical, 1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New, 2 x Modified
 
 | v1api20221001 |                        | v1api20221001/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -303,7 +296,7 @@
 
 ### ScaleCapacity
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20221001 |         | v1api20221001/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -314,7 +307,7 @@
 
 ### ScaleCapacity_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20221001 |         | v1api20221001/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -325,7 +318,7 @@
 
 ### ScaleRule
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20221001 |                | v1api20221001/storage |                        |  Status   | Notes |
 |:--------------|:---------------|:----------------------|:-----------------------|:---------:|:------|
@@ -335,7 +328,7 @@
 
 ### ScaleRuleMetricDimension
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20221001 |                                        | v1api20221001/storage |                        |  Status   | Notes |
 |:--------------|:---------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -346,7 +339,7 @@
 
 ### ScaleRuleMetricDimension_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20221001 |                                               | v1api20221001/storage |                        |  Status   | Notes |
 |:--------------|:----------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -357,7 +350,7 @@
 
 ### ScaleRule_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20221001 |                       | v1api20221001/storage |                        |  Status   | Notes |
 |:--------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -367,7 +360,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20221001      |                                       | v1api20221001/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -381,7 +374,7 @@
 
 ### TimeWindow
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20221001 |         | v1api20221001/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -392,7 +385,7 @@
 
 ### TimeWindow_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20221001 |         | v1api20221001/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -403,7 +396,7 @@
 
 ### WebhookNotification
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20221001        |                             | v1api20221001/storage |                             |  Status   | Notes |
 |:---------------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -414,9 +407,18 @@
 
 ### WebhookNotification_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20221001 |                   | v1api20221001/storage |                        |  Status   | Notes |
 |:--------------|:------------------|:----------------------|:-----------------------|:---------:|:------|
 | Properties    | map[string]string | Properties            | map[string]string      | Identical |       |
 |               |                   | PropertyBag           | genruntime.PropertyBag |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

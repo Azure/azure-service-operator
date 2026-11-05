@@ -6,53 +6,46 @@
 |:--------------|:----------------------|:---------:|:------|
 | Registry      | Registry              | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20210901                    | v1api20210901/storage            |  Status  | Notes |
-|:---------------------------------|:---------------------------------|:--------:|:------|
-| EncryptionProperty               | EncryptionProperty               | Modified |       |
-| EncryptionProperty_STATUS        | EncryptionProperty_STATUS        | Modified |       |
-| ExportPolicy                     | ExportPolicy                     | Modified |       |
-| ExportPolicy_STATUS              | ExportPolicy_STATUS              | Modified |       |
-| IPRule                           | IPRule                           | Modified |       |
-| IPRule_STATUS                    | IPRule_STATUS                    | Modified |       |
-| IdentityProperties               | IdentityProperties               | Modified |       |
-| IdentityProperties_STATUS        | IdentityProperties_STATUS        | Modified |       |
-| KeyVaultProperties               | KeyVaultProperties               | Extended |       |
-| KeyVaultProperties_STATUS        | KeyVaultProperties_STATUS        | Extended |       |
-| NetworkRuleSet                   | NetworkRuleSet                   | Modified |       |
-| NetworkRuleSet_STATUS            | NetworkRuleSet_STATUS            | Modified |       |
-| Policies                         | Policies                         | Extended |       |
-| Policies_STATUS                  | Policies_STATUS                  | Extended |       |
-| PrivateEndpointConnection_STATUS | PrivateEndpointConnection_STATUS | Extended |       |
-| QuarantinePolicy                 | QuarantinePolicy                 | Modified |       |
-| QuarantinePolicy_STATUS          | QuarantinePolicy_STATUS          | Modified |       |
-| RegistryOperatorSpec             | RegistryOperatorSpec             | Extended |       |
-| Registry_STATUS                  | Registry_STATUS                  | Modified |       |
-| Registry_Spec                    | Registry_Spec                    | Modified |       |
-| RetentionPolicy                  | RetentionPolicy                  | Modified |       |
-| RetentionPolicy_STATUS           | RetentionPolicy_STATUS           | Modified |       |
-| Sku                              | Sku                              | Modified |       |
-| Sku_STATUS                       | Sku_STATUS                       | Modified |       |
-| Status_STATUS                    | Status_STATUS                    | Extended |       |
-| SystemData_STATUS                | SystemData_STATUS                | Modified |       |
-| TrustPolicy                      | TrustPolicy                      | Modified |       |
-| TrustPolicy_STATUS               | TrustPolicy_STATUS               | Modified |       |
-| UserAssignedIdentityDetails      | UserAssignedIdentityDetails      | Extended |       |
-| UserIdentityProperties_STATUS    | UserIdentityProperties_STATUS    | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20210901                    | v1api20210901/storage            |  Status  | Notes        |
+|:---------------------------------|:---------------------------------|:--------:|:-------------|
+| EncryptionProperty               | EncryptionProperty               | Modified |              |
+| EncryptionProperty_STATUS        | EncryptionProperty_STATUS        | Modified |              |
+| ExportPolicy                     | ExportPolicy                     | Modified |              |
+| ExportPolicy_STATUS              | ExportPolicy_STATUS              | Modified |              |
+| IPRule                           | IPRule                           | Modified |              |
+| IPRule_STATUS                    | IPRule_STATUS                    | Modified |              |
+| IdentityProperties               | IdentityProperties               | Modified |              |
+| IdentityProperties_STATUS        | IdentityProperties_STATUS        | Modified |              |
+| KeyVaultProperties               | KeyVaultProperties               | Extended | +PropertyBag |
+| KeyVaultProperties_STATUS        | KeyVaultProperties_STATUS        | Extended | +PropertyBag |
+| NetworkRuleSet                   | NetworkRuleSet                   | Modified |              |
+| NetworkRuleSet_STATUS            | NetworkRuleSet_STATUS            | Modified |              |
+| Policies                         | Policies                         | Extended | +PropertyBag |
+| Policies_STATUS                  | Policies_STATUS                  | Extended | +PropertyBag |
+| PrivateEndpointConnection_STATUS | PrivateEndpointConnection_STATUS | Extended | +PropertyBag |
+| QuarantinePolicy                 | QuarantinePolicy                 | Modified |              |
+| QuarantinePolicy_STATUS          | QuarantinePolicy_STATUS          | Modified |              |
+| RegistryOperatorSpec             | RegistryOperatorSpec             | Extended | +PropertyBag |
+| Registry_STATUS                  | Registry_STATUS                  | Modified |              |
+| Registry_Spec                    | Registry_Spec                    | Modified |              |
+| RetentionPolicy                  | RetentionPolicy                  | Modified |              |
+| RetentionPolicy_STATUS           | RetentionPolicy_STATUS           | Modified |              |
+| Sku                              | Sku                              | Modified |              |
+| Sku_STATUS                       | Sku_STATUS                       | Modified |              |
+| Status_STATUS                    | Status_STATUS                    | Extended | +PropertyBag |
+| SystemData_STATUS                | SystemData_STATUS                | Modified |              |
+| TrustPolicy                      | TrustPolicy                      | Modified |              |
+| TrustPolicy_STATUS               | TrustPolicy_STATUS               | Modified |              |
+| UserAssignedIdentityDetails      | UserAssignedIdentityDetails      | Extended | +PropertyBag |
+| UserIdentityProperties_STATUS    | UserIdentityProperties_STATUS    | Extended | +PropertyBag |
 
 ### EncryptionProperty
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210901      |                            | v1api20210901/storage |                        |  Status   | Notes |
 |:-------------------|:---------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -62,7 +55,7 @@
 
 ### EncryptionProperty_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210901      |                                   | v1api20210901/storage |                            |  Status   | Notes |
 |:-------------------|:----------------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -72,7 +65,7 @@
 
 ### ExportPolicy
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20210901 |                      | v1api20210901/storage |                        |  Status  | Notes |
 |:--------------|:---------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -81,7 +74,7 @@
 
 ### ExportPolicy_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20210901 |                             | v1api20210901/storage |                        |  Status  | Notes |
 |:--------------|:----------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -90,7 +83,7 @@
 
 ### IPRule
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210901 |                | v1api20210901/storage |                        |  Status   | Notes |
 |:--------------|:---------------|:----------------------|:-----------------------|:---------:|:------|
@@ -100,7 +93,7 @@
 
 ### IPRule_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210901 |                       | v1api20210901/storage |                        |  Status   | Notes |
 |:--------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -110,7 +103,7 @@
 
 ### IdentityProperties
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20210901          |                               | v1api20210901/storage  |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -122,7 +115,7 @@
 
 ### IdentityProperties_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20210901          |                                          | v1api20210901/storage  |                                          |  Status   | Notes |
 |:-----------------------|:-----------------------------------------|:-----------------------|:-----------------------------------------|:---------:|:------|
@@ -134,7 +127,7 @@
 
 ### KeyVaultProperties
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210901 |         | v1api20210901/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -144,7 +137,7 @@
 
 ### KeyVaultProperties_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20210901            |         | v1api20210901/storage    |                        |  Status   | Notes |
 |:-------------------------|:--------|:-------------------------|:-----------------------|:---------:|:------|
@@ -157,7 +150,7 @@
 
 ### NetworkRuleSet
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210901 |                               | v1api20210901/storage |                        |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -167,7 +160,7 @@
 
 ### NetworkRuleSet_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210901 |                                      | v1api20210901/storage |                        |  Status   | Notes |
 |:--------------|:-------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -177,7 +170,7 @@
 
 ### Policies
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20210901    |                   | v1api20210901/storage |                        |  Status   | Notes |
 |:-----------------|:------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -189,7 +182,7 @@
 
 ### Policies_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20210901    |                          | v1api20210901/storage |                          |  Status   | Notes |
 |:-----------------|:-------------------------|:----------------------|:-------------------------|:---------:|:------|
@@ -201,7 +194,7 @@
 
 ### PrivateEndpointConnection_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210901 |         | v1api20210901/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -210,7 +203,7 @@
 
 ### QuarantinePolicy
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20210901 |                          | v1api20210901/storage |                        |  Status  | Notes |
 |:--------------|:-------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -219,7 +212,7 @@
 
 ### QuarantinePolicy_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20210901 |                                 | v1api20210901/storage |                        |  Status  | Notes |
 |:--------------|:--------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -228,7 +221,7 @@
 
 ### RegistryOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210901        |                               | v1api20210901/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -238,7 +231,7 @@
 
 ### Registry_STATUS
 
-19 x Identical, 1 x New, 4 x Modified
+Properties: 19 x Identical, 1 x New, 4 x Modified
 
 | v1api20210901              |                                                     | v1api20210901/storage      |                                    |  Status   | Notes |
 |:---------------------------|:----------------------------------------------------|:---------------------------|:-----------------------------------|:---------:|:------|
@@ -269,7 +262,7 @@
 
 ### Registry_Spec
 
-11 x Identical, 2 x New, 4 x Modified
+Properties: 11 x Identical, 2 x New, 4 x Modified
 
 | v1api20210901            |                                              | v1api20210901/storage    |                                    |  Status   | Notes |
 |:-------------------------|:---------------------------------------------|:-------------------------|:-----------------------------------|:---------:|:------|
@@ -293,7 +286,7 @@
 
 ### RetentionPolicy
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20210901 |                         | v1api20210901/storage |                        |  Status   | Notes |
 |:--------------|:------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -303,7 +296,7 @@
 
 ### RetentionPolicy_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20210901   |                                | v1api20210901/storage |                        |  Status   | Notes |
 |:----------------|:-------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -314,7 +307,7 @@
 
 ### Sku
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20210901 |           | v1api20210901/storage |                        |  Status  | Notes |
 |:--------------|:----------|:----------------------|:-----------------------|:--------:|:------|
@@ -323,7 +316,7 @@
 
 ### Sku_STATUS
 
-1 x New, 2 x Modified
+Properties: 1 x New, 2 x Modified
 
 | v1api20210901 |                  | v1api20210901/storage |                        |  Status  | Notes |
 |:--------------|:-----------------|:----------------------|:-----------------------|:--------:|:------|
@@ -333,7 +326,7 @@
 
 ### Status_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20210901 |         | v1api20210901/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -344,7 +337,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20210901      |                                       | v1api20210901/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -358,7 +351,7 @@
 
 ### TrustPolicy
 
-1 x New, 2 x Modified
+Properties: 1 x New, 2 x Modified
 
 | v1api20210901 |                     | v1api20210901/storage |                        |  Status  | Notes |
 |:--------------|:--------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -368,7 +361,7 @@
 
 ### TrustPolicy_STATUS
 
-1 x New, 2 x Modified
+Properties: 1 x New, 2 x Modified
 
 | v1api20210901 |                            | v1api20210901/storage |                        |  Status  | Notes |
 |:--------------|:---------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -378,7 +371,7 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20210901 |                              | v1api20210901/storage |                              |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -387,10 +380,19 @@
 
 ### UserIdentityProperties_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20210901 |         | v1api20210901/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
 | ClientId      | *string | ClientId              | *string                | Identical |       |
 | PrincipalId   | *string | PrincipalId           | *string                | Identical |       |
 |               |         | PropertyBag           | genruntime.PropertyBag |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

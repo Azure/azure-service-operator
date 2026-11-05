@@ -6,44 +6,37 @@
 |:----------------|:------------------|:---------:|:------|
 | AvailabilitySet | AvailabilitySet   | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20241101                                         | v20241101/storage                                 |  Status  | Notes |
-|:--------------------------------------------------|:--------------------------------------------------|:--------:|:------|
-| AvailabilitySetOperatorSpec                       | AvailabilitySetOperatorSpec                       | Extended |       |
-| AvailabilitySet_STATUS                            | AvailabilitySet_STATUS                            | Extended |       |
-| AvailabilitySet_Spec                              | AvailabilitySet_Spec                              | Extended |       |
-| DefaultVirtualMachineScaleSetInfo_STATUS          | DefaultVirtualMachineScaleSetInfo_STATUS          | Extended |       |
-| EventGridAndResourceGraph                         | EventGridAndResourceGraph                         | Extended |       |
-| EventGridAndResourceGraph_STATUS                  | EventGridAndResourceGraph_STATUS                  | Extended |       |
-| InstanceViewStatus_STATUS                         | InstanceViewStatus_STATUS                         | Modified |       |
-| ScheduledEventsAdditionalPublishingTargets        | ScheduledEventsAdditionalPublishingTargets        | Extended |       |
-| ScheduledEventsAdditionalPublishingTargets_STATUS | ScheduledEventsAdditionalPublishingTargets_STATUS | Extended |       |
-| ScheduledEventsPolicy                             | ScheduledEventsPolicy                             | Extended |       |
-| ScheduledEventsPolicy_STATUS                      | ScheduledEventsPolicy_STATUS                      | Extended |       |
-| Sku                                               | Sku                                               | Extended |       |
-| Sku_STATUS                                        | Sku_STATUS                                        | Extended |       |
-| SubResource                                       | SubResource                                       | Extended |       |
-| SubResource_STATUS                                | SubResource_STATUS                                | Extended |       |
-| SystemData_STATUS                                 | SystemData_STATUS                                 | Modified |       |
-| UserInitiatedReboot                               | UserInitiatedReboot                               | Extended |       |
-| UserInitiatedReboot_STATUS                        | UserInitiatedReboot_STATUS                        | Extended |       |
-| UserInitiatedRedeploy                             | UserInitiatedRedeploy                             | Extended |       |
-| UserInitiatedRedeploy_STATUS                      | UserInitiatedRedeploy_STATUS                      | Extended |       |
-| VirtualMachineScaleSetMigrationInfo_STATUS        | VirtualMachineScaleSetMigrationInfo_STATUS        | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20241101                                         | v20241101/storage                                 |  Status  | Notes                         |
+|:--------------------------------------------------|:--------------------------------------------------|:--------:|:------------------------------|
+| AvailabilitySetOperatorSpec                       | AvailabilitySetOperatorSpec                       | Extended | +PropertyBag                  |
+| AvailabilitySet_STATUS                            | AvailabilitySet_STATUS                            | Extended | +PropertyBag                  |
+| AvailabilitySet_Spec                              | AvailabilitySet_Spec                              | Extended | +OriginalVersion +PropertyBag |
+| DefaultVirtualMachineScaleSetInfo_STATUS          | DefaultVirtualMachineScaleSetInfo_STATUS          | Extended | +PropertyBag                  |
+| EventGridAndResourceGraph                         | EventGridAndResourceGraph                         | Extended | +PropertyBag                  |
+| EventGridAndResourceGraph_STATUS                  | EventGridAndResourceGraph_STATUS                  | Extended | +PropertyBag                  |
+| InstanceViewStatus_STATUS                         | InstanceViewStatus_STATUS                         | Modified |                               |
+| ScheduledEventsAdditionalPublishingTargets        | ScheduledEventsAdditionalPublishingTargets        | Extended | +PropertyBag                  |
+| ScheduledEventsAdditionalPublishingTargets_STATUS | ScheduledEventsAdditionalPublishingTargets_STATUS | Extended | +PropertyBag                  |
+| ScheduledEventsPolicy                             | ScheduledEventsPolicy                             | Extended | +PropertyBag                  |
+| ScheduledEventsPolicy_STATUS                      | ScheduledEventsPolicy_STATUS                      | Extended | +PropertyBag                  |
+| Sku                                               | Sku                                               | Extended | +PropertyBag                  |
+| Sku_STATUS                                        | Sku_STATUS                                        | Extended | +PropertyBag                  |
+| SubResource                                       | SubResource                                       | Extended | +PropertyBag                  |
+| SubResource_STATUS                                | SubResource_STATUS                                | Extended | +PropertyBag                  |
+| SystemData_STATUS                                 | SystemData_STATUS                                 | Modified |                               |
+| UserInitiatedReboot                               | UserInitiatedReboot                               | Extended | +PropertyBag                  |
+| UserInitiatedReboot_STATUS                        | UserInitiatedReboot_STATUS                        | Extended | +PropertyBag                  |
+| UserInitiatedRedeploy                             | UserInitiatedRedeploy                             | Extended | +PropertyBag                  |
+| UserInitiatedRedeploy_STATUS                      | UserInitiatedRedeploy_STATUS                      | Extended | +PropertyBag                  |
+| VirtualMachineScaleSetMigrationInfo_STATUS        | VirtualMachineScaleSetMigrationInfo_STATUS        | Extended | +PropertyBag                  |
 
 ### AvailabilitySetOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20241101            |                               | v20241101/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -53,7 +46,7 @@
 
 ### AvailabilitySet_STATUS
 
-15 x Identical, 1 x New
+Properties: 15 x Identical, 1 x New
 
 | v20241101                           |                                             | v20241101/storage                   |                                             |  Status   | Notes |
 |:------------------------------------|:--------------------------------------------|:------------------------------------|:--------------------------------------------|:---------:|:------|
@@ -76,7 +69,7 @@
 
 ### AvailabilitySet_Spec
 
-10 x Identical, 2 x New
+Properties: 10 x Identical, 2 x New
 
 | v20241101                 |                                    | v20241101/storage         |                                    |  Status   | Notes |
 |:--------------------------|:-----------------------------------|:--------------------------|:-----------------------------------|:---------:|:------|
@@ -95,7 +88,7 @@
 
 ### DefaultVirtualMachineScaleSetInfo_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20241101                     |                     | v20241101/storage             |                        |  Status   | Notes |
 |:------------------------------|:--------------------|:------------------------------|:-----------------------|:---------:|:------|
@@ -105,7 +98,7 @@
 
 ### EventGridAndResourceGraph
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20241101 |       | v20241101/storage |                        |  Status   | Notes |
 |:----------|:------|:------------------|:-----------------------|:---------:|:------|
@@ -114,7 +107,7 @@
 
 ### EventGridAndResourceGraph_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20241101 |       | v20241101/storage |                        |  Status   | Notes |
 |:----------|:------|:------------------|:-----------------------|:---------:|:------|
@@ -123,7 +116,7 @@
 
 ### InstanceViewStatus_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v20241101     |                          | v20241101/storage |                        |  Status   | Notes |
 |:--------------|:-------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -136,7 +129,7 @@
 
 ### ScheduledEventsAdditionalPublishingTargets
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20241101                 |                            | v20241101/storage         |                            |  Status   | Notes |
 |:--------------------------|:---------------------------|:--------------------------|:---------------------------|:---------:|:------|
@@ -145,7 +138,7 @@
 
 ### ScheduledEventsAdditionalPublishingTargets_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20241101                 |                                   | v20241101/storage         |                                   |  Status   | Notes |
 |:--------------------------|:----------------------------------|:--------------------------|:----------------------------------|:---------:|:------|
@@ -154,7 +147,7 @@
 
 ### ScheduledEventsPolicy
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20241101                                  |                                             | v20241101/storage                          |                                             |  Status   | Notes |
 |:-------------------------------------------|:--------------------------------------------|:-------------------------------------------|:--------------------------------------------|:---------:|:------|
@@ -165,7 +158,7 @@
 
 ### ScheduledEventsPolicy_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20241101                                  |                                                    | v20241101/storage                          |                                                    |  Status   | Notes |
 |:-------------------------------------------|:---------------------------------------------------|:-------------------------------------------|:---------------------------------------------------|:---------:|:------|
@@ -176,7 +169,7 @@
 
 ### Sku
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20241101 |         | v20241101/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -187,7 +180,7 @@
 
 ### Sku_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20241101 |         | v20241101/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -198,7 +191,7 @@
 
 ### SubResource
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20241101 |                               | v20241101/storage |                               |  Status   | Notes |
 |:----------|:------------------------------|:------------------|:------------------------------|:---------:|:------|
@@ -207,7 +200,7 @@
 
 ### SubResource_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20241101 |         | v20241101/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -216,7 +209,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v20241101          |                                       | v20241101/storage  |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:-------------------|:-----------------------|:---------:|:------|
@@ -230,7 +223,7 @@
 
 ### UserInitiatedReboot
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20241101            |       | v20241101/storage    |                        |  Status   | Notes |
 |:---------------------|:------|:---------------------|:-----------------------|:---------:|:------|
@@ -239,7 +232,7 @@
 
 ### UserInitiatedReboot_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20241101            |       | v20241101/storage    |                        |  Status   | Notes |
 |:---------------------|:------|:---------------------|:-----------------------|:---------:|:------|
@@ -248,7 +241,7 @@
 
 ### UserInitiatedRedeploy
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20241101            |       | v20241101/storage    |                        |  Status   | Notes |
 |:---------------------|:------|:---------------------|:-----------------------|:---------:|:------|
@@ -257,7 +250,7 @@
 
 ### UserInitiatedRedeploy_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20241101            |       | v20241101/storage    |                        |  Status   | Notes |
 |:---------------------|:------|:---------------------|:-----------------------|:---------:|:------|
@@ -266,10 +259,19 @@
 
 ### VirtualMachineScaleSetMigrationInfo_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20241101                         |                                           | v20241101/storage                 |                                           |  Status   | Notes |
 |:----------------------------------|:------------------------------------------|:----------------------------------|:------------------------------------------|:---------:|:------|
 | DefaultVirtualMachineScaleSetInfo | *DefaultVirtualMachineScaleSetInfo_STATUS | DefaultVirtualMachineScaleSetInfo | *DefaultVirtualMachineScaleSetInfo_STATUS | Identical |       |
 | MigrateToVirtualMachineScaleSet   | *SubResource_STATUS                       | MigrateToVirtualMachineScaleSet   | *SubResource_STATUS                       | Identical |       |
 |                                   |                                           | PropertyBag                       | genruntime.PropertyBag                    |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

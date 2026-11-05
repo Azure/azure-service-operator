@@ -6,27 +6,20 @@
 |:-------------------------|:------------------|:---------:|:------|
 | RoleAssignment           | RoleAssignment    | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20200801preview/storage   | v20220401/storage          |  Status   | Notes |
-|:---------------------------|:---------------------------|:---------:|:------|
-| RoleAssignmentOperatorSpec | RoleAssignmentOperatorSpec | Identical |       |
-| RoleAssignment_STATUS      | RoleAssignment_STATUS      | Extended  |       |
-| RoleAssignment_Spec        | RoleAssignment_Spec        | Identical |       |
-|                            | SystemData_STATUS          |    New    |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20200801preview/storage   | v20220401/storage          |  Status   | Notes       |
+|:---------------------------|:---------------------------|:---------:|:------------|
+| RoleAssignmentOperatorSpec | RoleAssignmentOperatorSpec | Identical |             |
+| RoleAssignment_STATUS      | RoleAssignment_STATUS      | Extended  | +SystemData |
+| RoleAssignment_Spec        | RoleAssignment_Spec        | Identical |             |
+|                            | SystemData_STATUS          |    New    |             |
 
 ### RoleAssignment_STATUS
 
-17 x Identical, 1 x New
+Properties: 17 x Identical, 1 x New
 
 | v20200801preview/storage           |                        | v20220401/storage                  |                        |  Status   | Notes |
 |:-----------------------------------|:-----------------------|:-----------------------------------|:-----------------------|:---------:|:------|
@@ -48,3 +41,12 @@
 | Type                               | *string                | Type                               | *string                | Identical |       |
 | UpdatedBy                          | *string                | UpdatedBy                          | *string                | Identical |       |
 | UpdatedOn                          | *string                | UpdatedOn                          | *string                | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

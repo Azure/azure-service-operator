@@ -9,225 +9,218 @@
 | Job                | Job                   | Identical |       |
 | ManagedEnvironment | ManagedEnvironment    | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20250101                                                            | v1api20250101/storage                                                    |  Status  | Notes |
-|:-------------------------------------------------------------------------|:-------------------------------------------------------------------------|:--------:|:------|
-| AllowedAudiencesValidation                                               | AllowedAudiencesValidation                                               | Extended |       |
-| AllowedAudiencesValidation_STATUS                                        | AllowedAudiencesValidation_STATUS                                        | Extended |       |
-| AllowedPrincipals                                                        | AllowedPrincipals                                                        | Extended |       |
-| AllowedPrincipals_STATUS                                                 | AllowedPrincipals_STATUS                                                 | Extended |       |
-| AppLogsConfiguration                                                     | AppLogsConfiguration                                                     | Extended |       |
-| AppLogsConfiguration_STATUS                                              | AppLogsConfiguration_STATUS                                              | Extended |       |
-| AppRegistration                                                          | AppRegistration                                                          | Extended |       |
-| AppRegistration_STATUS                                                   | AppRegistration_STATUS                                                   | Extended |       |
-| Apple                                                                    | Apple                                                                    | Extended |       |
-| AppleRegistration                                                        | AppleRegistration                                                        | Extended |       |
-| AppleRegistration_STATUS                                                 | AppleRegistration_STATUS                                                 | Extended |       |
-| Apple_STATUS                                                             | Apple_STATUS                                                             | Extended |       |
-| AuthConfigOperatorSpec                                                   | AuthConfigOperatorSpec                                                   | Extended |       |
-| AuthConfig_STATUS                                                        | AuthConfig_STATUS                                                        | Extended |       |
-| AuthConfig_Spec                                                          | AuthConfig_Spec                                                          | Extended |       |
-| AuthPlatform                                                             | AuthPlatform                                                             | Extended |       |
-| AuthPlatform_STATUS                                                      | AuthPlatform_STATUS                                                      | Extended |       |
-| AzureActiveDirectory                                                     | AzureActiveDirectory                                                     | Extended |       |
-| AzureActiveDirectoryLogin                                                | AzureActiveDirectoryLogin                                                | Extended |       |
-| AzureActiveDirectoryLogin_STATUS                                         | AzureActiveDirectoryLogin_STATUS                                         | Extended |       |
-| AzureActiveDirectoryRegistration                                         | AzureActiveDirectoryRegistration                                         | Extended |       |
-| AzureActiveDirectoryRegistration_STATUS                                  | AzureActiveDirectoryRegistration_STATUS                                  | Extended |       |
-| AzureActiveDirectoryValidation                                           | AzureActiveDirectoryValidation                                           | Extended |       |
-| AzureActiveDirectoryValidation_STATUS                                    | AzureActiveDirectoryValidation_STATUS                                    | Extended |       |
-| AzureActiveDirectory_STATUS                                              | AzureActiveDirectory_STATUS                                              | Extended |       |
-| AzureStaticWebApps                                                       | AzureStaticWebApps                                                       | Extended |       |
-| AzureStaticWebAppsRegistration                                           | AzureStaticWebAppsRegistration                                           | Extended |       |
-| AzureStaticWebAppsRegistration_STATUS                                    | AzureStaticWebAppsRegistration_STATUS                                    | Extended |       |
-| AzureStaticWebApps_STATUS                                                | AzureStaticWebApps_STATUS                                                | Extended |       |
-| BaseContainer                                                            | BaseContainer                                                            | Extended |       |
-| BaseContainer_STATUS                                                     | BaseContainer_STATUS                                                     | Extended |       |
-| BlobStorageTokenStore                                                    | BlobStorageTokenStore                                                    | Extended |       |
-| BlobStorageTokenStore_STATUS                                             | BlobStorageTokenStore_STATUS                                             | Extended |       |
-| CertificateKeyVaultProperties                                            | CertificateKeyVaultProperties                                            | Modified |       |
-| CertificateKeyVaultProperties_STATUS                                     | CertificateKeyVaultProperties_STATUS                                     | Extended |       |
-| ClientRegistration                                                       | ClientRegistration                                                       | Extended |       |
-| ClientRegistration_STATUS                                                | ClientRegistration_STATUS                                                | Extended |       |
-| Configuration                                                            | Configuration                                                            | Modified |       |
-| Configuration_STATUS                                                     | Configuration_STATUS                                                     | Modified |       |
-| Container                                                                | Container                                                                | Extended |       |
-| ContainerAppOperatorConfigMaps                                           | ContainerAppOperatorConfigMaps                                           | Extended |       |
-| ContainerAppOperatorSpec                                                 | ContainerAppOperatorSpec                                                 | Extended |       |
-| ContainerAppProbe                                                        | ContainerAppProbe                                                        | Modified |       |
-| ContainerAppProbe_HttpGet                                                | ContainerAppProbe_HttpGet                                                | Modified |       |
-| ContainerAppProbe_HttpGet_HttpHeaders                                    | ContainerAppProbe_HttpGet_HttpHeaders                                    | Extended |       |
-| ContainerAppProbe_HttpGet_HttpHeaders_STATUS                             | ContainerAppProbe_HttpGet_HttpHeaders_STATUS                             | Extended |       |
-| ContainerAppProbe_HttpGet_STATUS                                         | ContainerAppProbe_HttpGet_STATUS                                         | Modified |       |
-| ContainerAppProbe_STATUS                                                 | ContainerAppProbe_STATUS                                                 | Modified |       |
-| ContainerAppProbe_TcpSocket                                              | ContainerAppProbe_TcpSocket                                              | Extended |       |
-| ContainerAppProbe_TcpSocket_STATUS                                       | ContainerAppProbe_TcpSocket_STATUS                                       | Extended |       |
-| ContainerApp_STATUS                                                      | ContainerApp_STATUS                                                      | Modified |       |
-| ContainerApp_Spec                                                        | ContainerApp_Spec                                                        | Extended |       |
-| ContainerResources                                                       | ContainerResources                                                       | Extended |       |
-| ContainerResources_STATUS                                                | ContainerResources_STATUS                                                | Extended |       |
-| Container_STATUS                                                         | Container_STATUS                                                         | Extended |       |
-| CookieExpiration                                                         | CookieExpiration                                                         | Modified |       |
-| CookieExpiration_STATUS                                                  | CookieExpiration_STATUS                                                  | Modified |       |
-| CorsPolicy                                                               | CorsPolicy                                                               | Extended |       |
-| CorsPolicy_STATUS                                                        | CorsPolicy_STATUS                                                        | Extended |       |
-| CustomDomain                                                             | CustomDomain                                                             | Modified |       |
-| CustomDomainConfiguration                                                | CustomDomainConfiguration                                                | Extended |       |
-| CustomDomainConfiguration_STATUS                                         | CustomDomainConfiguration_STATUS                                         | Extended |       |
-| CustomDomain_STATUS                                                      | CustomDomain_STATUS                                                      | Modified |       |
-| CustomOpenIdConnectProvider                                              | CustomOpenIdConnectProvider                                              | Extended |       |
-| CustomOpenIdConnectProvider_STATUS                                       | CustomOpenIdConnectProvider_STATUS                                       | Extended |       |
-| CustomScaleRule                                                          | CustomScaleRule                                                          | Extended |       |
-| CustomScaleRule_STATUS                                                   | CustomScaleRule_STATUS                                                   | Extended |       |
-| Dapr                                                                     | Dapr                                                                     | Modified |       |
-| DaprConfiguration_STATUS                                                 | DaprConfiguration_STATUS                                                 | Extended |       |
-| Dapr_STATUS                                                              | Dapr_STATUS                                                              | Modified |       |
-| DefaultAuthorizationPolicy                                               | DefaultAuthorizationPolicy                                               | Extended |       |
-| DefaultAuthorizationPolicy_STATUS                                        | DefaultAuthorizationPolicy_STATUS                                        | Extended |       |
-| EncryptionSettings                                                       | EncryptionSettings                                                       | Extended |       |
-| EncryptionSettings_STATUS                                                | EncryptionSettings_STATUS                                                | Extended |       |
-| EnvironmentVar                                                           | EnvironmentVar                                                           | Extended |       |
-| EnvironmentVar_STATUS                                                    | EnvironmentVar_STATUS                                                    | Extended |       |
-| ExtendedLocation                                                         | ExtendedLocation                                                         | Modified |       |
-| ExtendedLocation_STATUS                                                  | ExtendedLocation_STATUS                                                  | Modified |       |
-| Facebook                                                                 | Facebook                                                                 | Extended |       |
-| Facebook_STATUS                                                          | Facebook_STATUS                                                          | Extended |       |
-| ForwardProxy                                                             | ForwardProxy                                                             | Modified |       |
-| ForwardProxy_STATUS                                                      | ForwardProxy_STATUS                                                      | Modified |       |
-| GitHub                                                                   | GitHub                                                                   | Extended |       |
-| GitHub_STATUS                                                            | GitHub_STATUS                                                            | Extended |       |
-| GlobalValidation                                                         | GlobalValidation                                                         | Modified |       |
-| GlobalValidation_STATUS                                                  | GlobalValidation_STATUS                                                  | Modified |       |
-| Google                                                                   | Google                                                                   | Extended |       |
-| Google_STATUS                                                            | Google_STATUS                                                            | Extended |       |
-| HttpScaleRule                                                            | HttpScaleRule                                                            | Extended |       |
-| HttpScaleRule_STATUS                                                     | HttpScaleRule_STATUS                                                     | Extended |       |
-| HttpSettings                                                             | HttpSettings                                                             | Extended |       |
-| HttpSettingsRoutes                                                       | HttpSettingsRoutes                                                       | Extended |       |
-| HttpSettingsRoutes_STATUS                                                | HttpSettingsRoutes_STATUS                                                | Extended |       |
-| HttpSettings_STATUS                                                      | HttpSettings_STATUS                                                      | Extended |       |
-| IdentityProviders                                                        | IdentityProviders                                                        | Extended |       |
-| IdentityProviders_STATUS                                                 | IdentityProviders_STATUS                                                 | Extended |       |
-| IdentitySettings                                                         | IdentitySettings                                                         | Modified |       |
-| IdentitySettings_STATUS                                                  | IdentitySettings_STATUS                                                  | Modified |       |
-| Ingress                                                                  | Ingress                                                                  | Modified |       |
-| IngressPortMapping                                                       | IngressPortMapping                                                       | Extended |       |
-| IngressPortMapping_STATUS                                                | IngressPortMapping_STATUS                                                | Extended |       |
-| Ingress_STATUS                                                           | Ingress_STATUS                                                           | Modified |       |
-| Ingress_StickySessions                                                   | Ingress_StickySessions                                                   | Modified |       |
-| Ingress_StickySessions_STATUS                                            | Ingress_StickySessions_STATUS                                            | Modified |       |
-| IpSecurityRestrictionRule                                                | IpSecurityRestrictionRule                                                | Modified |       |
-| IpSecurityRestrictionRule_STATUS                                         | IpSecurityRestrictionRule_STATUS                                         | Modified |       |
-| JobConfiguration                                                         | JobConfiguration                                                         | Modified |       |
-| JobConfiguration_EventTriggerConfig                                      | JobConfiguration_EventTriggerConfig                                      | Extended |       |
-| JobConfiguration_EventTriggerConfig_STATUS                               | JobConfiguration_EventTriggerConfig_STATUS                               | Extended |       |
-| JobConfiguration_ManualTriggerConfig                                     | JobConfiguration_ManualTriggerConfig                                     | Extended |       |
-| JobConfiguration_ManualTriggerConfig_STATUS                              | JobConfiguration_ManualTriggerConfig_STATUS                              | Extended |       |
-| JobConfiguration_STATUS                                                  | JobConfiguration_STATUS                                                  | Modified |       |
-| JobConfiguration_ScheduleTriggerConfig                                   | JobConfiguration_ScheduleTriggerConfig                                   | Extended |       |
-| JobConfiguration_ScheduleTriggerConfig_STATUS                            | JobConfiguration_ScheduleTriggerConfig_STATUS                            | Extended |       |
-| JobOperatorSpec                                                          | JobOperatorSpec                                                          | Extended |       |
-| JobScale                                                                 | JobScale                                                                 | Extended |       |
-| JobScaleRule                                                             | JobScaleRule                                                             | Extended |       |
-| JobScaleRule_STATUS                                                      | JobScaleRule_STATUS                                                      | Extended |       |
-| JobScale_STATUS                                                          | JobScale_STATUS                                                          | Extended |       |
-| JobTemplate                                                              | JobTemplate                                                              | Extended |       |
-| JobTemplate_STATUS                                                       | JobTemplate_STATUS                                                       | Extended |       |
-| Job_STATUS                                                               | Job_STATUS                                                               | Modified |       |
-| Job_Spec                                                                 | Job_Spec                                                                 | Modified |       |
-| JwtClaimChecks                                                           | JwtClaimChecks                                                           | Extended |       |
-| JwtClaimChecks_STATUS                                                    | JwtClaimChecks_STATUS                                                    | Extended |       |
-| KedaConfiguration_STATUS                                                 | KedaConfiguration_STATUS                                                 | Extended |       |
-| LogAnalyticsConfiguration                                                | LogAnalyticsConfiguration                                                | Extended |       |
-| LogAnalyticsConfiguration_STATUS                                         | LogAnalyticsConfiguration_STATUS                                         | Extended |       |
-| Login                                                                    | Login                                                                    | Extended |       |
-| LoginRoutes                                                              | LoginRoutes                                                              | Extended |       |
-| LoginRoutes_STATUS                                                       | LoginRoutes_STATUS                                                       | Extended |       |
-| LoginScopes                                                              | LoginScopes                                                              | Extended |       |
-| LoginScopes_STATUS                                                       | LoginScopes_STATUS                                                       | Extended |       |
-| Login_STATUS                                                             | Login_STATUS                                                             | Extended |       |
-| ManagedEnvironmentOperatorSpec                                           | ManagedEnvironmentOperatorSpec                                           | Extended |       |
-| ManagedEnvironment_Properties_PeerAuthentication_STATUS                  | ManagedEnvironment_Properties_PeerAuthentication_STATUS                  | Extended |       |
-| ManagedEnvironment_Properties_PeerAuthentication_Spec                    | ManagedEnvironment_Properties_PeerAuthentication_Spec                    | Extended |       |
-| ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_STATUS | ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_STATUS | Extended |       |
-| ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_Spec   | ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_Spec   | Extended |       |
-| ManagedEnvironment_Properties_PeerTrafficConfiguration_STATUS            | ManagedEnvironment_Properties_PeerTrafficConfiguration_STATUS            | Extended |       |
-| ManagedEnvironment_Properties_PeerTrafficConfiguration_Spec              | ManagedEnvironment_Properties_PeerTrafficConfiguration_Spec              | Extended |       |
-| ManagedEnvironment_STATUS                                                | ManagedEnvironment_STATUS                                                | Modified |       |
-| ManagedEnvironment_Spec                                                  | ManagedEnvironment_Spec                                                  | Extended |       |
-| ManagedServiceIdentity                                                   | ManagedServiceIdentity                                                   | Modified |       |
-| ManagedServiceIdentity_STATUS                                            | ManagedServiceIdentity_STATUS                                            | Modified |       |
-| Mtls                                                                     | Mtls                                                                     | Extended |       |
-| Mtls_STATUS                                                              | Mtls_STATUS                                                              | Extended |       |
-| Nonce                                                                    | Nonce                                                                    | Extended |       |
-| Nonce_STATUS                                                             | Nonce_STATUS                                                             | Extended |       |
-| OpenIdConnectClientCredential                                            | OpenIdConnectClientCredential                                            | Modified |       |
-| OpenIdConnectClientCredential_STATUS                                     | OpenIdConnectClientCredential_STATUS                                     | Modified |       |
-| OpenIdConnectConfig                                                      | OpenIdConnectConfig                                                      | Extended |       |
-| OpenIdConnectConfig_STATUS                                               | OpenIdConnectConfig_STATUS                                               | Extended |       |
-| OpenIdConnectLogin                                                       | OpenIdConnectLogin                                                       | Extended |       |
-| OpenIdConnectLogin_STATUS                                                | OpenIdConnectLogin_STATUS                                                | Extended |       |
-| OpenIdConnectRegistration                                                | OpenIdConnectRegistration                                                | Extended |       |
-| OpenIdConnectRegistration_STATUS                                         | OpenIdConnectRegistration_STATUS                                         | Extended |       |
-| QueueScaleRule                                                           | QueueScaleRule                                                           | Extended |       |
-| QueueScaleRule_STATUS                                                    | QueueScaleRule_STATUS                                                    | Extended |       |
-| RegistryCredentials                                                      | RegistryCredentials                                                      | Extended |       |
-| RegistryCredentials_STATUS                                               | RegistryCredentials_STATUS                                               | Extended |       |
-| Runtime                                                                  | Runtime                                                                  | Extended |       |
-| Runtime_Java                                                             | Runtime_Java                                                             | Extended |       |
-| Runtime_Java_STATUS                                                      | Runtime_Java_STATUS                                                      | Extended |       |
-| Runtime_STATUS                                                           | Runtime_STATUS                                                           | Extended |       |
-| Scale                                                                    | Scale                                                                    | Extended |       |
-| ScaleRule                                                                | ScaleRule                                                                | Extended |       |
-| ScaleRuleAuth                                                            | ScaleRuleAuth                                                            | Extended |       |
-| ScaleRuleAuth_STATUS                                                     | ScaleRuleAuth_STATUS                                                     | Extended |       |
-| ScaleRule_STATUS                                                         | ScaleRule_STATUS                                                         | Extended |       |
-| Scale_STATUS                                                             | Scale_STATUS                                                             | Extended |       |
-| Secret                                                                   | Secret                                                                   | Extended |       |
-| SecretVolumeItem                                                         | SecretVolumeItem                                                         | Extended |       |
-| SecretVolumeItem_STATUS                                                  | SecretVolumeItem_STATUS                                                  | Extended |       |
-| Secret_STATUS                                                            | Secret_STATUS                                                            | Extended |       |
-| Service                                                                  | Service                                                                  | Extended |       |
-| ServiceBind                                                              | ServiceBind                                                              | Extended |       |
-| ServiceBind_STATUS                                                       | ServiceBind_STATUS                                                       | Extended |       |
-| Service_STATUS                                                           | Service_STATUS                                                           | Extended |       |
-| SystemData_STATUS                                                        | SystemData_STATUS                                                        | Modified |       |
-| TcpScaleRule                                                             | TcpScaleRule                                                             | Extended |       |
-| TcpScaleRule_STATUS                                                      | TcpScaleRule_STATUS                                                      | Extended |       |
-| Template                                                                 | Template                                                                 | Extended |       |
-| Template_STATUS                                                          | Template_STATUS                                                          | Extended |       |
-| TokenStore                                                               | TokenStore                                                               | Extended |       |
-| TokenStore_STATUS                                                        | TokenStore_STATUS                                                        | Extended |       |
-| TrafficWeight                                                            | TrafficWeight                                                            | Extended |       |
-| TrafficWeight_STATUS                                                     | TrafficWeight_STATUS                                                     | Extended |       |
-| Twitter                                                                  | Twitter                                                                  | Extended |       |
-| TwitterRegistration                                                      | TwitterRegistration                                                      | Extended |       |
-| TwitterRegistration_STATUS                                               | TwitterRegistration_STATUS                                               | Extended |       |
-| Twitter_STATUS                                                           | Twitter_STATUS                                                           | Extended |       |
-| UserAssignedIdentityDetails                                              | UserAssignedIdentityDetails                                              | Extended |       |
-| UserAssignedIdentity_STATUS                                              | UserAssignedIdentity_STATUS                                              | Extended |       |
-| VnetConfiguration                                                        | VnetConfiguration                                                        | Extended |       |
-| VnetConfiguration_STATUS                                                 | VnetConfiguration_STATUS                                                 | Extended |       |
-| Volume                                                                   | Volume                                                                   | Modified |       |
-| VolumeMount                                                              | VolumeMount                                                              | Extended |       |
-| VolumeMount_STATUS                                                       | VolumeMount_STATUS                                                       | Extended |       |
-| Volume_STATUS                                                            | Volume_STATUS                                                            | Modified |       |
-| WorkloadProfile                                                          | WorkloadProfile                                                          | Extended |       |
-| WorkloadProfile_STATUS                                                   | WorkloadProfile_STATUS                                                   | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20250101                                                            | v1api20250101/storage                                                    |  Status  | Notes                         |
+|:-------------------------------------------------------------------------|:-------------------------------------------------------------------------|:--------:|:------------------------------|
+| AllowedAudiencesValidation                                               | AllowedAudiencesValidation                                               | Extended | +PropertyBag                  |
+| AllowedAudiencesValidation_STATUS                                        | AllowedAudiencesValidation_STATUS                                        | Extended | +PropertyBag                  |
+| AllowedPrincipals                                                        | AllowedPrincipals                                                        | Extended | +PropertyBag                  |
+| AllowedPrincipals_STATUS                                                 | AllowedPrincipals_STATUS                                                 | Extended | +PropertyBag                  |
+| AppLogsConfiguration                                                     | AppLogsConfiguration                                                     | Extended | +PropertyBag                  |
+| AppLogsConfiguration_STATUS                                              | AppLogsConfiguration_STATUS                                              | Extended | +PropertyBag                  |
+| AppRegistration                                                          | AppRegistration                                                          | Extended | +PropertyBag                  |
+| AppRegistration_STATUS                                                   | AppRegistration_STATUS                                                   | Extended | +PropertyBag                  |
+| Apple                                                                    | Apple                                                                    | Extended | +PropertyBag                  |
+| AppleRegistration                                                        | AppleRegistration                                                        | Extended | +PropertyBag                  |
+| AppleRegistration_STATUS                                                 | AppleRegistration_STATUS                                                 | Extended | +PropertyBag                  |
+| Apple_STATUS                                                             | Apple_STATUS                                                             | Extended | +PropertyBag                  |
+| AuthConfigOperatorSpec                                                   | AuthConfigOperatorSpec                                                   | Extended | +PropertyBag                  |
+| AuthConfig_STATUS                                                        | AuthConfig_STATUS                                                        | Extended | +PropertyBag                  |
+| AuthConfig_Spec                                                          | AuthConfig_Spec                                                          | Extended | +OriginalVersion +PropertyBag |
+| AuthPlatform                                                             | AuthPlatform                                                             | Extended | +PropertyBag                  |
+| AuthPlatform_STATUS                                                      | AuthPlatform_STATUS                                                      | Extended | +PropertyBag                  |
+| AzureActiveDirectory                                                     | AzureActiveDirectory                                                     | Extended | +PropertyBag                  |
+| AzureActiveDirectoryLogin                                                | AzureActiveDirectoryLogin                                                | Extended | +PropertyBag                  |
+| AzureActiveDirectoryLogin_STATUS                                         | AzureActiveDirectoryLogin_STATUS                                         | Extended | +PropertyBag                  |
+| AzureActiveDirectoryRegistration                                         | AzureActiveDirectoryRegistration                                         | Extended | +PropertyBag                  |
+| AzureActiveDirectoryRegistration_STATUS                                  | AzureActiveDirectoryRegistration_STATUS                                  | Extended | +PropertyBag                  |
+| AzureActiveDirectoryValidation                                           | AzureActiveDirectoryValidation                                           | Extended | +PropertyBag                  |
+| AzureActiveDirectoryValidation_STATUS                                    | AzureActiveDirectoryValidation_STATUS                                    | Extended | +PropertyBag                  |
+| AzureActiveDirectory_STATUS                                              | AzureActiveDirectory_STATUS                                              | Extended | +PropertyBag                  |
+| AzureStaticWebApps                                                       | AzureStaticWebApps                                                       | Extended | +PropertyBag                  |
+| AzureStaticWebAppsRegistration                                           | AzureStaticWebAppsRegistration                                           | Extended | +PropertyBag                  |
+| AzureStaticWebAppsRegistration_STATUS                                    | AzureStaticWebAppsRegistration_STATUS                                    | Extended | +PropertyBag                  |
+| AzureStaticWebApps_STATUS                                                | AzureStaticWebApps_STATUS                                                | Extended | +PropertyBag                  |
+| BaseContainer                                                            | BaseContainer                                                            | Extended | +PropertyBag                  |
+| BaseContainer_STATUS                                                     | BaseContainer_STATUS                                                     | Extended | +PropertyBag                  |
+| BlobStorageTokenStore                                                    | BlobStorageTokenStore                                                    | Extended | +PropertyBag                  |
+| BlobStorageTokenStore_STATUS                                             | BlobStorageTokenStore_STATUS                                             | Extended | +PropertyBag                  |
+| CertificateKeyVaultProperties                                            | CertificateKeyVaultProperties                                            | Extended | +PropertyBag                  |
+| CertificateKeyVaultProperties_STATUS                                     | CertificateKeyVaultProperties_STATUS                                     | Extended | +PropertyBag                  |
+| ClientRegistration                                                       | ClientRegistration                                                       | Extended | +PropertyBag                  |
+| ClientRegistration_STATUS                                                | ClientRegistration_STATUS                                                | Extended | +PropertyBag                  |
+| Configuration                                                            | Configuration                                                            | Modified |                               |
+| Configuration_STATUS                                                     | Configuration_STATUS                                                     | Modified |                               |
+| Container                                                                | Container                                                                | Extended | +PropertyBag                  |
+| ContainerAppOperatorConfigMaps                                           | ContainerAppOperatorConfigMaps                                           | Extended | +PropertyBag                  |
+| ContainerAppOperatorSpec                                                 | ContainerAppOperatorSpec                                                 | Extended | +PropertyBag                  |
+| ContainerAppProbe                                                        | ContainerAppProbe                                                        | Modified |                               |
+| ContainerAppProbe_HttpGet                                                | ContainerAppProbe_HttpGet                                                | Modified |                               |
+| ContainerAppProbe_HttpGet_HttpHeaders                                    | ContainerAppProbe_HttpGet_HttpHeaders                                    | Extended | +PropertyBag                  |
+| ContainerAppProbe_HttpGet_HttpHeaders_STATUS                             | ContainerAppProbe_HttpGet_HttpHeaders_STATUS                             | Extended | +PropertyBag                  |
+| ContainerAppProbe_HttpGet_STATUS                                         | ContainerAppProbe_HttpGet_STATUS                                         | Modified |                               |
+| ContainerAppProbe_STATUS                                                 | ContainerAppProbe_STATUS                                                 | Modified |                               |
+| ContainerAppProbe_TcpSocket                                              | ContainerAppProbe_TcpSocket                                              | Extended | +PropertyBag                  |
+| ContainerAppProbe_TcpSocket_STATUS                                       | ContainerAppProbe_TcpSocket_STATUS                                       | Extended | +PropertyBag                  |
+| ContainerApp_STATUS                                                      | ContainerApp_STATUS                                                      | Modified |                               |
+| ContainerApp_Spec                                                        | ContainerApp_Spec                                                        | Extended | +OriginalVersion +PropertyBag |
+| ContainerResources                                                       | ContainerResources                                                       | Extended | +PropertyBag                  |
+| ContainerResources_STATUS                                                | ContainerResources_STATUS                                                | Extended | +PropertyBag                  |
+| Container_STATUS                                                         | Container_STATUS                                                         | Extended | +PropertyBag                  |
+| CookieExpiration                                                         | CookieExpiration                                                         | Modified |                               |
+| CookieExpiration_STATUS                                                  | CookieExpiration_STATUS                                                  | Modified |                               |
+| CorsPolicy                                                               | CorsPolicy                                                               | Extended | +PropertyBag                  |
+| CorsPolicy_STATUS                                                        | CorsPolicy_STATUS                                                        | Extended | +PropertyBag                  |
+| CustomDomain                                                             | CustomDomain                                                             | Modified |                               |
+| CustomDomainConfiguration                                                | CustomDomainConfiguration                                                | Extended | +PropertyBag                  |
+| CustomDomainConfiguration_STATUS                                         | CustomDomainConfiguration_STATUS                                         | Extended | +PropertyBag                  |
+| CustomDomain_STATUS                                                      | CustomDomain_STATUS                                                      | Modified |                               |
+| CustomOpenIdConnectProvider                                              | CustomOpenIdConnectProvider                                              | Extended | +PropertyBag                  |
+| CustomOpenIdConnectProvider_STATUS                                       | CustomOpenIdConnectProvider_STATUS                                       | Extended | +PropertyBag                  |
+| CustomScaleRule                                                          | CustomScaleRule                                                          | Extended | +PropertyBag                  |
+| CustomScaleRule_STATUS                                                   | CustomScaleRule_STATUS                                                   | Extended | +PropertyBag                  |
+| Dapr                                                                     | Dapr                                                                     | Modified |                               |
+| DaprConfiguration_STATUS                                                 | DaprConfiguration_STATUS                                                 | Extended | +PropertyBag                  |
+| Dapr_STATUS                                                              | Dapr_STATUS                                                              | Modified |                               |
+| DefaultAuthorizationPolicy                                               | DefaultAuthorizationPolicy                                               | Extended | +PropertyBag                  |
+| DefaultAuthorizationPolicy_STATUS                                        | DefaultAuthorizationPolicy_STATUS                                        | Extended | +PropertyBag                  |
+| EncryptionSettings                                                       | EncryptionSettings                                                       | Extended | +PropertyBag                  |
+| EncryptionSettings_STATUS                                                | EncryptionSettings_STATUS                                                | Extended | +PropertyBag                  |
+| EnvironmentVar                                                           | EnvironmentVar                                                           | Extended | +PropertyBag                  |
+| EnvironmentVar_STATUS                                                    | EnvironmentVar_STATUS                                                    | Extended | +PropertyBag                  |
+| ExtendedLocation                                                         | ExtendedLocation                                                         | Modified |                               |
+| ExtendedLocation_STATUS                                                  | ExtendedLocation_STATUS                                                  | Modified |                               |
+| Facebook                                                                 | Facebook                                                                 | Extended | +PropertyBag                  |
+| Facebook_STATUS                                                          | Facebook_STATUS                                                          | Extended | +PropertyBag                  |
+| ForwardProxy                                                             | ForwardProxy                                                             | Modified |                               |
+| ForwardProxy_STATUS                                                      | ForwardProxy_STATUS                                                      | Modified |                               |
+| GitHub                                                                   | GitHub                                                                   | Extended | +PropertyBag                  |
+| GitHub_STATUS                                                            | GitHub_STATUS                                                            | Extended | +PropertyBag                  |
+| GlobalValidation                                                         | GlobalValidation                                                         | Modified |                               |
+| GlobalValidation_STATUS                                                  | GlobalValidation_STATUS                                                  | Modified |                               |
+| Google                                                                   | Google                                                                   | Extended | +PropertyBag                  |
+| Google_STATUS                                                            | Google_STATUS                                                            | Extended | +PropertyBag                  |
+| HttpScaleRule                                                            | HttpScaleRule                                                            | Extended | +PropertyBag                  |
+| HttpScaleRule_STATUS                                                     | HttpScaleRule_STATUS                                                     | Extended | +PropertyBag                  |
+| HttpSettings                                                             | HttpSettings                                                             | Extended | +PropertyBag                  |
+| HttpSettingsRoutes                                                       | HttpSettingsRoutes                                                       | Extended | +PropertyBag                  |
+| HttpSettingsRoutes_STATUS                                                | HttpSettingsRoutes_STATUS                                                | Extended | +PropertyBag                  |
+| HttpSettings_STATUS                                                      | HttpSettings_STATUS                                                      | Extended | +PropertyBag                  |
+| IdentityProviders                                                        | IdentityProviders                                                        | Extended | +PropertyBag                  |
+| IdentityProviders_STATUS                                                 | IdentityProviders_STATUS                                                 | Extended | +PropertyBag                  |
+| IdentitySettings                                                         | IdentitySettings                                                         | Modified |                               |
+| IdentitySettings_STATUS                                                  | IdentitySettings_STATUS                                                  | Modified |                               |
+| Ingress                                                                  | Ingress                                                                  | Modified |                               |
+| IngressPortMapping                                                       | IngressPortMapping                                                       | Extended | +PropertyBag                  |
+| IngressPortMapping_STATUS                                                | IngressPortMapping_STATUS                                                | Extended | +PropertyBag                  |
+| Ingress_STATUS                                                           | Ingress_STATUS                                                           | Modified |                               |
+| Ingress_StickySessions                                                   | Ingress_StickySessions                                                   | Modified |                               |
+| Ingress_StickySessions_STATUS                                            | Ingress_StickySessions_STATUS                                            | Modified |                               |
+| IpSecurityRestrictionRule                                                | IpSecurityRestrictionRule                                                | Modified |                               |
+| IpSecurityRestrictionRule_STATUS                                         | IpSecurityRestrictionRule_STATUS                                         | Modified |                               |
+| JobConfiguration                                                         | JobConfiguration                                                         | Modified |                               |
+| JobConfiguration_EventTriggerConfig                                      | JobConfiguration_EventTriggerConfig                                      | Extended | +PropertyBag                  |
+| JobConfiguration_EventTriggerConfig_STATUS                               | JobConfiguration_EventTriggerConfig_STATUS                               | Extended | +PropertyBag                  |
+| JobConfiguration_ManualTriggerConfig                                     | JobConfiguration_ManualTriggerConfig                                     | Extended | +PropertyBag                  |
+| JobConfiguration_ManualTriggerConfig_STATUS                              | JobConfiguration_ManualTriggerConfig_STATUS                              | Extended | +PropertyBag                  |
+| JobConfiguration_STATUS                                                  | JobConfiguration_STATUS                                                  | Modified |                               |
+| JobConfiguration_ScheduleTriggerConfig                                   | JobConfiguration_ScheduleTriggerConfig                                   | Extended | +PropertyBag                  |
+| JobConfiguration_ScheduleTriggerConfig_STATUS                            | JobConfiguration_ScheduleTriggerConfig_STATUS                            | Extended | +PropertyBag                  |
+| JobOperatorSpec                                                          | JobOperatorSpec                                                          | Extended | +PropertyBag                  |
+| JobScale                                                                 | JobScale                                                                 | Extended | +PropertyBag                  |
+| JobScaleRule                                                             | JobScaleRule                                                             | Extended | +PropertyBag                  |
+| JobScaleRule_STATUS                                                      | JobScaleRule_STATUS                                                      | Extended | +PropertyBag                  |
+| JobScale_STATUS                                                          | JobScale_STATUS                                                          | Extended | +PropertyBag                  |
+| JobTemplate                                                              | JobTemplate                                                              | Extended | +PropertyBag                  |
+| JobTemplate_STATUS                                                       | JobTemplate_STATUS                                                       | Extended | +PropertyBag                  |
+| Job_STATUS                                                               | Job_STATUS                                                               | Modified |                               |
+| Job_Spec                                                                 | Job_Spec                                                                 | Modified |                               |
+| JwtClaimChecks                                                           | JwtClaimChecks                                                           | Extended | +PropertyBag                  |
+| JwtClaimChecks_STATUS                                                    | JwtClaimChecks_STATUS                                                    | Extended | +PropertyBag                  |
+| KedaConfiguration_STATUS                                                 | KedaConfiguration_STATUS                                                 | Extended | +PropertyBag                  |
+| LogAnalyticsConfiguration                                                | LogAnalyticsConfiguration                                                | Extended | +PropertyBag                  |
+| LogAnalyticsConfiguration_STATUS                                         | LogAnalyticsConfiguration_STATUS                                         | Extended | +PropertyBag                  |
+| Login                                                                    | Login                                                                    | Extended | +PropertyBag                  |
+| LoginRoutes                                                              | LoginRoutes                                                              | Extended | +PropertyBag                  |
+| LoginRoutes_STATUS                                                       | LoginRoutes_STATUS                                                       | Extended | +PropertyBag                  |
+| LoginScopes                                                              | LoginScopes                                                              | Extended | +PropertyBag                  |
+| LoginScopes_STATUS                                                       | LoginScopes_STATUS                                                       | Extended | +PropertyBag                  |
+| Login_STATUS                                                             | Login_STATUS                                                             | Extended | +PropertyBag                  |
+| ManagedEnvironmentOperatorSpec                                           | ManagedEnvironmentOperatorSpec                                           | Extended | +PropertyBag                  |
+| ManagedEnvironment_Properties_PeerAuthentication_STATUS                  | ManagedEnvironment_Properties_PeerAuthentication_STATUS                  | Extended | +PropertyBag                  |
+| ManagedEnvironment_Properties_PeerAuthentication_Spec                    | ManagedEnvironment_Properties_PeerAuthentication_Spec                    | Extended | +PropertyBag                  |
+| ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_STATUS | ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_STATUS | Extended | +PropertyBag                  |
+| ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_Spec   | ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_Spec   | Extended | +PropertyBag                  |
+| ManagedEnvironment_Properties_PeerTrafficConfiguration_STATUS            | ManagedEnvironment_Properties_PeerTrafficConfiguration_STATUS            | Extended | +PropertyBag                  |
+| ManagedEnvironment_Properties_PeerTrafficConfiguration_Spec              | ManagedEnvironment_Properties_PeerTrafficConfiguration_Spec              | Extended | +PropertyBag                  |
+| ManagedEnvironment_STATUS                                                | ManagedEnvironment_STATUS                                                | Modified |                               |
+| ManagedEnvironment_Spec                                                  | ManagedEnvironment_Spec                                                  | Extended | +OriginalVersion +PropertyBag |
+| ManagedServiceIdentity                                                   | ManagedServiceIdentity                                                   | Modified |                               |
+| ManagedServiceIdentity_STATUS                                            | ManagedServiceIdentity_STATUS                                            | Modified |                               |
+| Mtls                                                                     | Mtls                                                                     | Extended | +PropertyBag                  |
+| Mtls_STATUS                                                              | Mtls_STATUS                                                              | Extended | +PropertyBag                  |
+| Nonce                                                                    | Nonce                                                                    | Extended | +PropertyBag                  |
+| Nonce_STATUS                                                             | Nonce_STATUS                                                             | Extended | +PropertyBag                  |
+| OpenIdConnectClientCredential                                            | OpenIdConnectClientCredential                                            | Modified |                               |
+| OpenIdConnectClientCredential_STATUS                                     | OpenIdConnectClientCredential_STATUS                                     | Modified |                               |
+| OpenIdConnectConfig                                                      | OpenIdConnectConfig                                                      | Extended | +PropertyBag                  |
+| OpenIdConnectConfig_STATUS                                               | OpenIdConnectConfig_STATUS                                               | Extended | +PropertyBag                  |
+| OpenIdConnectLogin                                                       | OpenIdConnectLogin                                                       | Extended | +PropertyBag                  |
+| OpenIdConnectLogin_STATUS                                                | OpenIdConnectLogin_STATUS                                                | Extended | +PropertyBag                  |
+| OpenIdConnectRegistration                                                | OpenIdConnectRegistration                                                | Extended | +PropertyBag                  |
+| OpenIdConnectRegistration_STATUS                                         | OpenIdConnectRegistration_STATUS                                         | Extended | +PropertyBag                  |
+| QueueScaleRule                                                           | QueueScaleRule                                                           | Extended | +PropertyBag                  |
+| QueueScaleRule_STATUS                                                    | QueueScaleRule_STATUS                                                    | Extended | +PropertyBag                  |
+| RegistryCredentials                                                      | RegistryCredentials                                                      | Extended | +PropertyBag                  |
+| RegistryCredentials_STATUS                                               | RegistryCredentials_STATUS                                               | Extended | +PropertyBag                  |
+| Runtime                                                                  | Runtime                                                                  | Extended | +PropertyBag                  |
+| Runtime_Java                                                             | Runtime_Java                                                             | Extended | +PropertyBag                  |
+| Runtime_Java_STATUS                                                      | Runtime_Java_STATUS                                                      | Extended | +PropertyBag                  |
+| Runtime_STATUS                                                           | Runtime_STATUS                                                           | Extended | +PropertyBag                  |
+| Scale                                                                    | Scale                                                                    | Extended | +PropertyBag                  |
+| ScaleRule                                                                | ScaleRule                                                                | Extended | +PropertyBag                  |
+| ScaleRuleAuth                                                            | ScaleRuleAuth                                                            | Extended | +PropertyBag                  |
+| ScaleRuleAuth_STATUS                                                     | ScaleRuleAuth_STATUS                                                     | Extended | +PropertyBag                  |
+| ScaleRule_STATUS                                                         | ScaleRule_STATUS                                                         | Extended | +PropertyBag                  |
+| Scale_STATUS                                                             | Scale_STATUS                                                             | Extended | +PropertyBag                  |
+| Secret                                                                   | Secret                                                                   | Extended | +PropertyBag                  |
+| SecretVolumeItem                                                         | SecretVolumeItem                                                         | Extended | +PropertyBag                  |
+| SecretVolumeItem_STATUS                                                  | SecretVolumeItem_STATUS                                                  | Extended | +PropertyBag                  |
+| Secret_STATUS                                                            | Secret_STATUS                                                            | Extended | +PropertyBag                  |
+| Service                                                                  | Service                                                                  | Extended | +PropertyBag                  |
+| ServiceBind                                                              | ServiceBind                                                              | Extended | +PropertyBag                  |
+| ServiceBind_STATUS                                                       | ServiceBind_STATUS                                                       | Extended | +PropertyBag                  |
+| Service_STATUS                                                           | Service_STATUS                                                           | Extended | +PropertyBag                  |
+| SystemData_STATUS                                                        | SystemData_STATUS                                                        | Modified |                               |
+| TcpScaleRule                                                             | TcpScaleRule                                                             | Extended | +PropertyBag                  |
+| TcpScaleRule_STATUS                                                      | TcpScaleRule_STATUS                                                      | Extended | +PropertyBag                  |
+| Template                                                                 | Template                                                                 | Extended | +PropertyBag                  |
+| Template_STATUS                                                          | Template_STATUS                                                          | Extended | +PropertyBag                  |
+| TokenStore                                                               | TokenStore                                                               | Extended | +PropertyBag                  |
+| TokenStore_STATUS                                                        | TokenStore_STATUS                                                        | Extended | +PropertyBag                  |
+| TrafficWeight                                                            | TrafficWeight                                                            | Extended | +PropertyBag                  |
+| TrafficWeight_STATUS                                                     | TrafficWeight_STATUS                                                     | Extended | +PropertyBag                  |
+| Twitter                                                                  | Twitter                                                                  | Extended | +PropertyBag                  |
+| TwitterRegistration                                                      | TwitterRegistration                                                      | Extended | +PropertyBag                  |
+| TwitterRegistration_STATUS                                               | TwitterRegistration_STATUS                                               | Extended | +PropertyBag                  |
+| Twitter_STATUS                                                           | Twitter_STATUS                                                           | Extended | +PropertyBag                  |
+| UserAssignedIdentityDetails                                              | UserAssignedIdentityDetails                                              | Extended | +PropertyBag                  |
+| UserAssignedIdentity_STATUS                                              | UserAssignedIdentity_STATUS                                              | Extended | +PropertyBag                  |
+| VnetConfiguration                                                        | VnetConfiguration                                                        | Extended | +PropertyBag                  |
+| VnetConfiguration_STATUS                                                 | VnetConfiguration_STATUS                                                 | Extended | +PropertyBag                  |
+| Volume                                                                   | Volume                                                                   | Modified |                               |
+| VolumeMount                                                              | VolumeMount                                                              | Extended | +PropertyBag                  |
+| VolumeMount_STATUS                                                       | VolumeMount_STATUS                                                       | Extended | +PropertyBag                  |
+| Volume_STATUS                                                            | Volume_STATUS                                                            | Modified |                               |
+| WorkloadProfile                                                          | WorkloadProfile                                                          | Extended | +PropertyBag                  |
+| WorkloadProfile_STATUS                                                   | WorkloadProfile_STATUS                                                   | Extended | +PropertyBag                  |
 
 ### AllowedAudiencesValidation
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250101    |          | v1api20250101/storage |                        |  Status   | Notes |
 |:-----------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -236,7 +229,7 @@
 
 ### AllowedAudiencesValidation_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250101    |          | v1api20250101/storage |                        |  Status   | Notes |
 |:-----------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -245,7 +238,7 @@
 
 ### AllowedPrincipals
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101 |          | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -255,7 +248,7 @@
 
 ### AllowedPrincipals_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101 |          | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -265,7 +258,7 @@
 
 ### AppLogsConfiguration
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101             |                            | v1api20250101/storage     |                            |  Status   | Notes |
 |:--------------------------|:---------------------------|:--------------------------|:---------------------------|:---------:|:------|
@@ -275,7 +268,7 @@
 
 ### AppLogsConfiguration_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101             |                                   | v1api20250101/storage     |                                   |  Status   | Notes |
 |:--------------------------|:----------------------------------|:--------------------------|:----------------------------------|:---------:|:------|
@@ -285,7 +278,7 @@
 
 ### AppRegistration
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101        |         | v1api20250101/storage |                        |  Status   | Notes |
 |:---------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -295,7 +288,7 @@
 
 ### AppRegistration_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101        |         | v1api20250101/storage |                        |  Status   | Notes |
 |:---------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -305,7 +298,7 @@
 
 ### Apple
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101 |                    | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:-------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -316,7 +309,7 @@
 
 ### AppleRegistration
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101           |         | v1api20250101/storage   |                        |  Status   | Notes |
 |:------------------------|:--------|:------------------------|:-----------------------|:---------:|:------|
@@ -326,7 +319,7 @@
 
 ### AppleRegistration_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101           |         | v1api20250101/storage   |                        |  Status   | Notes |
 |:------------------------|:--------|:------------------------|:-----------------------|:---------:|:------|
@@ -336,7 +329,7 @@
 
 ### Apple_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101 |                           | v1api20250101/storage |                           |  Status   | Notes |
 |:--------------|:--------------------------|:----------------------|:--------------------------|:---------:|:------|
@@ -347,7 +340,7 @@
 
 ### AuthConfigOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101        |                               | v1api20250101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -357,7 +350,7 @@
 
 ### AuthConfig_STATUS
 
-11 x Identical, 1 x New
+Properties: 11 x Identical, 1 x New
 
 | v1api20250101      |                            | v1api20250101/storage |                            |  Status   | Notes |
 |:-------------------|:---------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -376,7 +369,7 @@
 
 ### AuthConfig_Spec
 
-9 x Identical, 2 x New
+Properties: 9 x Identical, 2 x New
 
 | v1api20250101      |                                    | v1api20250101/storage |                                    |  Status   | Notes |
 |:-------------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -394,7 +387,7 @@
 
 ### AuthPlatform
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101  |         | v1api20250101/storage |                        |  Status   | Notes |
 |:---------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -404,7 +397,7 @@
 
 ### AuthPlatform_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101  |         | v1api20250101/storage |                        |  Status   | Notes |
 |:---------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -414,7 +407,7 @@
 
 ### AzureActiveDirectory
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20250101     |                                   | v1api20250101/storage |                                   |  Status   | Notes |
 |:------------------|:----------------------------------|:----------------------|:----------------------------------|:---------:|:------|
@@ -427,7 +420,7 @@
 
 ### AzureActiveDirectoryLogin
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101          |          | v1api20250101/storage  |                        |  Status   | Notes |
 |:-----------------------|:---------|:-----------------------|:-----------------------|:---------:|:------|
@@ -437,7 +430,7 @@
 
 ### AzureActiveDirectoryLogin_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101          |          | v1api20250101/storage  |                        |  Status   | Notes |
 |:-----------------------|:---------|:-----------------------|:-----------------------|:---------:|:------|
@@ -447,7 +440,7 @@
 
 ### AzureActiveDirectoryRegistration
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20250101                                 |         | v1api20250101/storage                         |                        |  Status   | Notes |
 |:----------------------------------------------|:--------|:----------------------------------------------|:-----------------------|:---------:|:------|
@@ -461,7 +454,7 @@
 
 ### AzureActiveDirectoryRegistration_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20250101                                 |         | v1api20250101/storage                         |                        |  Status   | Notes |
 |:----------------------------------------------|:--------|:----------------------------------------------|:-----------------------|:---------:|:------|
@@ -475,7 +468,7 @@
 
 ### AzureActiveDirectoryValidation
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101              |                             | v1api20250101/storage      |                             |  Status   | Notes |
 |:---------------------------|:----------------------------|:---------------------------|:----------------------------|:---------:|:------|
@@ -486,7 +479,7 @@
 
 ### AzureActiveDirectoryValidation_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101              |                                    | v1api20250101/storage      |                                    |  Status   | Notes |
 |:---------------------------|:-----------------------------------|:---------------------------|:-----------------------------------|:---------:|:------|
@@ -497,7 +490,7 @@
 
 ### AzureActiveDirectory_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20250101     |                                          | v1api20250101/storage |                                          |  Status   | Notes |
 |:------------------|:-----------------------------------------|:----------------------|:-----------------------------------------|:---------:|:------|
@@ -510,7 +503,7 @@
 
 ### AzureStaticWebApps
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101 |                                 | v1api20250101/storage |                                 |  Status   | Notes |
 |:--------------|:--------------------------------|:----------------------|:--------------------------------|:---------:|:------|
@@ -520,7 +513,7 @@
 
 ### AzureStaticWebAppsRegistration
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250101 |         | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -529,7 +522,7 @@
 
 ### AzureStaticWebAppsRegistration_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250101 |         | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -538,7 +531,7 @@
 
 ### AzureStaticWebApps_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101 |                                        | v1api20250101/storage |                                        |  Status   | Notes |
 |:--------------|:---------------------------------------|:----------------------|:---------------------------------------|:---------:|:------|
@@ -548,7 +541,7 @@
 
 ### BaseContainer
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v1api20250101 |                     | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -563,7 +556,7 @@
 
 ### BaseContainer_STATUS
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v1api20250101 |                            | v1api20250101/storage |                            |  Status   | Notes |
 |:--------------|:---------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -578,7 +571,7 @@
 
 ### BlobStorageTokenStore
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250101     |         | v1api20250101/storage |                        |  Status   | Notes |
 |:------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -587,7 +580,7 @@
 
 ### BlobStorageTokenStore_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250101     |         | v1api20250101/storage |                        |  Status   | Notes |
 |:------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -596,17 +589,17 @@
 
 ### CertificateKeyVaultProperties
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101     |                                        | v1api20250101/storage |                                        |  Status   | Notes |
 |:------------------|:---------------------------------------|:----------------------|:---------------------------------------|:---------:|:------|
 | IdentityReference | *genruntime.WellKnownResourceReference | IdentityReference     | *genruntime.WellKnownResourceReference | Identical |       |
-| KeyVaultUrl       | Validated<*string> (1 rule)            | KeyVaultUrl           | *string                                | Modified  |       |
+| KeyVaultUrl       | Validated<*string> (1 rule)            | KeyVaultUrl           | *string                                | Identical |       |
 |                   |                                        | PropertyBag           | genruntime.PropertyBag                 |    New    |       |
 
 ### CertificateKeyVaultProperties_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101 |         | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -616,7 +609,7 @@
 
 ### ClientRegistration
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101           |         | v1api20250101/storage   |                        |  Status   | Notes |
 |:------------------------|:--------|:------------------------|:-----------------------|:---------:|:------|
@@ -626,7 +619,7 @@
 
 ### ClientRegistration_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101           |         | v1api20250101/storage   |                        |  Status   | Notes |
 |:------------------------|:--------|:------------------------|:-----------------------|:---------:|:------|
@@ -636,7 +629,7 @@
 
 ### Configuration
 
-8 x Identical, 1 x New, 1 x Modified
+Properties: 8 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101        |                                    | v1api20250101/storage |                        |  Status   | Notes |
 |:---------------------|:-----------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -653,7 +646,7 @@
 
 ### Configuration_STATUS
 
-8 x Identical, 1 x New, 1 x Modified
+Properties: 8 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101        |                                           | v1api20250101/storage |                              |  Status   | Notes |
 |:---------------------|:------------------------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -670,7 +663,7 @@
 
 ### Container
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v1api20250101 |                     | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -686,7 +679,7 @@
 
 ### ContainerAppOperatorConfigMaps
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101       |                                  | v1api20250101/storage |                                  |  Status   | Notes |
 |:--------------------|:---------------------------------|:----------------------|:---------------------------------|:---------:|:------|
@@ -696,7 +689,7 @@
 
 ### ContainerAppOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101        |                                 | v1api20250101/storage |                                 |  Status   | Notes |
 |:---------------------|:--------------------------------|:----------------------|:--------------------------------|:---------:|:------|
@@ -707,7 +700,7 @@
 
 ### ContainerAppProbe
 
-8 x Identical, 1 x New, 1 x Modified
+Properties: 8 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101                 |                              | v1api20250101/storage         |                              |  Status   | Notes |
 |:------------------------------|:-----------------------------|:------------------------------|:-----------------------------|:---------:|:------|
@@ -724,7 +717,7 @@
 
 ### ContainerAppProbe_HttpGet
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101 |                                         | v1api20250101/storage |                                         |  Status   | Notes |
 |:--------------|:----------------------------------------|:----------------------|:----------------------------------------|:---------:|:------|
@@ -737,7 +730,7 @@
 
 ### ContainerAppProbe_HttpGet_HttpHeaders
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101 |         | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -747,7 +740,7 @@
 
 ### ContainerAppProbe_HttpGet_HttpHeaders_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101 |         | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -757,7 +750,7 @@
 
 ### ContainerAppProbe_HttpGet_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101 |                                                | v1api20250101/storage |                                                |  Status   | Notes |
 |:--------------|:-----------------------------------------------|:----------------------|:-----------------------------------------------|:---------:|:------|
@@ -770,7 +763,7 @@
 
 ### ContainerAppProbe_STATUS
 
-8 x Identical, 1 x New, 1 x Modified
+Properties: 8 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101                 |                                     | v1api20250101/storage         |                                     |  Status   | Notes |
 |:------------------------------|:------------------------------------|:------------------------------|:------------------------------------|:---------:|:------|
@@ -787,7 +780,7 @@
 
 ### ContainerAppProbe_TcpSocket
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101 |         | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -797,7 +790,7 @@
 
 ### ContainerAppProbe_TcpSocket_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101 |         | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -807,7 +800,7 @@
 
 ### ContainerApp_STATUS
 
-21 x Identical, 1 x New, 2 x Modified
+Properties: 21 x Identical, 1 x New, 2 x Modified
 
 | v1api20250101              |                                                   | v1api20250101/storage      |                                |  Status   | Notes |
 |:---------------------------|:--------------------------------------------------|:---------------------------|:-------------------------------|:---------:|:------|
@@ -838,7 +831,7 @@
 
 ### ContainerApp_Spec
 
-13 x Identical, 2 x New
+Properties: 13 x Identical, 2 x New
 
 | v1api20250101               |                                    | v1api20250101/storage       |                                    |  Status   | Notes |
 |:----------------------------|:-----------------------------------|:----------------------------|:-----------------------------------|:---------:|:------|
@@ -860,7 +853,7 @@
 
 ### ContainerResources
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101 |          | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -870,7 +863,7 @@
 
 ### ContainerResources_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101    |          | v1api20250101/storage |                        |  Status   | Notes |
 |:-----------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -881,7 +874,7 @@
 
 ### Container_STATUS
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v1api20250101 |                            | v1api20250101/storage |                            |  Status   | Notes |
 |:--------------|:---------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -897,7 +890,7 @@
 
 ### CookieExpiration
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101    |                              | v1api20250101/storage |                        |  Status   | Notes |
 |:-----------------|:-----------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -907,7 +900,7 @@
 
 ### CookieExpiration_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101    |                                     | v1api20250101/storage |                        |  Status   | Notes |
 |:-----------------|:------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -917,7 +910,7 @@
 
 ### CorsPolicy
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20250101    |          | v1api20250101/storage |                        |  Status   | Notes |
 |:-----------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -931,7 +924,7 @@
 
 ### CorsPolicy_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20250101    |          | v1api20250101/storage |                        |  Status   | Notes |
 |:-----------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -945,7 +938,7 @@
 
 ### CustomDomain
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101        |                               | v1api20250101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -956,7 +949,7 @@
 
 ### CustomDomainConfiguration
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20250101                 |                                | v1api20250101/storage         |                                |  Status   | Notes |
 |:------------------------------|:-------------------------------|:------------------------------|:-------------------------------|:---------:|:------|
@@ -968,7 +961,7 @@
 
 ### CustomDomainConfiguration_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20250101                 |                                       | v1api20250101/storage         |                                       |  Status   | Notes |
 |:------------------------------|:--------------------------------------|:------------------------------|:--------------------------------------|:---------:|:------|
@@ -982,7 +975,7 @@
 
 ### CustomDomain_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101 |                                  | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:---------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -993,7 +986,7 @@
 
 ### CustomOpenIdConnectProvider
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101 |                            | v1api20250101/storage |                            |  Status   | Notes |
 |:--------------|:---------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -1004,7 +997,7 @@
 
 ### CustomOpenIdConnectProvider_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101 |                                   | v1api20250101/storage |                                   |  Status   | Notes |
 |:--------------|:----------------------------------|:----------------------|:----------------------------------|:---------:|:------|
@@ -1015,7 +1008,7 @@
 
 ### CustomScaleRule
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20250101     |                                        | v1api20250101/storage |                                        |  Status   | Notes |
 |:------------------|:---------------------------------------|:----------------------|:---------------------------------------|:---------:|:------|
@@ -1027,7 +1020,7 @@
 
 ### CustomScaleRule_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20250101 |                        | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1039,7 +1032,7 @@
 
 ### Dapr
 
-6 x Identical, 1 x New, 2 x Modified
+Properties: 6 x Identical, 1 x New, 2 x Modified
 
 | v1api20250101      |                   | v1api20250101/storage |                        |  Status   | Notes |
 |:-------------------|:------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1055,7 +1048,7 @@
 
 ### DaprConfiguration_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250101 |         | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1064,7 +1057,7 @@
 
 ### Dapr_STATUS
 
-6 x Identical, 1 x New, 2 x Modified
+Properties: 6 x Identical, 1 x New, 2 x Modified
 
 | v1api20250101      |                          | v1api20250101/storage |                        |  Status   | Notes |
 |:-------------------|:-------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1080,7 +1073,7 @@
 
 ### DefaultAuthorizationPolicy
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101       |                    | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------------|:-------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1090,7 +1083,7 @@
 
 ### DefaultAuthorizationPolicy_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101       |                           | v1api20250101/storage |                           |  Status   | Notes |
 |:--------------------|:--------------------------|:----------------------|:--------------------------|:---------:|:------|
@@ -1100,7 +1093,7 @@
 
 ### EncryptionSettings
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101                        |         | v1api20250101/storage                |                        |  Status   | Notes |
 |:-------------------------------------|:--------|:-------------------------------------|:-----------------------|:---------:|:------|
@@ -1110,7 +1103,7 @@
 
 ### EncryptionSettings_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101                        |         | v1api20250101/storage                |                        |  Status   | Notes |
 |:-------------------------------------|:--------|:-------------------------------------|:-----------------------|:---------:|:------|
@@ -1120,7 +1113,7 @@
 
 ### EnvironmentVar
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101 |         | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1131,7 +1124,7 @@
 
 ### EnvironmentVar_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101 |         | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1142,7 +1135,7 @@
 
 ### ExtendedLocation
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101 |                       | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1152,7 +1145,7 @@
 
 ### ExtendedLocation_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101 |                              | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1162,7 +1155,7 @@
 
 ### Facebook
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20250101   |                  | v1api20250101/storage |                        |  Status   | Notes |
 |:----------------|:-----------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1174,7 +1167,7 @@
 
 ### Facebook_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20250101   |                         | v1api20250101/storage |                         |  Status   | Notes |
 |:----------------|:------------------------|:----------------------|:------------------------|:---------:|:------|
@@ -1186,7 +1179,7 @@
 
 ### ForwardProxy
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101         |                          | v1api20250101/storage |                        |  Status   | Notes |
 |:----------------------|:-------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1197,7 +1190,7 @@
 
 ### ForwardProxy_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101         |                                 | v1api20250101/storage |                        |  Status   | Notes |
 |:----------------------|:--------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1208,7 +1201,7 @@
 
 ### GitHub
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101 |                     | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1219,7 +1212,7 @@
 
 ### GitHub_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101 |                            | v1api20250101/storage |                            |  Status   | Notes |
 |:--------------|:---------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -1230,7 +1223,7 @@
 
 ### GlobalValidation
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101               |                                               | v1api20250101/storage       |                        |  Status   | Notes |
 |:----------------------------|:----------------------------------------------|:----------------------------|:-----------------------|:---------:|:------|
@@ -1241,7 +1234,7 @@
 
 ### GlobalValidation_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101               |                                                      | v1api20250101/storage       |                        |  Status   | Notes |
 |:----------------------------|:-----------------------------------------------------|:----------------------------|:-----------------------|:---------:|:------|
@@ -1252,7 +1245,7 @@
 
 ### Google
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20250101 |                             | v1api20250101/storage |                             |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -1264,7 +1257,7 @@
 
 ### Google_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20250101 |                                    | v1api20250101/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -1276,7 +1269,7 @@
 
 ### HttpScaleRule
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101     |                                        | v1api20250101/storage |                                        |  Status   | Notes |
 |:------------------|:---------------------------------------|:----------------------|:---------------------------------------|:---------:|:------|
@@ -1287,7 +1280,7 @@
 
 ### HttpScaleRule_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101 |                        | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1298,7 +1291,7 @@
 
 ### HttpSettings
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101 |                     | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1309,7 +1302,7 @@
 
 ### HttpSettingsRoutes
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250101 |         | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1318,7 +1311,7 @@
 
 ### HttpSettingsRoutes_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250101 |         | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1327,7 +1320,7 @@
 
 ### HttpSettings_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101 |                            | v1api20250101/storage |                            |  Status   | Notes |
 |:--------------|:---------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -1338,7 +1331,7 @@
 
 ### IdentityProviders
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v1api20250101                |                                        | v1api20250101/storage        |                                        |  Status   | Notes |
 |:-----------------------------|:---------------------------------------|:-----------------------------|:---------------------------------------|:---------:|:------|
@@ -1354,7 +1347,7 @@
 
 ### IdentityProviders_STATUS
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v1api20250101                |                                               | v1api20250101/storage        |                                               |  Status   | Notes |
 |:-----------------------------|:----------------------------------------------|:-----------------------------|:----------------------------------------------|:---------:|:------|
@@ -1370,7 +1363,7 @@
 
 ### IdentitySettings
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101     |                                        | v1api20250101/storage |                                        |  Status   | Notes |
 |:------------------|:---------------------------------------|:----------------------|:---------------------------------------|:---------:|:------|
@@ -1380,7 +1373,7 @@
 
 ### IdentitySettings_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101 |                                    | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1390,7 +1383,7 @@
 
 ### Ingress
 
-10 x Identical, 1 x New, 2 x Modified
+Properties: 10 x Identical, 1 x New, 2 x Modified
 
 | v1api20250101          |                                | v1api20250101/storage  |                             |  Status   | Notes |
 |:-----------------------|:-------------------------------|:-----------------------|:----------------------------|:---------:|:------|
@@ -1410,7 +1403,7 @@
 
 ### IngressPortMapping
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101 |       | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1421,7 +1414,7 @@
 
 ### IngressPortMapping_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101 |       | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1432,7 +1425,7 @@
 
 ### Ingress_STATUS
 
-11 x Identical, 1 x New, 2 x Modified
+Properties: 11 x Identical, 1 x New, 2 x Modified
 
 | v1api20250101          |                                       | v1api20250101/storage  |                                    |  Status   | Notes |
 |:-----------------------|:--------------------------------------|:-----------------------|:-----------------------------------|:---------:|:------|
@@ -1453,7 +1446,7 @@
 
 ### Ingress_StickySessions
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20250101 |                                  | v1api20250101/storage |                        |  Status  | Notes |
 |:--------------|:---------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -1462,7 +1455,7 @@
 
 ### Ingress_StickySessions_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20250101 |                                         | v1api20250101/storage |                        |  Status  | Notes |
 |:--------------|:----------------------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -1471,7 +1464,7 @@
 
 ### IpSecurityRestrictionRule
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101  |                                   | v1api20250101/storage |                        |  Status   | Notes |
 |:---------------|:----------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1483,7 +1476,7 @@
 
 ### IpSecurityRestrictionRule_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101  |                                          | v1api20250101/storage |                        |  Status   | Notes |
 |:---------------|:-----------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1495,7 +1488,7 @@
 
 ### JobConfiguration
 
-8 x Identical, 1 x New, 1 x Modified
+Properties: 8 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101         |                                         | v1api20250101/storage |                                         |  Status   | Notes |
 |:----------------------|:----------------------------------------|:----------------------|:----------------------------------------|:---------:|:------|
@@ -1512,7 +1505,7 @@
 
 ### JobConfiguration_EventTriggerConfig
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101          |           | v1api20250101/storage  |                        |  Status   | Notes |
 |:-----------------------|:----------|:-----------------------|:-----------------------|:---------:|:------|
@@ -1523,7 +1516,7 @@
 
 ### JobConfiguration_EventTriggerConfig_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101          |                  | v1api20250101/storage  |                        |  Status   | Notes |
 |:-----------------------|:-----------------|:-----------------------|:-----------------------|:---------:|:------|
@@ -1534,7 +1527,7 @@
 
 ### JobConfiguration_ManualTriggerConfig
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101          |      | v1api20250101/storage  |                        |  Status   | Notes |
 |:-----------------------|:-----|:-----------------------|:-----------------------|:---------:|:------|
@@ -1544,7 +1537,7 @@
 
 ### JobConfiguration_ManualTriggerConfig_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101          |      | v1api20250101/storage  |                        |  Status   | Notes |
 |:-----------------------|:-----|:-----------------------|:-----------------------|:---------:|:------|
@@ -1554,7 +1547,7 @@
 
 ### JobConfiguration_STATUS
 
-8 x Identical, 1 x New, 1 x Modified
+Properties: 8 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101         |                                                | v1api20250101/storage |                                                |  Status   | Notes |
 |:----------------------|:-----------------------------------------------|:----------------------|:-----------------------------------------------|:---------:|:------|
@@ -1571,7 +1564,7 @@
 
 ### JobConfiguration_ScheduleTriggerConfig
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101          |         | v1api20250101/storage  |                        |  Status   | Notes |
 |:-----------------------|:--------|:-----------------------|:-----------------------|:---------:|:------|
@@ -1582,7 +1575,7 @@
 
 ### JobConfiguration_ScheduleTriggerConfig_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101          |         | v1api20250101/storage  |                        |  Status   | Notes |
 |:-----------------------|:--------|:-----------------------|:-----------------------|:---------:|:------|
@@ -1593,7 +1586,7 @@
 
 ### JobOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101        |                               | v1api20250101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1603,7 +1596,7 @@
 
 ### JobScale
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20250101   |                | v1api20250101/storage |                        |  Status   | Notes |
 |:----------------|:---------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1615,7 +1608,7 @@
 
 ### JobScaleRule
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20250101     |                                        | v1api20250101/storage |                                        |  Status   | Notes |
 |:------------------|:---------------------------------------|:----------------------|:---------------------------------------|:---------:|:------|
@@ -1628,7 +1621,7 @@
 
 ### JobScaleRule_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20250101 |                        | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1641,7 +1634,7 @@
 
 ### JobScale_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20250101   |                       | v1api20250101/storage |                        |  Status   | Notes |
 |:----------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1653,7 +1646,7 @@
 
 ### JobTemplate
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101  |                 | v1api20250101/storage |                        |  Status   | Notes |
 |:---------------|:----------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1664,7 +1657,7 @@
 
 ### JobTemplate_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101  |                        | v1api20250101/storage |                        |  Status   | Notes |
 |:---------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1675,7 +1668,7 @@
 
 ### Job_STATUS
 
-14 x Identical, 1 x New, 1 x Modified
+Properties: 14 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101       |                                          | v1api20250101/storage |                                |  Status   | Notes |
 |:--------------------|:-----------------------------------------|:----------------------|:-------------------------------|:---------:|:------|
@@ -1698,7 +1691,7 @@
 
 ### Job_Spec
 
-9 x Identical, 2 x New, 1 x Modified
+Properties: 9 x Identical, 2 x New, 1 x Modified
 
 | v1api20250101        |                                    | v1api20250101/storage |                                    |  Status   | Notes |
 |:---------------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -1717,7 +1710,7 @@
 
 ### JwtClaimChecks
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101             |          | v1api20250101/storage     |                        |  Status   | Notes |
 |:--------------------------|:---------|:--------------------------|:-----------------------|:---------:|:------|
@@ -1727,7 +1720,7 @@
 
 ### JwtClaimChecks_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101             |          | v1api20250101/storage     |                        |  Status   | Notes |
 |:--------------------------|:---------|:--------------------------|:-----------------------|:---------:|:------|
@@ -1737,7 +1730,7 @@
 
 ### KedaConfiguration_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250101 |         | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1746,7 +1739,7 @@
 
 ### LogAnalyticsConfiguration
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101 |                             | v1api20250101/storage |                             |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -1756,7 +1749,7 @@
 
 ### LogAnalyticsConfiguration_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250101 |         | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1765,7 +1758,7 @@
 
 ### Login
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20250101                 |                   | v1api20250101/storage         |                        |  Status   | Notes |
 |:------------------------------|:------------------|:------------------------------|:-----------------------|:---------:|:------|
@@ -1779,7 +1772,7 @@
 
 ### LoginRoutes
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250101  |         | v1api20250101/storage |                        |  Status   | Notes |
 |:---------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1788,7 +1781,7 @@
 
 ### LoginRoutes_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250101  |         | v1api20250101/storage |                        |  Status   | Notes |
 |:---------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1797,7 +1790,7 @@
 
 ### LoginScopes
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250101 |          | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -1806,7 +1799,7 @@
 
 ### LoginScopes_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250101 |          | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -1815,7 +1808,7 @@
 
 ### Login_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20250101                 |                          | v1api20250101/storage         |                          |  Status   | Notes |
 |:------------------------------|:-------------------------|:------------------------------|:-------------------------|:---------:|:------|
@@ -1829,7 +1822,7 @@
 
 ### ManagedEnvironmentOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101        |                               | v1api20250101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1839,7 +1832,7 @@
 
 ### ManagedEnvironment_Properties_PeerAuthentication_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250101 |              | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:-------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1848,7 +1841,7 @@
 
 ### ManagedEnvironment_Properties_PeerAuthentication_Spec
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250101 |       | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1857,7 +1850,7 @@
 
 ### ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250101 |       | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1866,7 +1859,7 @@
 
 ### ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_Spec
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250101 |       | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1875,7 +1868,7 @@
 
 ### ManagedEnvironment_Properties_PeerTrafficConfiguration_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250101 |                                                                           | v1api20250101/storage |                                                                           |  Status   | Notes |
 |:--------------|:--------------------------------------------------------------------------|:----------------------|:--------------------------------------------------------------------------|:---------:|:------|
@@ -1884,7 +1877,7 @@
 
 ### ManagedEnvironment_Properties_PeerTrafficConfiguration_Spec
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250101 |                                                                         | v1api20250101/storage |                                                                         |  Status   | Notes |
 |:--------------|:------------------------------------------------------------------------|:----------------------|:------------------------------------------------------------------------|:---------:|:------|
@@ -1893,7 +1886,7 @@
 
 ### ManagedEnvironment_STATUS
 
-23 x Identical, 1 x New, 1 x Modified
+Properties: 23 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101               |                                                                | v1api20250101/storage       |                                                                |  Status   | Notes |
 |:----------------------------|:---------------------------------------------------------------|:----------------------------|:---------------------------------------------------------------|:---------:|:------|
@@ -1925,7 +1918,7 @@
 
 ### ManagedEnvironment_Spec
 
-17 x Identical, 2 x New
+Properties: 17 x Identical, 2 x New
 
 | v1api20250101               |                                                              | v1api20250101/storage       |                                                              |  Status   | Notes |
 |:----------------------------|:-------------------------------------------------------------|:----------------------------|:-------------------------------------------------------------|:---------:|:------|
@@ -1951,7 +1944,7 @@
 
 ### ManagedServiceIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101          |                               | v1api20250101/storage  |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -1961,7 +1954,7 @@
 
 ### ManagedServiceIdentity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101          |                                        | v1api20250101/storage  |                                        |  Status   | Notes |
 |:-----------------------|:---------------------------------------|:-----------------------|:---------------------------------------|:---------:|:------|
@@ -1973,7 +1966,7 @@
 
 ### Mtls
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250101 |       | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1982,7 +1975,7 @@
 
 ### Mtls_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250101 |       | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -1991,7 +1984,7 @@
 
 ### Nonce
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101           |         | v1api20250101/storage   |                        |  Status   | Notes |
 |:------------------------|:--------|:------------------------|:-----------------------|:---------:|:------|
@@ -2001,7 +1994,7 @@
 
 ### Nonce_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101           |         | v1api20250101/storage   |                        |  Status   | Notes |
 |:------------------------|:--------|:------------------------|:-----------------------|:---------:|:------|
@@ -2011,7 +2004,7 @@
 
 ### OpenIdConnectClientCredential
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101           |                                       | v1api20250101/storage   |                        |  Status   | Notes |
 |:------------------------|:--------------------------------------|:------------------------|:-----------------------|:---------:|:------|
@@ -2021,7 +2014,7 @@
 
 ### OpenIdConnectClientCredential_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101           |                                              | v1api20250101/storage   |                        |  Status   | Notes |
 |:------------------------|:---------------------------------------------|:------------------------|:-----------------------|:---------:|:------|
@@ -2031,7 +2024,7 @@
 
 ### OpenIdConnectConfig
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20250101                |         | v1api20250101/storage        |                        |  Status   | Notes |
 |:-----------------------------|:--------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -2044,7 +2037,7 @@
 
 ### OpenIdConnectConfig_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20250101                |         | v1api20250101/storage        |                        |  Status   | Notes |
 |:-----------------------------|:--------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -2057,7 +2050,7 @@
 
 ### OpenIdConnectLogin
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101 |          | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -2067,7 +2060,7 @@
 
 ### OpenIdConnectLogin_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101 |          | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -2077,7 +2070,7 @@
 
 ### OpenIdConnectRegistration
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101              |                                | v1api20250101/storage      |                                |  Status   | Notes |
 |:---------------------------|:-------------------------------|:---------------------------|:-------------------------------|:---------:|:------|
@@ -2088,7 +2081,7 @@
 
 ### OpenIdConnectRegistration_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101              |                                       | v1api20250101/storage      |                                       |  Status   | Notes |
 |:---------------------------|:--------------------------------------|:---------------------------|:--------------------------------------|:---------:|:------|
@@ -2099,7 +2092,7 @@
 
 ### QueueScaleRule
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20250101     |                                        | v1api20250101/storage |                                        |  Status   | Notes |
 |:------------------|:---------------------------------------|:----------------------|:---------------------------------------|:---------:|:------|
@@ -2112,7 +2105,7 @@
 
 ### QueueScaleRule_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20250101 |                        | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2125,7 +2118,7 @@
 
 ### RegistryCredentials
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20250101     |                                        | v1api20250101/storage |                                        |  Status   | Notes |
 |:------------------|:---------------------------------------|:----------------------|:---------------------------------------|:---------:|:------|
@@ -2137,7 +2130,7 @@
 
 ### RegistryCredentials_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20250101     |         | v1api20250101/storage |                        |  Status   | Notes |
 |:------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2149,7 +2142,7 @@
 
 ### Runtime
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250101 |               | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:--------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2158,7 +2151,7 @@
 
 ### Runtime_Java
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250101 |       | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -2167,7 +2160,7 @@
 
 ### Runtime_Java_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250101 |       | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -2176,7 +2169,7 @@
 
 ### Runtime_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250101 |                      | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:---------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2185,7 +2178,7 @@
 
 ### Scale
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20250101   |             | v1api20250101/storage |                        |  Status   | Notes |
 |:----------------|:------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2198,7 +2191,7 @@
 
 ### ScaleRule
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20250101 |                  | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:-----------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2211,7 +2204,7 @@
 
 ### ScaleRuleAuth
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101    |         | v1api20250101/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2221,7 +2214,7 @@
 
 ### ScaleRuleAuth_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101    |         | v1api20250101/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2231,7 +2224,7 @@
 
 ### ScaleRule_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20250101 |                         | v1api20250101/storage |                         |  Status   | Notes |
 |:--------------|:------------------------|:----------------------|:------------------------|:---------:|:------|
@@ -2244,7 +2237,7 @@
 
 ### Scale_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20250101   |                    | v1api20250101/storage |                        |  Status   | Notes |
 |:----------------|:-------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2257,7 +2250,7 @@
 
 ### Secret
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20250101     |                                        | v1api20250101/storage |                                        |  Status   | Notes |
 |:------------------|:---------------------------------------|:----------------------|:---------------------------------------|:---------:|:------|
@@ -2269,7 +2262,7 @@
 
 ### SecretVolumeItem
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101 |         | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2279,7 +2272,7 @@
 
 ### SecretVolumeItem_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101 |         | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2289,7 +2282,7 @@
 
 ### Secret_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101 |         | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2300,7 +2293,7 @@
 
 ### Service
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250101 |         | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2309,7 +2302,7 @@
 
 ### ServiceBind
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101    |                               | v1api20250101/storage |                               |  Status   | Notes |
 |:-----------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -2319,7 +2312,7 @@
 
 ### ServiceBind_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101 |         | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2329,7 +2322,7 @@
 
 ### Service_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250101 |         | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2338,7 +2331,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20250101      |                                       | v1api20250101/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2352,7 +2345,7 @@
 
 ### TcpScaleRule
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101     |                                        | v1api20250101/storage |                                        |  Status   | Notes |
 |:------------------|:---------------------------------------|:----------------------|:---------------------------------------|:---------:|:------|
@@ -2363,7 +2356,7 @@
 
 ### TcpScaleRule_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101 |                        | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2374,7 +2367,7 @@
 
 ### Template
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v1api20250101                 |                 | v1api20250101/storage         |                        |  Status   | Notes |
 |:------------------------------|:----------------|:------------------------------|:-----------------------|:---------:|:------|
@@ -2389,7 +2382,7 @@
 
 ### Template_STATUS
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v1api20250101                 |                        | v1api20250101/storage         |                        |  Status   | Notes |
 |:------------------------------|:-----------------------|:------------------------------|:-----------------------|:---------:|:------|
@@ -2404,7 +2397,7 @@
 
 ### TokenStore
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101              |                        | v1api20250101/storage      |                        |  Status   | Notes |
 |:---------------------------|:-----------------------|:---------------------------|:-----------------------|:---------:|:------|
@@ -2415,7 +2408,7 @@
 
 ### TokenStore_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101              |                               | v1api20250101/storage      |                               |  Status   | Notes |
 |:---------------------------|:------------------------------|:---------------------------|:------------------------------|:---------:|:------|
@@ -2426,7 +2419,7 @@
 
 ### TrafficWeight
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20250101  |         | v1api20250101/storage |                        |  Status   | Notes |
 |:---------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2438,7 +2431,7 @@
 
 ### TrafficWeight_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20250101  |         | v1api20250101/storage |                        |  Status   | Notes |
 |:---------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2450,7 +2443,7 @@
 
 ### Twitter
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101 |                      | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:---------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2460,7 +2453,7 @@
 
 ### TwitterRegistration
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101             |         | v1api20250101/storage     |                        |  Status   | Notes |
 |:--------------------------|:--------|:--------------------------|:-----------------------|:---------:|:------|
@@ -2470,7 +2463,7 @@
 
 ### TwitterRegistration_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101             |         | v1api20250101/storage     |                        |  Status   | Notes |
 |:--------------------------|:--------|:--------------------------|:-----------------------|:---------:|:------|
@@ -2480,7 +2473,7 @@
 
 ### Twitter_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101 |                             | v1api20250101/storage |                             |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -2490,7 +2483,7 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20250101 |                              | v1api20250101/storage |                              |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -2499,7 +2492,7 @@
 
 ### UserAssignedIdentity_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20250101 |         | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2509,7 +2502,7 @@
 
 ### VnetConfiguration
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20250101                 |                               | v1api20250101/storage         |                               |  Status   | Notes |
 |:------------------------------|:------------------------------|:------------------------------|:------------------------------|:---------:|:------|
@@ -2522,7 +2515,7 @@
 
 ### VnetConfiguration_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20250101          |         | v1api20250101/storage  |                        |  Status   | Notes |
 |:-----------------------|:--------|:-----------------------|:-----------------------|:---------:|:------|
@@ -2535,7 +2528,7 @@
 
 ### Volume
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101 |                     | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -2548,7 +2541,7 @@
 
 ### VolumeMount
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101 |         | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2559,7 +2552,7 @@
 
 ### VolumeMount_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20250101 |         | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2570,7 +2563,7 @@
 
 ### Volume_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20250101 |                            | v1api20250101/storage |                           |  Status   | Notes |
 |:--------------|:---------------------------|:----------------------|:--------------------------|:---------:|:------|
@@ -2583,7 +2576,7 @@
 
 ### WorkloadProfile
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20250101       |         | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2595,7 +2588,7 @@
 
 ### WorkloadProfile_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20250101       |         | v1api20250101/storage |                        |  Status   | Notes |
 |:--------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -2604,3 +2597,12 @@
 | Name                | *string | Name                  | *string                | Identical |       |
 |                     |         | PropertyBag           | genruntime.PropertyBag |    New    |       |
 | WorkloadProfileType | *string | WorkloadProfileType   | *string                | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

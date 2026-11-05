@@ -8,106 +8,99 @@
 | Site               | Site                  | Identical |       |
 | SitesSourcecontrol | SitesSourcecontrol    | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20220301                             | v1api20220301/storage                     |  Status  | Notes |
-|:------------------------------------------|:------------------------------------------|:--------:|:------|
-| ApiDefinitionInfo                         | ApiDefinitionInfo                         | Extended |       |
-| ApiDefinitionInfo_STATUS                  | ApiDefinitionInfo_STATUS                  | Extended |       |
-| ApiManagementConfig                       | ApiManagementConfig                       | Extended |       |
-| ApiManagementConfig_STATUS                | ApiManagementConfig_STATUS                | Extended |       |
-| AutoHealActions                           | AutoHealActions                           | Modified |       |
-| AutoHealActions_STATUS                    | AutoHealActions_STATUS                    | Modified |       |
-| AutoHealCustomAction                      | AutoHealCustomAction                      | Extended |       |
-| AutoHealCustomAction_STATUS               | AutoHealCustomAction_STATUS               | Extended |       |
-| AutoHealRules                             | AutoHealRules                             | Extended |       |
-| AutoHealRules_STATUS                      | AutoHealRules_STATUS                      | Extended |       |
-| AutoHealTriggers                          | AutoHealTriggers                          | Extended |       |
-| AutoHealTriggers_STATUS                   | AutoHealTriggers_STATUS                   | Extended |       |
-| AzureStorageInfoValue                     | AzureStorageInfoValue                     | Modified |       |
-| AzureStorageInfoValue_STATUS              | AzureStorageInfoValue_STATUS              | Modified |       |
-| Capability                                | Capability                                | Extended |       |
-| Capability_STATUS                         | Capability_STATUS                         | Extended |       |
-| CloningInfo                               | CloningInfo                               | Modified |       |
-| CloningInfo_STATUS                        | CloningInfo_STATUS                        | Extended |       |
-| ConnStringInfo                            | ConnStringInfo                            | Modified |       |
-| ConnStringInfo_STATUS                     | ConnStringInfo_STATUS                     | Modified |       |
-| CorsSettings                              | CorsSettings                              | Extended |       |
-| CorsSettings_STATUS                       | CorsSettings_STATUS                       | Extended |       |
-| Experiments                               | Experiments                               | Extended |       |
-| Experiments_STATUS                        | Experiments_STATUS                        | Extended |       |
-| ExtendedLocation                          | ExtendedLocation                          | Extended |       |
-| ExtendedLocation_STATUS                   | ExtendedLocation_STATUS                   | Extended |       |
-| GitHubActionCodeConfiguration             | GitHubActionCodeConfiguration             | Extended |       |
-| GitHubActionCodeConfiguration_STATUS      | GitHubActionCodeConfiguration_STATUS      | Extended |       |
-| GitHubActionConfiguration                 | GitHubActionConfiguration                 | Extended |       |
-| GitHubActionConfiguration_STATUS          | GitHubActionConfiguration_STATUS          | Extended |       |
-| GitHubActionContainerConfiguration        | GitHubActionContainerConfiguration        | Extended |       |
-| GitHubActionContainerConfiguration_STATUS | GitHubActionContainerConfiguration_STATUS | Extended |       |
-| HandlerMapping                            | HandlerMapping                            | Extended |       |
-| HandlerMapping_STATUS                     | HandlerMapping_STATUS                     | Extended |       |
-| HostNameSslState                          | HostNameSslState                          | Modified |       |
-| HostNameSslState_STATUS                   | HostNameSslState_STATUS                   | Modified |       |
-| HostingEnvironmentProfile                 | HostingEnvironmentProfile                 | Extended |       |
-| HostingEnvironmentProfile_STATUS          | HostingEnvironmentProfile_STATUS          | Extended |       |
-| IpSecurityRestriction                     | IpSecurityRestriction                     | Modified |       |
-| IpSecurityRestriction_STATUS              | IpSecurityRestriction_STATUS              | Modified |       |
-| KubeEnvironmentProfile                    | KubeEnvironmentProfile                    | Extended |       |
-| KubeEnvironmentProfile_STATUS             | KubeEnvironmentProfile_STATUS             | Extended |       |
-| ManagedServiceIdentity                    | ManagedServiceIdentity                    | Modified |       |
-| ManagedServiceIdentity_STATUS             | ManagedServiceIdentity_STATUS             | Modified |       |
-| NameValuePair                             | NameValuePair                             | Extended |       |
-| NameValuePair_STATUS                      | NameValuePair_STATUS                      | Extended |       |
-| PushSettings                              | PushSettings                              | Extended |       |
-| PushSettings_STATUS                       | PushSettings_STATUS                       | Extended |       |
-| RampUpRule                                | RampUpRule                                | Extended |       |
-| RampUpRule_STATUS                         | RampUpRule_STATUS                         | Extended |       |
-| RequestsBasedTrigger                      | RequestsBasedTrigger                      | Extended |       |
-| RequestsBasedTrigger_STATUS               | RequestsBasedTrigger_STATUS               | Extended |       |
-| ServerFarmOperatorSpec                    | ServerFarmOperatorSpec                    | Extended |       |
-| ServerFarm_STATUS                         | ServerFarm_STATUS                         | Modified |       |
-| ServerFarm_Spec                           | ServerFarm_Spec                           | Extended |       |
-| SiteConfig                                | SiteConfig                                | Modified |       |
-| SiteConfig_STATUS                         | SiteConfig_STATUS                         | Modified |       |
-| SiteLimits                                | SiteLimits                                | Extended |       |
-| SiteLimits_STATUS                         | SiteLimits_STATUS                         | Extended |       |
-| SiteMachineKey_STATUS                     | SiteMachineKey_STATUS                     | Extended |       |
-| SiteOperatorSpec                          | SiteOperatorSpec                          | Extended |       |
-| Site_STATUS                               | Site_STATUS                               | Modified |       |
-| Site_Spec                                 | Site_Spec                                 | Modified |       |
-| SitesSourcecontrolOperatorSpec            | SitesSourcecontrolOperatorSpec            | Extended |       |
-| SitesSourcecontrol_STATUS                 | SitesSourcecontrol_STATUS                 | Extended |       |
-| SitesSourcecontrol_Spec                   | SitesSourcecontrol_Spec                   | Extended |       |
-| SkuCapacity                               | SkuCapacity                               | Extended |       |
-| SkuCapacity_STATUS                        | SkuCapacity_STATUS                        | Extended |       |
-| SkuDescription                            | SkuDescription                            | Extended |       |
-| SkuDescription_STATUS                     | SkuDescription_STATUS                     | Extended |       |
-| SlotSwapStatus_STATUS                     | SlotSwapStatus_STATUS                     | Extended |       |
-| SlowRequestsBasedTrigger                  | SlowRequestsBasedTrigger                  | Extended |       |
-| SlowRequestsBasedTrigger_STATUS           | SlowRequestsBasedTrigger_STATUS           | Extended |       |
-| StatusCodesBasedTrigger                   | StatusCodesBasedTrigger                   | Extended |       |
-| StatusCodesBasedTrigger_STATUS            | StatusCodesBasedTrigger_STATUS            | Extended |       |
-| StatusCodesRangeBasedTrigger              | StatusCodesRangeBasedTrigger              | Extended |       |
-| StatusCodesRangeBasedTrigger_STATUS       | StatusCodesRangeBasedTrigger_STATUS       | Extended |       |
-| UserAssignedIdentityDetails               | UserAssignedIdentityDetails               | Extended |       |
-| UserAssignedIdentity_STATUS               | UserAssignedIdentity_STATUS               | Extended |       |
-| VirtualApplication                        | VirtualApplication                        | Extended |       |
-| VirtualApplication_STATUS                 | VirtualApplication_STATUS                 | Extended |       |
-| VirtualDirectory                          | VirtualDirectory                          | Extended |       |
-| VirtualDirectory_STATUS                   | VirtualDirectory_STATUS                   | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20220301                             | v1api20220301/storage                     |  Status  | Notes                         |
+|:------------------------------------------|:------------------------------------------|:--------:|:------------------------------|
+| ApiDefinitionInfo                         | ApiDefinitionInfo                         | Extended | +PropertyBag                  |
+| ApiDefinitionInfo_STATUS                  | ApiDefinitionInfo_STATUS                  | Extended | +PropertyBag                  |
+| ApiManagementConfig                       | ApiManagementConfig                       | Extended | +PropertyBag                  |
+| ApiManagementConfig_STATUS                | ApiManagementConfig_STATUS                | Extended | +PropertyBag                  |
+| AutoHealActions                           | AutoHealActions                           | Modified |                               |
+| AutoHealActions_STATUS                    | AutoHealActions_STATUS                    | Modified |                               |
+| AutoHealCustomAction                      | AutoHealCustomAction                      | Extended | +PropertyBag                  |
+| AutoHealCustomAction_STATUS               | AutoHealCustomAction_STATUS               | Extended | +PropertyBag                  |
+| AutoHealRules                             | AutoHealRules                             | Extended | +PropertyBag                  |
+| AutoHealRules_STATUS                      | AutoHealRules_STATUS                      | Extended | +PropertyBag                  |
+| AutoHealTriggers                          | AutoHealTriggers                          | Extended | +PropertyBag                  |
+| AutoHealTriggers_STATUS                   | AutoHealTriggers_STATUS                   | Extended | +PropertyBag                  |
+| AzureStorageInfoValue                     | AzureStorageInfoValue                     | Modified |                               |
+| AzureStorageInfoValue_STATUS              | AzureStorageInfoValue_STATUS              | Modified |                               |
+| Capability                                | Capability                                | Extended | +PropertyBag                  |
+| Capability_STATUS                         | Capability_STATUS                         | Extended | +PropertyBag                  |
+| CloningInfo                               | CloningInfo                               | Extended | +PropertyBag                  |
+| CloningInfo_STATUS                        | CloningInfo_STATUS                        | Extended | +PropertyBag                  |
+| ConnStringInfo                            | ConnStringInfo                            | Modified |                               |
+| ConnStringInfo_STATUS                     | ConnStringInfo_STATUS                     | Modified |                               |
+| CorsSettings                              | CorsSettings                              | Extended | +PropertyBag                  |
+| CorsSettings_STATUS                       | CorsSettings_STATUS                       | Extended | +PropertyBag                  |
+| Experiments                               | Experiments                               | Extended | +PropertyBag                  |
+| Experiments_STATUS                        | Experiments_STATUS                        | Extended | +PropertyBag                  |
+| ExtendedLocation                          | ExtendedLocation                          | Extended | +PropertyBag                  |
+| ExtendedLocation_STATUS                   | ExtendedLocation_STATUS                   | Extended | +PropertyBag                  |
+| GitHubActionCodeConfiguration             | GitHubActionCodeConfiguration             | Extended | +PropertyBag                  |
+| GitHubActionCodeConfiguration_STATUS      | GitHubActionCodeConfiguration_STATUS      | Extended | +PropertyBag                  |
+| GitHubActionConfiguration                 | GitHubActionConfiguration                 | Extended | +PropertyBag                  |
+| GitHubActionConfiguration_STATUS          | GitHubActionConfiguration_STATUS          | Extended | +PropertyBag                  |
+| GitHubActionContainerConfiguration        | GitHubActionContainerConfiguration        | Extended | +PropertyBag                  |
+| GitHubActionContainerConfiguration_STATUS | GitHubActionContainerConfiguration_STATUS | Extended | +PropertyBag                  |
+| HandlerMapping                            | HandlerMapping                            | Extended | +PropertyBag                  |
+| HandlerMapping_STATUS                     | HandlerMapping_STATUS                     | Extended | +PropertyBag                  |
+| HostNameSslState                          | HostNameSslState                          | Modified |                               |
+| HostNameSslState_STATUS                   | HostNameSslState_STATUS                   | Modified |                               |
+| HostingEnvironmentProfile                 | HostingEnvironmentProfile                 | Extended | +PropertyBag                  |
+| HostingEnvironmentProfile_STATUS          | HostingEnvironmentProfile_STATUS          | Extended | +PropertyBag                  |
+| IpSecurityRestriction                     | IpSecurityRestriction                     | Modified |                               |
+| IpSecurityRestriction_STATUS              | IpSecurityRestriction_STATUS              | Modified |                               |
+| KubeEnvironmentProfile                    | KubeEnvironmentProfile                    | Extended | +PropertyBag                  |
+| KubeEnvironmentProfile_STATUS             | KubeEnvironmentProfile_STATUS             | Extended | +PropertyBag                  |
+| ManagedServiceIdentity                    | ManagedServiceIdentity                    | Modified |                               |
+| ManagedServiceIdentity_STATUS             | ManagedServiceIdentity_STATUS             | Modified |                               |
+| NameValuePair                             | NameValuePair                             | Extended | +PropertyBag                  |
+| NameValuePair_STATUS                      | NameValuePair_STATUS                      | Extended | +PropertyBag                  |
+| PushSettings                              | PushSettings                              | Extended | +PropertyBag                  |
+| PushSettings_STATUS                       | PushSettings_STATUS                       | Extended | +PropertyBag                  |
+| RampUpRule                                | RampUpRule                                | Extended | +PropertyBag                  |
+| RampUpRule_STATUS                         | RampUpRule_STATUS                         | Extended | +PropertyBag                  |
+| RequestsBasedTrigger                      | RequestsBasedTrigger                      | Extended | +PropertyBag                  |
+| RequestsBasedTrigger_STATUS               | RequestsBasedTrigger_STATUS               | Extended | +PropertyBag                  |
+| ServerFarmOperatorSpec                    | ServerFarmOperatorSpec                    | Extended | +PropertyBag                  |
+| ServerFarm_STATUS                         | ServerFarm_STATUS                         | Modified |                               |
+| ServerFarm_Spec                           | ServerFarm_Spec                           | Extended | +OriginalVersion +PropertyBag |
+| SiteConfig                                | SiteConfig                                | Modified |                               |
+| SiteConfig_STATUS                         | SiteConfig_STATUS                         | Modified |                               |
+| SiteLimits                                | SiteLimits                                | Extended | +PropertyBag                  |
+| SiteLimits_STATUS                         | SiteLimits_STATUS                         | Extended | +PropertyBag                  |
+| SiteMachineKey_STATUS                     | SiteMachineKey_STATUS                     | Extended | +PropertyBag                  |
+| SiteOperatorSpec                          | SiteOperatorSpec                          | Extended | +PropertyBag                  |
+| Site_STATUS                               | Site_STATUS                               | Modified |                               |
+| Site_Spec                                 | Site_Spec                                 | Modified |                               |
+| SitesSourcecontrolOperatorSpec            | SitesSourcecontrolOperatorSpec            | Extended | +PropertyBag                  |
+| SitesSourcecontrol_STATUS                 | SitesSourcecontrol_STATUS                 | Extended | +PropertyBag                  |
+| SitesSourcecontrol_Spec                   | SitesSourcecontrol_Spec                   | Extended | +OriginalVersion +PropertyBag |
+| SkuCapacity                               | SkuCapacity                               | Extended | +PropertyBag                  |
+| SkuCapacity_STATUS                        | SkuCapacity_STATUS                        | Extended | +PropertyBag                  |
+| SkuDescription                            | SkuDescription                            | Extended | +PropertyBag                  |
+| SkuDescription_STATUS                     | SkuDescription_STATUS                     | Extended | +PropertyBag                  |
+| SlotSwapStatus_STATUS                     | SlotSwapStatus_STATUS                     | Extended | +PropertyBag                  |
+| SlowRequestsBasedTrigger                  | SlowRequestsBasedTrigger                  | Extended | +PropertyBag                  |
+| SlowRequestsBasedTrigger_STATUS           | SlowRequestsBasedTrigger_STATUS           | Extended | +PropertyBag                  |
+| StatusCodesBasedTrigger                   | StatusCodesBasedTrigger                   | Extended | +PropertyBag                  |
+| StatusCodesBasedTrigger_STATUS            | StatusCodesBasedTrigger_STATUS            | Extended | +PropertyBag                  |
+| StatusCodesRangeBasedTrigger              | StatusCodesRangeBasedTrigger              | Extended | +PropertyBag                  |
+| StatusCodesRangeBasedTrigger_STATUS       | StatusCodesRangeBasedTrigger_STATUS       | Extended | +PropertyBag                  |
+| UserAssignedIdentityDetails               | UserAssignedIdentityDetails               | Extended | +PropertyBag                  |
+| UserAssignedIdentity_STATUS               | UserAssignedIdentity_STATUS               | Extended | +PropertyBag                  |
+| VirtualApplication                        | VirtualApplication                        | Extended | +PropertyBag                  |
+| VirtualApplication_STATUS                 | VirtualApplication_STATUS                 | Extended | +PropertyBag                  |
+| VirtualDirectory                          | VirtualDirectory                          | Extended | +PropertyBag                  |
+| VirtualDirectory_STATUS                   | VirtualDirectory_STATUS                   | Extended | +PropertyBag                  |
 
 ### ApiDefinitionInfo
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220301 |         | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -116,7 +109,7 @@
 
 ### ApiDefinitionInfo_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220301 |         | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -125,7 +118,7 @@
 
 ### ApiManagementConfig
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220301 |                               | v1api20220301/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -134,7 +127,7 @@
 
 ### ApiManagementConfig_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220301 |         | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -143,7 +136,7 @@
 
 ### AutoHealActions
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20220301           |                             | v1api20220301/storage   |                        |  Status   | Notes |
 |:------------------------|:----------------------------|:------------------------|:-----------------------|:---------:|:------|
@@ -154,7 +147,7 @@
 
 ### AutoHealActions_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20220301           |                                    | v1api20220301/storage   |                              |  Status   | Notes |
 |:------------------------|:-----------------------------------|:------------------------|:-----------------------------|:---------:|:------|
@@ -165,7 +158,7 @@
 
 ### AutoHealCustomAction
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220301 |         | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -175,7 +168,7 @@
 
 ### AutoHealCustomAction_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220301 |         | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -185,7 +178,7 @@
 
 ### AutoHealRules
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220301 |                   | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -195,7 +188,7 @@
 
 ### AutoHealRules_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220301 |                          | v1api20220301/storage |                          |  Status   | Notes |
 |:--------------|:-------------------------|:----------------------|:-------------------------|:---------:|:------|
@@ -205,7 +198,7 @@
 
 ### AutoHealTriggers
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20220301        |                                | v1api20220301/storage |                                |  Status   | Notes |
 |:---------------------|:-------------------------------|:----------------------|:-------------------------------|:---------:|:------|
@@ -219,7 +212,7 @@
 
 ### AutoHealTriggers_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20220301        |                                       | v1api20220301/storage |                                       |  Status   | Notes |
 |:---------------------|:--------------------------------------|:----------------------|:--------------------------------------|:---------:|:------|
@@ -233,7 +226,7 @@
 
 ### AzureStorageInfoValue
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20220301 |                             | v1api20220301/storage |                             |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -246,7 +239,7 @@
 
 ### AzureStorageInfoValue_STATUS
 
-3 x Identical, 1 x New, 2 x Modified
+Properties: 3 x Identical, 1 x New, 2 x Modified
 
 | v1api20220301 |                                     | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -259,7 +252,7 @@
 
 ### Capability
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220301 |         | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -270,7 +263,7 @@
 
 ### Capability_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220301 |         | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -281,7 +274,7 @@
 
 ### CloningInfo
 
-10 x Identical, 1 x New, 1 x Modified
+Properties: 11 x Identical, 1 x New
 
 | v1api20220301                  |                               | v1api20220301/storage          |                               |  Status   | Notes |
 |:-------------------------------|:------------------------------|:-------------------------------|:------------------------------|:---------:|:------|
@@ -289,7 +282,7 @@
 | CloneCustomHostNames           | *bool                         | CloneCustomHostNames           | *bool                         | Identical |       |
 | CloneSourceControl             | *bool                         | CloneSourceControl             | *bool                         | Identical |       |
 | ConfigureLoadBalancing         | *bool                         | ConfigureLoadBalancing         | *bool                         | Identical |       |
-| CorrelationId                  | Validated<*string> (1 rule)   | CorrelationId                  | *string                       | Modified  |       |
+| CorrelationId                  | Validated<*string> (1 rule)   | CorrelationId                  | *string                       | Identical |       |
 | HostingEnvironment             | *string                       | HostingEnvironment             | *string                       | Identical |       |
 | Overwrite                      | *bool                         | Overwrite                      | *bool                         | Identical |       |
 |                                |                               | PropertyBag                    | genruntime.PropertyBag        |    New    |       |
@@ -300,7 +293,7 @@
 
 ### CloningInfo_STATUS
 
-11 x Identical, 1 x New
+Properties: 11 x Identical, 1 x New
 
 | v1api20220301             |                   | v1api20220301/storage     |                        |  Status   | Notes |
 |:--------------------------|:------------------|:--------------------------|:-----------------------|:---------:|:------|
@@ -319,7 +312,7 @@
 
 ### ConnStringInfo
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20220301    |                      | v1api20220301/storage |                        |  Status   | Notes |
 |:-----------------|:---------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -330,7 +323,7 @@
 
 ### ConnStringInfo_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20220301    |                             | v1api20220301/storage |                        |  Status   | Notes |
 |:-----------------|:----------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -341,7 +334,7 @@
 
 ### CorsSettings
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220301      |          | v1api20220301/storage |                        |  Status   | Notes |
 |:-------------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -351,7 +344,7 @@
 
 ### CorsSettings_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220301      |          | v1api20220301/storage |                        |  Status   | Notes |
 |:-------------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -361,7 +354,7 @@
 
 ### Experiments
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220301 |              | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:-------------|:----------------------|:-----------------------|:---------:|:------|
@@ -370,7 +363,7 @@
 
 ### Experiments_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220301 |                     | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -379,7 +372,7 @@
 
 ### ExtendedLocation
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220301 |         | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -388,7 +381,7 @@
 
 ### ExtendedLocation_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220301 |         | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -398,7 +391,7 @@
 
 ### GitHubActionCodeConfiguration
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220301  |         | v1api20220301/storage |                        |  Status   | Notes |
 |:---------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -408,7 +401,7 @@
 
 ### GitHubActionCodeConfiguration_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220301  |         | v1api20220301/storage |                        |  Status   | Notes |
 |:---------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -418,7 +411,7 @@
 
 ### GitHubActionConfiguration
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20220301          |                                     | v1api20220301/storage  |                                     |  Status   | Notes |
 |:-----------------------|:------------------------------------|:-----------------------|:------------------------------------|:---------:|:------|
@@ -430,7 +423,7 @@
 
 ### GitHubActionConfiguration_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20220301          |                                            | v1api20220301/storage  |                                            |  Status   | Notes |
 |:-----------------------|:-------------------------------------------|:-----------------------|:-------------------------------------------|:---------:|:------|
@@ -442,7 +435,7 @@
 
 ### GitHubActionContainerConfiguration
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20220301 |                             | v1api20220301/storage |                             |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -454,7 +447,7 @@
 
 ### GitHubActionContainerConfiguration_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220301 |         | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -465,7 +458,7 @@
 
 ### HandlerMapping
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220301   |         | v1api20220301/storage |                        |  Status   | Notes |
 |:----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -476,7 +469,7 @@
 
 ### HandlerMapping_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220301   |         | v1api20220301/storage |                        |  Status   | Notes |
 |:----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -487,7 +480,7 @@
 
 ### HostNameSslState
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20220301 |                            | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:---------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -501,7 +494,7 @@
 
 ### HostNameSslState_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20220301 |                                   | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:----------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -515,7 +508,7 @@
 
 ### HostingEnvironmentProfile
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220301 |                               | v1api20220301/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -524,7 +517,7 @@
 
 ### HostingEnvironmentProfile_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220301 |         | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -535,7 +528,7 @@
 
 ### IpSecurityRestriction
 
-10 x Identical, 1 x New, 1 x Modified
+Properties: 10 x Identical, 1 x New, 1 x Modified
 
 | v1api20220301               |                               | v1api20220301/storage       |                               |  Status   | Notes |
 |:----------------------------|:------------------------------|:----------------------------|:------------------------------|:---------:|:------|
@@ -554,7 +547,7 @@
 
 ### IpSecurityRestriction_STATUS
 
-10 x Identical, 1 x New, 1 x Modified
+Properties: 10 x Identical, 1 x New, 1 x Modified
 
 | v1api20220301        |                                   | v1api20220301/storage |                        |  Status   | Notes |
 |:---------------------|:----------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -573,7 +566,7 @@
 
 ### KubeEnvironmentProfile
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220301 |                               | v1api20220301/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -582,7 +575,7 @@
 
 ### KubeEnvironmentProfile_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220301 |         | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -593,7 +586,7 @@
 
 ### ManagedServiceIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20220301          |                               | v1api20220301/storage  |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -603,7 +596,7 @@
 
 ### ManagedServiceIdentity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20220301          |                                        | v1api20220301/storage  |                                        |  Status   | Notes |
 |:-----------------------|:---------------------------------------|:-----------------------|:---------------------------------------|:---------:|:------|
@@ -615,7 +608,7 @@
 
 ### NameValuePair
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220301 |         | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -625,7 +618,7 @@
 
 ### NameValuePair_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220301 |         | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -635,7 +628,7 @@
 
 ### PushSettings
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20220301     |         | v1api20220301/storage |                        |  Status   | Notes |
 |:------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -648,7 +641,7 @@
 
 ### PushSettings_STATUS
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v1api20220301     |         | v1api20220301/storage |                        |  Status   | Notes |
 |:------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -664,7 +657,7 @@
 
 ### RampUpRule
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v1api20220301             |          | v1api20220301/storage     |                        |  Status   | Notes |
 |:--------------------------|:---------|:--------------------------|:-----------------------|:---------:|:------|
@@ -680,7 +673,7 @@
 
 ### RampUpRule_STATUS
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v1api20220301             |          | v1api20220301/storage     |                        |  Status   | Notes |
 |:--------------------------|:---------|:--------------------------|:-----------------------|:---------:|:------|
@@ -696,7 +689,7 @@
 
 ### RequestsBasedTrigger
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220301 |         | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -706,7 +699,7 @@
 
 ### RequestsBasedTrigger_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220301 |         | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -716,7 +709,7 @@
 
 ### ServerFarmOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220301        |                               | v1api20220301/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -726,7 +719,7 @@
 
 ### ServerFarm_STATUS
 
-30 x Identical, 1 x New, 2 x Modified
+Properties: 30 x Identical, 1 x New, 2 x Modified
 
 | v1api20220301             |                                                 | v1api20220301/storage     |                                   |  Status   | Notes |
 |:--------------------------|:------------------------------------------------|:--------------------------|:----------------------------------|:---------:|:------|
@@ -766,7 +759,7 @@
 
 ### ServerFarm_Spec
 
-23 x Identical, 2 x New
+Properties: 23 x Identical, 2 x New
 
 | v1api20220301             |                                    | v1api20220301/storage     |                                    |  Status   | Notes |
 |:--------------------------|:-----------------------------------|:--------------------------|:-----------------------------------|:---------:|:------|
@@ -798,7 +791,7 @@
 
 ### SiteConfig
 
-57 x Identical, 1 x New, 9 x Modified
+Properties: 60 x Identical, 1 x New, 6 x Modified
 
 | v1api20220301                          |                                  | v1api20220301/storage                  |                                  |  Status   | Notes |
 |:---------------------------------------|:---------------------------------|:---------------------------------------|:---------------------------------|:---------:|:------|
@@ -820,7 +813,7 @@
 | DocumentRoot                           | *string                          | DocumentRoot                           | *string                          | Identical |       |
 | Experiments                            | *Experiments                     | Experiments                            | *Experiments                     | Identical |       |
 | FtpsState                              | *SiteConfig_FtpsState            | FtpsState                              | *string                          | Modified  |       |
-| FunctionAppScaleLimit                  | Validated<*int> (1 rule)         | FunctionAppScaleLimit                  | *int                             | Modified  |       |
+| FunctionAppScaleLimit                  | Validated<*int> (1 rule)         | FunctionAppScaleLimit                  | *int                             | Identical |       |
 | FunctionsRuntimeScaleMonitoringEnabled | *bool                            | FunctionsRuntimeScaleMonitoringEnabled | *bool                            | Identical |       |
 | HandlerMappings                        | HandlerMapping[]                 | HandlerMappings                        | HandlerMapping[]                 | Identical |       |
 | HealthCheckPath                        | *string                          | HealthCheckPath                        | *string                          | Identical |       |
@@ -839,13 +832,13 @@
 | ManagedPipelineMode                    | *SiteConfig_ManagedPipelineMode  | ManagedPipelineMode                    | *string                          | Modified  |       |
 | ManagedServiceIdentityId               | *int                             | ManagedServiceIdentityId               | *int                             | Identical |       |
 | MinTlsVersion                          | *SiteConfig_MinTlsVersion        | MinTlsVersion                          | *string                          | Modified  |       |
-| MinimumElasticInstanceCount            | Validated<*int> (2 rules)        | MinimumElasticInstanceCount            | *int                             | Modified  |       |
+| MinimumElasticInstanceCount            | Validated<*int> (2 rules)        | MinimumElasticInstanceCount            | *int                             | Identical |       |
 | NetFrameworkVersion                    | *string                          | NetFrameworkVersion                    | *string                          | Identical |       |
 | NodeVersion                            | *string                          | NodeVersion                            | *string                          | Identical |       |
 | NumberOfWorkers                        | *int                             | NumberOfWorkers                        | *int                             | Identical |       |
 | PhpVersion                             | *string                          | PhpVersion                             | *string                          | Identical |       |
 | PowerShellVersion                      | *string                          | PowerShellVersion                      | *string                          | Identical |       |
-| PreWarmedInstanceCount                 | Validated<*int> (2 rules)        | PreWarmedInstanceCount                 | *int                             | Modified  |       |
+| PreWarmedInstanceCount                 | Validated<*int> (2 rules)        | PreWarmedInstanceCount                 | *int                             | Identical |       |
 |                                        |                                  | PropertyBag                            | genruntime.PropertyBag           |    New    |       |
 | PublicNetworkAccess                    | *string                          | PublicNetworkAccess                    | *string                          | Identical |       |
 | PublishingUsername                     | *string                          | PublishingUsername                     | *string                          | Identical |       |
@@ -872,7 +865,7 @@
 
 ### SiteConfig_STATUS
 
-61 x Identical, 1 x New, 6 x Modified
+Properties: 61 x Identical, 1 x New, 6 x Modified
 
 | v1api20220301                          |                                         | v1api20220301/storage                  |                                         |  Status   | Notes |
 |:---------------------------------------|:----------------------------------------|:---------------------------------------|:----------------------------------------|:---------:|:------|
@@ -947,7 +940,7 @@
 
 ### SiteLimits
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220301    |          | v1api20220301/storage |                        |  Status   | Notes |
 |:-----------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -958,7 +951,7 @@
 
 ### SiteLimits_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220301    |          | v1api20220301/storage |                        |  Status   | Notes |
 |:-----------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -969,7 +962,7 @@
 
 ### SiteMachineKey_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20220301 |         | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -981,7 +974,7 @@
 
 ### SiteOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220301        |                               | v1api20220301/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -991,7 +984,7 @@
 
 ### Site_STATUS
 
-50 x Identical, 1 x New, 4 x Modified
+Properties: 50 x Identical, 1 x New, 4 x Modified
 
 | v1api20220301               |                                           | v1api20220301/storage       |                                   |  Status   | Notes |
 |:----------------------------|:------------------------------------------|:----------------------------|:----------------------------------|:---------:|:------|
@@ -1053,7 +1046,7 @@
 
 ### Site_Spec
 
-33 x Identical, 2 x New, 2 x Modified
+Properties: 33 x Identical, 2 x New, 2 x Modified
 
 | v1api20220301                 |                                      | v1api20220301/storage         |                                    |  Status   | Notes |
 |:------------------------------|:-------------------------------------|:------------------------------|:-----------------------------------|:---------:|:------|
@@ -1097,7 +1090,7 @@
 
 ### SitesSourcecontrolOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220301        |                               | v1api20220301/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -1107,7 +1100,7 @@
 
 ### SitesSourcecontrol_STATUS
 
-12 x Identical, 1 x New
+Properties: 12 x Identical, 1 x New
 
 | v1api20220301             |                                   | v1api20220301/storage     |                                   |  Status   | Notes |
 |:--------------------------|:----------------------------------|:--------------------------|:----------------------------------|:---------:|:------|
@@ -1127,7 +1120,7 @@
 
 ### SitesSourcecontrol_Spec
 
-10 x Identical, 2 x New
+Properties: 10 x Identical, 2 x New
 
 | v1api20220301             |                                    | v1api20220301/storage     |                                    |  Status   | Notes |
 |:--------------------------|:-----------------------------------|:--------------------------|:-----------------------------------|:---------:|:------|
@@ -1146,7 +1139,7 @@
 
 ### SkuCapacity
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20220301  |         | v1api20220301/storage |                        |  Status   | Notes |
 |:---------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1159,7 +1152,7 @@
 
 ### SkuCapacity_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20220301  |         | v1api20220301/storage |                        |  Status   | Notes |
 |:---------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1172,7 +1165,7 @@
 
 ### SkuDescription
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v1api20220301 |              | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:-------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1188,7 +1181,7 @@
 
 ### SkuDescription_STATUS
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v1api20220301 |                     | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1204,7 +1197,7 @@
 
 ### SlotSwapStatus_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220301       |         | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1215,7 +1208,7 @@
 
 ### SlowRequestsBasedTrigger
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20220301 |         | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1227,7 +1220,7 @@
 
 ### SlowRequestsBasedTrigger_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20220301 |         | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1239,7 +1232,7 @@
 
 ### StatusCodesBasedTrigger
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20220301 |         | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1253,7 +1246,7 @@
 
 ### StatusCodesBasedTrigger_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20220301 |         | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1267,7 +1260,7 @@
 
 ### StatusCodesRangeBasedTrigger
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20220301 |         | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1279,7 +1272,7 @@
 
 ### StatusCodesRangeBasedTrigger_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20220301 |         | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1291,7 +1284,7 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220301 |                              | v1api20220301/storage |                              |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -1300,7 +1293,7 @@
 
 ### UserAssignedIdentity_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220301 |         | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1310,7 +1303,7 @@
 
 ### VirtualApplication
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20220301      |                    | v1api20220301/storage |                        |  Status   | Notes |
 |:-------------------|:-------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1322,7 +1315,7 @@
 
 ### VirtualApplication_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20220301      |                           | v1api20220301/storage |                           |  Status   | Notes |
 |:-------------------|:--------------------------|:----------------------|:--------------------------|:---------:|:------|
@@ -1334,7 +1327,7 @@
 
 ### VirtualDirectory
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220301 |         | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -1344,10 +1337,19 @@
 
 ### VirtualDirectory_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220301 |         | v1api20220301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
 | PhysicalPath  | *string | PhysicalPath          | *string                | Identical |       |
 |               |         | PropertyBag           | genruntime.PropertyBag |    New    |       |
 | VirtualPath   | *string | VirtualPath           | *string                | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

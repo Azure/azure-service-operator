@@ -7,52 +7,45 @@
 | ScheduledQueryRule | ScheduledQueryRule    | Identical |       |
 | Webtest            | Webtest               | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20220615                                            | v1api20220615/storage                                    |  Status  | Notes |
-|:---------------------------------------------------------|:---------------------------------------------------------|:--------:|:------|
-| Actions                                                  | Actions                                                  | Extended |       |
-| Actions_STATUS                                           | Actions_STATUS                                           | Extended |       |
-| Condition                                                | Condition                                                | Modified |       |
-| ConditionFailingPeriods                                  | ConditionFailingPeriods                                  | Extended |       |
-| ConditionFailingPeriods_STATUS                           | ConditionFailingPeriods_STATUS                           | Extended |       |
-| Condition_STATUS                                         | Condition_STATUS                                         | Modified |       |
-| Dimension                                                | Dimension                                                | Modified |       |
-| Dimension_STATUS                                         | Dimension_STATUS                                         | Modified |       |
-| HeaderField                                              | HeaderField                                              | Extended |       |
-| HeaderField_STATUS                                       | HeaderField_STATUS                                       | Extended |       |
-| ScheduledQueryRuleCriteria                               | ScheduledQueryRuleCriteria                               | Extended |       |
-| ScheduledQueryRuleCriteria_STATUS                        | ScheduledQueryRuleCriteria_STATUS                        | Extended |       |
-| ScheduledQueryRuleOperatorSpec                           | ScheduledQueryRuleOperatorSpec                           | Extended |       |
-| ScheduledQueryRule_STATUS                                | ScheduledQueryRule_STATUS                                | Modified |       |
-| ScheduledQueryRule_Spec                                  | ScheduledQueryRule_Spec                                  | Modified |       |
-| SystemData_STATUS                                        | SystemData_STATUS                                        | Modified |       |
-| WebTestGeolocation                                       | WebTestGeolocation                                       | Extended |       |
-| WebTestGeolocation_STATUS                                | WebTestGeolocation_STATUS                                | Extended |       |
-| WebTestPropertiesConfiguration                           | WebTestPropertiesConfiguration                           | Extended |       |
-| WebTestPropertiesConfiguration_STATUS                    | WebTestPropertiesConfiguration_STATUS                    | Extended |       |
-| WebTestPropertiesRequest                                 | WebTestPropertiesRequest                                 | Extended |       |
-| WebTestPropertiesRequest_STATUS                          | WebTestPropertiesRequest_STATUS                          | Extended |       |
-| WebTestPropertiesValidationRules                         | WebTestPropertiesValidationRules                         | Extended |       |
-| WebTestPropertiesValidationRulesContentValidation        | WebTestPropertiesValidationRulesContentValidation        | Extended |       |
-| WebTestPropertiesValidationRulesContentValidation_STATUS | WebTestPropertiesValidationRulesContentValidation_STATUS | Extended |       |
-| WebTestPropertiesValidationRules_STATUS                  | WebTestPropertiesValidationRules_STATUS                  | Extended |       |
-| WebtestOperatorSpec                                      | WebtestOperatorSpec                                      | Extended |       |
-| Webtest_STATUS                                           | Webtest_STATUS                                           | Modified |       |
-| Webtest_Spec                                             | Webtest_Spec                                             | Modified |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20220615                                            | v1api20220615/storage                                    |  Status  | Notes        |
+|:---------------------------------------------------------|:---------------------------------------------------------|:--------:|:-------------|
+| Actions                                                  | Actions                                                  | Extended | +PropertyBag |
+| Actions_STATUS                                           | Actions_STATUS                                           | Extended | +PropertyBag |
+| Condition                                                | Condition                                                | Modified |              |
+| ConditionFailingPeriods                                  | ConditionFailingPeriods                                  | Extended | +PropertyBag |
+| ConditionFailingPeriods_STATUS                           | ConditionFailingPeriods_STATUS                           | Extended | +PropertyBag |
+| Condition_STATUS                                         | Condition_STATUS                                         | Modified |              |
+| Dimension                                                | Dimension                                                | Modified |              |
+| Dimension_STATUS                                         | Dimension_STATUS                                         | Modified |              |
+| HeaderField                                              | HeaderField                                              | Extended | +PropertyBag |
+| HeaderField_STATUS                                       | HeaderField_STATUS                                       | Extended | +PropertyBag |
+| ScheduledQueryRuleCriteria                               | ScheduledQueryRuleCriteria                               | Extended | +PropertyBag |
+| ScheduledQueryRuleCriteria_STATUS                        | ScheduledQueryRuleCriteria_STATUS                        | Extended | +PropertyBag |
+| ScheduledQueryRuleOperatorSpec                           | ScheduledQueryRuleOperatorSpec                           | Extended | +PropertyBag |
+| ScheduledQueryRule_STATUS                                | ScheduledQueryRule_STATUS                                | Modified |              |
+| ScheduledQueryRule_Spec                                  | ScheduledQueryRule_Spec                                  | Modified |              |
+| SystemData_STATUS                                        | SystemData_STATUS                                        | Modified |              |
+| WebTestGeolocation                                       | WebTestGeolocation                                       | Extended | +PropertyBag |
+| WebTestGeolocation_STATUS                                | WebTestGeolocation_STATUS                                | Extended | +PropertyBag |
+| WebTestPropertiesConfiguration                           | WebTestPropertiesConfiguration                           | Extended | +PropertyBag |
+| WebTestPropertiesConfiguration_STATUS                    | WebTestPropertiesConfiguration_STATUS                    | Extended | +PropertyBag |
+| WebTestPropertiesRequest                                 | WebTestPropertiesRequest                                 | Extended | +PropertyBag |
+| WebTestPropertiesRequest_STATUS                          | WebTestPropertiesRequest_STATUS                          | Extended | +PropertyBag |
+| WebTestPropertiesValidationRules                         | WebTestPropertiesValidationRules                         | Extended | +PropertyBag |
+| WebTestPropertiesValidationRulesContentValidation        | WebTestPropertiesValidationRulesContentValidation        | Extended | +PropertyBag |
+| WebTestPropertiesValidationRulesContentValidation_STATUS | WebTestPropertiesValidationRulesContentValidation_STATUS | Extended | +PropertyBag |
+| WebTestPropertiesValidationRules_STATUS                  | WebTestPropertiesValidationRules_STATUS                  | Extended | +PropertyBag |
+| WebtestOperatorSpec                                      | WebtestOperatorSpec                                      | Extended | +PropertyBag |
+| Webtest_STATUS                                           | Webtest_STATUS                                           | Modified |              |
+| Webtest_Spec                                             | Webtest_Spec                                             | Modified |              |
 
 ### Actions
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220615          |                                | v1api20220615/storage  |                                |  Status   | Notes |
 |:-----------------------|:-------------------------------|:-----------------------|:-------------------------------|:---------:|:------|
@@ -62,7 +55,7 @@
 
 ### Actions_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220615    |                   | v1api20220615/storage |                        |  Status   | Notes |
 |:-----------------|:------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -72,7 +65,7 @@
 
 ### Condition
 
-7 x Identical, 1 x New, 2 x Modified
+Properties: 7 x Identical, 1 x New, 2 x Modified
 
 | v1api20220615             |                               | v1api20220615/storage     |                               |  Status   | Notes |
 |:--------------------------|:------------------------------|:--------------------------|:------------------------------|:---------:|:------|
@@ -89,7 +82,7 @@
 
 ### ConditionFailingPeriods
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220615             |      | v1api20220615/storage     |                        |  Status   | Notes |
 |:--------------------------|:-----|:--------------------------|:-----------------------|:---------:|:------|
@@ -99,7 +92,7 @@
 
 ### ConditionFailingPeriods_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220615             |      | v1api20220615/storage     |                        |  Status   | Notes |
 |:--------------------------|:-----|:--------------------------|:-----------------------|:---------:|:------|
@@ -109,7 +102,7 @@
 
 ### Condition_STATUS
 
-7 x Identical, 1 x New, 2 x Modified
+Properties: 7 x Identical, 1 x New, 2 x Modified
 
 | v1api20220615       |                                   | v1api20220615/storage |                                 |  Status   | Notes |
 |:--------------------|:----------------------------------|:----------------------|:--------------------------------|:---------:|:------|
@@ -126,7 +119,7 @@
 
 ### Dimension
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20220615 |                     | v1api20220615/storage |                        |  Status   | Notes |
 |:--------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -137,7 +130,7 @@
 
 ### Dimension_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20220615 |                            | v1api20220615/storage |                        |  Status   | Notes |
 |:--------------|:---------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -148,7 +141,7 @@
 
 ### HeaderField
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220615 |         | v1api20220615/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -158,7 +151,7 @@
 
 ### HeaderField_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220615 |         | v1api20220615/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -168,7 +161,7 @@
 
 ### ScheduledQueryRuleCriteria
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220615 |             | v1api20220615/storage |                        |  Status   | Notes |
 |:--------------|:------------|:----------------------|:-----------------------|:---------:|:------|
@@ -177,7 +170,7 @@
 
 ### ScheduledQueryRuleCriteria_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220615 |                    | v1api20220615/storage |                        |  Status   | Notes |
 |:--------------|:-------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -186,7 +179,7 @@
 
 ### ScheduledQueryRuleOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220615        |                               | v1api20220615/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -196,7 +189,7 @@
 
 ### ScheduledQueryRule_STATUS
 
-25 x Identical, 1 x New, 2 x Modified
+Properties: 25 x Identical, 1 x New, 2 x Modified
 
 | v1api20220615                         |                                               | v1api20220615/storage                 |                                    |  Status   | Notes |
 |:--------------------------------------|:----------------------------------------------|:--------------------------------------|:-----------------------------------|:---------:|:------|
@@ -231,7 +224,7 @@
 
 ### ScheduledQueryRule_Spec
 
-18 x Identical, 2 x New, 3 x Modified
+Properties: 18 x Identical, 2 x New, 3 x Modified
 
 | v1api20220615                         |                                        | v1api20220615/storage                 |                                    |  Status   | Notes |
 |:--------------------------------------|:---------------------------------------|:--------------------------------------|:-----------------------------------|:---------:|:------|
@@ -261,7 +254,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20220615      |                                       | v1api20220615/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -275,7 +268,7 @@
 
 ### WebTestGeolocation
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220615 |         | v1api20220615/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -284,7 +277,7 @@
 
 ### WebTestGeolocation_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220615 |         | v1api20220615/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -293,7 +286,7 @@
 
 ### WebTestPropertiesConfiguration
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220615 |         | v1api20220615/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -302,7 +295,7 @@
 
 ### WebTestPropertiesConfiguration_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20220615 |         | v1api20220615/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -311,7 +304,7 @@
 
 ### WebTestPropertiesRequest
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20220615          |               | v1api20220615/storage  |                        |  Status   | Notes |
 |:-----------------------|:--------------|:-----------------------|:-----------------------|:---------:|:------|
@@ -325,7 +318,7 @@
 
 ### WebTestPropertiesRequest_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20220615          |                      | v1api20220615/storage  |                        |  Status   | Notes |
 |:-----------------------|:---------------------|:-----------------------|:-----------------------|:---------:|:------|
@@ -339,7 +332,7 @@
 
 ### WebTestPropertiesValidationRules
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20220615                 |                                                    | v1api20220615/storage         |                                                    |  Status   | Notes |
 |:------------------------------|:---------------------------------------------------|:------------------------------|:---------------------------------------------------|:---------:|:------|
@@ -352,7 +345,7 @@
 
 ### WebTestPropertiesValidationRulesContentValidation
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220615   |         | v1api20220615/storage |                        |  Status   | Notes |
 |:----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -363,7 +356,7 @@
 
 ### WebTestPropertiesValidationRulesContentValidation_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220615   |         | v1api20220615/storage |                        |  Status   | Notes |
 |:----------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -374,7 +367,7 @@
 
 ### WebTestPropertiesValidationRules_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20220615                 |                                                           | v1api20220615/storage         |                                                           |  Status   | Notes |
 |:------------------------------|:----------------------------------------------------------|:------------------------------|:----------------------------------------------------------|:---------:|:------|
@@ -387,7 +380,7 @@
 
 ### WebtestOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220615        |                               | v1api20220615/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -397,7 +390,7 @@
 
 ### Webtest_STATUS
 
-18 x Identical, 1 x New, 1 x Modified
+Properties: 18 x Identical, 1 x New, 1 x Modified
 
 | v1api20220615      |                                          | v1api20220615/storage |                                          |  Status   | Notes |
 |:-------------------|:-----------------------------------------|:----------------------|:-----------------------------------------|:---------:|:------|
@@ -424,7 +417,7 @@
 
 ### Webtest_Spec
 
-16 x Identical, 2 x New, 1 x Modified
+Properties: 16 x Identical, 2 x New, 1 x Modified
 
 | v1api20220615      |                                    | v1api20220615/storage |                                    |  Status   | Notes |
 |:-------------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -447,3 +440,12 @@
 | Tags               | map[string]string                  | Tags                  | map[string]string                  | Identical |       |
 | Timeout            | *int                               | Timeout               | *int                               | Identical |       |
 | ValidationRules    | *WebTestPropertiesValidationRules  | ValidationRules       | *WebTestPropertiesValidationRules  | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

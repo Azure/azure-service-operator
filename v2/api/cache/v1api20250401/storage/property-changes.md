@@ -7,16 +7,18 @@
 | RedisEnterprise         | RedisEnterprise         | Identical |       |
 | RedisEnterpriseDatabase | RedisEnterpriseDatabase | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
 | v1api20250401/storage                                                                     | v20250401/storage                                                                         |  Status   | Notes |
 |:------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------|:---------:|:------|
-| ClusterProperties_Encryption                                                              | ClusterProperties_Encryption                                                              | Modified  |       |
-| ClusterProperties_Encryption_CustomerManagedKeyEncryption                                 | ClusterProperties_Encryption_CustomerManagedKeyEncryption                                 | Modified  |       |
+| ClusterProperties_Encryption                                                              | ClusterProperties_Encryption                                                              | Identical |       |
+| ClusterProperties_Encryption_CustomerManagedKeyEncryption                                 | ClusterProperties_Encryption_CustomerManagedKeyEncryption                                 | Identical |       |
 | ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity        | ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity        | Identical |       |
 | ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS | ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS | Identical |       |
-| ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS                          | ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS                          | Modified  |       |
-| ClusterProperties_Encryption_STATUS                                                       | ClusterProperties_Encryption_STATUS                                                       | Modified  |       |
+| ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS                          | ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS                          | Identical |       |
+| ClusterProperties_Encryption_STATUS                                                       | ClusterProperties_Encryption_STATUS                                                       | Identical |       |
 | DatabaseProperties_GeoReplication                                                         | DatabaseProperties_GeoReplication                                                         | Identical |       |
 | DatabaseProperties_GeoReplication_STATUS                                                  | DatabaseProperties_GeoReplication_STATUS                                                  | Identical |       |
 | LinkedDatabase                                                                            | LinkedDatabase                                                                            | Identical |       |
@@ -30,11 +32,11 @@
 | PrivateEndpointConnection_STATUS                                                          | PrivateEndpointConnection_STATUS                                                          | Identical |       |
 | RedisEnterpriseDatabaseOperatorSecrets                                                    | RedisEnterpriseDatabaseOperatorSecrets                                                    | Identical |       |
 | RedisEnterpriseDatabaseOperatorSpec                                                       | RedisEnterpriseDatabaseOperatorSpec                                                       | Identical |       |
-| RedisEnterpriseDatabase_STATUS                                                            | RedisEnterpriseDatabase_STATUS                                                            | Modified  |       |
-| RedisEnterpriseDatabase_Spec                                                              | RedisEnterpriseDatabase_Spec                                                              | Modified  |       |
+| RedisEnterpriseDatabase_STATUS                                                            | RedisEnterpriseDatabase_STATUS                                                            | Identical |       |
+| RedisEnterpriseDatabase_Spec                                                              | RedisEnterpriseDatabase_Spec                                                              | Identical |       |
 | RedisEnterpriseOperatorSpec                                                               | RedisEnterpriseOperatorSpec                                                               | Identical |       |
-| RedisEnterprise_STATUS                                                                    | RedisEnterprise_STATUS                                                                    | Modified  |       |
-| RedisEnterprise_Spec                                                                      | RedisEnterprise_Spec                                                                      | Modified  |       |
+| RedisEnterprise_STATUS                                                                    | RedisEnterprise_STATUS                                                                    | Identical |       |
+| RedisEnterprise_Spec                                                                      | RedisEnterprise_Spec                                                                      | Identical |       |
 | Sku                                                                                       | Sku                                                                                       | Identical |       |
 | Sku_STATUS                                                                                | Sku_STATUS                                                                                | Identical |       |
 | SystemData_STATUS                                                                         | SystemData_STATUS                                                                         | Identical |       |
@@ -43,141 +45,9 @@
 
 ## Legend
 
-* **Identical**: No properties changed.
+* **Identical**: No properties changed (or the differences are trivial).
 * **New**: The type or property exists only in the newer version.
 * **Retired**: The type or property exists only in the older version.
 * **Renamed**: A configured rename links the old and new names.
 * **Extended**: The newer type only adds properties.
 * **Modified**: Properties were retired, renamed, or changed type.
-
-### ClusterProperties_Encryption
-
-1 x Identical, 1 x Modified
-
-| v1api20250401/storage        |                                                            | v20250401/storage            |                                                            |  Status   | Notes |
-|:-----------------------------|:-----------------------------------------------------------|:-----------------------------|:-----------------------------------------------------------|:---------:|:------|
-| CustomerManagedKeyEncryption | *ClusterProperties_Encryption_CustomerManagedKeyEncryption | CustomerManagedKeyEncryption | *ClusterProperties_Encryption_CustomerManagedKeyEncryption | Modified  |       |
-| PropertyBag                  | genruntime.PropertyBag                                     | PropertyBag                  | genruntime.PropertyBag                                     | Identical |       |
-
-### ClusterProperties_Encryption_CustomerManagedKeyEncryption
-
-2 x Identical, 1 x Modified
-
-| v1api20250401/storage    |                                                                                     | v20250401/storage        |                                                                                     |  Status   | Notes |
-|:-------------------------|:------------------------------------------------------------------------------------|:-------------------------|:------------------------------------------------------------------------------------|:---------:|:------|
-| KeyEncryptionKeyIdentity | *ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity | KeyEncryptionKeyIdentity | *ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity | Modified  |       |
-| KeyEncryptionKeyUrl      | *string                                                                             | KeyEncryptionKeyUrl      | *string                                                                             | Identical |       |
-| PropertyBag              | genruntime.PropertyBag                                                              | PropertyBag              | genruntime.PropertyBag                                                              | Identical |       |
-
-### ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS
-
-2 x Identical, 1 x Modified
-
-| v1api20250401/storage    |                                                                                            | v20250401/storage        |                                                                                            |  Status   | Notes |
-|:-------------------------|:-------------------------------------------------------------------------------------------|:-------------------------|:-------------------------------------------------------------------------------------------|:---------:|:------|
-| KeyEncryptionKeyIdentity | *ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS | KeyEncryptionKeyIdentity | *ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS | Modified  |       |
-| KeyEncryptionKeyUrl      | *string                                                                                    | KeyEncryptionKeyUrl      | *string                                                                                    | Identical |       |
-| PropertyBag              | genruntime.PropertyBag                                                                     | PropertyBag              | genruntime.PropertyBag                                                                     | Identical |       |
-
-### ClusterProperties_Encryption_STATUS
-
-1 x Identical, 1 x Modified
-
-| v1api20250401/storage        |                                                                   | v20250401/storage            |                                                                   |  Status   | Notes |
-|:-----------------------------|:------------------------------------------------------------------|:-----------------------------|:------------------------------------------------------------------|:---------:|:------|
-| CustomerManagedKeyEncryption | *ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS | CustomerManagedKeyEncryption | *ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS | Modified  |       |
-| PropertyBag                  | genruntime.PropertyBag                                            | PropertyBag                  | genruntime.PropertyBag                                            | Identical |       |
-
-### RedisEnterpriseDatabase_STATUS
-
-17 x Identical, 1 x Modified
-
-| v1api20250401/storage    |                                           | v20250401/storage        |                                           |  Status   | Notes |
-|:-------------------------|:------------------------------------------|:-------------------------|:------------------------------------------|:---------:|:------|
-| AccessKeysAuthentication | *string                                   | AccessKeysAuthentication | *string                                   | Identical |       |
-| ClientProtocol           | *string                                   | ClientProtocol           | *string                                   | Identical |       |
-| ClusteringPolicy         | *string                                   | ClusteringPolicy         | *string                                   | Identical |       |
-| Conditions               | conditions.Condition[]                    | Conditions               | conditions.Condition[]                    | Identical |       |
-| DeferUpgrade             | *string                                   | DeferUpgrade             | *string                                   | Identical |       |
-| EvictionPolicy           | *string                                   | EvictionPolicy           | *string                                   | Identical |       |
-| GeoReplication           | *DatabaseProperties_GeoReplication_STATUS | GeoReplication           | *DatabaseProperties_GeoReplication_STATUS | Modified  |       |
-| Id                       | *string                                   | Id                       | *string                                   | Identical |       |
-| Modules                  | Module_STATUS[]                           | Modules                  | Module_STATUS[]                           | Identical |       |
-| Name                     | *string                                   | Name                     | *string                                   | Identical |       |
-| Persistence              | *Persistence_STATUS                       | Persistence              | *Persistence_STATUS                       | Identical |       |
-| Port                     | *int                                      | Port                     | *int                                      | Identical |       |
-| PropertyBag              | genruntime.PropertyBag                    | PropertyBag              | genruntime.PropertyBag                    | Identical |       |
-| ProvisioningState        | *string                                   | ProvisioningState        | *string                                   | Identical |       |
-| RedisVersion             | *string                                   | RedisVersion             | *string                                   | Identical |       |
-| ResourceState            | *string                                   | ResourceState            | *string                                   | Identical |       |
-| SystemData               | *SystemData_STATUS                        | SystemData               | *SystemData_STATUS                        | Identical |       |
-| Type                     | *string                                   | Type                     | *string                                   | Identical |       |
-
-### RedisEnterpriseDatabase_Spec
-
-13 x Identical, 1 x Modified
-
-| v1api20250401/storage    |                                      | v20250401/storage        |                                      |  Status   | Notes |
-|:-------------------------|:-------------------------------------|:-------------------------|:-------------------------------------|:---------:|:------|
-| AccessKeysAuthentication | *string                              | AccessKeysAuthentication | *string                              | Identical |       |
-| AzureName                | string                               | AzureName                | string                               | Identical |       |
-| ClientProtocol           | *string                              | ClientProtocol           | *string                              | Identical |       |
-| ClusteringPolicy         | *string                              | ClusteringPolicy         | *string                              | Identical |       |
-| DeferUpgrade             | *string                              | DeferUpgrade             | *string                              | Identical |       |
-| EvictionPolicy           | *string                              | EvictionPolicy           | *string                              | Identical |       |
-| GeoReplication           | *DatabaseProperties_GeoReplication   | GeoReplication           | *DatabaseProperties_GeoReplication   | Modified  |       |
-| Modules                  | Module[]                             | Modules                  | Module[]                             | Identical |       |
-| OperatorSpec             | *RedisEnterpriseDatabaseOperatorSpec | OperatorSpec             | *RedisEnterpriseDatabaseOperatorSpec | Identical |       |
-| OriginalVersion          | string                               | OriginalVersion          | string                               | Identical |       |
-| Owner                    | *genruntime.KnownResourceReference   | Owner                    | *genruntime.KnownResourceReference   | Identical |       |
-| Persistence              | *Persistence                         | Persistence              | *Persistence                         | Identical |       |
-| Port                     | *int                                 | Port                     | *int                                 | Identical |       |
-| PropertyBag              | genruntime.PropertyBag               | PropertyBag              | genruntime.PropertyBag               | Identical |       |
-
-### RedisEnterprise_STATUS
-
-19 x Identical, 1 x Modified
-
-| v1api20250401/storage      |                                      | v20250401/storage          |                                      |  Status   | Notes |
-|:---------------------------|:-------------------------------------|:---------------------------|:-------------------------------------|:---------:|:------|
-| Conditions                 | conditions.Condition[]               | Conditions                 | conditions.Condition[]               | Identical |       |
-| Encryption                 | *ClusterProperties_Encryption_STATUS | Encryption                 | *ClusterProperties_Encryption_STATUS | Modified  |       |
-| HighAvailability           | *string                              | HighAvailability           | *string                              | Identical |       |
-| HostName                   | *string                              | HostName                   | *string                              | Identical |       |
-| Id                         | *string                              | Id                         | *string                              | Identical |       |
-| Identity                   | *ManagedServiceIdentity_STATUS       | Identity                   | *ManagedServiceIdentity_STATUS       | Identical |       |
-| Kind                       | *string                              | Kind                       | *string                              | Identical |       |
-| Location                   | *string                              | Location                   | *string                              | Identical |       |
-| MinimumTlsVersion          | *string                              | MinimumTlsVersion          | *string                              | Identical |       |
-| Name                       | *string                              | Name                       | *string                              | Identical |       |
-| PrivateEndpointConnections | PrivateEndpointConnection_STATUS[]   | PrivateEndpointConnections | PrivateEndpointConnection_STATUS[]   | Identical |       |
-| PropertyBag                | genruntime.PropertyBag               | PropertyBag                | genruntime.PropertyBag               | Identical |       |
-| ProvisioningState          | *string                              | ProvisioningState          | *string                              | Identical |       |
-| RedisVersion               | *string                              | RedisVersion               | *string                              | Identical |       |
-| RedundancyMode             | *string                              | RedundancyMode             | *string                              | Identical |       |
-| ResourceState              | *string                              | ResourceState              | *string                              | Identical |       |
-| Sku                        | *Sku_STATUS                          | Sku                        | *Sku_STATUS                          | Identical |       |
-| Tags                       | map[string]string                    | Tags                       | map[string]string                    | Identical |       |
-| Type                       | *string                              | Type                       | *string                              | Identical |       |
-| Zones                      | string[]                             | Zones                      | string[]                             | Identical |       |
-
-### RedisEnterprise_Spec
-
-13 x Identical, 1 x Modified
-
-| v1api20250401/storage |                                    | v20250401/storage |                                    |  Status   | Notes |
-|:----------------------|:-----------------------------------|:------------------|:-----------------------------------|:---------:|:------|
-| AzureName             | string                             | AzureName         | string                             | Identical |       |
-| Encryption            | *ClusterProperties_Encryption      | Encryption        | *ClusterProperties_Encryption      | Modified  |       |
-| HighAvailability      | *string                            | HighAvailability  | *string                            | Identical |       |
-| Identity              | *ManagedServiceIdentity            | Identity          | *ManagedServiceIdentity            | Identical |       |
-| Kind                  | *string                            | Kind              | *string                            | Identical |       |
-| Location              | *string                            | Location          | *string                            | Identical |       |
-| MinimumTlsVersion     | *string                            | MinimumTlsVersion | *string                            | Identical |       |
-| OperatorSpec          | *RedisEnterpriseOperatorSpec       | OperatorSpec      | *RedisEnterpriseOperatorSpec       | Identical |       |
-| OriginalVersion       | string                             | OriginalVersion   | string                             | Identical |       |
-| Owner                 | *genruntime.KnownResourceReference | Owner             | *genruntime.KnownResourceReference | Identical |       |
-| PropertyBag           | genruntime.PropertyBag             | PropertyBag       | genruntime.PropertyBag             | Identical |       |
-| Sku                   | *Sku                               | Sku               | *Sku                               | Identical |       |
-| Tags                  | map[string]string                  | Tags              | map[string]string                  | Identical |       |
-| Zones                 | string[]                           | Zones             | string[]                           | Identical |       |

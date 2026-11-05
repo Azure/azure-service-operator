@@ -9,296 +9,289 @@
 | ManagedClustersAgentPool | ManagedClustersAgentPool | Identical |       |
 | TrustedAccessRoleBinding | TrustedAccessRoleBinding | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20251002preview/storage                                                  | v1api20250801/storage                                               |  Status   | Notes |
-|:--------------------------------------------------------------------------|:--------------------------------------------------------------------|:---------:|:------|
-| AbsoluteMonthlySchedule                                                   | AbsoluteMonthlySchedule                                             | Identical |       |
-| AbsoluteMonthlySchedule_STATUS                                            | AbsoluteMonthlySchedule_STATUS                                      | Identical |       |
-| AdvancedNetworking                                                        | AdvancedNetworking                                                  | Modified  |       |
-| AdvancedNetworkingObservability                                           | AdvancedNetworkingObservability                                     | Identical |       |
-| AdvancedNetworkingObservability_STATUS                                    | AdvancedNetworkingObservability_STATUS                              | Identical |       |
-| AdvancedNetworkingPerformance                                             |                                                                     |  Retired  |       |
-| AdvancedNetworkingPerformance_STATUS                                      |                                                                     |  Retired  |       |
-| AdvancedNetworkingSecurity                                                | AdvancedNetworkingSecurity                                          | Modified  |       |
-| AdvancedNetworkingSecurityTransitEncryption                               |                                                                     |  Retired  |       |
-| AdvancedNetworkingSecurityTransitEncryption_STATUS                        |                                                                     |  Retired  |       |
-| AdvancedNetworkingSecurity_STATUS                                         | AdvancedNetworkingSecurity_STATUS                                   | Modified  |       |
-| AdvancedNetworking_STATUS                                                 | AdvancedNetworking_STATUS                                           | Modified  |       |
-| AgentPoolArtifactStreamingProfile                                         |                                                                     |  Retired  |       |
-| AgentPoolArtifactStreamingProfile_STATUS                                  |                                                                     |  Retired  |       |
-| AgentPoolBlueGreenUpgradeSettings                                         |                                                                     |  Retired  |       |
-| AgentPoolBlueGreenUpgradeSettings_STATUS                                  |                                                                     |  Retired  |       |
-| AgentPoolGatewayProfile                                                   | AgentPoolGatewayProfile                                             | Identical |       |
-| AgentPoolGatewayProfile_STATUS                                            | AgentPoolGatewayProfile_STATUS                                      | Identical |       |
-| AgentPoolNetworkProfile                                                   | AgentPoolNetworkProfile                                             | Identical |       |
-| AgentPoolNetworkProfile_STATUS                                            | AgentPoolNetworkProfile_STATUS                                      | Identical |       |
-| AgentPoolSecurityProfile                                                  | AgentPoolSecurityProfile                                            | Identical |       |
-| AgentPoolSecurityProfile_STATUS                                           | AgentPoolSecurityProfile_STATUS                                     | Identical |       |
-| AgentPoolStatus_STATUS                                                    | AgentPoolStatus_STATUS                                              | Identical |       |
-| AgentPoolUpgradeSettings                                                  | AgentPoolUpgradeSettings                                            | Modified  |       |
-| AgentPoolUpgradeSettings_STATUS                                           | AgentPoolUpgradeSettings_STATUS                                     | Modified  |       |
-| AgentPoolWindowsProfile                                                   | AgentPoolWindowsProfile                                             | Identical |       |
-| AgentPoolWindowsProfile_STATUS                                            | AgentPoolWindowsProfile_STATUS                                      | Identical |       |
-| AutoScaleProfile                                                          |                                                                     |  Retired  |       |
-| AutoScaleProfile_STATUS                                                   |                                                                     |  Retired  |       |
-| AzureKeyVaultKms                                                          | AzureKeyVaultKms                                                    | Identical |       |
-| AzureKeyVaultKms_STATUS                                                   | AzureKeyVaultKms_STATUS                                             | Identical |       |
-| ClusterUpgradeSettings                                                    | ClusterUpgradeSettings                                              | Identical |       |
-| ClusterUpgradeSettings_STATUS                                             | ClusterUpgradeSettings_STATUS                                       | Identical |       |
-| ContainerServiceLinuxProfile                                              | ContainerServiceLinuxProfile                                        | Identical |       |
-| ContainerServiceLinuxProfile_STATUS                                       | ContainerServiceLinuxProfile_STATUS                                 | Identical |       |
-| ContainerServiceNetworkProfile                                            | ContainerServiceNetworkProfile                                      | Modified  |       |
-| ContainerServiceNetworkProfileKubeProxyConfig                             |                                                                     |  Retired  |       |
-| ContainerServiceNetworkProfileKubeProxyConfigIpvsConfig                   |                                                                     |  Retired  |       |
-| ContainerServiceNetworkProfileKubeProxyConfigIpvsConfig_STATUS            |                                                                     |  Retired  |       |
-| ContainerServiceNetworkProfileKubeProxyConfig_STATUS                      |                                                                     |  Retired  |       |
-| ContainerServiceNetworkProfile_STATUS                                     | ContainerServiceNetworkProfile_STATUS                               | Modified  |       |
-| ContainerServiceSshConfiguration                                          | ContainerServiceSshConfiguration                                    | Identical |       |
-| ContainerServiceSshConfiguration_STATUS                                   | ContainerServiceSshConfiguration_STATUS                             | Identical |       |
-| ContainerServiceSshPublicKey                                              | ContainerServiceSshPublicKey                                        | Identical |       |
-| ContainerServiceSshPublicKey_STATUS                                       | ContainerServiceSshPublicKey_STATUS                                 | Identical |       |
-| CreationData                                                              | CreationData                                                        | Identical |       |
-| CreationData_STATUS                                                       | CreationData_STATUS                                                 | Identical |       |
-| DailySchedule                                                             | DailySchedule                                                       | Identical |       |
-| DailySchedule_STATUS                                                      | DailySchedule_STATUS                                                | Identical |       |
-| DateSpan                                                                  | DateSpan                                                            | Identical |       |
-| DateSpan_STATUS                                                           | DateSpan_STATUS                                                     | Identical |       |
-| DelegatedResource                                                         | DelegatedResource                                                   | Identical |       |
-| DelegatedResource_STATUS                                                  | DelegatedResource_STATUS                                            | Identical |       |
-| ErrorAdditionalInfo_STATUS                                                | ErrorAdditionalInfo_STATUS                                          | Identical |       |
-| ErrorDetail_STATUS                                                        | ErrorDetail_STATUS                                                  | Identical |       |
-| ErrorDetail_STATUS_Unrolled                                               | ErrorDetail_STATUS_Unrolled                                         | Identical |       |
-| ExtendedLocation                                                          | ExtendedLocation                                                    | Identical |       |
-| ExtendedLocation_STATUS                                                   | ExtendedLocation_STATUS                                             | Identical |       |
-| GPUProfile                                                                | GPUProfile                                                          | Modified  |       |
-| GPUProfile_STATUS                                                         | GPUProfile_STATUS                                                   | Modified  |       |
-| IPTag                                                                     | IPTag                                                               | Identical |       |
-| IPTag_STATUS                                                              | IPTag_STATUS                                                        | Identical |       |
-| IstioCertificateAuthority                                                 | IstioCertificateAuthority                                           | Identical |       |
-| IstioCertificateAuthority_STATUS                                          | IstioCertificateAuthority_STATUS                                    | Identical |       |
-| IstioComponents                                                           | IstioComponents                                                     | Modified  |       |
-| IstioComponents_STATUS                                                    | IstioComponents_STATUS                                              | Modified  |       |
-| IstioEgressGateway                                                        | IstioEgressGateway                                                  | Modified  |       |
-| IstioEgressGateway_STATUS                                                 | IstioEgressGateway_STATUS                                           | Modified  |       |
-| IstioIngressGateway                                                       | IstioIngressGateway                                                 | Identical |       |
-| IstioIngressGateway_STATUS                                                | IstioIngressGateway_STATUS                                          | Identical |       |
-| IstioPluginCertificateAuthority                                           | IstioPluginCertificateAuthority                                     | Identical |       |
-| IstioPluginCertificateAuthority_STATUS                                    | IstioPluginCertificateAuthority_STATUS                              | Identical |       |
-| IstioServiceMesh                                                          | IstioServiceMesh                                                    | Identical |       |
-| IstioServiceMesh_STATUS                                                   | IstioServiceMesh_STATUS                                             | Identical |       |
-| KubeletConfig                                                             | KubeletConfig                                                       | Modified  |       |
-| KubeletConfig_STATUS                                                      | KubeletConfig_STATUS                                                | Modified  |       |
-| KubernetesResourceObjectEncryptionProfile                                 |                                                                     |  Retired  |       |
-| KubernetesResourceObjectEncryptionProfile_STATUS                          |                                                                     |  Retired  |       |
-| LinuxOSConfig                                                             | LinuxOSConfig                                                       | Identical |       |
-| LinuxOSConfig_STATUS                                                      | LinuxOSConfig_STATUS                                                | Identical |       |
-| LocalDNSOverride                                                          |                                                                     |  Retired  |       |
-| LocalDNSOverride_STATUS                                                   |                                                                     |  Retired  |       |
-| LocalDNSProfile                                                           |                                                                     |  Retired  |       |
-| LocalDNSProfile_STATUS                                                    |                                                                     |  Retired  |       |
-| MaintenanceConfigurationOperatorSpec                                      | MaintenanceConfigurationOperatorSpec                                | Identical |       |
-| MaintenanceConfiguration_STATUS                                           | MaintenanceConfiguration_STATUS                                     | Identical |       |
-| MaintenanceConfiguration_Spec                                             | MaintenanceConfiguration_Spec                                       | Identical |       |
-| MaintenanceWindow                                                         | MaintenanceWindow                                                   | Identical |       |
-| MaintenanceWindow_STATUS                                                  | MaintenanceWindow_STATUS                                            | Identical |       |
-| ManagedClusterAADProfile                                                  | ManagedClusterAADProfile                                            | Identical |       |
-| ManagedClusterAADProfile_STATUS                                           | ManagedClusterAADProfile_STATUS                                     | Identical |       |
-| ManagedClusterAIToolchainOperatorProfile                                  | ManagedClusterAIToolchainOperatorProfile                            | Identical |       |
-| ManagedClusterAIToolchainOperatorProfile_STATUS                           | ManagedClusterAIToolchainOperatorProfile_STATUS                     | Identical |       |
-| ManagedClusterAPIServerAccessProfile                                      | ManagedClusterAPIServerAccessProfile                                | Identical |       |
-| ManagedClusterAPIServerAccessProfile_STATUS                               | ManagedClusterAPIServerAccessProfile_STATUS                         | Identical |       |
-| ManagedClusterAddonProfile                                                | ManagedClusterAddonProfile                                          | Identical |       |
-| ManagedClusterAddonProfile_STATUS                                         | ManagedClusterAddonProfile_STATUS                                   | Identical |       |
-| ManagedClusterAgentPoolProfile                                            | ManagedClusterAgentPoolProfile                                      | Modified  |       |
-| ManagedClusterAgentPoolProfile_STATUS                                     | ManagedClusterAgentPoolProfile_STATUS                               | Modified  |       |
-| ManagedClusterAutoUpgradeProfile                                          | ManagedClusterAutoUpgradeProfile                                    | Identical |       |
-| ManagedClusterAutoUpgradeProfile_STATUS                                   | ManagedClusterAutoUpgradeProfile_STATUS                             | Identical |       |
-| ManagedClusterAzureMonitorProfile                                         | ManagedClusterAzureMonitorProfile                                   | Modified  |       |
-| ManagedClusterAzureMonitorProfileAppMonitoring                            |                                                                     |  Retired  |       |
-| ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation         |                                                                     |  Retired  |       |
-| ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation_STATUS  |                                                                     |  Retired  |       |
-| ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs           |                                                                     |  Retired  |       |
-| ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs_STATUS    |                                                                     |  Retired  |       |
-| ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics        |                                                                     |  Retired  |       |
-| ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS |                                                                     |  Retired  |       |
-| ManagedClusterAzureMonitorProfileAppMonitoring_STATUS                     |                                                                     |  Retired  |       |
-| ManagedClusterAzureMonitorProfileContainerInsights                        |                                                                     |  Retired  |       |
-| ManagedClusterAzureMonitorProfileContainerInsights_STATUS                 |                                                                     |  Retired  |       |
-| ManagedClusterAzureMonitorProfileKubeStateMetrics                         | ManagedClusterAzureMonitorProfileKubeStateMetrics                   | Identical |       |
-| ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS                  | ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS            | Identical |       |
-| ManagedClusterAzureMonitorProfileMetrics                                  | ManagedClusterAzureMonitorProfileMetrics                            | Identical |       |
-| ManagedClusterAzureMonitorProfileMetrics_STATUS                           | ManagedClusterAzureMonitorProfileMetrics_STATUS                     | Identical |       |
-| ManagedClusterAzureMonitorProfile_STATUS                                  | ManagedClusterAzureMonitorProfile_STATUS                            | Modified  |       |
-| ManagedClusterBootstrapProfile                                            | ManagedClusterBootstrapProfile                                      | Identical |       |
-| ManagedClusterBootstrapProfile_STATUS                                     | ManagedClusterBootstrapProfile_STATUS                               | Identical |       |
-| ManagedClusterCostAnalysis                                                | ManagedClusterCostAnalysis                                          | Identical |       |
-| ManagedClusterCostAnalysis_STATUS                                         | ManagedClusterCostAnalysis_STATUS                                   | Identical |       |
-| ManagedClusterHTTPProxyConfig                                             | ManagedClusterHTTPProxyConfig                                       | Modified  |       |
-| ManagedClusterHTTPProxyConfig_STATUS                                      | ManagedClusterHTTPProxyConfig_STATUS                                | Modified  |       |
-| ManagedClusterHostedSystemProfile                                         |                                                                     |  Retired  |       |
-| ManagedClusterHostedSystemProfile_STATUS                                  |                                                                     |  Retired  |       |
-| ManagedClusterIdentity                                                    | ManagedClusterIdentity                                              | Identical |       |
-| ManagedClusterIdentity_STATUS                                             | ManagedClusterIdentity_STATUS                                       | Identical |       |
-| ManagedClusterIngressDefaultDomainProfile                                 |                                                                     |  Retired  |       |
-| ManagedClusterIngressDefaultDomainProfile_STATUS                          |                                                                     |  Retired  |       |
-| ManagedClusterIngressProfile                                              | ManagedClusterIngressProfile                                        | Modified  |       |
-| ManagedClusterIngressProfileApplicationLoadBalancer                       |                                                                     |  Retired  |       |
-| ManagedClusterIngressProfileApplicationLoadBalancer_STATUS                |                                                                     |  Retired  |       |
-| ManagedClusterIngressProfileGatewayConfiguration                          |                                                                     |  Retired  |       |
-| ManagedClusterIngressProfileGatewayConfiguration_STATUS                   |                                                                     |  Retired  |       |
-| ManagedClusterIngressProfileNginx                                         | ManagedClusterIngressProfileNginx                                   | Identical |       |
-| ManagedClusterIngressProfileNginx_STATUS                                  | ManagedClusterIngressProfileNginx_STATUS                            | Identical |       |
-| ManagedClusterIngressProfileWebAppRouting                                 | ManagedClusterIngressProfileWebAppRouting                           | Modified  |       |
-| ManagedClusterIngressProfileWebAppRouting_STATUS                          | ManagedClusterIngressProfileWebAppRouting_STATUS                    | Modified  |       |
-| ManagedClusterIngressProfile_STATUS                                       | ManagedClusterIngressProfile_STATUS                                 | Modified  |       |
-| ManagedClusterLoadBalancerProfile                                         | ManagedClusterLoadBalancerProfile                                   | Modified  |       |
-| ManagedClusterLoadBalancerProfileManagedOutboundIPs                       | ManagedClusterLoadBalancerProfile_ManagedOutboundIPs                |  Renamed  |       |
-| ManagedClusterLoadBalancerProfileManagedOutboundIPs_STATUS                | ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS         |  Renamed  |       |
-| ManagedClusterLoadBalancerProfileOutboundIPPrefixes                       | ManagedClusterLoadBalancerProfile_OutboundIPPrefixes                |  Renamed  |       |
-| ManagedClusterLoadBalancerProfileOutboundIPPrefixes_STATUS                | ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS         |  Renamed  |       |
-| ManagedClusterLoadBalancerProfileOutboundIPs                              | ManagedClusterLoadBalancerProfile_OutboundIPs                       |  Renamed  |       |
-| ManagedClusterLoadBalancerProfileOutboundIPs_STATUS                       | ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS                |  Renamed  |       |
-| ManagedClusterLoadBalancerProfile_STATUS                                  | ManagedClusterLoadBalancerProfile_STATUS                            | Modified  |       |
-| ManagedClusterManagedOutboundIPProfile                                    | ManagedClusterManagedOutboundIPProfile                              | Identical |       |
-| ManagedClusterManagedOutboundIPProfile_STATUS                             | ManagedClusterManagedOutboundIPProfile_STATUS                       | Identical |       |
-| ManagedClusterMetricsProfile                                              | ManagedClusterMetricsProfile                                        | Identical |       |
-| ManagedClusterMetricsProfile_STATUS                                       | ManagedClusterMetricsProfile_STATUS                                 | Identical |       |
-| ManagedClusterNATGatewayProfile                                           | ManagedClusterNATGatewayProfile                                     | Identical |       |
-| ManagedClusterNATGatewayProfile_STATUS                                    | ManagedClusterNATGatewayProfile_STATUS                              | Identical |       |
-| ManagedClusterNodeProvisioningProfile                                     | ManagedClusterNodeProvisioningProfile                               | Identical |       |
-| ManagedClusterNodeProvisioningProfile_STATUS                              | ManagedClusterNodeProvisioningProfile_STATUS                        | Identical |       |
-| ManagedClusterNodeResourceGroupProfile                                    | ManagedClusterNodeResourceGroupProfile                              | Identical |       |
-| ManagedClusterNodeResourceGroupProfile_STATUS                             | ManagedClusterNodeResourceGroupProfile_STATUS                       | Identical |       |
-| ManagedClusterOIDCIssuerProfile                                           | ManagedClusterOIDCIssuerProfile                                     | Identical |       |
-| ManagedClusterOIDCIssuerProfile_STATUS                                    | ManagedClusterOIDCIssuerProfile_STATUS                              | Identical |       |
-| ManagedClusterOperatorConfigMaps                                          | ManagedClusterOperatorConfigMaps                                    | Extended  |       |
-| ManagedClusterOperatorSecrets                                             | ManagedClusterOperatorSecrets                                       | Identical |       |
-| ManagedClusterOperatorSpec                                                | ManagedClusterOperatorSpec                                          | Identical |       |
-| ManagedClusterPodIdentity                                                 | ManagedClusterPodIdentity                                           | Identical |       |
-| ManagedClusterPodIdentityException                                        | ManagedClusterPodIdentityException                                  | Identical |       |
-| ManagedClusterPodIdentityException_STATUS                                 | ManagedClusterPodIdentityException_STATUS                           | Identical |       |
-| ManagedClusterPodIdentityProfile                                          | ManagedClusterPodIdentityProfile                                    | Identical |       |
-| ManagedClusterPodIdentityProfile_STATUS                                   | ManagedClusterPodIdentityProfile_STATUS                             | Identical |       |
-| ManagedClusterPodIdentityProvisioningErrorBody_STATUS                     | ManagedClusterPodIdentityProvisioningErrorBody_STATUS               | Identical |       |
-| ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled            | ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled      | Identical |       |
-| ManagedClusterPodIdentityProvisioningError_STATUS                         | ManagedClusterPodIdentityProvisioningError_STATUS                   | Identical |       |
-| ManagedClusterPodIdentityProvisioningInfo_STATUS                          | ManagedClusterPodIdentity_ProvisioningInfo_STATUS                   |  Renamed  |       |
-| ManagedClusterPodIdentity_STATUS                                          | ManagedClusterPodIdentity_STATUS                                    | Identical |       |
-| ManagedClusterPropertiesAutoScalerProfile                                 | ManagedClusterProperties_AutoScalerProfile                          |  Renamed  |       |
-| ManagedClusterPropertiesAutoScalerProfile_STATUS                          | ManagedClusterProperties_AutoScalerProfile_STATUS                   |  Renamed  |       |
-| ManagedClusterSKU                                                         | ManagedClusterSKU                                                   | Identical |       |
-| ManagedClusterSKU_STATUS                                                  | ManagedClusterSKU_STATUS                                            | Identical |       |
-| ManagedClusterSecurityProfile                                             | ManagedClusterSecurityProfile                                       | Modified  |       |
-| ManagedClusterSecurityProfileDefender                                     | ManagedClusterSecurityProfileDefender                               | Modified  |       |
-| ManagedClusterSecurityProfileDefenderSecurityGating                       |                                                                     |  Retired  |       |
-| ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem         |                                                                     |  Retired  |       |
-| ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem_STATUS  |                                                                     |  Retired  |       |
-| ManagedClusterSecurityProfileDefenderSecurityGating_STATUS                |                                                                     |  Retired  |       |
-| ManagedClusterSecurityProfileDefenderSecurityMonitoring                   | ManagedClusterSecurityProfileDefenderSecurityMonitoring             | Identical |       |
-| ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS            | ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS      | Identical |       |
-| ManagedClusterSecurityProfileDefender_STATUS                              | ManagedClusterSecurityProfileDefender_STATUS                        | Modified  |       |
-| ManagedClusterSecurityProfileImageCleaner                                 | ManagedClusterSecurityProfileImageCleaner                           | Identical |       |
-| ManagedClusterSecurityProfileImageCleaner_STATUS                          | ManagedClusterSecurityProfileImageCleaner_STATUS                    | Identical |       |
-| ManagedClusterSecurityProfileImageIntegrity                               |                                                                     |  Retired  |       |
-| ManagedClusterSecurityProfileImageIntegrity_STATUS                        |                                                                     |  Retired  |       |
-| ManagedClusterSecurityProfileNodeRestriction                              |                                                                     |  Retired  |       |
-| ManagedClusterSecurityProfileNodeRestriction_STATUS                       |                                                                     |  Retired  |       |
-| ManagedClusterSecurityProfileWorkloadIdentity                             | ManagedClusterSecurityProfileWorkloadIdentity                       | Identical |       |
-| ManagedClusterSecurityProfileWorkloadIdentity_STATUS                      | ManagedClusterSecurityProfileWorkloadIdentity_STATUS                | Identical |       |
-| ManagedClusterSecurityProfile_STATUS                                      | ManagedClusterSecurityProfile_STATUS                                | Modified  |       |
-| ManagedClusterServicePrincipalProfile                                     | ManagedClusterServicePrincipalProfile                               | Identical |       |
-| ManagedClusterServicePrincipalProfile_STATUS                              | ManagedClusterServicePrincipalProfile_STATUS                        | Identical |       |
-| ManagedClusterStaticEgressGatewayProfile                                  | ManagedClusterStaticEgressGatewayProfile                            | Identical |       |
-| ManagedClusterStaticEgressGatewayProfile_STATUS                           | ManagedClusterStaticEgressGatewayProfile_STATUS                     | Identical |       |
-| ManagedClusterStatus_STATUS                                               | ManagedClusterStatus_STATUS                                         | Identical |       |
-| ManagedClusterStorageProfile                                              | ManagedClusterStorageProfile                                        | Identical |       |
-| ManagedClusterStorageProfileBlobCSIDriver                                 | ManagedClusterStorageProfileBlobCSIDriver                           | Identical |       |
-| ManagedClusterStorageProfileBlobCSIDriver_STATUS                          | ManagedClusterStorageProfileBlobCSIDriver_STATUS                    | Identical |       |
-| ManagedClusterStorageProfileDiskCSIDriver                                 | ManagedClusterStorageProfileDiskCSIDriver                           | Modified  |       |
-| ManagedClusterStorageProfileDiskCSIDriver_STATUS                          | ManagedClusterStorageProfileDiskCSIDriver_STATUS                    | Modified  |       |
-| ManagedClusterStorageProfileFileCSIDriver                                 | ManagedClusterStorageProfileFileCSIDriver                           | Identical |       |
-| ManagedClusterStorageProfileFileCSIDriver_STATUS                          | ManagedClusterStorageProfileFileCSIDriver_STATUS                    | Identical |       |
-| ManagedClusterStorageProfileSnapshotController                            | ManagedClusterStorageProfileSnapshotController                      | Identical |       |
-| ManagedClusterStorageProfileSnapshotController_STATUS                     | ManagedClusterStorageProfileSnapshotController_STATUS               | Identical |       |
-| ManagedClusterStorageProfile_STATUS                                       | ManagedClusterStorageProfile_STATUS                                 | Identical |       |
-| ManagedClusterWindowsProfile                                              | ManagedClusterWindowsProfile                                        | Identical |       |
-| ManagedClusterWindowsProfile_STATUS                                       | ManagedClusterWindowsProfile_STATUS                                 | Identical |       |
-| ManagedClusterWorkloadAutoScalerProfile                                   | ManagedClusterWorkloadAutoScalerProfile                             | Identical |       |
-| ManagedClusterWorkloadAutoScalerProfileKeda                               | ManagedClusterWorkloadAutoScalerProfileKeda                         | Identical |       |
-| ManagedClusterWorkloadAutoScalerProfileKeda_STATUS                        | ManagedClusterWorkloadAutoScalerProfileKeda_STATUS                  | Identical |       |
-| ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler              | ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler        | Modified  |       |
-| ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS       | ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS | Modified  |       |
-| ManagedClusterWorkloadAutoScalerProfile_STATUS                            | ManagedClusterWorkloadAutoScalerProfile_STATUS                      | Identical |       |
-| ManagedCluster_STATUS                                                     | ManagedCluster_STATUS                                               | Modified  |       |
-| ManagedCluster_Spec                                                       | ManagedCluster_Spec                                                 | Modified  |       |
-| ManagedClustersAgentPoolOperatorSpec                                      | ManagedClustersAgentPoolOperatorSpec                                | Identical |       |
-| ManagedClustersAgentPool_STATUS                                           | ManagedClustersAgentPool_STATUS                                     | Modified  |       |
-| ManagedClustersAgentPool_Spec                                             | ManagedClustersAgentPool_Spec                                       | Modified  |       |
-| ManagedServiceIdentityUserAssignedIdentitiesValue_STATUS                  | ManagedClusterIdentity_UserAssignedIdentities_STATUS                |  Renamed  |       |
-| ManualScaleProfile                                                        | ManualScaleProfile                                                  | Identical |       |
-| ManualScaleProfile_STATUS                                                 | ManualScaleProfile_STATUS                                           | Identical |       |
-| NodeCustomizationProfile                                                  |                                                                     |  Retired  |       |
-| NodeCustomizationProfile_STATUS                                           |                                                                     |  Retired  |       |
-| PortRange                                                                 | PortRange                                                           | Identical |       |
-| PortRange_STATUS                                                          | PortRange_STATUS                                                    | Identical |       |
-| PowerState                                                                | PowerState                                                          | Identical |       |
-| PowerState_STATUS                                                         | PowerState_STATUS                                                   | Identical |       |
-| PrivateLinkResource                                                       | PrivateLinkResource                                                 | Identical |       |
-| PrivateLinkResource_STATUS                                                | PrivateLinkResource_STATUS                                          | Identical |       |
-| RelativeMonthlySchedule                                                   | RelativeMonthlySchedule                                             | Identical |       |
-| RelativeMonthlySchedule_STATUS                                            | RelativeMonthlySchedule_STATUS                                      | Identical |       |
-| ResourceReference                                                         | ResourceReference                                                   | Identical |       |
-| ResourceReference_STATUS                                                  | ResourceReference_STATUS                                            | Identical |       |
-| ScaleProfile                                                              | ScaleProfile                                                        | Modified  |       |
-| ScaleProfile_STATUS                                                       | ScaleProfile_STATUS                                                 | Modified  |       |
-| Schedule                                                                  | Schedule                                                            | Identical |       |
-| Schedule_STATUS                                                           | Schedule_STATUS                                                     | Identical |       |
-| SchedulerInstanceProfile                                                  |                                                                     |  Retired  |       |
-| SchedulerInstanceProfile_STATUS                                           |                                                                     |  Retired  |       |
-| SchedulerProfile                                                          |                                                                     |  Retired  |       |
-| SchedulerProfileSchedulerInstanceProfiles                                 |                                                                     |  Retired  |       |
-| SchedulerProfileSchedulerInstanceProfiles_STATUS                          |                                                                     |  Retired  |       |
-| SchedulerProfile_STATUS                                                   |                                                                     |  Retired  |       |
-| ServiceMeshProfile                                                        | ServiceMeshProfile                                                  | Identical |       |
-| ServiceMeshProfile_STATUS                                                 | ServiceMeshProfile_STATUS                                           | Identical |       |
-| SysctlConfig                                                              | SysctlConfig                                                        | Identical |       |
-| SysctlConfig_STATUS                                                       | SysctlConfig_STATUS                                                 | Identical |       |
-| SystemData_STATUS                                                         |                                                                     |  Retired  |       |
-| SystemData_STATUS                                                         | SystemData_STATUS                                                   | Identical |       |
-| TimeInWeek                                                                | TimeInWeek                                                          | Identical |       |
-| TimeInWeek_STATUS                                                         | TimeInWeek_STATUS                                                   | Identical |       |
-| TimeSpan                                                                  | TimeSpan                                                            | Identical |       |
-| TimeSpan_STATUS                                                           | TimeSpan_STATUS                                                     | Identical |       |
-| TrustedAccessRoleBindingOperatorSpec                                      | TrustedAccessRoleBindingOperatorSpec                                | Identical |       |
-| TrustedAccessRoleBinding_STATUS                                           | TrustedAccessRoleBinding_STATUS                                     | Identical |       |
-| TrustedAccessRoleBinding_Spec                                             | TrustedAccessRoleBinding_Spec                                       | Identical |       |
-| UpgradeOverrideSettings                                                   | UpgradeOverrideSettings                                             | Identical |       |
-| UpgradeOverrideSettings_STATUS                                            | UpgradeOverrideSettings_STATUS                                      | Identical |       |
-| UserAssignedIdentity                                                      | UserAssignedIdentity                                                | Identical |       |
-| UserAssignedIdentityDetails                                               | UserAssignedIdentityDetails                                         | Identical |       |
-| UserAssignedIdentity_STATUS                                               | UserAssignedIdentity_STATUS                                         | Identical |       |
-| VirtualMachineNodes                                                       | VirtualMachineNodes                                                 | Identical |       |
-| VirtualMachineNodes_STATUS                                                | VirtualMachineNodes_STATUS                                          | Identical |       |
-| VirtualMachinesProfile                                                    | VirtualMachinesProfile                                              | Identical |       |
-| VirtualMachinesProfile_STATUS                                             | VirtualMachinesProfile_STATUS                                       | Identical |       |
-| WeeklySchedule                                                            | WeeklySchedule                                                      | Identical |       |
-| WeeklySchedule_STATUS                                                     | WeeklySchedule_STATUS                                               | Identical |       |
-| WindowsGmsaProfile                                                        | WindowsGmsaProfile                                                  | Identical |       |
-| WindowsGmsaProfile_STATUS                                                 | WindowsGmsaProfile_STATUS                                           | Identical |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20251002preview/storage                                                  | v1api20250801/storage                                               |  Status   | Notes        |
+|:--------------------------------------------------------------------------|:--------------------------------------------------------------------|:---------:|:-------------|
+| AbsoluteMonthlySchedule                                                   | AbsoluteMonthlySchedule                                             | Identical |              |
+| AbsoluteMonthlySchedule_STATUS                                            | AbsoluteMonthlySchedule_STATUS                                      | Identical |              |
+| AdvancedNetworking                                                        | AdvancedNetworking                                                  | Modified  |              |
+| AdvancedNetworkingObservability                                           | AdvancedNetworkingObservability                                     | Identical |              |
+| AdvancedNetworkingObservability_STATUS                                    | AdvancedNetworkingObservability_STATUS                              | Identical |              |
+| AdvancedNetworkingPerformance                                             |                                                                     |  Retired  |              |
+| AdvancedNetworkingPerformance_STATUS                                      |                                                                     |  Retired  |              |
+| AdvancedNetworkingSecurity                                                | AdvancedNetworkingSecurity                                          | Modified  |              |
+| AdvancedNetworkingSecurityTransitEncryption                               |                                                                     |  Retired  |              |
+| AdvancedNetworkingSecurityTransitEncryption_STATUS                        |                                                                     |  Retired  |              |
+| AdvancedNetworkingSecurity_STATUS                                         | AdvancedNetworkingSecurity_STATUS                                   | Modified  |              |
+| AdvancedNetworking_STATUS                                                 | AdvancedNetworking_STATUS                                           | Modified  |              |
+| AgentPoolArtifactStreamingProfile                                         |                                                                     |  Retired  |              |
+| AgentPoolArtifactStreamingProfile_STATUS                                  |                                                                     |  Retired  |              |
+| AgentPoolBlueGreenUpgradeSettings                                         |                                                                     |  Retired  |              |
+| AgentPoolBlueGreenUpgradeSettings_STATUS                                  |                                                                     |  Retired  |              |
+| AgentPoolGatewayProfile                                                   | AgentPoolGatewayProfile                                             | Identical |              |
+| AgentPoolGatewayProfile_STATUS                                            | AgentPoolGatewayProfile_STATUS                                      | Identical |              |
+| AgentPoolNetworkProfile                                                   | AgentPoolNetworkProfile                                             | Identical |              |
+| AgentPoolNetworkProfile_STATUS                                            | AgentPoolNetworkProfile_STATUS                                      | Identical |              |
+| AgentPoolSecurityProfile                                                  | AgentPoolSecurityProfile                                            | Identical |              |
+| AgentPoolSecurityProfile_STATUS                                           | AgentPoolSecurityProfile_STATUS                                     | Identical |              |
+| AgentPoolStatus_STATUS                                                    | AgentPoolStatus_STATUS                                              | Identical |              |
+| AgentPoolUpgradeSettings                                                  | AgentPoolUpgradeSettings                                            | Modified  |              |
+| AgentPoolUpgradeSettings_STATUS                                           | AgentPoolUpgradeSettings_STATUS                                     | Modified  |              |
+| AgentPoolWindowsProfile                                                   | AgentPoolWindowsProfile                                             | Identical |              |
+| AgentPoolWindowsProfile_STATUS                                            | AgentPoolWindowsProfile_STATUS                                      | Identical |              |
+| AutoScaleProfile                                                          |                                                                     |  Retired  |              |
+| AutoScaleProfile_STATUS                                                   |                                                                     |  Retired  |              |
+| AzureKeyVaultKms                                                          | AzureKeyVaultKms                                                    | Identical |              |
+| AzureKeyVaultKms_STATUS                                                   | AzureKeyVaultKms_STATUS                                             | Identical |              |
+| ClusterUpgradeSettings                                                    | ClusterUpgradeSettings                                              | Identical |              |
+| ClusterUpgradeSettings_STATUS                                             | ClusterUpgradeSettings_STATUS                                       | Identical |              |
+| ContainerServiceLinuxProfile                                              | ContainerServiceLinuxProfile                                        | Identical |              |
+| ContainerServiceLinuxProfile_STATUS                                       | ContainerServiceLinuxProfile_STATUS                                 | Identical |              |
+| ContainerServiceNetworkProfile                                            | ContainerServiceNetworkProfile                                      | Modified  |              |
+| ContainerServiceNetworkProfileKubeProxyConfig                             |                                                                     |  Retired  |              |
+| ContainerServiceNetworkProfileKubeProxyConfigIpvsConfig                   |                                                                     |  Retired  |              |
+| ContainerServiceNetworkProfileKubeProxyConfigIpvsConfig_STATUS            |                                                                     |  Retired  |              |
+| ContainerServiceNetworkProfileKubeProxyConfig_STATUS                      |                                                                     |  Retired  |              |
+| ContainerServiceNetworkProfile_STATUS                                     | ContainerServiceNetworkProfile_STATUS                               | Modified  |              |
+| ContainerServiceSshConfiguration                                          | ContainerServiceSshConfiguration                                    | Identical |              |
+| ContainerServiceSshConfiguration_STATUS                                   | ContainerServiceSshConfiguration_STATUS                             | Identical |              |
+| ContainerServiceSshPublicKey                                              | ContainerServiceSshPublicKey                                        | Identical |              |
+| ContainerServiceSshPublicKey_STATUS                                       | ContainerServiceSshPublicKey_STATUS                                 | Identical |              |
+| CreationData                                                              | CreationData                                                        | Identical |              |
+| CreationData_STATUS                                                       | CreationData_STATUS                                                 | Identical |              |
+| DailySchedule                                                             | DailySchedule                                                       | Identical |              |
+| DailySchedule_STATUS                                                      | DailySchedule_STATUS                                                | Identical |              |
+| DateSpan                                                                  | DateSpan                                                            | Identical |              |
+| DateSpan_STATUS                                                           | DateSpan_STATUS                                                     | Identical |              |
+| DelegatedResource                                                         | DelegatedResource                                                   | Identical |              |
+| DelegatedResource_STATUS                                                  | DelegatedResource_STATUS                                            | Identical |              |
+| ErrorAdditionalInfo_STATUS                                                | ErrorAdditionalInfo_STATUS                                          | Identical |              |
+| ErrorDetail_STATUS                                                        | ErrorDetail_STATUS                                                  | Identical |              |
+| ErrorDetail_STATUS_Unrolled                                               | ErrorDetail_STATUS_Unrolled                                         | Identical |              |
+| ExtendedLocation                                                          | ExtendedLocation                                                    | Identical |              |
+| ExtendedLocation_STATUS                                                   | ExtendedLocation_STATUS                                             | Identical |              |
+| GPUProfile                                                                | GPUProfile                                                          | Modified  |              |
+| GPUProfile_STATUS                                                         | GPUProfile_STATUS                                                   | Modified  |              |
+| IPTag                                                                     | IPTag                                                               | Identical |              |
+| IPTag_STATUS                                                              | IPTag_STATUS                                                        | Identical |              |
+| IstioCertificateAuthority                                                 | IstioCertificateAuthority                                           | Identical |              |
+| IstioCertificateAuthority_STATUS                                          | IstioCertificateAuthority_STATUS                                    | Identical |              |
+| IstioComponents                                                           | IstioComponents                                                     | Modified  |              |
+| IstioComponents_STATUS                                                    | IstioComponents_STATUS                                              | Modified  |              |
+| IstioEgressGateway                                                        | IstioEgressGateway                                                  | Modified  |              |
+| IstioEgressGateway_STATUS                                                 | IstioEgressGateway_STATUS                                           | Modified  |              |
+| IstioIngressGateway                                                       | IstioIngressGateway                                                 | Identical |              |
+| IstioIngressGateway_STATUS                                                | IstioIngressGateway_STATUS                                          | Identical |              |
+| IstioPluginCertificateAuthority                                           | IstioPluginCertificateAuthority                                     | Identical |              |
+| IstioPluginCertificateAuthority_STATUS                                    | IstioPluginCertificateAuthority_STATUS                              | Identical |              |
+| IstioServiceMesh                                                          | IstioServiceMesh                                                    | Identical |              |
+| IstioServiceMesh_STATUS                                                   | IstioServiceMesh_STATUS                                             | Identical |              |
+| KubeletConfig                                                             | KubeletConfig                                                       | Modified  |              |
+| KubeletConfig_STATUS                                                      | KubeletConfig_STATUS                                                | Modified  |              |
+| KubernetesResourceObjectEncryptionProfile                                 |                                                                     |  Retired  |              |
+| KubernetesResourceObjectEncryptionProfile_STATUS                          |                                                                     |  Retired  |              |
+| LinuxOSConfig                                                             | LinuxOSConfig                                                       | Identical |              |
+| LinuxOSConfig_STATUS                                                      | LinuxOSConfig_STATUS                                                | Identical |              |
+| LocalDNSOverride                                                          |                                                                     |  Retired  |              |
+| LocalDNSOverride_STATUS                                                   |                                                                     |  Retired  |              |
+| LocalDNSProfile                                                           |                                                                     |  Retired  |              |
+| LocalDNSProfile_STATUS                                                    |                                                                     |  Retired  |              |
+| MaintenanceConfigurationOperatorSpec                                      | MaintenanceConfigurationOperatorSpec                                | Identical |              |
+| MaintenanceConfiguration_STATUS                                           | MaintenanceConfiguration_STATUS                                     | Identical |              |
+| MaintenanceConfiguration_Spec                                             | MaintenanceConfiguration_Spec                                       | Identical |              |
+| MaintenanceWindow                                                         | MaintenanceWindow                                                   | Identical |              |
+| MaintenanceWindow_STATUS                                                  | MaintenanceWindow_STATUS                                            | Identical |              |
+| ManagedClusterAADProfile                                                  | ManagedClusterAADProfile                                            | Identical |              |
+| ManagedClusterAADProfile_STATUS                                           | ManagedClusterAADProfile_STATUS                                     | Identical |              |
+| ManagedClusterAIToolchainOperatorProfile                                  | ManagedClusterAIToolchainOperatorProfile                            | Identical |              |
+| ManagedClusterAIToolchainOperatorProfile_STATUS                           | ManagedClusterAIToolchainOperatorProfile_STATUS                     | Identical |              |
+| ManagedClusterAPIServerAccessProfile                                      | ManagedClusterAPIServerAccessProfile                                | Identical |              |
+| ManagedClusterAPIServerAccessProfile_STATUS                               | ManagedClusterAPIServerAccessProfile_STATUS                         | Identical |              |
+| ManagedClusterAddonProfile                                                | ManagedClusterAddonProfile                                          | Identical |              |
+| ManagedClusterAddonProfile_STATUS                                         | ManagedClusterAddonProfile_STATUS                                   | Identical |              |
+| ManagedClusterAgentPoolProfile                                            | ManagedClusterAgentPoolProfile                                      | Modified  |              |
+| ManagedClusterAgentPoolProfile_STATUS                                     | ManagedClusterAgentPoolProfile_STATUS                               | Modified  |              |
+| ManagedClusterAutoUpgradeProfile                                          | ManagedClusterAutoUpgradeProfile                                    | Identical |              |
+| ManagedClusterAutoUpgradeProfile_STATUS                                   | ManagedClusterAutoUpgradeProfile_STATUS                             | Identical |              |
+| ManagedClusterAzureMonitorProfile                                         | ManagedClusterAzureMonitorProfile                                   | Modified  |              |
+| ManagedClusterAzureMonitorProfileAppMonitoring                            |                                                                     |  Retired  |              |
+| ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation         |                                                                     |  Retired  |              |
+| ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation_STATUS  |                                                                     |  Retired  |              |
+| ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs           |                                                                     |  Retired  |              |
+| ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs_STATUS    |                                                                     |  Retired  |              |
+| ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics        |                                                                     |  Retired  |              |
+| ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS |                                                                     |  Retired  |              |
+| ManagedClusterAzureMonitorProfileAppMonitoring_STATUS                     |                                                                     |  Retired  |              |
+| ManagedClusterAzureMonitorProfileContainerInsights                        |                                                                     |  Retired  |              |
+| ManagedClusterAzureMonitorProfileContainerInsights_STATUS                 |                                                                     |  Retired  |              |
+| ManagedClusterAzureMonitorProfileKubeStateMetrics                         | ManagedClusterAzureMonitorProfileKubeStateMetrics                   | Identical |              |
+| ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS                  | ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS            | Identical |              |
+| ManagedClusterAzureMonitorProfileMetrics                                  | ManagedClusterAzureMonitorProfileMetrics                            | Identical |              |
+| ManagedClusterAzureMonitorProfileMetrics_STATUS                           | ManagedClusterAzureMonitorProfileMetrics_STATUS                     | Identical |              |
+| ManagedClusterAzureMonitorProfile_STATUS                                  | ManagedClusterAzureMonitorProfile_STATUS                            | Modified  |              |
+| ManagedClusterBootstrapProfile                                            | ManagedClusterBootstrapProfile                                      | Identical |              |
+| ManagedClusterBootstrapProfile_STATUS                                     | ManagedClusterBootstrapProfile_STATUS                               | Identical |              |
+| ManagedClusterCostAnalysis                                                | ManagedClusterCostAnalysis                                          | Identical |              |
+| ManagedClusterCostAnalysis_STATUS                                         | ManagedClusterCostAnalysis_STATUS                                   | Identical |              |
+| ManagedClusterHTTPProxyConfig                                             | ManagedClusterHTTPProxyConfig                                       | Modified  |              |
+| ManagedClusterHTTPProxyConfig_STATUS                                      | ManagedClusterHTTPProxyConfig_STATUS                                | Modified  |              |
+| ManagedClusterHostedSystemProfile                                         |                                                                     |  Retired  |              |
+| ManagedClusterHostedSystemProfile_STATUS                                  |                                                                     |  Retired  |              |
+| ManagedClusterIdentity                                                    | ManagedClusterIdentity                                              | Identical |              |
+| ManagedClusterIdentity_STATUS                                             | ManagedClusterIdentity_STATUS                                       | Identical |              |
+| ManagedClusterIngressDefaultDomainProfile                                 |                                                                     |  Retired  |              |
+| ManagedClusterIngressDefaultDomainProfile_STATUS                          |                                                                     |  Retired  |              |
+| ManagedClusterIngressProfile                                              | ManagedClusterIngressProfile                                        | Modified  |              |
+| ManagedClusterIngressProfileApplicationLoadBalancer                       |                                                                     |  Retired  |              |
+| ManagedClusterIngressProfileApplicationLoadBalancer_STATUS                |                                                                     |  Retired  |              |
+| ManagedClusterIngressProfileGatewayConfiguration                          |                                                                     |  Retired  |              |
+| ManagedClusterIngressProfileGatewayConfiguration_STATUS                   |                                                                     |  Retired  |              |
+| ManagedClusterIngressProfileNginx                                         | ManagedClusterIngressProfileNginx                                   | Identical |              |
+| ManagedClusterIngressProfileNginx_STATUS                                  | ManagedClusterIngressProfileNginx_STATUS                            | Identical |              |
+| ManagedClusterIngressProfileWebAppRouting                                 | ManagedClusterIngressProfileWebAppRouting                           | Modified  |              |
+| ManagedClusterIngressProfileWebAppRouting_STATUS                          | ManagedClusterIngressProfileWebAppRouting_STATUS                    | Modified  |              |
+| ManagedClusterIngressProfile_STATUS                                       | ManagedClusterIngressProfile_STATUS                                 | Modified  |              |
+| ManagedClusterLoadBalancerProfile                                         | ManagedClusterLoadBalancerProfile                                   | Modified  |              |
+| ManagedClusterLoadBalancerProfileManagedOutboundIPs                       | ManagedClusterLoadBalancerProfile_ManagedOutboundIPs                |  Renamed  |              |
+| ManagedClusterLoadBalancerProfileManagedOutboundIPs_STATUS                | ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS         |  Renamed  |              |
+| ManagedClusterLoadBalancerProfileOutboundIPPrefixes                       | ManagedClusterLoadBalancerProfile_OutboundIPPrefixes                |  Renamed  |              |
+| ManagedClusterLoadBalancerProfileOutboundIPPrefixes_STATUS                | ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS         |  Renamed  |              |
+| ManagedClusterLoadBalancerProfileOutboundIPs                              | ManagedClusterLoadBalancerProfile_OutboundIPs                       |  Renamed  |              |
+| ManagedClusterLoadBalancerProfileOutboundIPs_STATUS                       | ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS                |  Renamed  |              |
+| ManagedClusterLoadBalancerProfile_STATUS                                  | ManagedClusterLoadBalancerProfile_STATUS                            | Modified  |              |
+| ManagedClusterManagedOutboundIPProfile                                    | ManagedClusterManagedOutboundIPProfile                              | Identical |              |
+| ManagedClusterManagedOutboundIPProfile_STATUS                             | ManagedClusterManagedOutboundIPProfile_STATUS                       | Identical |              |
+| ManagedClusterMetricsProfile                                              | ManagedClusterMetricsProfile                                        | Identical |              |
+| ManagedClusterMetricsProfile_STATUS                                       | ManagedClusterMetricsProfile_STATUS                                 | Identical |              |
+| ManagedClusterNATGatewayProfile                                           | ManagedClusterNATGatewayProfile                                     | Identical |              |
+| ManagedClusterNATGatewayProfile_STATUS                                    | ManagedClusterNATGatewayProfile_STATUS                              | Identical |              |
+| ManagedClusterNodeProvisioningProfile                                     | ManagedClusterNodeProvisioningProfile                               | Identical |              |
+| ManagedClusterNodeProvisioningProfile_STATUS                              | ManagedClusterNodeProvisioningProfile_STATUS                        | Identical |              |
+| ManagedClusterNodeResourceGroupProfile                                    | ManagedClusterNodeResourceGroupProfile                              | Identical |              |
+| ManagedClusterNodeResourceGroupProfile_STATUS                             | ManagedClusterNodeResourceGroupProfile_STATUS                       | Identical |              |
+| ManagedClusterOIDCIssuerProfile                                           | ManagedClusterOIDCIssuerProfile                                     | Identical |              |
+| ManagedClusterOIDCIssuerProfile_STATUS                                    | ManagedClusterOIDCIssuerProfile_STATUS                              | Identical |              |
+| ManagedClusterOperatorConfigMaps                                          | ManagedClusterOperatorConfigMaps                                    | Extended  | +PrincipalId |
+| ManagedClusterOperatorSecrets                                             | ManagedClusterOperatorSecrets                                       | Identical |              |
+| ManagedClusterOperatorSpec                                                | ManagedClusterOperatorSpec                                          | Identical |              |
+| ManagedClusterPodIdentity                                                 | ManagedClusterPodIdentity                                           | Identical |              |
+| ManagedClusterPodIdentityException                                        | ManagedClusterPodIdentityException                                  | Identical |              |
+| ManagedClusterPodIdentityException_STATUS                                 | ManagedClusterPodIdentityException_STATUS                           | Identical |              |
+| ManagedClusterPodIdentityProfile                                          | ManagedClusterPodIdentityProfile                                    | Identical |              |
+| ManagedClusterPodIdentityProfile_STATUS                                   | ManagedClusterPodIdentityProfile_STATUS                             | Identical |              |
+| ManagedClusterPodIdentityProvisioningErrorBody_STATUS                     | ManagedClusterPodIdentityProvisioningErrorBody_STATUS               | Identical |              |
+| ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled            | ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled      | Identical |              |
+| ManagedClusterPodIdentityProvisioningError_STATUS                         | ManagedClusterPodIdentityProvisioningError_STATUS                   | Identical |              |
+| ManagedClusterPodIdentityProvisioningInfo_STATUS                          | ManagedClusterPodIdentity_ProvisioningInfo_STATUS                   |  Renamed  |              |
+| ManagedClusterPodIdentity_STATUS                                          | ManagedClusterPodIdentity_STATUS                                    | Identical |              |
+| ManagedClusterPropertiesAutoScalerProfile                                 | ManagedClusterProperties_AutoScalerProfile                          |  Renamed  |              |
+| ManagedClusterPropertiesAutoScalerProfile_STATUS                          | ManagedClusterProperties_AutoScalerProfile_STATUS                   |  Renamed  |              |
+| ManagedClusterSKU                                                         | ManagedClusterSKU                                                   | Identical |              |
+| ManagedClusterSKU_STATUS                                                  | ManagedClusterSKU_STATUS                                            | Identical |              |
+| ManagedClusterSecurityProfile                                             | ManagedClusterSecurityProfile                                       | Modified  |              |
+| ManagedClusterSecurityProfileDefender                                     | ManagedClusterSecurityProfileDefender                               | Modified  |              |
+| ManagedClusterSecurityProfileDefenderSecurityGating                       |                                                                     |  Retired  |              |
+| ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem         |                                                                     |  Retired  |              |
+| ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem_STATUS  |                                                                     |  Retired  |              |
+| ManagedClusterSecurityProfileDefenderSecurityGating_STATUS                |                                                                     |  Retired  |              |
+| ManagedClusterSecurityProfileDefenderSecurityMonitoring                   | ManagedClusterSecurityProfileDefenderSecurityMonitoring             | Identical |              |
+| ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS            | ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS      | Identical |              |
+| ManagedClusterSecurityProfileDefender_STATUS                              | ManagedClusterSecurityProfileDefender_STATUS                        | Modified  |              |
+| ManagedClusterSecurityProfileImageCleaner                                 | ManagedClusterSecurityProfileImageCleaner                           | Identical |              |
+| ManagedClusterSecurityProfileImageCleaner_STATUS                          | ManagedClusterSecurityProfileImageCleaner_STATUS                    | Identical |              |
+| ManagedClusterSecurityProfileImageIntegrity                               |                                                                     |  Retired  |              |
+| ManagedClusterSecurityProfileImageIntegrity_STATUS                        |                                                                     |  Retired  |              |
+| ManagedClusterSecurityProfileNodeRestriction                              |                                                                     |  Retired  |              |
+| ManagedClusterSecurityProfileNodeRestriction_STATUS                       |                                                                     |  Retired  |              |
+| ManagedClusterSecurityProfileWorkloadIdentity                             | ManagedClusterSecurityProfileWorkloadIdentity                       | Identical |              |
+| ManagedClusterSecurityProfileWorkloadIdentity_STATUS                      | ManagedClusterSecurityProfileWorkloadIdentity_STATUS                | Identical |              |
+| ManagedClusterSecurityProfile_STATUS                                      | ManagedClusterSecurityProfile_STATUS                                | Modified  |              |
+| ManagedClusterServicePrincipalProfile                                     | ManagedClusterServicePrincipalProfile                               | Identical |              |
+| ManagedClusterServicePrincipalProfile_STATUS                              | ManagedClusterServicePrincipalProfile_STATUS                        | Identical |              |
+| ManagedClusterStaticEgressGatewayProfile                                  | ManagedClusterStaticEgressGatewayProfile                            | Identical |              |
+| ManagedClusterStaticEgressGatewayProfile_STATUS                           | ManagedClusterStaticEgressGatewayProfile_STATUS                     | Identical |              |
+| ManagedClusterStatus_STATUS                                               | ManagedClusterStatus_STATUS                                         | Identical |              |
+| ManagedClusterStorageProfile                                              | ManagedClusterStorageProfile                                        | Identical |              |
+| ManagedClusterStorageProfileBlobCSIDriver                                 | ManagedClusterStorageProfileBlobCSIDriver                           | Identical |              |
+| ManagedClusterStorageProfileBlobCSIDriver_STATUS                          | ManagedClusterStorageProfileBlobCSIDriver_STATUS                    | Identical |              |
+| ManagedClusterStorageProfileDiskCSIDriver                                 | ManagedClusterStorageProfileDiskCSIDriver                           | Modified  |              |
+| ManagedClusterStorageProfileDiskCSIDriver_STATUS                          | ManagedClusterStorageProfileDiskCSIDriver_STATUS                    | Modified  |              |
+| ManagedClusterStorageProfileFileCSIDriver                                 | ManagedClusterStorageProfileFileCSIDriver                           | Identical |              |
+| ManagedClusterStorageProfileFileCSIDriver_STATUS                          | ManagedClusterStorageProfileFileCSIDriver_STATUS                    | Identical |              |
+| ManagedClusterStorageProfileSnapshotController                            | ManagedClusterStorageProfileSnapshotController                      | Identical |              |
+| ManagedClusterStorageProfileSnapshotController_STATUS                     | ManagedClusterStorageProfileSnapshotController_STATUS               | Identical |              |
+| ManagedClusterStorageProfile_STATUS                                       | ManagedClusterStorageProfile_STATUS                                 | Identical |              |
+| ManagedClusterWindowsProfile                                              | ManagedClusterWindowsProfile                                        | Identical |              |
+| ManagedClusterWindowsProfile_STATUS                                       | ManagedClusterWindowsProfile_STATUS                                 | Identical |              |
+| ManagedClusterWorkloadAutoScalerProfile                                   | ManagedClusterWorkloadAutoScalerProfile                             | Identical |              |
+| ManagedClusterWorkloadAutoScalerProfileKeda                               | ManagedClusterWorkloadAutoScalerProfileKeda                         | Identical |              |
+| ManagedClusterWorkloadAutoScalerProfileKeda_STATUS                        | ManagedClusterWorkloadAutoScalerProfileKeda_STATUS                  | Identical |              |
+| ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler              | ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler        | Modified  |              |
+| ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS       | ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS | Modified  |              |
+| ManagedClusterWorkloadAutoScalerProfile_STATUS                            | ManagedClusterWorkloadAutoScalerProfile_STATUS                      | Identical |              |
+| ManagedCluster_STATUS                                                     | ManagedCluster_STATUS                                               | Modified  |              |
+| ManagedCluster_Spec                                                       | ManagedCluster_Spec                                                 | Modified  |              |
+| ManagedClustersAgentPoolOperatorSpec                                      | ManagedClustersAgentPoolOperatorSpec                                | Identical |              |
+| ManagedClustersAgentPool_STATUS                                           | ManagedClustersAgentPool_STATUS                                     | Modified  |              |
+| ManagedClustersAgentPool_Spec                                             | ManagedClustersAgentPool_Spec                                       | Modified  |              |
+| ManagedServiceIdentityUserAssignedIdentitiesValue_STATUS                  | ManagedClusterIdentity_UserAssignedIdentities_STATUS                |  Renamed  |              |
+| ManualScaleProfile                                                        | ManualScaleProfile                                                  | Identical |              |
+| ManualScaleProfile_STATUS                                                 | ManualScaleProfile_STATUS                                           | Identical |              |
+| NodeCustomizationProfile                                                  |                                                                     |  Retired  |              |
+| NodeCustomizationProfile_STATUS                                           |                                                                     |  Retired  |              |
+| PortRange                                                                 | PortRange                                                           | Identical |              |
+| PortRange_STATUS                                                          | PortRange_STATUS                                                    | Identical |              |
+| PowerState                                                                | PowerState                                                          | Identical |              |
+| PowerState_STATUS                                                         | PowerState_STATUS                                                   | Identical |              |
+| PrivateLinkResource                                                       | PrivateLinkResource                                                 | Identical |              |
+| PrivateLinkResource_STATUS                                                | PrivateLinkResource_STATUS                                          | Identical |              |
+| RelativeMonthlySchedule                                                   | RelativeMonthlySchedule                                             | Identical |              |
+| RelativeMonthlySchedule_STATUS                                            | RelativeMonthlySchedule_STATUS                                      | Identical |              |
+| ResourceReference                                                         | ResourceReference                                                   | Identical |              |
+| ResourceReference_STATUS                                                  | ResourceReference_STATUS                                            | Identical |              |
+| ScaleProfile                                                              | ScaleProfile                                                        | Modified  |              |
+| ScaleProfile_STATUS                                                       | ScaleProfile_STATUS                                                 | Modified  |              |
+| Schedule                                                                  | Schedule                                                            | Identical |              |
+| Schedule_STATUS                                                           | Schedule_STATUS                                                     | Identical |              |
+| SchedulerInstanceProfile                                                  |                                                                     |  Retired  |              |
+| SchedulerInstanceProfile_STATUS                                           |                                                                     |  Retired  |              |
+| SchedulerProfile                                                          |                                                                     |  Retired  |              |
+| SchedulerProfileSchedulerInstanceProfiles                                 |                                                                     |  Retired  |              |
+| SchedulerProfileSchedulerInstanceProfiles_STATUS                          |                                                                     |  Retired  |              |
+| SchedulerProfile_STATUS                                                   |                                                                     |  Retired  |              |
+| ServiceMeshProfile                                                        | ServiceMeshProfile                                                  | Identical |              |
+| ServiceMeshProfile_STATUS                                                 | ServiceMeshProfile_STATUS                                           | Identical |              |
+| SysctlConfig                                                              | SysctlConfig                                                        | Identical |              |
+| SysctlConfig_STATUS                                                       | SysctlConfig_STATUS                                                 | Identical |              |
+| SystemData_STATUS                                                         |                                                                     |  Retired  |              |
+| SystemData_STATUS                                                         | SystemData_STATUS                                                   | Identical |              |
+| TimeInWeek                                                                | TimeInWeek                                                          | Identical |              |
+| TimeInWeek_STATUS                                                         | TimeInWeek_STATUS                                                   | Identical |              |
+| TimeSpan                                                                  | TimeSpan                                                            | Identical |              |
+| TimeSpan_STATUS                                                           | TimeSpan_STATUS                                                     | Identical |              |
+| TrustedAccessRoleBindingOperatorSpec                                      | TrustedAccessRoleBindingOperatorSpec                                | Identical |              |
+| TrustedAccessRoleBinding_STATUS                                           | TrustedAccessRoleBinding_STATUS                                     | Identical |              |
+| TrustedAccessRoleBinding_Spec                                             | TrustedAccessRoleBinding_Spec                                       | Identical |              |
+| UpgradeOverrideSettings                                                   | UpgradeOverrideSettings                                             | Identical |              |
+| UpgradeOverrideSettings_STATUS                                            | UpgradeOverrideSettings_STATUS                                      | Identical |              |
+| UserAssignedIdentity                                                      | UserAssignedIdentity                                                | Identical |              |
+| UserAssignedIdentityDetails                                               | UserAssignedIdentityDetails                                         | Identical |              |
+| UserAssignedIdentity_STATUS                                               | UserAssignedIdentity_STATUS                                         | Identical |              |
+| VirtualMachineNodes                                                       | VirtualMachineNodes                                                 | Identical |              |
+| VirtualMachineNodes_STATUS                                                | VirtualMachineNodes_STATUS                                          | Identical |              |
+| VirtualMachinesProfile                                                    | VirtualMachinesProfile                                              | Identical |              |
+| VirtualMachinesProfile_STATUS                                             | VirtualMachinesProfile_STATUS                                       | Identical |              |
+| WeeklySchedule                                                            | WeeklySchedule                                                      | Identical |              |
+| WeeklySchedule_STATUS                                                     | WeeklySchedule_STATUS                                               | Identical |              |
+| WindowsGmsaProfile                                                        | WindowsGmsaProfile                                                  | Identical |              |
+| WindowsGmsaProfile_STATUS                                                 | WindowsGmsaProfile_STATUS                                           | Identical |              |
 
 ### AdvancedNetworking
 
-4 x Identical, 1 x Retired
+Properties: 4 x Identical, 1 x Retired
 
 | v20251002preview/storage |                                  | v1api20250801/storage |                                  |  Status   | Notes |
 |:-------------------------|:---------------------------------|:----------------------|:---------------------------------|:---------:|:------|
@@ -310,7 +303,7 @@
 
 ### AdvancedNetworkingSecurity
 
-3 x Identical, 1 x Retired
+Properties: 3 x Identical, 1 x Retired
 
 | v20251002preview/storage |                                              | v1api20250801/storage   |                        |  Status   | Notes |
 |:-------------------------|:---------------------------------------------|:------------------------|:-----------------------|:---------:|:------|
@@ -321,7 +314,7 @@
 
 ### AdvancedNetworkingSecurity_STATUS
 
-3 x Identical, 1 x Retired
+Properties: 3 x Identical, 1 x Retired
 
 | v20251002preview/storage |                                                     | v1api20250801/storage   |                        |  Status   | Notes |
 |:-------------------------|:----------------------------------------------------|:------------------------|:-----------------------|:---------:|:------|
@@ -332,7 +325,7 @@
 
 ### AdvancedNetworking_STATUS
 
-4 x Identical, 1 x Retired
+Properties: 4 x Identical, 1 x Retired
 
 | v20251002preview/storage |                                         | v1api20250801/storage |                                         |  Status   | Notes |
 |:-------------------------|:----------------------------------------|:----------------------|:----------------------------------------|:---------:|:------|
@@ -344,7 +337,7 @@
 
 ### AgentPoolUpgradeSettings
 
-6 x Identical, 1 x Retired
+Properties: 6 x Identical, 1 x Retired
 
 | v20251002preview/storage  |                        | v1api20250801/storage     |                        |  Status   | Notes |
 |:--------------------------|:-----------------------|:--------------------------|:-----------------------|:---------:|:------|
@@ -358,7 +351,7 @@
 
 ### AgentPoolUpgradeSettings_STATUS
 
-6 x Identical, 1 x Retired
+Properties: 6 x Identical, 1 x Retired
 
 | v20251002preview/storage  |                        | v1api20250801/storage     |                        |  Status   | Notes |
 |:--------------------------|:-----------------------|:--------------------------|:-----------------------|:---------:|:------|
@@ -372,7 +365,7 @@
 
 ### ContainerServiceNetworkProfile
 
-18 x Identical, 2 x Retired
+Properties: 18 x Identical, 2 x Retired
 
 | v20251002preview/storage   |                                                | v1api20250801/storage      |                                           |  Status   | Notes |
 |:---------------------------|:-----------------------------------------------|:---------------------------|:------------------------------------------|:---------:|:------|
@@ -399,7 +392,7 @@
 
 ### ContainerServiceNetworkProfile_STATUS
 
-18 x Identical, 2 x Retired
+Properties: 18 x Identical, 2 x Retired
 
 | v20251002preview/storage   |                                                       | v1api20250801/storage      |                                                  |  Status   | Notes |
 |:---------------------------|:------------------------------------------------------|:---------------------------|:-------------------------------------------------|:---------:|:------|
@@ -426,7 +419,7 @@
 
 ### GPUProfile
 
-2 x Identical, 1 x Retired
+Properties: 2 x Identical, 1 x Retired
 
 | v20251002preview/storage |                        | v1api20250801/storage |                        |  Status   | Notes |
 |:-------------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -436,7 +429,7 @@
 
 ### GPUProfile_STATUS
 
-2 x Identical, 1 x Retired
+Properties: 2 x Identical, 1 x Retired
 
 | v20251002preview/storage |                        | v1api20250801/storage |                        |  Status   | Notes |
 |:-------------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -446,7 +439,7 @@
 
 ### IstioComponents
 
-3 x Identical, 1 x Retired
+Properties: 3 x Identical, 1 x Retired
 
 | v20251002preview/storage  |                        | v1api20250801/storage |                        |  Status   | Notes |
 |:--------------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -457,7 +450,7 @@
 
 ### IstioComponents_STATUS
 
-3 x Identical, 1 x Retired
+Properties: 3 x Identical, 1 x Retired
 
 | v20251002preview/storage  |                              | v1api20250801/storage |                              |  Status   | Notes |
 |:--------------------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -468,7 +461,7 @@
 
 ### IstioEgressGateway
 
-2 x Identical, 3 x Retired
+Properties: 2 x Identical, 3 x Retired
 
 | v20251002preview/storage |                        | v1api20250801/storage |                        |  Status   | Notes |
 |:-------------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -480,7 +473,7 @@
 
 ### IstioEgressGateway_STATUS
 
-2 x Identical, 3 x Retired
+Properties: 2 x Identical, 3 x Retired
 
 | v20251002preview/storage |                        | v1api20250801/storage |                        |  Status   | Notes |
 |:-------------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -492,7 +485,7 @@
 
 ### KubeletConfig
 
-12 x Identical, 1 x Retired
+Properties: 12 x Identical, 1 x Retired
 
 | v20251002preview/storage |                        | v1api20250801/storage |                        |  Status   | Notes |
 |:-------------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -512,7 +505,7 @@
 
 ### KubeletConfig_STATUS
 
-12 x Identical, 1 x Retired
+Properties: 12 x Identical, 1 x Retired
 
 | v20251002preview/storage |                        | v1api20250801/storage |                        |  Status   | Notes |
 |:-------------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -532,7 +525,7 @@
 
 ### ManagedClusterAgentPoolProfile
 
-50 x Identical, 7 x Retired
+Properties: 50 x Identical, 7 x Retired
 
 | v20251002preview/storage          |                                    | v1api20250801/storage             |                               |  Status   | Notes |
 |:----------------------------------|:-----------------------------------|:----------------------------------|:------------------------------|:---------:|:------|
@@ -596,7 +589,7 @@
 
 ### ManagedClusterAgentPoolProfile_STATUS
 
-55 x Identical, 6 x Retired
+Properties: 55 x Identical, 6 x Retired
 
 | v20251002preview/storage   |                                           | v1api20250801/storage      |                                  |  Status   | Notes |
 |:---------------------------|:------------------------------------------|:---------------------------|:---------------------------------|:---------:|:------|
@@ -664,7 +657,7 @@
 
 ### ManagedClusterAzureMonitorProfile
 
-2 x Identical, 2 x Retired
+Properties: 2 x Identical, 2 x Retired
 
 | v20251002preview/storage |                                                     | v1api20250801/storage |                                           |  Status   | Notes |
 |:-------------------------|:----------------------------------------------------|:----------------------|:------------------------------------------|:---------:|:------|
@@ -675,7 +668,7 @@
 
 ### ManagedClusterAzureMonitorProfile_STATUS
 
-2 x Identical, 2 x Retired
+Properties: 2 x Identical, 2 x Retired
 
 | v20251002preview/storage |                                                            | v1api20250801/storage |                                                  |  Status   | Notes |
 |:-------------------------|:-----------------------------------------------------------|:----------------------|:-------------------------------------------------|:---------:|:------|
@@ -686,7 +679,7 @@
 
 ### ManagedClusterHTTPProxyConfig
 
-5 x Identical, 1 x Retired
+Properties: 5 x Identical, 1 x Retired
 
 | v20251002preview/storage |                        | v1api20250801/storage |                        |  Status   | Notes |
 |:-------------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -699,7 +692,7 @@
 
 ### ManagedClusterHTTPProxyConfig_STATUS
 
-5 x Identical, 2 x Retired
+Properties: 5 x Identical, 2 x Retired
 
 | v20251002preview/storage |                        | v1api20250801/storage |                        |  Status   | Notes |
 |:-------------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -713,7 +706,7 @@
 
 ### ManagedClusterIngressProfile
 
-2 x Identical, 2 x Retired
+Properties: 2 x Identical, 2 x Retired
 
 | v20251002preview/storage |                                                      | v1api20250801/storage |                                            |  Status   | Notes |
 |:-------------------------|:-----------------------------------------------------|:----------------------|:-------------------------------------------|:---------:|:------|
@@ -724,7 +717,7 @@
 
 ### ManagedClusterIngressProfileWebAppRouting
 
-4 x Identical, 1 x Retired
+Properties: 4 x Identical, 1 x Retired
 
 | v20251002preview/storage  |                                            | v1api20250801/storage     |                                    |  Status   | Notes |
 |:--------------------------|:-------------------------------------------|:--------------------------|:-----------------------------------|:---------:|:------|
@@ -736,7 +729,7 @@
 
 ### ManagedClusterIngressProfileWebAppRouting_STATUS
 
-5 x Identical, 1 x Retired
+Properties: 5 x Identical, 1 x Retired
 
 | v20251002preview/storage |                                                   | v1api20250801/storage |                                           |  Status   | Notes |
 |:-------------------------|:--------------------------------------------------|:----------------------|:------------------------------------------|:---------:|:------|
@@ -749,7 +742,7 @@
 
 ### ManagedClusterIngressProfile_STATUS
 
-2 x Identical, 2 x Retired
+Properties: 2 x Identical, 2 x Retired
 
 | v20251002preview/storage |                                                             | v1api20250801/storage |                                                   |  Status   | Notes |
 |:-------------------------|:------------------------------------------------------------|:----------------------|:--------------------------------------------------|:---------:|:------|
@@ -760,7 +753,7 @@
 
 ### ManagedClusterLoadBalancerProfile
 
-8 x Identical, 1 x Retired
+Properties: 8 x Identical, 1 x Retired
 
 | v20251002preview/storage                  |                                                      | v1api20250801/storage               |                                                       |  Status   | Notes                                                                                                                |
 |:------------------------------------------|:-----------------------------------------------------|:------------------------------------|:------------------------------------------------------|:---------:|:---------------------------------------------------------------------------------------------------------------------|
@@ -776,7 +769,7 @@
 
 ### ManagedClusterLoadBalancerProfile_STATUS
 
-9 x Identical, 1 x Retired
+Properties: 9 x Identical, 1 x Retired
 
 | v20251002preview/storage                  |                                                             | v1api20250801/storage               |                                                              |  Status   | Notes                                                                                                                              |
 |:------------------------------------------|:------------------------------------------------------------|:------------------------------------|:-------------------------------------------------------------|:---------:|:-----------------------------------------------------------------------------------------------------------------------------------|
@@ -793,7 +786,7 @@
 
 ### ManagedClusterOperatorConfigMaps
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20251002preview/storage |                                  | v1api20250801/storage |                                  |  Status   | Notes |
 |:-------------------------|:---------------------------------|:----------------------|:---------------------------------|:---------:|:------|
@@ -803,7 +796,7 @@
 
 ### ManagedClusterSecurityProfile
 
-6 x Identical, 3 x Retired
+Properties: 6 x Identical, 3 x Retired
 
 | v20251002preview/storage                  |                                                | v1api20250801/storage     |                                                |  Status   | Notes |
 |:------------------------------------------|:-----------------------------------------------|:--------------------------|:-----------------------------------------------|:---------:|:------|
@@ -819,7 +812,7 @@
 
 ### ManagedClusterSecurityProfileDefender
 
-3 x Identical, 1 x Retired
+Properties: 3 x Identical, 1 x Retired
 
 | v20251002preview/storage               |                                                          | v1api20250801/storage                  |                                                          |  Status   | Notes |
 |:---------------------------------------|:---------------------------------------------------------|:---------------------------------------|:---------------------------------------------------------|:---------:|:------|
@@ -830,7 +823,7 @@
 
 ### ManagedClusterSecurityProfileDefender_STATUS
 
-3 x Identical, 1 x Retired
+Properties: 3 x Identical, 1 x Retired
 
 | v20251002preview/storage        |                                                                 | v1api20250801/storage           |                                                                 |  Status   | Notes |
 |:--------------------------------|:----------------------------------------------------------------|:--------------------------------|:----------------------------------------------------------------|:---------:|:------|
@@ -841,7 +834,7 @@
 
 ### ManagedClusterSecurityProfile_STATUS
 
-6 x Identical, 3 x Retired
+Properties: 6 x Identical, 3 x Retired
 
 | v20251002preview/storage                  |                                                       | v1api20250801/storage     |                                                       |  Status   | Notes |
 |:------------------------------------------|:------------------------------------------------------|:--------------------------|:------------------------------------------------------|:---------:|:------|
@@ -857,7 +850,7 @@
 
 ### ManagedClusterStorageProfileDiskCSIDriver
 
-2 x Identical, 1 x Retired
+Properties: 2 x Identical, 1 x Retired
 
 | v20251002preview/storage |                        | v1api20250801/storage |                        |  Status   | Notes |
 |:-------------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -867,7 +860,7 @@
 
 ### ManagedClusterStorageProfileDiskCSIDriver_STATUS
 
-2 x Identical, 1 x Retired
+Properties: 2 x Identical, 1 x Retired
 
 | v20251002preview/storage |                        | v1api20250801/storage |                        |  Status   | Notes |
 |:-------------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -877,7 +870,7 @@
 
 ### ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
 
-2 x Identical, 1 x Retired
+Properties: 2 x Identical, 1 x Retired
 
 | v20251002preview/storage |                        | v1api20250801/storage |                        |  Status   | Notes |
 |:-------------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -887,7 +880,7 @@
 
 ### ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS
 
-2 x Identical, 1 x Retired
+Properties: 2 x Identical, 1 x Retired
 
 | v20251002preview/storage |                        | v1api20250801/storage |                        |  Status   | Notes |
 |:-------------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -897,7 +890,7 @@
 
 ### ManagedCluster_STATUS
 
-58 x Identical, 4 x Retired
+Properties: 58 x Identical, 4 x Retired
 
 | v20251002preview/storage   |                                                   | v1api20250801/storage      |                                                    |  Status   | Notes                                                                                                          |
 |:---------------------------|:--------------------------------------------------|:---------------------------|:---------------------------------------------------|:---------:|:---------------------------------------------------------------------------------------------------------------|
@@ -966,7 +959,7 @@
 
 ### ManagedCluster_Spec
 
-47 x Identical, 4 x Retired
+Properties: 47 x Identical, 4 x Retired
 
 | v20251002preview/storage   |                                            | v1api20250801/storage      |                                             |  Status   | Notes                                                                                            |
 |:---------------------------|:-------------------------------------------|:---------------------------|:--------------------------------------------|:---------:|:-------------------------------------------------------------------------------------------------|
@@ -1024,7 +1017,7 @@
 
 ### ManagedClustersAgentPool_STATUS
 
-58 x Identical, 7 x Retired
+Properties: 58 x Identical, 7 x Retired
 
 | v20251002preview/storage   |                                           | v1api20250801/storage      |                                  |  Status   | Notes |
 |:---------------------------|:------------------------------------------|:---------------------------|:---------------------------------|:---------:|:------|
@@ -1096,7 +1089,7 @@
 
 ### ManagedClustersAgentPool_Spec
 
-53 x Identical, 7 x Retired
+Properties: 53 x Identical, 7 x Retired
 
 | v20251002preview/storage          |                                       | v1api20250801/storage             |                                       |  Status   | Notes |
 |:----------------------------------|:--------------------------------------|:----------------------------------|:--------------------------------------|:---------:|:------|
@@ -1163,7 +1156,7 @@
 
 ### ScaleProfile
 
-2 x Identical, 1 x Retired
+Properties: 2 x Identical, 1 x Retired
 
 | v20251002preview/storage |                        | v1api20250801/storage |                        |  Status   | Notes |
 |:-------------------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -1173,10 +1166,19 @@
 
 ### ScaleProfile_STATUS
 
-2 x Identical, 1 x Retired
+Properties: 2 x Identical, 1 x Retired
 
 | v20251002preview/storage |                             | v1api20250801/storage |                             |  Status   | Notes |
 |:-------------------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
 | Autoscale                | *AutoScaleProfile_STATUS    |                       |                             |  Retired  |       |
 | Manual                   | ManualScaleProfile_STATUS[] | Manual                | ManualScaleProfile_STATUS[] | Identical |       |
 | PropertyBag              | genruntime.PropertyBag      | PropertyBag           | genruntime.PropertyBag      | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

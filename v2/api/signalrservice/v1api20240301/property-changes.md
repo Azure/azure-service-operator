@@ -9,79 +9,72 @@
 | Replica           | Replica               | Identical |       |
 | SignalR           | SignalR               | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20240301                                                | v1api20240301/storage                                        |  Status  | Notes |
-|:-------------------------------------------------------------|:-------------------------------------------------------------|:--------:|:------|
-| CustomCertificateOperatorSpec                                | CustomCertificateOperatorSpec                                | Extended |       |
-| CustomCertificate_STATUS                                     | CustomCertificate_STATUS                                     | Modified |       |
-| CustomCertificate_Spec                                       | CustomCertificate_Spec                                       | Extended |       |
-| CustomDomainOperatorSpec                                     | CustomDomainOperatorSpec                                     | Extended |       |
-| CustomDomain_STATUS                                          | CustomDomain_STATUS                                          | Modified |       |
-| CustomDomain_Spec                                            | CustomDomain_Spec                                            | Extended |       |
-| IPRule                                                       | IPRule                                                       | Modified |       |
-| IPRule_STATUS                                                | IPRule_STATUS                                                | Modified |       |
-| LiveTraceCategory                                            | LiveTraceCategory                                            | Extended |       |
-| LiveTraceCategory_STATUS                                     | LiveTraceCategory_STATUS                                     | Extended |       |
-| LiveTraceConfiguration                                       | LiveTraceConfiguration                                       | Extended |       |
-| LiveTraceConfiguration_STATUS                                | LiveTraceConfiguration_STATUS                                | Extended |       |
-| ManagedIdentity                                              | ManagedIdentity                                              | Modified |       |
-| ManagedIdentitySettings                                      | ManagedIdentitySettings                                      | Extended |       |
-| ManagedIdentitySettings_STATUS                               | ManagedIdentitySettings_STATUS                               | Extended |       |
-| ManagedIdentity_STATUS                                       | ManagedIdentity_STATUS                                       | Modified |       |
-| NetworkACL                                                   | NetworkACL                                                   | Modified |       |
-| NetworkACL_STATUS                                            | NetworkACL_STATUS                                            | Modified |       |
-| PrivateEndpointACL                                           | PrivateEndpointACL                                           | Modified |       |
-| PrivateEndpointACL_STATUS                                    | PrivateEndpointACL_STATUS                                    | Modified |       |
-| PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded | PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded | Extended |       |
-| ReplicaOperatorSpec                                          | ReplicaOperatorSpec                                          | Extended |       |
-| Replica_STATUS                                               | Replica_STATUS                                               | Modified |       |
-| Replica_Spec                                                 | Replica_Spec                                                 | Modified |       |
-| ResourceLogCategory                                          | ResourceLogCategory                                          | Extended |       |
-| ResourceLogCategory_STATUS                                   | ResourceLogCategory_STATUS                                   | Extended |       |
-| ResourceLogConfiguration                                     | ResourceLogConfiguration                                     | Extended |       |
-| ResourceLogConfiguration_STATUS                              | ResourceLogConfiguration_STATUS                              | Extended |       |
-| ResourceReference                                            | ResourceReference                                            | Extended |       |
-| ResourceReference_STATUS                                     | ResourceReference_STATUS                                     | Extended |       |
-| ResourceSku                                                  | ResourceSku                                                  | Modified |       |
-| ResourceSku_STATUS                                           | ResourceSku_STATUS                                           | Modified |       |
-| ServerlessSettings                                           | ServerlessSettings                                           | Modified |       |
-| ServerlessSettings_STATUS                                    | ServerlessSettings_STATUS                                    | Extended |       |
-| ServerlessUpstreamSettings                                   | ServerlessUpstreamSettings                                   | Extended |       |
-| ServerlessUpstreamSettings_STATUS                            | ServerlessUpstreamSettings_STATUS                            | Extended |       |
-| SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded | SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded | Extended |       |
-| SignalRCorsSettings                                          | SignalRCorsSettings                                          | Extended |       |
-| SignalRCorsSettings_STATUS                                   | SignalRCorsSettings_STATUS                                   | Extended |       |
-| SignalRFeature                                               | SignalRFeature                                               | Modified |       |
-| SignalRFeature_STATUS                                        | SignalRFeature_STATUS                                        | Modified |       |
-| SignalRNetworkACLs                                           | SignalRNetworkACLs                                           | Modified |       |
-| SignalRNetworkACLs_STATUS                                    | SignalRNetworkACLs_STATUS                                    | Modified |       |
-| SignalROperatorSecrets                                       | SignalROperatorSecrets                                       | Extended |       |
-| SignalROperatorSpec                                          | SignalROperatorSpec                                          | Extended |       |
-| SignalRTlsSettings                                           | SignalRTlsSettings                                           | Extended |       |
-| SignalRTlsSettings_STATUS                                    | SignalRTlsSettings_STATUS                                    | Extended |       |
-| SignalR_STATUS                                               | SignalR_STATUS                                               | Modified |       |
-| SignalR_Spec                                                 | SignalR_Spec                                                 | Modified |       |
-| SystemData_STATUS                                            | SystemData_STATUS                                            | Modified |       |
-| UpstreamAuthSettings                                         | UpstreamAuthSettings                                         | Modified |       |
-| UpstreamAuthSettings_STATUS                                  | UpstreamAuthSettings_STATUS                                  | Modified |       |
-| UpstreamTemplate                                             | UpstreamTemplate                                             | Extended |       |
-| UpstreamTemplate_STATUS                                      | UpstreamTemplate_STATUS                                      | Extended |       |
-| UserAssignedIdentityDetails                                  | UserAssignedIdentityDetails                                  | Extended |       |
-| UserAssignedIdentityProperty_STATUS                          | UserAssignedIdentityProperty_STATUS                          | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20240301                                                | v1api20240301/storage                                        |  Status  | Notes                         |
+|:-------------------------------------------------------------|:-------------------------------------------------------------|:--------:|:------------------------------|
+| CustomCertificateOperatorSpec                                | CustomCertificateOperatorSpec                                | Extended | +PropertyBag                  |
+| CustomCertificate_STATUS                                     | CustomCertificate_STATUS                                     | Modified |                               |
+| CustomCertificate_Spec                                       | CustomCertificate_Spec                                       | Extended | +OriginalVersion +PropertyBag |
+| CustomDomainOperatorSpec                                     | CustomDomainOperatorSpec                                     | Extended | +PropertyBag                  |
+| CustomDomain_STATUS                                          | CustomDomain_STATUS                                          | Modified |                               |
+| CustomDomain_Spec                                            | CustomDomain_Spec                                            | Extended | +OriginalVersion +PropertyBag |
+| IPRule                                                       | IPRule                                                       | Modified |                               |
+| IPRule_STATUS                                                | IPRule_STATUS                                                | Modified |                               |
+| LiveTraceCategory                                            | LiveTraceCategory                                            | Extended | +PropertyBag                  |
+| LiveTraceCategory_STATUS                                     | LiveTraceCategory_STATUS                                     | Extended | +PropertyBag                  |
+| LiveTraceConfiguration                                       | LiveTraceConfiguration                                       | Extended | +PropertyBag                  |
+| LiveTraceConfiguration_STATUS                                | LiveTraceConfiguration_STATUS                                | Extended | +PropertyBag                  |
+| ManagedIdentity                                              | ManagedIdentity                                              | Modified |                               |
+| ManagedIdentitySettings                                      | ManagedIdentitySettings                                      | Extended | +PropertyBag                  |
+| ManagedIdentitySettings_STATUS                               | ManagedIdentitySettings_STATUS                               | Extended | +PropertyBag                  |
+| ManagedIdentity_STATUS                                       | ManagedIdentity_STATUS                                       | Modified |                               |
+| NetworkACL                                                   | NetworkACL                                                   | Modified |                               |
+| NetworkACL_STATUS                                            | NetworkACL_STATUS                                            | Modified |                               |
+| PrivateEndpointACL                                           | PrivateEndpointACL                                           | Modified |                               |
+| PrivateEndpointACL_STATUS                                    | PrivateEndpointACL_STATUS                                    | Modified |                               |
+| PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded | PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded | Extended | +PropertyBag                  |
+| ReplicaOperatorSpec                                          | ReplicaOperatorSpec                                          | Extended | +PropertyBag                  |
+| Replica_STATUS                                               | Replica_STATUS                                               | Modified |                               |
+| Replica_Spec                                                 | Replica_Spec                                                 | Modified |                               |
+| ResourceLogCategory                                          | ResourceLogCategory                                          | Extended | +PropertyBag                  |
+| ResourceLogCategory_STATUS                                   | ResourceLogCategory_STATUS                                   | Extended | +PropertyBag                  |
+| ResourceLogConfiguration                                     | ResourceLogConfiguration                                     | Extended | +PropertyBag                  |
+| ResourceLogConfiguration_STATUS                              | ResourceLogConfiguration_STATUS                              | Extended | +PropertyBag                  |
+| ResourceReference                                            | ResourceReference                                            | Extended | +PropertyBag                  |
+| ResourceReference_STATUS                                     | ResourceReference_STATUS                                     | Extended | +PropertyBag                  |
+| ResourceSku                                                  | ResourceSku                                                  | Modified |                               |
+| ResourceSku_STATUS                                           | ResourceSku_STATUS                                           | Modified |                               |
+| ServerlessSettings                                           | ServerlessSettings                                           | Extended | +PropertyBag                  |
+| ServerlessSettings_STATUS                                    | ServerlessSettings_STATUS                                    | Extended | +PropertyBag                  |
+| ServerlessUpstreamSettings                                   | ServerlessUpstreamSettings                                   | Extended | +PropertyBag                  |
+| ServerlessUpstreamSettings_STATUS                            | ServerlessUpstreamSettings_STATUS                            | Extended | +PropertyBag                  |
+| SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded | SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded | Extended | +PropertyBag                  |
+| SignalRCorsSettings                                          | SignalRCorsSettings                                          | Extended | +PropertyBag                  |
+| SignalRCorsSettings_STATUS                                   | SignalRCorsSettings_STATUS                                   | Extended | +PropertyBag                  |
+| SignalRFeature                                               | SignalRFeature                                               | Modified |                               |
+| SignalRFeature_STATUS                                        | SignalRFeature_STATUS                                        | Modified |                               |
+| SignalRNetworkACLs                                           | SignalRNetworkACLs                                           | Modified |                               |
+| SignalRNetworkACLs_STATUS                                    | SignalRNetworkACLs_STATUS                                    | Modified |                               |
+| SignalROperatorSecrets                                       | SignalROperatorSecrets                                       | Extended | +PropertyBag                  |
+| SignalROperatorSpec                                          | SignalROperatorSpec                                          | Extended | +PropertyBag                  |
+| SignalRTlsSettings                                           | SignalRTlsSettings                                           | Extended | +PropertyBag                  |
+| SignalRTlsSettings_STATUS                                    | SignalRTlsSettings_STATUS                                    | Extended | +PropertyBag                  |
+| SignalR_STATUS                                               | SignalR_STATUS                                               | Modified |                               |
+| SignalR_Spec                                                 | SignalR_Spec                                                 | Modified |                               |
+| SystemData_STATUS                                            | SystemData_STATUS                                            | Modified |                               |
+| UpstreamAuthSettings                                         | UpstreamAuthSettings                                         | Modified |                               |
+| UpstreamAuthSettings_STATUS                                  | UpstreamAuthSettings_STATUS                                  | Modified |                               |
+| UpstreamTemplate                                             | UpstreamTemplate                                             | Extended | +PropertyBag                  |
+| UpstreamTemplate_STATUS                                      | UpstreamTemplate_STATUS                                      | Extended | +PropertyBag                  |
+| UserAssignedIdentityDetails                                  | UserAssignedIdentityDetails                                  | Extended | +PropertyBag                  |
+| UserAssignedIdentityProperty_STATUS                          | UserAssignedIdentityProperty_STATUS                          | Extended | +PropertyBag                  |
 
 ### CustomCertificateOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240301        |                               | v1api20240301/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -91,7 +84,7 @@
 
 ### CustomCertificate_STATUS
 
-8 x Identical, 1 x New, 1 x Modified
+Properties: 8 x Identical, 1 x New, 1 x Modified
 
 | v1api20240301         |                           | v1api20240301/storage |                        |  Status   | Notes |
 |:----------------------|:--------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -108,7 +101,7 @@
 
 ### CustomCertificate_Spec
 
-7 x Identical, 2 x New
+Properties: 7 x Identical, 2 x New
 
 | v1api20240301             |                                    | v1api20240301/storage     |                                    |  Status   | Notes |
 |:--------------------------|:-----------------------------------|:--------------------------|:-----------------------------------|:---------:|:------|
@@ -124,7 +117,7 @@
 
 ### CustomDomainOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240301        |                               | v1api20240301/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -134,7 +127,7 @@
 
 ### CustomDomain_STATUS
 
-7 x Identical, 1 x New, 1 x Modified
+Properties: 7 x Identical, 1 x New, 1 x Modified
 
 | v1api20240301     |                           | v1api20240301/storage |                           |  Status   | Notes |
 |:------------------|:--------------------------|:----------------------|:--------------------------|:---------:|:------|
@@ -150,7 +143,7 @@
 
 ### CustomDomain_Spec
 
-5 x Identical, 2 x New
+Properties: 5 x Identical, 2 x New
 
 | v1api20240301     |                                    | v1api20240301/storage |                                    |  Status   | Notes |
 |:------------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -164,7 +157,7 @@
 
 ### IPRule
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240301 |            | v1api20240301/storage |                        |  Status   | Notes |
 |:--------------|:-----------|:----------------------|:-----------------------|:---------:|:------|
@@ -174,7 +167,7 @@
 
 ### IPRule_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240301 |                   | v1api20240301/storage |                        |  Status   | Notes |
 |:--------------|:------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -184,7 +177,7 @@
 
 ### LiveTraceCategory
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240301 |         | v1api20240301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -194,7 +187,7 @@
 
 ### LiveTraceCategory_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240301 |         | v1api20240301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -204,7 +197,7 @@
 
 ### LiveTraceConfiguration
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240301 |                     | v1api20240301/storage |                        |  Status   | Notes |
 |:--------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -214,7 +207,7 @@
 
 ### LiveTraceConfiguration_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240301 |                            | v1api20240301/storage |                            |  Status   | Notes |
 |:--------------|:---------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -224,7 +217,7 @@
 
 ### ManagedIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240301          |                               | v1api20240301/storage  |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -234,7 +227,7 @@
 
 ### ManagedIdentitySettings
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240301 |         | v1api20240301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -243,7 +236,7 @@
 
 ### ManagedIdentitySettings_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240301 |         | v1api20240301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -252,7 +245,7 @@
 
 ### ManagedIdentity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20240301          |                                                | v1api20240301/storage  |                                                |  Status   | Notes |
 |:-----------------------|:-----------------------------------------------|:-----------------------|:-----------------------------------------------|:---------:|:------|
@@ -264,7 +257,7 @@
 
 ### NetworkACL
 
-1 x New, 2 x Modified
+Properties: 1 x New, 2 x Modified
 
 | v1api20240301 |                      | v1api20240301/storage |                        |  Status  | Notes |
 |:--------------|:---------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -274,7 +267,7 @@
 
 ### NetworkACL_STATUS
 
-1 x New, 2 x Modified
+Properties: 1 x New, 2 x Modified
 
 | v1api20240301 |                             | v1api20240301/storage |                        |  Status  | Notes |
 |:--------------|:----------------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -284,7 +277,7 @@
 
 ### PrivateEndpointACL
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v1api20240301 |                      | v1api20240301/storage |                        |  Status   | Notes |
 |:--------------|:---------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -295,7 +288,7 @@
 
 ### PrivateEndpointACL_STATUS
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 2 x Modified
 
 | v1api20240301 |                             | v1api20240301/storage |                        |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -306,7 +299,7 @@
 
 ### PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240301 |         | v1api20240301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -315,7 +308,7 @@
 
 ### ReplicaOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240301        |                               | v1api20240301/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -325,7 +318,7 @@
 
 ### Replica_STATUS
 
-10 x Identical, 1 x New, 1 x Modified
+Properties: 10 x Identical, 1 x New, 1 x Modified
 
 | v1api20240301         |                           | v1api20240301/storage |                        |  Status   | Notes |
 |:----------------------|:--------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -344,7 +337,7 @@
 
 ### Replica_Spec
 
-7 x Identical, 2 x New, 1 x Modified
+Properties: 7 x Identical, 2 x New, 1 x Modified
 
 | v1api20240301         |                                    | v1api20240301/storage |                                    |  Status   | Notes |
 |:----------------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -361,7 +354,7 @@
 
 ### ResourceLogCategory
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240301 |         | v1api20240301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -371,7 +364,7 @@
 
 ### ResourceLogCategory_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240301 |         | v1api20240301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -381,7 +374,7 @@
 
 ### ResourceLogConfiguration
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240301 |                       | v1api20240301/storage |                        |  Status   | Notes |
 |:--------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -390,7 +383,7 @@
 
 ### ResourceLogConfiguration_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240301 |                              | v1api20240301/storage |                              |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -399,7 +392,7 @@
 
 ### ResourceReference
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240301 |                               | v1api20240301/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -408,7 +401,7 @@
 
 ### ResourceReference_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240301 |         | v1api20240301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -417,7 +410,7 @@
 
 ### ResourceSku
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20240301 |                 | v1api20240301/storage |                        |  Status   | Notes |
 |:--------------|:----------------|:----------------------|:-----------------------|:---------:|:------|
@@ -428,7 +421,7 @@
 
 ### ResourceSku_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20240301 |                        | v1api20240301/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -441,16 +434,16 @@
 
 ### ServerlessSettings
 
-1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New
 
-| v1api20240301              |                           | v1api20240301/storage      |                        |  Status  | Notes |
-|:---------------------------|:--------------------------|:---------------------------|:-----------------------|:--------:|:------|
-| ConnectionTimeoutInSeconds | Validated<*int> (2 rules) | ConnectionTimeoutInSeconds | *int                   | Modified |       |
-|                            |                           | PropertyBag                | genruntime.PropertyBag |   New    |       |
+| v1api20240301              |                           | v1api20240301/storage      |                        |  Status   | Notes |
+|:---------------------------|:--------------------------|:---------------------------|:-----------------------|:---------:|:------|
+| ConnectionTimeoutInSeconds | Validated<*int> (2 rules) | ConnectionTimeoutInSeconds | *int                   | Identical |       |
+|                            |                           | PropertyBag                | genruntime.PropertyBag |    New    |       |
 
 ### ServerlessSettings_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240301              |      | v1api20240301/storage      |                        |  Status   | Notes |
 |:---------------------------|:-----|:---------------------------|:-----------------------|:---------:|:------|
@@ -459,7 +452,7 @@
 
 ### ServerlessUpstreamSettings
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240301 |                    | v1api20240301/storage |                        |  Status   | Notes |
 |:--------------|:-------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -468,7 +461,7 @@
 
 ### ServerlessUpstreamSettings_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240301 |                           | v1api20240301/storage |                           |  Status   | Notes |
 |:--------------|:--------------------------|:----------------------|:--------------------------|:---------:|:------|
@@ -477,7 +470,7 @@
 
 ### SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240301 |         | v1api20240301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -486,7 +479,7 @@
 
 ### SignalRCorsSettings
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240301  |          | v1api20240301/storage |                        |  Status   | Notes |
 |:---------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -495,7 +488,7 @@
 
 ### SignalRCorsSettings_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240301  |          | v1api20240301/storage |                        |  Status   | Notes |
 |:---------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -504,18 +497,18 @@
 
 ### SignalRFeature
 
-1 x Identical, 1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20240301 |                              | v1api20240301/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------|:---------:|:------|
 | Flag          | *FeatureFlags                | Flag                  | *string                | Modified  |       |
 | Properties    | map[string]string            | Properties            | map[string]string      | Identical |       |
 |               |                              | PropertyBag           | genruntime.PropertyBag |    New    |       |
-| Value         | Validated<*string> (2 rules) | Value                 | *string                | Modified  |       |
+| Value         | Validated<*string> (2 rules) | Value                 | *string                | Identical |       |
 
 ### SignalRFeature_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20240301 |                      | v1api20240301/storage |                        |  Status   | Notes |
 |:--------------|:---------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -526,7 +519,7 @@
 
 ### SignalRNetworkACLs
 
-2 x Identical, 1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New, 2 x Modified
 
 | v1api20240301    |                              | v1api20240301/storage |                        |  Status   | Notes |
 |:-----------------|:-----------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -538,7 +531,7 @@
 
 ### SignalRNetworkACLs_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20240301    |                             | v1api20240301/storage |                             |  Status   | Notes |
 |:-----------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -550,7 +543,7 @@
 
 ### SignalROperatorSecrets
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20240301             |                               | v1api20240301/storage     |                               |  Status   | Notes |
 |:--------------------------|:------------------------------|:--------------------------|:------------------------------|:---------:|:------|
@@ -562,7 +555,7 @@
 
 ### SignalROperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20240301        |                               | v1api20240301/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -573,7 +566,7 @@
 
 ### SignalRTlsSettings
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240301     |       | v1api20240301/storage |                        |  Status   | Notes |
 |:------------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -582,7 +575,7 @@
 
 ### SignalRTlsSettings_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240301     |       | v1api20240301/storage |                        |  Status   | Notes |
 |:------------------|:------|:----------------------|:-----------------------|:---------:|:------|
@@ -591,7 +584,7 @@
 
 ### SignalR_STATUS
 
-30 x Identical, 1 x New, 2 x Modified
+Properties: 30 x Identical, 1 x New, 2 x Modified
 
 | v1api20240301              |                                                                | v1api20240301/storage      |                                                                |  Status   | Notes |
 |:---------------------------|:---------------------------------------------------------------|:---------------------------|:---------------------------------------------------------------|:---------:|:------|
@@ -631,7 +624,7 @@
 
 ### SignalR_Spec
 
-19 x Identical, 2 x New, 2 x Modified
+Properties: 19 x Identical, 2 x New, 2 x Modified
 
 | v1api20240301            |                                    | v1api20240301/storage    |                                    |  Status   | Notes |
 |:-------------------------|:-----------------------------------|:-------------------------|:-----------------------------------|:---------:|:------|
@@ -661,7 +654,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20240301      |                                       | v1api20240301/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -675,7 +668,7 @@
 
 ### UpstreamAuthSettings
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240301   |                          | v1api20240301/storage |                          |  Status   | Notes |
 |:----------------|:-------------------------|:----------------------|:-------------------------|:---------:|:------|
@@ -685,7 +678,7 @@
 
 ### UpstreamAuthSettings_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20240301   |                                 | v1api20240301/storage |                                 |  Status   | Notes |
 |:----------------|:--------------------------------|:----------------------|:--------------------------------|:---------:|:------|
@@ -695,7 +688,7 @@
 
 ### UpstreamTemplate
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20240301   |                       | v1api20240301/storage |                        |  Status   | Notes |
 |:----------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -708,7 +701,7 @@
 
 ### UpstreamTemplate_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20240301   |                              | v1api20240301/storage |                              |  Status   | Notes |
 |:----------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -721,7 +714,7 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20240301 |                              | v1api20240301/storage |                              |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -730,10 +723,19 @@
 
 ### UserAssignedIdentityProperty_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20240301 |         | v1api20240301/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
 | ClientId      | *string | ClientId              | *string                | Identical |       |
 | PrincipalId   | *string | PrincipalId           | *string                | Identical |       |
 |               |         | PropertyBag           | genruntime.PropertyBag |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

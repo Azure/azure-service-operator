@@ -9,46 +9,39 @@
 | EmailService         | EmailService         | Identical |       |
 | SenderUsername       | SenderUsername       | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20230401                                   | v20230401/storage                           |  Status  | Notes |
-|:--------------------------------------------|:--------------------------------------------|:--------:|:------|
-| CommunicationServiceOperatorConfigMaps      | CommunicationServiceOperatorConfigMaps      | Extended |       |
-| CommunicationServiceOperatorSecrets         | CommunicationServiceOperatorSecrets         | Extended |       |
-| CommunicationServiceOperatorSpec            | CommunicationServiceOperatorSpec            | Extended |       |
-| CommunicationService_STATUS                 | CommunicationService_STATUS                 | Modified |       |
-| CommunicationService_Spec                   | CommunicationService_Spec                   | Modified |       |
-| DnsRecord_STATUS                            | DnsRecord_STATUS                            | Extended |       |
-| DomainOperatorSpec                          | DomainOperatorSpec                          | Extended |       |
-| DomainProperties_VerificationRecords_STATUS | DomainProperties_VerificationRecords_STATUS | Extended |       |
-| DomainProperties_VerificationStates_STATUS  | DomainProperties_VerificationStates_STATUS  | Extended |       |
-| Domain_STATUS                               | Domain_STATUS                               | Modified |       |
-| Domain_Spec                                 | Domain_Spec                                 | Modified |       |
-| EmailServiceOperatorSpec                    | EmailServiceOperatorSpec                    | Extended |       |
-| EmailService_STATUS                         | EmailService_STATUS                         | Modified |       |
-| EmailService_Spec                           | EmailService_Spec                           | Modified |       |
-| ManagedServiceIdentity                      | ManagedServiceIdentity                      | Modified |       |
-| ManagedServiceIdentity_STATUS               | ManagedServiceIdentity_STATUS               | Modified |       |
-| SenderUsernameOperatorSpec                  | SenderUsernameOperatorSpec                  | Extended |       |
-| SenderUsername_STATUS                       | SenderUsername_STATUS                       | Modified |       |
-| SenderUsername_Spec                         | SenderUsername_Spec                         | Modified |       |
-| SystemData_STATUS                           | SystemData_STATUS                           | Modified |       |
-| UserAssignedIdentityDetails                 | UserAssignedIdentityDetails                 | Extended |       |
-| UserAssignedIdentity_STATUS                 | UserAssignedIdentity_STATUS                 | Extended |       |
-| VerificationStatusRecord_STATUS             | VerificationStatusRecord_STATUS             | Modified |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20230401                                   | v20230401/storage                           |  Status  | Notes        |
+|:--------------------------------------------|:--------------------------------------------|:--------:|:-------------|
+| CommunicationServiceOperatorConfigMaps      | CommunicationServiceOperatorConfigMaps      | Extended | +PropertyBag |
+| CommunicationServiceOperatorSecrets         | CommunicationServiceOperatorSecrets         | Extended | +PropertyBag |
+| CommunicationServiceOperatorSpec            | CommunicationServiceOperatorSpec            | Extended | +PropertyBag |
+| CommunicationService_STATUS                 | CommunicationService_STATUS                 | Modified |              |
+| CommunicationService_Spec                   | CommunicationService_Spec                   | Modified |              |
+| DnsRecord_STATUS                            | DnsRecord_STATUS                            | Extended | +PropertyBag |
+| DomainOperatorSpec                          | DomainOperatorSpec                          | Extended | +PropertyBag |
+| DomainProperties_VerificationRecords_STATUS | DomainProperties_VerificationRecords_STATUS | Extended | +PropertyBag |
+| DomainProperties_VerificationStates_STATUS  | DomainProperties_VerificationStates_STATUS  | Extended | +PropertyBag |
+| Domain_STATUS                               | Domain_STATUS                               | Modified |              |
+| Domain_Spec                                 | Domain_Spec                                 | Modified |              |
+| EmailServiceOperatorSpec                    | EmailServiceOperatorSpec                    | Extended | +PropertyBag |
+| EmailService_STATUS                         | EmailService_STATUS                         | Modified |              |
+| EmailService_Spec                           | EmailService_Spec                           | Modified |              |
+| ManagedServiceIdentity                      | ManagedServiceIdentity                      | Modified |              |
+| ManagedServiceIdentity_STATUS               | ManagedServiceIdentity_STATUS               | Modified |              |
+| SenderUsernameOperatorSpec                  | SenderUsernameOperatorSpec                  | Extended | +PropertyBag |
+| SenderUsername_STATUS                       | SenderUsername_STATUS                       | Modified |              |
+| SenderUsername_Spec                         | SenderUsername_Spec                         | Modified |              |
+| SystemData_STATUS                           | SystemData_STATUS                           | Modified |              |
+| UserAssignedIdentityDetails                 | UserAssignedIdentityDetails                 | Extended | +PropertyBag |
+| UserAssignedIdentity_STATUS                 | UserAssignedIdentity_STATUS                 | Extended | +PropertyBag |
+| VerificationStatusRecord_STATUS             | VerificationStatusRecord_STATUS             | Modified |              |
 
 ### CommunicationServiceOperatorConfigMaps
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20230401 |                                  | v20230401/storage |                                  |  Status   | Notes |
 |:----------|:---------------------------------|:------------------|:---------------------------------|:---------:|:------|
@@ -57,7 +50,7 @@
 
 ### CommunicationServiceOperatorSecrets
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20230401                 |                               | v20230401/storage         |                               |  Status   | Notes |
 |:--------------------------|:------------------------------|:--------------------------|:------------------------------|:---------:|:------|
@@ -69,7 +62,7 @@
 
 ### CommunicationServiceOperatorSpec
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20230401            |                                         | v20230401/storage    |                                         |  Status   | Notes |
 |:---------------------|:----------------------------------------|:---------------------|:----------------------------------------|:---------:|:------|
@@ -81,7 +74,7 @@
 
 ### CommunicationService_STATUS
 
-14 x Identical, 1 x New, 1 x Modified
+Properties: 14 x Identical, 1 x New, 1 x Modified
 
 | v20230401           |                                                          | v20230401/storage   |                                |  Status   | Notes |
 |:--------------------|:---------------------------------------------------------|:--------------------|:-------------------------------|:---------:|:------|
@@ -104,7 +97,7 @@
 
 ### CommunicationService_Spec
 
-7 x Identical, 2 x New, 1 x Modified
+Properties: 7 x Identical, 2 x New, 1 x Modified
 
 | v20230401               |                                    | v20230401/storage       |                                    |  Status   | Notes |
 |:------------------------|:-----------------------------------|:------------------------|:-----------------------------------|:---------:|:------|
@@ -121,7 +114,7 @@
 
 ### DnsRecord_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20230401 |         | v20230401/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -133,7 +126,7 @@
 
 ### DomainOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20230401            |                               | v20230401/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -143,7 +136,7 @@
 
 ### DomainProperties_VerificationRecords_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v20230401 |                   | v20230401/storage |                        |  Status   | Notes |
 |:----------|:------------------|:------------------|:-----------------------|:---------:|:------|
@@ -156,7 +149,7 @@
 
 ### DomainProperties_VerificationStates_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v20230401 |                                  | v20230401/storage |                                  |  Status   | Notes |
 |:----------|:---------------------------------|:------------------|:---------------------------------|:---------:|:------|
@@ -169,7 +162,7 @@
 
 ### Domain_STATUS
 
-12 x Identical, 1 x New, 3 x Modified
+Properties: 12 x Identical, 1 x New, 3 x Modified
 
 | v20230401              |                                              | v20230401/storage      |                                              |  Status   | Notes |
 |:-----------------------|:---------------------------------------------|:-----------------------|:---------------------------------------------|:---------:|:------|
@@ -192,7 +185,7 @@
 
 ### Domain_Spec
 
-4 x Identical, 2 x New, 3 x Modified
+Properties: 4 x Identical, 2 x New, 3 x Modified
 
 | v20230401              |                                    | v20230401/storage      |                                    |  Status   | Notes |
 |:-----------------------|:-----------------------------------|:-----------------------|:-----------------------------------|:---------:|:------|
@@ -208,7 +201,7 @@
 
 ### EmailServiceOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20230401            |                               | v20230401/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -218,7 +211,7 @@
 
 ### EmailService_STATUS
 
-8 x Identical, 1 x New, 1 x Modified
+Properties: 8 x Identical, 1 x New, 1 x Modified
 
 | v20230401         |                                                  | v20230401/storage |                        |  Status   | Notes |
 |:------------------|:-------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -235,7 +228,7 @@
 
 ### EmailService_Spec
 
-5 x Identical, 2 x New, 1 x Modified
+Properties: 5 x Identical, 2 x New, 1 x Modified
 
 | v20230401    |                                    | v20230401/storage |                                    |  Status   | Notes |
 |:-------------|:-----------------------------------|:------------------|:-----------------------------------|:---------:|:------|
@@ -250,7 +243,7 @@
 
 ### ManagedServiceIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230401              |                               | v20230401/storage      |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -260,7 +253,7 @@
 
 ### ManagedServiceIdentity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v20230401              |                                        | v20230401/storage      |                                        |  Status   | Notes |
 |:-----------------------|:---------------------------------------|:-----------------------|:---------------------------------------|:---------:|:------|
@@ -272,7 +265,7 @@
 
 ### SenderUsernameOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20230401            |                               | v20230401/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -282,7 +275,7 @@
 
 ### SenderUsername_STATUS
 
-8 x Identical, 1 x New, 1 x Modified
+Properties: 8 x Identical, 1 x New, 1 x Modified
 
 | v20230401         |                                                    | v20230401/storage |                        |  Status   | Notes |
 |:------------------|:---------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -299,7 +292,7 @@
 
 ### SenderUsername_Spec
 
-4 x Identical, 2 x New, 1 x Modified
+Properties: 4 x Identical, 2 x New, 1 x Modified
 
 | v20230401    |                                    | v20230401/storage |                                    |  Status   | Notes |
 |:-------------|:-----------------------------------|:------------------|:-----------------------------------|:---------:|:------|
@@ -313,7 +306,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v20230401          |                                       | v20230401/storage  |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:-------------------|:-----------------------|:---------:|:------|
@@ -327,7 +320,7 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20230401 |                              | v20230401/storage |                              |  Status   | Notes |
 |:----------|:-----------------------------|:------------------|:-----------------------------|:---------:|:------|
@@ -336,7 +329,7 @@
 
 ### UserAssignedIdentity_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20230401   |         | v20230401/storage |                        |  Status   | Notes |
 |:------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -346,10 +339,19 @@
 
 ### VerificationStatusRecord_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20230401 |                                         | v20230401/storage |                        |  Status   | Notes |
 |:----------|:----------------------------------------|:------------------|:-----------------------|:---------:|:------|
 | ErrorCode | *string                                 | ErrorCode         | *string                | Identical |       |
 |           |                                         | PropertyBag       | genruntime.PropertyBag |    New    |       |
 | Status    | *VerificationStatusRecord_Status_STATUS | Status            | *string                | Modified  |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

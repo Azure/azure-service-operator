@@ -19,6 +19,8 @@
 | Service                                          | Service                                          | Identical |       |
 | Subscription                                     | Subscription                                     | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
 | v20230501preview/storage                                     | v20220801/storage                                            |  Status   | Notes |
@@ -140,18 +142,9 @@
 | X509CertificateName                                          | X509CertificateName                                          | Identical |       |
 | X509CertificateName_STATUS                                   | X509CertificateName_STATUS                                   | Identical |       |
 
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
-
 ### Api_STATUS
 
-26 x Identical, 1 x Retired
+Properties: 26 x Identical, 1 x Retired
 
 | v20230501preview/storage      |                                               | v20220801/storage             |                                               |  Status   | Notes |
 |:------------------------------|:----------------------------------------------|:------------------------------|:----------------------------------------------|:---------:|:------|
@@ -185,7 +178,7 @@
 
 ### AuthorizationProvidersAuthorizationsAccessPolicy_STATUS
 
-7 x Identical, 1 x Retired
+Properties: 7 x Identical, 1 x Retired
 
 | v20230501preview/storage |                        | v20220801/storage |                        |  Status   | Notes |
 |:-------------------------|:-----------------------|:------------------|:-----------------------|:---------:|:------|
@@ -200,7 +193,7 @@
 
 ### AuthorizationProvidersAuthorizationsAccessPolicy_Spec
 
-9 x Identical, 1 x Retired
+Properties: 9 x Identical, 1 x Retired
 
 | v20230501preview/storage |                                                               | v20220801/storage  |                                                               |  Status   | Notes |
 |:-------------------------|:--------------------------------------------------------------|:-------------------|:--------------------------------------------------------------|:---------:|:------|
@@ -217,7 +210,7 @@
 
 ### Backend_STATUS
 
-14 x Identical, 3 x Retired
+Properties: 14 x Identical, 3 x Retired
 
 | v20230501preview/storage |                                    | v20220801/storage |                                    |  Status   | Notes |
 |:-------------------------|:-----------------------------------|:------------------|:-----------------------------------|:---------:|:------|
@@ -241,7 +234,7 @@
 
 ### Backend_Spec
 
-14 x Identical, 3 x Retired
+Properties: 14 x Identical, 3 x Retired
 
 | v20230501preview/storage |                                    | v20220801/storage |                                    |  Status   | Notes |
 |:-------------------------|:-----------------------------------|:------------------|:-----------------------------------|:---------:|:------|
@@ -265,7 +258,7 @@
 
 ### NamedValue_STATUS
 
-10 x Identical, 1 x Retired
+Properties: 10 x Identical, 1 x Retired
 
 | v20230501preview/storage |                                    | v20220801/storage |                                    |  Status   | Notes |
 |:-------------------------|:-----------------------------------|:------------------|:-----------------------------------|:---------:|:------|
@@ -283,7 +276,7 @@
 
 ### PolicyFragment_STATUS
 
-8 x Identical, 1 x Retired
+Properties: 8 x Identical, 1 x Retired
 
 | v20230501preview/storage |                        | v20220801/storage |                        |  Status   | Notes |
 |:-------------------------|:-----------------------|:------------------|:-----------------------|:---------:|:------|
@@ -299,7 +292,7 @@
 
 ### Service_STATUS
 
-42 x Identical, 3 x Retired
+Properties: 42 x Identical, 3 x Retired
 
 | v20230501preview/storage    |                                                 | v20220801/storage           |                                                 |  Status   | Notes |
 |:----------------------------|:------------------------------------------------|:----------------------------|:------------------------------------------------|:---------:|:------|
@@ -351,7 +344,7 @@
 
 ### Service_Spec
 
-26 x Identical, 3 x Retired
+Properties: 26 x Identical, 3 x Retired
 
 | v20230501preview/storage    |                                    | v20220801/storage           |                                    |  Status   | Notes |
 |:----------------------------|:-----------------------------------|:----------------------------|:-----------------------------------|:---------:|:------|
@@ -384,3 +377,12 @@
 | VirtualNetworkConfiguration | *VirtualNetworkConfiguration       | VirtualNetworkConfiguration | *VirtualNetworkConfiguration       | Identical |       |
 | VirtualNetworkType          | *string                            | VirtualNetworkType          | *string                            | Identical |       |
 | Zones                       | string[]                           | Zones                       | string[]                           | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

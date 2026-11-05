@@ -9,88 +9,81 @@
 | NotificationHub                   | NotificationHub                   | Identical |       |
 | NotificationHubsAuthorizationRule | NotificationHubsAuthorizationRule | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20230901                                  | v1api20230901/storage                          |  Status  | Notes |
-|:-----------------------------------------------|:-----------------------------------------------|:--------:|:------|
-| AdmCredential                                  | AdmCredential                                  | Extended |       |
-| AdmCredentialProperties                        | AdmCredentialProperties                        | Extended |       |
-| AdmCredentialProperties_STATUS                 | AdmCredentialProperties_STATUS                 | Extended |       |
-| AdmCredential_STATUS                           | AdmCredential_STATUS                           | Extended |       |
-| ApnsCredential                                 | ApnsCredential                                 | Extended |       |
-| ApnsCredentialProperties                       | ApnsCredentialProperties                       | Extended |       |
-| ApnsCredentialProperties_STATUS                | ApnsCredentialProperties_STATUS                | Extended |       |
-| ApnsCredential_STATUS                          | ApnsCredential_STATUS                          | Extended |       |
-| BaiduCredential                                | BaiduCredential                                | Extended |       |
-| BaiduCredentialProperties                      | BaiduCredentialProperties                      | Extended |       |
-| BaiduCredentialProperties_STATUS               | BaiduCredentialProperties_STATUS               | Extended |       |
-| BaiduCredential_STATUS                         | BaiduCredential_STATUS                         | Extended |       |
-| BrowserCredential                              | BrowserCredential                              | Extended |       |
-| BrowserCredentialProperties                    | BrowserCredentialProperties                    | Extended |       |
-| BrowserCredentialProperties_STATUS             | BrowserCredentialProperties_STATUS             | Extended |       |
-| BrowserCredential_STATUS                       | BrowserCredential_STATUS                       | Extended |       |
-| GcmCredential                                  | GcmCredential                                  | Extended |       |
-| GcmCredentialProperties                        | GcmCredentialProperties                        | Extended |       |
-| GcmCredentialProperties_STATUS                 | GcmCredentialProperties_STATUS                 | Extended |       |
-| GcmCredential_STATUS                           | GcmCredential_STATUS                           | Extended |       |
-| IpRule                                         | IpRule                                         | Modified |       |
-| IpRule_STATUS                                  | IpRule_STATUS                                  | Modified |       |
-| MpnsCredential                                 | MpnsCredential                                 | Extended |       |
-| MpnsCredentialProperties                       | MpnsCredentialProperties                       | Extended |       |
-| MpnsCredentialProperties_STATUS                | MpnsCredentialProperties_STATUS                | Extended |       |
-| MpnsCredential_STATUS                          | MpnsCredential_STATUS                          | Extended |       |
-| NamespaceOperatorConfigMaps                    | NamespaceOperatorConfigMaps                    | Extended |       |
-| NamespaceOperatorSecrets                       | NamespaceOperatorSecrets                       | Extended |       |
-| NamespaceOperatorSpec                          | NamespaceOperatorSpec                          | Extended |       |
-| NamespaceProperties                            | NamespaceProperties                            | Modified |       |
-| NamespaceProperties_STATUS                     | NamespaceProperties_STATUS                     | Modified |       |
-| Namespace_STATUS                               | Namespace_STATUS                               | Extended |       |
-| Namespace_Spec                                 | Namespace_Spec                                 | Modified |       |
-| NamespacesAuthorizationRuleOperatorSpec        | NamespacesAuthorizationRuleOperatorSpec        | Extended |       |
-| NamespacesAuthorizationRule_STATUS             | NamespacesAuthorizationRule_STATUS             | Extended |       |
-| NamespacesAuthorizationRule_Spec               | NamespacesAuthorizationRule_Spec               | Modified |       |
-| NetworkAcls                                    | NetworkAcls                                    | Extended |       |
-| NetworkAcls_STATUS                             | NetworkAcls_STATUS                             | Extended |       |
-| NotificationHubOperatorSecrets                 | NotificationHubOperatorSecrets                 | Extended |       |
-| NotificationHubOperatorSpec                    | NotificationHubOperatorSpec                    | Extended |       |
-| NotificationHubProperties                      | NotificationHubProperties                      | Extended |       |
-| NotificationHubProperties_STATUS               | NotificationHubProperties_STATUS               | Extended |       |
-| NotificationHub_STATUS                         | NotificationHub_STATUS                         | Extended |       |
-| NotificationHub_Spec                           | NotificationHub_Spec                           | Modified |       |
-| NotificationHubsAuthorizationRuleOperatorSpec  | NotificationHubsAuthorizationRuleOperatorSpec  | Extended |       |
-| NotificationHubsAuthorizationRule_STATUS       | NotificationHubsAuthorizationRule_STATUS       | Extended |       |
-| NotificationHubsAuthorizationRule_Spec         | NotificationHubsAuthorizationRule_Spec         | Modified |       |
-| PnsCredentials                                 | PnsCredentials                                 | Extended |       |
-| PnsCredentials_STATUS                          | PnsCredentials_STATUS                          | Extended |       |
-| PrivateEndpointConnectionResource_STATUS       | PrivateEndpointConnectionResource_STATUS       | Extended |       |
-| PublicInternetAuthorizationRule                | PublicInternetAuthorizationRule                | Modified |       |
-| PublicInternetAuthorizationRule_STATUS         | PublicInternetAuthorizationRule_STATUS         | Modified |       |
-| SharedAccessAuthorizationRuleProperties        | SharedAccessAuthorizationRuleProperties        | Modified |       |
-| SharedAccessAuthorizationRuleProperties_STATUS | SharedAccessAuthorizationRuleProperties_STATUS | Modified |       |
-| Sku                                            | Sku                                            | Modified |       |
-| Sku_STATUS                                     | Sku_STATUS                                     | Modified |       |
-| SystemData_STATUS                              | SystemData_STATUS                              | Modified |       |
-| WnsCredential                                  | WnsCredential                                  | Extended |       |
-| WnsCredentialProperties                        | WnsCredentialProperties                        | Extended |       |
-| WnsCredentialProperties_STATUS                 | WnsCredentialProperties_STATUS                 | Extended |       |
-| WnsCredential_STATUS                           | WnsCredential_STATUS                           | Extended |       |
-| XiaomiCredential                               | XiaomiCredential                               | Extended |       |
-| XiaomiCredentialProperties                     | XiaomiCredentialProperties                     | Extended |       |
-| XiaomiCredentialProperties_STATUS              | XiaomiCredentialProperties_STATUS              | Extended |       |
-| XiaomiCredential_STATUS                        | XiaomiCredential_STATUS                        | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20230901                                  | v1api20230901/storage                          |  Status  | Notes        |
+|:-----------------------------------------------|:-----------------------------------------------|:--------:|:-------------|
+| AdmCredential                                  | AdmCredential                                  | Extended | +PropertyBag |
+| AdmCredentialProperties                        | AdmCredentialProperties                        | Extended | +PropertyBag |
+| AdmCredentialProperties_STATUS                 | AdmCredentialProperties_STATUS                 | Extended | +PropertyBag |
+| AdmCredential_STATUS                           | AdmCredential_STATUS                           | Extended | +PropertyBag |
+| ApnsCredential                                 | ApnsCredential                                 | Extended | +PropertyBag |
+| ApnsCredentialProperties                       | ApnsCredentialProperties                       | Extended | +PropertyBag |
+| ApnsCredentialProperties_STATUS                | ApnsCredentialProperties_STATUS                | Extended | +PropertyBag |
+| ApnsCredential_STATUS                          | ApnsCredential_STATUS                          | Extended | +PropertyBag |
+| BaiduCredential                                | BaiduCredential                                | Extended | +PropertyBag |
+| BaiduCredentialProperties                      | BaiduCredentialProperties                      | Extended | +PropertyBag |
+| BaiduCredentialProperties_STATUS               | BaiduCredentialProperties_STATUS               | Extended | +PropertyBag |
+| BaiduCredential_STATUS                         | BaiduCredential_STATUS                         | Extended | +PropertyBag |
+| BrowserCredential                              | BrowserCredential                              | Extended | +PropertyBag |
+| BrowserCredentialProperties                    | BrowserCredentialProperties                    | Extended | +PropertyBag |
+| BrowserCredentialProperties_STATUS             | BrowserCredentialProperties_STATUS             | Extended | +PropertyBag |
+| BrowserCredential_STATUS                       | BrowserCredential_STATUS                       | Extended | +PropertyBag |
+| GcmCredential                                  | GcmCredential                                  | Extended | +PropertyBag |
+| GcmCredentialProperties                        | GcmCredentialProperties                        | Extended | +PropertyBag |
+| GcmCredentialProperties_STATUS                 | GcmCredentialProperties_STATUS                 | Extended | +PropertyBag |
+| GcmCredential_STATUS                           | GcmCredential_STATUS                           | Extended | +PropertyBag |
+| IpRule                                         | IpRule                                         | Modified |              |
+| IpRule_STATUS                                  | IpRule_STATUS                                  | Modified |              |
+| MpnsCredential                                 | MpnsCredential                                 | Extended | +PropertyBag |
+| MpnsCredentialProperties                       | MpnsCredentialProperties                       | Extended | +PropertyBag |
+| MpnsCredentialProperties_STATUS                | MpnsCredentialProperties_STATUS                | Extended | +PropertyBag |
+| MpnsCredential_STATUS                          | MpnsCredential_STATUS                          | Extended | +PropertyBag |
+| NamespaceOperatorConfigMaps                    | NamespaceOperatorConfigMaps                    | Extended | +PropertyBag |
+| NamespaceOperatorSecrets                       | NamespaceOperatorSecrets                       | Extended | +PropertyBag |
+| NamespaceOperatorSpec                          | NamespaceOperatorSpec                          | Extended | +PropertyBag |
+| NamespaceProperties                            | NamespaceProperties                            | Modified |              |
+| NamespaceProperties_STATUS                     | NamespaceProperties_STATUS                     | Modified |              |
+| Namespace_STATUS                               | Namespace_STATUS                               | Extended | +PropertyBag |
+| Namespace_Spec                                 | Namespace_Spec                                 | Modified |              |
+| NamespacesAuthorizationRuleOperatorSpec        | NamespacesAuthorizationRuleOperatorSpec        | Extended | +PropertyBag |
+| NamespacesAuthorizationRule_STATUS             | NamespacesAuthorizationRule_STATUS             | Extended | +PropertyBag |
+| NamespacesAuthorizationRule_Spec               | NamespacesAuthorizationRule_Spec               | Modified |              |
+| NetworkAcls                                    | NetworkAcls                                    | Extended | +PropertyBag |
+| NetworkAcls_STATUS                             | NetworkAcls_STATUS                             | Extended | +PropertyBag |
+| NotificationHubOperatorSecrets                 | NotificationHubOperatorSecrets                 | Extended | +PropertyBag |
+| NotificationHubOperatorSpec                    | NotificationHubOperatorSpec                    | Extended | +PropertyBag |
+| NotificationHubProperties                      | NotificationHubProperties                      | Extended | +PropertyBag |
+| NotificationHubProperties_STATUS               | NotificationHubProperties_STATUS               | Extended | +PropertyBag |
+| NotificationHub_STATUS                         | NotificationHub_STATUS                         | Extended | +PropertyBag |
+| NotificationHub_Spec                           | NotificationHub_Spec                           | Modified |              |
+| NotificationHubsAuthorizationRuleOperatorSpec  | NotificationHubsAuthorizationRuleOperatorSpec  | Extended | +PropertyBag |
+| NotificationHubsAuthorizationRule_STATUS       | NotificationHubsAuthorizationRule_STATUS       | Extended | +PropertyBag |
+| NotificationHubsAuthorizationRule_Spec         | NotificationHubsAuthorizationRule_Spec         | Modified |              |
+| PnsCredentials                                 | PnsCredentials                                 | Extended | +PropertyBag |
+| PnsCredentials_STATUS                          | PnsCredentials_STATUS                          | Extended | +PropertyBag |
+| PrivateEndpointConnectionResource_STATUS       | PrivateEndpointConnectionResource_STATUS       | Extended | +PropertyBag |
+| PublicInternetAuthorizationRule                | PublicInternetAuthorizationRule                | Modified |              |
+| PublicInternetAuthorizationRule_STATUS         | PublicInternetAuthorizationRule_STATUS         | Modified |              |
+| SharedAccessAuthorizationRuleProperties        | SharedAccessAuthorizationRuleProperties        | Modified |              |
+| SharedAccessAuthorizationRuleProperties_STATUS | SharedAccessAuthorizationRuleProperties_STATUS | Modified |              |
+| Sku                                            | Sku                                            | Modified |              |
+| Sku_STATUS                                     | Sku_STATUS                                     | Modified |              |
+| SystemData_STATUS                              | SystemData_STATUS                              | Modified |              |
+| WnsCredential                                  | WnsCredential                                  | Extended | +PropertyBag |
+| WnsCredentialProperties                        | WnsCredentialProperties                        | Extended | +PropertyBag |
+| WnsCredentialProperties_STATUS                 | WnsCredentialProperties_STATUS                 | Extended | +PropertyBag |
+| WnsCredential_STATUS                           | WnsCredential_STATUS                           | Extended | +PropertyBag |
+| XiaomiCredential                               | XiaomiCredential                               | Extended | +PropertyBag |
+| XiaomiCredentialProperties                     | XiaomiCredentialProperties                     | Extended | +PropertyBag |
+| XiaomiCredentialProperties_STATUS              | XiaomiCredentialProperties_STATUS              | Extended | +PropertyBag |
+| XiaomiCredential_STATUS                        | XiaomiCredential_STATUS                        | Extended | +PropertyBag |
 
 ### AdmCredential
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230901 |                          | v1api20230901/storage |                          |  Status   | Notes |
 |:--------------|:-------------------------|:----------------------|:-------------------------|:---------:|:------|
@@ -99,7 +92,7 @@
 
 ### AdmCredentialProperties
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20230901 |                             | v1api20230901/storage |                             |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -110,7 +103,7 @@
 
 ### AdmCredentialProperties_STATUS
 
-1 x New
+Properties: 1 x New
 
 | v1api20230901 |  | v1api20230901/storage |                        | Status | Notes |
 |:--------------|:-|:----------------------|:-----------------------|:------:|:------|
@@ -118,7 +111,7 @@
 
 ### AdmCredential_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230901 |                                 | v1api20230901/storage |                                 |  Status   | Notes |
 |:--------------|:--------------------------------|:----------------------|:--------------------------------|:---------:|:------|
@@ -127,7 +120,7 @@
 
 ### ApnsCredential
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230901 |                           | v1api20230901/storage |                           |  Status   | Notes |
 |:--------------|:--------------------------|:----------------------|:--------------------------|:---------:|:------|
@@ -136,7 +129,7 @@
 
 ### ApnsCredentialProperties
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v1api20230901   |                             | v1api20230901/storage |                             |  Status   | Notes |
 |:----------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -152,7 +145,7 @@
 
 ### ApnsCredentialProperties_STATUS
 
-1 x New
+Properties: 1 x New
 
 | v1api20230901 |  | v1api20230901/storage |                        | Status | Notes |
 |:--------------|:-|:----------------------|:-----------------------|:------:|:------|
@@ -160,7 +153,7 @@
 
 ### ApnsCredential_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230901 |                                  | v1api20230901/storage |                                  |  Status   | Notes |
 |:--------------|:---------------------------------|:----------------------|:---------------------------------|:---------:|:------|
@@ -169,7 +162,7 @@
 
 ### BaiduCredential
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230901 |                            | v1api20230901/storage |                            |  Status   | Notes |
 |:--------------|:---------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -178,7 +171,7 @@
 
 ### BaiduCredentialProperties
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20230901  |                             | v1api20230901/storage |                             |  Status   | Notes |
 |:---------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -189,7 +182,7 @@
 
 ### BaiduCredentialProperties_STATUS
 
-1 x New
+Properties: 1 x New
 
 | v1api20230901 |  | v1api20230901/storage |                        | Status | Notes |
 |:--------------|:-|:----------------------|:-----------------------|:------:|:------|
@@ -197,7 +190,7 @@
 
 ### BaiduCredential_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230901 |                                   | v1api20230901/storage |                                   |  Status   | Notes |
 |:--------------|:----------------------------------|:----------------------|:----------------------------------|:---------:|:------|
@@ -206,7 +199,7 @@
 
 ### BrowserCredential
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230901 |                              | v1api20230901/storage |                              |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -215,7 +208,7 @@
 
 ### BrowserCredentialProperties
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20230901   |                             | v1api20230901/storage |                             |  Status   | Notes |
 |:----------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -226,7 +219,7 @@
 
 ### BrowserCredentialProperties_STATUS
 
-1 x New
+Properties: 1 x New
 
 | v1api20230901 |  | v1api20230901/storage |                        | Status | Notes |
 |:--------------|:-|:----------------------|:-----------------------|:------:|:------|
@@ -234,7 +227,7 @@
 
 ### BrowserCredential_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230901 |                                     | v1api20230901/storage |                                     |  Status   | Notes |
 |:--------------|:------------------------------------|:----------------------|:------------------------------------|:---------:|:------|
@@ -243,7 +236,7 @@
 
 ### GcmCredential
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230901 |                          | v1api20230901/storage |                          |  Status   | Notes |
 |:--------------|:-------------------------|:----------------------|:-------------------------|:---------:|:------|
@@ -252,7 +245,7 @@
 
 ### GcmCredentialProperties
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20230901 |                             | v1api20230901/storage |                             |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -262,7 +255,7 @@
 
 ### GcmCredentialProperties_STATUS
 
-1 x New
+Properties: 1 x New
 
 | v1api20230901 |  | v1api20230901/storage |                        | Status | Notes |
 |:--------------|:-|:----------------------|:-----------------------|:------:|:------|
@@ -270,7 +263,7 @@
 
 ### GcmCredential_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230901 |                                 | v1api20230901/storage |                                 |  Status   | Notes |
 |:--------------|:--------------------------------|:----------------------|:--------------------------------|:---------:|:------|
@@ -279,17 +272,17 @@
 
 ### IpRule
 
-1 x New, 2 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
-| v1api20230901 |                             | v1api20230901/storage |                        |  Status  | Notes |
-|:--------------|:----------------------------|:----------------------|:-----------------------|:--------:|:------|
-| IpMask        | Validated<*string> (1 rule) | IpMask                | *string                | Modified |       |
-|               |                             | PropertyBag           | genruntime.PropertyBag |   New    |       |
-| Rights        | AccessRights[]              | Rights                | string[]               | Modified |       |
+| v1api20230901 |                             | v1api20230901/storage |                        |  Status   | Notes |
+|:--------------|:----------------------------|:----------------------|:-----------------------|:---------:|:------|
+| IpMask        | Validated<*string> (1 rule) | IpMask                | *string                | Identical |       |
+|               |                             | PropertyBag           | genruntime.PropertyBag |    New    |       |
+| Rights        | AccessRights[]              | Rights                | string[]               | Modified  |       |
 
 ### IpRule_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20230901 |                       | v1api20230901/storage |                        |  Status   | Notes |
 |:--------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -299,7 +292,7 @@
 
 ### MpnsCredential
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230901 |                           | v1api20230901/storage |                           |  Status   | Notes |
 |:--------------|:--------------------------|:----------------------|:--------------------------|:---------:|:------|
@@ -308,7 +301,7 @@
 
 ### MpnsCredentialProperties
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20230901   |                             | v1api20230901/storage |                             |  Status   | Notes |
 |:----------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -319,7 +312,7 @@
 
 ### MpnsCredentialProperties_STATUS
 
-1 x New
+Properties: 1 x New
 
 | v1api20230901 |  | v1api20230901/storage |                        | Status | Notes |
 |:--------------|:-|:----------------------|:-----------------------|:------:|:------|
@@ -327,7 +320,7 @@
 
 ### MpnsCredential_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230901 |                                  | v1api20230901/storage |                                  |  Status   | Notes |
 |:--------------|:---------------------------------|:----------------------|:---------------------------------|:---------:|:------|
@@ -336,7 +329,7 @@
 
 ### NamespaceOperatorConfigMaps
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230901      |                                  | v1api20230901/storage |                                  |  Status   | Notes |
 |:-------------------|:---------------------------------|:----------------------|:---------------------------------|:---------:|:------|
@@ -345,7 +338,7 @@
 
 ### NamespaceOperatorSecrets
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20230901             |                               | v1api20230901/storage     |                               |  Status   | Notes |
 |:--------------------------|:------------------------------|:--------------------------|:------------------------------|:---------:|:------|
@@ -357,7 +350,7 @@
 
 ### NamespaceOperatorSpec
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20230901        |                               | v1api20230901/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -369,7 +362,7 @@
 
 ### NamespaceProperties
 
-4 x Identical, 1 x New, 4 x Modified
+Properties: 4 x Identical, 1 x New, 4 x Modified
 
 | v1api20230901       |                           | v1api20230901/storage |                        |  Status   | Notes |
 |:--------------------|:--------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -385,7 +378,7 @@
 
 ### NamespaceProperties_STATUS
 
-14 x Identical, 1 x New, 6 x Modified
+Properties: 14 x Identical, 1 x New, 6 x Modified
 
 | v1api20230901              |                                            | v1api20230901/storage      |                                            |  Status   | Notes |
 |:---------------------------|:-------------------------------------------|:---------------------------|:-------------------------------------------|:---------:|:------|
@@ -413,7 +406,7 @@
 
 ### Namespace_STATUS
 
-9 x Identical, 1 x New
+Properties: 9 x Identical, 1 x New
 
 | v1api20230901 |                             | v1api20230901/storage |                             |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -430,7 +423,7 @@
 
 ### Namespace_Spec
 
-6 x Identical, 2 x New, 1 x Modified
+Properties: 6 x Identical, 2 x New, 1 x Modified
 
 | v1api20230901 |                                    | v1api20230901/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -446,7 +439,7 @@
 
 ### NamespacesAuthorizationRuleOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20230901        |                               | v1api20230901/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -456,7 +449,7 @@
 
 ### NamespacesAuthorizationRule_STATUS
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v1api20230901 |                                                 | v1api20230901/storage |                                                 |  Status   | Notes |
 |:--------------|:------------------------------------------------|:----------------------|:------------------------------------------------|:---------:|:------|
@@ -472,7 +465,7 @@
 
 ### NamespacesAuthorizationRule_Spec
 
-5 x Identical, 2 x New, 1 x Modified
+Properties: 5 x Identical, 2 x New, 1 x Modified
 
 | v1api20230901 |                                          | v1api20230901/storage |                                          |  Status   | Notes |
 |:--------------|:-----------------------------------------|:----------------------|:-----------------------------------------|:---------:|:------|
@@ -487,7 +480,7 @@
 
 ### NetworkAcls
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20230901     |                                  | v1api20230901/storage |                                  |  Status   | Notes |
 |:------------------|:---------------------------------|:----------------------|:---------------------------------|:---------:|:------|
@@ -497,7 +490,7 @@
 
 ### NetworkAcls_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20230901     |                                         | v1api20230901/storage |                                         |  Status   | Notes |
 |:------------------|:----------------------------------------|:----------------------|:----------------------------------------|:---------:|:------|
@@ -507,7 +500,7 @@
 
 ### NotificationHubOperatorSecrets
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20230901             |                               | v1api20230901/storage     |                               |  Status   | Notes |
 |:--------------------------|:------------------------------|:--------------------------|:------------------------------|:---------:|:------|
@@ -519,7 +512,7 @@
 
 ### NotificationHubOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20230901        |                                 | v1api20230901/storage |                                 |  Status   | Notes |
 |:---------------------|:--------------------------------|:----------------------|:--------------------------------|:---------:|:------|
@@ -530,7 +523,7 @@
 
 ### NotificationHubProperties
 
-10 x Identical, 1 x New
+Properties: 10 x Identical, 1 x New
 
 | v1api20230901     |                    | v1api20230901/storage |                        |  Status   | Notes |
 |:------------------|:-------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -548,7 +541,7 @@
 
 ### NotificationHubProperties_STATUS
 
-12 x Identical, 1 x New
+Properties: 12 x Identical, 1 x New
 
 | v1api20230901         |                                                  | v1api20230901/storage |                                                  |  Status   | Notes |
 |:----------------------|:-------------------------------------------------|:----------------------|:-------------------------------------------------|:---------:|:------|
@@ -568,7 +561,7 @@
 
 ### NotificationHub_STATUS
 
-9 x Identical, 1 x New
+Properties: 9 x Identical, 1 x New
 
 | v1api20230901 |                                   | v1api20230901/storage |                                   |  Status   | Notes |
 |:--------------|:----------------------------------|:----------------------|:----------------------------------|:---------:|:------|
@@ -585,7 +578,7 @@
 
 ### NotificationHub_Spec
 
-6 x Identical, 2 x New, 1 x Modified
+Properties: 6 x Identical, 2 x New, 1 x Modified
 
 | v1api20230901 |                                    | v1api20230901/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
@@ -601,7 +594,7 @@
 
 ### NotificationHubsAuthorizationRuleOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20230901        |                               | v1api20230901/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -611,7 +604,7 @@
 
 ### NotificationHubsAuthorizationRule_STATUS
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v1api20230901 |                                                 | v1api20230901/storage |                                                 |  Status   | Notes |
 |:--------------|:------------------------------------------------|:----------------------|:------------------------------------------------|:---------:|:------|
@@ -627,7 +620,7 @@
 
 ### NotificationHubsAuthorizationRule_Spec
 
-5 x Identical, 2 x New, 1 x Modified
+Properties: 5 x Identical, 2 x New, 1 x Modified
 
 | v1api20230901 |                                                | v1api20230901/storage |                                                |  Status   | Notes |
 |:--------------|:-----------------------------------------------|:----------------------|:-----------------------------------------------|:---------:|:------|
@@ -642,7 +635,7 @@
 
 ### PnsCredentials
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v1api20230901     |                    | v1api20230901/storage |                        |  Status   | Notes |
 |:------------------|:-------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -658,7 +651,7 @@
 
 ### PnsCredentials_STATUS
 
-8 x Identical, 1 x New
+Properties: 8 x Identical, 1 x New
 
 | v1api20230901     |                           | v1api20230901/storage |                           |  Status   | Notes |
 |:------------------|:--------------------------|:----------------------|:--------------------------|:---------:|:------|
@@ -674,7 +667,7 @@
 
 ### PrivateEndpointConnectionResource_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230901 |         | v1api20230901/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -683,7 +676,7 @@
 
 ### PublicInternetAuthorizationRule
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20230901 |                | v1api20230901/storage |                        |  Status  | Notes |
 |:--------------|:---------------|:----------------------|:-----------------------|:--------:|:------|
@@ -692,7 +685,7 @@
 
 ### PublicInternetAuthorizationRule_STATUS
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20230901 |                       | v1api20230901/storage |                        |  Status  | Notes |
 |:--------------|:----------------------|:----------------------|:-----------------------|:--------:|:------|
@@ -701,7 +694,7 @@
 
 ### SharedAccessAuthorizationRuleProperties
 
-1 x New, 1 x Modified
+Properties: 1 x New, 1 x Modified
 
 | v1api20230901 |                | v1api20230901/storage |                        |  Status  | Notes |
 |:--------------|:---------------|:----------------------|:-----------------------|:--------:|:------|
@@ -710,7 +703,7 @@
 
 ### SharedAccessAuthorizationRuleProperties_STATUS
 
-6 x Identical, 1 x New, 1 x Modified
+Properties: 6 x Identical, 1 x New, 1 x Modified
 
 | v1api20230901 |                       | v1api20230901/storage |                        |  Status   | Notes |
 |:--------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -725,7 +718,7 @@
 
 ### Sku
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20230901 |          | v1api20230901/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -738,7 +731,7 @@
 
 ### Sku_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20230901 |                 | v1api20230901/storage |                        |  Status   | Notes |
 |:--------------|:----------------|:----------------------|:-----------------------|:---------:|:------|
@@ -751,7 +744,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20230901      |                                       | v1api20230901/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -765,7 +758,7 @@
 
 ### WnsCredential
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230901 |                          | v1api20230901/storage |                          |  Status   | Notes |
 |:--------------|:-------------------------|:----------------------|:-------------------------|:---------:|:------|
@@ -774,7 +767,7 @@
 
 ### WnsCredentialProperties
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20230901       |                             | v1api20230901/storage |                             |  Status   | Notes |
 |:--------------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -787,7 +780,7 @@
 
 ### WnsCredentialProperties_STATUS
 
-1 x New
+Properties: 1 x New
 
 | v1api20230901 |  | v1api20230901/storage |                        | Status | Notes |
 |:--------------|:-|:----------------------|:-----------------------|:------:|:------|
@@ -795,7 +788,7 @@
 
 ### WnsCredential_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230901 |                                 | v1api20230901/storage |                                 |  Status   | Notes |
 |:--------------|:--------------------------------|:----------------------|:--------------------------------|:---------:|:------|
@@ -804,7 +797,7 @@
 
 ### XiaomiCredential
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230901 |                             | v1api20230901/storage |                             |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -813,7 +806,7 @@
 
 ### XiaomiCredentialProperties
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20230901 |                             | v1api20230901/storage |                             |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -823,7 +816,7 @@
 
 ### XiaomiCredentialProperties_STATUS
 
-1 x New
+Properties: 1 x New
 
 | v1api20230901 |  | v1api20230901/storage |                        | Status | Notes |
 |:--------------|:-|:----------------------|:-----------------------|:------:|:------|
@@ -831,9 +824,18 @@
 
 ### XiaomiCredential_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20230901 |                                    | v1api20230901/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------|:----------------------|:-----------------------------------|:---------:|:------|
 | Properties    | *XiaomiCredentialProperties_STATUS | Properties            | *XiaomiCredentialProperties_STATUS | Identical |       |
 |               |                                    | PropertyBag           | genruntime.PropertyBag             |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

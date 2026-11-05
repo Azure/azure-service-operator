@@ -9,49 +9,42 @@
 | RedisLinkedServer  | RedisLinkedServer  | Identical |       |
 | RedisPatchSchedule | RedisPatchSchedule | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20201201/storage                         | v20230401/storage                         |  Status   | Notes |
-|:------------------------------------------|:------------------------------------------|:---------:|:------|
-|                                           | ManagedServiceIdentity                    |    New    |       |
-|                                           | ManagedServiceIdentity_STATUS             |    New    |       |
-| PrivateEndpointConnection_STATUS          | PrivateEndpointConnection_STATUS          | Identical |       |
-| RedisCreateProperties_RedisConfiguration  | RedisCreateProperties_RedisConfiguration  | Modified  |       |
-| RedisFirewallRuleOperatorSpec             | RedisFirewallRuleOperatorSpec             | Identical |       |
-| RedisFirewallRule_STATUS                  | RedisFirewallRule_STATUS                  | Identical |       |
-| RedisFirewallRule_Spec                    | RedisFirewallRule_Spec                    | Identical |       |
-| RedisInstanceDetails_STATUS               | RedisInstanceDetails_STATUS               | Identical |       |
-| RedisLinkedServerOperatorSpec             | RedisLinkedServerOperatorSpec             | Identical |       |
-| RedisLinkedServer_STATUS                  | RedisLinkedServer_STATUS                  | Identical |       |
-| RedisLinkedServer_Spec                    | RedisLinkedServer_Spec                    | Identical |       |
-| RedisOperatorSecrets                      | RedisOperatorSecrets                      | Identical |       |
-| RedisOperatorSpec                         | RedisOperatorSpec                         | Identical |       |
-| RedisPatchScheduleOperatorSpec            | RedisPatchScheduleOperatorSpec            | Identical |       |
-| RedisPatchSchedule_STATUS                 | RedisPatchSchedule_STATUS                 | Identical |       |
-| RedisPatchSchedule_Spec                   | RedisPatchSchedule_Spec                   | Identical |       |
-| RedisProperties_RedisConfiguration_STATUS | RedisProperties_RedisConfiguration_STATUS | Modified  |       |
-| Redis_LinkedServer_STATUS                 | Redis_LinkedServer_STATUS                 | Extended  |       |
-| Redis_STATUS                              | Redis_STATUS                              | Extended  |       |
-| Redis_Spec                                | Redis_Spec                                | Extended  |       |
-| ScheduleEntry                             | ScheduleEntry                             | Identical |       |
-| ScheduleEntry_STATUS                      | ScheduleEntry_STATUS                      | Identical |       |
-| Sku                                       | Sku                                       | Identical |       |
-| Sku_STATUS                                | Sku_STATUS                                | Identical |       |
-|                                           | UserAssignedIdentityDetails               |    New    |       |
-|                                           | UserAssignedIdentity_STATUS               |    New    |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20201201/storage                         | v20230401/storage                         |  Status   | Notes                                          |
+|:------------------------------------------|:------------------------------------------|:---------:|:-----------------------------------------------|
+|                                           | ManagedServiceIdentity                    |    New    |                                                |
+|                                           | ManagedServiceIdentity_STATUS             |    New    |                                                |
+| PrivateEndpointConnection_STATUS          | PrivateEndpointConnection_STATUS          | Identical |                                                |
+| RedisCreateProperties_RedisConfiguration  | RedisCreateProperties_RedisConfiguration  | Modified  |                                                |
+| RedisFirewallRuleOperatorSpec             | RedisFirewallRuleOperatorSpec             | Identical |                                                |
+| RedisFirewallRule_STATUS                  | RedisFirewallRule_STATUS                  | Identical |                                                |
+| RedisFirewallRule_Spec                    | RedisFirewallRule_Spec                    | Identical |                                                |
+| RedisInstanceDetails_STATUS               | RedisInstanceDetails_STATUS               | Identical |                                                |
+| RedisLinkedServerOperatorSpec             | RedisLinkedServerOperatorSpec             | Identical |                                                |
+| RedisLinkedServer_STATUS                  | RedisLinkedServer_STATUS                  | Identical |                                                |
+| RedisLinkedServer_Spec                    | RedisLinkedServer_Spec                    | Identical |                                                |
+| RedisOperatorSecrets                      | RedisOperatorSecrets                      | Identical |                                                |
+| RedisOperatorSpec                         | RedisOperatorSpec                         | Identical |                                                |
+| RedisPatchScheduleOperatorSpec            | RedisPatchScheduleOperatorSpec            | Identical |                                                |
+| RedisPatchSchedule_STATUS                 | RedisPatchSchedule_STATUS                 | Identical |                                                |
+| RedisPatchSchedule_Spec                   | RedisPatchSchedule_Spec                   | Identical |                                                |
+| RedisProperties_RedisConfiguration_STATUS | RedisProperties_RedisConfiguration_STATUS | Modified  |                                                |
+| Redis_LinkedServer_STATUS                 | Redis_LinkedServer_STATUS                 | Extended  | +GeoReplicatedPrimaryHostName +PrimaryHostName |
+| Redis_STATUS                              | Redis_STATUS                              | Extended  | +Identity                                      |
+| Redis_Spec                                | Redis_Spec                                | Extended  | +Identity                                      |
+| ScheduleEntry                             | ScheduleEntry                             | Identical |                                                |
+| ScheduleEntry_STATUS                      | ScheduleEntry_STATUS                      | Identical |                                                |
+| Sku                                       | Sku                                       | Identical |                                                |
+| Sku_STATUS                                | Sku_STATUS                                | Identical |                                                |
+|                                           | UserAssignedIdentityDetails               |    New    |                                                |
+|                                           | UserAssignedIdentity_STATUS               |    New    |                                                |
 
 ### RedisCreateProperties_RedisConfiguration
 
-13 x Identical, 2 x New, 1 x Modified
+Properties: 13 x Identical, 2 x New, 1 x Modified
 
 | v20201201/storage              |                        | v20230401/storage                  |                        |  Status   | Notes |
 |:-------------------------------|:-----------------------|:-----------------------------------|:-----------------------|:---------:|:------|
@@ -74,7 +67,7 @@
 
 ### RedisProperties_RedisConfiguration_STATUS
 
-15 x Identical, 3 x New, 1 x Modified
+Properties: 15 x Identical, 3 x New, 1 x Modified
 
 | v20201201/storage              |                        | v20230401/storage                  |                        |  Status   | Notes |
 |:-------------------------------|:-----------------------|:-----------------------------------|:-----------------------|:---------:|:------|
@@ -100,7 +93,7 @@
 
 ### Redis_LinkedServer_STATUS
 
-9 x Identical, 2 x New
+Properties: 9 x Identical, 2 x New
 
 | v20201201/storage        |                        | v20230401/storage            |                        |  Status   | Notes |
 |:-------------------------|:-----------------------|:-----------------------------|:-----------------------|:---------:|:------|
@@ -118,7 +111,7 @@
 
 ### Redis_STATUS
 
-27 x Identical, 1 x New
+Properties: 27 x Identical, 1 x New
 
 | v20201201/storage          |                                            | v20230401/storage          |                                            |  Status   | Notes |
 |:---------------------------|:-------------------------------------------|:---------------------------|:-------------------------------------------|:---------:|:------|
@@ -153,7 +146,7 @@
 
 ### Redis_Spec
 
-20 x Identical, 1 x New
+Properties: 20 x Identical, 1 x New
 
 | v20201201/storage   |                                           | v20230401/storage   |                                           |  Status   | Notes |
 |:--------------------|:------------------------------------------|:--------------------|:------------------------------------------|:---------:|:------|
@@ -178,3 +171,12 @@
 | Tags                | map[string]string                         | Tags                | map[string]string                         | Identical |       |
 | TenantSettings      | map[string]string                         | TenantSettings      | map[string]string                         | Identical |       |
 | Zones               | string[]                                  | Zones               | string[]                                  | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

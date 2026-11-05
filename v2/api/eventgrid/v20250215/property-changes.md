@@ -11,167 +11,160 @@
 | NamespaceTopic    | NamespaceTopic    | Identical |       |
 | Topic             | Topic             | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20250215                                                      | v20250215/storage                                              |  Status  | Notes |
-|:---------------------------------------------------------------|:---------------------------------------------------------------|:--------:|:------|
-| AdvancedFilter                                                 | AdvancedFilter                                                 | Extended |       |
-| AdvancedFilter_STATUS                                          | AdvancedFilter_STATUS                                          | Extended |       |
-| AzureFunctionEventSubscriptionDestination                      | AzureFunctionEventSubscriptionDestination                      | Modified |       |
-| AzureFunctionEventSubscriptionDestination_STATUS               | AzureFunctionEventSubscriptionDestination_STATUS               | Modified |       |
-| BoolEqualsAdvancedFilter                                       | BoolEqualsAdvancedFilter                                       | Modified |       |
-| BoolEqualsAdvancedFilter_STATUS                                | BoolEqualsAdvancedFilter_STATUS                                | Modified |       |
-| CustomDomainConfiguration                                      | CustomDomainConfiguration                                      | Modified |       |
-| CustomDomainConfiguration_STATUS                               | CustomDomainConfiguration_STATUS                               | Modified |       |
-| CustomDomainIdentity                                           | CustomDomainIdentity                                           | Modified |       |
-| CustomDomainIdentity_STATUS                                    | CustomDomainIdentity_STATUS                                    | Modified |       |
-| DeadLetterDestination                                          | DeadLetterDestination                                          | Extended |       |
-| DeadLetterDestination_STATUS                                   | DeadLetterDestination_STATUS                                   | Extended |       |
-| DeadLetterWithResourceIdentity                                 | DeadLetterWithResourceIdentity                                 | Extended |       |
-| DeadLetterWithResourceIdentity_STATUS                          | DeadLetterWithResourceIdentity_STATUS                          | Extended |       |
-| DeliveryAttributeMapping                                       | DeliveryAttributeMapping                                       | Extended |       |
-| DeliveryAttributeMapping_STATUS                                | DeliveryAttributeMapping_STATUS                                | Extended |       |
-| DeliveryWithResourceIdentity                                   | DeliveryWithResourceIdentity                                   | Extended |       |
-| DeliveryWithResourceIdentity_STATUS                            | DeliveryWithResourceIdentity_STATUS                            | Extended |       |
-| DomainOperatorSpec                                             | DomainOperatorSpec                                             | Extended |       |
-| Domain_STATUS                                                  | Domain_STATUS                                                  | Modified |       |
-| Domain_Spec                                                    | Domain_Spec                                                    | Modified |       |
-| DomainsTopicOperatorSpec                                       | DomainsTopicOperatorSpec                                       | Extended |       |
-| DomainsTopic_STATUS                                            | DomainsTopic_STATUS                                            | Modified |       |
-| DomainsTopic_Spec                                              | DomainsTopic_Spec                                              | Extended |       |
-| DynamicDeliveryAttributeMapping                                | DynamicDeliveryAttributeMapping                                | Modified |       |
-| DynamicDeliveryAttributeMapping_STATUS                         | DynamicDeliveryAttributeMapping_STATUS                         | Modified |       |
-| DynamicRoutingEnrichment                                       | DynamicRoutingEnrichment                                       | Extended |       |
-| DynamicRoutingEnrichment_STATUS                                | DynamicRoutingEnrichment_STATUS                                | Extended |       |
-| EventHubEventSubscriptionDestination                           | EventHubEventSubscriptionDestination                           | Modified |       |
-| EventHubEventSubscriptionDestination_STATUS                    | EventHubEventSubscriptionDestination_STATUS                    | Modified |       |
-| EventSubscriptionDestination                                   | EventSubscriptionDestination                                   | Extended |       |
-| EventSubscriptionDestination_STATUS                            | EventSubscriptionDestination_STATUS                            | Extended |       |
-| EventSubscriptionFilter                                        | EventSubscriptionFilter                                        | Extended |       |
-| EventSubscriptionFilter_STATUS                                 | EventSubscriptionFilter_STATUS                                 | Extended |       |
-| EventSubscriptionIdentity                                      | EventSubscriptionIdentity                                      | Modified |       |
-| EventSubscriptionIdentity_STATUS                               | EventSubscriptionIdentity_STATUS                               | Modified |       |
-| EventSubscriptionOperatorSpec                                  | EventSubscriptionOperatorSpec                                  | Extended |       |
-| EventSubscription_STATUS                                       | EventSubscription_STATUS                                       | Modified |       |
-| EventSubscription_Spec                                         | EventSubscription_Spec                                         | Modified |       |
-| EventTypeInfo                                                  | EventTypeInfo                                                  | Modified |       |
-| EventTypeInfo_STATUS                                           | EventTypeInfo_STATUS                                           | Modified |       |
-| HybridConnectionEventSubscriptionDestination                   | HybridConnectionEventSubscriptionDestination                   | Modified |       |
-| HybridConnectionEventSubscriptionDestination_STATUS            | HybridConnectionEventSubscriptionDestination_STATUS            | Modified |       |
-| IdentityInfo                                                   | IdentityInfo                                                   | Modified |       |
-| IdentityInfo_STATUS                                            | IdentityInfo_STATUS                                            | Modified |       |
-| InboundIpRule                                                  | InboundIpRule                                                  | Modified |       |
-| InboundIpRule_STATUS                                           | InboundIpRule_STATUS                                           | Modified |       |
-| InlineEventProperties                                          | InlineEventProperties                                          | Extended |       |
-| InlineEventProperties_STATUS                                   | InlineEventProperties_STATUS                                   | Extended |       |
-| InputSchemaMapping                                             | InputSchemaMapping                                             | Extended |       |
-| InputSchemaMapping_STATUS                                      | InputSchemaMapping_STATUS                                      | Extended |       |
-| IsNotNullAdvancedFilter                                        | IsNotNullAdvancedFilter                                        | Modified |       |
-| IsNotNullAdvancedFilter_STATUS                                 | IsNotNullAdvancedFilter_STATUS                                 | Modified |       |
-| IsNullOrUndefinedAdvancedFilter                                | IsNullOrUndefinedAdvancedFilter                                | Modified |       |
-| IsNullOrUndefinedAdvancedFilter_STATUS                         | IsNullOrUndefinedAdvancedFilter_STATUS                         | Modified |       |
-| JsonField                                                      | JsonField                                                      | Extended |       |
-| JsonFieldWithDefault                                           | JsonFieldWithDefault                                           | Extended |       |
-| JsonFieldWithDefault_STATUS                                    | JsonFieldWithDefault_STATUS                                    | Extended |       |
-| JsonField_STATUS                                               | JsonField_STATUS                                               | Extended |       |
-| JsonInputSchemaMapping                                         | JsonInputSchemaMapping                                         | Modified |       |
-| JsonInputSchemaMapping_STATUS                                  | JsonInputSchemaMapping_STATUS                                  | Modified |       |
-| MonitorAlertEventSubscriptionDestination                       | MonitorAlertEventSubscriptionDestination                       | Modified |       |
-| MonitorAlertEventSubscriptionDestination_STATUS                | MonitorAlertEventSubscriptionDestination_STATUS                | Modified |       |
-| NamespaceOperatorSecrets                                       | NamespaceOperatorSecrets                                       | Extended |       |
-| NamespaceOperatorSpec                                          | NamespaceOperatorSpec                                          | Extended |       |
-| NamespaceSku                                                   | NamespaceSku                                                   | Modified |       |
-| NamespaceSku_STATUS                                            | NamespaceSku_STATUS                                            | Modified |       |
-| NamespaceTopicEventSubscriptionDestination                     | NamespaceTopicEventSubscriptionDestination                     | Modified |       |
-| NamespaceTopicEventSubscriptionDestination_STATUS              | NamespaceTopicEventSubscriptionDestination_STATUS              | Modified |       |
-| NamespaceTopicOperatorSecrets                                  | NamespaceTopicOperatorSecrets                                  | Extended |       |
-| NamespaceTopicOperatorSpec                                     | NamespaceTopicOperatorSpec                                     | Extended |       |
-| NamespaceTopic_STATUS                                          | NamespaceTopic_STATUS                                          | Modified |       |
-| NamespaceTopic_Spec                                            | NamespaceTopic_Spec                                            | Modified |       |
-| Namespace_STATUS                                               | Namespace_STATUS                                               | Modified |       |
-| Namespace_Spec                                                 | Namespace_Spec                                                 | Modified |       |
-| NumberGreaterThanAdvancedFilter                                | NumberGreaterThanAdvancedFilter                                | Modified |       |
-| NumberGreaterThanAdvancedFilter_STATUS                         | NumberGreaterThanAdvancedFilter_STATUS                         | Modified |       |
-| NumberGreaterThanOrEqualsAdvancedFilter                        | NumberGreaterThanOrEqualsAdvancedFilter                        | Modified |       |
-| NumberGreaterThanOrEqualsAdvancedFilter_STATUS                 | NumberGreaterThanOrEqualsAdvancedFilter_STATUS                 | Modified |       |
-| NumberInAdvancedFilter                                         | NumberInAdvancedFilter                                         | Modified |       |
-| NumberInAdvancedFilter_STATUS                                  | NumberInAdvancedFilter_STATUS                                  | Modified |       |
-| NumberInRangeAdvancedFilter                                    | NumberInRangeAdvancedFilter                                    | Modified |       |
-| NumberInRangeAdvancedFilter_STATUS                             | NumberInRangeAdvancedFilter_STATUS                             | Modified |       |
-| NumberLessThanAdvancedFilter                                   | NumberLessThanAdvancedFilter                                   | Modified |       |
-| NumberLessThanAdvancedFilter_STATUS                            | NumberLessThanAdvancedFilter_STATUS                            | Modified |       |
-| NumberLessThanOrEqualsAdvancedFilter                           | NumberLessThanOrEqualsAdvancedFilter                           | Modified |       |
-| NumberLessThanOrEqualsAdvancedFilter_STATUS                    | NumberLessThanOrEqualsAdvancedFilter_STATUS                    | Modified |       |
-| NumberNotInAdvancedFilter                                      | NumberNotInAdvancedFilter                                      | Modified |       |
-| NumberNotInAdvancedFilter_STATUS                               | NumberNotInAdvancedFilter_STATUS                               | Modified |       |
-| NumberNotInRangeAdvancedFilter                                 | NumberNotInRangeAdvancedFilter                                 | Modified |       |
-| NumberNotInRangeAdvancedFilter_STATUS                          | NumberNotInRangeAdvancedFilter_STATUS                          | Modified |       |
-| PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded    | PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded    | Extended |       |
-| PrivateEndpointConnection_STATUS_Namespace_SubResourceEmbedded | PrivateEndpointConnection_STATUS_Namespace_SubResourceEmbedded | Extended |       |
-| PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded     | PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded     | Extended |       |
-| RetryPolicy                                                    | RetryPolicy                                                    | Extended |       |
-| RetryPolicy_STATUS                                             | RetryPolicy_STATUS                                             | Extended |       |
-| RoutingEnrichments                                             | RoutingEnrichments                                             | Extended |       |
-| RoutingEnrichments_STATUS                                      | RoutingEnrichments_STATUS                                      | Extended |       |
-| RoutingIdentityInfo                                            | RoutingIdentityInfo                                            | Modified |       |
-| RoutingIdentityInfo_STATUS                                     | RoutingIdentityInfo_STATUS                                     | Modified |       |
-| ServiceBusQueueEventSubscriptionDestination                    | ServiceBusQueueEventSubscriptionDestination                    | Modified |       |
-| ServiceBusQueueEventSubscriptionDestination_STATUS             | ServiceBusQueueEventSubscriptionDestination_STATUS             | Modified |       |
-| ServiceBusTopicEventSubscriptionDestination                    | ServiceBusTopicEventSubscriptionDestination                    | Modified |       |
-| ServiceBusTopicEventSubscriptionDestination_STATUS             | ServiceBusTopicEventSubscriptionDestination_STATUS             | Modified |       |
-| StaticDeliveryAttributeMapping                                 | StaticDeliveryAttributeMapping                                 | Modified |       |
-| StaticDeliveryAttributeMapping_STATUS                          | StaticDeliveryAttributeMapping_STATUS                          | Modified |       |
-| StaticRoutingEnrichment                                        | StaticRoutingEnrichment                                        | Extended |       |
-| StaticRoutingEnrichment_STATUS                                 | StaticRoutingEnrichment_STATUS                                 | Extended |       |
-| StaticStringRoutingEnrichment                                  | StaticStringRoutingEnrichment                                  | Modified |       |
-| StaticStringRoutingEnrichment_STATUS                           | StaticStringRoutingEnrichment_STATUS                           | Modified |       |
-| StorageBlobDeadLetterDestination                               | StorageBlobDeadLetterDestination                               | Modified |       |
-| StorageBlobDeadLetterDestination_STATUS                        | StorageBlobDeadLetterDestination_STATUS                        | Modified |       |
-| StorageQueueEventSubscriptionDestination                       | StorageQueueEventSubscriptionDestination                       | Modified |       |
-| StorageQueueEventSubscriptionDestination_STATUS                | StorageQueueEventSubscriptionDestination_STATUS                | Modified |       |
-| StringBeginsWithAdvancedFilter                                 | StringBeginsWithAdvancedFilter                                 | Modified |       |
-| StringBeginsWithAdvancedFilter_STATUS                          | StringBeginsWithAdvancedFilter_STATUS                          | Modified |       |
-| StringContainsAdvancedFilter                                   | StringContainsAdvancedFilter                                   | Modified |       |
-| StringContainsAdvancedFilter_STATUS                            | StringContainsAdvancedFilter_STATUS                            | Modified |       |
-| StringEndsWithAdvancedFilter                                   | StringEndsWithAdvancedFilter                                   | Modified |       |
-| StringEndsWithAdvancedFilter_STATUS                            | StringEndsWithAdvancedFilter_STATUS                            | Modified |       |
-| StringInAdvancedFilter                                         | StringInAdvancedFilter                                         | Modified |       |
-| StringInAdvancedFilter_STATUS                                  | StringInAdvancedFilter_STATUS                                  | Modified |       |
-| StringNotBeginsWithAdvancedFilter                              | StringNotBeginsWithAdvancedFilter                              | Modified |       |
-| StringNotBeginsWithAdvancedFilter_STATUS                       | StringNotBeginsWithAdvancedFilter_STATUS                       | Modified |       |
-| StringNotContainsAdvancedFilter                                | StringNotContainsAdvancedFilter                                | Modified |       |
-| StringNotContainsAdvancedFilter_STATUS                         | StringNotContainsAdvancedFilter_STATUS                         | Modified |       |
-| StringNotEndsWithAdvancedFilter                                | StringNotEndsWithAdvancedFilter                                | Modified |       |
-| StringNotEndsWithAdvancedFilter_STATUS                         | StringNotEndsWithAdvancedFilter_STATUS                         | Modified |       |
-| StringNotInAdvancedFilter                                      | StringNotInAdvancedFilter                                      | Modified |       |
-| StringNotInAdvancedFilter_STATUS                               | StringNotInAdvancedFilter_STATUS                               | Modified |       |
-| SystemData_STATUS                                              | SystemData_STATUS                                              | Modified |       |
-| TopicOperatorConfigMaps                                        | TopicOperatorConfigMaps                                        | Extended |       |
-| TopicOperatorSecrets                                           | TopicOperatorSecrets                                           | Extended |       |
-| TopicOperatorSpec                                              | TopicOperatorSpec                                              | Extended |       |
-| TopicSpacesConfiguration                                       | TopicSpacesConfiguration                                       | Modified |       |
-| TopicSpacesConfiguration_STATUS                                | TopicSpacesConfiguration_STATUS                                | Modified |       |
-| Topic_STATUS                                                   | Topic_STATUS                                                   | Modified |       |
-| Topic_Spec                                                     | Topic_Spec                                                     | Modified |       |
-| TopicsConfiguration                                            | TopicsConfiguration                                            | Extended |       |
-| TopicsConfiguration_STATUS                                     | TopicsConfiguration_STATUS                                     | Extended |       |
-| UserAssignedIdentityDetails                                    | UserAssignedIdentityDetails                                    | Extended |       |
-| UserIdentityProperties_STATUS                                  | UserIdentityProperties_STATUS                                  | Extended |       |
-| WebHookEventSubscriptionDestination                            | WebHookEventSubscriptionDestination                            | Modified |       |
-| WebHookEventSubscriptionDestination_STATUS                     | WebHookEventSubscriptionDestination_STATUS                     | Modified |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20250215                                                      | v20250215/storage                                              |  Status  | Notes                         |
+|:---------------------------------------------------------------|:---------------------------------------------------------------|:--------:|:------------------------------|
+| AdvancedFilter                                                 | AdvancedFilter                                                 | Extended | +PropertyBag                  |
+| AdvancedFilter_STATUS                                          | AdvancedFilter_STATUS                                          | Extended | +PropertyBag                  |
+| AzureFunctionEventSubscriptionDestination                      | AzureFunctionEventSubscriptionDestination                      | Modified |                               |
+| AzureFunctionEventSubscriptionDestination_STATUS               | AzureFunctionEventSubscriptionDestination_STATUS               | Modified |                               |
+| BoolEqualsAdvancedFilter                                       | BoolEqualsAdvancedFilter                                       | Modified |                               |
+| BoolEqualsAdvancedFilter_STATUS                                | BoolEqualsAdvancedFilter_STATUS                                | Modified |                               |
+| CustomDomainConfiguration                                      | CustomDomainConfiguration                                      | Modified |                               |
+| CustomDomainConfiguration_STATUS                               | CustomDomainConfiguration_STATUS                               | Modified |                               |
+| CustomDomainIdentity                                           | CustomDomainIdentity                                           | Modified |                               |
+| CustomDomainIdentity_STATUS                                    | CustomDomainIdentity_STATUS                                    | Modified |                               |
+| DeadLetterDestination                                          | DeadLetterDestination                                          | Extended | +PropertyBag                  |
+| DeadLetterDestination_STATUS                                   | DeadLetterDestination_STATUS                                   | Extended | +PropertyBag                  |
+| DeadLetterWithResourceIdentity                                 | DeadLetterWithResourceIdentity                                 | Extended | +PropertyBag                  |
+| DeadLetterWithResourceIdentity_STATUS                          | DeadLetterWithResourceIdentity_STATUS                          | Extended | +PropertyBag                  |
+| DeliveryAttributeMapping                                       | DeliveryAttributeMapping                                       | Extended | +PropertyBag                  |
+| DeliveryAttributeMapping_STATUS                                | DeliveryAttributeMapping_STATUS                                | Extended | +PropertyBag                  |
+| DeliveryWithResourceIdentity                                   | DeliveryWithResourceIdentity                                   | Extended | +PropertyBag                  |
+| DeliveryWithResourceIdentity_STATUS                            | DeliveryWithResourceIdentity_STATUS                            | Extended | +PropertyBag                  |
+| DomainOperatorSpec                                             | DomainOperatorSpec                                             | Extended | +PropertyBag                  |
+| Domain_STATUS                                                  | Domain_STATUS                                                  | Modified |                               |
+| Domain_Spec                                                    | Domain_Spec                                                    | Modified |                               |
+| DomainsTopicOperatorSpec                                       | DomainsTopicOperatorSpec                                       | Extended | +PropertyBag                  |
+| DomainsTopic_STATUS                                            | DomainsTopic_STATUS                                            | Modified |                               |
+| DomainsTopic_Spec                                              | DomainsTopic_Spec                                              | Extended | +OriginalVersion +PropertyBag |
+| DynamicDeliveryAttributeMapping                                | DynamicDeliveryAttributeMapping                                | Modified |                               |
+| DynamicDeliveryAttributeMapping_STATUS                         | DynamicDeliveryAttributeMapping_STATUS                         | Modified |                               |
+| DynamicRoutingEnrichment                                       | DynamicRoutingEnrichment                                       | Extended | +PropertyBag                  |
+| DynamicRoutingEnrichment_STATUS                                | DynamicRoutingEnrichment_STATUS                                | Extended | +PropertyBag                  |
+| EventHubEventSubscriptionDestination                           | EventHubEventSubscriptionDestination                           | Modified |                               |
+| EventHubEventSubscriptionDestination_STATUS                    | EventHubEventSubscriptionDestination_STATUS                    | Modified |                               |
+| EventSubscriptionDestination                                   | EventSubscriptionDestination                                   | Extended | +PropertyBag                  |
+| EventSubscriptionDestination_STATUS                            | EventSubscriptionDestination_STATUS                            | Extended | +PropertyBag                  |
+| EventSubscriptionFilter                                        | EventSubscriptionFilter                                        | Extended | +PropertyBag                  |
+| EventSubscriptionFilter_STATUS                                 | EventSubscriptionFilter_STATUS                                 | Extended | +PropertyBag                  |
+| EventSubscriptionIdentity                                      | EventSubscriptionIdentity                                      | Modified |                               |
+| EventSubscriptionIdentity_STATUS                               | EventSubscriptionIdentity_STATUS                               | Modified |                               |
+| EventSubscriptionOperatorSpec                                  | EventSubscriptionOperatorSpec                                  | Extended | +PropertyBag                  |
+| EventSubscription_STATUS                                       | EventSubscription_STATUS                                       | Modified |                               |
+| EventSubscription_Spec                                         | EventSubscription_Spec                                         | Modified |                               |
+| EventTypeInfo                                                  | EventTypeInfo                                                  | Modified |                               |
+| EventTypeInfo_STATUS                                           | EventTypeInfo_STATUS                                           | Modified |                               |
+| HybridConnectionEventSubscriptionDestination                   | HybridConnectionEventSubscriptionDestination                   | Modified |                               |
+| HybridConnectionEventSubscriptionDestination_STATUS            | HybridConnectionEventSubscriptionDestination_STATUS            | Modified |                               |
+| IdentityInfo                                                   | IdentityInfo                                                   | Modified |                               |
+| IdentityInfo_STATUS                                            | IdentityInfo_STATUS                                            | Modified |                               |
+| InboundIpRule                                                  | InboundIpRule                                                  | Modified |                               |
+| InboundIpRule_STATUS                                           | InboundIpRule_STATUS                                           | Modified |                               |
+| InlineEventProperties                                          | InlineEventProperties                                          | Extended | +PropertyBag                  |
+| InlineEventProperties_STATUS                                   | InlineEventProperties_STATUS                                   | Extended | +PropertyBag                  |
+| InputSchemaMapping                                             | InputSchemaMapping                                             | Extended | +PropertyBag                  |
+| InputSchemaMapping_STATUS                                      | InputSchemaMapping_STATUS                                      | Extended | +PropertyBag                  |
+| IsNotNullAdvancedFilter                                        | IsNotNullAdvancedFilter                                        | Modified |                               |
+| IsNotNullAdvancedFilter_STATUS                                 | IsNotNullAdvancedFilter_STATUS                                 | Modified |                               |
+| IsNullOrUndefinedAdvancedFilter                                | IsNullOrUndefinedAdvancedFilter                                | Modified |                               |
+| IsNullOrUndefinedAdvancedFilter_STATUS                         | IsNullOrUndefinedAdvancedFilter_STATUS                         | Modified |                               |
+| JsonField                                                      | JsonField                                                      | Extended | +PropertyBag                  |
+| JsonFieldWithDefault                                           | JsonFieldWithDefault                                           | Extended | +PropertyBag                  |
+| JsonFieldWithDefault_STATUS                                    | JsonFieldWithDefault_STATUS                                    | Extended | +PropertyBag                  |
+| JsonField_STATUS                                               | JsonField_STATUS                                               | Extended | +PropertyBag                  |
+| JsonInputSchemaMapping                                         | JsonInputSchemaMapping                                         | Modified |                               |
+| JsonInputSchemaMapping_STATUS                                  | JsonInputSchemaMapping_STATUS                                  | Modified |                               |
+| MonitorAlertEventSubscriptionDestination                       | MonitorAlertEventSubscriptionDestination                       | Modified |                               |
+| MonitorAlertEventSubscriptionDestination_STATUS                | MonitorAlertEventSubscriptionDestination_STATUS                | Modified |                               |
+| NamespaceOperatorSecrets                                       | NamespaceOperatorSecrets                                       | Extended | +PropertyBag                  |
+| NamespaceOperatorSpec                                          | NamespaceOperatorSpec                                          | Extended | +PropertyBag                  |
+| NamespaceSku                                                   | NamespaceSku                                                   | Modified |                               |
+| NamespaceSku_STATUS                                            | NamespaceSku_STATUS                                            | Modified |                               |
+| NamespaceTopicEventSubscriptionDestination                     | NamespaceTopicEventSubscriptionDestination                     | Modified |                               |
+| NamespaceTopicEventSubscriptionDestination_STATUS              | NamespaceTopicEventSubscriptionDestination_STATUS              | Modified |                               |
+| NamespaceTopicOperatorSecrets                                  | NamespaceTopicOperatorSecrets                                  | Extended | +PropertyBag                  |
+| NamespaceTopicOperatorSpec                                     | NamespaceTopicOperatorSpec                                     | Extended | +PropertyBag                  |
+| NamespaceTopic_STATUS                                          | NamespaceTopic_STATUS                                          | Modified |                               |
+| NamespaceTopic_Spec                                            | NamespaceTopic_Spec                                            | Modified |                               |
+| Namespace_STATUS                                               | Namespace_STATUS                                               | Modified |                               |
+| Namespace_Spec                                                 | Namespace_Spec                                                 | Modified |                               |
+| NumberGreaterThanAdvancedFilter                                | NumberGreaterThanAdvancedFilter                                | Modified |                               |
+| NumberGreaterThanAdvancedFilter_STATUS                         | NumberGreaterThanAdvancedFilter_STATUS                         | Modified |                               |
+| NumberGreaterThanOrEqualsAdvancedFilter                        | NumberGreaterThanOrEqualsAdvancedFilter                        | Modified |                               |
+| NumberGreaterThanOrEqualsAdvancedFilter_STATUS                 | NumberGreaterThanOrEqualsAdvancedFilter_STATUS                 | Modified |                               |
+| NumberInAdvancedFilter                                         | NumberInAdvancedFilter                                         | Modified |                               |
+| NumberInAdvancedFilter_STATUS                                  | NumberInAdvancedFilter_STATUS                                  | Modified |                               |
+| NumberInRangeAdvancedFilter                                    | NumberInRangeAdvancedFilter                                    | Modified |                               |
+| NumberInRangeAdvancedFilter_STATUS                             | NumberInRangeAdvancedFilter_STATUS                             | Modified |                               |
+| NumberLessThanAdvancedFilter                                   | NumberLessThanAdvancedFilter                                   | Modified |                               |
+| NumberLessThanAdvancedFilter_STATUS                            | NumberLessThanAdvancedFilter_STATUS                            | Modified |                               |
+| NumberLessThanOrEqualsAdvancedFilter                           | NumberLessThanOrEqualsAdvancedFilter                           | Modified |                               |
+| NumberLessThanOrEqualsAdvancedFilter_STATUS                    | NumberLessThanOrEqualsAdvancedFilter_STATUS                    | Modified |                               |
+| NumberNotInAdvancedFilter                                      | NumberNotInAdvancedFilter                                      | Modified |                               |
+| NumberNotInAdvancedFilter_STATUS                               | NumberNotInAdvancedFilter_STATUS                               | Modified |                               |
+| NumberNotInRangeAdvancedFilter                                 | NumberNotInRangeAdvancedFilter                                 | Modified |                               |
+| NumberNotInRangeAdvancedFilter_STATUS                          | NumberNotInRangeAdvancedFilter_STATUS                          | Modified |                               |
+| PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded    | PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded    | Extended | +PropertyBag                  |
+| PrivateEndpointConnection_STATUS_Namespace_SubResourceEmbedded | PrivateEndpointConnection_STATUS_Namespace_SubResourceEmbedded | Extended | +PropertyBag                  |
+| PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded     | PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded     | Extended | +PropertyBag                  |
+| RetryPolicy                                                    | RetryPolicy                                                    | Extended | +PropertyBag                  |
+| RetryPolicy_STATUS                                             | RetryPolicy_STATUS                                             | Extended | +PropertyBag                  |
+| RoutingEnrichments                                             | RoutingEnrichments                                             | Extended | +PropertyBag                  |
+| RoutingEnrichments_STATUS                                      | RoutingEnrichments_STATUS                                      | Extended | +PropertyBag                  |
+| RoutingIdentityInfo                                            | RoutingIdentityInfo                                            | Modified |                               |
+| RoutingIdentityInfo_STATUS                                     | RoutingIdentityInfo_STATUS                                     | Modified |                               |
+| ServiceBusQueueEventSubscriptionDestination                    | ServiceBusQueueEventSubscriptionDestination                    | Modified |                               |
+| ServiceBusQueueEventSubscriptionDestination_STATUS             | ServiceBusQueueEventSubscriptionDestination_STATUS             | Modified |                               |
+| ServiceBusTopicEventSubscriptionDestination                    | ServiceBusTopicEventSubscriptionDestination                    | Modified |                               |
+| ServiceBusTopicEventSubscriptionDestination_STATUS             | ServiceBusTopicEventSubscriptionDestination_STATUS             | Modified |                               |
+| StaticDeliveryAttributeMapping                                 | StaticDeliveryAttributeMapping                                 | Modified |                               |
+| StaticDeliveryAttributeMapping_STATUS                          | StaticDeliveryAttributeMapping_STATUS                          | Modified |                               |
+| StaticRoutingEnrichment                                        | StaticRoutingEnrichment                                        | Extended | +PropertyBag                  |
+| StaticRoutingEnrichment_STATUS                                 | StaticRoutingEnrichment_STATUS                                 | Extended | +PropertyBag                  |
+| StaticStringRoutingEnrichment                                  | StaticStringRoutingEnrichment                                  | Modified |                               |
+| StaticStringRoutingEnrichment_STATUS                           | StaticStringRoutingEnrichment_STATUS                           | Modified |                               |
+| StorageBlobDeadLetterDestination                               | StorageBlobDeadLetterDestination                               | Modified |                               |
+| StorageBlobDeadLetterDestination_STATUS                        | StorageBlobDeadLetterDestination_STATUS                        | Modified |                               |
+| StorageQueueEventSubscriptionDestination                       | StorageQueueEventSubscriptionDestination                       | Modified |                               |
+| StorageQueueEventSubscriptionDestination_STATUS                | StorageQueueEventSubscriptionDestination_STATUS                | Modified |                               |
+| StringBeginsWithAdvancedFilter                                 | StringBeginsWithAdvancedFilter                                 | Modified |                               |
+| StringBeginsWithAdvancedFilter_STATUS                          | StringBeginsWithAdvancedFilter_STATUS                          | Modified |                               |
+| StringContainsAdvancedFilter                                   | StringContainsAdvancedFilter                                   | Modified |                               |
+| StringContainsAdvancedFilter_STATUS                            | StringContainsAdvancedFilter_STATUS                            | Modified |                               |
+| StringEndsWithAdvancedFilter                                   | StringEndsWithAdvancedFilter                                   | Modified |                               |
+| StringEndsWithAdvancedFilter_STATUS                            | StringEndsWithAdvancedFilter_STATUS                            | Modified |                               |
+| StringInAdvancedFilter                                         | StringInAdvancedFilter                                         | Modified |                               |
+| StringInAdvancedFilter_STATUS                                  | StringInAdvancedFilter_STATUS                                  | Modified |                               |
+| StringNotBeginsWithAdvancedFilter                              | StringNotBeginsWithAdvancedFilter                              | Modified |                               |
+| StringNotBeginsWithAdvancedFilter_STATUS                       | StringNotBeginsWithAdvancedFilter_STATUS                       | Modified |                               |
+| StringNotContainsAdvancedFilter                                | StringNotContainsAdvancedFilter                                | Modified |                               |
+| StringNotContainsAdvancedFilter_STATUS                         | StringNotContainsAdvancedFilter_STATUS                         | Modified |                               |
+| StringNotEndsWithAdvancedFilter                                | StringNotEndsWithAdvancedFilter                                | Modified |                               |
+| StringNotEndsWithAdvancedFilter_STATUS                         | StringNotEndsWithAdvancedFilter_STATUS                         | Modified |                               |
+| StringNotInAdvancedFilter                                      | StringNotInAdvancedFilter                                      | Modified |                               |
+| StringNotInAdvancedFilter_STATUS                               | StringNotInAdvancedFilter_STATUS                               | Modified |                               |
+| SystemData_STATUS                                              | SystemData_STATUS                                              | Modified |                               |
+| TopicOperatorConfigMaps                                        | TopicOperatorConfigMaps                                        | Extended | +PropertyBag                  |
+| TopicOperatorSecrets                                           | TopicOperatorSecrets                                           | Extended | +PropertyBag                  |
+| TopicOperatorSpec                                              | TopicOperatorSpec                                              | Extended | +PropertyBag                  |
+| TopicSpacesConfiguration                                       | TopicSpacesConfiguration                                       | Modified |                               |
+| TopicSpacesConfiguration_STATUS                                | TopicSpacesConfiguration_STATUS                                | Modified |                               |
+| Topic_STATUS                                                   | Topic_STATUS                                                   | Modified |                               |
+| Topic_Spec                                                     | Topic_Spec                                                     | Modified |                               |
+| TopicsConfiguration                                            | TopicsConfiguration                                            | Extended | +PropertyBag                  |
+| TopicsConfiguration_STATUS                                     | TopicsConfiguration_STATUS                                     | Extended | +PropertyBag                  |
+| UserAssignedIdentityDetails                                    | UserAssignedIdentityDetails                                    | Extended | +PropertyBag                  |
+| UserIdentityProperties_STATUS                                  | UserIdentityProperties_STATUS                                  | Extended | +PropertyBag                  |
+| WebHookEventSubscriptionDestination                            | WebHookEventSubscriptionDestination                            | Modified |                               |
+| WebHookEventSubscriptionDestination_STATUS                     | WebHookEventSubscriptionDestination_STATUS                     | Modified |                               |
 
 ### AdvancedFilter
 
-19 x Identical, 1 x New
+Properties: 19 x Identical, 1 x New
 
 | v20250215                 |                                          | v20250215/storage         |                                          |  Status   | Notes |
 |:--------------------------|:-----------------------------------------|:--------------------------|:-----------------------------------------|:---------:|:------|
@@ -198,7 +191,7 @@
 
 ### AdvancedFilter_STATUS
 
-19 x Identical, 1 x New
+Properties: 19 x Identical, 1 x New
 
 | v20250215                 |                                                 | v20250215/storage         |                                                 |  Status   | Notes |
 |:--------------------------|:------------------------------------------------|:--------------------------|:------------------------------------------------|:---------:|:------|
@@ -225,7 +218,7 @@
 
 ### AzureFunctionEventSubscriptionDestination
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v20250215                     |                                                         | v20250215/storage             |                               |  Status   | Notes |
 |:------------------------------|:--------------------------------------------------------|:------------------------------|:------------------------------|:---------:|:------|
@@ -238,7 +231,7 @@
 
 ### AzureFunctionEventSubscriptionDestination_STATUS
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v20250215                     |                                                                | v20250215/storage             |                                   |  Status   | Notes |
 |:------------------------------|:---------------------------------------------------------------|:------------------------------|:----------------------------------|:---------:|:------|
@@ -251,7 +244,7 @@
 
 ### BoolEqualsAdvancedFilter
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                        | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:---------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -262,7 +255,7 @@
 
 ### BoolEqualsAdvancedFilter_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                               | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:----------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -273,7 +266,7 @@
 
 ### CustomDomainConfiguration
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v20250215                |                                            | v20250215/storage        |                        |  Status   | Notes |
 |:-------------------------|:-------------------------------------------|:-------------------------|:-----------------------|:---------:|:------|
@@ -287,7 +280,7 @@
 
 ### CustomDomainConfiguration_STATUS
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v20250215                |                                                   | v20250215/storage        |                              |  Status   | Notes |
 |:-------------------------|:--------------------------------------------------|:-------------------------|:-----------------------------|:---------:|:------|
@@ -301,7 +294,7 @@
 
 ### CustomDomainIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250215            |                            | v20250215/storage    |                        |  Status   | Notes |
 |:---------------------|:---------------------------|:---------------------|:-----------------------|:---------:|:------|
@@ -311,7 +304,7 @@
 
 ### CustomDomainIdentity_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250215            |                                   | v20250215/storage    |                        |  Status   | Notes |
 |:---------------------|:----------------------------------|:---------------------|:-----------------------|:---------:|:------|
@@ -321,7 +314,7 @@
 
 ### DeadLetterDestination
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250215   |                                   | v20250215/storage |                                   |  Status   | Notes |
 |:------------|:----------------------------------|:------------------|:----------------------------------|:---------:|:------|
@@ -330,7 +323,7 @@
 
 ### DeadLetterDestination_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250215   |                                          | v20250215/storage |                                          |  Status   | Notes |
 |:------------|:-----------------------------------------|:------------------|:-----------------------------------------|:---------:|:------|
@@ -339,7 +332,7 @@
 
 ### DeadLetterWithResourceIdentity
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250215             |                            | v20250215/storage     |                            |  Status   | Notes |
 |:----------------------|:---------------------------|:----------------------|:---------------------------|:---------:|:------|
@@ -349,7 +342,7 @@
 
 ### DeadLetterWithResourceIdentity_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250215             |                                   | v20250215/storage     |                                   |  Status   | Notes |
 |:----------------------|:----------------------------------|:----------------------|:----------------------------------|:---------:|:------|
@@ -359,7 +352,7 @@
 
 ### DeliveryAttributeMapping
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250215 |                                  | v20250215/storage |                                  |  Status   | Notes |
 |:----------|:---------------------------------|:------------------|:---------------------------------|:---------:|:------|
@@ -369,7 +362,7 @@
 
 ### DeliveryAttributeMapping_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250215 |                                         | v20250215/storage |                                         |  Status   | Notes |
 |:----------|:----------------------------------------|:------------------|:----------------------------------------|:---------:|:------|
@@ -379,7 +372,7 @@
 
 ### DeliveryWithResourceIdentity
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250215   |                               | v20250215/storage |                               |  Status   | Notes |
 |:------------|:------------------------------|:------------------|:------------------------------|:---------:|:------|
@@ -389,7 +382,7 @@
 
 ### DeliveryWithResourceIdentity_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250215   |                                      | v20250215/storage |                                      |  Status   | Notes |
 |:------------|:-------------------------------------|:------------------|:-------------------------------------|:---------:|:------|
@@ -399,7 +392,7 @@
 
 ### DomainOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250215            |                               | v20250215/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -409,7 +402,7 @@
 
 ### Domain_STATUS
 
-17 x Identical, 1 x New, 5 x Modified
+Properties: 17 x Identical, 1 x New, 5 x Modified
 
 | v20250215                            |                                                               | v20250215/storage                    |                                                               |  Status   | Notes |
 |:-------------------------------------|:--------------------------------------------------------------|:-------------------------------------|:--------------------------------------------------------------|:---------:|:------|
@@ -439,7 +432,7 @@
 
 ### Domain_Spec
 
-12 x Identical, 2 x New, 4 x Modified
+Properties: 12 x Identical, 2 x New, 4 x Modified
 
 | v20250215                            |                                            | v20250215/storage                    |                                    |  Status   | Notes |
 |:-------------------------------------|:-------------------------------------------|:-------------------------------------|:-----------------------------------|:---------:|:------|
@@ -464,7 +457,7 @@
 
 ### DomainsTopicOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250215            |                               | v20250215/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -474,7 +467,7 @@
 
 ### DomainsTopic_STATUS
 
-5 x Identical, 1 x New, 1 x Modified
+Properties: 5 x Identical, 1 x New, 1 x Modified
 
 | v20250215         |                                                 | v20250215/storage |                        |  Status   | Notes |
 |:------------------|:------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -488,7 +481,7 @@
 
 ### DomainsTopic_Spec
 
-3 x Identical, 2 x New
+Properties: 3 x Identical, 2 x New
 
 | v20250215    |                                    | v20250215/storage |                                    |  Status   | Notes |
 |:-------------|:-----------------------------------|:------------------|:-----------------------------------|:---------:|:------|
@@ -500,7 +493,7 @@
 
 ### DynamicDeliveryAttributeMapping
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215   |                                       | v20250215/storage |                        |  Status   | Notes |
 |:------------|:--------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -511,7 +504,7 @@
 
 ### DynamicDeliveryAttributeMapping_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215   |                                              | v20250215/storage |                        |  Status   | Notes |
 |:------------|:---------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -522,7 +515,7 @@
 
 ### DynamicRoutingEnrichment
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250215 |         | v20250215/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -532,7 +525,7 @@
 
 ### DynamicRoutingEnrichment_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250215 |         | v20250215/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -542,7 +535,7 @@
 
 ### EventHubEventSubscriptionDestination
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215                 |                                                    | v20250215/storage         |                               |  Status   | Notes |
 |:--------------------------|:---------------------------------------------------|:--------------------------|:------------------------------|:---------:|:------|
@@ -553,7 +546,7 @@
 
 ### EventHubEventSubscriptionDestination_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215                 |                                                           | v20250215/storage         |                                   |  Status   | Notes |
 |:--------------------------|:----------------------------------------------------------|:--------------------------|:----------------------------------|:---------:|:------|
@@ -564,7 +557,7 @@
 
 ### EventSubscriptionDestination
 
-9 x Identical, 1 x New
+Properties: 9 x Identical, 1 x New
 
 | v20250215        |                                               | v20250215/storage |                                               |  Status   | Notes |
 |:-----------------|:----------------------------------------------|:------------------|:----------------------------------------------|:---------:|:------|
@@ -581,7 +574,7 @@
 
 ### EventSubscriptionDestination_STATUS
 
-9 x Identical, 1 x New
+Properties: 9 x Identical, 1 x New
 
 | v20250215        |                                                      | v20250215/storage |                                                      |  Status   | Notes |
 |:-----------------|:-----------------------------------------------------|:------------------|:-----------------------------------------------------|:---------:|:------|
@@ -598,7 +591,7 @@
 
 ### EventSubscriptionFilter
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v20250215                       |                  | v20250215/storage               |                        |  Status   | Notes |
 |:--------------------------------|:-----------------|:--------------------------------|:-----------------------|:---------:|:------|
@@ -612,7 +605,7 @@
 
 ### EventSubscriptionFilter_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v20250215                       |                         | v20250215/storage               |                         |  Status   | Notes |
 |:--------------------------------|:------------------------|:--------------------------------|:------------------------|:---------:|:------|
@@ -626,7 +619,7 @@
 
 ### EventSubscriptionIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250215            |                                 | v20250215/storage    |                        |  Status   | Notes |
 |:---------------------|:--------------------------------|:---------------------|:-----------------------|:---------:|:------|
@@ -636,7 +629,7 @@
 
 ### EventSubscriptionIdentity_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250215            |                                        | v20250215/storage    |                        |  Status   | Notes |
 |:---------------------|:---------------------------------------|:---------------------|:-----------------------|:---------:|:------|
@@ -646,7 +639,7 @@
 
 ### EventSubscriptionOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250215            |                               | v20250215/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -656,7 +649,7 @@
 
 ### EventSubscription_STATUS
 
-14 x Identical, 1 x New, 2 x Modified
+Properties: 14 x Identical, 1 x New, 2 x Modified
 
 | v20250215                      |                                                         | v20250215/storage              |                                        |  Status   | Notes |
 |:-------------------------------|:--------------------------------------------------------|:-------------------------------|:---------------------------------------|:---------:|:------|
@@ -680,7 +673,7 @@
 
 ### EventSubscription_Spec
 
-11 x Identical, 2 x New, 1 x Modified
+Properties: 11 x Identical, 2 x New, 1 x Modified
 
 | v20250215                      |                                                  | v20250215/storage              |                                     |  Status   | Notes |
 |:-------------------------------|:-------------------------------------------------|:-------------------------------|:------------------------------------|:---------:|:------|
@@ -701,7 +694,7 @@
 
 ### EventTypeInfo
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250215        |                                  | v20250215/storage |                                  |  Status   | Notes |
 |:-----------------|:---------------------------------|:------------------|:---------------------------------|:---------:|:------|
@@ -711,7 +704,7 @@
 
 ### EventTypeInfo_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250215        |                                         | v20250215/storage |                                         |  Status   | Notes |
 |:-----------------|:----------------------------------------|:------------------|:----------------------------------------|:---------:|:------|
@@ -721,7 +714,7 @@
 
 ### HybridConnectionEventSubscriptionDestination
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215                 |                                                            | v20250215/storage         |                               |  Status   | Notes |
 |:--------------------------|:-----------------------------------------------------------|:--------------------------|:------------------------------|:---------:|:------|
@@ -732,7 +725,7 @@
 
 ### HybridConnectionEventSubscriptionDestination_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215                 |                                                                   | v20250215/storage         |                                   |  Status   | Notes |
 |:--------------------------|:------------------------------------------------------------------|:--------------------------|:----------------------------------|:---------:|:------|
@@ -743,7 +736,7 @@
 
 ### IdentityInfo
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250215              |                               | v20250215/storage      |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -753,7 +746,7 @@
 
 ### IdentityInfo_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v20250215              |                                          | v20250215/storage      |                                          |  Status   | Notes |
 |:-----------------------|:-----------------------------------------|:-----------------------|:-----------------------------------------|:---------:|:------|
@@ -765,7 +758,7 @@
 
 ### InboundIpRule
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250215 |                       | v20250215/storage |                        |  Status   | Notes |
 |:----------|:----------------------|:------------------|:-----------------------|:---------:|:------|
@@ -775,7 +768,7 @@
 
 ### InboundIpRule_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250215 |                              | v20250215/storage |                        |  Status   | Notes |
 |:----------|:-----------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -785,7 +778,7 @@
 
 ### InlineEventProperties
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20250215        |         | v20250215/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -797,7 +790,7 @@
 
 ### InlineEventProperties_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20250215        |         | v20250215/storage |                        |  Status   | Notes |
 |:-----------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -809,7 +802,7 @@
 
 ### InputSchemaMapping
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250215 |                         | v20250215/storage |                         |  Status   | Notes |
 |:----------|:------------------------|:------------------|:------------------------|:---------:|:------|
@@ -818,7 +811,7 @@
 
 ### InputSchemaMapping_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250215 |                                | v20250215/storage |                                |  Status   | Notes |
 |:----------|:-------------------------------|:------------------|:-------------------------------|:---------:|:------|
@@ -827,7 +820,7 @@
 
 ### IsNotNullAdvancedFilter
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                       | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:--------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -837,7 +830,7 @@
 
 ### IsNotNullAdvancedFilter_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                              | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:---------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -847,7 +840,7 @@
 
 ### IsNullOrUndefinedAdvancedFilter
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                               | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:----------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -857,7 +850,7 @@
 
 ### IsNullOrUndefinedAdvancedFilter_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                                      | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:-----------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -867,7 +860,7 @@
 
 ### JsonField
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250215   |         | v20250215/storage |                        |  Status   | Notes |
 |:------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -876,7 +869,7 @@
 
 ### JsonFieldWithDefault
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250215    |         | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -886,7 +879,7 @@
 
 ### JsonFieldWithDefault_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250215    |         | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -896,7 +889,7 @@
 
 ### JsonField_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250215   |         | v20250215/storage |                        |  Status   | Notes |
 |:------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -905,7 +898,7 @@
 
 ### JsonInputSchemaMapping
 
-6 x Identical, 1 x New, 1 x Modified
+Properties: 6 x Identical, 1 x New, 1 x Modified
 
 | v20250215              |                                                | v20250215/storage      |                        |  Status   | Notes |
 |:-----------------------|:-----------------------------------------------|:-----------------------|:-----------------------|:---------:|:------|
@@ -920,7 +913,7 @@
 
 ### JsonInputSchemaMapping_STATUS
 
-6 x Identical, 1 x New, 1 x Modified
+Properties: 6 x Identical, 1 x New, 1 x Modified
 
 | v20250215              |                                                       | v20250215/storage      |                              |  Status   | Notes |
 |:-----------------------|:------------------------------------------------------|:-----------------------|:-----------------------------|:---------:|:------|
@@ -935,7 +928,7 @@
 
 ### MonitorAlertEventSubscriptionDestination
 
-2 x Identical, 1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New, 2 x Modified
 
 | v20250215              |                                                              | v20250215/storage      |                                |  Status   | Notes |
 |:-----------------------|:-------------------------------------------------------------|:-----------------------|:-------------------------------|:---------:|:------|
@@ -947,7 +940,7 @@
 
 ### MonitorAlertEventSubscriptionDestination_STATUS
 
-2 x Identical, 1 x New, 2 x Modified
+Properties: 2 x Identical, 1 x New, 2 x Modified
 
 | v20250215    |                                                                     | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:--------------------------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -959,7 +952,7 @@
 
 ### NamespaceOperatorSecrets
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250215 |                               | v20250215/storage |                               |  Status   | Notes |
 |:----------|:------------------------------|:------------------|:------------------------------|:---------:|:------|
@@ -969,7 +962,7 @@
 
 ### NamespaceOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250215            |                               | v20250215/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -980,7 +973,7 @@
 
 ### NamespaceSku
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250215 |                    | v20250215/storage |                        |  Status   | Notes |
 |:----------|:-------------------|:------------------|:-----------------------|:---------:|:------|
@@ -990,7 +983,7 @@
 
 ### NamespaceSku_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250215 |                           | v20250215/storage |                        |  Status   | Notes |
 |:----------|:--------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1000,7 +993,7 @@
 
 ### NamespaceTopicEventSubscriptionDestination
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250215         |                                                          | v20250215/storage |                               |  Status   | Notes |
 |:------------------|:---------------------------------------------------------|:------------------|:------------------------------|:---------:|:------|
@@ -1010,7 +1003,7 @@
 
 ### NamespaceTopicEventSubscriptionDestination_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                                                 | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:----------------------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1020,7 +1013,7 @@
 
 ### NamespaceTopicOperatorSecrets
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250215 |                               | v20250215/storage |                               |  Status   | Notes |
 |:----------|:------------------------------|:------------------|:------------------------------|:---------:|:------|
@@ -1030,7 +1023,7 @@
 
 ### NamespaceTopicOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20250215            |                                | v20250215/storage    |                                |  Status   | Notes |
 |:---------------------|:-------------------------------|:---------------------|:-------------------------------|:---------:|:------|
@@ -1041,7 +1034,7 @@
 
 ### NamespaceTopic_STATUS
 
-6 x Identical, 1 x New, 3 x Modified
+Properties: 6 x Identical, 1 x New, 3 x Modified
 
 | v20250215            |                                                    | v20250215/storage    |                        |  Status   | Notes |
 |:---------------------|:---------------------------------------------------|:---------------------|:-----------------------|:---------:|:------|
@@ -1058,7 +1051,7 @@
 
 ### NamespaceTopic_Spec
 
-3 x Identical, 2 x New, 3 x Modified
+Properties: 3 x Identical, 2 x New, 3 x Modified
 
 | v20250215            |                                         | v20250215/storage    |                                    |  Status   | Notes |
 |:---------------------|:----------------------------------------|:---------------------|:-----------------------------------|:---------:|:------|
@@ -1073,7 +1066,7 @@
 
 ### Namespace_STATUS
 
-14 x Identical, 1 x New, 3 x Modified
+Properties: 14 x Identical, 1 x New, 3 x Modified
 
 | v20250215                  |                                                                  | v20250215/storage          |                                                                  |  Status   | Notes |
 |:---------------------------|:-----------------------------------------------------------------|:---------------------------|:-----------------------------------------------------------------|:---------:|:------|
@@ -1098,7 +1091,7 @@
 
 ### Namespace_Spec
 
-10 x Identical, 2 x New, 2 x Modified
+Properties: 10 x Identical, 2 x New, 2 x Modified
 
 | v20250215                |                                          | v20250215/storage        |                                    |  Status   | Notes |
 |:-------------------------|:-----------------------------------------|:-------------------------|:-----------------------------------|:---------:|:------|
@@ -1119,7 +1112,7 @@
 
 ### NumberGreaterThanAdvancedFilter
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                               | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:----------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1130,7 +1123,7 @@
 
 ### NumberGreaterThanAdvancedFilter_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                                      | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:-----------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1141,7 +1134,7 @@
 
 ### NumberGreaterThanOrEqualsAdvancedFilter
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                                       | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:------------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1152,7 +1145,7 @@
 
 ### NumberGreaterThanOrEqualsAdvancedFilter_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                                              | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:-------------------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1163,7 +1156,7 @@
 
 ### NumberInAdvancedFilter
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                      | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:-------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1174,7 +1167,7 @@
 
 ### NumberInAdvancedFilter_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                             | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:--------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1185,7 +1178,7 @@
 
 ### NumberInRangeAdvancedFilter
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                           | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1196,7 +1189,7 @@
 
 ### NumberInRangeAdvancedFilter_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                                  | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:-------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1207,7 +1200,7 @@
 
 ### NumberLessThanAdvancedFilter
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                            | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:-------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1218,7 +1211,7 @@
 
 ### NumberLessThanAdvancedFilter_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                                   | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:--------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1229,7 +1222,7 @@
 
 ### NumberLessThanOrEqualsAdvancedFilter
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                                    | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:---------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1240,7 +1233,7 @@
 
 ### NumberLessThanOrEqualsAdvancedFilter_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                                           | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:----------------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1251,7 +1244,7 @@
 
 ### NumberNotInAdvancedFilter
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                         | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:----------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1262,7 +1255,7 @@
 
 ### NumberNotInAdvancedFilter_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                                | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:-----------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1273,7 +1266,7 @@
 
 ### NumberNotInRangeAdvancedFilter
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                              | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:---------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1284,7 +1277,7 @@
 
 ### NumberNotInRangeAdvancedFilter_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                                     | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:----------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1295,7 +1288,7 @@
 
 ### PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250215 |         | v20250215/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -1304,7 +1297,7 @@
 
 ### PrivateEndpointConnection_STATUS_Namespace_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250215 |         | v20250215/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -1313,7 +1306,7 @@
 
 ### PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250215 |         | v20250215/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -1322,7 +1315,7 @@
 
 ### RetryPolicy
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250215                |      | v20250215/storage        |                        |  Status   | Notes |
 |:-------------------------|:-----|:-------------------------|:-----------------------|:---------:|:------|
@@ -1332,7 +1325,7 @@
 
 ### RetryPolicy_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250215                |      | v20250215/storage        |                        |  Status   | Notes |
 |:-------------------------|:-----|:-------------------------|:-----------------------|:---------:|:------|
@@ -1342,7 +1335,7 @@
 
 ### RoutingEnrichments
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250215 |                            | v20250215/storage |                            |  Status   | Notes |
 |:----------|:---------------------------|:------------------|:---------------------------|:---------:|:------|
@@ -1352,7 +1345,7 @@
 
 ### RoutingEnrichments_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250215 |                                   | v20250215/storage |                                   |  Status   | Notes |
 |:----------|:----------------------------------|:------------------|:----------------------------------|:---------:|:------|
@@ -1362,7 +1355,7 @@
 
 ### RoutingIdentityInfo
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250215            |                           | v20250215/storage    |                        |  Status   | Notes |
 |:---------------------|:--------------------------|:---------------------|:-----------------------|:---------:|:------|
@@ -1372,7 +1365,7 @@
 
 ### RoutingIdentityInfo_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20250215            |                                  | v20250215/storage    |                        |  Status   | Notes |
 |:---------------------|:---------------------------------|:---------------------|:-----------------------|:---------:|:------|
@@ -1382,7 +1375,7 @@
 
 ### ServiceBusQueueEventSubscriptionDestination
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215                 |                                                           | v20250215/storage         |                               |  Status   | Notes |
 |:--------------------------|:----------------------------------------------------------|:--------------------------|:------------------------------|:---------:|:------|
@@ -1393,7 +1386,7 @@
 
 ### ServiceBusQueueEventSubscriptionDestination_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215                 |                                                                  | v20250215/storage         |                                   |  Status   | Notes |
 |:--------------------------|:-----------------------------------------------------------------|:--------------------------|:----------------------------------|:---------:|:------|
@@ -1404,7 +1397,7 @@
 
 ### ServiceBusTopicEventSubscriptionDestination
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215                 |                                                           | v20250215/storage         |                               |  Status   | Notes |
 |:--------------------------|:----------------------------------------------------------|:--------------------------|:------------------------------|:---------:|:------|
@@ -1415,7 +1408,7 @@
 
 ### ServiceBusTopicEventSubscriptionDestination_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215                 |                                                                  | v20250215/storage         |                                   |  Status   | Notes |
 |:--------------------------|:-----------------------------------------------------------------|:--------------------------|:----------------------------------|:---------:|:------|
@@ -1426,7 +1419,7 @@
 
 ### StaticDeliveryAttributeMapping
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v20250215 |                                      | v20250215/storage |                        |  Status   | Notes |
 |:----------|:-------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1438,7 +1431,7 @@
 
 ### StaticDeliveryAttributeMapping_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v20250215 |                                             | v20250215/storage |                        |  Status   | Notes |
 |:----------|:--------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1450,7 +1443,7 @@
 
 ### StaticRoutingEnrichment
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250215 |                                | v20250215/storage |                                |  Status   | Notes |
 |:----------|:-------------------------------|:------------------|:-------------------------------|:---------:|:------|
@@ -1459,7 +1452,7 @@
 
 ### StaticRoutingEnrichment_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250215 |                                       | v20250215/storage |                                       |  Status   | Notes |
 |:----------|:--------------------------------------|:------------------|:--------------------------------------|:---------:|:------|
@@ -1468,7 +1461,7 @@
 
 ### StaticStringRoutingEnrichment
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215 |                                          | v20250215/storage |                        |  Status   | Notes |
 |:----------|:-----------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1479,7 +1472,7 @@
 
 ### StaticStringRoutingEnrichment_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215 |                                                 | v20250215/storage |                        |  Status   | Notes |
 |:----------|:------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1490,7 +1483,7 @@
 
 ### StorageBlobDeadLetterDestination
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215         |                                                | v20250215/storage |                               |  Status   | Notes |
 |:------------------|:-----------------------------------------------|:------------------|:------------------------------|:---------:|:------|
@@ -1501,7 +1494,7 @@
 
 ### StorageBlobDeadLetterDestination_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215         |                                                       | v20250215/storage |                        |  Status   | Notes |
 |:------------------|:------------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1512,7 +1505,7 @@
 
 ### StorageQueueEventSubscriptionDestination
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v20250215                       |                                                        | v20250215/storage               |                                |  Status   | Notes |
 |:--------------------------------|:-------------------------------------------------------|:--------------------------------|:-------------------------------|:---------:|:------|
@@ -1525,7 +1518,7 @@
 
 ### StorageQueueEventSubscriptionDestination_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v20250215                       |                                                               | v20250215/storage               |                        |  Status   | Notes |
 |:--------------------------------|:--------------------------------------------------------------|:--------------------------------|:-----------------------|:---------:|:------|
@@ -1537,7 +1530,7 @@
 
 ### StringBeginsWithAdvancedFilter
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                              | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:---------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1548,7 +1541,7 @@
 
 ### StringBeginsWithAdvancedFilter_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                                     | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:----------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1559,7 +1552,7 @@
 
 ### StringContainsAdvancedFilter
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                            | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:-------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1570,7 +1563,7 @@
 
 ### StringContainsAdvancedFilter_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                                   | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:--------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1581,7 +1574,7 @@
 
 ### StringEndsWithAdvancedFilter
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                            | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:-------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1592,7 +1585,7 @@
 
 ### StringEndsWithAdvancedFilter_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                                   | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:--------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1603,7 +1596,7 @@
 
 ### StringInAdvancedFilter
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                      | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:-------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1614,7 +1607,7 @@
 
 ### StringInAdvancedFilter_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                             | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:--------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1625,7 +1618,7 @@
 
 ### StringNotBeginsWithAdvancedFilter
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                                 | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1636,7 +1629,7 @@
 
 ### StringNotBeginsWithAdvancedFilter_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                                        | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:-------------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1647,7 +1640,7 @@
 
 ### StringNotContainsAdvancedFilter
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                               | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:----------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1658,7 +1651,7 @@
 
 ### StringNotContainsAdvancedFilter_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                                      | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:-----------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1669,7 +1662,7 @@
 
 ### StringNotEndsWithAdvancedFilter
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                               | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:----------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1680,7 +1673,7 @@
 
 ### StringNotEndsWithAdvancedFilter_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                                      | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:-----------------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1691,7 +1684,7 @@
 
 ### StringNotInAdvancedFilter
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                         | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:----------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1702,7 +1695,7 @@
 
 ### StringNotInAdvancedFilter_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v20250215    |                                                | v20250215/storage |                        |  Status   | Notes |
 |:-------------|:-----------------------------------------------|:------------------|:-----------------------|:---------:|:------|
@@ -1713,7 +1706,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v20250215          |                                       | v20250215/storage  |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:-------------------|:-----------------------|:---------:|:------|
@@ -1727,7 +1720,7 @@
 
 ### TopicOperatorConfigMaps
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250215 |                                  | v20250215/storage |                                  |  Status   | Notes |
 |:----------|:---------------------------------|:------------------|:---------------------------------|:---------:|:------|
@@ -1736,7 +1729,7 @@
 
 ### TopicOperatorSecrets
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250215 |                               | v20250215/storage |                               |  Status   | Notes |
 |:----------|:------------------------------|:------------------|:------------------------------|:---------:|:------|
@@ -1746,7 +1739,7 @@
 
 ### TopicOperatorSpec
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v20250215            |                               | v20250215/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -1758,7 +1751,7 @@
 
 ### TopicSpacesConfiguration
 
-6 x Identical, 1 x New, 1 x Modified
+Properties: 6 x Identical, 1 x New, 1 x Modified
 
 | v20250215                                  |                                 | v20250215/storage                          |                               |  Status   | Notes |
 |:-------------------------------------------|:--------------------------------|:-------------------------------------------|:------------------------------|:---------:|:------|
@@ -1773,7 +1766,7 @@
 
 ### TopicSpacesConfiguration_STATUS
 
-7 x Identical, 1 x New, 1 x Modified
+Properties: 7 x Identical, 1 x New, 1 x Modified
 
 | v20250215                                  |                                        | v20250215/storage                          |                                    |  Status   | Notes |
 |:-------------------------------------------|:---------------------------------------|:-------------------------------------------|:-----------------------------------|:---------:|:------|
@@ -1789,7 +1782,7 @@
 
 ### Topic_STATUS
 
-15 x Identical, 1 x New, 5 x Modified
+Properties: 15 x Identical, 1 x New, 5 x Modified
 
 | v20250215                  |                                                              | v20250215/storage          |                                                              |  Status   | Notes |
 |:---------------------------|:-------------------------------------------------------------|:---------------------------|:-------------------------------------------------------------|:---------:|:------|
@@ -1817,7 +1810,7 @@
 
 ### Topic_Spec
 
-10 x Identical, 2 x New, 4 x Modified
+Properties: 10 x Identical, 2 x New, 4 x Modified
 
 | v20250215                |                                           | v20250215/storage        |                                    |  Status   | Notes |
 |:-------------------------|:------------------------------------------|:-------------------------|:-----------------------------------|:---------:|:------|
@@ -1840,7 +1833,7 @@
 
 ### TopicsConfiguration
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250215     |                             | v20250215/storage |                             |  Status   | Notes |
 |:--------------|:----------------------------|:------------------|:----------------------------|:---------:|:------|
@@ -1849,7 +1842,7 @@
 
 ### TopicsConfiguration_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250215     |                                    | v20250215/storage |                                    |  Status   | Notes |
 |:--------------|:-----------------------------------|:------------------|:-----------------------------------|:---------:|:------|
@@ -1859,7 +1852,7 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20250215 |                              | v20250215/storage |                              |  Status   | Notes |
 |:----------|:-----------------------------|:------------------|:-----------------------------|:---------:|:------|
@@ -1868,7 +1861,7 @@
 
 ### UserIdentityProperties_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20250215   |         | v20250215/storage |                        |  Status   | Notes |
 |:------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -1878,7 +1871,7 @@
 
 ### WebHookEventSubscriptionDestination
 
-7 x Identical, 1 x New, 2 x Modified
+Properties: 7 x Identical, 1 x New, 2 x Modified
 
 | v20250215                                        |                                                                         | v20250215/storage                                |                                |  Status   | Notes |
 |:-------------------------------------------------|:------------------------------------------------------------------------|:-------------------------------------------------|:-------------------------------|:---------:|:------|
@@ -1895,7 +1888,7 @@
 
 ### WebHookEventSubscriptionDestination_STATUS
 
-6 x Identical, 1 x New, 2 x Modified
+Properties: 6 x Identical, 1 x New, 2 x Modified
 
 | v20250215                              |                                                                                | v20250215/storage                      |                                   |  Status   | Notes |
 |:---------------------------------------|:-------------------------------------------------------------------------------|:---------------------------------------|:----------------------------------|:---------:|:------|
@@ -1908,3 +1901,12 @@
 | MinimumTlsVersionAllowed               | *WebHookEventSubscriptionDestinationProperties_MinimumTlsVersionAllowed_STATUS | MinimumTlsVersionAllowed               | *string                           | Modified  |       |
 | PreferredBatchSizeInKilobytes          | *int                                                                           | PreferredBatchSizeInKilobytes          | *int                              | Identical |       |
 |                                        |                                                                                | PropertyBag                            | genruntime.PropertyBag            |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

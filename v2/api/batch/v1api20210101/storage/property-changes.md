@@ -6,6 +6,8 @@
 |:----------------------|:------------------|:---------:|:------|
 | BatchAccount          | BatchAccount      | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
 | v1api20210101/storage                              | v20210101/storage                                  |  Status   | Notes |
@@ -13,7 +15,7 @@
 | AutoStorageBaseProperties                          | AutoStorageBaseProperties                          | Identical |       |
 | AutoStorageProperties_STATUS                       | AutoStorageProperties_STATUS                       | Identical |       |
 | BatchAccountIdentity                               | BatchAccountIdentity                               | Identical |       |
-| BatchAccountIdentity_STATUS                        | BatchAccountIdentity_STATUS                        | Modified  |       |
+| BatchAccountIdentity_STATUS                        | BatchAccountIdentity_STATUS                        | Identical |       |
 | BatchAccountIdentity_UserAssignedIdentities_STATUS | BatchAccountIdentity_UserAssignedIdentities_STATUS | Identical |       |
 | BatchAccountOperatorSpec                           | BatchAccountOperatorSpec                           | Identical |       |
 | BatchAccount_STATUS                                | BatchAccount_STATUS                                | Identical |       |
@@ -30,21 +32,9 @@
 
 ## Legend
 
-* **Identical**: No properties changed.
+* **Identical**: No properties changed (or the differences are trivial).
 * **New**: The type or property exists only in the newer version.
 * **Retired**: The type or property exists only in the older version.
 * **Renamed**: A configured rename links the old and new names.
 * **Extended**: The newer type only adds properties.
 * **Modified**: Properties were retired, renamed, or changed type.
-
-### BatchAccountIdentity_STATUS
-
-4 x Identical, 1 x Modified
-
-| v1api20210101/storage  |                                                               | v20210101/storage      |                                                               |  Status   | Notes |
-|:-----------------------|:--------------------------------------------------------------|:-----------------------|:--------------------------------------------------------------|:---------:|:------|
-| PrincipalId            | *string                                                       | PrincipalId            | *string                                                       | Identical |       |
-| PropertyBag            | genruntime.PropertyBag                                        | PropertyBag            | genruntime.PropertyBag                                        | Identical |       |
-| TenantId               | *string                                                       | TenantId               | *string                                                       | Identical |       |
-| Type                   | *string                                                       | Type                   | *string                                                       | Identical |       |
-| UserAssignedIdentities | map[string]BatchAccountIdentity_UserAssignedIdentities_STATUS | UserAssignedIdentities | map[string]BatchAccountIdentity_UserAssignedIdentities_STATUS | Modified  |       |

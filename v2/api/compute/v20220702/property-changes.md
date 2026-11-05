@@ -6,37 +6,30 @@
 |:------------------|:------------------|:---------:|:------|
 | DiskEncryptionSet | DiskEncryptionSet | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v20220702                          | v20220702/storage                  |  Status  | Notes |
-|:-----------------------------------|:-----------------------------------|:--------:|:------|
-| ApiErrorBase_STATUS                | ApiErrorBase_STATUS                | Extended |       |
-| ApiError_STATUS                    | ApiError_STATUS                    | Extended |       |
-| DiskEncryptionSetOperatorSpec      | DiskEncryptionSetOperatorSpec      | Extended |       |
-| DiskEncryptionSet_STATUS           | DiskEncryptionSet_STATUS           | Modified |       |
-| DiskEncryptionSet_Spec             | DiskEncryptionSet_Spec             | Modified |       |
-| EncryptionSetIdentity              | EncryptionSetIdentity              | Modified |       |
-| EncryptionSetIdentity_STATUS       | EncryptionSetIdentity_STATUS       | Modified |       |
-| InnerError_STATUS                  | InnerError_STATUS                  | Extended |       |
-| KeyForDiskEncryptionSet            | KeyForDiskEncryptionSet            | Extended |       |
-| KeyForDiskEncryptionSet_STATUS     | KeyForDiskEncryptionSet_STATUS     | Extended |       |
-| SourceVault                        | SourceVault                        | Extended |       |
-| SourceVault_STATUS                 | SourceVault_STATUS                 | Extended |       |
-| UserAssignedIdentitiesValue_STATUS | UserAssignedIdentitiesValue_STATUS | Extended |       |
-| UserAssignedIdentityDetails        | UserAssignedIdentityDetails        | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v20220702                          | v20220702/storage                  |  Status  | Notes        |
+|:-----------------------------------|:-----------------------------------|:--------:|:-------------|
+| ApiErrorBase_STATUS                | ApiErrorBase_STATUS                | Extended | +PropertyBag |
+| ApiError_STATUS                    | ApiError_STATUS                    | Extended | +PropertyBag |
+| DiskEncryptionSetOperatorSpec      | DiskEncryptionSetOperatorSpec      | Extended | +PropertyBag |
+| DiskEncryptionSet_STATUS           | DiskEncryptionSet_STATUS           | Modified |              |
+| DiskEncryptionSet_Spec             | DiskEncryptionSet_Spec             | Modified |              |
+| EncryptionSetIdentity              | EncryptionSetIdentity              | Modified |              |
+| EncryptionSetIdentity_STATUS       | EncryptionSetIdentity_STATUS       | Modified |              |
+| InnerError_STATUS                  | InnerError_STATUS                  | Extended | +PropertyBag |
+| KeyForDiskEncryptionSet            | KeyForDiskEncryptionSet            | Extended | +PropertyBag |
+| KeyForDiskEncryptionSet_STATUS     | KeyForDiskEncryptionSet_STATUS     | Extended | +PropertyBag |
+| SourceVault                        | SourceVault                        | Extended | +PropertyBag |
+| SourceVault_STATUS                 | SourceVault_STATUS                 | Extended | +PropertyBag |
+| UserAssignedIdentitiesValue_STATUS | UserAssignedIdentitiesValue_STATUS | Extended | +PropertyBag |
+| UserAssignedIdentityDetails        | UserAssignedIdentityDetails        | Extended | +PropertyBag |
 
 ### ApiErrorBase_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20220702 |         | v20220702/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -47,7 +40,7 @@
 
 ### ApiError_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v20220702  |                       | v20220702/storage |                        |  Status   | Notes |
 |:-----------|:----------------------|:------------------|:-----------------------|:---------:|:------|
@@ -60,7 +53,7 @@
 
 ### DiskEncryptionSetOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20220702            |                               | v20220702/storage    |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:---------------------|:------------------------------|:---------:|:------|
@@ -70,7 +63,7 @@
 
 ### DiskEncryptionSet_STATUS
 
-14 x Identical, 1 x New, 1 x Modified
+Properties: 14 x Identical, 1 x New, 1 x Modified
 
 | v20220702                         |                                  | v20220702/storage                 |                                  |  Status   | Notes |
 |:----------------------------------|:---------------------------------|:----------------------------------|:---------------------------------|:---------:|:------|
@@ -93,7 +86,7 @@
 
 ### DiskEncryptionSet_Spec
 
-10 x Identical, 2 x New, 1 x Modified
+Properties: 10 x Identical, 2 x New, 1 x Modified
 
 | v20220702                         |                                    | v20220702/storage                 |                                    |  Status   | Notes |
 |:----------------------------------|:-----------------------------------|:----------------------------------|:-----------------------------------|:---------:|:------|
@@ -113,7 +106,7 @@
 
 ### EncryptionSetIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v20220702              |                               | v20220702/storage      |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -123,7 +116,7 @@
 
 ### EncryptionSetIdentity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v20220702              |                                               | v20220702/storage      |                                               |  Status   | Notes |
 |:-----------------------|:----------------------------------------------|:-----------------------|:----------------------------------------------|:---------:|:------|
@@ -135,7 +128,7 @@
 
 ### InnerError_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20220702     |         | v20220702/storage |                        |  Status   | Notes |
 |:--------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -145,7 +138,7 @@
 
 ### KeyForDiskEncryptionSet
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v20220702        |                                | v20220702/storage |                                |  Status   | Notes |
 |:-----------------|:-------------------------------|:------------------|:-------------------------------|:---------:|:------|
@@ -156,7 +149,7 @@
 
 ### KeyForDiskEncryptionSet_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20220702   |                     | v20220702/storage |                        |  Status   | Notes |
 |:------------|:--------------------|:------------------|:-----------------------|:---------:|:------|
@@ -166,7 +159,7 @@
 
 ### SourceVault
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20220702 |                               | v20220702/storage |                               |  Status   | Notes |
 |:----------|:------------------------------|:------------------|:------------------------------|:---------:|:------|
@@ -175,7 +168,7 @@
 
 ### SourceVault_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20220702 |         | v20220702/storage |                        |  Status   | Notes |
 |:----------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -184,7 +177,7 @@
 
 ### UserAssignedIdentitiesValue_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v20220702   |         | v20220702/storage |                        |  Status   | Notes |
 |:------------|:--------|:------------------|:-----------------------|:---------:|:------|
@@ -194,9 +187,18 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v20220702 |                              | v20220702/storage |                              |  Status   | Notes |
 |:----------|:-----------------------------|:------------------|:-----------------------------|:---------:|:------|
 |           |                              | PropertyBag       | genruntime.PropertyBag       |    New    |       |
 | Reference | genruntime.ResourceReference | Reference         | genruntime.ResourceReference | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

@@ -6,83 +6,76 @@
 |:---------------|:----------------------|:---------:|:------|
 | ContainerGroup | ContainerGroup        | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20211001                                         | v1api20211001/storage                                 |  Status  | Notes |
-|:------------------------------------------------------|:------------------------------------------------------|:--------:|:------|
-| AzureFileVolume                                       | AzureFileVolume                                       | Extended |       |
-| AzureFileVolume_STATUS                                | AzureFileVolume_STATUS                                | Extended |       |
-| Container                                             | Container                                             | Extended |       |
-| ContainerExec                                         | ContainerExec                                         | Extended |       |
-| ContainerExec_STATUS                                  | ContainerExec_STATUS                                  | Extended |       |
-| ContainerGroupDiagnostics                             | ContainerGroupDiagnostics                             | Extended |       |
-| ContainerGroupDiagnostics_STATUS                      | ContainerGroupDiagnostics_STATUS                      | Extended |       |
-| ContainerGroupIdentity                                | ContainerGroupIdentity                                | Modified |       |
-| ContainerGroupIdentity_STATUS                         | ContainerGroupIdentity_STATUS                         | Modified |       |
-| ContainerGroupOperatorSpec                            | ContainerGroupOperatorSpec                            | Extended |       |
-| ContainerGroupSubnetId                                | ContainerGroupSubnetId                                | Extended |       |
-| ContainerGroupSubnetId_STATUS                         | ContainerGroupSubnetId_STATUS                         | Extended |       |
-| ContainerGroup_Properties_InstanceView_STATUS         | ContainerGroup_Properties_InstanceView_STATUS         | Extended |       |
-| ContainerGroup_STATUS                                 | ContainerGroup_STATUS                                 | Modified |       |
-| ContainerGroup_Spec                                   | ContainerGroup_Spec                                   | Modified |       |
-| ContainerHttpGet                                      | ContainerHttpGet                                      | Modified |       |
-| ContainerHttpGet_STATUS                               | ContainerHttpGet_STATUS                               | Modified |       |
-| ContainerPort                                         | ContainerPort                                         | Modified |       |
-| ContainerPort_STATUS                                  | ContainerPort_STATUS                                  | Modified |       |
-| ContainerProbe                                        | ContainerProbe                                        | Extended |       |
-| ContainerProbe_STATUS                                 | ContainerProbe_STATUS                                 | Extended |       |
-| ContainerProperties_InstanceView_STATUS               | ContainerProperties_InstanceView_STATUS               | Extended |       |
-| ContainerState_STATUS                                 | ContainerState_STATUS                                 | Extended |       |
-| Container_STATUS                                      | Container_STATUS                                      | Extended |       |
-| DnsConfiguration                                      | DnsConfiguration                                      | Extended |       |
-| DnsConfiguration_STATUS                               | DnsConfiguration_STATUS                               | Extended |       |
-| EncryptionProperties                                  | EncryptionProperties                                  | Extended |       |
-| EncryptionProperties_STATUS                           | EncryptionProperties_STATUS                           | Extended |       |
-| EnvironmentVariable                                   | EnvironmentVariable                                   | Extended |       |
-| EnvironmentVariable_STATUS                            | EnvironmentVariable_STATUS                            | Extended |       |
-| Event_STATUS                                          | Event_STATUS                                          | Extended |       |
-| GitRepoVolume                                         | GitRepoVolume                                         | Extended |       |
-| GitRepoVolume_STATUS                                  | GitRepoVolume_STATUS                                  | Extended |       |
-| GpuResource                                           | GpuResource                                           | Modified |       |
-| GpuResource_STATUS                                    | GpuResource_STATUS                                    | Modified |       |
-| HttpHeader                                            | HttpHeader                                            | Extended |       |
-| HttpHeader_STATUS                                     | HttpHeader_STATUS                                     | Extended |       |
-| ImageRegistryCredential                               | ImageRegistryCredential                               | Extended |       |
-| ImageRegistryCredential_STATUS                        | ImageRegistryCredential_STATUS                        | Extended |       |
-| InitContainerDefinition                               | InitContainerDefinition                               | Extended |       |
-| InitContainerDefinition_STATUS                        | InitContainerDefinition_STATUS                        | Extended |       |
-| InitContainerPropertiesDefinition_InstanceView_STATUS | InitContainerPropertiesDefinition_InstanceView_STATUS | Extended |       |
-| IpAddress                                             | IpAddress                                             | Modified |       |
-| IpAddress_STATUS                                      | IpAddress_STATUS                                      | Modified |       |
-| LogAnalytics                                          | LogAnalytics                                          | Modified |       |
-| LogAnalytics_STATUS                                   | LogAnalytics_STATUS                                   | Modified |       |
-| Port                                                  | Port                                                  | Modified |       |
-| Port_STATUS                                           | Port_STATUS                                           | Modified |       |
-| ResourceLimits                                        | ResourceLimits                                        | Extended |       |
-| ResourceLimits_STATUS                                 | ResourceLimits_STATUS                                 | Extended |       |
-| ResourceRequests                                      | ResourceRequests                                      | Extended |       |
-| ResourceRequests_STATUS                               | ResourceRequests_STATUS                               | Extended |       |
-| ResourceRequirements                                  | ResourceRequirements                                  | Extended |       |
-| ResourceRequirements_STATUS                           | ResourceRequirements_STATUS                           | Extended |       |
-| UserAssignedIdentities_STATUS                         | UserAssignedIdentities_STATUS                         | Extended |       |
-| UserAssignedIdentityDetails                           | UserAssignedIdentityDetails                           | Extended |       |
-| Volume                                                | Volume                                                | Extended |       |
-| VolumeMount                                           | VolumeMount                                           | Extended |       |
-| VolumeMount_STATUS                                    | VolumeMount_STATUS                                    | Extended |       |
-| Volume_STATUS                                         | Volume_STATUS                                         | Extended |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20211001                                         | v1api20211001/storage                                 |  Status  | Notes        |
+|:------------------------------------------------------|:------------------------------------------------------|:--------:|:-------------|
+| AzureFileVolume                                       | AzureFileVolume                                       | Extended | +PropertyBag |
+| AzureFileVolume_STATUS                                | AzureFileVolume_STATUS                                | Extended | +PropertyBag |
+| Container                                             | Container                                             | Extended | +PropertyBag |
+| ContainerExec                                         | ContainerExec                                         | Extended | +PropertyBag |
+| ContainerExec_STATUS                                  | ContainerExec_STATUS                                  | Extended | +PropertyBag |
+| ContainerGroupDiagnostics                             | ContainerGroupDiagnostics                             | Extended | +PropertyBag |
+| ContainerGroupDiagnostics_STATUS                      | ContainerGroupDiagnostics_STATUS                      | Extended | +PropertyBag |
+| ContainerGroupIdentity                                | ContainerGroupIdentity                                | Modified |              |
+| ContainerGroupIdentity_STATUS                         | ContainerGroupIdentity_STATUS                         | Modified |              |
+| ContainerGroupOperatorSpec                            | ContainerGroupOperatorSpec                            | Extended | +PropertyBag |
+| ContainerGroupSubnetId                                | ContainerGroupSubnetId                                | Extended | +PropertyBag |
+| ContainerGroupSubnetId_STATUS                         | ContainerGroupSubnetId_STATUS                         | Extended | +PropertyBag |
+| ContainerGroup_Properties_InstanceView_STATUS         | ContainerGroup_Properties_InstanceView_STATUS         | Extended | +PropertyBag |
+| ContainerGroup_STATUS                                 | ContainerGroup_STATUS                                 | Modified |              |
+| ContainerGroup_Spec                                   | ContainerGroup_Spec                                   | Modified |              |
+| ContainerHttpGet                                      | ContainerHttpGet                                      | Modified |              |
+| ContainerHttpGet_STATUS                               | ContainerHttpGet_STATUS                               | Modified |              |
+| ContainerPort                                         | ContainerPort                                         | Modified |              |
+| ContainerPort_STATUS                                  | ContainerPort_STATUS                                  | Modified |              |
+| ContainerProbe                                        | ContainerProbe                                        | Extended | +PropertyBag |
+| ContainerProbe_STATUS                                 | ContainerProbe_STATUS                                 | Extended | +PropertyBag |
+| ContainerProperties_InstanceView_STATUS               | ContainerProperties_InstanceView_STATUS               | Extended | +PropertyBag |
+| ContainerState_STATUS                                 | ContainerState_STATUS                                 | Extended | +PropertyBag |
+| Container_STATUS                                      | Container_STATUS                                      | Extended | +PropertyBag |
+| DnsConfiguration                                      | DnsConfiguration                                      | Extended | +PropertyBag |
+| DnsConfiguration_STATUS                               | DnsConfiguration_STATUS                               | Extended | +PropertyBag |
+| EncryptionProperties                                  | EncryptionProperties                                  | Extended | +PropertyBag |
+| EncryptionProperties_STATUS                           | EncryptionProperties_STATUS                           | Extended | +PropertyBag |
+| EnvironmentVariable                                   | EnvironmentVariable                                   | Extended | +PropertyBag |
+| EnvironmentVariable_STATUS                            | EnvironmentVariable_STATUS                            | Extended | +PropertyBag |
+| Event_STATUS                                          | Event_STATUS                                          | Extended | +PropertyBag |
+| GitRepoVolume                                         | GitRepoVolume                                         | Extended | +PropertyBag |
+| GitRepoVolume_STATUS                                  | GitRepoVolume_STATUS                                  | Extended | +PropertyBag |
+| GpuResource                                           | GpuResource                                           | Modified |              |
+| GpuResource_STATUS                                    | GpuResource_STATUS                                    | Modified |              |
+| HttpHeader                                            | HttpHeader                                            | Extended | +PropertyBag |
+| HttpHeader_STATUS                                     | HttpHeader_STATUS                                     | Extended | +PropertyBag |
+| ImageRegistryCredential                               | ImageRegistryCredential                               | Extended | +PropertyBag |
+| ImageRegistryCredential_STATUS                        | ImageRegistryCredential_STATUS                        | Extended | +PropertyBag |
+| InitContainerDefinition                               | InitContainerDefinition                               | Extended | +PropertyBag |
+| InitContainerDefinition_STATUS                        | InitContainerDefinition_STATUS                        | Extended | +PropertyBag |
+| InitContainerPropertiesDefinition_InstanceView_STATUS | InitContainerPropertiesDefinition_InstanceView_STATUS | Extended | +PropertyBag |
+| IpAddress                                             | IpAddress                                             | Modified |              |
+| IpAddress_STATUS                                      | IpAddress_STATUS                                      | Modified |              |
+| LogAnalytics                                          | LogAnalytics                                          | Modified |              |
+| LogAnalytics_STATUS                                   | LogAnalytics_STATUS                                   | Modified |              |
+| Port                                                  | Port                                                  | Modified |              |
+| Port_STATUS                                           | Port_STATUS                                           | Modified |              |
+| ResourceLimits                                        | ResourceLimits                                        | Extended | +PropertyBag |
+| ResourceLimits_STATUS                                 | ResourceLimits_STATUS                                 | Extended | +PropertyBag |
+| ResourceRequests                                      | ResourceRequests                                      | Extended | +PropertyBag |
+| ResourceRequests_STATUS                               | ResourceRequests_STATUS                               | Extended | +PropertyBag |
+| ResourceRequirements                                  | ResourceRequirements                                  | Extended | +PropertyBag |
+| ResourceRequirements_STATUS                           | ResourceRequirements_STATUS                           | Extended | +PropertyBag |
+| UserAssignedIdentities_STATUS                         | UserAssignedIdentities_STATUS                         | Extended | +PropertyBag |
+| UserAssignedIdentityDetails                           | UserAssignedIdentityDetails                           | Extended | +PropertyBag |
+| Volume                                                | Volume                                                | Extended | +PropertyBag |
+| VolumeMount                                           | VolumeMount                                           | Extended | +PropertyBag |
+| VolumeMount_STATUS                                    | VolumeMount_STATUS                                    | Extended | +PropertyBag |
+| Volume_STATUS                                         | Volume_STATUS                                         | Extended | +PropertyBag |
 
 ### AzureFileVolume
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20211001      |         | v1api20211001/storage |                        |  Status   | Notes |
 |:-------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -94,7 +87,7 @@
 
 ### AzureFileVolume_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20211001      |         | v1api20211001/storage |                        |  Status   | Notes |
 |:-------------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -106,7 +99,7 @@
 
 ### Container
 
-9 x Identical, 1 x New
+Properties: 9 x Identical, 1 x New
 
 | v1api20211001        |                       | v1api20211001/storage |                        |  Status   | Notes |
 |:---------------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -123,7 +116,7 @@
 
 ### ContainerExec
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20211001 |          | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -132,7 +125,7 @@
 
 ### ContainerExec_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20211001 |          | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -141,7 +134,7 @@
 
 ### ContainerGroupDiagnostics
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20211001 |               | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:--------------|:----------------------|:-----------------------|:---------:|:------|
@@ -150,7 +143,7 @@
 
 ### ContainerGroupDiagnostics_STATUS
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20211001 |                      | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:---------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -159,7 +152,7 @@
 
 ### ContainerGroupIdentity
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20211001          |                               | v1api20211001/storage  |                               |  Status   | Notes |
 |:-----------------------|:------------------------------|:-----------------------|:------------------------------|:---------:|:------|
@@ -169,7 +162,7 @@
 
 ### ContainerGroupIdentity_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20211001          |                                          | v1api20211001/storage  |                                          |  Status   | Notes |
 |:-----------------------|:-----------------------------------------|:-----------------------|:-----------------------------------------|:---------:|:------|
@@ -181,7 +174,7 @@
 
 ### ContainerGroupOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211001        |                               | v1api20211001/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -191,7 +184,7 @@
 
 ### ContainerGroupSubnetId
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211001 |                               | v1api20211001/storage |                               |  Status   | Notes |
 |:--------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -201,7 +194,7 @@
 
 ### ContainerGroupSubnetId_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211001 |         | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -211,7 +204,7 @@
 
 ### ContainerGroup_Properties_InstanceView_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211001 |                | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:---------------|:----------------------|:-----------------------|:---------:|:------|
@@ -221,7 +214,7 @@
 
 ### ContainerGroup_STATUS
 
-19 x Identical, 1 x New, 3 x Modified
+Properties: 19 x Identical, 1 x New, 3 x Modified
 
 | v1api20211001            |                                                 | v1api20211001/storage    |                                                |  Status   | Notes |
 |:-------------------------|:------------------------------------------------|:-------------------------|:-----------------------------------------------|:---------:|:------|
@@ -251,7 +244,7 @@
 
 ### ContainerGroup_Spec
 
-16 x Identical, 2 x New, 3 x Modified
+Properties: 16 x Identical, 2 x New, 3 x Modified
 
 | v1api20211001            |                                               | v1api20211001/storage    |                                    |  Status   | Notes |
 |:-------------------------|:----------------------------------------------|:-------------------------|:-----------------------------------|:---------:|:------|
@@ -279,7 +272,7 @@
 
 ### ContainerHttpGet
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20211001 |                          | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:-------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -291,7 +284,7 @@
 
 ### ContainerHttpGet_STATUS
 
-3 x Identical, 1 x New, 1 x Modified
+Properties: 3 x Identical, 1 x New, 1 x Modified
 
 | v1api20211001 |                                 | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:--------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -303,7 +296,7 @@
 
 ### ContainerPort
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20211001 |                         | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -313,7 +306,7 @@
 
 ### ContainerPort_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20211001 |                                | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:-------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -323,7 +316,7 @@
 
 ### ContainerProbe
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v1api20211001       |                   | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------------|:------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -338,7 +331,7 @@
 
 ### ContainerProbe_STATUS
 
-7 x Identical, 1 x New
+Properties: 7 x Identical, 1 x New
 
 | v1api20211001       |                          | v1api20211001/storage |                          |  Status   | Notes |
 |:--------------------|:-------------------------|:----------------------|:-------------------------|:---------:|:------|
@@ -353,7 +346,7 @@
 
 ### ContainerProperties_InstanceView_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20211001 |                        | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -365,7 +358,7 @@
 
 ### ContainerState_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20211001 |         | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -378,7 +371,7 @@
 
 ### Container_STATUS
 
-10 x Identical, 1 x New
+Properties: 10 x Identical, 1 x New
 
 | v1api20211001        |                                          | v1api20211001/storage |                                          |  Status   | Notes |
 |:---------------------|:-----------------------------------------|:----------------------|:-----------------------------------------|:---------:|:------|
@@ -396,7 +389,7 @@
 
 ### DnsConfiguration
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20211001 |          | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -407,7 +400,7 @@
 
 ### DnsConfiguration_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20211001 |          | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -418,7 +411,7 @@
 
 ### EncryptionProperties
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20211001 |         | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -429,7 +422,7 @@
 
 ### EncryptionProperties_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20211001 |         | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -440,7 +433,7 @@
 
 ### EnvironmentVariable
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20211001 |                             | v1api20211001/storage |                             |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -451,7 +444,7 @@
 
 ### EnvironmentVariable_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211001 |         | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -461,7 +454,7 @@
 
 ### Event_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20211001  |         | v1api20211001/storage |                        |  Status   | Notes |
 |:---------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -475,7 +468,7 @@
 
 ### GitRepoVolume
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20211001 |         | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -486,7 +479,7 @@
 
 ### GitRepoVolume_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20211001 |         | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -497,7 +490,7 @@
 
 ### GpuResource
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20211001 |                  | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:-----------------|:----------------------|:-----------------------|:---------:|:------|
@@ -507,7 +500,7 @@
 
 ### GpuResource_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20211001 |                         | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -517,7 +510,7 @@
 
 ### HttpHeader
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211001 |         | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -527,7 +520,7 @@
 
 ### HttpHeader_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211001 |         | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -537,7 +530,7 @@
 
 ### ImageRegistryCredential
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20211001 |                             | v1api20211001/storage |                             |  Status   | Notes |
 |:--------------|:----------------------------|:----------------------|:----------------------------|:---------:|:------|
@@ -550,7 +543,7 @@
 
 ### ImageRegistryCredential_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20211001 |         | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -562,7 +555,7 @@
 
 ### InitContainerDefinition
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20211001        |                       | v1api20211001/storage |                        |  Status   | Notes |
 |:---------------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -575,7 +568,7 @@
 
 ### InitContainerDefinition_STATUS
 
-6 x Identical, 1 x New
+Properties: 6 x Identical, 1 x New
 
 | v1api20211001        |                                                        | v1api20211001/storage |                                                        |  Status   | Notes |
 |:---------------------|:-------------------------------------------------------|:----------------------|:-------------------------------------------------------|:---------:|:------|
@@ -589,7 +582,7 @@
 
 ### InitContainerPropertiesDefinition_InstanceView_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20211001 |                        | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -601,7 +594,7 @@
 
 ### IpAddress
 
-3 x Identical, 1 x New, 2 x Modified
+Properties: 3 x Identical, 1 x New, 2 x Modified
 
 | v1api20211001                     |                                              | v1api20211001/storage             |                        |  Status   | Notes |
 |:----------------------------------|:---------------------------------------------|:----------------------------------|:-----------------------|:---------:|:------|
@@ -614,7 +607,7 @@
 
 ### IpAddress_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20211001                     |                                                     | v1api20211001/storage             |                        |  Status   | Notes |
 |:----------------------------------|:----------------------------------------------------|:----------------------------------|:-----------------------|:---------:|:------|
@@ -628,7 +621,7 @@
 
 ### LogAnalytics
 
-4 x Identical, 1 x New, 1 x Modified
+Properties: 4 x Identical, 1 x New, 1 x Modified
 
 | v1api20211001              |                               | v1api20211001/storage      |                               |  Status   | Notes |
 |:---------------------------|:------------------------------|:---------------------------|:------------------------------|:---------:|:------|
@@ -641,7 +634,7 @@
 
 ### LogAnalytics_STATUS
 
-2 x Identical, 1 x New, 1 x Modified
+Properties: 2 x Identical, 1 x New, 1 x Modified
 
 | v1api20211001 |                              | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -652,7 +645,7 @@
 
 ### Port
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20211001 |                | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:---------------|:----------------------|:-----------------------|:---------:|:------|
@@ -662,7 +655,7 @@
 
 ### Port_STATUS
 
-1 x Identical, 1 x New, 1 x Modified
+Properties: 1 x Identical, 1 x New, 1 x Modified
 
 | v1api20211001 |                       | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -672,7 +665,7 @@
 
 ### ResourceLimits
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20211001 |              | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:-------------|:----------------------|:-----------------------|:---------:|:------|
@@ -683,7 +676,7 @@
 
 ### ResourceLimits_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20211001 |                     | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -694,7 +687,7 @@
 
 ### ResourceRequests
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20211001 |              | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:-------------|:----------------------|:-----------------------|:---------:|:------|
@@ -705,7 +698,7 @@
 
 ### ResourceRequests_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20211001 |                     | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:--------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -716,7 +709,7 @@
 
 ### ResourceRequirements
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211001 |                   | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -726,7 +719,7 @@
 
 ### ResourceRequirements_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211001 |                          | v1api20211001/storage |                          |  Status   | Notes |
 |:--------------|:-------------------------|:----------------------|:-------------------------|:---------:|:------|
@@ -736,7 +729,7 @@
 
 ### UserAssignedIdentities_STATUS
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20211001 |         | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -746,7 +739,7 @@
 
 ### UserAssignedIdentityDetails
 
-1 x Identical, 1 x New
+Properties: 1 x Identical, 1 x New
 
 | v1api20211001 |                              | v1api20211001/storage |                              |  Status   | Notes |
 |:--------------|:-----------------------------|:----------------------|:-----------------------------|:---------:|:------|
@@ -755,7 +748,7 @@
 
 ### Volume
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20211001 |                    | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:-------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -768,7 +761,7 @@
 
 ### VolumeMount
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20211001 |         | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -779,7 +772,7 @@
 
 ### VolumeMount_STATUS
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20211001 |         | v1api20211001/storage |                        |  Status   | Notes |
 |:--------------|:--------|:----------------------|:-----------------------|:---------:|:------|
@@ -790,7 +783,7 @@
 
 ### Volume_STATUS
 
-5 x Identical, 1 x New
+Properties: 5 x Identical, 1 x New
 
 | v1api20211001 |                         | v1api20211001/storage |                         |  Status   | Notes |
 |:--------------|:------------------------|:----------------------|:------------------------|:---------:|:------|
@@ -800,3 +793,12 @@
 | Name          | *string                 | Name                  | *string                 | Identical |       |
 |               |                         | PropertyBag           | genruntime.PropertyBag  |    New    |       |
 | Secret        | map[string]string       | Secret                | map[string]string       | Identical |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

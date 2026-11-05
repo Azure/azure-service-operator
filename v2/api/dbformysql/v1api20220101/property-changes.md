@@ -7,30 +7,23 @@
 | FlexibleServersAdministrator | FlexibleServersAdministrator | Identical |       |
 | FlexibleServersConfiguration | FlexibleServersConfiguration | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20220101                            | v1api20220101/storage                    |  Status  | Notes |
-|:-----------------------------------------|:-----------------------------------------|:--------:|:------|
-| FlexibleServersAdministratorOperatorSpec | FlexibleServersAdministratorOperatorSpec | Extended |       |
-| FlexibleServersAdministrator_STATUS      | FlexibleServersAdministrator_STATUS      | Modified |       |
-| FlexibleServersAdministrator_Spec        | FlexibleServersAdministrator_Spec        | Modified |       |
-| FlexibleServersConfigurationOperatorSpec | FlexibleServersConfigurationOperatorSpec | Extended |       |
-| FlexibleServersConfiguration_STATUS      | FlexibleServersConfiguration_STATUS      | Modified |       |
-| FlexibleServersConfiguration_Spec        | FlexibleServersConfiguration_Spec        | Modified |       |
-| SystemData_STATUS                        | SystemData_STATUS                        | Modified |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20220101                            | v1api20220101/storage                    |  Status  | Notes        |
+|:-----------------------------------------|:-----------------------------------------|:--------:|:-------------|
+| FlexibleServersAdministratorOperatorSpec | FlexibleServersAdministratorOperatorSpec | Extended | +PropertyBag |
+| FlexibleServersAdministrator_STATUS      | FlexibleServersAdministrator_STATUS      | Modified |              |
+| FlexibleServersAdministrator_Spec        | FlexibleServersAdministrator_Spec        | Modified |              |
+| FlexibleServersConfigurationOperatorSpec | FlexibleServersConfigurationOperatorSpec | Extended | +PropertyBag |
+| FlexibleServersConfiguration_STATUS      | FlexibleServersConfiguration_STATUS      | Modified |              |
+| FlexibleServersConfiguration_Spec        | FlexibleServersConfiguration_Spec        | Modified |              |
+| SystemData_STATUS                        | SystemData_STATUS                        | Modified |              |
 
 ### FlexibleServersAdministratorOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220101        |                               | v1api20220101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -40,7 +33,7 @@
 
 ### FlexibleServersAdministrator_STATUS
 
-9 x Identical, 1 x New, 1 x Modified
+Properties: 9 x Identical, 1 x New, 1 x Modified
 
 | v1api20220101      |                                                   | v1api20220101/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -58,7 +51,7 @@
 
 ### FlexibleServersAdministrator_Spec
 
-8 x Identical, 2 x New, 1 x Modified
+Properties: 8 x Identical, 2 x New, 1 x Modified
 
 | v1api20220101             |                                            | v1api20220101/storage     |                                           |  Status   | Notes |
 |:--------------------------|:-------------------------------------------|:--------------------------|:------------------------------------------|:---------:|:------|
@@ -76,7 +69,7 @@
 
 ### FlexibleServersConfigurationOperatorSpec
 
-2 x Identical, 1 x New
+Properties: 2 x Identical, 1 x New
 
 | v1api20220101        |                               | v1api20220101/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -86,7 +79,7 @@
 
 ### FlexibleServersConfiguration_STATUS
 
-12 x Identical, 1 x New, 4 x Modified
+Properties: 12 x Identical, 1 x New, 4 x Modified
 
 | v1api20220101          |                                                        | v1api20220101/storage  |                        |  Status   | Notes |
 |:-----------------------|:-------------------------------------------------------|:-----------------------|:-----------------------|:---------:|:------|
@@ -110,7 +103,7 @@
 
 ### FlexibleServersConfiguration_Spec
 
-4 x Identical, 2 x New, 2 x Modified
+Properties: 4 x Identical, 2 x New, 2 x Modified
 
 | v1api20220101 |                                           | v1api20220101/storage |                                           |  Status   | Notes |
 |:--------------|:------------------------------------------|:----------------------|:------------------------------------------|:---------:|:------|
@@ -125,7 +118,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20220101      |                                       | v1api20220101/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -136,3 +129,12 @@
 | LastModifiedBy     | *string                               | LastModifiedBy        | *string                | Identical |       |
 | LastModifiedByType | *SystemData_LastModifiedByType_STATUS | LastModifiedByType    | *string                | Modified  |       |
 |                    |                                       | PropertyBag           | genruntime.PropertyBag |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.

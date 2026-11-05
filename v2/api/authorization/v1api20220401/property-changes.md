@@ -7,32 +7,25 @@
 | RoleAssignment | RoleAssignment        | Identical |       |
 | RoleDefinition | RoleDefinition        | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
-| v1api20220401              | v1api20220401/storage      |  Status  | Notes |
-|:---------------------------|:---------------------------|:--------:|:------|
-| Permission                 | Permission                 | Extended |       |
-| Permission_STATUS          | Permission_STATUS          | Extended |       |
-| RoleAssignmentOperatorSpec | RoleAssignmentOperatorSpec | Extended |       |
-| RoleAssignment_STATUS      | RoleAssignment_STATUS      | Modified |       |
-| RoleAssignment_Spec        | RoleAssignment_Spec        | Modified |       |
-| RoleDefinitionOperatorSpec | RoleDefinitionOperatorSpec | Extended |       |
-| RoleDefinition_STATUS      | RoleDefinition_STATUS      | Extended |       |
-| RoleDefinition_Spec        | RoleDefinition_Spec        | Extended |       |
-| SystemData_STATUS          | SystemData_STATUS          | Modified |       |
-
-## Legend
-
-* **Identical**: No properties changed.
-* **New**: The type or property exists only in the newer version.
-* **Retired**: The type or property exists only in the older version.
-* **Renamed**: A configured rename links the old and new names.
-* **Extended**: The newer type only adds properties.
-* **Modified**: Properties were retired, renamed, or changed type.
+| v1api20220401              | v1api20220401/storage      |  Status  | Notes                         |
+|:---------------------------|:---------------------------|:--------:|:------------------------------|
+| Permission                 | Permission                 | Extended | +PropertyBag                  |
+| Permission_STATUS          | Permission_STATUS          | Extended | +PropertyBag                  |
+| RoleAssignmentOperatorSpec | RoleAssignmentOperatorSpec | Extended | +PropertyBag                  |
+| RoleAssignment_STATUS      | RoleAssignment_STATUS      | Modified |                               |
+| RoleAssignment_Spec        | RoleAssignment_Spec        | Modified |                               |
+| RoleDefinitionOperatorSpec | RoleDefinitionOperatorSpec | Extended | +PropertyBag                  |
+| RoleDefinition_STATUS      | RoleDefinition_STATUS      | Extended | +PropertyBag                  |
+| RoleDefinition_Spec        | RoleDefinition_Spec        | Extended | +OriginalVersion +PropertyBag |
+| SystemData_STATUS          | SystemData_STATUS          | Modified |                               |
 
 ### Permission
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20220401  |          | v1api20220401/storage |                        |  Status   | Notes |
 |:---------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -44,7 +37,7 @@
 
 ### Permission_STATUS
 
-4 x Identical, 1 x New
+Properties: 4 x Identical, 1 x New
 
 | v1api20220401  |          | v1api20220401/storage |                        |  Status   | Notes |
 |:---------------|:---------|:----------------------|:-----------------------|:---------:|:------|
@@ -56,7 +49,7 @@
 
 ### RoleAssignmentOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220401        |                               | v1api20220401/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -67,7 +60,7 @@
 
 ### RoleAssignment_STATUS
 
-16 x Identical, 1 x New, 1 x Modified
+Properties: 16 x Identical, 1 x New, 1 x Modified
 
 | v1api20220401                      |                                                | v1api20220401/storage              |                        |  Status   | Notes |
 |:-----------------------------------|:-----------------------------------------------|:-----------------------------------|:-----------------------|:---------:|:------|
@@ -92,7 +85,7 @@
 
 ### RoleAssignment_Spec
 
-10 x Identical, 2 x New, 1 x Modified
+Properties: 10 x Identical, 2 x New, 1 x Modified
 
 | v1api20220401                             |                                         | v1api20220401/storage                     |                                        |  Status   | Notes |
 |:------------------------------------------|:----------------------------------------|:------------------------------------------|:---------------------------------------|:---------:|:------|
@@ -112,7 +105,7 @@
 
 ### RoleDefinitionOperatorSpec
 
-3 x Identical, 1 x New
+Properties: 3 x Identical, 1 x New
 
 | v1api20220401        |                               | v1api20220401/storage |                               |  Status   | Notes |
 |:---------------------|:------------------------------|:----------------------|:------------------------------|:---------:|:------|
@@ -123,7 +116,7 @@
 
 ### RoleDefinition_STATUS
 
-13 x Identical, 1 x New
+Properties: 13 x Identical, 1 x New
 
 | v1api20220401    |                        | v1api20220401/storage |                        |  Status   | Notes |
 |:-----------------|:-----------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -144,7 +137,7 @@
 
 ### RoleDefinition_Spec
 
-8 x Identical, 2 x New
+Properties: 8 x Identical, 2 x New
 
 | v1api20220401              |                                     | v1api20220401/storage      |                                     |  Status   | Notes |
 |:---------------------------|:------------------------------------|:---------------------------|:------------------------------------|:---------:|:------|
@@ -161,7 +154,7 @@
 
 ### SystemData_STATUS
 
-4 x Identical, 1 x New, 2 x Modified
+Properties: 4 x Identical, 1 x New, 2 x Modified
 
 | v1api20220401      |                                       | v1api20220401/storage |                        |  Status   | Notes |
 |:-------------------|:--------------------------------------|:----------------------|:-----------------------|:---------:|:------|
@@ -172,3 +165,12 @@
 | LastModifiedBy     | *string                               | LastModifiedBy        | *string                | Identical |       |
 | LastModifiedByType | *SystemData_LastModifiedByType_STATUS | LastModifiedByType    | *string                | Modified  |       |
 |                    |                                       | PropertyBag           | genruntime.PropertyBag |    New    |       |
+
+## Legend
+
+* **Identical**: No properties changed (or the differences are trivial).
+* **New**: The type or property exists only in the newer version.
+* **Retired**: The type or property exists only in the older version.
+* **Renamed**: A configured rename links the old and new names.
+* **Extended**: The newer type only adds properties.
+* **Modified**: Properties were retired, renamed, or changed type.
