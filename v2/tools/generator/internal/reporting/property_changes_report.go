@@ -669,6 +669,19 @@ func (r *PropertyChangesReport) compareProperties(
 // they differ only because of a type rename configured in the generator (applied recursively
 // through Optional/Array/Map wrapping).
 func (r *PropertyChangesReport) typesEquivalent(thisType astmodel.Type, nextType astmodel.Type) bool {
+	// Check for OptionalType
+	leftOpt, leftOk := astmodel.AsOptionalType(thisType)
+	rightOpt, rightOk := astmodel.AsOptionalType(nextType)
+	if leftOk || rightOk {
+		// Have at least one side optional
+		if leftOk != rightOk {
+			// Different optionality, not equivalent
+			return false
+		}
+
+		return r.typesEquivalent(leftOpt.Unwrap(), rightOpt.Unwrap())
+	}
+
 	switch left := thisType.(type) {
 	case astmodel.InternalTypeName:
 		right, ok := astmodel.AsInternalTypeName(nextType)
