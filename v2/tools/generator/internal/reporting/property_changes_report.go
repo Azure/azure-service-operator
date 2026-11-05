@@ -727,13 +727,22 @@ func (r *PropertyChangesReport) typesEquivalent(thisType astmodel.Type, nextType
 
 // typeNamesEquivalent returns true if this and next refer to the same type, respecting any type
 // rename configured in the generator.
-func (r *PropertyChangesReport) typeNamesEquivalent(this astmodel.InternalTypeName, next astmodel.InternalTypeName) bool {
-	expected := this.Name()
-	if renamed, ok := r.typeRenameLookup(this); ok {
-		expected = renamed
+func (r *PropertyChangesReport) typeNamesEquivalent(
+	this astmodel.InternalTypeName,
+	next astmodel.InternalTypeName,
+) bool {
+	if this.Name() == next.Name() {
+		// The type names are identical,
+		// so they are equivalent regardless of package.
+		return true
 	}
 
-	return expected == next.Name()
+	// Check for rename
+	if renamed, ok := r.typeRenameLookup(this); ok {
+		return renamed == next.Name()
+	}
+
+	return false
 }
 
 // typeRenameNote returns an explanatory note if thisType and nextType refer to differently-named
