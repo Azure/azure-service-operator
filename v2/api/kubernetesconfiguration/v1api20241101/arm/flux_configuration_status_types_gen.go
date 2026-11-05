@@ -53,6 +53,9 @@ type FluxConfiguration_Properties_STATUS struct {
 	// OciRepository: Parameters to reconcile to the OCIRepository source kind type.
 	OciRepository *OCIRepositoryDefinition_STATUS `json:"ociRepository,omitempty"`
 
+	// ProvisioningState: Status of the creation of the fluxConfiguration.
+	ProvisioningState *ProvisioningStateDefinition_STATUS `json:"provisioningState,omitempty"`
+
 	// ReconciliationWaitDuration: Maximum duration to wait for flux configuration reconciliation. E.g PT1H, PT5M, P1D
 	ReconciliationWaitDuration *string `json:"reconciliationWaitDuration,omitempty"`
 
@@ -278,6 +281,28 @@ type OCIRepositoryDefinition_STATUS struct {
 
 	// Verify: Verification of the authenticity of an OCI Artifact.
 	Verify *VerifyDefinition_STATUS `json:"verify,omitempty"`
+}
+
+// The provisioning state of the resource.
+type ProvisioningStateDefinition_STATUS string
+
+const (
+	ProvisioningStateDefinition_STATUS_Canceled  = ProvisioningStateDefinition_STATUS("Canceled")
+	ProvisioningStateDefinition_STATUS_Creating  = ProvisioningStateDefinition_STATUS("Creating")
+	ProvisioningStateDefinition_STATUS_Deleting  = ProvisioningStateDefinition_STATUS("Deleting")
+	ProvisioningStateDefinition_STATUS_Failed    = ProvisioningStateDefinition_STATUS("Failed")
+	ProvisioningStateDefinition_STATUS_Succeeded = ProvisioningStateDefinition_STATUS("Succeeded")
+	ProvisioningStateDefinition_STATUS_Updating  = ProvisioningStateDefinition_STATUS("Updating")
+)
+
+// Mapping from string to ProvisioningStateDefinition_STATUS
+var provisioningStateDefinition_STATUS_Values = map[string]ProvisioningStateDefinition_STATUS{
+	"canceled":  ProvisioningStateDefinition_STATUS_Canceled,
+	"creating":  ProvisioningStateDefinition_STATUS_Creating,
+	"deleting":  ProvisioningStateDefinition_STATUS_Deleting,
+	"failed":    ProvisioningStateDefinition_STATUS_Failed,
+	"succeeded": ProvisioningStateDefinition_STATUS_Succeeded,
+	"updating":  ProvisioningStateDefinition_STATUS_Updating,
 }
 
 // Scope at which the configuration will be installed.

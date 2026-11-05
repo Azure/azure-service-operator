@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v20250601/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -26,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v20230101.StorageAccountsFileService
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2023-01-01/file.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2023-01-01/file.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default
 type StorageAccountsFileService struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &StorageAccountsFileService{}
 
 // ConvertFrom populates our StorageAccountsFileService from the provided hub StorageAccountsFileService
 func (service *StorageAccountsFileService) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.StorageAccountsFileService)
-	if !ok {
-		return fmt.Errorf("expected storage/v20250601/storage/StorageAccountsFileService but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.StorageAccountsFileService
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return service.AssignProperties_From_StorageAccountsFileService(source)
+	err = service.AssignProperties_From_StorageAccountsFileService(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to service")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub StorageAccountsFileService from our StorageAccountsFileService
 func (service *StorageAccountsFileService) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.StorageAccountsFileService)
-	if !ok {
-		return fmt.Errorf("expected storage/v20250601/storage/StorageAccountsFileService but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.StorageAccountsFileService
+	err := service.AssignProperties_To_StorageAccountsFileService(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from service")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return service.AssignProperties_To_StorageAccountsFileService(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &StorageAccountsFileService{}
@@ -245,7 +258,7 @@ func (service *StorageAccountsFileService) OriginalGVK() *schema.GroupVersionKin
 // +kubebuilder:object:root=true
 // Storage version of v20230101.StorageAccountsFileService
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2023-01-01/file.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2023-01-01/file.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default
 type StorageAccountsFileServiceList struct {
 	metav1.TypeMeta `json:",inline"`

@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v20250601/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -26,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v20230101.StorageAccountsQueueService
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2023-01-01/queue.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2023-01-01/queue.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default
 type StorageAccountsQueueService struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &StorageAccountsQueueService{}
 
 // ConvertFrom populates our StorageAccountsQueueService from the provided hub StorageAccountsQueueService
 func (service *StorageAccountsQueueService) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.StorageAccountsQueueService)
-	if !ok {
-		return fmt.Errorf("expected storage/v20250601/storage/StorageAccountsQueueService but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.StorageAccountsQueueService
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return service.AssignProperties_From_StorageAccountsQueueService(source)
+	err = service.AssignProperties_From_StorageAccountsQueueService(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to service")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub StorageAccountsQueueService from our StorageAccountsQueueService
 func (service *StorageAccountsQueueService) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.StorageAccountsQueueService)
-	if !ok {
-		return fmt.Errorf("expected storage/v20250601/storage/StorageAccountsQueueService but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.StorageAccountsQueueService
+	err := service.AssignProperties_To_StorageAccountsQueueService(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from service")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return service.AssignProperties_To_StorageAccountsQueueService(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &StorageAccountsQueueService{}
@@ -245,7 +258,7 @@ func (service *StorageAccountsQueueService) OriginalGVK() *schema.GroupVersionKi
 // +kubebuilder:object:root=true
 // Storage version of v20230101.StorageAccountsQueueService
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2023-01-01/queue.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2023-01-01/queue.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default
 type StorageAccountsQueueServiceList struct {
 	metav1.TypeMeta `json:",inline"`

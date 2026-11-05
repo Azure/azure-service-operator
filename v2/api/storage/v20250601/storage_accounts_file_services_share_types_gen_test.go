@@ -5,7 +5,8 @@ package v20250601
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v20250601/storage"
+	v20250601s "github.com/Azure/azure-service-operator/v2/api/storage/v20250601/storage"
+	v20260601s "github.com/Azure/azure-service-operator/v2/api/storage/v20260601/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -40,7 +41,7 @@ func RunPropertyAssignmentTestForAccessPolicy(subject AccessPolicy) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AccessPolicy
+	var other v20250601s.AccessPolicy
 	err := copied.AssignProperties_To_AccessPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -154,7 +155,7 @@ func RunPropertyAssignmentTestForAccessPolicy_STATUS(subject AccessPolicy_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AccessPolicy_STATUS
+	var other v20250601s.AccessPolicy_STATUS
 	err := copied.AssignProperties_To_AccessPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -269,7 +270,7 @@ func RunPropertyAssignmentTestForFileSharePropertiesFileSharePaidBursting(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FileSharePropertiesFileSharePaidBursting
+	var other v20250601s.FileSharePropertiesFileSharePaidBursting
 	err := copied.AssignProperties_To_FileSharePropertiesFileSharePaidBursting(&other)
 	if err != nil {
 		return err.Error()
@@ -384,7 +385,7 @@ func RunPropertyAssignmentTestForFileSharePropertiesFileSharePaidBursting_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FileSharePropertiesFileSharePaidBursting_STATUS
+	var other v20250601s.FileSharePropertiesFileSharePaidBursting_STATUS
 	err := copied.AssignProperties_To_FileSharePropertiesFileSharePaidBursting_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -499,7 +500,7 @@ func RunPropertyAssignmentTestForSignedIdentifier(subject SignedIdentifier) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SignedIdentifier
+	var other v20250601s.SignedIdentifier
 	err := copied.AssignProperties_To_SignedIdentifier(&other)
 	if err != nil {
 		return err.Error()
@@ -611,7 +612,7 @@ func RunPropertyAssignmentTestForSignedIdentifier_STATUS(subject SignedIdentifie
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SignedIdentifier_STATUS
+	var other v20250601s.SignedIdentifier_STATUS
 	err := copied.AssignProperties_To_SignedIdentifier_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -739,7 +740,7 @@ func RunResourceConversionTestForStorageAccountsFileServicesShare(subject Storag
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.StorageAccountsFileServicesShare
+	var hub v20260601s.StorageAccountsFileServicesShare
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -786,7 +787,7 @@ func RunPropertyAssignmentTestForStorageAccountsFileServicesShare(subject Storag
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.StorageAccountsFileServicesShare
+	var other v20250601s.StorageAccountsFileServicesShare
 	err := copied.AssignProperties_To_StorageAccountsFileServicesShare(&other)
 	if err != nil {
 		return err.Error()
@@ -900,7 +901,7 @@ func RunPropertyAssignmentTestForStorageAccountsFileServicesShareOperatorSpec(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.StorageAccountsFileServicesShareOperatorSpec
+	var other v20250601s.StorageAccountsFileServicesShareOperatorSpec
 	err := copied.AssignProperties_To_StorageAccountsFileServicesShareOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -1007,7 +1008,7 @@ func RunPropertyAssignmentTestForStorageAccountsFileServicesShare_STATUS(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.StorageAccountsFileServicesShare_STATUS
+	var other v20250601s.StorageAccountsFileServicesShare_STATUS
 	err := copied.AssignProperties_To_StorageAccountsFileServicesShare_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1174,7 +1175,7 @@ func RunPropertyAssignmentTestForStorageAccountsFileServicesShare_Spec(subject S
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.StorageAccountsFileServicesShare_Spec
+	var other v20250601s.StorageAccountsFileServicesShare_Spec
 	err := copied.AssignProperties_To_StorageAccountsFileServicesShare_Spec(&other)
 	if err != nil {
 		return err.Error()

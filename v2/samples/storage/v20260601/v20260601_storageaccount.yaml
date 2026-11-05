@@ -1,0 +1,14 @@
+apiVersion: storage.azure.com/v20260601
+kind: StorageAccount
+metadata:
+  name: samplekubestorage
+  namespace: default
+spec:
+  location: westus2
+  kind: StorageV2
+  sku:
+    name: Standard_ZRS
+  owner:
+    name: aso-sample-rg
+  accessTier: Smart
+  # supportsHttpsTrafficOnly: true

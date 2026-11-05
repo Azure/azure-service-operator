@@ -1,0 +1,36 @@
+name: Remove labels on merge
+
+on:
+  # pull_request_target can access secrets and a write-enabled GITHUB_TOKEN,
+  # even for fork PRs. Keep this workflow metadata-only: never check out or
+  # execute PR-controlled code, or interpolate PR text into executable scripts.
+  pull_request_target:
+    types:
+      - closed
+
+permissions: {}
+
+jobs:
+  remove-labels-on-merge:
+    if: github.event.pull_request.merged
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write # PR labels use the issues API but require pull request permissions.
+    steps:
+      - name: Remove review/next and merge/next labels
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # pinned to v9.0.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const labelsToRemove = new Set(["review/next", "merge/next"]);
+            const labels = context.payload.pull_request.labels
+              .map(label => label.name)
+              .filter(label => labelsToRemove.has(label));
+
+            await Promise.all(labels.map(name =>
+              github.rest.issues.removeLabel({
+                ...context.repo,
+                issue_number: context.issue.number,
+                name
+              })
+            ));

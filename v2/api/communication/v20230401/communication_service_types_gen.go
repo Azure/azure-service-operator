@@ -30,7 +30,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /communication/resource-manager/Microsoft.Communication/stable/2023-04-01/CommunicationServices.json
+// - Generated from: /communication/resource-manager/Microsoft.Communication/Communication/stable/2023-04-01/CommunicationServices.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/communicationServices/{communicationServiceName}
 type CommunicationService struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -259,7 +259,7 @@ func (service *CommunicationService) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /communication/resource-manager/Microsoft.Communication/stable/2023-04-01/CommunicationServices.json
+// - Generated from: /communication/resource-manager/Microsoft.Communication/Communication/stable/2023-04-01/CommunicationServices.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/communicationServices/{communicationServiceName}
 type CommunicationServiceList struct {
 	metav1.TypeMeta `json:",inline"`

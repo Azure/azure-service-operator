@@ -910,35 +910,6 @@ var transparentDataEncryptionScanState_STATUS_Values = map[string]TransparentDat
 	"suspend":   TransparentDataEncryptionScanState_STATUS_Suspend,
 }
 
-// Specifies the state of the transparent data encryption.
-// +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type TransparentDataEncryptionState string
-
-const (
-	TransparentDataEncryptionState_Disabled = TransparentDataEncryptionState("Disabled")
-	TransparentDataEncryptionState_Enabled  = TransparentDataEncryptionState("Enabled")
-)
-
-// Mapping from string to TransparentDataEncryptionState
-var transparentDataEncryptionState_Values = map[string]TransparentDataEncryptionState{
-	"disabled": TransparentDataEncryptionState_Disabled,
-	"enabled":  TransparentDataEncryptionState_Enabled,
-}
-
-// Specifies the state of the transparent data encryption.
-type TransparentDataEncryptionState_STATUS string
-
-const (
-	TransparentDataEncryptionState_STATUS_Disabled = TransparentDataEncryptionState_STATUS("Disabled")
-	TransparentDataEncryptionState_STATUS_Enabled  = TransparentDataEncryptionState_STATUS("Enabled")
-)
-
-// Mapping from string to TransparentDataEncryptionState_STATUS
-var transparentDataEncryptionState_STATUS_Values = map[string]TransparentDataEncryptionState_STATUS{
-	"disabled": TransparentDataEncryptionState_STATUS_Disabled,
-	"enabled":  TransparentDataEncryptionState_STATUS_Enabled,
-}
-
 func init() {
 	SchemeBuilder.Register(&ServersDatabasesTransparentDataEncryption{}, &ServersDatabasesTransparentDataEncryptionList{})
 }

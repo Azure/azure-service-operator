@@ -31,7 +31,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20230501.Extension
 // Generator information:
-// - Generated from: /kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2023-05-01/extensions.json
+// - Generated from: /kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/legacy/stable/2023-05-01/extensions.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/extensions/{extensionName}
 type Extension struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -269,7 +269,7 @@ func (extension *Extension) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20230501.Extension
 // Generator information:
-// - Generated from: /kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2023-05-01/extensions.json
+// - Generated from: /kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/legacy/stable/2023-05-01/extensions.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/extensions/{extensionName}
 type ExtensionList struct {
 	metav1.TypeMeta `json:",inline"`

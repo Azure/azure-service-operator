@@ -2,6 +2,9 @@ typeFilters:
   - action: include
     version: v*20230501preview
     because: This version of APIM is created in a matter of minutes
+  - action: include
+    version: v*20250301preview
+    because: This version adds support for custom backend TLS certificate thumbprints
 
 typeTransformers:
   # 
@@ -404,3 +407,13 @@ groupModelConfiguration:
     VirtualNetworkConfiguration:
       SubnetResourceId:
         $referenceType: arm
+  2025-03-01-preview:
+    BackendContractProperties:
+      ResourceId:
+        $referenceType: arm
+    BackendProxyContract:
+      Password:
+        $importSecretMode: required
+    Service_Backend:
+      $exportAs: Backend
+      $supportedFrom: v2.22.0

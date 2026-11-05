@@ -22,6 +22,7 @@ set -eu
 #
 # -v --verbose          : Generate more logging
 # -s --skip-installed   : Skip anything that's already installed
+# TOOL_DEST overrides the local tool directory when set (for example, in CI).
 #
 
 #
@@ -82,11 +83,11 @@ write-error() {
 # Configure behaviour for devcontainer mode or not
 
 if [ "$DEVCONTAINER" = true ]; then 
-    TOOL_DEST=/go/bin
+    TOOL_DEST=/usr/local/bin
     KUBEBUILDER_DEST=/usr/local/kubebuilder
     BUILDX_DEST=/usr/lib/docker/cli-plugins
 else
-    TOOL_DEST=$(git rev-parse --show-toplevel)/hack/tools
+    TOOL_DEST=${TOOL_DEST:-$(git rev-parse --show-toplevel)/hack/tools}
     mkdir -p "$TOOL_DEST"
     KUBEBUILDER_DEST="$TOOL_DEST/kubebuilder"
     BUILDX_DEST=$HOME/.docker/cli-plugins

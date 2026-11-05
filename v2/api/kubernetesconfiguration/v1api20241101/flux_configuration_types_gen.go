@@ -1067,6 +1067,9 @@ type FluxConfiguration_STATUS struct {
 	// OciRepository: Parameters to reconcile to the OCIRepository source kind type.
 	OciRepository *OCIRepositoryDefinition_STATUS `json:"ociRepository,omitempty"`
 
+	// ProvisioningState: Status of the creation of the fluxConfiguration.
+	ProvisioningState *ProvisioningStateDefinition_STATUS `json:"provisioningState,omitempty"`
+
 	// ReconciliationWaitDuration: Maximum duration to wait for flux configuration reconciliation. E.g PT1H, PT5M, P1D
 	ReconciliationWaitDuration *string `json:"reconciliationWaitDuration,omitempty"`
 
@@ -1297,6 +1300,17 @@ func (configuration *FluxConfiguration_STATUS) PopulateFromARM(owner genruntime.
 		}
 	}
 
+	// Set property "ProvisioningState":
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ProvisioningState != nil {
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := ProvisioningStateDefinition_STATUS(temp)
+			configuration.ProvisioningState = &provisioningState
+		}
+	}
+
 	// Set property "ReconciliationWaitDuration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1510,6 +1524,15 @@ func (configuration *FluxConfiguration_STATUS) AssignProperties_From_FluxConfigu
 		configuration.OciRepository = nil
 	}
 
+	// ProvisioningState
+	if source.ProvisioningState != nil {
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningStateDefinition_STATUS_Values)
+		configuration.ProvisioningState = &provisioningStateTemp
+	} else {
+		configuration.ProvisioningState = nil
+	}
+
 	// ReconciliationWaitDuration
 	configuration.ReconciliationWaitDuration = genruntime.ClonePointerToString(source.ReconciliationWaitDuration)
 
@@ -1687,6 +1710,14 @@ func (configuration *FluxConfiguration_STATUS) AssignProperties_To_FluxConfigura
 		destination.OciRepository = &ociRepository
 	} else {
 		destination.OciRepository = nil
+	}
+
+	// ProvisioningState
+	if configuration.ProvisioningState != nil {
+		provisioningState := string(*configuration.ProvisioningState)
+		destination.ProvisioningState = &provisioningState
+	} else {
+		destination.ProvisioningState = nil
 	}
 
 	// ReconciliationWaitDuration
@@ -5058,6 +5089,28 @@ func (definition *OCIRepositoryDefinition_STATUS) AssignProperties_To_OCIReposit
 
 	// No error
 	return nil
+}
+
+// The provisioning state of the resource.
+type ProvisioningStateDefinition_STATUS string
+
+const (
+	ProvisioningStateDefinition_STATUS_Canceled  = ProvisioningStateDefinition_STATUS("Canceled")
+	ProvisioningStateDefinition_STATUS_Creating  = ProvisioningStateDefinition_STATUS("Creating")
+	ProvisioningStateDefinition_STATUS_Deleting  = ProvisioningStateDefinition_STATUS("Deleting")
+	ProvisioningStateDefinition_STATUS_Failed    = ProvisioningStateDefinition_STATUS("Failed")
+	ProvisioningStateDefinition_STATUS_Succeeded = ProvisioningStateDefinition_STATUS("Succeeded")
+	ProvisioningStateDefinition_STATUS_Updating  = ProvisioningStateDefinition_STATUS("Updating")
+)
+
+// Mapping from string to ProvisioningStateDefinition_STATUS
+var provisioningStateDefinition_STATUS_Values = map[string]ProvisioningStateDefinition_STATUS{
+	"canceled":  ProvisioningStateDefinition_STATUS_Canceled,
+	"creating":  ProvisioningStateDefinition_STATUS_Creating,
+	"deleting":  ProvisioningStateDefinition_STATUS_Deleting,
+	"failed":    ProvisioningStateDefinition_STATUS_Failed,
+	"succeeded": ProvisioningStateDefinition_STATUS_Succeeded,
+	"updating":  ProvisioningStateDefinition_STATUS_Updating,
 }
 
 // Scope at which the configuration will be installed.

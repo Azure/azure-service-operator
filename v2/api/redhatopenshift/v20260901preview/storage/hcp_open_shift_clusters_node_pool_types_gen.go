@@ -318,7 +318,7 @@ type NodePoolPlatformProfile struct {
 	OsDisk                 *OsDiskProfile         `json:"osDisk,omitempty"`
 	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
-	// SubnetReference: The Azure resource ID of the worker subnet
+	// SubnetReference: The Azure resource ID of the worker subnet.
 	// Note that a subnet cannot be reused between ARO-HCP Clusters, however the
 	// same subnet can be used for NodePools of the same cluster.
 	SubnetReference *genruntime.ResourceReference `armReference:"SubnetId" json:"subnetReference,omitempty"`

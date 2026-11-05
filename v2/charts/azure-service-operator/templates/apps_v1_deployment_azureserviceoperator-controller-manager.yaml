@@ -7,7 +7,7 @@ metadata:
   {{- end }}
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.21.1
+    app.kubernetes.io/version: v2.22.0
     control-plane: controller-manager
   name: azureserviceoperator-controller-manager
   namespace: {{ .Release.Namespace }}
@@ -31,7 +31,7 @@ spec:
         aadpodidbinding: aso-manager-binding
         {{- end }}
         app.kubernetes.io/name: azure-service-operator
-        app.kubernetes.io/version: v2.21.1
+        app.kubernetes.io/version: v2.22.0
         control-plane: controller-manager
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
@@ -162,6 +162,12 @@ spec:
               key: AZURE_SYNC_PERIOD
               name: aso-controller-settings
               optional: true
+        - name: TLS_MIN_VERSION
+          valueFrom:
+            secretKeyRef:
+              key: TLS_MIN_VERSION
+              name: aso-controller-settings
+              optional: true
         - name: USE_WORKLOAD_IDENTITY_AUTH
           valueFrom:
             secretKeyRef:
@@ -208,6 +214,12 @@ spec:
           valueFrom:
             secretKeyRef:
               key: ALLOW_MULTI_ENV_MANAGEMENT
+              name: aso-controller-settings
+              optional: true
+        - name: AZURE_WORKLOAD_IDENTITY_AUTH_MODE
+          valueFrom:
+            secretKeyRef:
+              key: AZURE_WORKLOAD_IDENTITY_AUTH_MODE
               name: aso-controller-settings
               optional: true
         - name: POD_NAMESPACE

@@ -51,17 +51,3 @@ var transparentDataEncryptionScanState_STATUS_Values = map[string]TransparentDat
 	"running":   TransparentDataEncryptionScanState_STATUS_Running,
 	"suspend":   TransparentDataEncryptionScanState_STATUS_Suspend,
 }
-
-// Specifies the state of the transparent data encryption.
-type TransparentDataEncryptionState_STATUS string
-
-const (
-	TransparentDataEncryptionState_STATUS_Disabled = TransparentDataEncryptionState_STATUS("Disabled")
-	TransparentDataEncryptionState_STATUS_Enabled  = TransparentDataEncryptionState_STATUS("Enabled")
-)
-
-// Mapping from string to TransparentDataEncryptionState_STATUS
-var transparentDataEncryptionState_STATUS_Values = map[string]TransparentDataEncryptionState_STATUS{
-	"disabled": TransparentDataEncryptionState_STATUS_Disabled,
-	"enabled":  TransparentDataEncryptionState_STATUS_Enabled,
-}

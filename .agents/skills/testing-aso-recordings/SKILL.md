@@ -14,15 +14,15 @@ The test framework automatically chooses: if a recording file exists, it replays
 
 ## Test Suites
 
-|                            | Controllers                             | Samples                                                                |
-| -------------------------- | --------------------------------------- | ---------------------------------------------------------------------- |
-| **Task command**           | `controller:test-controllers`           | `controller:test-samples`                                              |
-| **Log file**               | `reports/test-controllers.log`          | `reports/test-samples.log`                                             |
-| **Test source**            | `v2/internal/controllers/`              | `v2/internal/testsamples/samples_test.go`                              |
-| **Suite setup**            | `v2/internal/controllers/suite_test.go` | `v2/internal/testsamples/suite_test.go`                                |
-| **Recordings dir**         | `v2/internal/controllers/recordings/`   | `v2/internal/testsamples/recordings/Test_Samples_CreationAndDeletion/` |
-| **Playback (full suite)**  | 6–10 min                                | 5–10 min                                                               |
-| **Playback (single test)** | 1–3 min                                 | 2–3 min                                                                |
+|                            | Controllers                             | Samples                                                                 |
+| -------------------------- | --------------------------------------- | ----------------------------------------------------------------------- |
+| **Task command**           | `controller:test-controllers`           | `controller:test-samples`                                               |
+| **Log file**               | `reports/test-controllers.log`          | `reports/test-samples.log`                                              |
+| **Test source**            | `v2/internal/controllers/`              | `v2/samples/sampletesting/samples_test.go`                              |
+| **Suite setup**            | `v2/internal/controllers/suite_test.go` | `v2/samples/sampletesting/suite_test.go`                                |
+| **Recordings dir**         | `v2/internal/controllers/recordings/`   | `v2/samples/sampletesting/recordings/Test_Samples_CreationAndDeletion/` |
+| **Playback (full suite)**  | 6–10 min                                | 5–10 min                                                                |
+| **Playback (single test)** | 1–3 min                                 | 2–3 min                                                                 |
 
 **When to run which suite:**
 

@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_KeyValueProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of KeyValueProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForKeyValueProperties_STATUS, KeyValueProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForKeyValueProperties_STATUS)
 }
 
 // RunJSONSerializationTestForKeyValueProperties_STATUS runs a test to see if a specific instance of KeyValueProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForKeyValueProperties_STATUS(subject KeyValueProperties_STATUS) string {
+func RunJSONSerializationTestForKeyValueProperties_STATUS(t *rapid.T) {
+	subject := KeyValueProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual KeyValueProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,41 +45,40 @@ func RunJSONSerializationTestForKeyValueProperties_STATUS(subject KeyValueProper
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of KeyValueProperties_STATUS instances for property testing - lazily instantiated by
 // KeyValueProperties_STATUSGenerator()
-var keyValueProperties_STATUSGenerator gopter.Gen
+var keyValueProperties_STATUSGenerator *rapid.Generator[KeyValueProperties_STATUS]
 
 // KeyValueProperties_STATUSGenerator returns a generator of KeyValueProperties_STATUS instances for property testing.
-func KeyValueProperties_STATUSGenerator() gopter.Gen {
+func KeyValueProperties_STATUSGenerator() *rapid.Generator[KeyValueProperties_STATUS] {
 	if keyValueProperties_STATUSGenerator != nil {
 		return keyValueProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForKeyValueProperties_STATUS(generators)
-	keyValueProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(KeyValueProperties_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	locked := rapid.Ptr(rapid.Bool(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
+
+	keyValueProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) KeyValueProperties_STATUS {
+		var result KeyValueProperties_STATUS
+		result.ContentType = ptrString.Draw(t, "ContentType")
+		result.ETag = ptrString.Draw(t, "ETag")
+		result.Key = ptrString.Draw(t, "Key")
+		result.Label = ptrString.Draw(t, "Label")
+		result.LastModified = ptrString.Draw(t, "LastModified")
+		result.Locked = locked.Draw(t, "Locked")
+		result.Tags = tags.Draw(t, "Tags")
+		result.Value = ptrString.Draw(t, "Value")
+		return result
+	})
 
 	return keyValueProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForKeyValueProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForKeyValueProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["ContentType"] = gen.PtrOf(gen.AlphaString())
-	gens["ETag"] = gen.PtrOf(gen.AlphaString())
-	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["Label"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModified"] = gen.PtrOf(gen.AlphaString())
-	gens["Locked"] = gen.PtrOf(gen.Bool())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_KeyValue_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -99,29 +88,23 @@ func Test_KeyValue_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of KeyValue_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForKeyValue_STATUS, KeyValue_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForKeyValue_STATUS)
 }
 
 // RunJSONSerializationTestForKeyValue_STATUS runs a test to see if a specific instance of KeyValue_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForKeyValue_STATUS(subject KeyValue_STATUS) string {
+func RunJSONSerializationTestForKeyValue_STATUS(t *rapid.T) {
+	subject := KeyValue_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual KeyValue_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -130,45 +113,30 @@ func RunJSONSerializationTestForKeyValue_STATUS(subject KeyValue_STATUS) string 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of KeyValue_STATUS instances for property testing - lazily instantiated by KeyValue_STATUSGenerator()
-var keyValue_STATUSGenerator gopter.Gen
+var keyValue_STATUSGenerator *rapid.Generator[KeyValue_STATUS]
 
 // KeyValue_STATUSGenerator returns a generator of KeyValue_STATUS instances for property testing.
-// We first initialize keyValue_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func KeyValue_STATUSGenerator() gopter.Gen {
+func KeyValue_STATUSGenerator() *rapid.Generator[KeyValue_STATUS] {
 	if keyValue_STATUSGenerator != nil {
 		return keyValue_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForKeyValue_STATUS(generators)
-	keyValue_STATUSGenerator = gen.Struct(reflect.TypeOf(KeyValue_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	properties := rapid.Ptr(KeyValueProperties_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForKeyValue_STATUS(generators)
-	AddRelatedPropertyGeneratorsForKeyValue_STATUS(generators)
-	keyValue_STATUSGenerator = gen.Struct(reflect.TypeOf(KeyValue_STATUS{}), generators)
+	keyValue_STATUSGenerator = rapid.Custom(func(t *rapid.T) KeyValue_STATUS {
+		var result KeyValue_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return keyValue_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForKeyValue_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForKeyValue_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForKeyValue_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForKeyValue_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(KeyValueProperties_STATUSGenerator())
 }

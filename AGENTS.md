@@ -37,7 +37,13 @@ To run commands within the development shell, with all tools available on the pa
 
 ## Verification Steps
 
-Before completing your task, you **must** run these checks in the specified order, one at a time. If any step fails, fix the issues and **start again from the beginning of the list.**
+Before completing your task, run the following checks in the specified order, one at a time.
+
+* Choose validation steps according to the changes made.
+* Restart validation when a fix invalidates an earlier result.
+* Skip irrelevant or unexpectedly expensive validation rather than needlessly expanding the task.
+
+When the following sequence applies, run the checks in the specified order, one at a time:
 
 1. **Format Code:**
 
@@ -70,10 +76,11 @@ If an issue seems too complex to fix, please stop and ask for clarification.
 
 Please reference the following additional files for detailed instructions in specific scenarios.
 
+* Use Conventional Commits for pull request titles and commit messages. Follow the prefix guidance in [CONTRIBUTING.md](./CONTRIBUTING.md#pull-request-titles-and-commit-messages).
 * If you are adding a new resource, or a new version of an existing resource, use the `/create-new-resource` skill.
 * If you are reviewing a change, consult `code-review.instructions.md`.
 * If you are investigating or filing a security issue, consult `SECURITY.md` in the repository root.
 
 ## Reference Documentation
 
-We have extensive reference documentation available under the `docs/hugo/content` directory, including a detailed contributors guide in the `docs/hugo/content/contributing` directory. Please consult this as required.
+We have extensive reference documentation available under the `docs/hugo/content` directory, including a detailed contributors guide in the `docs/hugo/content/contributing` directory and `CONTRIBUTING.md`. Please consult this as required.

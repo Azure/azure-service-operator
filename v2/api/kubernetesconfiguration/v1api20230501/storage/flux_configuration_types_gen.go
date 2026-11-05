@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20230501.FluxConfiguration
 // Generator information:
-// - Generated from: /kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2023-05-01/fluxconfiguration.json
+// - Generated from: /kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/legacy/stable/2023-05-01/fluxconfiguration.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/{fluxConfigurationName}
 type FluxConfiguration struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -245,7 +245,7 @@ func (configuration *FluxConfiguration) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20230501.FluxConfiguration
 // Generator information:
-// - Generated from: /kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2023-05-01/fluxconfiguration.json
+// - Generated from: /kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/legacy/stable/2023-05-01/fluxconfiguration.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/{fluxConfigurationName}
 type FluxConfigurationList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -800,17 +800,7 @@ func (configuration *FluxConfiguration_STATUS) AssignProperties_From_FluxConfigu
 	}
 
 	// ProvisioningState
-	if propertyBag.Contains("ProvisioningState") {
-		var provisioningState string
-		err := propertyBag.Pull("ProvisioningState", &provisioningState)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'ProvisioningState' from propertyBag")
-		}
-
-		configuration.ProvisioningState = &provisioningState
-	} else {
-		configuration.ProvisioningState = nil
-	}
+	configuration.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// ReconciliationWaitDuration
 	configuration.ReconciliationWaitDuration = genruntime.ClonePointerToString(source.ReconciliationWaitDuration)
@@ -992,11 +982,7 @@ func (configuration *FluxConfiguration_STATUS) AssignProperties_To_FluxConfigura
 	}
 
 	// ProvisioningState
-	if configuration.ProvisioningState != nil {
-		propertyBag.Add("ProvisioningState", *configuration.ProvisioningState)
-	} else {
-		propertyBag.Remove("ProvisioningState")
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(configuration.ProvisioningState)
 
 	// ReconciliationWaitDuration
 	destination.ReconciliationWaitDuration = genruntime.ClonePointerToString(configuration.ReconciliationWaitDuration)

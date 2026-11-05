@@ -33,7 +33,7 @@ Also, new API versions add support for Managed Cassandra, Redis Enterprise publi
 ## ✨ Other improvements
 
 - ASO can now [acquire credentials from an ASO-created managed identity](https://github.com/Azure/azure-service-operator/pull/5490).
-- A new [`--tls-min-version` flag](https://github.com/Azure/azure-service-operator/pull/5620) configures the minimum TLS version used by the webhook and metrics servers.
+- A new [`TLS_MIN_VERSION`]({{< relref "/guide/aso-controller-settings-options#tls_min_version" >}}) environment variable configures the minimum TLS version used by the webhook and metrics servers.
 - CRD comparison is faster, improving operator start-up when many CRDs are installed.
 - ASO-managed CRDs can carry additional labels.
 - AKS agent pools are requeued while control-plane upgrades are in progress, and Front Door custom-domain route association errors are retried sooner.
@@ -45,7 +45,7 @@ Also, new API versions add support for Managed Cassandra, Redis Enterprise publi
 
 ## 🔭 Looking ahead
 
-ASO v2.22 will default the webhook and metrics servers to TLS 1.3. You will still be able to enable TLS 1.2 with the `--tls-min-version` flag when required.
+ASO v2.22 will default the webhook and metrics servers to TLS 1.3. You will still be able to enable TLS 1.2 with the [`TLS_MIN_VERSION`]({{< relref "/guide/aso-controller-settings-options#tls_min_version" >}}) environment variable when required.
 
 ## 🙏 Thank You
 

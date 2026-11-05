@@ -10,14 +10,11 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
+// Test_AdmCredential_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of AdmCredential can be assigned to storage and back losslessly
 func Test_AdmCredential_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -25,44 +22,34 @@ func Test_AdmCredential_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AdmCredential to AdmCredential via AssignProperties_To_AdmCredential & AssignProperties_From_AdmCredential returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAdmCredential, AdmCredentialGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := AdmCredentialGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForAdmCredential tests if a specific instance of AdmCredential can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForAdmCredential(subject AdmCredential) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.AdmCredential
+		err := copied.AssignProperties_To_AdmCredential(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AdmCredential
-	err := copied.AssignProperties_To_AdmCredential(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual AdmCredential
+		err = actual.AssignProperties_From_AdmCredential(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AdmCredential
-	err = actual.AssignProperties_From_AdmCredential(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_AdmCredential_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -72,29 +59,23 @@ func Test_AdmCredential_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AdmCredential via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdmCredential, AdmCredentialGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAdmCredential)
 }
 
 // RunJSONSerializationTestForAdmCredential runs a test to see if a specific instance of AdmCredential round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdmCredential(subject AdmCredential) string {
+func RunJSONSerializationTestForAdmCredential(t *rapid.T) {
+	subject := AdmCredentialGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AdmCredential
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -103,33 +84,31 @@ func RunJSONSerializationTestForAdmCredential(subject AdmCredential) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AdmCredential instances for property testing - lazily instantiated by AdmCredentialGenerator()
-var admCredentialGenerator gopter.Gen
+var admCredentialGenerator *rapid.Generator[AdmCredential]
 
 // AdmCredentialGenerator returns a generator of AdmCredential instances for property testing.
-func AdmCredentialGenerator() gopter.Gen {
+func AdmCredentialGenerator() *rapid.Generator[AdmCredential] {
 	if admCredentialGenerator != nil {
 		return admCredentialGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForAdmCredential(generators)
-	admCredentialGenerator = gen.Struct(reflect.TypeOf(AdmCredential{}), generators)
+	properties := rapid.Ptr(AdmCredentialPropertiesGenerator(), true)
+
+	admCredentialGenerator = rapid.Custom(func(t *rapid.T) AdmCredential {
+		var result AdmCredential
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return admCredentialGenerator
 }
 
-// AddRelatedPropertyGeneratorsForAdmCredential is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAdmCredential(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(AdmCredentialPropertiesGenerator())
-}
-
+// Test_AdmCredentialProperties_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of AdmCredentialProperties can be assigned to storage and back losslessly
 func Test_AdmCredentialProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -137,44 +116,34 @@ func Test_AdmCredentialProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AdmCredentialProperties to AdmCredentialProperties via AssignProperties_To_AdmCredentialProperties & AssignProperties_From_AdmCredentialProperties returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAdmCredentialProperties, AdmCredentialPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := AdmCredentialPropertiesGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForAdmCredentialProperties tests if a specific instance of AdmCredentialProperties can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForAdmCredentialProperties(subject AdmCredentialProperties) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.AdmCredentialProperties
+		err := copied.AssignProperties_To_AdmCredentialProperties(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AdmCredentialProperties
-	err := copied.AssignProperties_To_AdmCredentialProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual AdmCredentialProperties
+		err = actual.AssignProperties_From_AdmCredentialProperties(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AdmCredentialProperties
-	err = actual.AssignProperties_From_AdmCredentialProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_AdmCredentialProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -184,29 +153,23 @@ func Test_AdmCredentialProperties_WhenSerializedToJson_DeserializesAsEqual(t *te
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AdmCredentialProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdmCredentialProperties, AdmCredentialPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAdmCredentialProperties)
 }
 
 // RunJSONSerializationTestForAdmCredentialProperties runs a test to see if a specific instance of AdmCredentialProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdmCredentialProperties(subject AdmCredentialProperties) string {
+func RunJSONSerializationTestForAdmCredentialProperties(t *rapid.T) {
+	subject := AdmCredentialPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AdmCredentialProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -215,28 +178,26 @@ func RunJSONSerializationTestForAdmCredentialProperties(subject AdmCredentialPro
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AdmCredentialProperties instances for property testing - lazily instantiated by
 // AdmCredentialPropertiesGenerator()
-var admCredentialPropertiesGenerator gopter.Gen
+var admCredentialPropertiesGenerator *rapid.Generator[AdmCredentialProperties]
 
 // AdmCredentialPropertiesGenerator returns a generator of AdmCredentialProperties instances for property testing.
-func AdmCredentialPropertiesGenerator() gopter.Gen {
+func AdmCredentialPropertiesGenerator() *rapid.Generator[AdmCredentialProperties] {
 	if admCredentialPropertiesGenerator != nil {
 		return admCredentialPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	admCredentialPropertiesGenerator = gen.Struct(reflect.TypeOf(AdmCredentialProperties{}), generators)
+	admCredentialPropertiesGenerator = rapid.Just(AdmCredentialProperties{})
 
 	return admCredentialPropertiesGenerator
 }
 
+// Test_AdmCredentialProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of AdmCredentialProperties_STATUS can be assigned to storage and back losslessly
 func Test_AdmCredentialProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -244,44 +205,34 @@ func Test_AdmCredentialProperties_STATUS_WhenPropertiesConverted_RoundTripsWitho
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AdmCredentialProperties_STATUS to AdmCredentialProperties_STATUS via AssignProperties_To_AdmCredentialProperties_STATUS & AssignProperties_From_AdmCredentialProperties_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAdmCredentialProperties_STATUS, AdmCredentialProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := AdmCredentialProperties_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForAdmCredentialProperties_STATUS tests if a specific instance of AdmCredentialProperties_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForAdmCredentialProperties_STATUS(subject AdmCredentialProperties_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.AdmCredentialProperties_STATUS
+		err := copied.AssignProperties_To_AdmCredentialProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AdmCredentialProperties_STATUS
-	err := copied.AssignProperties_To_AdmCredentialProperties_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual AdmCredentialProperties_STATUS
+		err = actual.AssignProperties_From_AdmCredentialProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AdmCredentialProperties_STATUS
-	err = actual.AssignProperties_From_AdmCredentialProperties_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_AdmCredentialProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -291,29 +242,23 @@ func Test_AdmCredentialProperties_STATUS_WhenSerializedToJson_DeserializesAsEqua
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AdmCredentialProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdmCredentialProperties_STATUS, AdmCredentialProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAdmCredentialProperties_STATUS)
 }
 
 // RunJSONSerializationTestForAdmCredentialProperties_STATUS runs a test to see if a specific instance of AdmCredentialProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdmCredentialProperties_STATUS(subject AdmCredentialProperties_STATUS) string {
+func RunJSONSerializationTestForAdmCredentialProperties_STATUS(t *rapid.T) {
+	subject := AdmCredentialProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AdmCredentialProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -322,28 +267,26 @@ func RunJSONSerializationTestForAdmCredentialProperties_STATUS(subject AdmCreden
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AdmCredentialProperties_STATUS instances for property testing - lazily instantiated by
 // AdmCredentialProperties_STATUSGenerator()
-var admCredentialProperties_STATUSGenerator gopter.Gen
+var admCredentialProperties_STATUSGenerator *rapid.Generator[AdmCredentialProperties_STATUS]
 
 // AdmCredentialProperties_STATUSGenerator returns a generator of AdmCredentialProperties_STATUS instances for property testing.
-func AdmCredentialProperties_STATUSGenerator() gopter.Gen {
+func AdmCredentialProperties_STATUSGenerator() *rapid.Generator[AdmCredentialProperties_STATUS] {
 	if admCredentialProperties_STATUSGenerator != nil {
 		return admCredentialProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	admCredentialProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(AdmCredentialProperties_STATUS{}), generators)
+	admCredentialProperties_STATUSGenerator = rapid.Just(AdmCredentialProperties_STATUS{})
 
 	return admCredentialProperties_STATUSGenerator
 }
 
+// Test_AdmCredential_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of AdmCredential_STATUS can be assigned to storage and back losslessly
 func Test_AdmCredential_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -351,44 +294,34 @@ func Test_AdmCredential_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AdmCredential_STATUS to AdmCredential_STATUS via AssignProperties_To_AdmCredential_STATUS & AssignProperties_From_AdmCredential_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAdmCredential_STATUS, AdmCredential_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := AdmCredential_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForAdmCredential_STATUS tests if a specific instance of AdmCredential_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForAdmCredential_STATUS(subject AdmCredential_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.AdmCredential_STATUS
+		err := copied.AssignProperties_To_AdmCredential_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AdmCredential_STATUS
-	err := copied.AssignProperties_To_AdmCredential_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual AdmCredential_STATUS
+		err = actual.AssignProperties_From_AdmCredential_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AdmCredential_STATUS
-	err = actual.AssignProperties_From_AdmCredential_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_AdmCredential_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -398,29 +331,23 @@ func Test_AdmCredential_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AdmCredential_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdmCredential_STATUS, AdmCredential_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAdmCredential_STATUS)
 }
 
 // RunJSONSerializationTestForAdmCredential_STATUS runs a test to see if a specific instance of AdmCredential_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdmCredential_STATUS(subject AdmCredential_STATUS) string {
+func RunJSONSerializationTestForAdmCredential_STATUS(t *rapid.T) {
+	subject := AdmCredential_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AdmCredential_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -429,34 +356,32 @@ func RunJSONSerializationTestForAdmCredential_STATUS(subject AdmCredential_STATU
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AdmCredential_STATUS instances for property testing - lazily instantiated by
 // AdmCredential_STATUSGenerator()
-var admCredential_STATUSGenerator gopter.Gen
+var admCredential_STATUSGenerator *rapid.Generator[AdmCredential_STATUS]
 
 // AdmCredential_STATUSGenerator returns a generator of AdmCredential_STATUS instances for property testing.
-func AdmCredential_STATUSGenerator() gopter.Gen {
+func AdmCredential_STATUSGenerator() *rapid.Generator[AdmCredential_STATUS] {
 	if admCredential_STATUSGenerator != nil {
 		return admCredential_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForAdmCredential_STATUS(generators)
-	admCredential_STATUSGenerator = gen.Struct(reflect.TypeOf(AdmCredential_STATUS{}), generators)
+	properties := rapid.Ptr(AdmCredentialProperties_STATUSGenerator(), true)
+
+	admCredential_STATUSGenerator = rapid.Custom(func(t *rapid.T) AdmCredential_STATUS {
+		var result AdmCredential_STATUS
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return admCredential_STATUSGenerator
 }
 
-// AddRelatedPropertyGeneratorsForAdmCredential_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAdmCredential_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(AdmCredentialProperties_STATUSGenerator())
-}
-
+// Test_ApnsCredential_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ApnsCredential can be assigned to storage and back losslessly
 func Test_ApnsCredential_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -464,44 +389,34 @@ func Test_ApnsCredential_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ApnsCredential to ApnsCredential via AssignProperties_To_ApnsCredential & AssignProperties_From_ApnsCredential returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApnsCredential, ApnsCredentialGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ApnsCredentialGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForApnsCredential tests if a specific instance of ApnsCredential can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApnsCredential(subject ApnsCredential) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ApnsCredential
+		err := copied.AssignProperties_To_ApnsCredential(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApnsCredential
-	err := copied.AssignProperties_To_ApnsCredential(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ApnsCredential
+		err = actual.AssignProperties_From_ApnsCredential(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApnsCredential
-	err = actual.AssignProperties_From_ApnsCredential(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ApnsCredential_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -511,29 +426,23 @@ func Test_ApnsCredential_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApnsCredential via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApnsCredential, ApnsCredentialGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForApnsCredential)
 }
 
 // RunJSONSerializationTestForApnsCredential runs a test to see if a specific instance of ApnsCredential round trips to JSON and back losslessly
-func RunJSONSerializationTestForApnsCredential(subject ApnsCredential) string {
+func RunJSONSerializationTestForApnsCredential(t *rapid.T) {
+	subject := ApnsCredentialGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ApnsCredential
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -542,33 +451,31 @@ func RunJSONSerializationTestForApnsCredential(subject ApnsCredential) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ApnsCredential instances for property testing - lazily instantiated by ApnsCredentialGenerator()
-var apnsCredentialGenerator gopter.Gen
+var apnsCredentialGenerator *rapid.Generator[ApnsCredential]
 
 // ApnsCredentialGenerator returns a generator of ApnsCredential instances for property testing.
-func ApnsCredentialGenerator() gopter.Gen {
+func ApnsCredentialGenerator() *rapid.Generator[ApnsCredential] {
 	if apnsCredentialGenerator != nil {
 		return apnsCredentialGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForApnsCredential(generators)
-	apnsCredentialGenerator = gen.Struct(reflect.TypeOf(ApnsCredential{}), generators)
+	properties := rapid.Ptr(ApnsCredentialPropertiesGenerator(), true)
+
+	apnsCredentialGenerator = rapid.Custom(func(t *rapid.T) ApnsCredential {
+		var result ApnsCredential
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return apnsCredentialGenerator
 }
 
-// AddRelatedPropertyGeneratorsForApnsCredential is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForApnsCredential(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(ApnsCredentialPropertiesGenerator())
-}
-
+// Test_ApnsCredentialProperties_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ApnsCredentialProperties can be assigned to storage and back losslessly
 func Test_ApnsCredentialProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -576,44 +483,34 @@ func Test_ApnsCredentialProperties_WhenPropertiesConverted_RoundTripsWithoutLoss
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ApnsCredentialProperties to ApnsCredentialProperties via AssignProperties_To_ApnsCredentialProperties & AssignProperties_From_ApnsCredentialProperties returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApnsCredentialProperties, ApnsCredentialPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ApnsCredentialPropertiesGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForApnsCredentialProperties tests if a specific instance of ApnsCredentialProperties can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApnsCredentialProperties(subject ApnsCredentialProperties) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ApnsCredentialProperties
+		err := copied.AssignProperties_To_ApnsCredentialProperties(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApnsCredentialProperties
-	err := copied.AssignProperties_To_ApnsCredentialProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ApnsCredentialProperties
+		err = actual.AssignProperties_From_ApnsCredentialProperties(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApnsCredentialProperties
-	err = actual.AssignProperties_From_ApnsCredentialProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ApnsCredentialProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -623,29 +520,23 @@ func Test_ApnsCredentialProperties_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApnsCredentialProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApnsCredentialProperties, ApnsCredentialPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForApnsCredentialProperties)
 }
 
 // RunJSONSerializationTestForApnsCredentialProperties runs a test to see if a specific instance of ApnsCredentialProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForApnsCredentialProperties(subject ApnsCredentialProperties) string {
+func RunJSONSerializationTestForApnsCredentialProperties(t *rapid.T) {
+	subject := ApnsCredentialPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ApnsCredentialProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -654,28 +545,26 @@ func RunJSONSerializationTestForApnsCredentialProperties(subject ApnsCredentialP
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ApnsCredentialProperties instances for property testing - lazily instantiated by
 // ApnsCredentialPropertiesGenerator()
-var apnsCredentialPropertiesGenerator gopter.Gen
+var apnsCredentialPropertiesGenerator *rapid.Generator[ApnsCredentialProperties]
 
 // ApnsCredentialPropertiesGenerator returns a generator of ApnsCredentialProperties instances for property testing.
-func ApnsCredentialPropertiesGenerator() gopter.Gen {
+func ApnsCredentialPropertiesGenerator() *rapid.Generator[ApnsCredentialProperties] {
 	if apnsCredentialPropertiesGenerator != nil {
 		return apnsCredentialPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	apnsCredentialPropertiesGenerator = gen.Struct(reflect.TypeOf(ApnsCredentialProperties{}), generators)
+	apnsCredentialPropertiesGenerator = rapid.Just(ApnsCredentialProperties{})
 
 	return apnsCredentialPropertiesGenerator
 }
 
+// Test_ApnsCredentialProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ApnsCredentialProperties_STATUS can be assigned to storage and back losslessly
 func Test_ApnsCredentialProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -683,44 +572,34 @@ func Test_ApnsCredentialProperties_STATUS_WhenPropertiesConverted_RoundTripsWith
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ApnsCredentialProperties_STATUS to ApnsCredentialProperties_STATUS via AssignProperties_To_ApnsCredentialProperties_STATUS & AssignProperties_From_ApnsCredentialProperties_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApnsCredentialProperties_STATUS, ApnsCredentialProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ApnsCredentialProperties_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForApnsCredentialProperties_STATUS tests if a specific instance of ApnsCredentialProperties_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApnsCredentialProperties_STATUS(subject ApnsCredentialProperties_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ApnsCredentialProperties_STATUS
+		err := copied.AssignProperties_To_ApnsCredentialProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApnsCredentialProperties_STATUS
-	err := copied.AssignProperties_To_ApnsCredentialProperties_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ApnsCredentialProperties_STATUS
+		err = actual.AssignProperties_From_ApnsCredentialProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApnsCredentialProperties_STATUS
-	err = actual.AssignProperties_From_ApnsCredentialProperties_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ApnsCredentialProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -730,29 +609,23 @@ func Test_ApnsCredentialProperties_STATUS_WhenSerializedToJson_DeserializesAsEqu
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApnsCredentialProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApnsCredentialProperties_STATUS, ApnsCredentialProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForApnsCredentialProperties_STATUS)
 }
 
 // RunJSONSerializationTestForApnsCredentialProperties_STATUS runs a test to see if a specific instance of ApnsCredentialProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForApnsCredentialProperties_STATUS(subject ApnsCredentialProperties_STATUS) string {
+func RunJSONSerializationTestForApnsCredentialProperties_STATUS(t *rapid.T) {
+	subject := ApnsCredentialProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ApnsCredentialProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -761,28 +634,26 @@ func RunJSONSerializationTestForApnsCredentialProperties_STATUS(subject ApnsCred
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ApnsCredentialProperties_STATUS instances for property testing - lazily instantiated by
 // ApnsCredentialProperties_STATUSGenerator()
-var apnsCredentialProperties_STATUSGenerator gopter.Gen
+var apnsCredentialProperties_STATUSGenerator *rapid.Generator[ApnsCredentialProperties_STATUS]
 
 // ApnsCredentialProperties_STATUSGenerator returns a generator of ApnsCredentialProperties_STATUS instances for property testing.
-func ApnsCredentialProperties_STATUSGenerator() gopter.Gen {
+func ApnsCredentialProperties_STATUSGenerator() *rapid.Generator[ApnsCredentialProperties_STATUS] {
 	if apnsCredentialProperties_STATUSGenerator != nil {
 		return apnsCredentialProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	apnsCredentialProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(ApnsCredentialProperties_STATUS{}), generators)
+	apnsCredentialProperties_STATUSGenerator = rapid.Just(ApnsCredentialProperties_STATUS{})
 
 	return apnsCredentialProperties_STATUSGenerator
 }
 
+// Test_ApnsCredential_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ApnsCredential_STATUS can be assigned to storage and back losslessly
 func Test_ApnsCredential_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -790,44 +661,34 @@ func Test_ApnsCredential_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ApnsCredential_STATUS to ApnsCredential_STATUS via AssignProperties_To_ApnsCredential_STATUS & AssignProperties_From_ApnsCredential_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApnsCredential_STATUS, ApnsCredential_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ApnsCredential_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForApnsCredential_STATUS tests if a specific instance of ApnsCredential_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApnsCredential_STATUS(subject ApnsCredential_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ApnsCredential_STATUS
+		err := copied.AssignProperties_To_ApnsCredential_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApnsCredential_STATUS
-	err := copied.AssignProperties_To_ApnsCredential_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ApnsCredential_STATUS
+		err = actual.AssignProperties_From_ApnsCredential_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApnsCredential_STATUS
-	err = actual.AssignProperties_From_ApnsCredential_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ApnsCredential_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -837,29 +698,23 @@ func Test_ApnsCredential_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApnsCredential_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApnsCredential_STATUS, ApnsCredential_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForApnsCredential_STATUS)
 }
 
 // RunJSONSerializationTestForApnsCredential_STATUS runs a test to see if a specific instance of ApnsCredential_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForApnsCredential_STATUS(subject ApnsCredential_STATUS) string {
+func RunJSONSerializationTestForApnsCredential_STATUS(t *rapid.T) {
+	subject := ApnsCredential_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ApnsCredential_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -868,34 +723,32 @@ func RunJSONSerializationTestForApnsCredential_STATUS(subject ApnsCredential_STA
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ApnsCredential_STATUS instances for property testing - lazily instantiated by
 // ApnsCredential_STATUSGenerator()
-var apnsCredential_STATUSGenerator gopter.Gen
+var apnsCredential_STATUSGenerator *rapid.Generator[ApnsCredential_STATUS]
 
 // ApnsCredential_STATUSGenerator returns a generator of ApnsCredential_STATUS instances for property testing.
-func ApnsCredential_STATUSGenerator() gopter.Gen {
+func ApnsCredential_STATUSGenerator() *rapid.Generator[ApnsCredential_STATUS] {
 	if apnsCredential_STATUSGenerator != nil {
 		return apnsCredential_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForApnsCredential_STATUS(generators)
-	apnsCredential_STATUSGenerator = gen.Struct(reflect.TypeOf(ApnsCredential_STATUS{}), generators)
+	properties := rapid.Ptr(ApnsCredentialProperties_STATUSGenerator(), true)
+
+	apnsCredential_STATUSGenerator = rapid.Custom(func(t *rapid.T) ApnsCredential_STATUS {
+		var result ApnsCredential_STATUS
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return apnsCredential_STATUSGenerator
 }
 
-// AddRelatedPropertyGeneratorsForApnsCredential_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForApnsCredential_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(ApnsCredentialProperties_STATUSGenerator())
-}
-
+// Test_BaiduCredential_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of BaiduCredential can be assigned to storage and back losslessly
 func Test_BaiduCredential_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -903,44 +756,34 @@ func Test_BaiduCredential_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from BaiduCredential to BaiduCredential via AssignProperties_To_BaiduCredential & AssignProperties_From_BaiduCredential returns original",
-		prop.ForAll(RunPropertyAssignmentTestForBaiduCredential, BaiduCredentialGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := BaiduCredentialGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForBaiduCredential tests if a specific instance of BaiduCredential can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForBaiduCredential(subject BaiduCredential) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.BaiduCredential
+		err := copied.AssignProperties_To_BaiduCredential(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BaiduCredential
-	err := copied.AssignProperties_To_BaiduCredential(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual BaiduCredential
+		err = actual.AssignProperties_From_BaiduCredential(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual BaiduCredential
-	err = actual.AssignProperties_From_BaiduCredential(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_BaiduCredential_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -950,29 +793,23 @@ func Test_BaiduCredential_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BaiduCredential via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBaiduCredential, BaiduCredentialGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForBaiduCredential)
 }
 
 // RunJSONSerializationTestForBaiduCredential runs a test to see if a specific instance of BaiduCredential round trips to JSON and back losslessly
-func RunJSONSerializationTestForBaiduCredential(subject BaiduCredential) string {
+func RunJSONSerializationTestForBaiduCredential(t *rapid.T) {
+	subject := BaiduCredentialGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual BaiduCredential
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -981,33 +818,31 @@ func RunJSONSerializationTestForBaiduCredential(subject BaiduCredential) string 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of BaiduCredential instances for property testing - lazily instantiated by BaiduCredentialGenerator()
-var baiduCredentialGenerator gopter.Gen
+var baiduCredentialGenerator *rapid.Generator[BaiduCredential]
 
 // BaiduCredentialGenerator returns a generator of BaiduCredential instances for property testing.
-func BaiduCredentialGenerator() gopter.Gen {
+func BaiduCredentialGenerator() *rapid.Generator[BaiduCredential] {
 	if baiduCredentialGenerator != nil {
 		return baiduCredentialGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForBaiduCredential(generators)
-	baiduCredentialGenerator = gen.Struct(reflect.TypeOf(BaiduCredential{}), generators)
+	properties := rapid.Ptr(BaiduCredentialPropertiesGenerator(), true)
+
+	baiduCredentialGenerator = rapid.Custom(func(t *rapid.T) BaiduCredential {
+		var result BaiduCredential
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return baiduCredentialGenerator
 }
 
-// AddRelatedPropertyGeneratorsForBaiduCredential is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForBaiduCredential(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(BaiduCredentialPropertiesGenerator())
-}
-
+// Test_BaiduCredentialProperties_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of BaiduCredentialProperties can be assigned to storage and back losslessly
 func Test_BaiduCredentialProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1015,44 +850,34 @@ func Test_BaiduCredentialProperties_WhenPropertiesConverted_RoundTripsWithoutLos
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from BaiduCredentialProperties to BaiduCredentialProperties via AssignProperties_To_BaiduCredentialProperties & AssignProperties_From_BaiduCredentialProperties returns original",
-		prop.ForAll(RunPropertyAssignmentTestForBaiduCredentialProperties, BaiduCredentialPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := BaiduCredentialPropertiesGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForBaiduCredentialProperties tests if a specific instance of BaiduCredentialProperties can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForBaiduCredentialProperties(subject BaiduCredentialProperties) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.BaiduCredentialProperties
+		err := copied.AssignProperties_To_BaiduCredentialProperties(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BaiduCredentialProperties
-	err := copied.AssignProperties_To_BaiduCredentialProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual BaiduCredentialProperties
+		err = actual.AssignProperties_From_BaiduCredentialProperties(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual BaiduCredentialProperties
-	err = actual.AssignProperties_From_BaiduCredentialProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_BaiduCredentialProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1062,29 +887,23 @@ func Test_BaiduCredentialProperties_WhenSerializedToJson_DeserializesAsEqual(t *
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BaiduCredentialProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBaiduCredentialProperties, BaiduCredentialPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForBaiduCredentialProperties)
 }
 
 // RunJSONSerializationTestForBaiduCredentialProperties runs a test to see if a specific instance of BaiduCredentialProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForBaiduCredentialProperties(subject BaiduCredentialProperties) string {
+func RunJSONSerializationTestForBaiduCredentialProperties(t *rapid.T) {
+	subject := BaiduCredentialPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual BaiduCredentialProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1093,28 +912,26 @@ func RunJSONSerializationTestForBaiduCredentialProperties(subject BaiduCredentia
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of BaiduCredentialProperties instances for property testing - lazily instantiated by
 // BaiduCredentialPropertiesGenerator()
-var baiduCredentialPropertiesGenerator gopter.Gen
+var baiduCredentialPropertiesGenerator *rapid.Generator[BaiduCredentialProperties]
 
 // BaiduCredentialPropertiesGenerator returns a generator of BaiduCredentialProperties instances for property testing.
-func BaiduCredentialPropertiesGenerator() gopter.Gen {
+func BaiduCredentialPropertiesGenerator() *rapid.Generator[BaiduCredentialProperties] {
 	if baiduCredentialPropertiesGenerator != nil {
 		return baiduCredentialPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	baiduCredentialPropertiesGenerator = gen.Struct(reflect.TypeOf(BaiduCredentialProperties{}), generators)
+	baiduCredentialPropertiesGenerator = rapid.Just(BaiduCredentialProperties{})
 
 	return baiduCredentialPropertiesGenerator
 }
 
+// Test_BaiduCredentialProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of BaiduCredentialProperties_STATUS can be assigned to storage and back losslessly
 func Test_BaiduCredentialProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1122,44 +939,34 @@ func Test_BaiduCredentialProperties_STATUS_WhenPropertiesConverted_RoundTripsWit
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from BaiduCredentialProperties_STATUS to BaiduCredentialProperties_STATUS via AssignProperties_To_BaiduCredentialProperties_STATUS & AssignProperties_From_BaiduCredentialProperties_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForBaiduCredentialProperties_STATUS, BaiduCredentialProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := BaiduCredentialProperties_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForBaiduCredentialProperties_STATUS tests if a specific instance of BaiduCredentialProperties_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForBaiduCredentialProperties_STATUS(subject BaiduCredentialProperties_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.BaiduCredentialProperties_STATUS
+		err := copied.AssignProperties_To_BaiduCredentialProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BaiduCredentialProperties_STATUS
-	err := copied.AssignProperties_To_BaiduCredentialProperties_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual BaiduCredentialProperties_STATUS
+		err = actual.AssignProperties_From_BaiduCredentialProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual BaiduCredentialProperties_STATUS
-	err = actual.AssignProperties_From_BaiduCredentialProperties_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_BaiduCredentialProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1169,29 +976,23 @@ func Test_BaiduCredentialProperties_STATUS_WhenSerializedToJson_DeserializesAsEq
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BaiduCredentialProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBaiduCredentialProperties_STATUS, BaiduCredentialProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForBaiduCredentialProperties_STATUS)
 }
 
 // RunJSONSerializationTestForBaiduCredentialProperties_STATUS runs a test to see if a specific instance of BaiduCredentialProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForBaiduCredentialProperties_STATUS(subject BaiduCredentialProperties_STATUS) string {
+func RunJSONSerializationTestForBaiduCredentialProperties_STATUS(t *rapid.T) {
+	subject := BaiduCredentialProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual BaiduCredentialProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1200,28 +1001,26 @@ func RunJSONSerializationTestForBaiduCredentialProperties_STATUS(subject BaiduCr
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of BaiduCredentialProperties_STATUS instances for property testing - lazily instantiated by
 // BaiduCredentialProperties_STATUSGenerator()
-var baiduCredentialProperties_STATUSGenerator gopter.Gen
+var baiduCredentialProperties_STATUSGenerator *rapid.Generator[BaiduCredentialProperties_STATUS]
 
 // BaiduCredentialProperties_STATUSGenerator returns a generator of BaiduCredentialProperties_STATUS instances for property testing.
-func BaiduCredentialProperties_STATUSGenerator() gopter.Gen {
+func BaiduCredentialProperties_STATUSGenerator() *rapid.Generator[BaiduCredentialProperties_STATUS] {
 	if baiduCredentialProperties_STATUSGenerator != nil {
 		return baiduCredentialProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	baiduCredentialProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(BaiduCredentialProperties_STATUS{}), generators)
+	baiduCredentialProperties_STATUSGenerator = rapid.Just(BaiduCredentialProperties_STATUS{})
 
 	return baiduCredentialProperties_STATUSGenerator
 }
 
+// Test_BaiduCredential_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of BaiduCredential_STATUS can be assigned to storage and back losslessly
 func Test_BaiduCredential_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1229,44 +1028,34 @@ func Test_BaiduCredential_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from BaiduCredential_STATUS to BaiduCredential_STATUS via AssignProperties_To_BaiduCredential_STATUS & AssignProperties_From_BaiduCredential_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForBaiduCredential_STATUS, BaiduCredential_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := BaiduCredential_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForBaiduCredential_STATUS tests if a specific instance of BaiduCredential_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForBaiduCredential_STATUS(subject BaiduCredential_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.BaiduCredential_STATUS
+		err := copied.AssignProperties_To_BaiduCredential_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BaiduCredential_STATUS
-	err := copied.AssignProperties_To_BaiduCredential_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual BaiduCredential_STATUS
+		err = actual.AssignProperties_From_BaiduCredential_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual BaiduCredential_STATUS
-	err = actual.AssignProperties_From_BaiduCredential_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_BaiduCredential_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1276,29 +1065,23 @@ func Test_BaiduCredential_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BaiduCredential_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBaiduCredential_STATUS, BaiduCredential_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForBaiduCredential_STATUS)
 }
 
 // RunJSONSerializationTestForBaiduCredential_STATUS runs a test to see if a specific instance of BaiduCredential_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForBaiduCredential_STATUS(subject BaiduCredential_STATUS) string {
+func RunJSONSerializationTestForBaiduCredential_STATUS(t *rapid.T) {
+	subject := BaiduCredential_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual BaiduCredential_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1307,34 +1090,32 @@ func RunJSONSerializationTestForBaiduCredential_STATUS(subject BaiduCredential_S
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of BaiduCredential_STATUS instances for property testing - lazily instantiated by
 // BaiduCredential_STATUSGenerator()
-var baiduCredential_STATUSGenerator gopter.Gen
+var baiduCredential_STATUSGenerator *rapid.Generator[BaiduCredential_STATUS]
 
 // BaiduCredential_STATUSGenerator returns a generator of BaiduCredential_STATUS instances for property testing.
-func BaiduCredential_STATUSGenerator() gopter.Gen {
+func BaiduCredential_STATUSGenerator() *rapid.Generator[BaiduCredential_STATUS] {
 	if baiduCredential_STATUSGenerator != nil {
 		return baiduCredential_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForBaiduCredential_STATUS(generators)
-	baiduCredential_STATUSGenerator = gen.Struct(reflect.TypeOf(BaiduCredential_STATUS{}), generators)
+	properties := rapid.Ptr(BaiduCredentialProperties_STATUSGenerator(), true)
+
+	baiduCredential_STATUSGenerator = rapid.Custom(func(t *rapid.T) BaiduCredential_STATUS {
+		var result BaiduCredential_STATUS
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return baiduCredential_STATUSGenerator
 }
 
-// AddRelatedPropertyGeneratorsForBaiduCredential_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForBaiduCredential_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(BaiduCredentialProperties_STATUSGenerator())
-}
-
+// Test_BrowserCredential_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of BrowserCredential can be assigned to storage and back losslessly
 func Test_BrowserCredential_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1342,44 +1123,34 @@ func Test_BrowserCredential_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from BrowserCredential to BrowserCredential via AssignProperties_To_BrowserCredential & AssignProperties_From_BrowserCredential returns original",
-		prop.ForAll(RunPropertyAssignmentTestForBrowserCredential, BrowserCredentialGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := BrowserCredentialGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForBrowserCredential tests if a specific instance of BrowserCredential can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForBrowserCredential(subject BrowserCredential) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.BrowserCredential
+		err := copied.AssignProperties_To_BrowserCredential(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BrowserCredential
-	err := copied.AssignProperties_To_BrowserCredential(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual BrowserCredential
+		err = actual.AssignProperties_From_BrowserCredential(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual BrowserCredential
-	err = actual.AssignProperties_From_BrowserCredential(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_BrowserCredential_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1389,29 +1160,23 @@ func Test_BrowserCredential_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BrowserCredential via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBrowserCredential, BrowserCredentialGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForBrowserCredential)
 }
 
 // RunJSONSerializationTestForBrowserCredential runs a test to see if a specific instance of BrowserCredential round trips to JSON and back losslessly
-func RunJSONSerializationTestForBrowserCredential(subject BrowserCredential) string {
+func RunJSONSerializationTestForBrowserCredential(t *rapid.T) {
+	subject := BrowserCredentialGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual BrowserCredential
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1420,33 +1185,31 @@ func RunJSONSerializationTestForBrowserCredential(subject BrowserCredential) str
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of BrowserCredential instances for property testing - lazily instantiated by BrowserCredentialGenerator()
-var browserCredentialGenerator gopter.Gen
+var browserCredentialGenerator *rapid.Generator[BrowserCredential]
 
 // BrowserCredentialGenerator returns a generator of BrowserCredential instances for property testing.
-func BrowserCredentialGenerator() gopter.Gen {
+func BrowserCredentialGenerator() *rapid.Generator[BrowserCredential] {
 	if browserCredentialGenerator != nil {
 		return browserCredentialGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForBrowserCredential(generators)
-	browserCredentialGenerator = gen.Struct(reflect.TypeOf(BrowserCredential{}), generators)
+	properties := rapid.Ptr(BrowserCredentialPropertiesGenerator(), true)
+
+	browserCredentialGenerator = rapid.Custom(func(t *rapid.T) BrowserCredential {
+		var result BrowserCredential
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return browserCredentialGenerator
 }
 
-// AddRelatedPropertyGeneratorsForBrowserCredential is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForBrowserCredential(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(BrowserCredentialPropertiesGenerator())
-}
-
+// Test_BrowserCredentialProperties_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of BrowserCredentialProperties can be assigned to storage and back losslessly
 func Test_BrowserCredentialProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1454,44 +1217,34 @@ func Test_BrowserCredentialProperties_WhenPropertiesConverted_RoundTripsWithoutL
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from BrowserCredentialProperties to BrowserCredentialProperties via AssignProperties_To_BrowserCredentialProperties & AssignProperties_From_BrowserCredentialProperties returns original",
-		prop.ForAll(RunPropertyAssignmentTestForBrowserCredentialProperties, BrowserCredentialPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := BrowserCredentialPropertiesGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForBrowserCredentialProperties tests if a specific instance of BrowserCredentialProperties can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForBrowserCredentialProperties(subject BrowserCredentialProperties) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.BrowserCredentialProperties
+		err := copied.AssignProperties_To_BrowserCredentialProperties(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BrowserCredentialProperties
-	err := copied.AssignProperties_To_BrowserCredentialProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual BrowserCredentialProperties
+		err = actual.AssignProperties_From_BrowserCredentialProperties(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual BrowserCredentialProperties
-	err = actual.AssignProperties_From_BrowserCredentialProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_BrowserCredentialProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1501,29 +1254,23 @@ func Test_BrowserCredentialProperties_WhenSerializedToJson_DeserializesAsEqual(t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BrowserCredentialProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBrowserCredentialProperties, BrowserCredentialPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForBrowserCredentialProperties)
 }
 
 // RunJSONSerializationTestForBrowserCredentialProperties runs a test to see if a specific instance of BrowserCredentialProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForBrowserCredentialProperties(subject BrowserCredentialProperties) string {
+func RunJSONSerializationTestForBrowserCredentialProperties(t *rapid.T) {
+	subject := BrowserCredentialPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual BrowserCredentialProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1532,28 +1279,26 @@ func RunJSONSerializationTestForBrowserCredentialProperties(subject BrowserCrede
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of BrowserCredentialProperties instances for property testing - lazily instantiated by
 // BrowserCredentialPropertiesGenerator()
-var browserCredentialPropertiesGenerator gopter.Gen
+var browserCredentialPropertiesGenerator *rapid.Generator[BrowserCredentialProperties]
 
 // BrowserCredentialPropertiesGenerator returns a generator of BrowserCredentialProperties instances for property testing.
-func BrowserCredentialPropertiesGenerator() gopter.Gen {
+func BrowserCredentialPropertiesGenerator() *rapid.Generator[BrowserCredentialProperties] {
 	if browserCredentialPropertiesGenerator != nil {
 		return browserCredentialPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	browserCredentialPropertiesGenerator = gen.Struct(reflect.TypeOf(BrowserCredentialProperties{}), generators)
+	browserCredentialPropertiesGenerator = rapid.Just(BrowserCredentialProperties{})
 
 	return browserCredentialPropertiesGenerator
 }
 
+// Test_BrowserCredentialProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of BrowserCredentialProperties_STATUS can be assigned to storage and back losslessly
 func Test_BrowserCredentialProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1561,44 +1306,34 @@ func Test_BrowserCredentialProperties_STATUS_WhenPropertiesConverted_RoundTripsW
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from BrowserCredentialProperties_STATUS to BrowserCredentialProperties_STATUS via AssignProperties_To_BrowserCredentialProperties_STATUS & AssignProperties_From_BrowserCredentialProperties_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForBrowserCredentialProperties_STATUS, BrowserCredentialProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := BrowserCredentialProperties_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForBrowserCredentialProperties_STATUS tests if a specific instance of BrowserCredentialProperties_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForBrowserCredentialProperties_STATUS(subject BrowserCredentialProperties_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.BrowserCredentialProperties_STATUS
+		err := copied.AssignProperties_To_BrowserCredentialProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BrowserCredentialProperties_STATUS
-	err := copied.AssignProperties_To_BrowserCredentialProperties_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual BrowserCredentialProperties_STATUS
+		err = actual.AssignProperties_From_BrowserCredentialProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual BrowserCredentialProperties_STATUS
-	err = actual.AssignProperties_From_BrowserCredentialProperties_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_BrowserCredentialProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1608,29 +1343,23 @@ func Test_BrowserCredentialProperties_STATUS_WhenSerializedToJson_DeserializesAs
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BrowserCredentialProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBrowserCredentialProperties_STATUS, BrowserCredentialProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForBrowserCredentialProperties_STATUS)
 }
 
 // RunJSONSerializationTestForBrowserCredentialProperties_STATUS runs a test to see if a specific instance of BrowserCredentialProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForBrowserCredentialProperties_STATUS(subject BrowserCredentialProperties_STATUS) string {
+func RunJSONSerializationTestForBrowserCredentialProperties_STATUS(t *rapid.T) {
+	subject := BrowserCredentialProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual BrowserCredentialProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1639,28 +1368,26 @@ func RunJSONSerializationTestForBrowserCredentialProperties_STATUS(subject Brows
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of BrowserCredentialProperties_STATUS instances for property testing - lazily instantiated by
 // BrowserCredentialProperties_STATUSGenerator()
-var browserCredentialProperties_STATUSGenerator gopter.Gen
+var browserCredentialProperties_STATUSGenerator *rapid.Generator[BrowserCredentialProperties_STATUS]
 
 // BrowserCredentialProperties_STATUSGenerator returns a generator of BrowserCredentialProperties_STATUS instances for property testing.
-func BrowserCredentialProperties_STATUSGenerator() gopter.Gen {
+func BrowserCredentialProperties_STATUSGenerator() *rapid.Generator[BrowserCredentialProperties_STATUS] {
 	if browserCredentialProperties_STATUSGenerator != nil {
 		return browserCredentialProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	browserCredentialProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(BrowserCredentialProperties_STATUS{}), generators)
+	browserCredentialProperties_STATUSGenerator = rapid.Just(BrowserCredentialProperties_STATUS{})
 
 	return browserCredentialProperties_STATUSGenerator
 }
 
+// Test_BrowserCredential_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of BrowserCredential_STATUS can be assigned to storage and back losslessly
 func Test_BrowserCredential_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1668,44 +1395,34 @@ func Test_BrowserCredential_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from BrowserCredential_STATUS to BrowserCredential_STATUS via AssignProperties_To_BrowserCredential_STATUS & AssignProperties_From_BrowserCredential_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForBrowserCredential_STATUS, BrowserCredential_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := BrowserCredential_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForBrowserCredential_STATUS tests if a specific instance of BrowserCredential_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForBrowserCredential_STATUS(subject BrowserCredential_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.BrowserCredential_STATUS
+		err := copied.AssignProperties_To_BrowserCredential_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BrowserCredential_STATUS
-	err := copied.AssignProperties_To_BrowserCredential_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual BrowserCredential_STATUS
+		err = actual.AssignProperties_From_BrowserCredential_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual BrowserCredential_STATUS
-	err = actual.AssignProperties_From_BrowserCredential_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_BrowserCredential_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1715,29 +1432,23 @@ func Test_BrowserCredential_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BrowserCredential_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBrowserCredential_STATUS, BrowserCredential_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForBrowserCredential_STATUS)
 }
 
 // RunJSONSerializationTestForBrowserCredential_STATUS runs a test to see if a specific instance of BrowserCredential_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForBrowserCredential_STATUS(subject BrowserCredential_STATUS) string {
+func RunJSONSerializationTestForBrowserCredential_STATUS(t *rapid.T) {
+	subject := BrowserCredential_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual BrowserCredential_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1746,34 +1457,32 @@ func RunJSONSerializationTestForBrowserCredential_STATUS(subject BrowserCredenti
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of BrowserCredential_STATUS instances for property testing - lazily instantiated by
 // BrowserCredential_STATUSGenerator()
-var browserCredential_STATUSGenerator gopter.Gen
+var browserCredential_STATUSGenerator *rapid.Generator[BrowserCredential_STATUS]
 
 // BrowserCredential_STATUSGenerator returns a generator of BrowserCredential_STATUS instances for property testing.
-func BrowserCredential_STATUSGenerator() gopter.Gen {
+func BrowserCredential_STATUSGenerator() *rapid.Generator[BrowserCredential_STATUS] {
 	if browserCredential_STATUSGenerator != nil {
 		return browserCredential_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForBrowserCredential_STATUS(generators)
-	browserCredential_STATUSGenerator = gen.Struct(reflect.TypeOf(BrowserCredential_STATUS{}), generators)
+	properties := rapid.Ptr(BrowserCredentialProperties_STATUSGenerator(), true)
+
+	browserCredential_STATUSGenerator = rapid.Custom(func(t *rapid.T) BrowserCredential_STATUS {
+		var result BrowserCredential_STATUS
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return browserCredential_STATUSGenerator
 }
 
-// AddRelatedPropertyGeneratorsForBrowserCredential_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForBrowserCredential_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(BrowserCredentialProperties_STATUSGenerator())
-}
-
+// Test_GcmCredential_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of GcmCredential can be assigned to storage and back losslessly
 func Test_GcmCredential_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1781,44 +1490,34 @@ func Test_GcmCredential_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from GcmCredential to GcmCredential via AssignProperties_To_GcmCredential & AssignProperties_From_GcmCredential returns original",
-		prop.ForAll(RunPropertyAssignmentTestForGcmCredential, GcmCredentialGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := GcmCredentialGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForGcmCredential tests if a specific instance of GcmCredential can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForGcmCredential(subject GcmCredential) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.GcmCredential
+		err := copied.AssignProperties_To_GcmCredential(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.GcmCredential
-	err := copied.AssignProperties_To_GcmCredential(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual GcmCredential
+		err = actual.AssignProperties_From_GcmCredential(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual GcmCredential
-	err = actual.AssignProperties_From_GcmCredential(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_GcmCredential_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1828,29 +1527,23 @@ func Test_GcmCredential_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of GcmCredential via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForGcmCredential, GcmCredentialGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForGcmCredential)
 }
 
 // RunJSONSerializationTestForGcmCredential runs a test to see if a specific instance of GcmCredential round trips to JSON and back losslessly
-func RunJSONSerializationTestForGcmCredential(subject GcmCredential) string {
+func RunJSONSerializationTestForGcmCredential(t *rapid.T) {
+	subject := GcmCredentialGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual GcmCredential
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1859,33 +1552,31 @@ func RunJSONSerializationTestForGcmCredential(subject GcmCredential) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of GcmCredential instances for property testing - lazily instantiated by GcmCredentialGenerator()
-var gcmCredentialGenerator gopter.Gen
+var gcmCredentialGenerator *rapid.Generator[GcmCredential]
 
 // GcmCredentialGenerator returns a generator of GcmCredential instances for property testing.
-func GcmCredentialGenerator() gopter.Gen {
+func GcmCredentialGenerator() *rapid.Generator[GcmCredential] {
 	if gcmCredentialGenerator != nil {
 		return gcmCredentialGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForGcmCredential(generators)
-	gcmCredentialGenerator = gen.Struct(reflect.TypeOf(GcmCredential{}), generators)
+	properties := rapid.Ptr(GcmCredentialPropertiesGenerator(), true)
+
+	gcmCredentialGenerator = rapid.Custom(func(t *rapid.T) GcmCredential {
+		var result GcmCredential
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return gcmCredentialGenerator
 }
 
-// AddRelatedPropertyGeneratorsForGcmCredential is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForGcmCredential(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(GcmCredentialPropertiesGenerator())
-}
-
+// Test_GcmCredentialProperties_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of GcmCredentialProperties can be assigned to storage and back losslessly
 func Test_GcmCredentialProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1893,44 +1584,34 @@ func Test_GcmCredentialProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from GcmCredentialProperties to GcmCredentialProperties via AssignProperties_To_GcmCredentialProperties & AssignProperties_From_GcmCredentialProperties returns original",
-		prop.ForAll(RunPropertyAssignmentTestForGcmCredentialProperties, GcmCredentialPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := GcmCredentialPropertiesGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForGcmCredentialProperties tests if a specific instance of GcmCredentialProperties can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForGcmCredentialProperties(subject GcmCredentialProperties) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.GcmCredentialProperties
+		err := copied.AssignProperties_To_GcmCredentialProperties(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.GcmCredentialProperties
-	err := copied.AssignProperties_To_GcmCredentialProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual GcmCredentialProperties
+		err = actual.AssignProperties_From_GcmCredentialProperties(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual GcmCredentialProperties
-	err = actual.AssignProperties_From_GcmCredentialProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_GcmCredentialProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1940,29 +1621,23 @@ func Test_GcmCredentialProperties_WhenSerializedToJson_DeserializesAsEqual(t *te
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of GcmCredentialProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForGcmCredentialProperties, GcmCredentialPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForGcmCredentialProperties)
 }
 
 // RunJSONSerializationTestForGcmCredentialProperties runs a test to see if a specific instance of GcmCredentialProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForGcmCredentialProperties(subject GcmCredentialProperties) string {
+func RunJSONSerializationTestForGcmCredentialProperties(t *rapid.T) {
+	subject := GcmCredentialPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual GcmCredentialProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1971,28 +1646,26 @@ func RunJSONSerializationTestForGcmCredentialProperties(subject GcmCredentialPro
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of GcmCredentialProperties instances for property testing - lazily instantiated by
 // GcmCredentialPropertiesGenerator()
-var gcmCredentialPropertiesGenerator gopter.Gen
+var gcmCredentialPropertiesGenerator *rapid.Generator[GcmCredentialProperties]
 
 // GcmCredentialPropertiesGenerator returns a generator of GcmCredentialProperties instances for property testing.
-func GcmCredentialPropertiesGenerator() gopter.Gen {
+func GcmCredentialPropertiesGenerator() *rapid.Generator[GcmCredentialProperties] {
 	if gcmCredentialPropertiesGenerator != nil {
 		return gcmCredentialPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	gcmCredentialPropertiesGenerator = gen.Struct(reflect.TypeOf(GcmCredentialProperties{}), generators)
+	gcmCredentialPropertiesGenerator = rapid.Just(GcmCredentialProperties{})
 
 	return gcmCredentialPropertiesGenerator
 }
 
+// Test_GcmCredentialProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of GcmCredentialProperties_STATUS can be assigned to storage and back losslessly
 func Test_GcmCredentialProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -2000,44 +1673,34 @@ func Test_GcmCredentialProperties_STATUS_WhenPropertiesConverted_RoundTripsWitho
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from GcmCredentialProperties_STATUS to GcmCredentialProperties_STATUS via AssignProperties_To_GcmCredentialProperties_STATUS & AssignProperties_From_GcmCredentialProperties_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForGcmCredentialProperties_STATUS, GcmCredentialProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := GcmCredentialProperties_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForGcmCredentialProperties_STATUS tests if a specific instance of GcmCredentialProperties_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForGcmCredentialProperties_STATUS(subject GcmCredentialProperties_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.GcmCredentialProperties_STATUS
+		err := copied.AssignProperties_To_GcmCredentialProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.GcmCredentialProperties_STATUS
-	err := copied.AssignProperties_To_GcmCredentialProperties_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual GcmCredentialProperties_STATUS
+		err = actual.AssignProperties_From_GcmCredentialProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual GcmCredentialProperties_STATUS
-	err = actual.AssignProperties_From_GcmCredentialProperties_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_GcmCredentialProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2047,29 +1710,23 @@ func Test_GcmCredentialProperties_STATUS_WhenSerializedToJson_DeserializesAsEqua
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of GcmCredentialProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForGcmCredentialProperties_STATUS, GcmCredentialProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForGcmCredentialProperties_STATUS)
 }
 
 // RunJSONSerializationTestForGcmCredentialProperties_STATUS runs a test to see if a specific instance of GcmCredentialProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForGcmCredentialProperties_STATUS(subject GcmCredentialProperties_STATUS) string {
+func RunJSONSerializationTestForGcmCredentialProperties_STATUS(t *rapid.T) {
+	subject := GcmCredentialProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual GcmCredentialProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -2078,28 +1735,26 @@ func RunJSONSerializationTestForGcmCredentialProperties_STATUS(subject GcmCreden
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of GcmCredentialProperties_STATUS instances for property testing - lazily instantiated by
 // GcmCredentialProperties_STATUSGenerator()
-var gcmCredentialProperties_STATUSGenerator gopter.Gen
+var gcmCredentialProperties_STATUSGenerator *rapid.Generator[GcmCredentialProperties_STATUS]
 
 // GcmCredentialProperties_STATUSGenerator returns a generator of GcmCredentialProperties_STATUS instances for property testing.
-func GcmCredentialProperties_STATUSGenerator() gopter.Gen {
+func GcmCredentialProperties_STATUSGenerator() *rapid.Generator[GcmCredentialProperties_STATUS] {
 	if gcmCredentialProperties_STATUSGenerator != nil {
 		return gcmCredentialProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	gcmCredentialProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(GcmCredentialProperties_STATUS{}), generators)
+	gcmCredentialProperties_STATUSGenerator = rapid.Just(GcmCredentialProperties_STATUS{})
 
 	return gcmCredentialProperties_STATUSGenerator
 }
 
+// Test_GcmCredential_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of GcmCredential_STATUS can be assigned to storage and back losslessly
 func Test_GcmCredential_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -2107,44 +1762,34 @@ func Test_GcmCredential_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from GcmCredential_STATUS to GcmCredential_STATUS via AssignProperties_To_GcmCredential_STATUS & AssignProperties_From_GcmCredential_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForGcmCredential_STATUS, GcmCredential_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := GcmCredential_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForGcmCredential_STATUS tests if a specific instance of GcmCredential_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForGcmCredential_STATUS(subject GcmCredential_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.GcmCredential_STATUS
+		err := copied.AssignProperties_To_GcmCredential_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.GcmCredential_STATUS
-	err := copied.AssignProperties_To_GcmCredential_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual GcmCredential_STATUS
+		err = actual.AssignProperties_From_GcmCredential_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual GcmCredential_STATUS
-	err = actual.AssignProperties_From_GcmCredential_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_GcmCredential_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2154,29 +1799,23 @@ func Test_GcmCredential_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of GcmCredential_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForGcmCredential_STATUS, GcmCredential_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForGcmCredential_STATUS)
 }
 
 // RunJSONSerializationTestForGcmCredential_STATUS runs a test to see if a specific instance of GcmCredential_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForGcmCredential_STATUS(subject GcmCredential_STATUS) string {
+func RunJSONSerializationTestForGcmCredential_STATUS(t *rapid.T) {
+	subject := GcmCredential_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual GcmCredential_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -2185,34 +1824,32 @@ func RunJSONSerializationTestForGcmCredential_STATUS(subject GcmCredential_STATU
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of GcmCredential_STATUS instances for property testing - lazily instantiated by
 // GcmCredential_STATUSGenerator()
-var gcmCredential_STATUSGenerator gopter.Gen
+var gcmCredential_STATUSGenerator *rapid.Generator[GcmCredential_STATUS]
 
 // GcmCredential_STATUSGenerator returns a generator of GcmCredential_STATUS instances for property testing.
-func GcmCredential_STATUSGenerator() gopter.Gen {
+func GcmCredential_STATUSGenerator() *rapid.Generator[GcmCredential_STATUS] {
 	if gcmCredential_STATUSGenerator != nil {
 		return gcmCredential_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForGcmCredential_STATUS(generators)
-	gcmCredential_STATUSGenerator = gen.Struct(reflect.TypeOf(GcmCredential_STATUS{}), generators)
+	properties := rapid.Ptr(GcmCredentialProperties_STATUSGenerator(), true)
+
+	gcmCredential_STATUSGenerator = rapid.Custom(func(t *rapid.T) GcmCredential_STATUS {
+		var result GcmCredential_STATUS
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return gcmCredential_STATUSGenerator
 }
 
-// AddRelatedPropertyGeneratorsForGcmCredential_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForGcmCredential_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(GcmCredentialProperties_STATUSGenerator())
-}
-
+// Test_MpnsCredential_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of MpnsCredential can be assigned to storage and back losslessly
 func Test_MpnsCredential_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -2220,44 +1857,34 @@ func Test_MpnsCredential_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from MpnsCredential to MpnsCredential via AssignProperties_To_MpnsCredential & AssignProperties_From_MpnsCredential returns original",
-		prop.ForAll(RunPropertyAssignmentTestForMpnsCredential, MpnsCredentialGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := MpnsCredentialGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForMpnsCredential tests if a specific instance of MpnsCredential can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForMpnsCredential(subject MpnsCredential) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.MpnsCredential
+		err := copied.AssignProperties_To_MpnsCredential(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.MpnsCredential
-	err := copied.AssignProperties_To_MpnsCredential(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual MpnsCredential
+		err = actual.AssignProperties_From_MpnsCredential(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual MpnsCredential
-	err = actual.AssignProperties_From_MpnsCredential(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_MpnsCredential_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2267,29 +1894,23 @@ func Test_MpnsCredential_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of MpnsCredential via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMpnsCredential, MpnsCredentialGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForMpnsCredential)
 }
 
 // RunJSONSerializationTestForMpnsCredential runs a test to see if a specific instance of MpnsCredential round trips to JSON and back losslessly
-func RunJSONSerializationTestForMpnsCredential(subject MpnsCredential) string {
+func RunJSONSerializationTestForMpnsCredential(t *rapid.T) {
+	subject := MpnsCredentialGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual MpnsCredential
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -2298,33 +1919,31 @@ func RunJSONSerializationTestForMpnsCredential(subject MpnsCredential) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of MpnsCredential instances for property testing - lazily instantiated by MpnsCredentialGenerator()
-var mpnsCredentialGenerator gopter.Gen
+var mpnsCredentialGenerator *rapid.Generator[MpnsCredential]
 
 // MpnsCredentialGenerator returns a generator of MpnsCredential instances for property testing.
-func MpnsCredentialGenerator() gopter.Gen {
+func MpnsCredentialGenerator() *rapid.Generator[MpnsCredential] {
 	if mpnsCredentialGenerator != nil {
 		return mpnsCredentialGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForMpnsCredential(generators)
-	mpnsCredentialGenerator = gen.Struct(reflect.TypeOf(MpnsCredential{}), generators)
+	properties := rapid.Ptr(MpnsCredentialPropertiesGenerator(), true)
+
+	mpnsCredentialGenerator = rapid.Custom(func(t *rapid.T) MpnsCredential {
+		var result MpnsCredential
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return mpnsCredentialGenerator
 }
 
-// AddRelatedPropertyGeneratorsForMpnsCredential is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForMpnsCredential(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(MpnsCredentialPropertiesGenerator())
-}
-
+// Test_MpnsCredentialProperties_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of MpnsCredentialProperties can be assigned to storage and back losslessly
 func Test_MpnsCredentialProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -2332,44 +1951,34 @@ func Test_MpnsCredentialProperties_WhenPropertiesConverted_RoundTripsWithoutLoss
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from MpnsCredentialProperties to MpnsCredentialProperties via AssignProperties_To_MpnsCredentialProperties & AssignProperties_From_MpnsCredentialProperties returns original",
-		prop.ForAll(RunPropertyAssignmentTestForMpnsCredentialProperties, MpnsCredentialPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := MpnsCredentialPropertiesGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForMpnsCredentialProperties tests if a specific instance of MpnsCredentialProperties can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForMpnsCredentialProperties(subject MpnsCredentialProperties) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.MpnsCredentialProperties
+		err := copied.AssignProperties_To_MpnsCredentialProperties(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.MpnsCredentialProperties
-	err := copied.AssignProperties_To_MpnsCredentialProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual MpnsCredentialProperties
+		err = actual.AssignProperties_From_MpnsCredentialProperties(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual MpnsCredentialProperties
-	err = actual.AssignProperties_From_MpnsCredentialProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_MpnsCredentialProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2379,29 +1988,23 @@ func Test_MpnsCredentialProperties_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of MpnsCredentialProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMpnsCredentialProperties, MpnsCredentialPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForMpnsCredentialProperties)
 }
 
 // RunJSONSerializationTestForMpnsCredentialProperties runs a test to see if a specific instance of MpnsCredentialProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForMpnsCredentialProperties(subject MpnsCredentialProperties) string {
+func RunJSONSerializationTestForMpnsCredentialProperties(t *rapid.T) {
+	subject := MpnsCredentialPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual MpnsCredentialProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -2410,28 +2013,26 @@ func RunJSONSerializationTestForMpnsCredentialProperties(subject MpnsCredentialP
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of MpnsCredentialProperties instances for property testing - lazily instantiated by
 // MpnsCredentialPropertiesGenerator()
-var mpnsCredentialPropertiesGenerator gopter.Gen
+var mpnsCredentialPropertiesGenerator *rapid.Generator[MpnsCredentialProperties]
 
 // MpnsCredentialPropertiesGenerator returns a generator of MpnsCredentialProperties instances for property testing.
-func MpnsCredentialPropertiesGenerator() gopter.Gen {
+func MpnsCredentialPropertiesGenerator() *rapid.Generator[MpnsCredentialProperties] {
 	if mpnsCredentialPropertiesGenerator != nil {
 		return mpnsCredentialPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	mpnsCredentialPropertiesGenerator = gen.Struct(reflect.TypeOf(MpnsCredentialProperties{}), generators)
+	mpnsCredentialPropertiesGenerator = rapid.Just(MpnsCredentialProperties{})
 
 	return mpnsCredentialPropertiesGenerator
 }
 
+// Test_MpnsCredentialProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of MpnsCredentialProperties_STATUS can be assigned to storage and back losslessly
 func Test_MpnsCredentialProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -2439,44 +2040,34 @@ func Test_MpnsCredentialProperties_STATUS_WhenPropertiesConverted_RoundTripsWith
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from MpnsCredentialProperties_STATUS to MpnsCredentialProperties_STATUS via AssignProperties_To_MpnsCredentialProperties_STATUS & AssignProperties_From_MpnsCredentialProperties_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForMpnsCredentialProperties_STATUS, MpnsCredentialProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := MpnsCredentialProperties_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForMpnsCredentialProperties_STATUS tests if a specific instance of MpnsCredentialProperties_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForMpnsCredentialProperties_STATUS(subject MpnsCredentialProperties_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.MpnsCredentialProperties_STATUS
+		err := copied.AssignProperties_To_MpnsCredentialProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.MpnsCredentialProperties_STATUS
-	err := copied.AssignProperties_To_MpnsCredentialProperties_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual MpnsCredentialProperties_STATUS
+		err = actual.AssignProperties_From_MpnsCredentialProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual MpnsCredentialProperties_STATUS
-	err = actual.AssignProperties_From_MpnsCredentialProperties_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_MpnsCredentialProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2486,29 +2077,23 @@ func Test_MpnsCredentialProperties_STATUS_WhenSerializedToJson_DeserializesAsEqu
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of MpnsCredentialProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMpnsCredentialProperties_STATUS, MpnsCredentialProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForMpnsCredentialProperties_STATUS)
 }
 
 // RunJSONSerializationTestForMpnsCredentialProperties_STATUS runs a test to see if a specific instance of MpnsCredentialProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForMpnsCredentialProperties_STATUS(subject MpnsCredentialProperties_STATUS) string {
+func RunJSONSerializationTestForMpnsCredentialProperties_STATUS(t *rapid.T) {
+	subject := MpnsCredentialProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual MpnsCredentialProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -2517,28 +2102,26 @@ func RunJSONSerializationTestForMpnsCredentialProperties_STATUS(subject MpnsCred
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of MpnsCredentialProperties_STATUS instances for property testing - lazily instantiated by
 // MpnsCredentialProperties_STATUSGenerator()
-var mpnsCredentialProperties_STATUSGenerator gopter.Gen
+var mpnsCredentialProperties_STATUSGenerator *rapid.Generator[MpnsCredentialProperties_STATUS]
 
 // MpnsCredentialProperties_STATUSGenerator returns a generator of MpnsCredentialProperties_STATUS instances for property testing.
-func MpnsCredentialProperties_STATUSGenerator() gopter.Gen {
+func MpnsCredentialProperties_STATUSGenerator() *rapid.Generator[MpnsCredentialProperties_STATUS] {
 	if mpnsCredentialProperties_STATUSGenerator != nil {
 		return mpnsCredentialProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	mpnsCredentialProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(MpnsCredentialProperties_STATUS{}), generators)
+	mpnsCredentialProperties_STATUSGenerator = rapid.Just(MpnsCredentialProperties_STATUS{})
 
 	return mpnsCredentialProperties_STATUSGenerator
 }
 
+// Test_MpnsCredential_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of MpnsCredential_STATUS can be assigned to storage and back losslessly
 func Test_MpnsCredential_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -2546,44 +2129,34 @@ func Test_MpnsCredential_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from MpnsCredential_STATUS to MpnsCredential_STATUS via AssignProperties_To_MpnsCredential_STATUS & AssignProperties_From_MpnsCredential_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForMpnsCredential_STATUS, MpnsCredential_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := MpnsCredential_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForMpnsCredential_STATUS tests if a specific instance of MpnsCredential_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForMpnsCredential_STATUS(subject MpnsCredential_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.MpnsCredential_STATUS
+		err := copied.AssignProperties_To_MpnsCredential_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.MpnsCredential_STATUS
-	err := copied.AssignProperties_To_MpnsCredential_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual MpnsCredential_STATUS
+		err = actual.AssignProperties_From_MpnsCredential_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual MpnsCredential_STATUS
-	err = actual.AssignProperties_From_MpnsCredential_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_MpnsCredential_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2593,29 +2166,23 @@ func Test_MpnsCredential_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of MpnsCredential_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMpnsCredential_STATUS, MpnsCredential_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForMpnsCredential_STATUS)
 }
 
 // RunJSONSerializationTestForMpnsCredential_STATUS runs a test to see if a specific instance of MpnsCredential_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForMpnsCredential_STATUS(subject MpnsCredential_STATUS) string {
+func RunJSONSerializationTestForMpnsCredential_STATUS(t *rapid.T) {
+	subject := MpnsCredential_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual MpnsCredential_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -2624,34 +2191,32 @@ func RunJSONSerializationTestForMpnsCredential_STATUS(subject MpnsCredential_STA
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of MpnsCredential_STATUS instances for property testing - lazily instantiated by
 // MpnsCredential_STATUSGenerator()
-var mpnsCredential_STATUSGenerator gopter.Gen
+var mpnsCredential_STATUSGenerator *rapid.Generator[MpnsCredential_STATUS]
 
 // MpnsCredential_STATUSGenerator returns a generator of MpnsCredential_STATUS instances for property testing.
-func MpnsCredential_STATUSGenerator() gopter.Gen {
+func MpnsCredential_STATUSGenerator() *rapid.Generator[MpnsCredential_STATUS] {
 	if mpnsCredential_STATUSGenerator != nil {
 		return mpnsCredential_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForMpnsCredential_STATUS(generators)
-	mpnsCredential_STATUSGenerator = gen.Struct(reflect.TypeOf(MpnsCredential_STATUS{}), generators)
+	properties := rapid.Ptr(MpnsCredentialProperties_STATUSGenerator(), true)
+
+	mpnsCredential_STATUSGenerator = rapid.Custom(func(t *rapid.T) MpnsCredential_STATUS {
+		var result MpnsCredential_STATUS
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return mpnsCredential_STATUSGenerator
 }
 
-// AddRelatedPropertyGeneratorsForMpnsCredential_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForMpnsCredential_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(MpnsCredentialProperties_STATUSGenerator())
-}
-
+// Test_NotificationHub_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of NotificationHub round trips to the hub storage version and back losslessly
 func Test_NotificationHub_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -2659,47 +2224,37 @@ func Test_NotificationHub_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from NotificationHub to hub returns original",
-		prop.ForAll(RunResourceConversionTestForNotificationHub, NotificationHubGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+	rapid.Check(t, func(t *rapid.T) {
+		subject := NotificationHubGenerator().Draw(t, "subject")
+		// Copy subject to make sure conversion doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Convert to our hub version
+		var hub storage.NotificationHub
+		err := copied.ConvertTo(&hub)
+		if err != nil {
+			t.Fatal("ConvertTo: " + err.Error())
+		}
+
+		// Convert from our hub version
+		var actual NotificationHub
+		err = actual.ConvertFrom(&hub)
+		if err != nil {
+			t.Fatal("ConvertFrom: " + err.Error())
+		}
+
+		// Compare actual with what we started with
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
-// RunResourceConversionTestForNotificationHub tests if a specific instance of NotificationHub round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForNotificationHub(subject NotificationHub) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub storage.NotificationHub
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual NotificationHub
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
+// Test_NotificationHub_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of NotificationHub can be assigned to storage and back losslessly
 func Test_NotificationHub_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -2707,44 +2262,34 @@ func Test_NotificationHub_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from NotificationHub to NotificationHub via AssignProperties_To_NotificationHub & AssignProperties_From_NotificationHub returns original",
-		prop.ForAll(RunPropertyAssignmentTestForNotificationHub, NotificationHubGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := NotificationHubGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForNotificationHub tests if a specific instance of NotificationHub can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForNotificationHub(subject NotificationHub) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.NotificationHub
+		err := copied.AssignProperties_To_NotificationHub(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NotificationHub
-	err := copied.AssignProperties_To_NotificationHub(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual NotificationHub
+		err = actual.AssignProperties_From_NotificationHub(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual NotificationHub
-	err = actual.AssignProperties_From_NotificationHub(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_NotificationHub_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2754,29 +2299,23 @@ func Test_NotificationHub_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of NotificationHub via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNotificationHub, NotificationHubGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForNotificationHub)
 }
 
 // RunJSONSerializationTestForNotificationHub runs a test to see if a specific instance of NotificationHub round trips to JSON and back losslessly
-func RunJSONSerializationTestForNotificationHub(subject NotificationHub) string {
+func RunJSONSerializationTestForNotificationHub(t *rapid.T) {
+	subject := NotificationHubGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual NotificationHub
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -2785,34 +2324,33 @@ func RunJSONSerializationTestForNotificationHub(subject NotificationHub) string 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of NotificationHub instances for property testing - lazily instantiated by NotificationHubGenerator()
-var notificationHubGenerator gopter.Gen
+var notificationHubGenerator *rapid.Generator[NotificationHub]
 
 // NotificationHubGenerator returns a generator of NotificationHub instances for property testing.
-func NotificationHubGenerator() gopter.Gen {
+func NotificationHubGenerator() *rapid.Generator[NotificationHub] {
 	if notificationHubGenerator != nil {
 		return notificationHubGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForNotificationHub(generators)
-	notificationHubGenerator = gen.Struct(reflect.TypeOf(NotificationHub{}), generators)
+	spec := NotificationHub_SpecGenerator()
+	status := NotificationHub_STATUSGenerator()
+
+	notificationHubGenerator = rapid.Custom(func(t *rapid.T) NotificationHub {
+		var result NotificationHub
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return notificationHubGenerator
 }
 
-// AddRelatedPropertyGeneratorsForNotificationHub is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNotificationHub(gens map[string]gopter.Gen) {
-	gens["Spec"] = NotificationHub_SpecGenerator()
-	gens["Status"] = NotificationHub_STATUSGenerator()
-}
-
+// Test_NotificationHubOperatorSecrets_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of NotificationHubOperatorSecrets can be assigned to storage and back losslessly
 func Test_NotificationHubOperatorSecrets_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -2820,44 +2358,34 @@ func Test_NotificationHubOperatorSecrets_WhenPropertiesConverted_RoundTripsWitho
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from NotificationHubOperatorSecrets to NotificationHubOperatorSecrets via AssignProperties_To_NotificationHubOperatorSecrets & AssignProperties_From_NotificationHubOperatorSecrets returns original",
-		prop.ForAll(RunPropertyAssignmentTestForNotificationHubOperatorSecrets, NotificationHubOperatorSecretsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := NotificationHubOperatorSecretsGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForNotificationHubOperatorSecrets tests if a specific instance of NotificationHubOperatorSecrets can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForNotificationHubOperatorSecrets(subject NotificationHubOperatorSecrets) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.NotificationHubOperatorSecrets
+		err := copied.AssignProperties_To_NotificationHubOperatorSecrets(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NotificationHubOperatorSecrets
-	err := copied.AssignProperties_To_NotificationHubOperatorSecrets(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual NotificationHubOperatorSecrets
+		err = actual.AssignProperties_From_NotificationHubOperatorSecrets(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual NotificationHubOperatorSecrets
-	err = actual.AssignProperties_From_NotificationHubOperatorSecrets(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_NotificationHubOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2867,29 +2395,23 @@ func Test_NotificationHubOperatorSecrets_WhenSerializedToJson_DeserializesAsEqua
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of NotificationHubOperatorSecrets via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNotificationHubOperatorSecrets, NotificationHubOperatorSecretsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForNotificationHubOperatorSecrets)
 }
 
 // RunJSONSerializationTestForNotificationHubOperatorSecrets runs a test to see if a specific instance of NotificationHubOperatorSecrets round trips to JSON and back losslessly
-func RunJSONSerializationTestForNotificationHubOperatorSecrets(subject NotificationHubOperatorSecrets) string {
+func RunJSONSerializationTestForNotificationHubOperatorSecrets(t *rapid.T) {
+	subject := NotificationHubOperatorSecretsGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual NotificationHubOperatorSecrets
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -2898,28 +2420,26 @@ func RunJSONSerializationTestForNotificationHubOperatorSecrets(subject Notificat
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of NotificationHubOperatorSecrets instances for property testing - lazily instantiated by
 // NotificationHubOperatorSecretsGenerator()
-var notificationHubOperatorSecretsGenerator gopter.Gen
+var notificationHubOperatorSecretsGenerator *rapid.Generator[NotificationHubOperatorSecrets]
 
 // NotificationHubOperatorSecretsGenerator returns a generator of NotificationHubOperatorSecrets instances for property testing.
-func NotificationHubOperatorSecretsGenerator() gopter.Gen {
+func NotificationHubOperatorSecretsGenerator() *rapid.Generator[NotificationHubOperatorSecrets] {
 	if notificationHubOperatorSecretsGenerator != nil {
 		return notificationHubOperatorSecretsGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	notificationHubOperatorSecretsGenerator = gen.Struct(reflect.TypeOf(NotificationHubOperatorSecrets{}), generators)
+	notificationHubOperatorSecretsGenerator = rapid.Just(NotificationHubOperatorSecrets{})
 
 	return notificationHubOperatorSecretsGenerator
 }
 
+// Test_NotificationHubOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of NotificationHubOperatorSpec can be assigned to storage and back losslessly
 func Test_NotificationHubOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -2927,44 +2447,34 @@ func Test_NotificationHubOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutL
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from NotificationHubOperatorSpec to NotificationHubOperatorSpec via AssignProperties_To_NotificationHubOperatorSpec & AssignProperties_From_NotificationHubOperatorSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForNotificationHubOperatorSpec, NotificationHubOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := NotificationHubOperatorSpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForNotificationHubOperatorSpec tests if a specific instance of NotificationHubOperatorSpec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForNotificationHubOperatorSpec(subject NotificationHubOperatorSpec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.NotificationHubOperatorSpec
+		err := copied.AssignProperties_To_NotificationHubOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NotificationHubOperatorSpec
-	err := copied.AssignProperties_To_NotificationHubOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual NotificationHubOperatorSpec
+		err = actual.AssignProperties_From_NotificationHubOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual NotificationHubOperatorSpec
-	err = actual.AssignProperties_From_NotificationHubOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_NotificationHubOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2974,29 +2484,23 @@ func Test_NotificationHubOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of NotificationHubOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNotificationHubOperatorSpec, NotificationHubOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForNotificationHubOperatorSpec)
 }
 
 // RunJSONSerializationTestForNotificationHubOperatorSpec runs a test to see if a specific instance of NotificationHubOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForNotificationHubOperatorSpec(subject NotificationHubOperatorSpec) string {
+func RunJSONSerializationTestForNotificationHubOperatorSpec(t *rapid.T) {
+	subject := NotificationHubOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual NotificationHubOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -3005,34 +2509,32 @@ func RunJSONSerializationTestForNotificationHubOperatorSpec(subject Notification
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of NotificationHubOperatorSpec instances for property testing - lazily instantiated by
 // NotificationHubOperatorSpecGenerator()
-var notificationHubOperatorSpecGenerator gopter.Gen
+var notificationHubOperatorSpecGenerator *rapid.Generator[NotificationHubOperatorSpec]
 
 // NotificationHubOperatorSpecGenerator returns a generator of NotificationHubOperatorSpec instances for property testing.
-func NotificationHubOperatorSpecGenerator() gopter.Gen {
+func NotificationHubOperatorSpecGenerator() *rapid.Generator[NotificationHubOperatorSpec] {
 	if notificationHubOperatorSpecGenerator != nil {
 		return notificationHubOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForNotificationHubOperatorSpec(generators)
-	notificationHubOperatorSpecGenerator = gen.Struct(reflect.TypeOf(NotificationHubOperatorSpec{}), generators)
+	secrets := rapid.Ptr(NotificationHubOperatorSecretsGenerator(), true)
+
+	notificationHubOperatorSpecGenerator = rapid.Custom(func(t *rapid.T) NotificationHubOperatorSpec {
+		var result NotificationHubOperatorSpec
+		result.Secrets = secrets.Draw(t, "Secrets")
+		return result
+	})
 
 	return notificationHubOperatorSpecGenerator
 }
 
-// AddRelatedPropertyGeneratorsForNotificationHubOperatorSpec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNotificationHubOperatorSpec(gens map[string]gopter.Gen) {
-	gens["Secrets"] = gen.PtrOf(NotificationHubOperatorSecretsGenerator())
-}
-
+// Test_NotificationHubProperties_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of NotificationHubProperties can be assigned to storage and back losslessly
 func Test_NotificationHubProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -3040,44 +2542,34 @@ func Test_NotificationHubProperties_WhenPropertiesConverted_RoundTripsWithoutLos
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from NotificationHubProperties to NotificationHubProperties via AssignProperties_To_NotificationHubProperties & AssignProperties_From_NotificationHubProperties returns original",
-		prop.ForAll(RunPropertyAssignmentTestForNotificationHubProperties, NotificationHubPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := NotificationHubPropertiesGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForNotificationHubProperties tests if a specific instance of NotificationHubProperties can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForNotificationHubProperties(subject NotificationHubProperties) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.NotificationHubProperties
+		err := copied.AssignProperties_To_NotificationHubProperties(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NotificationHubProperties
-	err := copied.AssignProperties_To_NotificationHubProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual NotificationHubProperties
+		err = actual.AssignProperties_From_NotificationHubProperties(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual NotificationHubProperties
-	err = actual.AssignProperties_From_NotificationHubProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_NotificationHubProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3087,29 +2579,23 @@ func Test_NotificationHubProperties_WhenSerializedToJson_DeserializesAsEqual(t *
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of NotificationHubProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNotificationHubProperties, NotificationHubPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForNotificationHubProperties)
 }
 
 // RunJSONSerializationTestForNotificationHubProperties runs a test to see if a specific instance of NotificationHubProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForNotificationHubProperties(subject NotificationHubProperties) string {
+func RunJSONSerializationTestForNotificationHubProperties(t *rapid.T) {
+	subject := NotificationHubPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual NotificationHubProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -3118,56 +2604,49 @@ func RunJSONSerializationTestForNotificationHubProperties(subject NotificationHu
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of NotificationHubProperties instances for property testing - lazily instantiated by
 // NotificationHubPropertiesGenerator()
-var notificationHubPropertiesGenerator gopter.Gen
+var notificationHubPropertiesGenerator *rapid.Generator[NotificationHubProperties]
 
 // NotificationHubPropertiesGenerator returns a generator of NotificationHubProperties instances for property testing.
-// We first initialize notificationHubPropertiesGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func NotificationHubPropertiesGenerator() gopter.Gen {
+func NotificationHubPropertiesGenerator() *rapid.Generator[NotificationHubProperties] {
 	if notificationHubPropertiesGenerator != nil {
 		return notificationHubPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNotificationHubProperties(generators)
-	notificationHubPropertiesGenerator = gen.Struct(reflect.TypeOf(NotificationHubProperties{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	admCredential := rapid.Ptr(AdmCredentialGenerator(), true)
+	apnsCredential := rapid.Ptr(ApnsCredentialGenerator(), true)
+	baiduCredential := rapid.Ptr(BaiduCredentialGenerator(), true)
+	browserCredential := rapid.Ptr(BrowserCredentialGenerator(), true)
+	gcmCredential := rapid.Ptr(GcmCredentialGenerator(), true)
+	mpnsCredential := rapid.Ptr(MpnsCredentialGenerator(), true)
+	wnsCredential := rapid.Ptr(WnsCredentialGenerator(), true)
+	xiaomiCredential := rapid.Ptr(XiaomiCredentialGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNotificationHubProperties(generators)
-	AddRelatedPropertyGeneratorsForNotificationHubProperties(generators)
-	notificationHubPropertiesGenerator = gen.Struct(reflect.TypeOf(NotificationHubProperties{}), generators)
+	notificationHubPropertiesGenerator = rapid.Custom(func(t *rapid.T) NotificationHubProperties {
+		var result NotificationHubProperties
+		result.AdmCredential = admCredential.Draw(t, "AdmCredential")
+		result.ApnsCredential = apnsCredential.Draw(t, "ApnsCredential")
+		result.BaiduCredential = baiduCredential.Draw(t, "BaiduCredential")
+		result.BrowserCredential = browserCredential.Draw(t, "BrowserCredential")
+		result.GcmCredential = gcmCredential.Draw(t, "GcmCredential")
+		result.MpnsCredential = mpnsCredential.Draw(t, "MpnsCredential")
+		result.Name = ptrString.Draw(t, "Name")
+		result.RegistrationTtl = ptrString.Draw(t, "RegistrationTtl")
+		result.WnsCredential = wnsCredential.Draw(t, "WnsCredential")
+		result.XiaomiCredential = xiaomiCredential.Draw(t, "XiaomiCredential")
+		return result
+	})
 
 	return notificationHubPropertiesGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNotificationHubProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNotificationHubProperties(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["RegistrationTtl"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForNotificationHubProperties is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNotificationHubProperties(gens map[string]gopter.Gen) {
-	gens["AdmCredential"] = gen.PtrOf(AdmCredentialGenerator())
-	gens["ApnsCredential"] = gen.PtrOf(ApnsCredentialGenerator())
-	gens["BaiduCredential"] = gen.PtrOf(BaiduCredentialGenerator())
-	gens["BrowserCredential"] = gen.PtrOf(BrowserCredentialGenerator())
-	gens["GcmCredential"] = gen.PtrOf(GcmCredentialGenerator())
-	gens["MpnsCredential"] = gen.PtrOf(MpnsCredentialGenerator())
-	gens["WnsCredential"] = gen.PtrOf(WnsCredentialGenerator())
-	gens["XiaomiCredential"] = gen.PtrOf(XiaomiCredentialGenerator())
-}
-
+// Test_NotificationHubProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of NotificationHubProperties_STATUS can be assigned to storage and back losslessly
 func Test_NotificationHubProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -3175,44 +2654,34 @@ func Test_NotificationHubProperties_STATUS_WhenPropertiesConverted_RoundTripsWit
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from NotificationHubProperties_STATUS to NotificationHubProperties_STATUS via AssignProperties_To_NotificationHubProperties_STATUS & AssignProperties_From_NotificationHubProperties_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForNotificationHubProperties_STATUS, NotificationHubProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := NotificationHubProperties_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForNotificationHubProperties_STATUS tests if a specific instance of NotificationHubProperties_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForNotificationHubProperties_STATUS(subject NotificationHubProperties_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.NotificationHubProperties_STATUS
+		err := copied.AssignProperties_To_NotificationHubProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NotificationHubProperties_STATUS
-	err := copied.AssignProperties_To_NotificationHubProperties_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual NotificationHubProperties_STATUS
+		err = actual.AssignProperties_From_NotificationHubProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual NotificationHubProperties_STATUS
-	err = actual.AssignProperties_From_NotificationHubProperties_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_NotificationHubProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3222,29 +2691,23 @@ func Test_NotificationHubProperties_STATUS_WhenSerializedToJson_DeserializesAsEq
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of NotificationHubProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNotificationHubProperties_STATUS, NotificationHubProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForNotificationHubProperties_STATUS)
 }
 
 // RunJSONSerializationTestForNotificationHubProperties_STATUS runs a test to see if a specific instance of NotificationHubProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForNotificationHubProperties_STATUS(subject NotificationHubProperties_STATUS) string {
+func RunJSONSerializationTestForNotificationHubProperties_STATUS(t *rapid.T) {
+	subject := NotificationHubProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual NotificationHubProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -3253,58 +2716,53 @@ func RunJSONSerializationTestForNotificationHubProperties_STATUS(subject Notific
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of NotificationHubProperties_STATUS instances for property testing - lazily instantiated by
 // NotificationHubProperties_STATUSGenerator()
-var notificationHubProperties_STATUSGenerator gopter.Gen
+var notificationHubProperties_STATUSGenerator *rapid.Generator[NotificationHubProperties_STATUS]
 
 // NotificationHubProperties_STATUSGenerator returns a generator of NotificationHubProperties_STATUS instances for property testing.
-// We first initialize notificationHubProperties_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func NotificationHubProperties_STATUSGenerator() gopter.Gen {
+func NotificationHubProperties_STATUSGenerator() *rapid.Generator[NotificationHubProperties_STATUS] {
 	if notificationHubProperties_STATUSGenerator != nil {
 		return notificationHubProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNotificationHubProperties_STATUS(generators)
-	notificationHubProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(NotificationHubProperties_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	admCredential := rapid.Ptr(AdmCredential_STATUSGenerator(), true)
+	apnsCredential := rapid.Ptr(ApnsCredential_STATUSGenerator(), true)
+	authorizationRules := rapid.SliceOf(SharedAccessAuthorizationRuleProperties_STATUSGenerator())
+	baiduCredential := rapid.Ptr(BaiduCredential_STATUSGenerator(), true)
+	browserCredential := rapid.Ptr(BrowserCredential_STATUSGenerator(), true)
+	dailyMaxActiveDevices := rapid.Ptr(rapid.Int(), true)
+	gcmCredential := rapid.Ptr(GcmCredential_STATUSGenerator(), true)
+	mpnsCredential := rapid.Ptr(MpnsCredential_STATUSGenerator(), true)
+	wnsCredential := rapid.Ptr(WnsCredential_STATUSGenerator(), true)
+	xiaomiCredential := rapid.Ptr(XiaomiCredential_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNotificationHubProperties_STATUS(generators)
-	AddRelatedPropertyGeneratorsForNotificationHubProperties_STATUS(generators)
-	notificationHubProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(NotificationHubProperties_STATUS{}), generators)
+	notificationHubProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) NotificationHubProperties_STATUS {
+		var result NotificationHubProperties_STATUS
+		result.AdmCredential = admCredential.Draw(t, "AdmCredential")
+		result.ApnsCredential = apnsCredential.Draw(t, "ApnsCredential")
+		result.AuthorizationRules = authorizationRules.Draw(t, "AuthorizationRules")
+		result.BaiduCredential = baiduCredential.Draw(t, "BaiduCredential")
+		result.BrowserCredential = browserCredential.Draw(t, "BrowserCredential")
+		result.DailyMaxActiveDevices = dailyMaxActiveDevices.Draw(t, "DailyMaxActiveDevices")
+		result.GcmCredential = gcmCredential.Draw(t, "GcmCredential")
+		result.MpnsCredential = mpnsCredential.Draw(t, "MpnsCredential")
+		result.Name = ptrString.Draw(t, "Name")
+		result.RegistrationTtl = ptrString.Draw(t, "RegistrationTtl")
+		result.WnsCredential = wnsCredential.Draw(t, "WnsCredential")
+		result.XiaomiCredential = xiaomiCredential.Draw(t, "XiaomiCredential")
+		return result
+	})
 
 	return notificationHubProperties_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNotificationHubProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNotificationHubProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["DailyMaxActiveDevices"] = gen.PtrOf(gen.Int())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["RegistrationTtl"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForNotificationHubProperties_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNotificationHubProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["AdmCredential"] = gen.PtrOf(AdmCredential_STATUSGenerator())
-	gens["ApnsCredential"] = gen.PtrOf(ApnsCredential_STATUSGenerator())
-	gens["AuthorizationRules"] = gen.SliceOf(SharedAccessAuthorizationRuleProperties_STATUSGenerator())
-	gens["BaiduCredential"] = gen.PtrOf(BaiduCredential_STATUSGenerator())
-	gens["BrowserCredential"] = gen.PtrOf(BrowserCredential_STATUSGenerator())
-	gens["GcmCredential"] = gen.PtrOf(GcmCredential_STATUSGenerator())
-	gens["MpnsCredential"] = gen.PtrOf(MpnsCredential_STATUSGenerator())
-	gens["WnsCredential"] = gen.PtrOf(WnsCredential_STATUSGenerator())
-	gens["XiaomiCredential"] = gen.PtrOf(XiaomiCredential_STATUSGenerator())
-}
-
+// Test_NotificationHub_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of NotificationHub_STATUS can be assigned to storage and back losslessly
 func Test_NotificationHub_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -3312,44 +2770,34 @@ func Test_NotificationHub_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from NotificationHub_STATUS to NotificationHub_STATUS via AssignProperties_To_NotificationHub_STATUS & AssignProperties_From_NotificationHub_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForNotificationHub_STATUS, NotificationHub_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := NotificationHub_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForNotificationHub_STATUS tests if a specific instance of NotificationHub_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForNotificationHub_STATUS(subject NotificationHub_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.NotificationHub_STATUS
+		err := copied.AssignProperties_To_NotificationHub_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NotificationHub_STATUS
-	err := copied.AssignProperties_To_NotificationHub_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual NotificationHub_STATUS
+		err = actual.AssignProperties_From_NotificationHub_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual NotificationHub_STATUS
-	err = actual.AssignProperties_From_NotificationHub_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_NotificationHub_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3359,29 +2807,23 @@ func Test_NotificationHub_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of NotificationHub_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNotificationHub_STATUS, NotificationHub_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForNotificationHub_STATUS)
 }
 
 // RunJSONSerializationTestForNotificationHub_STATUS runs a test to see if a specific instance of NotificationHub_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForNotificationHub_STATUS(subject NotificationHub_STATUS) string {
+func RunJSONSerializationTestForNotificationHub_STATUS(t *rapid.T) {
+	subject := NotificationHub_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual NotificationHub_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -3390,56 +2832,45 @@ func RunJSONSerializationTestForNotificationHub_STATUS(subject NotificationHub_S
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of NotificationHub_STATUS instances for property testing - lazily instantiated by
 // NotificationHub_STATUSGenerator()
-var notificationHub_STATUSGenerator gopter.Gen
+var notificationHub_STATUSGenerator *rapid.Generator[NotificationHub_STATUS]
 
 // NotificationHub_STATUSGenerator returns a generator of NotificationHub_STATUS instances for property testing.
-// We first initialize notificationHub_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func NotificationHub_STATUSGenerator() gopter.Gen {
+func NotificationHub_STATUSGenerator() *rapid.Generator[NotificationHub_STATUS] {
 	if notificationHub_STATUSGenerator != nil {
 		return notificationHub_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNotificationHub_STATUS(generators)
-	notificationHub_STATUSGenerator = gen.Struct(reflect.TypeOf(NotificationHub_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	properties := rapid.Ptr(NotificationHubProperties_STATUSGenerator(), true)
+	sku := rapid.Ptr(Sku_STATUSGenerator(), true)
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNotificationHub_STATUS(generators)
-	AddRelatedPropertyGeneratorsForNotificationHub_STATUS(generators)
-	notificationHub_STATUSGenerator = gen.Struct(reflect.TypeOf(NotificationHub_STATUS{}), generators)
+	notificationHub_STATUSGenerator = rapid.Custom(func(t *rapid.T) NotificationHub_STATUS {
+		var result NotificationHub_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.Location = ptrString.Draw(t, "Location")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Sku = sku.Draw(t, "Sku")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.Tags = tags.Draw(t, "Tags")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return notificationHub_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNotificationHub_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNotificationHub_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForNotificationHub_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNotificationHub_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(NotificationHubProperties_STATUSGenerator())
-	gens["Sku"] = gen.PtrOf(Sku_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
-}
-
+// Test_NotificationHub_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of NotificationHub_Spec can be assigned to storage and back losslessly
 func Test_NotificationHub_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -3447,44 +2878,34 @@ func Test_NotificationHub_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from NotificationHub_Spec to NotificationHub_Spec via AssignProperties_To_NotificationHub_Spec & AssignProperties_From_NotificationHub_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForNotificationHub_Spec, NotificationHub_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := NotificationHub_SpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForNotificationHub_Spec tests if a specific instance of NotificationHub_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForNotificationHub_Spec(subject NotificationHub_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.NotificationHub_Spec
+		err := copied.AssignProperties_To_NotificationHub_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NotificationHub_Spec
-	err := copied.AssignProperties_To_NotificationHub_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual NotificationHub_Spec
+		err = actual.AssignProperties_From_NotificationHub_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual NotificationHub_Spec
-	err = actual.AssignProperties_From_NotificationHub_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_NotificationHub_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3494,29 +2915,23 @@ func Test_NotificationHub_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of NotificationHub_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNotificationHub_Spec, NotificationHub_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForNotificationHub_Spec)
 }
 
 // RunJSONSerializationTestForNotificationHub_Spec runs a test to see if a specific instance of NotificationHub_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForNotificationHub_Spec(subject NotificationHub_Spec) string {
+func RunJSONSerializationTestForNotificationHub_Spec(t *rapid.T) {
+	subject := NotificationHub_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual NotificationHub_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -3525,54 +2940,44 @@ func RunJSONSerializationTestForNotificationHub_Spec(subject NotificationHub_Spe
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of NotificationHub_Spec instances for property testing - lazily instantiated by
 // NotificationHub_SpecGenerator()
-var notificationHub_SpecGenerator gopter.Gen
+var notificationHub_SpecGenerator *rapid.Generator[NotificationHub_Spec]
 
 // NotificationHub_SpecGenerator returns a generator of NotificationHub_Spec instances for property testing.
-// We first initialize notificationHub_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func NotificationHub_SpecGenerator() gopter.Gen {
+func NotificationHub_SpecGenerator() *rapid.Generator[NotificationHub_Spec] {
 	if notificationHub_SpecGenerator != nil {
 		return notificationHub_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNotificationHub_Spec(generators)
-	notificationHub_SpecGenerator = gen.Struct(reflect.TypeOf(NotificationHub_Spec{}), generators)
+	azureName := rapid.String()
+	location := rapid.Ptr(rapid.String(), true)
+	operatorSpec := rapid.Ptr(NotificationHubOperatorSpecGenerator(), true)
+	properties := rapid.Ptr(NotificationHubPropertiesGenerator(), true)
+	sku := rapid.Ptr(SkuGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNotificationHub_Spec(generators)
-	AddRelatedPropertyGeneratorsForNotificationHub_Spec(generators)
-	notificationHub_SpecGenerator = gen.Struct(reflect.TypeOf(NotificationHub_Spec{}), generators)
+	notificationHub_SpecGenerator = rapid.Custom(func(t *rapid.T) NotificationHub_Spec {
+		var result NotificationHub_Spec
+		result.AzureName = azureName.Draw(t, "AzureName")
+		result.Location = location.Draw(t, "Location")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Sku = sku.Draw(t, "Sku")
+		result.Tags = tags.Draw(t, "Tags")
+		return result
+	})
 
 	return notificationHub_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNotificationHub_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNotificationHub_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForNotificationHub_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNotificationHub_Spec(gens map[string]gopter.Gen) {
-	gens["OperatorSpec"] = gen.PtrOf(NotificationHubOperatorSpecGenerator())
-	gens["Properties"] = gen.PtrOf(NotificationHubPropertiesGenerator())
-	gens["Sku"] = gen.PtrOf(SkuGenerator())
-}
-
+// Test_WnsCredential_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of WnsCredential can be assigned to storage and back losslessly
 func Test_WnsCredential_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -3580,44 +2985,34 @@ func Test_WnsCredential_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from WnsCredential to WnsCredential via AssignProperties_To_WnsCredential & AssignProperties_From_WnsCredential returns original",
-		prop.ForAll(RunPropertyAssignmentTestForWnsCredential, WnsCredentialGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := WnsCredentialGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForWnsCredential tests if a specific instance of WnsCredential can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForWnsCredential(subject WnsCredential) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.WnsCredential
+		err := copied.AssignProperties_To_WnsCredential(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WnsCredential
-	err := copied.AssignProperties_To_WnsCredential(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual WnsCredential
+		err = actual.AssignProperties_From_WnsCredential(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual WnsCredential
-	err = actual.AssignProperties_From_WnsCredential(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_WnsCredential_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3627,29 +3022,23 @@ func Test_WnsCredential_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of WnsCredential via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWnsCredential, WnsCredentialGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForWnsCredential)
 }
 
 // RunJSONSerializationTestForWnsCredential runs a test to see if a specific instance of WnsCredential round trips to JSON and back losslessly
-func RunJSONSerializationTestForWnsCredential(subject WnsCredential) string {
+func RunJSONSerializationTestForWnsCredential(t *rapid.T) {
+	subject := WnsCredentialGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual WnsCredential
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -3658,33 +3047,31 @@ func RunJSONSerializationTestForWnsCredential(subject WnsCredential) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of WnsCredential instances for property testing - lazily instantiated by WnsCredentialGenerator()
-var wnsCredentialGenerator gopter.Gen
+var wnsCredentialGenerator *rapid.Generator[WnsCredential]
 
 // WnsCredentialGenerator returns a generator of WnsCredential instances for property testing.
-func WnsCredentialGenerator() gopter.Gen {
+func WnsCredentialGenerator() *rapid.Generator[WnsCredential] {
 	if wnsCredentialGenerator != nil {
 		return wnsCredentialGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForWnsCredential(generators)
-	wnsCredentialGenerator = gen.Struct(reflect.TypeOf(WnsCredential{}), generators)
+	properties := rapid.Ptr(WnsCredentialPropertiesGenerator(), true)
+
+	wnsCredentialGenerator = rapid.Custom(func(t *rapid.T) WnsCredential {
+		var result WnsCredential
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return wnsCredentialGenerator
 }
 
-// AddRelatedPropertyGeneratorsForWnsCredential is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForWnsCredential(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(WnsCredentialPropertiesGenerator())
-}
-
+// Test_WnsCredentialProperties_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of WnsCredentialProperties can be assigned to storage and back losslessly
 func Test_WnsCredentialProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -3692,44 +3079,34 @@ func Test_WnsCredentialProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from WnsCredentialProperties to WnsCredentialProperties via AssignProperties_To_WnsCredentialProperties & AssignProperties_From_WnsCredentialProperties returns original",
-		prop.ForAll(RunPropertyAssignmentTestForWnsCredentialProperties, WnsCredentialPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := WnsCredentialPropertiesGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForWnsCredentialProperties tests if a specific instance of WnsCredentialProperties can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForWnsCredentialProperties(subject WnsCredentialProperties) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.WnsCredentialProperties
+		err := copied.AssignProperties_To_WnsCredentialProperties(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WnsCredentialProperties
-	err := copied.AssignProperties_To_WnsCredentialProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual WnsCredentialProperties
+		err = actual.AssignProperties_From_WnsCredentialProperties(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual WnsCredentialProperties
-	err = actual.AssignProperties_From_WnsCredentialProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_WnsCredentialProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3739,29 +3116,23 @@ func Test_WnsCredentialProperties_WhenSerializedToJson_DeserializesAsEqual(t *te
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of WnsCredentialProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWnsCredentialProperties, WnsCredentialPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForWnsCredentialProperties)
 }
 
 // RunJSONSerializationTestForWnsCredentialProperties runs a test to see if a specific instance of WnsCredentialProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForWnsCredentialProperties(subject WnsCredentialProperties) string {
+func RunJSONSerializationTestForWnsCredentialProperties(t *rapid.T) {
+	subject := WnsCredentialPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual WnsCredentialProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -3770,28 +3141,26 @@ func RunJSONSerializationTestForWnsCredentialProperties(subject WnsCredentialPro
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of WnsCredentialProperties instances for property testing - lazily instantiated by
 // WnsCredentialPropertiesGenerator()
-var wnsCredentialPropertiesGenerator gopter.Gen
+var wnsCredentialPropertiesGenerator *rapid.Generator[WnsCredentialProperties]
 
 // WnsCredentialPropertiesGenerator returns a generator of WnsCredentialProperties instances for property testing.
-func WnsCredentialPropertiesGenerator() gopter.Gen {
+func WnsCredentialPropertiesGenerator() *rapid.Generator[WnsCredentialProperties] {
 	if wnsCredentialPropertiesGenerator != nil {
 		return wnsCredentialPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	wnsCredentialPropertiesGenerator = gen.Struct(reflect.TypeOf(WnsCredentialProperties{}), generators)
+	wnsCredentialPropertiesGenerator = rapid.Just(WnsCredentialProperties{})
 
 	return wnsCredentialPropertiesGenerator
 }
 
+// Test_WnsCredentialProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of WnsCredentialProperties_STATUS can be assigned to storage and back losslessly
 func Test_WnsCredentialProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -3799,44 +3168,34 @@ func Test_WnsCredentialProperties_STATUS_WhenPropertiesConverted_RoundTripsWitho
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from WnsCredentialProperties_STATUS to WnsCredentialProperties_STATUS via AssignProperties_To_WnsCredentialProperties_STATUS & AssignProperties_From_WnsCredentialProperties_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForWnsCredentialProperties_STATUS, WnsCredentialProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := WnsCredentialProperties_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForWnsCredentialProperties_STATUS tests if a specific instance of WnsCredentialProperties_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForWnsCredentialProperties_STATUS(subject WnsCredentialProperties_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.WnsCredentialProperties_STATUS
+		err := copied.AssignProperties_To_WnsCredentialProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WnsCredentialProperties_STATUS
-	err := copied.AssignProperties_To_WnsCredentialProperties_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual WnsCredentialProperties_STATUS
+		err = actual.AssignProperties_From_WnsCredentialProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual WnsCredentialProperties_STATUS
-	err = actual.AssignProperties_From_WnsCredentialProperties_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_WnsCredentialProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3846,29 +3205,23 @@ func Test_WnsCredentialProperties_STATUS_WhenSerializedToJson_DeserializesAsEqua
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of WnsCredentialProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWnsCredentialProperties_STATUS, WnsCredentialProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForWnsCredentialProperties_STATUS)
 }
 
 // RunJSONSerializationTestForWnsCredentialProperties_STATUS runs a test to see if a specific instance of WnsCredentialProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForWnsCredentialProperties_STATUS(subject WnsCredentialProperties_STATUS) string {
+func RunJSONSerializationTestForWnsCredentialProperties_STATUS(t *rapid.T) {
+	subject := WnsCredentialProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual WnsCredentialProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -3877,28 +3230,26 @@ func RunJSONSerializationTestForWnsCredentialProperties_STATUS(subject WnsCreden
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of WnsCredentialProperties_STATUS instances for property testing - lazily instantiated by
 // WnsCredentialProperties_STATUSGenerator()
-var wnsCredentialProperties_STATUSGenerator gopter.Gen
+var wnsCredentialProperties_STATUSGenerator *rapid.Generator[WnsCredentialProperties_STATUS]
 
 // WnsCredentialProperties_STATUSGenerator returns a generator of WnsCredentialProperties_STATUS instances for property testing.
-func WnsCredentialProperties_STATUSGenerator() gopter.Gen {
+func WnsCredentialProperties_STATUSGenerator() *rapid.Generator[WnsCredentialProperties_STATUS] {
 	if wnsCredentialProperties_STATUSGenerator != nil {
 		return wnsCredentialProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	wnsCredentialProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(WnsCredentialProperties_STATUS{}), generators)
+	wnsCredentialProperties_STATUSGenerator = rapid.Just(WnsCredentialProperties_STATUS{})
 
 	return wnsCredentialProperties_STATUSGenerator
 }
 
+// Test_WnsCredential_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of WnsCredential_STATUS can be assigned to storage and back losslessly
 func Test_WnsCredential_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -3906,44 +3257,34 @@ func Test_WnsCredential_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from WnsCredential_STATUS to WnsCredential_STATUS via AssignProperties_To_WnsCredential_STATUS & AssignProperties_From_WnsCredential_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForWnsCredential_STATUS, WnsCredential_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := WnsCredential_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForWnsCredential_STATUS tests if a specific instance of WnsCredential_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForWnsCredential_STATUS(subject WnsCredential_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.WnsCredential_STATUS
+		err := copied.AssignProperties_To_WnsCredential_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WnsCredential_STATUS
-	err := copied.AssignProperties_To_WnsCredential_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual WnsCredential_STATUS
+		err = actual.AssignProperties_From_WnsCredential_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual WnsCredential_STATUS
-	err = actual.AssignProperties_From_WnsCredential_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_WnsCredential_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3953,29 +3294,23 @@ func Test_WnsCredential_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of WnsCredential_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWnsCredential_STATUS, WnsCredential_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForWnsCredential_STATUS)
 }
 
 // RunJSONSerializationTestForWnsCredential_STATUS runs a test to see if a specific instance of WnsCredential_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForWnsCredential_STATUS(subject WnsCredential_STATUS) string {
+func RunJSONSerializationTestForWnsCredential_STATUS(t *rapid.T) {
+	subject := WnsCredential_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual WnsCredential_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -3984,34 +3319,32 @@ func RunJSONSerializationTestForWnsCredential_STATUS(subject WnsCredential_STATU
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of WnsCredential_STATUS instances for property testing - lazily instantiated by
 // WnsCredential_STATUSGenerator()
-var wnsCredential_STATUSGenerator gopter.Gen
+var wnsCredential_STATUSGenerator *rapid.Generator[WnsCredential_STATUS]
 
 // WnsCredential_STATUSGenerator returns a generator of WnsCredential_STATUS instances for property testing.
-func WnsCredential_STATUSGenerator() gopter.Gen {
+func WnsCredential_STATUSGenerator() *rapid.Generator[WnsCredential_STATUS] {
 	if wnsCredential_STATUSGenerator != nil {
 		return wnsCredential_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForWnsCredential_STATUS(generators)
-	wnsCredential_STATUSGenerator = gen.Struct(reflect.TypeOf(WnsCredential_STATUS{}), generators)
+	properties := rapid.Ptr(WnsCredentialProperties_STATUSGenerator(), true)
+
+	wnsCredential_STATUSGenerator = rapid.Custom(func(t *rapid.T) WnsCredential_STATUS {
+		var result WnsCredential_STATUS
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return wnsCredential_STATUSGenerator
 }
 
-// AddRelatedPropertyGeneratorsForWnsCredential_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForWnsCredential_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(WnsCredentialProperties_STATUSGenerator())
-}
-
+// Test_XiaomiCredential_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of XiaomiCredential can be assigned to storage and back losslessly
 func Test_XiaomiCredential_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -4019,44 +3352,34 @@ func Test_XiaomiCredential_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from XiaomiCredential to XiaomiCredential via AssignProperties_To_XiaomiCredential & AssignProperties_From_XiaomiCredential returns original",
-		prop.ForAll(RunPropertyAssignmentTestForXiaomiCredential, XiaomiCredentialGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := XiaomiCredentialGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForXiaomiCredential tests if a specific instance of XiaomiCredential can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForXiaomiCredential(subject XiaomiCredential) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.XiaomiCredential
+		err := copied.AssignProperties_To_XiaomiCredential(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.XiaomiCredential
-	err := copied.AssignProperties_To_XiaomiCredential(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual XiaomiCredential
+		err = actual.AssignProperties_From_XiaomiCredential(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual XiaomiCredential
-	err = actual.AssignProperties_From_XiaomiCredential(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_XiaomiCredential_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -4066,29 +3389,23 @@ func Test_XiaomiCredential_WhenSerializedToJson_DeserializesAsEqual(t *testing.T
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of XiaomiCredential via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForXiaomiCredential, XiaomiCredentialGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForXiaomiCredential)
 }
 
 // RunJSONSerializationTestForXiaomiCredential runs a test to see if a specific instance of XiaomiCredential round trips to JSON and back losslessly
-func RunJSONSerializationTestForXiaomiCredential(subject XiaomiCredential) string {
+func RunJSONSerializationTestForXiaomiCredential(t *rapid.T) {
+	subject := XiaomiCredentialGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual XiaomiCredential
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -4097,33 +3414,31 @@ func RunJSONSerializationTestForXiaomiCredential(subject XiaomiCredential) strin
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of XiaomiCredential instances for property testing - lazily instantiated by XiaomiCredentialGenerator()
-var xiaomiCredentialGenerator gopter.Gen
+var xiaomiCredentialGenerator *rapid.Generator[XiaomiCredential]
 
 // XiaomiCredentialGenerator returns a generator of XiaomiCredential instances for property testing.
-func XiaomiCredentialGenerator() gopter.Gen {
+func XiaomiCredentialGenerator() *rapid.Generator[XiaomiCredential] {
 	if xiaomiCredentialGenerator != nil {
 		return xiaomiCredentialGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForXiaomiCredential(generators)
-	xiaomiCredentialGenerator = gen.Struct(reflect.TypeOf(XiaomiCredential{}), generators)
+	properties := rapid.Ptr(XiaomiCredentialPropertiesGenerator(), true)
+
+	xiaomiCredentialGenerator = rapid.Custom(func(t *rapid.T) XiaomiCredential {
+		var result XiaomiCredential
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return xiaomiCredentialGenerator
 }
 
-// AddRelatedPropertyGeneratorsForXiaomiCredential is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForXiaomiCredential(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(XiaomiCredentialPropertiesGenerator())
-}
-
+// Test_XiaomiCredentialProperties_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of XiaomiCredentialProperties can be assigned to storage and back losslessly
 func Test_XiaomiCredentialProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -4131,44 +3446,34 @@ func Test_XiaomiCredentialProperties_WhenPropertiesConverted_RoundTripsWithoutLo
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from XiaomiCredentialProperties to XiaomiCredentialProperties via AssignProperties_To_XiaomiCredentialProperties & AssignProperties_From_XiaomiCredentialProperties returns original",
-		prop.ForAll(RunPropertyAssignmentTestForXiaomiCredentialProperties, XiaomiCredentialPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := XiaomiCredentialPropertiesGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForXiaomiCredentialProperties tests if a specific instance of XiaomiCredentialProperties can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForXiaomiCredentialProperties(subject XiaomiCredentialProperties) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.XiaomiCredentialProperties
+		err := copied.AssignProperties_To_XiaomiCredentialProperties(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.XiaomiCredentialProperties
-	err := copied.AssignProperties_To_XiaomiCredentialProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual XiaomiCredentialProperties
+		err = actual.AssignProperties_From_XiaomiCredentialProperties(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual XiaomiCredentialProperties
-	err = actual.AssignProperties_From_XiaomiCredentialProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_XiaomiCredentialProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -4178,29 +3483,23 @@ func Test_XiaomiCredentialProperties_WhenSerializedToJson_DeserializesAsEqual(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of XiaomiCredentialProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForXiaomiCredentialProperties, XiaomiCredentialPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForXiaomiCredentialProperties)
 }
 
 // RunJSONSerializationTestForXiaomiCredentialProperties runs a test to see if a specific instance of XiaomiCredentialProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForXiaomiCredentialProperties(subject XiaomiCredentialProperties) string {
+func RunJSONSerializationTestForXiaomiCredentialProperties(t *rapid.T) {
+	subject := XiaomiCredentialPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual XiaomiCredentialProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -4209,28 +3508,26 @@ func RunJSONSerializationTestForXiaomiCredentialProperties(subject XiaomiCredent
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of XiaomiCredentialProperties instances for property testing - lazily instantiated by
 // XiaomiCredentialPropertiesGenerator()
-var xiaomiCredentialPropertiesGenerator gopter.Gen
+var xiaomiCredentialPropertiesGenerator *rapid.Generator[XiaomiCredentialProperties]
 
 // XiaomiCredentialPropertiesGenerator returns a generator of XiaomiCredentialProperties instances for property testing.
-func XiaomiCredentialPropertiesGenerator() gopter.Gen {
+func XiaomiCredentialPropertiesGenerator() *rapid.Generator[XiaomiCredentialProperties] {
 	if xiaomiCredentialPropertiesGenerator != nil {
 		return xiaomiCredentialPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	xiaomiCredentialPropertiesGenerator = gen.Struct(reflect.TypeOf(XiaomiCredentialProperties{}), generators)
+	xiaomiCredentialPropertiesGenerator = rapid.Just(XiaomiCredentialProperties{})
 
 	return xiaomiCredentialPropertiesGenerator
 }
 
+// Test_XiaomiCredentialProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of XiaomiCredentialProperties_STATUS can be assigned to storage and back losslessly
 func Test_XiaomiCredentialProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -4238,44 +3535,34 @@ func Test_XiaomiCredentialProperties_STATUS_WhenPropertiesConverted_RoundTripsWi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from XiaomiCredentialProperties_STATUS to XiaomiCredentialProperties_STATUS via AssignProperties_To_XiaomiCredentialProperties_STATUS & AssignProperties_From_XiaomiCredentialProperties_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForXiaomiCredentialProperties_STATUS, XiaomiCredentialProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := XiaomiCredentialProperties_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForXiaomiCredentialProperties_STATUS tests if a specific instance of XiaomiCredentialProperties_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForXiaomiCredentialProperties_STATUS(subject XiaomiCredentialProperties_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.XiaomiCredentialProperties_STATUS
+		err := copied.AssignProperties_To_XiaomiCredentialProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.XiaomiCredentialProperties_STATUS
-	err := copied.AssignProperties_To_XiaomiCredentialProperties_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual XiaomiCredentialProperties_STATUS
+		err = actual.AssignProperties_From_XiaomiCredentialProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual XiaomiCredentialProperties_STATUS
-	err = actual.AssignProperties_From_XiaomiCredentialProperties_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_XiaomiCredentialProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -4285,29 +3572,23 @@ func Test_XiaomiCredentialProperties_STATUS_WhenSerializedToJson_DeserializesAsE
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of XiaomiCredentialProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForXiaomiCredentialProperties_STATUS, XiaomiCredentialProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForXiaomiCredentialProperties_STATUS)
 }
 
 // RunJSONSerializationTestForXiaomiCredentialProperties_STATUS runs a test to see if a specific instance of XiaomiCredentialProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForXiaomiCredentialProperties_STATUS(subject XiaomiCredentialProperties_STATUS) string {
+func RunJSONSerializationTestForXiaomiCredentialProperties_STATUS(t *rapid.T) {
+	subject := XiaomiCredentialProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual XiaomiCredentialProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -4316,28 +3597,26 @@ func RunJSONSerializationTestForXiaomiCredentialProperties_STATUS(subject Xiaomi
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of XiaomiCredentialProperties_STATUS instances for property testing - lazily instantiated by
 // XiaomiCredentialProperties_STATUSGenerator()
-var xiaomiCredentialProperties_STATUSGenerator gopter.Gen
+var xiaomiCredentialProperties_STATUSGenerator *rapid.Generator[XiaomiCredentialProperties_STATUS]
 
 // XiaomiCredentialProperties_STATUSGenerator returns a generator of XiaomiCredentialProperties_STATUS instances for property testing.
-func XiaomiCredentialProperties_STATUSGenerator() gopter.Gen {
+func XiaomiCredentialProperties_STATUSGenerator() *rapid.Generator[XiaomiCredentialProperties_STATUS] {
 	if xiaomiCredentialProperties_STATUSGenerator != nil {
 		return xiaomiCredentialProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	xiaomiCredentialProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(XiaomiCredentialProperties_STATUS{}), generators)
+	xiaomiCredentialProperties_STATUSGenerator = rapid.Just(XiaomiCredentialProperties_STATUS{})
 
 	return xiaomiCredentialProperties_STATUSGenerator
 }
 
+// Test_XiaomiCredential_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of XiaomiCredential_STATUS can be assigned to storage and back losslessly
 func Test_XiaomiCredential_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -4345,44 +3624,34 @@ func Test_XiaomiCredential_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from XiaomiCredential_STATUS to XiaomiCredential_STATUS via AssignProperties_To_XiaomiCredential_STATUS & AssignProperties_From_XiaomiCredential_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForXiaomiCredential_STATUS, XiaomiCredential_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := XiaomiCredential_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForXiaomiCredential_STATUS tests if a specific instance of XiaomiCredential_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForXiaomiCredential_STATUS(subject XiaomiCredential_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.XiaomiCredential_STATUS
+		err := copied.AssignProperties_To_XiaomiCredential_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.XiaomiCredential_STATUS
-	err := copied.AssignProperties_To_XiaomiCredential_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual XiaomiCredential_STATUS
+		err = actual.AssignProperties_From_XiaomiCredential_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual XiaomiCredential_STATUS
-	err = actual.AssignProperties_From_XiaomiCredential_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_XiaomiCredential_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -4392,29 +3661,23 @@ func Test_XiaomiCredential_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *te
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of XiaomiCredential_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForXiaomiCredential_STATUS, XiaomiCredential_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForXiaomiCredential_STATUS)
 }
 
 // RunJSONSerializationTestForXiaomiCredential_STATUS runs a test to see if a specific instance of XiaomiCredential_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForXiaomiCredential_STATUS(subject XiaomiCredential_STATUS) string {
+func RunJSONSerializationTestForXiaomiCredential_STATUS(t *rapid.T) {
+	subject := XiaomiCredential_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual XiaomiCredential_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -4423,30 +3686,27 @@ func RunJSONSerializationTestForXiaomiCredential_STATUS(subject XiaomiCredential
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of XiaomiCredential_STATUS instances for property testing - lazily instantiated by
 // XiaomiCredential_STATUSGenerator()
-var xiaomiCredential_STATUSGenerator gopter.Gen
+var xiaomiCredential_STATUSGenerator *rapid.Generator[XiaomiCredential_STATUS]
 
 // XiaomiCredential_STATUSGenerator returns a generator of XiaomiCredential_STATUS instances for property testing.
-func XiaomiCredential_STATUSGenerator() gopter.Gen {
+func XiaomiCredential_STATUSGenerator() *rapid.Generator[XiaomiCredential_STATUS] {
 	if xiaomiCredential_STATUSGenerator != nil {
 		return xiaomiCredential_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForXiaomiCredential_STATUS(generators)
-	xiaomiCredential_STATUSGenerator = gen.Struct(reflect.TypeOf(XiaomiCredential_STATUS{}), generators)
+	properties := rapid.Ptr(XiaomiCredentialProperties_STATUSGenerator(), true)
+
+	xiaomiCredential_STATUSGenerator = rapid.Custom(func(t *rapid.T) XiaomiCredential_STATUS {
+		var result XiaomiCredential_STATUS
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return xiaomiCredential_STATUSGenerator
-}
-
-// AddRelatedPropertyGeneratorsForXiaomiCredential_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForXiaomiCredential_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(XiaomiCredentialProperties_STATUSGenerator())
 }

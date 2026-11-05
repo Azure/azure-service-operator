@@ -1316,10 +1316,10 @@ func (operator *HcpOpenShiftClustersExternalAuthOperatorSpec) AssignProperties_T
 // External Auth claim profile
 type ExternalAuthClaimProfile struct {
 	// +kubebuilder:validation:Required
-	// Mappings: The claim mappings
+	// Mappings: The claim mappings.
 	Mappings *TokenClaimMappingsProfile `json:"mappings,omitempty"`
 
-	// ValidationRules: The claim validation rules
+	// ValidationRules: The claim validation rules.
 	ValidationRules []TokenClaimValidationRule `json:"validationRules,omitempty"`
 }
 
@@ -1506,10 +1506,10 @@ func (profile *ExternalAuthClaimProfile) Initialize_From_ExternalAuthClaimProfil
 
 // External Auth claim profile
 type ExternalAuthClaimProfile_STATUS struct {
-	// Mappings: The claim mappings
+	// Mappings: The claim mappings.
 	Mappings *TokenClaimMappingsProfile_STATUS `json:"mappings,omitempty"`
 
-	// ValidationRules: The claim validation rules
+	// ValidationRules: The claim validation rules.
 	ValidationRules []TokenClaimValidationRule_STATUS `json:"validationRules,omitempty"`
 }
 
@@ -2034,13 +2034,12 @@ type TokenIssuerProfile struct {
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:MaxItems=10
 	// +kubebuilder:validation:MinItems=1
-	// Audiences: This configures the acceptable audiences the JWT token, issued by the identity
-	// provider, must be issued to. At least one of the entries must match the
-	// 'aud' claim in the JWT token.
-	// audiences must contain at least one entry and must not exceed ten entries.
+	// Audiences: This configures the acceptable audiences for JWT tokens issued by the identity provider.
+	// At least one of the entries must match the 'aud' claim in the JWT token.
+	// Audiences must contain at least one entry and must not exceed ten entries.
 	Audiences []string `json:"audiences,omitempty"`
 
-	// Ca: The issuer of the token
+	// Ca: The issuer of the token.
 	// Certificate bundle to use to validate server certificates for the configured URL.
 	// It must be PEM encoded and when not specified, the system trust is used.
 	Ca *string `json:"ca,omitempty"`
@@ -2177,13 +2176,12 @@ func (profile *TokenIssuerProfile) Initialize_From_TokenIssuerProfile_STATUS(sou
 // how tokens issued from
 // the identity provider are evaluated by the Kubernetes API server.
 type TokenIssuerProfile_STATUS struct {
-	// Audiences: This configures the acceptable audiences the JWT token, issued by the identity
-	// provider, must be issued to. At least one of the entries must match the
-	// 'aud' claim in the JWT token.
-	// audiences must contain at least one entry and must not exceed ten entries.
+	// Audiences: This configures the acceptable audiences for JWT tokens issued by the identity provider.
+	// At least one of the entries must match the 'aud' claim in the JWT token.
+	// Audiences must contain at least one entry and must not exceed ten entries.
 	Audiences []string `json:"audiences,omitempty"`
 
-	// Ca: The issuer of the token
+	// Ca: The issuer of the token.
 	// Certificate bundle to use to validate server certificates for the configured URL.
 	// It must be PEM encoded and when not specified, the system trust is used.
 	Ca *string `json:"ca,omitempty"`
@@ -3104,8 +3102,8 @@ type GroupClaimProfile struct {
 	// Claim: Claim name of the external profile
 	Claim *string `json:"claim,omitempty"`
 
-	// Prefix: Prefix for the claim external profile
-	// If this is specified prefixPolicy will be set to "Prefix" by default
+	// Prefix: Prefix for the claim external profile.
+	// If this is specified, prefixPolicy will be set to "Prefix" by default.
 	Prefix *string `json:"prefix,omitempty"`
 }
 
@@ -3221,8 +3219,8 @@ type GroupClaimProfile_STATUS struct {
 	// Claim: Claim name of the external profile
 	Claim *string `json:"claim,omitempty"`
 
-	// Prefix: Prefix for the claim external profile
-	// If this is specified prefixPolicy will be set to "Prefix" by default
+	// Prefix: Prefix for the claim external profile.
+	// If this is specified, prefixPolicy will be set to "Prefix" by default.
 	Prefix *string `json:"prefix,omitempty"`
 }
 
@@ -3517,7 +3515,7 @@ type UsernameClaimProfile struct {
 	// Claim: Claim name of the external profile
 	Claim *string `json:"claim,omitempty"`
 
-	// Prefix: Prefix for the claim external profile
+	// Prefix: Prefix for the claim external profile.
 	// Must be set when the prefixPolicy field is set to 'Prefix' and must be unset
 	// otherwise.
 	Prefix *string `json:"prefix,omitempty"`
@@ -3689,7 +3687,7 @@ type UsernameClaimProfile_STATUS struct {
 	// Claim: Claim name of the external profile
 	Claim *string `json:"claim,omitempty"`
 
-	// Prefix: Prefix for the claim external profile
+	// Prefix: Prefix for the claim external profile.
 	// Must be set when the prefixPolicy field is set to 'Prefix' and must be unset
 	// otherwise.
 	Prefix *string `json:"prefix,omitempty"`

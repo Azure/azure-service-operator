@@ -5,7 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v20250601/storage"
+	v20250601s "github.com/Azure/azure-service-operator/v2/api/storage/v20250601/storage"
+	v20260601s "github.com/Azure/azure-service-operator/v2/api/storage/v20260601/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -41,7 +42,7 @@ func RunResourceConversionTestForStorageAccountsTableService(subject StorageAcco
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.StorageAccountsTableService
+	var hub v20260601s.StorageAccountsTableService
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -88,7 +89,7 @@ func RunPropertyAssignmentTestForStorageAccountsTableService(subject StorageAcco
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.StorageAccountsTableService
+	var other v20250601s.StorageAccountsTableService
 	err := copied.AssignProperties_To_StorageAccountsTableService(&other)
 	if err != nil {
 		return err.Error()
@@ -202,7 +203,7 @@ func RunPropertyAssignmentTestForStorageAccountsTableServiceOperatorSpec(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.StorageAccountsTableServiceOperatorSpec
+	var other v20250601s.StorageAccountsTableServiceOperatorSpec
 	err := copied.AssignProperties_To_StorageAccountsTableServiceOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -309,7 +310,7 @@ func RunPropertyAssignmentTestForStorageAccountsTableService_STATUS(subject Stor
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.StorageAccountsTableService_STATUS
+	var other v20250601s.StorageAccountsTableService_STATUS
 	err := copied.AssignProperties_To_StorageAccountsTableService_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -438,7 +439,7 @@ func RunPropertyAssignmentTestForStorageAccountsTableService_Spec(subject Storag
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.StorageAccountsTableService_Spec
+	var other v20250601s.StorageAccountsTableService_Spec
 	err := copied.AssignProperties_To_StorageAccountsTableService_Spec(&other)
 	if err != nil {
 		return err.Error()

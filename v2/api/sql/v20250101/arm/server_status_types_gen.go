@@ -34,22 +34,6 @@ type Server_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-// Azure Active Directory identity configuration for a resource.
-type ResourceIdentity_STATUS struct {
-	// PrincipalId: The Azure Active Directory principal id.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// TenantId: The Azure Active Directory tenant id.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	// Type: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active
-	// Directory principal for the resource.
-	Type *IdentityType_STATUS `json:"type,omitempty"`
-
-	// UserAssignedIdentities: The resource ids of the user assigned identities to use
-	UserAssignedIdentities map[string]UserIdentity_STATUS `json:"userAssignedIdentities,omitempty"`
-}
-
 // The properties of a server.
 type ServerProperties_STATUS struct {
 	// AdministratorLogin: Administrator username for the server. Once created it cannot be changed.
@@ -107,60 +91,6 @@ type ServerProperties_STATUS struct {
 
 	// WorkspaceFeature: Whether or not existing server has a workspace created and if it allows connection from workspace
 	WorkspaceFeature *ServerWorkspaceFeature_STATUS `json:"workspaceFeature,omitempty"`
-}
-
-// Metadata pertaining to creation and last modification of the resource.
-type SystemData_STATUS struct {
-	// CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
-
-	// LastModifiedAt: The timestamp of resource last modification (UTC)
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	// LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
-}
-
-// Status of external governance.
-type ExternalGovernanceStatus_STATUS string
-
-const (
-	ExternalGovernanceStatus_STATUS_Disabled = ExternalGovernanceStatus_STATUS("Disabled")
-	ExternalGovernanceStatus_STATUS_Enabled  = ExternalGovernanceStatus_STATUS("Enabled")
-)
-
-// Mapping from string to ExternalGovernanceStatus_STATUS
-var externalGovernanceStatus_STATUS_Values = map[string]ExternalGovernanceStatus_STATUS{
-	"disabled": ExternalGovernanceStatus_STATUS_Disabled,
-	"enabled":  ExternalGovernanceStatus_STATUS_Enabled,
-}
-
-// The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory
-// principal for the resource.
-type IdentityType_STATUS string
-
-const (
-	IdentityType_STATUS_None                       = IdentityType_STATUS("None")
-	IdentityType_STATUS_SystemAssigned             = IdentityType_STATUS("SystemAssigned")
-	IdentityType_STATUS_SystemAssignedUserAssigned = IdentityType_STATUS("SystemAssigned,UserAssigned")
-	IdentityType_STATUS_UserAssigned               = IdentityType_STATUS("UserAssigned")
-)
-
-// Mapping from string to IdentityType_STATUS
-var identityType_STATUS_Values = map[string]IdentityType_STATUS{
-	"none":                        IdentityType_STATUS_None,
-	"systemassigned":              IdentityType_STATUS_SystemAssigned,
-	"systemassigned,userassigned": IdentityType_STATUS_SystemAssignedUserAssigned,
-	"userassigned":                IdentityType_STATUS_UserAssigned,
 }
 
 // Minimal TLS version. Allowed values: 'None', 1.0', '1.1', '1.2', '1.3'
@@ -273,65 +203,6 @@ const (
 var serverWorkspaceFeature_STATUS_Values = map[string]ServerWorkspaceFeature_STATUS{
 	"connected":    ServerWorkspaceFeature_STATUS_Connected,
 	"disconnected": ServerWorkspaceFeature_STATUS_Disconnected,
-}
-
-type SystemData_CreatedByType_STATUS string
-
-const (
-	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
-)
-
-// Mapping from string to SystemData_CreatedByType_STATUS
-var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
-	"application":     SystemData_CreatedByType_STATUS_Application,
-	"key":             SystemData_CreatedByType_STATUS_Key,
-	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_CreatedByType_STATUS_User,
-}
-
-type SystemData_LastModifiedByType_STATUS string
-
-const (
-	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
-)
-
-// Mapping from string to SystemData_LastModifiedByType_STATUS
-var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
-	"application":     SystemData_LastModifiedByType_STATUS_Application,
-	"key":             SystemData_LastModifiedByType_STATUS_Key,
-	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_LastModifiedByType_STATUS_User,
-}
-
-// Azure Active Directory identity configuration for a resource.
-type UserIdentity_STATUS struct {
-	// ClientId: The Azure Active Directory client id.
-	ClientId *string `json:"clientId,omitempty"`
-
-	// PrincipalId: The Azure Active Directory principal id.
-	PrincipalId *string `json:"principalId,omitempty"`
-}
-
-// Principal Type of the sever administrator.
-type PrincipalType_STATUS string
-
-const (
-	PrincipalType_STATUS_Application = PrincipalType_STATUS("Application")
-	PrincipalType_STATUS_Group       = PrincipalType_STATUS("Group")
-	PrincipalType_STATUS_User        = PrincipalType_STATUS("User")
-)
-
-// Mapping from string to PrincipalType_STATUS
-var principalType_STATUS_Values = map[string]PrincipalType_STATUS{
-	"application": PrincipalType_STATUS_Application,
-	"group":       PrincipalType_STATUS_Group,
-	"user":        PrincipalType_STATUS_User,
 }
 
 // Properties of a private endpoint connection.

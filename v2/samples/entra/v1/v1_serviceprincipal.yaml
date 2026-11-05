@@ -1,0 +1,15 @@
+# Requires the application to have an existing service principal in this tenant.
+# The appId is globally known; the status.entraID is the tenant-specific object ID.
+apiVersion: entra.azure.com/v1
+kind: ServicePrincipal
+metadata:
+  name: cassandra-service-principal
+  namespace: default
+spec:
+  appId: a232010e-820c-4083-83bb-3ace5fc29d0b
+  operatorSpec:
+    creationMode: AdoptOnly
+    configmaps:
+      entraID:
+        name: cassandra-service-principal
+        key: objectId

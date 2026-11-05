@@ -93,7 +93,7 @@ func Test_ParseTLSMinVersion(t *testing.T) {
 	}{
 		{name: "TLS12 is valid", input: "VersionTLS12", expected: tls.VersionTLS12},
 		{name: "TLS13 is valid", input: "VersionTLS13", expected: tls.VersionTLS13},
-		{name: "matches the default", input: config.DefaultTLSMinVersion, expected: tls.VersionTLS12},
+		{name: "matches the default", input: config.DefaultTLSMinVersion, expected: tls.VersionTLS13},
 		{name: "unsupported version is rejected", input: "TLSabcd", expectError: true},
 		{name: "TLS11 is rejected", input: "VersionTLS11", expectError: true},
 		{name: "empty value is rejected", input: "", expectError: true},

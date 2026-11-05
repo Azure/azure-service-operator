@@ -7,6 +7,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"os"
 
 	"github.com/go-logr/logr"
@@ -19,7 +20,8 @@ import (
 
 // Execute kicks off the command line
 func Execute() {
-	cmd, err := newRootCommand()
+	profiler := newProfiler()
+	cmd, err := newRootCommand(profiler)
 	if err != nil {
 		log := CreateLogger()
 		log.Error(err, "failed to create root command")
@@ -27,14 +29,14 @@ func Execute() {
 	}
 
 	ctx := xcontext.MakeInterruptibleContext(context.Background())
-	if err := cmd.ExecuteContext(ctx); err != nil {
+	if err = executeRootCommand(ctx, os.Args[1:], cmd, profiler); err != nil {
 		log := CreateLogger()
 		log.Error(err, "failed to execute root command")
 		os.Exit(1)
 	}
 }
 
-func newRootCommand() (*cobra.Command, error) {
+func newRootCommand(profiler *profiler) (*cobra.Command, error) {
 	rootCmd := &cobra.Command{
 		Use:              "aso-gen",
 		Short:            "aso-gen provides a cmdline interface for generating Azure Service Operator types from Azure deployment template schema",
@@ -48,6 +50,24 @@ func newRootCommand() (*cobra.Command, error) {
 	rootCmd.PersistentFlags().BoolVar(&verbose, "verbose", false, "Enable verbose logging")
 	rootCmd.PersistentFlags().BoolVar(&quiet, "quiet", false, "Suppress non-error logging")
 	rootCmd.PersistentFlags().BoolVar(&trace, "trace", false, "Enable trace logging (very verbose)")
+	rootCmd.PersistentFlags().StringVar(
+		&profiler.memoryProfilePath,
+		"memory-prof",
+		"",
+		"Write a cumulative memory allocation profile to this file",
+	)
+	rootCmd.PersistentFlags().StringVar(
+		&profiler.cpuProfilePath,
+		"cpu-prof",
+		"",
+		"Write a CPU profile to this file",
+	)
+	rootCmd.PersistentFlags().StringVar(
+		&profiler.blockingProfilePath,
+		"blocking-prof",
+		"",
+		"Write a blocking profile to this file",
+	)
 
 	rootCmd.MarkFlagsMutuallyExclusive("verbose", "quiet", "trace")
 
@@ -64,7 +84,15 @@ func newRootCommand() (*cobra.Command, error) {
 		rootCmd.AddCommand(cmd)
 	}
 
-	rootCmd.PersistentPreRun = func(cmd *cobra.Command, args []string) {
+	rootCmd.PersistentPreRunE = func(cmd *cobra.Command, args []string) error {
+		if err := cmd.ValidateRequiredFlags(); err != nil {
+			return err
+		}
+
+		if err := cmd.ValidateFlagGroups(); err != nil {
+			return err
+		}
+
 		// Configure logging; --trace overrides --verbose overrides --quiet
 		if trace {
 			zerologr.SetMaxV(2)
@@ -76,9 +104,38 @@ func newRootCommand() (*cobra.Command, error) {
 		} else {
 			zerologr.SetMaxV(0)
 		}
+
+		return profiler.start()
 	}
 
 	return rootCmd, nil
+}
+
+type profileStopper interface {
+	stop() error
+}
+
+func executeRootCommand(
+	ctx context.Context,
+	args []string,
+	cmd *cobra.Command,
+	profiler profileStopper,
+) error {
+	cmd.SetArgs(args)
+	return executeCommand(ctx, cmd, profiler)
+}
+
+func executeCommand(
+	ctx context.Context,
+	cmd *cobra.Command,
+	profiler profileStopper,
+) (result error) {
+	defer func() {
+		result = errors.Join(result, profiler.stop())
+	}()
+
+	result = cmd.ExecuteContext(ctx)
+	return result
 }
 
 var (

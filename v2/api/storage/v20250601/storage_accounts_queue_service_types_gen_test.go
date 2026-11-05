@@ -5,7 +5,8 @@ package v20250601
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v20250601/storage"
+	v20250601s "github.com/Azure/azure-service-operator/v2/api/storage/v20250601/storage"
+	v20260601s "github.com/Azure/azure-service-operator/v2/api/storage/v20260601/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -41,7 +42,7 @@ func RunResourceConversionTestForStorageAccountsQueueService(subject StorageAcco
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.StorageAccountsQueueService
+	var hub v20260601s.StorageAccountsQueueService
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -88,7 +89,7 @@ func RunPropertyAssignmentTestForStorageAccountsQueueService(subject StorageAcco
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.StorageAccountsQueueService
+	var other v20250601s.StorageAccountsQueueService
 	err := copied.AssignProperties_To_StorageAccountsQueueService(&other)
 	if err != nil {
 		return err.Error()
@@ -202,7 +203,7 @@ func RunPropertyAssignmentTestForStorageAccountsQueueServiceOperatorSpec(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.StorageAccountsQueueServiceOperatorSpec
+	var other v20250601s.StorageAccountsQueueServiceOperatorSpec
 	err := copied.AssignProperties_To_StorageAccountsQueueServiceOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -309,7 +310,7 @@ func RunPropertyAssignmentTestForStorageAccountsQueueService_STATUS(subject Stor
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.StorageAccountsQueueService_STATUS
+	var other v20250601s.StorageAccountsQueueService_STATUS
 	err := copied.AssignProperties_To_StorageAccountsQueueService_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -439,7 +440,7 @@ func RunPropertyAssignmentTestForStorageAccountsQueueService_Spec(subject Storag
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.StorageAccountsQueueService_Spec
+	var other v20250601s.StorageAccountsQueueService_Spec
 	err := copied.AssignProperties_To_StorageAccountsQueueService_Spec(&other)
 	if err != nil {
 		return err.Error()

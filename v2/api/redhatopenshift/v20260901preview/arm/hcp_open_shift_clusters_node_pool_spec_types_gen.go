@@ -39,15 +39,21 @@ func (pool *HcpOpenShiftClustersNodePool_Spec) GetType() string {
 
 // Represents the node pool properties
 type NodePoolProperties struct {
-	// AutoRepair: Auto-repair
+	// AutoRepair: autoRepair specifies whether health checks should be enabled for machines
+	// in the NodePool. Enabling this feature will cause the controller to
+	// automatically delete unhealthy machines. The unhealthy criteria are
+	// determined by checking the Node Ready condition and a timeout that might
+	// vary depending on the platform provider. autoRepair will not take action
+	// when more than 2 Nodes are unhealthy at the same time, giving time for
+	// the cluster to stabilize or for the user to manually intervene.
 	AutoRepair *bool `json:"autoRepair,omitempty"`
 
 	// AutoScaling: Representation of a autoscaling in a node pool.
 	AutoScaling *NodePoolAutoScaling `json:"autoScaling,omitempty"`
 
-	// Labels: Kubernetes labels to propagate to the NodePool Nodes
+	// Labels: Kubernetes labels to propagate to the NodePool Nodes.
 	// Note that when the labels are updated this is only applied to newly
-	// create nodes in the Nodepool, existing node labels remain unchanged.
+	// created nodes in the NodePool, existing node labels remain unchanged.
 	Labels []Label `json:"labels,omitempty"`
 
 	// NodeDrainTimeoutMinutes: nodeDrainTimeoutMinutes is the grace period for how long Pod Disruption Budget-protected
@@ -70,7 +76,7 @@ type NodePoolProperties struct {
 	// - No maximum when availabilityZone is specified
 	Replicas *int `json:"replicas,omitempty"`
 
-	// Taints: Taints for the nodes
+	// Taints: Taints for the nodes.
 	Taints []Taint `json:"taints,omitempty"`
 
 	// Version: OpenShift version for the nodepool
@@ -118,7 +124,7 @@ type NodePoolPlatformProfile struct {
 	// OsDisk: The settings and configuration options for OSDisk
 	OsDisk *OsDiskProfile `json:"osDisk,omitempty"`
 
-	// SubnetId: The Azure resource ID of the worker subnet
+	// SubnetId: The Azure resource ID of the worker subnet.
 	// Note that a subnet cannot be reused between ARO-HCP Clusters, however the
 	// same subnet can be used for NodePools of the same cluster.
 	SubnetId *string `json:"subnetId,omitempty"`
@@ -133,6 +139,8 @@ type NodePoolVersionProfile struct {
 	// ChannelGroup: ChannelGroup is the name of the set to which this version belongs.
 	// Each version belongs to only a single set.
 	// If not specified, the default value is 'stable'.
+	// This property is intended to be updateable, but that support is not yet
+	// complete. Until then, changing this value after node pool creation is rejected.
 	ChannelGroup *string `json:"channelGroup,omitempty"`
 
 	// Id: ID is the unique identifier of the version.

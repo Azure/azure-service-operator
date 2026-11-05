@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/rotisserie/eris"
+	"k8s.io/client-go/tools/leaderelection"
 
 	"github.com/Azure/azure-service-operator/v2/internal/crdmanagement"
 	"github.com/Azure/azure-service-operator/v2/internal/labels"
@@ -31,6 +32,9 @@ type Flags struct {
 	CRDManagementMode    string
 	CRDPatterns          string // This is a ';' delimited string containing a collection of patterns
 	CRDLabels            string // This is a ',' or ';' delimited string containing labels to apply to managed CRDs
+	// EnableAzureCLIAuthentication adds AzureCLICredential to the default chain.
+	// Off by default so in-cluster pods do not invoke az.
+	EnableAzureCLIAuthentication bool
 }
 
 // parseCRDLabels parses the --crd-labels flag, rejecting any label reserved for ASO's own use.
@@ -52,12 +56,39 @@ func parseCRDLabels(value string) (map[string]string, error) {
 
 // Validate checks the flag combinations that would otherwise only fail once the manager starts.
 func (f Flags) Validate() error {
+	if f.LeaseDuration <= 0 {
+		return eris.Errorf("leader-lease-duration (%s) must be greater than zero", f.LeaseDuration)
+	}
+
+	if f.RenewDeadline <= 0 {
+		return eris.Errorf("leader-renew-deadline (%s) must be greater than zero", f.RenewDeadline)
+	}
+
+	if f.RetryPeriod <= 0 {
+		return eris.Errorf("leader-retry-period (%s) must be greater than zero", f.RetryPeriod)
+	}
+
 	if f.LeaseDuration <= f.RenewDeadline {
 		return eris.Errorf("leader-lease-duration (%s) must be greater than leader-renew-deadline (%s)", f.LeaseDuration, f.RenewDeadline)
 	}
 
 	if f.RenewDeadline <= f.RetryPeriod {
-		return eris.Errorf("leader-renew-deadline (%s) must be greater than leader-retry-period (%s)", f.RenewDeadline, f.RetryPeriod)
+		return eris.Errorf(
+			"leader-renew-deadline (%s) must be greater than leader-retry-period (%s)",
+			f.RenewDeadline,
+			f.RetryPeriod,
+		)
+	}
+
+	// Compare as float64 to avoid overflowing time.Duration when applying the jitter factor.
+	minimumRenewDeadline := leaderelection.JitterFactor * float64(f.RetryPeriod)
+	if float64(f.RenewDeadline) <= minimumRenewDeadline {
+		return eris.Errorf(
+			"leader-renew-deadline (%s) must be greater than leader-retry-period (%s) multiplied by the jitter factor (%g)",
+			f.RenewDeadline,
+			f.RetryPeriod,
+			leaderelection.JitterFactor,
+		)
 	}
 
 	return nil
@@ -65,7 +96,7 @@ func (f Flags) Validate() error {
 
 func (f Flags) String() string {
 	return fmt.Sprintf(
-		"MetricsAddr: %s, SecureMetrics: %t, ProfilingMetrics: %t, MetricsCertDir: %s, HealthAddr: %s, WebhookPort: %d, WebhookCertDir: %s, EnableLeaderElection: %t, LeaseDuration: %s, RenewDeadline: %s, RetryPeriod: %s, CRDManagementMode: %s, CRDPatterns: %s, CRDLabels: %s",
+		"MetricsAddr: %s, SecureMetrics: %t, ProfilingMetrics: %t, MetricsCertDir: %s, HealthAddr: %s, WebhookPort: %d, WebhookCertDir: %s, EnableLeaderElection: %t, LeaseDuration: %s, RenewDeadline: %s, RetryPeriod: %s, CRDManagementMode: %s, CRDPatterns: %s, CRDLabels: %s, EnableAzureCLIAuthentication: %t",
 		f.MetricsAddr,
 		f.SecureMetrics,
 		f.ProfilingMetrics,
@@ -80,6 +111,7 @@ func (f Flags) String() string {
 		f.CRDManagementMode,
 		f.CRDPatterns,
 		f.CRDLabels,
+		f.EnableAzureCLIAuthentication,
 	)
 }
 
@@ -98,12 +130,13 @@ func InitFlags(flagSet *flag.FlagSet) *Flags {
 
 	flagSet.DurationVar(&result.LeaseDuration, "leader-lease-duration", 15*time.Second, "How long a leader lease is valid for. Operators watching many resources may need a larger value, as the initial informer sync competes with lease renewal.")
 	flagSet.DurationVar(&result.RenewDeadline, "leader-renew-deadline", 10*time.Second, "How long the leader has to renew its lease before giving it up. Must be less than leader-lease-duration.")
-	flagSet.DurationVar(&result.RetryPeriod, "leader-retry-period", 2*time.Second, "How long clients wait between attempts to acquire or renew the lease. Must be less than leader-renew-deadline.")
+	flagSet.DurationVar(&result.RetryPeriod, "leader-retry-period", 2*time.Second, "How long clients wait between attempts to acquire or renew the lease. leader-renew-deadline must be greater than this value multiplied by the leader-election jitter factor.")
 
 	flagSet.StringVar(&result.CRDManagementMode, "crd-management", "auto",
 		"Instructs the operator on how it should manage the Custom Resource Definitions. One of 'auto', 'none'")
 	flagSet.StringVar(&result.CRDPatterns, "crd-pattern", "", "Install these CRDs. CRDs already in the cluster will also always be upgraded.")
 	flagSet.StringVar(&result.CRDLabels, "crd-labels", "", "Comma-separated (or semicolon-separated) labels to apply to all managed CRDs (for example, example.com/owner=aso,environment=production). Labels reserved by the operator (app.kubernetes.io/name, app.kubernetes.io/version and the serviceoperator.azure.com/ prefix) cannot be set.")
+	flagSet.BoolVar(&result.EnableAzureCLIAuthentication, "enable-azure-cli-authentication", false, "Enable Azure CLI (az login) on the default credential chain. For a local controller process only; leave unset for in-cluster pods.")
 
 	return result
 }

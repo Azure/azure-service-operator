@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20230701/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &RegistryReplication{}
 
 // ConvertFrom populates our RegistryReplication from the provided hub RegistryReplication
 func (replication *RegistryReplication) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.RegistryReplication)
-	if !ok {
-		return fmt.Errorf("expected containerregistry/v20230701/storage/RegistryReplication but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.RegistryReplication
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return replication.AssignProperties_From_RegistryReplication(source)
+	err = replication.AssignProperties_From_RegistryReplication(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to replication")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RegistryReplication from our RegistryReplication
 func (replication *RegistryReplication) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.RegistryReplication)
-	if !ok {
-		return fmt.Errorf("expected containerregistry/v20230701/storage/RegistryReplication but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.RegistryReplication
+	err := replication.AssignProperties_To_RegistryReplication(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from replication")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return replication.AssignProperties_To_RegistryReplication(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &RegistryReplication{}

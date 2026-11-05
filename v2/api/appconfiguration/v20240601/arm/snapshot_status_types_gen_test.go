@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_KeyValueFilter_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of KeyValueFilter_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForKeyValueFilter_STATUS, KeyValueFilter_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForKeyValueFilter_STATUS)
 }
 
 // RunJSONSerializationTestForKeyValueFilter_STATUS runs a test to see if a specific instance of KeyValueFilter_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForKeyValueFilter_STATUS(subject KeyValueFilter_STATUS) string {
+func RunJSONSerializationTestForKeyValueFilter_STATUS(t *rapid.T) {
+	subject := KeyValueFilter_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual KeyValueFilter_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,33 +45,30 @@ func RunJSONSerializationTestForKeyValueFilter_STATUS(subject KeyValueFilter_STA
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of KeyValueFilter_STATUS instances for property testing - lazily instantiated by
 // KeyValueFilter_STATUSGenerator()
-var keyValueFilter_STATUSGenerator gopter.Gen
+var keyValueFilter_STATUSGenerator *rapid.Generator[KeyValueFilter_STATUS]
 
 // KeyValueFilter_STATUSGenerator returns a generator of KeyValueFilter_STATUS instances for property testing.
-func KeyValueFilter_STATUSGenerator() gopter.Gen {
+func KeyValueFilter_STATUSGenerator() *rapid.Generator[KeyValueFilter_STATUS] {
 	if keyValueFilter_STATUSGenerator != nil {
 		return keyValueFilter_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForKeyValueFilter_STATUS(generators)
-	keyValueFilter_STATUSGenerator = gen.Struct(reflect.TypeOf(KeyValueFilter_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	keyValueFilter_STATUSGenerator = rapid.Custom(func(t *rapid.T) KeyValueFilter_STATUS {
+		var result KeyValueFilter_STATUS
+		result.Key = ptrString.Draw(t, "Key")
+		result.Label = ptrString.Draw(t, "Label")
+		return result
+	})
 
 	return keyValueFilter_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForKeyValueFilter_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForKeyValueFilter_STATUS(gens map[string]gopter.Gen) {
-	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["Label"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_SnapshotProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -91,29 +78,23 @@ func Test_SnapshotProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SnapshotProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSnapshotProperties_STATUS, SnapshotProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSnapshotProperties_STATUS)
 }
 
 // RunJSONSerializationTestForSnapshotProperties_STATUS runs a test to see if a specific instance of SnapshotProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSnapshotProperties_STATUS(subject SnapshotProperties_STATUS) string {
+func RunJSONSerializationTestForSnapshotProperties_STATUS(t *rapid.T) {
+	subject := SnapshotProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SnapshotProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -122,67 +103,47 @@ func RunJSONSerializationTestForSnapshotProperties_STATUS(subject SnapshotProper
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SnapshotProperties_STATUS instances for property testing - lazily instantiated by
 // SnapshotProperties_STATUSGenerator()
-var snapshotProperties_STATUSGenerator gopter.Gen
+var snapshotProperties_STATUSGenerator *rapid.Generator[SnapshotProperties_STATUS]
 
 // SnapshotProperties_STATUSGenerator returns a generator of SnapshotProperties_STATUS instances for property testing.
-// We first initialize snapshotProperties_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func SnapshotProperties_STATUSGenerator() gopter.Gen {
+func SnapshotProperties_STATUSGenerator() *rapid.Generator[SnapshotProperties_STATUS] {
 	if snapshotProperties_STATUSGenerator != nil {
 		return snapshotProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSnapshotProperties_STATUS(generators)
-	snapshotProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(SnapshotProperties_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+	compositionType := rapid.Ptr(rapid.SampledFrom([]SnapshotProperties_CompositionType_STATUS{SnapshotProperties_CompositionType_STATUS_Key, SnapshotProperties_CompositionType_STATUS_Key_Label}), true)
+	filters := rapid.SliceOf(KeyValueFilter_STATUSGenerator())
+	provisioningState := rapid.Ptr(rapid.SampledFrom([]SnapshotProperties_ProvisioningState_STATUS{SnapshotProperties_ProvisioningState_STATUS_Canceled, SnapshotProperties_ProvisioningState_STATUS_Creating, SnapshotProperties_ProvisioningState_STATUS_Deleting, SnapshotProperties_ProvisioningState_STATUS_Failed, SnapshotProperties_ProvisioningState_STATUS_Succeeded, SnapshotProperties_ProvisioningState_STATUS_Updating}), true)
+	status := rapid.Ptr(rapid.SampledFrom([]SnapshotProperties_Status_STATUS{SnapshotProperties_Status_STATUS_Archived, SnapshotProperties_Status_STATUS_Failed, SnapshotProperties_Status_STATUS_Provisioning, SnapshotProperties_Status_STATUS_Ready}), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSnapshotProperties_STATUS(generators)
-	AddRelatedPropertyGeneratorsForSnapshotProperties_STATUS(generators)
-	snapshotProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(SnapshotProperties_STATUS{}), generators)
+	snapshotProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) SnapshotProperties_STATUS {
+		var result SnapshotProperties_STATUS
+		result.CompositionType = compositionType.Draw(t, "CompositionType")
+		result.Created = ptrString.Draw(t, "Created")
+		result.Etag = ptrString.Draw(t, "Etag")
+		result.Expires = ptrString.Draw(t, "Expires")
+		result.Filters = filters.Draw(t, "Filters")
+		result.ItemsCount = ptrInt.Draw(t, "ItemsCount")
+		result.ProvisioningState = provisioningState.Draw(t, "ProvisioningState")
+		result.RetentionPeriod = ptrInt.Draw(t, "RetentionPeriod")
+		result.Size = ptrInt.Draw(t, "Size")
+		result.Status = status.Draw(t, "Status")
+		result.Tags = tags.Draw(t, "Tags")
+		return result
+	})
 
 	return snapshotProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSnapshotProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSnapshotProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["CompositionType"] = gen.PtrOf(gen.OneConstOf(SnapshotProperties_CompositionType_STATUS_Key, SnapshotProperties_CompositionType_STATUS_Key_Label))
-	gens["Created"] = gen.PtrOf(gen.AlphaString())
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["Expires"] = gen.PtrOf(gen.AlphaString())
-	gens["ItemsCount"] = gen.PtrOf(gen.Int())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		SnapshotProperties_ProvisioningState_STATUS_Canceled,
-		SnapshotProperties_ProvisioningState_STATUS_Creating,
-		SnapshotProperties_ProvisioningState_STATUS_Deleting,
-		SnapshotProperties_ProvisioningState_STATUS_Failed,
-		SnapshotProperties_ProvisioningState_STATUS_Succeeded,
-		SnapshotProperties_ProvisioningState_STATUS_Updating))
-	gens["RetentionPeriod"] = gen.PtrOf(gen.Int())
-	gens["Size"] = gen.PtrOf(gen.Int())
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		SnapshotProperties_Status_STATUS_Archived,
-		SnapshotProperties_Status_STATUS_Failed,
-		SnapshotProperties_Status_STATUS_Provisioning,
-		SnapshotProperties_Status_STATUS_Ready))
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForSnapshotProperties_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSnapshotProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["Filters"] = gen.SliceOf(KeyValueFilter_STATUSGenerator())
 }
 
 func Test_Snapshot_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -192,29 +153,23 @@ func Test_Snapshot_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Snapshot_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSnapshot_STATUS, Snapshot_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSnapshot_STATUS)
 }
 
 // RunJSONSerializationTestForSnapshot_STATUS runs a test to see if a specific instance of Snapshot_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSnapshot_STATUS(subject Snapshot_STATUS) string {
+func RunJSONSerializationTestForSnapshot_STATUS(t *rapid.T) {
+	subject := Snapshot_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Snapshot_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -223,45 +178,30 @@ func RunJSONSerializationTestForSnapshot_STATUS(subject Snapshot_STATUS) string 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Snapshot_STATUS instances for property testing - lazily instantiated by Snapshot_STATUSGenerator()
-var snapshot_STATUSGenerator gopter.Gen
+var snapshot_STATUSGenerator *rapid.Generator[Snapshot_STATUS]
 
 // Snapshot_STATUSGenerator returns a generator of Snapshot_STATUS instances for property testing.
-// We first initialize snapshot_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Snapshot_STATUSGenerator() gopter.Gen {
+func Snapshot_STATUSGenerator() *rapid.Generator[Snapshot_STATUS] {
 	if snapshot_STATUSGenerator != nil {
 		return snapshot_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSnapshot_STATUS(generators)
-	snapshot_STATUSGenerator = gen.Struct(reflect.TypeOf(Snapshot_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	properties := rapid.Ptr(SnapshotProperties_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSnapshot_STATUS(generators)
-	AddRelatedPropertyGeneratorsForSnapshot_STATUS(generators)
-	snapshot_STATUSGenerator = gen.Struct(reflect.TypeOf(Snapshot_STATUS{}), generators)
+	snapshot_STATUSGenerator = rapid.Custom(func(t *rapid.T) Snapshot_STATUS {
+		var result Snapshot_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return snapshot_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSnapshot_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSnapshot_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForSnapshot_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSnapshot_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(SnapshotProperties_STATUSGenerator())
 }

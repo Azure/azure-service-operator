@@ -235,7 +235,7 @@ FluxConfiguration: Resource
 │   │   └── "OCIRepository"
 │   ├── Suspend: *bool
 │   └── WaitForReconciliation: *bool
-└── Status: Object (24 properties)
+└── Status: Object (25 properties)
     ├── AzureBlob: *Object (7 properties)
     │   ├── ContainerName: *string
     │   ├── LocalAuthRef: *string
@@ -322,6 +322,13 @@ FluxConfiguration: Resource
     │       │   └── Subject: *string
     │       ├── Provider: *string
     │       └── VerificationConfig: map[string]string
+    ├── ProvisioningState: *Enum (6 values)
+    │   ├── "Canceled"
+    │   ├── "Creating"
+    │   ├── "Deleting"
+    │   ├── "Failed"
+    │   ├── "Succeeded"
+    │   └── "Updating"
     ├── ReconciliationWaitDuration: *string
     ├── RepositoryPublicKey: *string
     ├── Scope: *Enum (2 values)

@@ -5,7 +5,6 @@ package storage
 
 import (
 	"context"
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v20250601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -30,7 +29,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v20230101.StorageAccount
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2023-01-01/storage.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2023-01-01/storage.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}
 type StorageAccount struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -55,22 +54,36 @@ var _ conversion.Convertible = &StorageAccount{}
 
 // ConvertFrom populates our StorageAccount from the provided hub StorageAccount
 func (account *StorageAccount) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.StorageAccount)
-	if !ok {
-		return fmt.Errorf("expected storage/v20250601/storage/StorageAccount but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.StorageAccount
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return account.AssignProperties_From_StorageAccount(source)
+	err = account.AssignProperties_From_StorageAccount(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to account")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub StorageAccount from our StorageAccount
 func (account *StorageAccount) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.StorageAccount)
-	if !ok {
-		return fmt.Errorf("expected storage/v20250601/storage/StorageAccount but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.StorageAccount
+	err := account.AssignProperties_To_StorageAccount(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from account")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return account.AssignProperties_To_StorageAccount(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &StorageAccount{}
@@ -304,7 +317,7 @@ func (account *StorageAccount) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v20230101.StorageAccount
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2023-01-01/storage.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2023-01-01/storage.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}
 type StorageAccountList struct {
 	metav1.TypeMeta `json:",inline"`
