@@ -1,0 +1,24 @@
+typeFilters:
+  - action: include
+    version: v*20250601
+    because: We only need this version of Defender for Storage settings.
+  - action: prune
+    because: Other Security versions include conflicting resource definitions.
+
+typeTransformers:
+  - name: OnUploadFilters;OnUploadFilters_STATUS
+    version: v*20250601
+    property: ExcludeBlobsLargerThan
+    target:
+      name: int
+      optional: true
+    because: The Swagger specifies format int64 but omits type integer for this byte limit.
+
+groupModelConfiguration:
+  2025-06-01:
+    DefenderForStorageSetting:
+      $exportAs: DefenderForStorageSetting
+      $supportedFrom: v2.22.0
+    MalwareScanningProperties:
+      ScanResultsEventGridTopicResourceId:
+        $referenceType: arm

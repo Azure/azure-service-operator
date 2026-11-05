@@ -532,6 +532,10 @@ import (
 	search_v20231101 "github.com/Azure/azure-service-operator/v2/api/search/v1api20231101"
 	search_v20231101s "github.com/Azure/azure-service-operator/v2/api/search/v1api20231101/storage"
 	search_v20231101w "github.com/Azure/azure-service-operator/v2/api/search/v1api20231101/webhook"
+	security_customizations "github.com/Azure/azure-service-operator/v2/api/security/customizations"
+	security_v20250601 "github.com/Azure/azure-service-operator/v2/api/security/v20250601"
+	security_v20250601s "github.com/Azure/azure-service-operator/v2/api/security/v20250601/storage"
+	security_v20250601w "github.com/Azure/azure-service-operator/v2/api/security/v20250601/webhook"
 	servicebus_customizations "github.com/Azure/azure-service-operator/v2/api/servicebus/customizations"
 	servicebus_v1api20210101p "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview"
 	servicebus_v1api20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview/storage"
@@ -3056,6 +3060,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(redhatopenshift_v20260901ps.HcpOpenShiftClustersNodePool)})
 	result = append(result, &registration.StorageType{Obj: new(resources_v20200601s.ResourceGroup)})
 	result = append(result, &registration.StorageType{Obj: new(search_v20231101s.SearchService)})
+	result = append(result, &registration.StorageType{Obj: new(security_v20250601s.DefenderForStorageSetting)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.Namespace)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.NamespacesAuthorizationRule)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.NamespacesQueue)})
@@ -7690,6 +7695,12 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &search_v20231101w.SearchService{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(search_v20231101s.SearchService)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(security_v20250601.DefenderForStorageSetting),
+		Defaulter: &security_v20250601w.DefenderForStorageSetting{},
+		Validator: &security_v20250601w.DefenderForStorageSetting{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(security_v20250601s.DefenderForStorageSetting)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -9441,6 +9452,8 @@ func createScheme() *runtime.Scheme {
 	_ = search_v20220901s.AddToScheme(scheme)
 	_ = search_v20231101.AddToScheme(scheme)
 	_ = search_v20231101s.AddToScheme(scheme)
+	_ = security_v20250601.AddToScheme(scheme)
+	_ = security_v20250601s.AddToScheme(scheme)
 	_ = servicebus_v1api20210101p.AddToScheme(scheme)
 	_ = servicebus_v1api20210101ps.AddToScheme(scheme)
 	_ = servicebus_v1api20211101.AddToScheme(scheme)
@@ -9749,6 +9762,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &redhatopenshift_customizations.OpenShiftClusterExtension{})
 	result = append(result, &resources_customizations.ResourceGroupExtension{})
 	result = append(result, &search_customizations.SearchServiceExtension{})
+	result = append(result, &security_customizations.DefenderForStorageSettingExtension{})
 	result = append(result, &servicebus_customizations.NamespaceExtension{})
 	result = append(result, &servicebus_customizations.NamespacesAuthorizationRuleExtension{})
 	result = append(result, &servicebus_customizations.NamespacesQueueExtension{})
