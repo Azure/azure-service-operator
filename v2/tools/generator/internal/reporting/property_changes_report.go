@@ -93,20 +93,16 @@ func (r *PropertyChangesReport) WriteTo(writer io.Writer) error {
 	}
 
 	rpt.AddHeading("Resources")
+	r.writeSummaryTable(rpt, resourceRows)
 
-	if err := r.writeSummaryTable(rpt, resourceRows); err != nil {
-		return err
-	}
+	rpt.AddLines("", "Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).")
 
 	rpt.AddHeading("Objects")
-
-	if err := r.writeSummaryTable(rpt, objectRows); err != nil {
-		return err
-	}
+	r.writeSummaryTable(rpt, objectRows)
 
 	rpt.AddHeading("Legend")
 	rpt.AddLines(
-		"* **Identical**: No properties changed.",
+		"* **Identical**: No properties changed (or the differences are trivial).",
 		"* **New**: The type or property exists only in the newer version.",
 		"* **Retired**: The type or property exists only in the older version.",
 		"* **Renamed**: A configured rename links the old and new names.",
@@ -156,7 +152,7 @@ func (r *PropertyChangesReport) WriteTo(writer io.Writer) error {
 	return nil
 }
 
-func (*PropertyChangesReport) writeSummaryTable(rpt *MarkdownReport, rows []*typeChangeRow) error {
+func (*PropertyChangesReport) writeSummaryTable(rpt *MarkdownReport, rows []*typeChangeRow) {
 	packages := summaryPackages(rows)
 	columns := make([]string, 0, len(packages)+2)
 	packageColumns := make(map[astmodel.InternalPackageReference]int, len(packages))
@@ -189,8 +185,6 @@ func (*PropertyChangesReport) writeSummaryTable(rpt *MarkdownReport, rows []*typ
 	}
 
 	rpt.AddTable(summary)
-
-	return nil
 }
 
 func summaryPackages(rows []*typeChangeRow) []astmodel.InternalPackageReference {
@@ -262,7 +256,8 @@ func summarizeChanges(rows []propertyChangeRow) string {
 	}
 
 	ordered := []changeStatus{"", statusNew, statusRetired, statusRenamed, statusExtended, statusModified}
-	parts := make([]string, 0, len(ordered))
+	parts := make([]string, 0, len(ordered)+1)
+	parts = append(parts, "Properties: ")
 	for _, status := range ordered {
 		if count := counts[status]; count > 0 {
 			name := string(status)
