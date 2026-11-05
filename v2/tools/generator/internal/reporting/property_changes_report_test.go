@@ -86,7 +86,18 @@ func Test_PropertyChangesReport_GivenStoragePackagesAndAddedProperties_ShowsLabe
 	thisSpec := test.CreateSpec(test.Pkg2020s, "Person", test.FullNameProperty)
 	thisStatus := test.CreateStatus(test.Pkg2020s, "Person")
 	thisPerson := test.CreateResource(test.Pkg2020s, "Person", thisSpec, thisStatus)
-	nextSpec := test.CreateSpec(test.Pkg2021s, "Person", test.FullNameProperty, test.KnownAsProperty)
+	propertyBag := astmodel.NewPropertyDefinition(
+		"PropertyBag",
+		"propertyBag",
+		astmodel.StringType,
+	)
+	nextSpec := test.CreateSpec(
+		test.Pkg2021s,
+		"Person",
+		test.FullNameProperty,
+		propertyBag,
+		test.KnownAsProperty,
+	)
 	nextStatus := test.CreateStatus(test.Pkg2021s, "Person")
 	nextPerson := test.CreateResource(test.Pkg2021s, "Person", nextSpec, nextStatus)
 
@@ -104,6 +115,7 @@ func Test_PropertyChangesReport_GivenStoragePackagesAndAddedProperties_ShowsLabe
 	g.Expect(content.String()).To(gomega.ContainSubstring("v20200101/storage"))
 	g.Expect(content.String()).To(gomega.ContainSubstring("v20211231/storage"))
 	g.Expect(content.String()).To(gomega.ContainSubstring("Extended"))
+	g.Expect(content.String()).To(gomega.ContainSubstring("+KnownAs +PropertyBag"))
 }
 
 func Test_PropertyChangesReport_GivenMultipleTargets_UsesSparseVersionColumns(t *testing.T) {

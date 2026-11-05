@@ -6,6 +6,8 @@
 |:----------|:----------|:---------:|:------|
 | Person    | Person    | Identical |       |
 
+Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
+
 ## Objects
 
 | v20200101     | v20211231     |  Status   | Notes |
@@ -18,7 +20,7 @@
 
 ## Legend
 
-* **Identical**: No properties changed.
+* **Identical**: No properties changed (or the differences are trivial).
 * **New**: The type or property exists only in the newer version.
 * **Retired**: The type or property exists only in the older version.
 * **Renamed**: A configured rename links the old and new names.
@@ -27,7 +29,7 @@
 
 ### Person_Spec
 
-3 x Identical, 2 x New, 2 x Retired, 2 x Renamed
+Properties: , 3 x Identical, 2 x New, 2 x Retired, 2 x Renamed
 
 | v20200101 |              | v20211231  |               |  Status   | Notes                             |
 |:----------|:-------------|:-----------|:--------------|:---------:|:----------------------------------|

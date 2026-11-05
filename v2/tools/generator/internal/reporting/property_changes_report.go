@@ -240,6 +240,25 @@ func formatStatuses(statuses []changeStatus) string {
 	return strings.Join(parts, ", ")
 }
 
+func formatAddedProperties(rows []propertyChangeRow) string {
+	var names []string
+	for _, row := range rows {
+		for _, status := range row.statuses {
+			if status == statusNew {
+				names = append(names, row.nextName)
+				break
+			}
+		}
+	}
+
+	sort.Strings(names)
+	for i, name := range names {
+		names[i] = "+" + name
+	}
+
+	return strings.Join(names, " ")
+}
+
 func summarizeChanges(rows []propertyChangeRow) string {
 	counts := map[changeStatus]int{
 		"": 0,
@@ -480,6 +499,10 @@ func (r *PropertyChangesReport) buildRowsForPair(
 			propRows, status := r.computeModification(thisDef, nextDef)
 			if status != "" {
 				row.statuses = append(row.statuses, status)
+				if status == statusExtended {
+					row.note = formatAddedProperties(propRows)
+				}
+
 				diffs[row] = propRows
 			}
 		} else {
