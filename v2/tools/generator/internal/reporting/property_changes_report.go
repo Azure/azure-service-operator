@@ -83,53 +83,36 @@ func (r *PropertyChangesReport) SaveTo(filePath string) error {
 
 // WriteTo renders the report to the given writer.
 func (r *PropertyChangesReport) WriteTo(writer io.Writer) error {
-	for _, l := range r.header {
-		if _, err := io.WriteString(writer, l); err != nil {
-			return err
-		}
+	rpt := NewMarkdownReport()
 
-		if _, err := io.WriteString(writer, "\n"); err != nil {
-			return err
-		}
-	}
+	rpt.AddLines(r.header...)
 
 	resourceRows, objectRows, diffs, err := r.buildRows()
 	if err != nil {
 		return err
 	}
 
-	if _, err := io.WriteString(writer, "\n"); err != nil {
+	rpt.AddHeading("Resources")
+
+	if err := r.writeSummaryTable(rpt, resourceRows); err != nil {
 		return err
 	}
 
-	if _, err := io.WriteString(writer, "## Resources\n\n"); err != nil {
+	rpt.AddHeading("Objects")
+
+	if err := r.writeSummaryTable(rpt, objectRows); err != nil {
 		return err
 	}
 
-	if err := writeSummaryTable(writer, resourceRows); err != nil {
-		return err
-	}
-
-	if _, err := io.WriteString(writer, "\n## Objects\n\n"); err != nil {
-		return err
-	}
-
-	if err := writeSummaryTable(writer, objectRows); err != nil {
-		return err
-	}
-
-	if _, err := io.WriteString(
-		writer,
-		"\n## Legend\n\n"+
-			"* **Identical**: No properties changed.\n"+
-			"* **New**: The type or property exists only in the newer version.\n"+
-			"* **Retired**: The type or property exists only in the older version.\n"+
-			"* **Renamed**: A configured rename links the old and new names.\n"+
-			"* **Extended**: The newer type only adds properties.\n"+
-			"* **Modified**: Properties were retired, renamed, or changed type.\n",
-	); err != nil {
-		return err
-	}
+	rpt.AddHeading("Legend")
+	rpt.AddLines(
+		"* **Identical**: No properties changed.",
+		"* **New**: The type or property exists only in the newer version.",
+		"* **Retired**: The type or property exists only in the older version.",
+		"* **Renamed**: A configured rename links the old and new names.",
+		"* **Extended**: The newer type only adds properties.",
+		"* **Modified**: Properties were retired, renamed, or changed type.",
+	)
 
 	// Differential tables are emitted in the same order as the summaries.
 	rows := append(resourceRows, objectRows...)
@@ -140,13 +123,10 @@ func (r *PropertyChangesReport) WriteTo(writer io.Writer) error {
 		}
 
 		heading := row.sortKey()
-		if _, err := fmt.Fprintf(writer, "\n### %s\n\n", heading); err != nil {
-			return err
-		}
+		rpt.AddSubheading(heading)
 
-		if _, err := fmt.Fprintf(writer, "%s\n\n", summarizeChanges(propRows)); err != nil {
-			return err
-		}
+		rpt.AddLines(summarizeChanges(propRows))
+		rpt.AddLines("")
 
 		table := NewMarkdownTable(
 			packageLabel(row.thisPackage),
@@ -166,17 +146,17 @@ func (r *PropertyChangesReport) WriteTo(writer io.Writer) error {
 			table.AddRow(p.thisName, p.thisTypeDisplay, p.nextName, p.nextTypeDisplay, formatStatuses(p.statuses), p.note)
 		}
 
-		var pbuf strings.Builder
-		table.WriteTo(&pbuf)
-		if _, err := io.WriteString(writer, pbuf.String()); err != nil {
-			return err
-		}
+		rpt.AddTable(table)
+	}
+
+	if err := rpt.WriteTo(writer); err != nil {
+		return err
 	}
 
 	return nil
 }
 
-func writeSummaryTable(writer io.Writer, rows []*typeChangeRow) error {
+func (*PropertyChangesReport) writeSummaryTable(rpt *MarkdownReport, rows []*typeChangeRow) error {
 	packages := summaryPackages(rows)
 	columns := make([]string, 0, len(packages)+2)
 	packageColumns := make(map[astmodel.InternalPackageReference]int, len(packages))
@@ -208,11 +188,7 @@ func writeSummaryTable(writer io.Writer, rows []*typeChangeRow) error {
 		summary.AddRow(cells...)
 	}
 
-	var buf strings.Builder
-	summary.WriteTo(&buf)
-	if _, err := io.WriteString(writer, buf.String()); err != nil {
-		return err
-	}
+	rpt.AddTable(summary)
 
 	return nil
 }
