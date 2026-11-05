@@ -71,38 +71,38 @@ func ReportUpgradableResources(configuration *config.Configuration) *Stage {
 	return stage
 }
 
-// resourceVersionInfo tracks the latest stable and preview package references for a resource.
+// resourceVersionInfo tracks the latest stable and preview type names for a resource.
 type resourceVersionInfo struct {
-	stable  astmodel.InternalPackageReference
-	preview astmodel.InternalPackageReference
+	stable  astmodel.InternalTypeName
+	preview astmodel.InternalTypeName
 }
 
 // resourceKey identifies a resource uniquely within the pipeline state.
 type resourceKey struct {
-	group string
-	name  string
+	group   string
+	armType string
 }
 
-// latestVersionIndex maps each (group, resource) pair to the latest stable and preview package references seen so far.
+// latestVersionIndex maps each (group, ARM type) pair to the latest stable and preview type names seen so far.
 type latestVersionIndex map[resourceKey]resourceVersionInfo
 
-// Add records the package reference of name, updating the index to track the latest stable and preview versions.
+// Add records name under its ARM type, tracking the latest stable and preview versions.
 // Storage package references are silently ignored.
-func (idx latestVersionIndex) Add(name astmodel.InternalTypeName) {
+func (idx latestVersionIndex) Add(name astmodel.InternalTypeName, armType string) {
 	pkg := name.InternalPackageReference()
 	if astmodel.IsStoragePackageReference(pkg) {
 		return
 	}
 
-	key := resourceKey{group: pkg.Group(), name: name.Name()}
+	key := resourceKey{group: pkg.Group(), armType: armType}
 	info := idx[key]
 	if pkg.IsPreview() {
-		if isVersionNewer(pkg, info.preview) {
-			info.preview = pkg
+		if isVersionNewer(pkg, info.preview.InternalPackageReference()) {
+			info.preview = name
 		}
 	} else {
-		if isVersionNewer(pkg, info.stable) {
-			info.stable = pkg
+		if isVersionNewer(pkg, info.stable.InternalPackageReference()) {
+			info.stable = name
 		}
 	}
 	idx[key] = info
@@ -216,7 +216,7 @@ type UpgradableResourcesReport struct {
 }
 
 // NewUpgradableResourcesReport creates a new UpgradableResourcesReport.
-// allKnownResources is the full catalog of resources before export filters (from CatalogKnownResources stage).
+// allKnownResources is the full catalog of resources indexed by ARM type before export filters (from CatalogKnownResources stage).
 // supported is the set of type definitions that passed through the export filter.
 // cfg is the report configuration.
 func NewUpgradableResourcesReport(
@@ -226,21 +226,22 @@ func NewUpgradableResourcesReport(
 ) *UpgradableResourcesReport {
 	report := &UpgradableResourcesReport{cfg: cfg}
 
-	// Build an index of (group, name) → latest available stable/preview versions from AllKnownResources.
+	// Build an index of (group, ARM type) → latest available stable/preview versions from AllKnownResources.
 	// This represents all versions present in the specs, before any export filtering.
 	available := make(latestVersionIndex)
-	for _, names := range allKnownResources {
+	for armType, names := range allKnownResources {
 		for typeName := range names {
 			if internalName, ok := astmodel.AsInternalTypeName(typeName); ok {
-				available.Add(internalName)
+				available.Add(internalName, armType)
 			}
 		}
 	}
 
-	// Build an index of (group, name) → latest supported stable/preview versions from filtered definitions.
+	// Build an index of (group, ARM type) → latest supported stable/preview versions from filtered definitions.
 	supportedIdx := make(latestVersionIndex)
 	for _, rsrc := range supported.AllResources() {
-		supportedIdx.Add(rsrc.Name())
+		armType := astmodel.MustBeResourceType(rsrc.Type()).ARMType()
+		supportedIdx.Add(rsrc.Name(), armType)
 	}
 
 	// For each supported resource, include it in the report if any newer version is available.
@@ -250,13 +251,19 @@ func NewUpgradableResourcesReport(
 			continue
 		}
 
+		// Prefer the latest supported stable name for display, falling back to preview.
+		name := supportInfo.stable
+		if name.IsEmpty() {
+			name = supportInfo.preview
+		}
+
 		rec := upgradableResourcesReportItem{
 			group:            key.group,
-			resource:         key.name,
-			supportedStable:  supportInfo.stable,
-			supportedPreview: supportInfo.preview,
-			availableStable:  availInfo.stable,
-			availablePreview: availInfo.preview,
+			resource:         name.Name(),
+			supportedStable:  supportInfo.stable.InternalPackageReference(),
+			supportedPreview: supportInfo.preview.InternalPackageReference(),
+			availableStable:  availInfo.stable.InternalPackageReference(),
+			availablePreview: availInfo.preview.InternalPackageReference(),
 		}
 
 		if rec.hasStableUpgrade() || rec.hasPreviewUpgrade() {

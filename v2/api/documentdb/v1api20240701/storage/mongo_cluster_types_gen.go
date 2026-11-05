@@ -207,7 +207,7 @@ func (cluster *MongoCluster_Spec) ConvertSpecTo(destination genruntime.Convertib
 }
 
 // Storage version of v1api20240701.MongoCluster_STATUS
-// Represents a mongo cluster resource.
+// Represents a DocumentDB cluster resource.
 type MongoCluster_STATUS struct {
 	Conditions  []conditions.Condition         `json:"conditions,omitempty"`
 	Id          *string                        `json:"id,omitempty"`
@@ -249,7 +249,7 @@ type MongoClusterOperatorSpec struct {
 }
 
 // Storage version of v1api20240701.MongoClusterProperties
-// The properties of a mongo cluster.
+// The properties of a DocumentDB cluster.
 type MongoClusterProperties struct {
 	Administrator       *AdministratorProperties       `json:"administrator,omitempty"`
 	Compute             *ComputeProperties             `json:"compute,omitempty"`
@@ -266,7 +266,7 @@ type MongoClusterProperties struct {
 }
 
 // Storage version of v1api20240701.MongoClusterProperties_STATUS
-// The properties of a mongo cluster.
+// The properties of a DocumentDB cluster.
 type MongoClusterProperties_STATUS struct {
 	Administrator              *AdministratorProperties_STATUS       `json:"administrator,omitempty"`
 	Backup                     *BackupProperties_STATUS              `json:"backup,omitempty"`
@@ -442,7 +442,7 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 }
 
 // Storage version of v1api20240701.ReplicationProperties_STATUS
-// Replica properties of the mongo cluster.
+// Replica properties of the DocumentDB cluster.
 type ReplicationProperties_STATUS struct {
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ReplicationState *string                `json:"replicationState,omitempty"`

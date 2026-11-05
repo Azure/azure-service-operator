@@ -11,10 +11,10 @@ For running tests and understanding the test suites, see the **testing-aso-recor
 
 ## Quick Reference
 
-|                    | Controllers                           | Samples                                                                |
-| ------------------ | ------------------------------------- | ---------------------------------------------------------------------- |
-| **Task command**   | `controller:test-controllers`         | `controller:test-samples`                                              |
-| **Log file**       | `reports/test-controllers.log`        | `reports/test-samples.log`                                             |
+|                    | Controllers                           | Samples                                                                 |
+| ------------------ | ------------------------------------- | ----------------------------------------------------------------------- |
+| **Task command**   | `controller:test-controllers`         | `controller:test-samples`                                               |
+| **Log file**       | `reports/test-controllers.log`        | `reports/test-samples.log`                                              |
 | **Recordings dir** | `v2/internal/controllers/recordings/` | `v2/samples/sampletesting/recordings/Test_Samples_CreationAndDeletion/` |
 
 ## Identifying Failures

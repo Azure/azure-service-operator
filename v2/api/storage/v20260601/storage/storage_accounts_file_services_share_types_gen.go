@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v20260601.StorageAccountsFileServicesShare
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2026-06-01/openapi.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2026-06-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}
 type StorageAccountsFileServicesShare struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -158,7 +158,7 @@ func (share *StorageAccountsFileServicesShare) OriginalGVK() *schema.GroupVersio
 // +kubebuilder:object:root=true
 // Storage version of v20260601.StorageAccountsFileServicesShare
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2026-06-01/openapi.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2026-06-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}
 type StorageAccountsFileServicesShareList struct {
 	metav1.TypeMeta `json:",inline"`

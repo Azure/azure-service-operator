@@ -25,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v20230601preview.FlexibleServersFirewallRule
 // Generator information:
-// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/FirewallRules.json
+// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/PostgreSql/preview/2023-06-01-preview/FirewallRules.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
 type FlexibleServersFirewallRule struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -259,7 +259,7 @@ func (rule *FlexibleServersFirewallRule) OriginalGVK() *schema.GroupVersionKind 
 // +kubebuilder:object:root=true
 // Storage version of v20230601preview.FlexibleServersFirewallRule
 // Generator information:
-// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/FirewallRules.json
+// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/PostgreSql/preview/2023-06-01-preview/FirewallRules.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
 type FlexibleServersFirewallRuleList struct {
 	metav1.TypeMeta `json:",inline"`

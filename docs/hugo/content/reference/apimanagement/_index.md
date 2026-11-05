@@ -7,14 +7,6 @@ no_list: true
 
 To install the CRDs for these resources, your ASO configuration must include `apimanagement.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
-### Next Release
-
-Development of these new resources is complete and they will be available in the next release of ASO.
-
-| Resource                                                                      | ARM Version        | CRD Version      | Supported From | Sample                                                                                                                                    |
-|-------------------------------------------------------------------------------|--------------------|------------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------|
-| [Backend]({{< relref "/reference/apimanagement/v20250301preview#Backend" >}}) | 2025-03-01-preview | v20250301preview | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20250301preview/v20250301preview_backend.yaml) |
-
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
@@ -62,6 +54,7 @@ These are older versions of resources still available for use in the current rel
 | [AuthorizationProvidersAuthorization]({{< relref "/reference/apimanagement/v20220801#AuthorizationProvidersAuthorization" >}})                                  | 2022-08-01         | v20220801        | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20220801/v20220801_authorizationprovidersauthorization.yaml)                            |
 | [AuthorizationProvidersAuthorizationsAccessPolicy]({{< relref "/reference/apimanagement/v20230501preview#AuthorizationProvidersAuthorizationsAccessPolicy" >}}) | 2023-05-01-preview | v20230501preview | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20230501preview/v20230501preview_authorizationprovidersauthorizationsaccesspolicy.yaml) |
 | [AuthorizationProvidersAuthorizationsAccessPolicy]({{< relref "/reference/apimanagement/v20220801#AuthorizationProvidersAuthorizationsAccessPolicy" >}})        | 2022-08-01         | v20220801        | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20220801/v20220801_authorizationprovidersauthorizationsaccesspolicy.yaml)               |
+| [Backend]({{< relref "/reference/apimanagement/v20250301preview#Backend" >}})                                                                                   | 2025-03-01-preview | v20250301preview | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20250301preview/v20250301preview_backend.yaml)                                          |
 | [Backend]({{< relref "/reference/apimanagement/v20230501preview#Backend" >}})                                                                                   | 2023-05-01-preview | v20230501preview | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20230501preview/v20230501preview_backend.yaml)                                          |
 | [Backend]({{< relref "/reference/apimanagement/v20220801#Backend" >}})                                                                                          | 2022-08-01         | v20220801        | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20220801/v20220801_backend.yaml)                                                        |
 | [NamedValue]({{< relref "/reference/apimanagement/v20230501preview#NamedValue" >}})                                                                             | 2023-05-01-preview | v20230501preview | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20230501preview/v20230501preview_namedvalue.yaml)                                       |

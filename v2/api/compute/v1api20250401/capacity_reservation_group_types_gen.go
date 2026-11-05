@@ -279,10 +279,10 @@ type CapacityReservationGroup_Spec struct {
 	ReservationType *ReservationType `json:"reservationType,omitempty"`
 
 	// SharingProfile: Specifies the settings to enable sharing across subscriptions for the capacity reservation group
-	// resource. The capacity reservation group resource can generally be shared across subscriptions belonging to a single
-	// Azure AAD tenant or across AAD tenants if there is a trust relationship established between the tenants.  Block capacity
-	// reservation does not support sharing across subscriptions. Note: Minimum api-version: 2023-09-01. Please refer to
-	// https://aka.ms/computereservationsharing for more details.
+	// resource. The capacity reservation group resource can be shared only across subscriptions belonging to the same
+	// Microsoft Entra ID tenant. Sharing across tenants is not supported. Block capacity reservation does not support sharing
+	// across subscriptions. Note: Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing
+	// for more details.
 	SharingProfile *ResourceSharingProfile `json:"sharingProfile,omitempty"`
 
 	// Tags: Resource tags.
@@ -641,10 +641,10 @@ type CapacityReservationGroup_STATUS struct {
 	ReservationType *ReservationType_STATUS `json:"reservationType,omitempty"`
 
 	// SharingProfile: Specifies the settings to enable sharing across subscriptions for the capacity reservation group
-	// resource. The capacity reservation group resource can generally be shared across subscriptions belonging to a single
-	// Azure AAD tenant or across AAD tenants if there is a trust relationship established between the tenants.  Block capacity
-	// reservation does not support sharing across subscriptions. Note: Minimum api-version: 2023-09-01. Please refer to
-	// https://aka.ms/computereservationsharing for more details.
+	// resource. The capacity reservation group resource can be shared only across subscriptions belonging to the same
+	// Microsoft Entra ID tenant. Sharing across tenants is not supported. Block capacity reservation does not support sharing
+	// across subscriptions. Note: Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing
+	// for more details.
 	SharingProfile *ResourceSharingProfile_STATUS `json:"sharingProfile,omitempty"`
 
 	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.

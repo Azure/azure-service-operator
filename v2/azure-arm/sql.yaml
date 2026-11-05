@@ -247,7 +247,7 @@ groupModelConfiguration:
         $importSecretMode: required
     ManagedInstance:
       $exportAs: ManagedInstance
-      $supportedFrom: v2.23.0
+      $supportedFrom: v2.22.0
       $generatedConfigs:
         FullyQualifiedDomainName: $.Status.FullyQualifiedDomainName
     ManagedInstanceExternalAdministrator:
@@ -277,7 +277,7 @@ groupModelConfiguration:
         $referenceType: arm
     Locations_InstanceFailoverGroup:
       $exportAs: InstanceFailoverGroup
-      $supportedFrom: v2.23.0
+      $supportedFrom: v2.22.0
     ManagedInstancePairInfo:
       PrimaryManagedInstanceId:
         $referenceType: arm
@@ -285,7 +285,7 @@ groupModelConfiguration:
         $referenceType: arm
     ManagedInstances_Database:
       $exportAs: ManagedInstancesDatabase
-      $supportedFrom: v2.23.0
+      $supportedFrom: v2.22.0
     ManagedInstances_Databases_TransparentDataEncryption:
       $exportAs: ManagedInstancesDatabasesTransparentDataEncryption
-      $supportedFrom: v2.23.0
+      $supportedFrom: v2.22.0

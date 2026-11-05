@@ -75,6 +75,9 @@ export MI_NAME="my-mi"            # The name of the managed identity that will b
 
 In the default `relaxed` mode, all Workload Identity credentials use the ASO controller ServiceAccount subject.
 
+**Note:** We recommend `strict` mode in production as it is more secure. See [Workload Identity isolation]( {{< relref "workload-identity-isolation" >}} )
+for more details.
+
 Create the Federated Identity Credential registering your service account with AAD:
 
 ```bash
@@ -96,8 +99,6 @@ helm upgrade --install aso2 aso2/azure-service-operator \
 In `strict` mode, namespace-scoped and per-resource Workload Identity credentials use a ServiceAccount in the credential
 secret's namespace. The global credential is unchanged and continues to use the ASO controller ServiceAccount subject shown
 in the `relaxed` tab.
-
-
 
 For the default ServiceAccount name, create a Federated Identity Credential with the subject
 `system:serviceaccount:<namespace>:aso-workload`:
