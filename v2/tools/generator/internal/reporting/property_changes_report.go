@@ -275,8 +275,7 @@ func summarizeChanges(rows []propertyChangeRow) string {
 	}
 
 	ordered := []changeStatus{"", statusNew, statusRetired, statusRenamed, statusExtended, statusModified}
-	parts := make([]string, 0, len(ordered)+1)
-	parts = append(parts, "Properties: ")
+	parts := make([]string, 0, len(ordered))
 	for _, status := range ordered {
 		if count := counts[status]; count > 0 {
 			name := string(status)
@@ -288,7 +287,7 @@ func summarizeChanges(rows []propertyChangeRow) string {
 		}
 	}
 
-	return strings.Join(parts, ", ")
+	return "Properties: " + strings.Join(parts, ", ")
 }
 
 // typeChangeRow is a single row of the summary table, describing the relationship (if any) between
