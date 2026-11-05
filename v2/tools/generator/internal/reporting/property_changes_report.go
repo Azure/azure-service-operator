@@ -335,7 +335,19 @@ func compareTypeChangeRows(left *typeChangeRow, right *typeChangeRow) int {
 		return result
 	}
 
-	return strings.Compare(formatStatuses(left.statuses), formatStatuses(right.statuses))
+	if result := strings.Compare(formatStatuses(left.statuses), formatStatuses(right.statuses)); result != 0 {
+		return result
+	}
+
+	if result := strings.Compare(left.thisPackage.ImportPath(), right.thisPackage.FolderPath()); result != 0 {
+		return result
+	}
+
+	if result := strings.Compare(left.nextPackage.ImportPath(), right.nextPackage.FolderPath()); result != 0 {
+		return result
+	}
+
+	return 0
 }
 
 // propertyChangeRow is a single row of a differential table, describing the relationship (if any)
