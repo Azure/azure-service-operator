@@ -9,8 +9,27 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/onsi/gomega"
 	"github.com/sebdah/goldie/v2"
 )
+
+func TestMarkdownTable_ToStrings_ReturnsUnterminatedLines(t *testing.T) {
+	t.Parallel()
+	g := gomega.NewWithT(t)
+
+	table := NewMarkdownTable("Name", "Status")
+	table.SetAlignment(0, AlignLeft)
+	table.SetAlignment(1, AlignCenter)
+	table.AddRow("Alpha", "New")
+
+	expected := []string{
+		"| Name  | Status |",
+		"|:------|:------:|",
+		"| Alpha |  New   |",
+	}
+
+	g.Expect(table.ToStrings()).To(gomega.Equal(expected))
+}
 
 func TestMarkdownTable_GivesExpectedResults(t *testing.T) {
 	t.Parallel()

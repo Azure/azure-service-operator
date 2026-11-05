@@ -59,18 +59,30 @@ func (t *MarkdownTable) AddRow(row ...string) {
 	}
 }
 
+// ToStrings renders the Markdown table as a slice of lines
+func (t *MarkdownTable) ToStrings() []string {
+	result := make([]string, 0, len(t.content)+1)
+	for i, r := range t.content {
+		result = append(result, t.renderRow(r))
+		if i == 0 {
+			result = append(result, t.renderRowDivider())
+		}
+	}
+
+	return result
+}
+
 // WriteTo renders the Markdown table into the specified buffer
 func (t *MarkdownTable) WriteTo(buffer *strings.Builder) {
-	for i, r := range t.content {
-		t.renderRow(r, buffer)
-		if i == 0 {
-			t.renderRowDivider(buffer)
-		}
+	for _, line := range t.ToStrings() {
+		buffer.WriteString(line)
+		buffer.WriteRune('\n')
 	}
 }
 
-// renderRow writes a single row into the buffer
-func (t *MarkdownTable) renderRow(row []string, buffer *strings.Builder) {
+// renderRow renders a single row
+func (t *MarkdownTable) renderRow(row []string) string {
+	var buffer strings.Builder
 	buffer.WriteRune('|')
 	for i, c := range row {
 		alignment := AlignDefault
@@ -83,19 +95,20 @@ func (t *MarkdownTable) renderRow(row []string, buffer *strings.Builder) {
 			padding := t.widths[i] - len(c)
 			left := padding / 2
 			right := padding - left
-			fmt.Fprintf(buffer, " %*s%s%*s |", left, "", c, right, "")
+			fmt.Fprintf(&buffer, " %*s%s%*s |", left, "", c, right, "")
 		case AlignRight:
-			fmt.Fprintf(buffer, " %*s |", t.widths[i], c)
+			fmt.Fprintf(&buffer, " %*s |", t.widths[i], c)
 		default:
-			fmt.Fprintf(buffer, " %*s |", -t.widths[i], c)
+			fmt.Fprintf(&buffer, " %*s |", -t.widths[i], c)
 		}
 	}
 
-	buffer.WriteString("\n")
+	return buffer.String()
 }
 
-// renderRowDivider writes a dividing line into the buffer
-func (t *MarkdownTable) renderRowDivider(buffer *strings.Builder) {
+// renderRowDivider renders a dividing line
+func (t *MarkdownTable) renderRowDivider() string {
+	var buffer strings.Builder
 	buffer.WriteString("|")
 	for i, w := range t.widths {
 		left, right := false, false
@@ -137,5 +150,5 @@ func (t *MarkdownTable) renderRowDivider(buffer *strings.Builder) {
 		buffer.WriteRune('|')
 	}
 
-	buffer.WriteString("\n")
+	return buffer.String()
 }
