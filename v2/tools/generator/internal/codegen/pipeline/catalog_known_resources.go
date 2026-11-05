@@ -19,17 +19,17 @@ func CatalogKnownResources() *Stage {
 		CatalogKnownResourcesStageID,
 		"Catalog known resources",
 		func(ctx context.Context, state *State) (*State, error) {
-			// catalog contains a set of all known resources for each group
+			// Index by ARM type so resources can be matched after export renaming.
 			catalog := make(map[string]astmodel.TypeNameSet)
 			for _, rsrc := range state.Definitions().AllResources() {
-				group := rsrc.Name().InternalPackageReference().Group()
-				rsrcsInGroup, ok := catalog[group]
+				armType := astmodel.MustBeResourceType(rsrc.Type()).ARMType()
+				resources, ok := catalog[armType]
 				if !ok {
-					rsrcsInGroup = make(astmodel.TypeNameSet)
-					catalog[group] = rsrcsInGroup
+					resources = make(astmodel.TypeNameSet)
+					catalog[armType] = resources
 				}
 
-				rsrcsInGroup.Add(rsrc.Name())
+				resources.Add(rsrc.Name())
 			}
 
 			return StateWithData(state, AllKnownResources, catalog), nil

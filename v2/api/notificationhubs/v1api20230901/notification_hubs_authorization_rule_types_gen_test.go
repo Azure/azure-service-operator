@@ -10,14 +10,11 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
+// Test_NotificationHubsAuthorizationRule_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of NotificationHubsAuthorizationRule round trips to the hub storage version and back losslessly
 func Test_NotificationHubsAuthorizationRule_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -25,47 +22,37 @@ func Test_NotificationHubsAuthorizationRule_WhenConvertedToHub_RoundTripsWithout
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from NotificationHubsAuthorizationRule to hub returns original",
-		prop.ForAll(RunResourceConversionTestForNotificationHubsAuthorizationRule, NotificationHubsAuthorizationRuleGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+	rapid.Check(t, func(t *rapid.T) {
+		subject := NotificationHubsAuthorizationRuleGenerator().Draw(t, "subject")
+		// Copy subject to make sure conversion doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Convert to our hub version
+		var hub storage.NotificationHubsAuthorizationRule
+		err := copied.ConvertTo(&hub)
+		if err != nil {
+			t.Fatal("ConvertTo: " + err.Error())
+		}
+
+		// Convert from our hub version
+		var actual NotificationHubsAuthorizationRule
+		err = actual.ConvertFrom(&hub)
+		if err != nil {
+			t.Fatal("ConvertFrom: " + err.Error())
+		}
+
+		// Compare actual with what we started with
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
-// RunResourceConversionTestForNotificationHubsAuthorizationRule tests if a specific instance of NotificationHubsAuthorizationRule round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForNotificationHubsAuthorizationRule(subject NotificationHubsAuthorizationRule) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub storage.NotificationHubsAuthorizationRule
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual NotificationHubsAuthorizationRule
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
+// Test_NotificationHubsAuthorizationRule_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of NotificationHubsAuthorizationRule can be assigned to storage and back losslessly
 func Test_NotificationHubsAuthorizationRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -73,44 +60,34 @@ func Test_NotificationHubsAuthorizationRule_WhenPropertiesConverted_RoundTripsWi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from NotificationHubsAuthorizationRule to NotificationHubsAuthorizationRule via AssignProperties_To_NotificationHubsAuthorizationRule & AssignProperties_From_NotificationHubsAuthorizationRule returns original",
-		prop.ForAll(RunPropertyAssignmentTestForNotificationHubsAuthorizationRule, NotificationHubsAuthorizationRuleGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := NotificationHubsAuthorizationRuleGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForNotificationHubsAuthorizationRule tests if a specific instance of NotificationHubsAuthorizationRule can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForNotificationHubsAuthorizationRule(subject NotificationHubsAuthorizationRule) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.NotificationHubsAuthorizationRule
+		err := copied.AssignProperties_To_NotificationHubsAuthorizationRule(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NotificationHubsAuthorizationRule
-	err := copied.AssignProperties_To_NotificationHubsAuthorizationRule(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual NotificationHubsAuthorizationRule
+		err = actual.AssignProperties_From_NotificationHubsAuthorizationRule(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual NotificationHubsAuthorizationRule
-	err = actual.AssignProperties_From_NotificationHubsAuthorizationRule(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_NotificationHubsAuthorizationRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -120,29 +97,23 @@ func Test_NotificationHubsAuthorizationRule_WhenSerializedToJson_DeserializesAsE
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of NotificationHubsAuthorizationRule via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNotificationHubsAuthorizationRule, NotificationHubsAuthorizationRuleGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForNotificationHubsAuthorizationRule)
 }
 
 // RunJSONSerializationTestForNotificationHubsAuthorizationRule runs a test to see if a specific instance of NotificationHubsAuthorizationRule round trips to JSON and back losslessly
-func RunJSONSerializationTestForNotificationHubsAuthorizationRule(subject NotificationHubsAuthorizationRule) string {
+func RunJSONSerializationTestForNotificationHubsAuthorizationRule(t *rapid.T) {
+	subject := NotificationHubsAuthorizationRuleGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual NotificationHubsAuthorizationRule
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -151,35 +122,34 @@ func RunJSONSerializationTestForNotificationHubsAuthorizationRule(subject Notifi
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of NotificationHubsAuthorizationRule instances for property testing - lazily instantiated by
 // NotificationHubsAuthorizationRuleGenerator()
-var notificationHubsAuthorizationRuleGenerator gopter.Gen
+var notificationHubsAuthorizationRuleGenerator *rapid.Generator[NotificationHubsAuthorizationRule]
 
 // NotificationHubsAuthorizationRuleGenerator returns a generator of NotificationHubsAuthorizationRule instances for property testing.
-func NotificationHubsAuthorizationRuleGenerator() gopter.Gen {
+func NotificationHubsAuthorizationRuleGenerator() *rapid.Generator[NotificationHubsAuthorizationRule] {
 	if notificationHubsAuthorizationRuleGenerator != nil {
 		return notificationHubsAuthorizationRuleGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForNotificationHubsAuthorizationRule(generators)
-	notificationHubsAuthorizationRuleGenerator = gen.Struct(reflect.TypeOf(NotificationHubsAuthorizationRule{}), generators)
+	spec := NotificationHubsAuthorizationRule_SpecGenerator()
+	status := NotificationHubsAuthorizationRule_STATUSGenerator()
+
+	notificationHubsAuthorizationRuleGenerator = rapid.Custom(func(t *rapid.T) NotificationHubsAuthorizationRule {
+		var result NotificationHubsAuthorizationRule
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return notificationHubsAuthorizationRuleGenerator
 }
 
-// AddRelatedPropertyGeneratorsForNotificationHubsAuthorizationRule is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNotificationHubsAuthorizationRule(gens map[string]gopter.Gen) {
-	gens["Spec"] = NotificationHubsAuthorizationRule_SpecGenerator()
-	gens["Status"] = NotificationHubsAuthorizationRule_STATUSGenerator()
-}
-
+// Test_NotificationHubsAuthorizationRuleOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of NotificationHubsAuthorizationRuleOperatorSpec can be assigned to storage and back losslessly
 func Test_NotificationHubsAuthorizationRuleOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -187,44 +157,34 @@ func Test_NotificationHubsAuthorizationRuleOperatorSpec_WhenPropertiesConverted_
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from NotificationHubsAuthorizationRuleOperatorSpec to NotificationHubsAuthorizationRuleOperatorSpec via AssignProperties_To_NotificationHubsAuthorizationRuleOperatorSpec & AssignProperties_From_NotificationHubsAuthorizationRuleOperatorSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForNotificationHubsAuthorizationRuleOperatorSpec, NotificationHubsAuthorizationRuleOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := NotificationHubsAuthorizationRuleOperatorSpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForNotificationHubsAuthorizationRuleOperatorSpec tests if a specific instance of NotificationHubsAuthorizationRuleOperatorSpec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForNotificationHubsAuthorizationRuleOperatorSpec(subject NotificationHubsAuthorizationRuleOperatorSpec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.NotificationHubsAuthorizationRuleOperatorSpec
+		err := copied.AssignProperties_To_NotificationHubsAuthorizationRuleOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NotificationHubsAuthorizationRuleOperatorSpec
-	err := copied.AssignProperties_To_NotificationHubsAuthorizationRuleOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual NotificationHubsAuthorizationRuleOperatorSpec
+		err = actual.AssignProperties_From_NotificationHubsAuthorizationRuleOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual NotificationHubsAuthorizationRuleOperatorSpec
-	err = actual.AssignProperties_From_NotificationHubsAuthorizationRuleOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_NotificationHubsAuthorizationRuleOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -234,29 +194,23 @@ func Test_NotificationHubsAuthorizationRuleOperatorSpec_WhenSerializedToJson_Des
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of NotificationHubsAuthorizationRuleOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNotificationHubsAuthorizationRuleOperatorSpec, NotificationHubsAuthorizationRuleOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForNotificationHubsAuthorizationRuleOperatorSpec)
 }
 
 // RunJSONSerializationTestForNotificationHubsAuthorizationRuleOperatorSpec runs a test to see if a specific instance of NotificationHubsAuthorizationRuleOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForNotificationHubsAuthorizationRuleOperatorSpec(subject NotificationHubsAuthorizationRuleOperatorSpec) string {
+func RunJSONSerializationTestForNotificationHubsAuthorizationRuleOperatorSpec(t *rapid.T) {
+	subject := NotificationHubsAuthorizationRuleOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual NotificationHubsAuthorizationRuleOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -265,28 +219,26 @@ func RunJSONSerializationTestForNotificationHubsAuthorizationRuleOperatorSpec(su
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of NotificationHubsAuthorizationRuleOperatorSpec instances for property testing - lazily instantiated by
 // NotificationHubsAuthorizationRuleOperatorSpecGenerator()
-var notificationHubsAuthorizationRuleOperatorSpecGenerator gopter.Gen
+var notificationHubsAuthorizationRuleOperatorSpecGenerator *rapid.Generator[NotificationHubsAuthorizationRuleOperatorSpec]
 
 // NotificationHubsAuthorizationRuleOperatorSpecGenerator returns a generator of NotificationHubsAuthorizationRuleOperatorSpec instances for property testing.
-func NotificationHubsAuthorizationRuleOperatorSpecGenerator() gopter.Gen {
+func NotificationHubsAuthorizationRuleOperatorSpecGenerator() *rapid.Generator[NotificationHubsAuthorizationRuleOperatorSpec] {
 	if notificationHubsAuthorizationRuleOperatorSpecGenerator != nil {
 		return notificationHubsAuthorizationRuleOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	notificationHubsAuthorizationRuleOperatorSpecGenerator = gen.Struct(reflect.TypeOf(NotificationHubsAuthorizationRuleOperatorSpec{}), generators)
+	notificationHubsAuthorizationRuleOperatorSpecGenerator = rapid.Just(NotificationHubsAuthorizationRuleOperatorSpec{})
 
 	return notificationHubsAuthorizationRuleOperatorSpecGenerator
 }
 
+// Test_NotificationHubsAuthorizationRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of NotificationHubsAuthorizationRule_STATUS can be assigned to storage and back losslessly
 func Test_NotificationHubsAuthorizationRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -294,44 +246,34 @@ func Test_NotificationHubsAuthorizationRule_STATUS_WhenPropertiesConverted_Round
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from NotificationHubsAuthorizationRule_STATUS to NotificationHubsAuthorizationRule_STATUS via AssignProperties_To_NotificationHubsAuthorizationRule_STATUS & AssignProperties_From_NotificationHubsAuthorizationRule_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForNotificationHubsAuthorizationRule_STATUS, NotificationHubsAuthorizationRule_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := NotificationHubsAuthorizationRule_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForNotificationHubsAuthorizationRule_STATUS tests if a specific instance of NotificationHubsAuthorizationRule_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForNotificationHubsAuthorizationRule_STATUS(subject NotificationHubsAuthorizationRule_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.NotificationHubsAuthorizationRule_STATUS
+		err := copied.AssignProperties_To_NotificationHubsAuthorizationRule_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NotificationHubsAuthorizationRule_STATUS
-	err := copied.AssignProperties_To_NotificationHubsAuthorizationRule_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual NotificationHubsAuthorizationRule_STATUS
+		err = actual.AssignProperties_From_NotificationHubsAuthorizationRule_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual NotificationHubsAuthorizationRule_STATUS
-	err = actual.AssignProperties_From_NotificationHubsAuthorizationRule_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_NotificationHubsAuthorizationRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -341,29 +283,23 @@ func Test_NotificationHubsAuthorizationRule_STATUS_WhenSerializedToJson_Deserial
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of NotificationHubsAuthorizationRule_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNotificationHubsAuthorizationRule_STATUS, NotificationHubsAuthorizationRule_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForNotificationHubsAuthorizationRule_STATUS)
 }
 
 // RunJSONSerializationTestForNotificationHubsAuthorizationRule_STATUS runs a test to see if a specific instance of NotificationHubsAuthorizationRule_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForNotificationHubsAuthorizationRule_STATUS(subject NotificationHubsAuthorizationRule_STATUS) string {
+func RunJSONSerializationTestForNotificationHubsAuthorizationRule_STATUS(t *rapid.T) {
+	subject := NotificationHubsAuthorizationRule_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual NotificationHubsAuthorizationRule_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -372,55 +308,43 @@ func RunJSONSerializationTestForNotificationHubsAuthorizationRule_STATUS(subject
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of NotificationHubsAuthorizationRule_STATUS instances for property testing - lazily instantiated by
 // NotificationHubsAuthorizationRule_STATUSGenerator()
-var notificationHubsAuthorizationRule_STATUSGenerator gopter.Gen
+var notificationHubsAuthorizationRule_STATUSGenerator *rapid.Generator[NotificationHubsAuthorizationRule_STATUS]
 
 // NotificationHubsAuthorizationRule_STATUSGenerator returns a generator of NotificationHubsAuthorizationRule_STATUS instances for property testing.
-// We first initialize notificationHubsAuthorizationRule_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func NotificationHubsAuthorizationRule_STATUSGenerator() gopter.Gen {
+func NotificationHubsAuthorizationRule_STATUSGenerator() *rapid.Generator[NotificationHubsAuthorizationRule_STATUS] {
 	if notificationHubsAuthorizationRule_STATUSGenerator != nil {
 		return notificationHubsAuthorizationRule_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNotificationHubsAuthorizationRule_STATUS(generators)
-	notificationHubsAuthorizationRule_STATUSGenerator = gen.Struct(reflect.TypeOf(NotificationHubsAuthorizationRule_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	properties := rapid.Ptr(SharedAccessAuthorizationRuleProperties_STATUSGenerator(), true)
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNotificationHubsAuthorizationRule_STATUS(generators)
-	AddRelatedPropertyGeneratorsForNotificationHubsAuthorizationRule_STATUS(generators)
-	notificationHubsAuthorizationRule_STATUSGenerator = gen.Struct(reflect.TypeOf(NotificationHubsAuthorizationRule_STATUS{}), generators)
+	notificationHubsAuthorizationRule_STATUSGenerator = rapid.Custom(func(t *rapid.T) NotificationHubsAuthorizationRule_STATUS {
+		var result NotificationHubsAuthorizationRule_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.Location = ptrString.Draw(t, "Location")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.Tags = tags.Draw(t, "Tags")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return notificationHubsAuthorizationRule_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNotificationHubsAuthorizationRule_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNotificationHubsAuthorizationRule_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForNotificationHubsAuthorizationRule_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNotificationHubsAuthorizationRule_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(SharedAccessAuthorizationRuleProperties_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
-}
-
+// Test_NotificationHubsAuthorizationRule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of NotificationHubsAuthorizationRule_Spec can be assigned to storage and back losslessly
 func Test_NotificationHubsAuthorizationRule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -428,44 +352,34 @@ func Test_NotificationHubsAuthorizationRule_Spec_WhenPropertiesConverted_RoundTr
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from NotificationHubsAuthorizationRule_Spec to NotificationHubsAuthorizationRule_Spec via AssignProperties_To_NotificationHubsAuthorizationRule_Spec & AssignProperties_From_NotificationHubsAuthorizationRule_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForNotificationHubsAuthorizationRule_Spec, NotificationHubsAuthorizationRule_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := NotificationHubsAuthorizationRule_SpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForNotificationHubsAuthorizationRule_Spec tests if a specific instance of NotificationHubsAuthorizationRule_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForNotificationHubsAuthorizationRule_Spec(subject NotificationHubsAuthorizationRule_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.NotificationHubsAuthorizationRule_Spec
+		err := copied.AssignProperties_To_NotificationHubsAuthorizationRule_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NotificationHubsAuthorizationRule_Spec
-	err := copied.AssignProperties_To_NotificationHubsAuthorizationRule_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual NotificationHubsAuthorizationRule_Spec
+		err = actual.AssignProperties_From_NotificationHubsAuthorizationRule_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual NotificationHubsAuthorizationRule_Spec
-	err = actual.AssignProperties_From_NotificationHubsAuthorizationRule_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_NotificationHubsAuthorizationRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -475,29 +389,23 @@ func Test_NotificationHubsAuthorizationRule_Spec_WhenSerializedToJson_Deserializ
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of NotificationHubsAuthorizationRule_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNotificationHubsAuthorizationRule_Spec, NotificationHubsAuthorizationRule_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForNotificationHubsAuthorizationRule_Spec)
 }
 
 // RunJSONSerializationTestForNotificationHubsAuthorizationRule_Spec runs a test to see if a specific instance of NotificationHubsAuthorizationRule_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForNotificationHubsAuthorizationRule_Spec(subject NotificationHubsAuthorizationRule_Spec) string {
+func RunJSONSerializationTestForNotificationHubsAuthorizationRule_Spec(t *rapid.T) {
+	subject := NotificationHubsAuthorizationRule_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual NotificationHubsAuthorizationRule_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -506,49 +414,37 @@ func RunJSONSerializationTestForNotificationHubsAuthorizationRule_Spec(subject N
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of NotificationHubsAuthorizationRule_Spec instances for property testing - lazily instantiated by
 // NotificationHubsAuthorizationRule_SpecGenerator()
-var notificationHubsAuthorizationRule_SpecGenerator gopter.Gen
+var notificationHubsAuthorizationRule_SpecGenerator *rapid.Generator[NotificationHubsAuthorizationRule_Spec]
 
 // NotificationHubsAuthorizationRule_SpecGenerator returns a generator of NotificationHubsAuthorizationRule_Spec instances for property testing.
-// We first initialize notificationHubsAuthorizationRule_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func NotificationHubsAuthorizationRule_SpecGenerator() gopter.Gen {
+func NotificationHubsAuthorizationRule_SpecGenerator() *rapid.Generator[NotificationHubsAuthorizationRule_Spec] {
 	if notificationHubsAuthorizationRule_SpecGenerator != nil {
 		return notificationHubsAuthorizationRule_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNotificationHubsAuthorizationRule_Spec(generators)
-	notificationHubsAuthorizationRule_SpecGenerator = gen.Struct(reflect.TypeOf(NotificationHubsAuthorizationRule_Spec{}), generators)
+	azureName := rapid.String()
+	location := rapid.Ptr(rapid.String(), true)
+	operatorSpec := rapid.Ptr(NotificationHubsAuthorizationRuleOperatorSpecGenerator(), true)
+	properties := rapid.Ptr(SharedAccessAuthorizationRulePropertiesGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNotificationHubsAuthorizationRule_Spec(generators)
-	AddRelatedPropertyGeneratorsForNotificationHubsAuthorizationRule_Spec(generators)
-	notificationHubsAuthorizationRule_SpecGenerator = gen.Struct(reflect.TypeOf(NotificationHubsAuthorizationRule_Spec{}), generators)
+	notificationHubsAuthorizationRule_SpecGenerator = rapid.Custom(func(t *rapid.T) NotificationHubsAuthorizationRule_Spec {
+		var result NotificationHubsAuthorizationRule_Spec
+		result.AzureName = azureName.Draw(t, "AzureName")
+		result.Location = location.Draw(t, "Location")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Tags = tags.Draw(t, "Tags")
+		return result
+	})
 
 	return notificationHubsAuthorizationRule_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForNotificationHubsAuthorizationRule_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNotificationHubsAuthorizationRule_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForNotificationHubsAuthorizationRule_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNotificationHubsAuthorizationRule_Spec(gens map[string]gopter.Gen) {
-	gens["OperatorSpec"] = gen.PtrOf(NotificationHubsAuthorizationRuleOperatorSpecGenerator())
-	gens["Properties"] = gen.PtrOf(SharedAccessAuthorizationRulePropertiesGenerator())
 }

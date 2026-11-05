@@ -1,0 +1,15 @@
+{{- if and (eq .Values.workloadIdentityAuthMode "strict") (or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode "watchers")) }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: azureserviceoperator-workload-identity-token-creator-role
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - serviceaccounts/token
+  resourceNames:
+  - aso-workload
+  verbs:
+  - create
+{{- end }}

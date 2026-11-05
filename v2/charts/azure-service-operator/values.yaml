@@ -46,6 +46,14 @@ azureSyncPeriod: ""
 # See https://azure.github.io/azure-service-operator/guide/authentication/ for details on setting up Workload Identity with ASO
 useWorkloadIdentityAuth: false
 
+# workloadIdentityAuthMode controls how namespace and per-resource Workload Identity credentials obtain assertions.
+# Allowed values are "relaxed" and "strict". If not specified, the default is "relaxed".
+# relaxed: ASO uses a single Federated Identity Credential (FIC) for all authentication to Azure, via the ASO controller service account. This is simple to set up but is less secure. See
+# https://github.com/Azure/azure-service-operator/issues/4810 for more details about why this is less secure.
+# strict: ASO uses separate Federated Identity Credentials (FICs) via separate service accounts for each authentication to Azure. This is more secure but requires more setup.
+# The secret may select the ServiceAccount with `AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT`; when omitted, ASO uses `aso-workload`.
+workloadIdentityAuthMode: relaxed
+
 # azureUserAgentSuffix is appended to the default User-Agent for Azure HTTP clients.
 azureUserAgentSuffix: ""
 
@@ -84,6 +92,11 @@ azureTargetNamespaces: []
 # watchers, webhooks or both.
 azureOperatorMode: ""
 
+# tlsMinVersion is the minimum TLS version used by the webhook and secure metrics servers.
+# Supported values are VersionTLS12 and VersionTLS13. If not specified, the controller default of VersionTLS13
+# is used.
+tlsMinVersion: ""
+
 webhook:
   # webhook.port determines the port the webhook endpoint binds to.
   port: 9443
@@ -98,7 +111,7 @@ webhook:
 # corresponding CRD yaml in the cart (and so no CRD in the k8s
 # repository).
 image:
-  tag: v2.21.1
+  tag: v2.22.0
   repositoryBase: mcr.microsoft.com/k8s/azureserviceoperator
   repository: "{{ .Values.image.repositoryBase }}:{{ .Values.image.tag }}"
   pullSecrets: []
@@ -307,6 +320,11 @@ affinity: {}
 # for a given resource type can be managed with this set to 1.
 # MaxConcurrentReconciles applies to every registered resource type being watched/managed by ASO.
 maxConcurrentReconciles: 4
+
+# defaultReconcilePolicy determines the reconcile policy used when a resource does not specify the
+# serviceoperator.azure.com/reconcile-policy annotation. Valid values are manage, skip, and detach-on-delete.
+# If not specified, the default is the controller default, which is "manage".
+defaultReconcilePolicy: ""
 
 rateLimit:
   # mode configures the internal rate-limiting mode.

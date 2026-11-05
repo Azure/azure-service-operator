@@ -1,0 +1,10 @@
+apiVersion: sql.azure.com/v20250101
+kind: ManagedInstancesDatabase
+metadata:
+  name: aso-sample-sqlmidb
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-sqlmi
+  location: westeurope
+  collation: SQL_Latin1_General_CP1_CI_AS

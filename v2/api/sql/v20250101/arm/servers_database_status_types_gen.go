@@ -267,24 +267,6 @@ type DatabaseProperties_STATUS struct {
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
-// An ARM Resource SKU.
-type Sku_STATUS struct {
-	// Capacity: Capacity of the particular SKU.
-	Capacity *int `json:"capacity,omitempty"`
-
-	// Family: If the service has different generations of hardware, for the same SKU, then that can be captured here.
-	Family *string `json:"family,omitempty"`
-
-	// Name: The name of the SKU, typically, a letter + Number code, e.g. P3.
-	Name *string `json:"name,omitempty"`
-
-	// Size: Size of the particular SKU
-	Size *string `json:"size,omitempty"`
-
-	// Tier: The tier or edition of the particular SKU, e.g. Basic, Premium.
-	Tier *string `json:"tier,omitempty"`
-}
-
 // Type of enclave requested on the database i.e. Default or VBS enclaves.
 type AlwaysEncryptedEnclaveType_STATUS string
 
@@ -297,56 +279,6 @@ const (
 var alwaysEncryptedEnclaveType_STATUS_Values = map[string]AlwaysEncryptedEnclaveType_STATUS{
 	"default": AlwaysEncryptedEnclaveType_STATUS_Default,
 	"vbs":     AlwaysEncryptedEnclaveType_STATUS_VBS,
-}
-
-// Specifies the availability zone the database is pinned to.
-type AvailabilityZoneType_STATUS string
-
-const (
-	AvailabilityZoneType_STATUS_1            = AvailabilityZoneType_STATUS("1")
-	AvailabilityZoneType_STATUS_2            = AvailabilityZoneType_STATUS("2")
-	AvailabilityZoneType_STATUS_3            = AvailabilityZoneType_STATUS("3")
-	AvailabilityZoneType_STATUS_NoPreference = AvailabilityZoneType_STATUS("NoPreference")
-)
-
-// Mapping from string to AvailabilityZoneType_STATUS
-var availabilityZoneType_STATUS_Values = map[string]AvailabilityZoneType_STATUS{
-	"1":            AvailabilityZoneType_STATUS_1,
-	"2":            AvailabilityZoneType_STATUS_2,
-	"3":            AvailabilityZoneType_STATUS_3,
-	"nopreference": AvailabilityZoneType_STATUS_NoPreference,
-}
-
-// The storage account type used to store backups for this database.
-type BackupStorageRedundancy_STATUS string
-
-const (
-	BackupStorageRedundancy_STATUS_Geo     = BackupStorageRedundancy_STATUS("Geo")
-	BackupStorageRedundancy_STATUS_GeoZone = BackupStorageRedundancy_STATUS("GeoZone")
-	BackupStorageRedundancy_STATUS_Local   = BackupStorageRedundancy_STATUS("Local")
-	BackupStorageRedundancy_STATUS_Zone    = BackupStorageRedundancy_STATUS("Zone")
-)
-
-// Mapping from string to BackupStorageRedundancy_STATUS
-var backupStorageRedundancy_STATUS_Values = map[string]BackupStorageRedundancy_STATUS{
-	"geo":     BackupStorageRedundancy_STATUS_Geo,
-	"geozone": BackupStorageRedundancy_STATUS_GeoZone,
-	"local":   BackupStorageRedundancy_STATUS_Local,
-	"zone":    BackupStorageRedundancy_STATUS_Zone,
-}
-
-// Collation of the metadata catalog.
-type CatalogCollationType_STATUS string
-
-const (
-	CatalogCollationType_STATUS_DATABASE_DEFAULT             = CatalogCollationType_STATUS("DATABASE_DEFAULT")
-	CatalogCollationType_STATUS_SQL_Latin1_General_CP1_CI_AS = CatalogCollationType_STATUS("SQL_Latin1_General_CP1_CI_AS")
-)
-
-// Mapping from string to CatalogCollationType_STATUS
-var catalogCollationType_STATUS_Values = map[string]CatalogCollationType_STATUS{
-	"database_default":             CatalogCollationType_STATUS_DATABASE_DEFAULT,
-	"sql_latin1_general_cp1_ci_as": CatalogCollationType_STATUS_SQL_Latin1_General_CP1_CI_AS,
 }
 
 // Specifies the mode of database creation.

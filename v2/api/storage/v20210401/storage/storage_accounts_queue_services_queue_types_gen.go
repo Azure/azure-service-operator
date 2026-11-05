@@ -25,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v20210401.StorageAccountsQueueServicesQueue
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2021-04-01/queue.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2021-04-01/queue.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default/queues/{queueName}
 type StorageAccountsQueueServicesQueue struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -259,7 +259,7 @@ func (queue *StorageAccountsQueueServicesQueue) OriginalGVK() *schema.GroupVersi
 // +kubebuilder:object:root=true
 // Storage version of v20210401.StorageAccountsQueueServicesQueue
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2021-04-01/queue.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2021-04-01/queue.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default/queues/{queueName}
 type StorageAccountsQueueServicesQueueList struct {
 	metav1.TypeMeta `json:",inline"`

@@ -3,7 +3,7 @@ title: Credential Format
 linktitle: Credential Format
 ---
 
-Azure Service Operator supports four different styles of authentication today.
+Azure Service Operator supports six different styles of authentication today.
 
 Each section below dives into one of these authentication options, including examples for how to set it up and
 use it at the different [credential scopes]( {{< relref "credential-scope" >}} ).
@@ -20,6 +20,12 @@ These fields are common across all [credential scopes]( {{< relref "credential-s
 - [AZURE_CLIENT_CERTIFICATE_PASSWORD]( {{< relref "aso-controller-settings-options" >}}/#azure_client_certificate_password)
 - [AZURE_ADDITIONAL_TENANTS]( {{< relref "aso-controller-settings-options" >}}/#azure_additional_tenants)
 - [ENTRA_APP_ID]( {{< relref "aso-controller-settings-options" >}}/#entra_app_id)
+
+### Namespace and resource credential fields
+
+These fields can be set only on namespace-scoped and per-resource credentials:
+
+- [AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT]( {{< relref "aso-controller-settings-options" >}}/#azure_workload_identity_service_account)
 
 Note that the global credential scope has fields that can be set in addition to the fields documented above.
 
@@ -56,22 +62,58 @@ export SERVICE_ACCOUNT_ISSUER="https://oidc.prod-aks.azure.com/00000000-0000-000
 
 Establish trust between your OIDC issuer URL and the backing Service Principal or Managed Identity. See [how it works](https://docs.microsoft.com/en-us/azure/active-directory/develop/workload-identity-federation#how-it-works) for details.
 
-{{< tabpane text=true left=true >}}
-{{% tab header="**Kind**:" disabled=true /%}}
-{{% tab header="Managed Identity" %}}
-
-Set the following additional environment variables:
+For a Managed Identity, set the following additional environment variables:
 
 ```bash
 export MI_RESOURCE_GROUP="my-rg"  # The resource group containing the managed identity that will be used by ASO
 export MI_NAME="my-mi"            # The name of the managed identity that will be used by ASO
 ```
 
+{{< tabpane text=true left=true >}}
+{{% tab header="**Kind**:" disabled=true /%}}
+{{% tab header="Managed Identity (relaxed)" %}}
+
+In the default `relaxed` mode, all Workload Identity credentials use the ASO controller ServiceAccount subject.
+
+**Note:** We recommend `strict` mode in production as it is more secure. See [Workload Identity isolation]( {{< relref "workload-identity-isolation" >}} )
+for more details.
+
 Create the Federated Identity Credential registering your service account with AAD:
 
 ```bash
 az identity federated-credential create --name aso-federated-credential --identity-name ${MI_NAME} --resource-group ${MI_RESOURCE_GROUP} --issuer ${SERVICE_ACCOUNT_ISSUER} --subject "system:serviceaccount:azureserviceoperator-system:azureserviceoperator-default" --audiences "api://AzureADTokenExchange"
 ```
+
+{{% /tab %}}
+{{% tab header="Managed Identity (strict)" %}}
+
+Set `workloadIdentityAuthMode` to `strict` when installing ASO:
+
+```bash
+helm upgrade --install aso2 aso2/azure-service-operator \
+  --namespace azureserviceoperator-system \
+  --create-namespace \
+  --set workloadIdentityAuthMode=strict
+```
+
+In `strict` mode, namespace-scoped and per-resource Workload Identity credentials use a ServiceAccount in the credential
+secret's namespace. The global credential is unchanged and continues to use the ASO controller ServiceAccount subject shown
+in the `relaxed` tab.
+
+For the default ServiceAccount name, create a Federated Identity Credential with the subject
+`system:serviceaccount:<namespace>:aso-workload`:
+
+```bash
+az identity federated-credential create \
+  --name my-namespace-aso \
+  --identity-name "$MI_NAME" \
+  --resource-group "$MI_RESOURCE_GROUP" \
+  --issuer "$SERVICE_ACCOUNT_ISSUER" \
+  --subject "system:serviceaccount:my-namespace:aso-workload" \
+  --audiences "api://AzureADTokenExchange"
+```
+
+When using a custom ServiceAccount name, replace `aso-workload` in the subject with that name.
 
 {{% /tab %}}
 {{% tab header="Service Principal" %}}
@@ -96,6 +138,60 @@ az ad app federated-credential create --id ${APPLICATION_OBJECT_ID} --parameters
 
 {{% /tab %}}
 {{< /tabpane >}}
+
+### Create the ServiceAccount (strict mode only)
+
+Create the ServiceAccount in each namespace that uses a namespace-scoped or per-resource Workload Identity
+credential:
+
+```bash
+kubectl create serviceaccount aso-workload --namespace my-namespace
+```
+
+When strict mode is enabled, the Helm chart grants the ASO controller permission to create tokens only for ServiceAccounts
+named `aso-workload`. This grants `create` on the `serviceaccounts/token` subresource.
+
+To use a custom name, create that ServiceAccount and set `AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT` in the namespace-scoped or
+per-resource credential secret:
+
+```bash
+kubectl create serviceaccount custom-aso-workload --namespace my-namespace
+```
+
+```yaml
+stringData:
+  AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT: custom-aso-workload
+```
+
+A cluster administrator must also grant ASO permission to create a token for that ServiceAccount. The following namespace-local
+Role and RoleBinding use the default ASO installation namespace and ServiceAccount; adjust them if ASO is installed into a non-standard namespace:
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: aso-custom-workload-token-creator
+  namespace: my-namespace
+rules:
+- apiGroups: [""]
+  resources: ["serviceaccounts/token"]
+  resourceNames: ["custom-aso-workload"]
+  verbs: ["create"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: aso-custom-workload-token-creator
+  namespace: my-namespace
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: aso-custom-workload-token-creator
+subjects:
+- kind: ServiceAccount
+  name: azureserviceoperator-default
+  namespace: azureserviceoperator-system
+```
 
 ### Create the secret
 
@@ -158,6 +254,11 @@ stringData:
 EOF
 ```
 
+**Note:** In strict mode, this namespace-scoped credential can set `AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT` to select a
+custom ServiceAccount in the same namespace. When this field is omitted, ASO uses `aso-workload`. The selected name must match
+the Federated Identity Credential subject, and ASO must have permission to create a token for it. See
+[Create the ServiceAccount (strict mode only)](#create-the-serviceaccount-strict-mode-only).
+
 **Note:** Each credential (both namespaced and per-resource) you create must have a trust relationship between your OIDC
 issuer URL and the backing Service Principal or Managed Identity. See [how to configure trust](#configure-trust) for more details.
 
@@ -179,6 +280,11 @@ stringData:
  AZURE_CLIENT_ID:    "$AZURE_CLIENT_ID"
 EOF
 ```
+
+**Note:** In strict mode, this per-resource credential can set `AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT` to select a custom
+ServiceAccount in the same namespace. When this field is omitted, ASO uses `aso-workload`. The selected name must match the
+Federated Identity Credential subject, and ASO must have permission to create a token for it. See
+[Create the ServiceAccount (strict mode only)](#create-the-serviceaccount-strict-mode-only).
 
 Create the ASO resource referring to `my-resource-secret`. We show a `ResourceGroup` here, but any ASO resource will work.
 
@@ -872,3 +978,35 @@ If ASO was already installed on your cluster and you are updating the `aso-contr
 
 {{% /tab %}}
 {{< /tabpane >}}
+
+## Azure CLI
+
+The global credential chain can use `az login` when the controller runs as a **local process** and is started with `--enable-azure-cli-authentication`. This flag is **off by default**, so in-cluster pods do not invoke `az`. `asoctl` already uses Azure CLI without this flag.
+
+{{% alert title="Warning" color="warning" %}}
+Do not set `--enable-azure-cli-authentication` on the in-cluster operator pod. The CLI token cache cannot be mounted into a pod, and credentials need refresh. Use workload identity or a service principal in production clusters.
+{{% /alert %}}
+
+### Prerequisites
+
+1. [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli) installed on the host running the controller.
+2. An `az login` session for the subscription ASO should use.
+3. Start the controller with `--enable-azure-cli-authentication`.
+
+```bash
+az login
+az account set --subscription <subscription-id>
+```
+
+```bash
+export AZURE_SUBSCRIPTION_ID="00000000-0000-0000-0000-00000000000" # Required. The CLI credential passes this to az --subscription.
+export AZURE_TENANT_ID="00000000-0000-0000-0000-00000000000"       # Set for the general controller config; not passed to az (az rejects --tenant with --subscription).
+```
+
+`AZURE_SUBSCRIPTION_ID` is required to enable the global credential. The CLI path uses that subscription only; it does not pass `--tenant` to `az`.
+
+{{% alert title="Warning" color="warning" %}}
+Do not set `AZURE_CLIENT_ID` or `AZURE_CLIENT_SECRET` when using only Azure CLI. EnvironmentCredential is tried first and will be preferred.
+{{% /alert %}}
+
+If IMDS is not present, managed identity is skipped so token acquisition does not hang. Azure CLI is used only when `--enable-azure-cli-authentication` is set.

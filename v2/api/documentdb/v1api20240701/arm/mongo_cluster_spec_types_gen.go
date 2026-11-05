@@ -34,39 +34,39 @@ func (cluster *MongoCluster_Spec) GetType() string {
 	return "Microsoft.DocumentDB/mongoClusters"
 }
 
-// The properties of a mongo cluster.
+// The properties of a DocumentDB cluster.
 type MongoClusterProperties struct {
-	// Administrator: The local administrator properties for the mongo cluster.
+	// Administrator: The local administrator properties for the DocumentDB cluster.
 	Administrator *AdministratorProperties `json:"administrator,omitempty"`
 
-	// Compute: The compute properties of the mongo cluster.
+	// Compute: The compute properties of the DocumentDB cluster.
 	Compute *ComputeProperties `json:"compute,omitempty"`
 
-	// CreateMode: The mode to create a mongo cluster.
+	// CreateMode: The mode to create a DocumentDB cluster.
 	CreateMode *CreateMode `json:"createMode,omitempty"`
 
-	// HighAvailability: The high availability properties of the mongo cluster.
+	// HighAvailability: The high availability properties of the DocumentDB cluster.
 	HighAvailability *HighAvailabilityProperties `json:"highAvailability,omitempty"`
 
 	// PreviewFeatures: List of private endpoint connections.
 	PreviewFeatures []PreviewFeature `json:"previewFeatures,omitempty"`
 
-	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this mongo cluster.
+	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this DocumentDB cluster.
 	PublicNetworkAccess *PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
-	// ReplicaParameters: The parameters to create a replica mongo cluster.
+	// ReplicaParameters: The parameters to create a replica DocumentDB cluster.
 	ReplicaParameters *MongoClusterReplicaParameters `json:"replicaParameters,omitempty"`
 
-	// RestoreParameters: The parameters to create a point-in-time restore mongo cluster.
+	// RestoreParameters: The parameters to create a point-in-time restore DocumentDB cluster.
 	RestoreParameters *MongoClusterRestoreParameters `json:"restoreParameters,omitempty"`
 
 	// ServerVersion: The Mongo DB server version. Defaults to the latest available version if not specified.
 	ServerVersion *string `json:"serverVersion,omitempty"`
 
-	// Sharding: The sharding properties of the mongo cluster.
+	// Sharding: The sharding properties of the DocumentDB cluster.
 	Sharding *ShardingProperties `json:"sharding,omitempty"`
 
-	// Storage: The storage properties of the mongo cluster.
+	// Storage: The storage properties of the DocumentDB cluster.
 	Storage *StorageProperties `json:"storage,omitempty"`
 }
 
@@ -87,7 +87,7 @@ type ComputeProperties struct {
 	Tier *string `json:"tier,omitempty"`
 }
 
-// The mode that the Mongo Cluster is created with.
+// The mode that the DocumentDB cluster is created with.
 // +kubebuilder:validation:Enum={"Default","GeoReplica","PointInTimeRestore","Replica"}
 type CreateMode string
 
@@ -123,14 +123,14 @@ type MongoClusterReplicaParameters struct {
 
 // Parameters used for restore operations
 type MongoClusterRestoreParameters struct {
-	// PointInTimeUTC: UTC point in time to restore a mongo cluster
+	// PointInTimeUTC: UTC point in time to restore a DocumentDB cluster
 	PointInTimeUTC *string `json:"pointInTimeUTC,omitempty"`
 
 	// SourceResourceId: Resource ID to locate the source cluster to restore
 	SourceResourceId *string `json:"sourceResourceId,omitempty"`
 }
 
-// Preview features that can be enabled on a mongo cluster.
+// Preview features that can be enabled on a DocumentDB cluster.
 // +kubebuilder:validation:Enum={"GeoReplicas"}
 type PreviewFeature string
 
@@ -141,7 +141,7 @@ var previewFeature_Values = map[string]PreviewFeature{
 	"georeplicas": PreviewFeature_GeoReplicas,
 }
 
-// Whether or not public endpoint access is allowed for this Mongo cluster.  Value is optional and default value is
+// Whether or not public endpoint access is allowed for this DocumentDB cluster.  Value is optional and default value is
 // 'Enabled'
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type PublicNetworkAccess string

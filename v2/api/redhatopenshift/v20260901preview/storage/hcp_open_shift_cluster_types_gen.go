@@ -1240,7 +1240,7 @@ type PlatformProfile struct {
 	PropertyBag                   genruntime.PropertyBag          `json:"$propertyBag,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// SubnetReference: The Azure resource ID of the worker subnet
+	// SubnetReference: The Azure resource ID of the worker subnet.
 	// Note that a subnet cannot be reused between ARO-HCP Clusters.
 	SubnetReference *genruntime.ResourceReference `armReference:"SubnetId" json:"subnetReference,omitempty"`
 

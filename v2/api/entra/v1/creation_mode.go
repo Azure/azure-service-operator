@@ -3,8 +3,8 @@
 
 package v1
 
-// CreationMode specifies how ASO will try to create the Entra resource.
-// +kubebuilder:validation:Enum=AdoptOrCreate;AlwaysCreate
+// CreationMode specifies whether ASO will create or adopt the Entra resource.
+// +kubebuilder:validation:Enum=AdoptOrCreate;AlwaysCreate;AdoptOnly
 type CreationMode string
 
 const (
@@ -17,15 +17,17 @@ const (
 	// If multiple matches are found, the resource condition will show an error.
 	// If it does not exist, ASO will create a new resource.
 	AdoptOrCreate CreationMode = "AdoptOrCreate"
+
+	// AdoptOnly requires an existing resource and never creates one.
+	AdoptOnly CreationMode = "AdoptOnly"
 )
 
 // AllowsCreation checks if the creation mode allows ASO to create a new resource.
-// All current modes do, but this could change in the future.
 func (cm CreationMode) AllowsCreation() bool {
 	return cm == AlwaysCreate || cm == AdoptOrCreate
 }
 
 // AllowsAdoption checks if the creation mode allows ASO to adopt an existing resource.
 func (cm CreationMode) AllowsAdoption() bool {
-	return cm == AdoptOrCreate
+	return cm == AdoptOrCreate || cm == AdoptOnly
 }

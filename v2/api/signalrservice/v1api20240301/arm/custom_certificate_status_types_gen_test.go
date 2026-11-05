@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_CustomCertificateProperties_STATUS_WhenSerializedToJson_DeserializesAs
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CustomCertificateProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCustomCertificateProperties_STATUS, CustomCertificateProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForCustomCertificateProperties_STATUS)
 }
 
 // RunJSONSerializationTestForCustomCertificateProperties_STATUS runs a test to see if a specific instance of CustomCertificateProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForCustomCertificateProperties_STATUS(subject CustomCertificateProperties_STATUS) string {
+func RunJSONSerializationTestForCustomCertificateProperties_STATUS(t *rapid.T) {
+	subject := CustomCertificateProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual CustomCertificateProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,44 +45,33 @@ func RunJSONSerializationTestForCustomCertificateProperties_STATUS(subject Custo
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of CustomCertificateProperties_STATUS instances for property testing - lazily instantiated by
 // CustomCertificateProperties_STATUSGenerator()
-var customCertificateProperties_STATUSGenerator gopter.Gen
+var customCertificateProperties_STATUSGenerator *rapid.Generator[CustomCertificateProperties_STATUS]
 
 // CustomCertificateProperties_STATUSGenerator returns a generator of CustomCertificateProperties_STATUS instances for property testing.
-func CustomCertificateProperties_STATUSGenerator() gopter.Gen {
+func CustomCertificateProperties_STATUSGenerator() *rapid.Generator[CustomCertificateProperties_STATUS] {
 	if customCertificateProperties_STATUSGenerator != nil {
 		return customCertificateProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCustomCertificateProperties_STATUS(generators)
-	customCertificateProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(CustomCertificateProperties_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	provisioningState := rapid.Ptr(rapid.SampledFrom([]ProvisioningState_STATUS{ProvisioningState_STATUS_Canceled, ProvisioningState_STATUS_Creating, ProvisioningState_STATUS_Deleting, ProvisioningState_STATUS_Failed, ProvisioningState_STATUS_Moving, ProvisioningState_STATUS_Running, ProvisioningState_STATUS_Succeeded, ProvisioningState_STATUS_Unknown, ProvisioningState_STATUS_Updating}), true)
+
+	customCertificateProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) CustomCertificateProperties_STATUS {
+		var result CustomCertificateProperties_STATUS
+		result.KeyVaultBaseUri = ptrString.Draw(t, "KeyVaultBaseUri")
+		result.KeyVaultSecretName = ptrString.Draw(t, "KeyVaultSecretName")
+		result.KeyVaultSecretVersion = ptrString.Draw(t, "KeyVaultSecretVersion")
+		result.ProvisioningState = provisioningState.Draw(t, "ProvisioningState")
+		return result
+	})
 
 	return customCertificateProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCustomCertificateProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCustomCertificateProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["KeyVaultBaseUri"] = gen.PtrOf(gen.AlphaString())
-	gens["KeyVaultSecretName"] = gen.PtrOf(gen.AlphaString())
-	gens["KeyVaultSecretVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUS_Canceled,
-		ProvisioningState_STATUS_Creating,
-		ProvisioningState_STATUS_Deleting,
-		ProvisioningState_STATUS_Failed,
-		ProvisioningState_STATUS_Moving,
-		ProvisioningState_STATUS_Running,
-		ProvisioningState_STATUS_Succeeded,
-		ProvisioningState_STATUS_Unknown,
-		ProvisioningState_STATUS_Updating))
 }
 
 func Test_CustomCertificate_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -102,29 +81,23 @@ func Test_CustomCertificate_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CustomCertificate_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCustomCertificate_STATUS, CustomCertificate_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForCustomCertificate_STATUS)
 }
 
 // RunJSONSerializationTestForCustomCertificate_STATUS runs a test to see if a specific instance of CustomCertificate_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForCustomCertificate_STATUS(subject CustomCertificate_STATUS) string {
+func RunJSONSerializationTestForCustomCertificate_STATUS(t *rapid.T) {
+	subject := CustomCertificate_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual CustomCertificate_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -133,49 +106,35 @@ func RunJSONSerializationTestForCustomCertificate_STATUS(subject CustomCertifica
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of CustomCertificate_STATUS instances for property testing - lazily instantiated by
 // CustomCertificate_STATUSGenerator()
-var customCertificate_STATUSGenerator gopter.Gen
+var customCertificate_STATUSGenerator *rapid.Generator[CustomCertificate_STATUS]
 
 // CustomCertificate_STATUSGenerator returns a generator of CustomCertificate_STATUS instances for property testing.
-// We first initialize customCertificate_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func CustomCertificate_STATUSGenerator() gopter.Gen {
+func CustomCertificate_STATUSGenerator() *rapid.Generator[CustomCertificate_STATUS] {
 	if customCertificate_STATUSGenerator != nil {
 		return customCertificate_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCustomCertificate_STATUS(generators)
-	customCertificate_STATUSGenerator = gen.Struct(reflect.TypeOf(CustomCertificate_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	properties := rapid.Ptr(CustomCertificateProperties_STATUSGenerator(), true)
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCustomCertificate_STATUS(generators)
-	AddRelatedPropertyGeneratorsForCustomCertificate_STATUS(generators)
-	customCertificate_STATUSGenerator = gen.Struct(reflect.TypeOf(CustomCertificate_STATUS{}), generators)
+	customCertificate_STATUSGenerator = rapid.Custom(func(t *rapid.T) CustomCertificate_STATUS {
+		var result CustomCertificate_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return customCertificate_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCustomCertificate_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCustomCertificate_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForCustomCertificate_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForCustomCertificate_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(CustomCertificateProperties_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -185,29 +144,23 @@ func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SystemData_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSystemData_STATUS, SystemData_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSystemData_STATUS)
 }
 
 // RunJSONSerializationTestForSystemData_STATUS runs a test to see if a specific instance of SystemData_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSystemData_STATUS(subject SystemData_STATUS) string {
+func RunJSONSerializationTestForSystemData_STATUS(t *rapid.T) {
+	subject := SystemData_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SystemData_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -216,42 +169,33 @@ func RunJSONSerializationTestForSystemData_STATUS(subject SystemData_STATUS) str
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SystemData_STATUS instances for property testing - lazily instantiated by SystemData_STATUSGenerator()
-var systemData_STATUSGenerator gopter.Gen
+var systemData_STATUSGenerator *rapid.Generator[SystemData_STATUS]
 
 // SystemData_STATUSGenerator returns a generator of SystemData_STATUS instances for property testing.
-func SystemData_STATUSGenerator() gopter.Gen {
+func SystemData_STATUSGenerator() *rapid.Generator[SystemData_STATUS] {
 	if systemData_STATUSGenerator != nil {
 		return systemData_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSystemData_STATUS(generators)
-	systemData_STATUSGenerator = gen.Struct(reflect.TypeOf(SystemData_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	createdByType := rapid.Ptr(rapid.SampledFrom([]SystemData_CreatedByType_STATUS{SystemData_CreatedByType_STATUS_Application, SystemData_CreatedByType_STATUS_Key, SystemData_CreatedByType_STATUS_ManagedIdentity, SystemData_CreatedByType_STATUS_User}), true)
+	lastModifiedByType := rapid.Ptr(rapid.SampledFrom([]SystemData_LastModifiedByType_STATUS{SystemData_LastModifiedByType_STATUS_Application, SystemData_LastModifiedByType_STATUS_Key, SystemData_LastModifiedByType_STATUS_ManagedIdentity, SystemData_LastModifiedByType_STATUS_User}), true)
+
+	systemData_STATUSGenerator = rapid.Custom(func(t *rapid.T) SystemData_STATUS {
+		var result SystemData_STATUS
+		result.CreatedAt = ptrString.Draw(t, "CreatedAt")
+		result.CreatedBy = ptrString.Draw(t, "CreatedBy")
+		result.CreatedByType = createdByType.Draw(t, "CreatedByType")
+		result.LastModifiedAt = ptrString.Draw(t, "LastModifiedAt")
+		result.LastModifiedBy = ptrString.Draw(t, "LastModifiedBy")
+		result.LastModifiedByType = lastModifiedByType.Draw(t, "LastModifiedByType")
+		return result
+	})
 
 	return systemData_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSystemData_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter.Gen) {
-	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_STATUS_Application,
-		SystemData_CreatedByType_STATUS_Key,
-		SystemData_CreatedByType_STATUS_ManagedIdentity,
-		SystemData_CreatedByType_STATUS_User))
-	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_STATUS_Application,
-		SystemData_LastModifiedByType_STATUS_Key,
-		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-		SystemData_LastModifiedByType_STATUS_User))
 }

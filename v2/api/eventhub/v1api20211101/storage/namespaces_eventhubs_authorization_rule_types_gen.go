@@ -4,8 +4,7 @@
 package storage
 
 import (
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/eventhub/v20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &NamespacesEventhubsAuthorizationRule{}
 
 // ConvertFrom populates our NamespacesEventhubsAuthorizationRule from the provided hub NamespacesEventhubsAuthorizationRule
 func (rule *NamespacesEventhubsAuthorizationRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.NamespacesEventhubsAuthorizationRule)
-	if !ok {
-		return fmt.Errorf("expected eventhub/v1api20240101/storage/NamespacesEventhubsAuthorizationRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.NamespacesEventhubsAuthorizationRule
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return rule.AssignProperties_From_NamespacesEventhubsAuthorizationRule(source)
+	err = rule.AssignProperties_From_NamespacesEventhubsAuthorizationRule(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to rule")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NamespacesEventhubsAuthorizationRule from our NamespacesEventhubsAuthorizationRule
 func (rule *NamespacesEventhubsAuthorizationRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.NamespacesEventhubsAuthorizationRule)
-	if !ok {
-		return fmt.Errorf("expected eventhub/v1api20240101/storage/NamespacesEventhubsAuthorizationRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.NamespacesEventhubsAuthorizationRule
+	err := rule.AssignProperties_To_NamespacesEventhubsAuthorizationRule(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from rule")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return rule.AssignProperties_To_NamespacesEventhubsAuthorizationRule(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &NamespacesEventhubsAuthorizationRule{}

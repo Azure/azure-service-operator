@@ -82,13 +82,21 @@ var exclusions = []*regexp.Regexp{
 	// Older versions only pass because their recordings predate this service-side validation.
 	regexp.MustCompile(`dbforpostgresql/.*_flexibleserversvirtualendpoint.yaml`),
 
-	// Excluding sql serversadministrator and serversazureadonlyauthentication as they both require AAD auth
-	// which the samples recordings aren't using.
-	regexp.MustCompile(`sql/.*_serversadministrator.yaml`),
-	regexp.MustCompile(`sql/.*_serversazureadonlyauthentication.yaml`),
+	// The general SQL samples don't configure these separate AAD resources.
+	// Dedicated scenarios such as sql/aadonly_v1api20211101 do test them.
+	regexp.MustCompile(`sql/v[^/]+/.*_serversadministrator.yaml`),
+	regexp.MustCompile(`sql/v[^/]+/.*_serversazureadonlyauthentication.yaml`),
 
 	// Requires creating multiple linked SQL servers which is hard to do in the samples
 	regexp.MustCompile(`sql/.*_serversfailovergroup.yaml`),
+
+	// SQL Managed Instance takes 30-60 minutes to create and needs a delegated subnet, so it's too slow and expensive
+	// to include in the shared sql samples test. The managed instance resources are covered by dedicated CRUD tests
+	// instead. Keep the sample files present so scripts/v2/check_samples.py is satisfied.
+	regexp.MustCompile(`sql/.*_managedinstance.*\.yaml`),
+
+	// An instance failover group needs two managed instances in different regions with connected networks
+	regexp.MustCompile(`sql/.*_instancefailovergroup.yaml`),
 
 	// Excluding sql serverskey and serversencryptionprotector as they require a keyvault key URI
 	// which can't be created via ASO (no Keyvault/Keys resource support)

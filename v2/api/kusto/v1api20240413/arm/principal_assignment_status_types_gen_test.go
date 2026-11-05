@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_DatabasePrincipalProperties_STATUS_WhenSerializedToJson_DeserializesAs
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DatabasePrincipalProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDatabasePrincipalProperties_STATUS, DatabasePrincipalProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDatabasePrincipalProperties_STATUS)
 }
 
 // RunJSONSerializationTestForDatabasePrincipalProperties_STATUS runs a test to see if a specific instance of DatabasePrincipalProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDatabasePrincipalProperties_STATUS(subject DatabasePrincipalProperties_STATUS) string {
+func RunJSONSerializationTestForDatabasePrincipalProperties_STATUS(t *rapid.T) {
+	subject := DatabasePrincipalProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DatabasePrincipalProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,52 +45,39 @@ func RunJSONSerializationTestForDatabasePrincipalProperties_STATUS(subject Datab
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DatabasePrincipalProperties_STATUS instances for property testing - lazily instantiated by
 // DatabasePrincipalProperties_STATUSGenerator()
-var databasePrincipalProperties_STATUSGenerator gopter.Gen
+var databasePrincipalProperties_STATUSGenerator *rapid.Generator[DatabasePrincipalProperties_STATUS]
 
 // DatabasePrincipalProperties_STATUSGenerator returns a generator of DatabasePrincipalProperties_STATUS instances for property testing.
-func DatabasePrincipalProperties_STATUSGenerator() gopter.Gen {
+func DatabasePrincipalProperties_STATUSGenerator() *rapid.Generator[DatabasePrincipalProperties_STATUS] {
 	if databasePrincipalProperties_STATUSGenerator != nil {
 		return databasePrincipalProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabasePrincipalProperties_STATUS(generators)
-	databasePrincipalProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(DatabasePrincipalProperties_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	principalType := rapid.Ptr(rapid.SampledFrom([]DatabasePrincipalProperties_PrincipalType_STATUS{DatabasePrincipalProperties_PrincipalType_STATUS_App, DatabasePrincipalProperties_PrincipalType_STATUS_Group, DatabasePrincipalProperties_PrincipalType_STATUS_User}), true)
+	provisioningState := rapid.Ptr(rapid.SampledFrom([]ProvisioningState_STATUS{ProvisioningState_STATUS_Canceled, ProvisioningState_STATUS_Creating, ProvisioningState_STATUS_Deleting, ProvisioningState_STATUS_Failed, ProvisioningState_STATUS_Moving, ProvisioningState_STATUS_Running, ProvisioningState_STATUS_Succeeded}), true)
+	role := rapid.Ptr(rapid.SampledFrom([]DatabasePrincipalProperties_Role_STATUS{DatabasePrincipalProperties_Role_STATUS_Admin, DatabasePrincipalProperties_Role_STATUS_Ingestor, DatabasePrincipalProperties_Role_STATUS_Monitor, DatabasePrincipalProperties_Role_STATUS_UnrestrictedViewer, DatabasePrincipalProperties_Role_STATUS_User, DatabasePrincipalProperties_Role_STATUS_Viewer}), true)
+
+	databasePrincipalProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) DatabasePrincipalProperties_STATUS {
+		var result DatabasePrincipalProperties_STATUS
+		result.AadObjectId = ptrString.Draw(t, "AadObjectId")
+		result.PrincipalId = ptrString.Draw(t, "PrincipalId")
+		result.PrincipalName = ptrString.Draw(t, "PrincipalName")
+		result.PrincipalType = principalType.Draw(t, "PrincipalType")
+		result.ProvisioningState = provisioningState.Draw(t, "ProvisioningState")
+		result.Role = role.Draw(t, "Role")
+		result.TenantId = ptrString.Draw(t, "TenantId")
+		result.TenantName = ptrString.Draw(t, "TenantName")
+		return result
+	})
 
 	return databasePrincipalProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDatabasePrincipalProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDatabasePrincipalProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["AadObjectId"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalName"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalType"] = gen.PtrOf(gen.OneConstOf(DatabasePrincipalProperties_PrincipalType_STATUS_App, DatabasePrincipalProperties_PrincipalType_STATUS_Group, DatabasePrincipalProperties_PrincipalType_STATUS_User))
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUS_Canceled,
-		ProvisioningState_STATUS_Creating,
-		ProvisioningState_STATUS_Deleting,
-		ProvisioningState_STATUS_Failed,
-		ProvisioningState_STATUS_Moving,
-		ProvisioningState_STATUS_Running,
-		ProvisioningState_STATUS_Succeeded))
-	gens["Role"] = gen.PtrOf(gen.OneConstOf(
-		DatabasePrincipalProperties_Role_STATUS_Admin,
-		DatabasePrincipalProperties_Role_STATUS_Ingestor,
-		DatabasePrincipalProperties_Role_STATUS_Monitor,
-		DatabasePrincipalProperties_Role_STATUS_UnrestrictedViewer,
-		DatabasePrincipalProperties_Role_STATUS_User,
-		DatabasePrincipalProperties_Role_STATUS_Viewer))
-	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["TenantName"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_PrincipalAssignment_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -110,29 +87,23 @@ func Test_PrincipalAssignment_STATUS_WhenSerializedToJson_DeserializesAsEqual(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrincipalAssignment_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrincipalAssignment_STATUS, PrincipalAssignment_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForPrincipalAssignment_STATUS)
 }
 
 // RunJSONSerializationTestForPrincipalAssignment_STATUS runs a test to see if a specific instance of PrincipalAssignment_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrincipalAssignment_STATUS(subject PrincipalAssignment_STATUS) string {
+func RunJSONSerializationTestForPrincipalAssignment_STATUS(t *rapid.T) {
+	subject := PrincipalAssignment_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual PrincipalAssignment_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -141,46 +112,31 @@ func RunJSONSerializationTestForPrincipalAssignment_STATUS(subject PrincipalAssi
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of PrincipalAssignment_STATUS instances for property testing - lazily instantiated by
 // PrincipalAssignment_STATUSGenerator()
-var principalAssignment_STATUSGenerator gopter.Gen
+var principalAssignment_STATUSGenerator *rapid.Generator[PrincipalAssignment_STATUS]
 
 // PrincipalAssignment_STATUSGenerator returns a generator of PrincipalAssignment_STATUS instances for property testing.
-// We first initialize principalAssignment_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func PrincipalAssignment_STATUSGenerator() gopter.Gen {
+func PrincipalAssignment_STATUSGenerator() *rapid.Generator[PrincipalAssignment_STATUS] {
 	if principalAssignment_STATUSGenerator != nil {
 		return principalAssignment_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrincipalAssignment_STATUS(generators)
-	principalAssignment_STATUSGenerator = gen.Struct(reflect.TypeOf(PrincipalAssignment_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	properties := rapid.Ptr(DatabasePrincipalProperties_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrincipalAssignment_STATUS(generators)
-	AddRelatedPropertyGeneratorsForPrincipalAssignment_STATUS(generators)
-	principalAssignment_STATUSGenerator = gen.Struct(reflect.TypeOf(PrincipalAssignment_STATUS{}), generators)
+	principalAssignment_STATUSGenerator = rapid.Custom(func(t *rapid.T) PrincipalAssignment_STATUS {
+		var result PrincipalAssignment_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return principalAssignment_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrincipalAssignment_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrincipalAssignment_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForPrincipalAssignment_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrincipalAssignment_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(DatabasePrincipalProperties_STATUSGenerator())
 }

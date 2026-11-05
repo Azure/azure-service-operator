@@ -4,6 +4,7 @@
 package config
 
 import (
+	"crypto/tls"
 	"testing"
 	"time"
 
@@ -11,6 +12,24 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/pkg/common/config"
 )
+
+func Test_TLSMinVersion_DefaultsToTLS13(t *testing.T) {
+	g := NewGomegaWithT(t)
+	t.Setenv(config.TLSMinVersion, "")
+
+	cfg, err := ReadFromEnvironment()
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(cfg.TLSMinVersion).To(Equal(uint16(tls.VersionTLS13)))
+}
+
+func Test_TLSMinVersion_AllowsTLS12(t *testing.T) {
+	g := NewGomegaWithT(t)
+	t.Setenv(config.TLSMinVersion, "VersionTLS12")
+
+	cfg, err := ReadFromEnvironment()
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(cfg.TLSMinVersion).To(Equal(uint16(tls.VersionTLS12)))
+}
 
 func Test_ParseSyncPeriod_ReturnsNever(t *testing.T) {
 	g := NewGomegaWithT(t)
@@ -114,4 +133,50 @@ func Test_FederatedTokenFilePath_IncludedInString(t *testing.T) {
 	}
 	s := cfg.String()
 	g.Expect(s).To(ContainSubstring("FederatedTokenFilePath:/some/path"))
+}
+
+func Test_WorkloadIdentityAuthMode_DefaultsToRelaxed(t *testing.T) {
+	g := NewGomegaWithT(t)
+	t.Setenv(config.AzureWorkloadIdentityAuthMode, "") // Can't run in parallel
+
+	cfg, err := ReadFromEnvironment()
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(cfg.WorkloadIdentityAuthMode).To(Equal(WorkloadIdentityAuthModeRelaxed))
+}
+
+func Test_WorkloadIdentityAuthMode_ReadsSupportedValues(t *testing.T) {
+	tests := []struct {
+		value    string
+		expected WorkloadIdentityAuthMode
+	}{
+		{value: "relaxed", expected: WorkloadIdentityAuthModeRelaxed},
+		{value: "strict", expected: WorkloadIdentityAuthModeStrict},
+	}
+
+	for _, test := range tests {
+		t.Run(test.value, func(t *testing.T) {
+			g := NewGomegaWithT(t)
+			t.Setenv(config.AzureWorkloadIdentityAuthMode, test.value) // Can't run in parallel
+
+			cfg, err := ReadFromEnvironment()
+			g.Expect(err).ToNot(HaveOccurred())
+			g.Expect(cfg.WorkloadIdentityAuthMode).To(Equal(test.expected))
+		})
+	}
+}
+
+func Test_WorkloadIdentityAuthMode_RejectsUnsupportedValue(t *testing.T) {
+	g := NewGomegaWithT(t)
+	t.Setenv(config.AzureWorkloadIdentityAuthMode, "invalid") // Can't run in parallel
+
+	_, err := ReadFromEnvironment()
+	g.Expect(err).To(MatchError(ContainSubstring("invalid workload identity auth mode")))
+}
+
+func Test_WorkloadIdentityAuthMode_IsIncludedInString(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	cfg := Values{WorkloadIdentityAuthMode: WorkloadIdentityAuthModeStrict}
+	g.Expect(cfg.String()).To(ContainSubstring("WorkloadIdentityAuthMode:strict"))
 }

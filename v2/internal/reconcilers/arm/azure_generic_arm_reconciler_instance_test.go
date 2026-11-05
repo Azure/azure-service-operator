@@ -6,14 +6,23 @@
 package arm
 
 import (
+	"net/http"
 	"strings"
 	"testing"
 
 	. "github.com/onsi/gomega"
 
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
+	"github.com/go-logr/logr"
+	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
+	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
+	"github.com/Azure/azure-service-operator/v2/internal/resolver"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/retry"
 )
 
 func TestAzureDeploymentReconcilerInstance_CheckSubscription_GivenResourceID_ReturnsExpectedResult(t *testing.T) {
@@ -86,6 +95,35 @@ func TestAzureDeploymentReconcilerInstance_CheckSubscription_GivenResourceID_Ret
 			}
 		})
 	}
+}
+
+func TestAzureDeploymentReconcilerInstance_HandleDeleteFailed_NormalizesVerySlowRetry(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	scheme := runtime.NewScheme()
+	g.Expect(resources.AddToScheme(scheme)).To(Succeed())
+
+	obj := &resources.ResourceGroup{}
+	obj.SetGroupVersionKind(resources.GroupVersion.WithKind("ResourceGroup"))
+	reconciler := &azureDeploymentReconcilerInstance{
+		ARMOwnedResourceReconcilerCommon: reconcilers.ARMOwnedResourceReconcilerCommon{
+			ResourceResolver: resolver.NewResolver(NewFakeKubeClient(scheme)),
+		},
+		Obj: obj,
+		Log: logr.Discard(),
+	}
+
+	http400Error := genericarmclient.NewCloudError(&azcore.ResponseError{
+		StatusCode:  http.StatusBadRequest,
+		RawResponse: &http.Response{Header: make(http.Header)},
+	})
+
+	deleteErr := reconciler.handleDeleteFailed(http400Error)
+	readyDeleteErr, ok := conditions.AsReadyConditionImpactingError(deleteErr)
+	g.Expect(ok).To(BeTrue())
+	g.Expect(readyDeleteErr.Severity).To(Equal(conditions.ConditionSeverityWarning))
+	g.Expect(readyDeleteErr.RetryClassification).To(Equal(retry.Slow))
 }
 
 type fakeConnection struct {

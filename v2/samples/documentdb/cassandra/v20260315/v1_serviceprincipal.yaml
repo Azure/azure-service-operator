@@ -1,0 +1,15 @@
+# Azure registers this service principal when Cassandra cluster provisioning begins.
+# Adopt it and export its tenant-specific object ID for the subnet role assignments.
+apiVersion: entra.azure.com/v1
+kind: ServicePrincipal
+metadata:
+  name: cassandra-service-principal
+  namespace: default
+spec:
+  appId: a232010e-820c-4083-83bb-3ace5fc29d0b
+  operatorSpec:
+    creationMode: AdoptOnly
+    configmaps:
+      entraID:
+        name: cassandra-service-principal
+        key: objectId

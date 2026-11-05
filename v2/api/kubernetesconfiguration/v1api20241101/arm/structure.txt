@@ -124,7 +124,7 @@ Extension_Spec: Object (4 properties)
 FluxConfiguration_STATUS: Object (5 properties)
 ├── Id: *string
 ├── Name: *string
-├── Properties: *Object (19 properties)
+├── Properties: *Object (20 properties)
 │   ├── AzureBlob: *Object (7 properties)
 │   │   ├── ContainerName: *string
 │   │   ├── LocalAuthRef: *string
@@ -208,6 +208,13 @@ FluxConfiguration_STATUS: Object (5 properties)
 │   │       │   └── Subject: *string
 │   │       ├── Provider: *string
 │   │       └── VerificationConfig: map[string]string
+│   ├── ProvisioningState: *Enum (6 values)
+│   │   ├── "Canceled"
+│   │   ├── "Creating"
+│   │   ├── "Deleting"
+│   │   ├── "Failed"
+│   │   ├── "Succeeded"
+│   │   └── "Updating"
 │   ├── ReconciliationWaitDuration: *string
 │   ├── RepositoryPublicKey: *string
 │   ├── Scope: *Enum (2 values)

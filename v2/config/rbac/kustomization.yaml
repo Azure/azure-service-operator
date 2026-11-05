@@ -9,3 +9,7 @@ resources:
 - crd_reader_role_binding.yaml
 - leader_election_role.yaml
 - leader_election_role_binding.yaml
+# Kustomize has no values-based conditional rendering. The static base always includes
+# these grants.
+- workload_identity_token_creator_role.yaml
+- workload_identity_token_creator_role_binding.yaml

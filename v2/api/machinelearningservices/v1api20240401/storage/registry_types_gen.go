@@ -31,7 +31,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20240401.Registry
 // Generator information:
-// - Generated from: /machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/registries.json
+// - Generated from: /machinelearningservices/resource-manager/Microsoft.MachineLearningServices/MachineLearningServices/stable/2024-04-01/registries.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}
 type Registry struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -184,7 +184,7 @@ func (registry *Registry) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20240401.Registry
 // Generator information:
-// - Generated from: /machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/registries.json
+// - Generated from: /machinelearningservices/resource-manager/Microsoft.MachineLearningServices/MachineLearningServices/stable/2024-04-01/registries.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}
 type RegistryList struct {
 	metav1.TypeMeta `json:",inline"`

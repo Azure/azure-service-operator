@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_NamespacesAuthorizationRule_Spec_WhenSerializedToJson_DeserializesAsEq
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of NamespacesAuthorizationRule_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamespacesAuthorizationRule_Spec, NamespacesAuthorizationRule_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForNamespacesAuthorizationRule_Spec)
 }
 
 // RunJSONSerializationTestForNamespacesAuthorizationRule_Spec runs a test to see if a specific instance of NamespacesAuthorizationRule_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamespacesAuthorizationRule_Spec(subject NamespacesAuthorizationRule_Spec) string {
+func RunJSONSerializationTestForNamespacesAuthorizationRule_Spec(t *rapid.T) {
+	subject := NamespacesAuthorizationRule_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual NamespacesAuthorizationRule_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,50 +45,37 @@ func RunJSONSerializationTestForNamespacesAuthorizationRule_Spec(subject Namespa
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of NamespacesAuthorizationRule_Spec instances for property testing - lazily instantiated by
 // NamespacesAuthorizationRule_SpecGenerator()
-var namespacesAuthorizationRule_SpecGenerator gopter.Gen
+var namespacesAuthorizationRule_SpecGenerator *rapid.Generator[NamespacesAuthorizationRule_Spec]
 
 // NamespacesAuthorizationRule_SpecGenerator returns a generator of NamespacesAuthorizationRule_Spec instances for property testing.
-// We first initialize namespacesAuthorizationRule_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func NamespacesAuthorizationRule_SpecGenerator() gopter.Gen {
+func NamespacesAuthorizationRule_SpecGenerator() *rapid.Generator[NamespacesAuthorizationRule_Spec] {
 	if namespacesAuthorizationRule_SpecGenerator != nil {
 		return namespacesAuthorizationRule_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespacesAuthorizationRule_Spec(generators)
-	namespacesAuthorizationRule_SpecGenerator = gen.Struct(reflect.TypeOf(NamespacesAuthorizationRule_Spec{}), generators)
+	location := rapid.Ptr(rapid.String(), true)
+	name := rapid.String()
+	properties := rapid.Ptr(SharedAccessAuthorizationRulePropertiesGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespacesAuthorizationRule_Spec(generators)
-	AddRelatedPropertyGeneratorsForNamespacesAuthorizationRule_Spec(generators)
-	namespacesAuthorizationRule_SpecGenerator = gen.Struct(reflect.TypeOf(NamespacesAuthorizationRule_Spec{}), generators)
+	namespacesAuthorizationRule_SpecGenerator = rapid.Custom(func(t *rapid.T) NamespacesAuthorizationRule_Spec {
+		var result NamespacesAuthorizationRule_Spec
+		result.Location = location.Draw(t, "Location")
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Tags = tags.Draw(t, "Tags")
+		return result
+	})
 
 	return namespacesAuthorizationRule_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForNamespacesAuthorizationRule_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNamespacesAuthorizationRule_Spec(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForNamespacesAuthorizationRule_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNamespacesAuthorizationRule_Spec(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(SharedAccessAuthorizationRulePropertiesGenerator())
 }
 
 func Test_SharedAccessAuthorizationRuleProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -108,29 +85,23 @@ func Test_SharedAccessAuthorizationRuleProperties_WhenSerializedToJson_Deseriali
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SharedAccessAuthorizationRuleProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSharedAccessAuthorizationRuleProperties, SharedAccessAuthorizationRulePropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSharedAccessAuthorizationRuleProperties)
 }
 
 // RunJSONSerializationTestForSharedAccessAuthorizationRuleProperties runs a test to see if a specific instance of SharedAccessAuthorizationRuleProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForSharedAccessAuthorizationRuleProperties(subject SharedAccessAuthorizationRuleProperties) string {
+func RunJSONSerializationTestForSharedAccessAuthorizationRuleProperties(t *rapid.T) {
+	subject := SharedAccessAuthorizationRulePropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SharedAccessAuthorizationRuleProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -139,30 +110,27 @@ func RunJSONSerializationTestForSharedAccessAuthorizationRuleProperties(subject 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SharedAccessAuthorizationRuleProperties instances for property testing - lazily instantiated by
 // SharedAccessAuthorizationRulePropertiesGenerator()
-var sharedAccessAuthorizationRulePropertiesGenerator gopter.Gen
+var sharedAccessAuthorizationRulePropertiesGenerator *rapid.Generator[SharedAccessAuthorizationRuleProperties]
 
 // SharedAccessAuthorizationRulePropertiesGenerator returns a generator of SharedAccessAuthorizationRuleProperties instances for property testing.
-func SharedAccessAuthorizationRulePropertiesGenerator() gopter.Gen {
+func SharedAccessAuthorizationRulePropertiesGenerator() *rapid.Generator[SharedAccessAuthorizationRuleProperties] {
 	if sharedAccessAuthorizationRulePropertiesGenerator != nil {
 		return sharedAccessAuthorizationRulePropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSharedAccessAuthorizationRuleProperties(generators)
-	sharedAccessAuthorizationRulePropertiesGenerator = gen.Struct(reflect.TypeOf(SharedAccessAuthorizationRuleProperties{}), generators)
+	rights := rapid.SliceOf(rapid.SampledFrom([]AccessRights{AccessRights_Listen, AccessRights_Manage, AccessRights_Send}))
+
+	sharedAccessAuthorizationRulePropertiesGenerator = rapid.Custom(func(t *rapid.T) SharedAccessAuthorizationRuleProperties {
+		var result SharedAccessAuthorizationRuleProperties
+		result.Rights = rights.Draw(t, "Rights")
+		return result
+	})
 
 	return sharedAccessAuthorizationRulePropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSharedAccessAuthorizationRuleProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSharedAccessAuthorizationRuleProperties(gens map[string]gopter.Gen) {
-	gens["Rights"] = gen.SliceOf(gen.OneConstOf(AccessRights_Listen, AccessRights_Manage, AccessRights_Send))
 }

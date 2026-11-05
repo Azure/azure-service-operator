@@ -391,28 +391,6 @@ type ServersDatabaseOperatorSpec struct {
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
-// Storage version of v20250101.Sku
-// An ARM Resource SKU.
-type Sku struct {
-	Capacity    *int                   `json:"capacity,omitempty"`
-	Family      *string                `json:"family,omitempty"`
-	Name        *string                `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Size        *string                `json:"size,omitempty"`
-	Tier        *string                `json:"tier,omitempty"`
-}
-
-// Storage version of v20250101.Sku_STATUS
-// An ARM Resource SKU.
-type Sku_STATUS struct {
-	Capacity    *int                   `json:"capacity,omitempty"`
-	Family      *string                `json:"family,omitempty"`
-	Name        *string                `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Size        *string                `json:"size,omitempty"`
-	Tier        *string                `json:"tier,omitempty"`
-}
-
 // Storage version of v20250101.DatabaseUserIdentity_STATUS
 // Azure Active Directory identity configuration for a resource.
 type DatabaseUserIdentity_STATUS struct {

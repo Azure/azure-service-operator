@@ -60,18 +60,3 @@ var transparentDataEncryptionScanState_Values = map[string]TransparentDataEncryp
 	"running":   TransparentDataEncryptionScanState_Running,
 	"suspend":   TransparentDataEncryptionScanState_Suspend,
 }
-
-// Specifies the state of the transparent data encryption.
-// +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type TransparentDataEncryptionState string
-
-const (
-	TransparentDataEncryptionState_Disabled = TransparentDataEncryptionState("Disabled")
-	TransparentDataEncryptionState_Enabled  = TransparentDataEncryptionState("Enabled")
-)
-
-// Mapping from string to TransparentDataEncryptionState
-var transparentDataEncryptionState_Values = map[string]TransparentDataEncryptionState{
-	"disabled": TransparentDataEncryptionState_Disabled,
-	"enabled":  TransparentDataEncryptionState_Enabled,
-}

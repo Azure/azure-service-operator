@@ -37,14 +37,6 @@ func (server *Server_Spec) GetType() string {
 	return "Microsoft.Sql/servers"
 }
 
-// Azure Active Directory identity configuration for a resource.
-type ResourceIdentity struct {
-	// Type: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active
-	// Directory principal for the resource.
-	Type                   *IdentityType                          `json:"type,omitempty"`
-	UserAssignedIdentities map[string]UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
-}
-
 // The properties of a server.
 type ServerProperties struct {
 	// AdministratorLogin: Administrator username for the server. Once created it cannot be changed.
@@ -90,26 +82,6 @@ type ServerProperties struct {
 
 	// Version: The version of the server.
 	Version *string `json:"version,omitempty"`
-}
-
-// The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory
-// principal for the resource.
-// +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned,UserAssigned","UserAssigned"}
-type IdentityType string
-
-const (
-	IdentityType_None                       = IdentityType("None")
-	IdentityType_SystemAssigned             = IdentityType("SystemAssigned")
-	IdentityType_SystemAssignedUserAssigned = IdentityType("SystemAssigned,UserAssigned")
-	IdentityType_UserAssigned               = IdentityType("UserAssigned")
-)
-
-// Mapping from string to IdentityType
-var identityType_Values = map[string]IdentityType{
-	"none":                        IdentityType_None,
-	"systemassigned":              IdentityType_SystemAssigned,
-	"systemassigned,userassigned": IdentityType_SystemAssignedUserAssigned,
-	"userassigned":                IdentityType_UserAssigned,
 }
 
 // Minimal TLS version. Allowed values: 'None', 1.0', '1.1', '1.2', '1.3'
@@ -203,25 +175,4 @@ var serverPublicNetworkAccessFlag_Values = map[string]ServerPublicNetworkAccessF
 	"disabled":           ServerPublicNetworkAccessFlag_Disabled,
 	"enabled":            ServerPublicNetworkAccessFlag_Enabled,
 	"securedbyperimeter": ServerPublicNetworkAccessFlag_SecuredByPerimeter,
-}
-
-// Information about the user assigned identity for the resource
-type UserAssignedIdentityDetails struct {
-}
-
-// Principal Type of the sever administrator.
-// +kubebuilder:validation:Enum={"Application","Group","User"}
-type PrincipalType string
-
-const (
-	PrincipalType_Application = PrincipalType("Application")
-	PrincipalType_Group       = PrincipalType("Group")
-	PrincipalType_User        = PrincipalType("User")
-)
-
-// Mapping from string to PrincipalType
-var principalType_Values = map[string]PrincipalType{
-	"application": PrincipalType_Application,
-	"group":       PrincipalType_Group,
-	"user":        PrincipalType_User,
 }
