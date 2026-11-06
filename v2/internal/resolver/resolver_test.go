@@ -416,7 +416,7 @@ func Test_ResolveResourceHierarchy_ReturnsReferenceNotFound(t *testing.T) {
 func Test_ResolveResourceHierarchy_SelfReferentialOwner_ReturnsError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
-	ctx := context.TODO()
+	ctx := t.Context()
 
 	test, err := testSetup()
 	g.Expect(err).ToNot(HaveOccurred())
@@ -433,7 +433,7 @@ func Test_ResolveResourceHierarchy_SelfReferentialOwner_ReturnsError(t *testing.
 func Test_ResolveResourceHierarchy_MultiResourceOwnerCycle_ReturnsError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
-	ctx := context.TODO()
+	ctx := t.Context()
 
 	test, err := testSetup()
 	g.Expect(err).ToNot(HaveOccurred())
