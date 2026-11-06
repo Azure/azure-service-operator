@@ -92,18 +92,36 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
         if: steps.check-changes.outputs.code-changed == 'true'
 
-      # Note: Changes to this step must also be mirrored into pr-validation-with-secrets.yaml
+      - name: Check devcontainer inputs
+        id: check-devcontainer
+        run: |
+          changed_files=$(git diff --name-only origin/main...HEAD -- Taskfile.yml .devcontainer/)
+          if [ -n "$changed_files" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+        if: steps.check-changes.outputs.code-changed == 'true'
+
       - name: Build devcontainer image
         run: |
           docker build --cache-from ghcr.io/azure/azure-service-operator/aso-devcontainer:latest --tag devcontainer:latest -f .devcontainer/Dockerfile .
         env:
           DOCKER_BUILDKIT: 1
-        if: steps.check-changes.outputs.code-changed == 'true'
+        if: steps.check-devcontainer.outputs.changed == 'true'
+
+      - name: Pull devcontainer image
+        run: docker pull ghcr.io/azure/azure-service-operator/aso-devcontainer:latest
+        if: steps.check-changes.outputs.code-changed == 'true' && steps.check-devcontainer.outputs.changed == 'false'
 
       - name: Run devcontainer image
         id: devcontainer
         run: |
-          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock --network=host devcontainer:latest)
+          image=ghcr.io/azure/azure-service-operator/aso-devcontainer:latest
+          if [ "${{ steps.check-devcontainer.outputs.changed }}" = "true" ]; then
+            image=devcontainer:latest
+          fi
+          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock --network=host "$image")
           docker start "$container_id"
           echo "container_id=$container_id" >> $GITHUB_ENV
         if: steps.check-changes.outputs.code-changed == 'true'
@@ -334,18 +352,14 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
         if: steps.check-changes.outputs.code-changed == 'true'
 
-      # Note: Changes to this step must also be mirror into pr-validation.yaml
-      - name: Build devcontainer image
-        run: |
-          docker build --cache-from ghcr.io/azure/azure-service-operator/aso-devcontainer:latest --tag devcontainer:latest -f .devcontainer/Dockerfile .
-        env:
-          DOCKER_BUILDKIT: 1
+      - name: Pull devcontainer image
+        run: docker pull ghcr.io/azure/azure-service-operator/aso-devcontainer:latest
         if: steps.check-changes.outputs.code-changed == 'true'
 
       - name: Run devcontainer image
         id: devcontainer
         run: |
-          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock --network=host devcontainer:latest)
+          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock --network=host ghcr.io/azure/azure-service-operator/aso-devcontainer:latest)
           docker start "$container_id"
           echo "container_id=$container_id" >> $GITHUB_ENV
         if: steps.check-changes.outputs.code-changed == 'true'
