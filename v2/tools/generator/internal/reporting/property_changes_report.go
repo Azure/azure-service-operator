@@ -92,6 +92,30 @@ func (r *PropertyChangesReport) WriteTo(writer io.Writer) error {
 		return err
 	}
 
+	packages := summaryPackages(resourceRows)
+	if len(packages) > 1 {
+		thisPackage := packageLabel(packages[0])
+		nextPackages := make([]string, 0, len(packages)-1)
+		for _, pkg := range packages[1:] {
+			nextPackages = append(nextPackages, packageLabel(pkg))
+		}
+
+		nextPackage := strings.Join(nextPackages, ", ")
+		if len(r.header) > 0 {
+			rpt.AddLines("")
+		}
+
+		rpt.AddLines(
+			fmt.Sprintf("# Property Changes between %s and %s", thisPackage, nextPackage),
+			"",
+			fmt.Sprintf(
+				"Results of a shallow (non-recursive) comparison of types between this package (%s) and %s.",
+				thisPackage,
+				nextPackage,
+			),
+		)
+	}
+
 	rpt.AddHeading("Resources")
 	r.writeSummaryTable(rpt, resourceRows)
 

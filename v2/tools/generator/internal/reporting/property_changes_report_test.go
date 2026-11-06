@@ -112,6 +112,10 @@ func Test_PropertyChangesReport_GivenStoragePackagesAndAddedProperties_ShowsLabe
 		func(astmodel.InternalTypeName, astmodel.PropertyName) (string, bool) { return "", false },
 	)
 	g.Expect(rpt.WriteTo(&content)).To(gomega.Succeed())
+	g.Expect(content.String()).To(gomega.HavePrefix(
+		"# Property Changes between v20200101/storage and v20211231/storage\n\n" +
+			"Results of a shallow (non-recursive) comparison of types between this package (v20200101/storage) and v20211231/storage.\n",
+	))
 	g.Expect(content.String()).To(gomega.ContainSubstring("v20200101/storage"))
 	g.Expect(content.String()).To(gomega.ContainSubstring("v20211231/storage"))
 	g.Expect(content.String()).To(gomega.ContainSubstring("Extended"))
@@ -153,6 +157,10 @@ func Test_PropertyChangesReport_GivenMultipleTargets_UsesSparseVersionColumns(t 
 		func(astmodel.InternalTypeName, astmodel.PropertyName) (string, bool) { return "", false },
 	)
 	g.Expect(rpt.WriteTo(&content)).To(gomega.Succeed())
+	g.Expect(content.String()).To(gomega.HavePrefix(
+		"# Property Changes between v20200101/storage and v20211231/storage, v20220630/storage\n\n" +
+			"Results of a shallow (non-recursive) comparison of types between this package (v20200101/storage) and v20211231/storage, v20220630/storage.\n",
+	))
 	g.Expect(content.String()).To(gomega.ContainSubstring(
 		"| v20200101/storage | v20211231/storage | v20220630/storage |  Status",
 	))
