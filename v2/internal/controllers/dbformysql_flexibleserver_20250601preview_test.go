@@ -43,13 +43,13 @@ func Test_DBForMySQL_FlexibleServer_20250601preview_CRUD(t *testing.T) {
 	old := flexibleServer.DeepCopy()
 	disabled := mysql.Backup_GeoRedundantBackup_Disabled
 	flexibleServer.Spec.Backup = &mysql.Backup{
-		BackupRetentionDays: to.Ptr(5),
+		BackupRetentionDays: new(5),
 		GeoRedundantBackup:  &disabled,
 	}
 	tc.PatchResourceAndWait(old, flexibleServer)
 	tc.Expect(flexibleServer.Status.Backup).ToNot(BeNil())
 	tc.T.Log(pretty.Sprint(flexibleServer.Status.Backup))
-	tc.Expect(flexibleServer.Status.Backup.BackupRetentionDays).To(Equal(to.Ptr(5)))
+	tc.Expect(flexibleServer.Status.Backup.BackupRetentionDays).To(Equal(new(5)))
 
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
@@ -92,17 +92,17 @@ func newFlexibleServer20250601preview(
 	flexibleServer := &mysql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("mysql"),
 		Spec: mysql.FlexibleServer_Spec{
-			Location: to.Ptr("ukwest"),
+			Location: new("ukwest"),
 			Owner:    testcommon.AsOwner(rg),
 			Version:  &version,
 			Sku: &mysql.MySQLServerSku{
-				Name: to.Ptr("Standard_D4ds_v4"),
+				Name: new("Standard_D4ds_v4"),
 				Tier: &tier,
 			},
-			AdministratorLogin:         to.Ptr("myadmin"),
+			AdministratorLogin:         new("myadmin"),
 			AdministratorLoginPassword: &adminPasswordSecretRef,
 			Storage: &mysql.Storage{
-				StorageSizeGB: to.Ptr(128),
+				StorageSizeGB: new(128),
 			},
 			OperatorSpec: &mysql.FlexibleServerOperatorSpec{
 				Secrets: &mysql.FlexibleServerOperatorSecrets{
@@ -122,7 +122,7 @@ func MySQLFlexibleServer_Database_20250601preview_CRUD(tc *testcommon.KubePerTes
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("db")),
 		Spec: mysql.FlexibleServersDatabase_Spec{
 			Owner:   testcommon.AsOwner(flexibleServer),
-			Charset: to.Ptr("utf8mb4"),
+			Charset: new("utf8mb4"),
 		},
 	}
 	tc.CreateResourceAndWait(database)
@@ -136,8 +136,8 @@ func MySQLFlexibleServer_FirewallRule_20250601preview_CRUD(tc *testcommon.KubePe
 		ObjectMeta: tc.MakeObjectMeta("fwrule"),
 		Spec: mysql.FlexibleServersFirewallRule_Spec{
 			Owner:          testcommon.AsOwner(flexibleServer),
-			StartIpAddress: to.Ptr("1.2.3.4"),
-			EndIpAddress:   to.Ptr("1.2.3.4"),
+			StartIpAddress: new("1.2.3.4"),
+			EndIpAddress:   new("1.2.3.4"),
 		},
 	}
 
@@ -145,9 +145,9 @@ func MySQLFlexibleServer_FirewallRule_20250601preview_CRUD(tc *testcommon.KubePe
 	defer tc.DeleteResourceAndWait(rule)
 
 	old := rule.DeepCopy()
-	rule.Spec.EndIpAddress = to.Ptr("1.2.3.5")
+	rule.Spec.EndIpAddress = new("1.2.3.5")
 	tc.PatchResourceAndWait(old, rule)
-	tc.Expect(rule.Status.EndIpAddress).To(Equal(to.Ptr("1.2.3.5")))
+	tc.Expect(rule.Status.EndIpAddress).To(Equal(new("1.2.3.5")))
 
 	// The GET responses are coming back from the RP with no ARM ID -
 	// this seems invalid per the ARM spec.
@@ -162,7 +162,7 @@ func MySQLFlexibleServer_Configuration_20250601preview_CRUD(tc *testcommon.KubeP
 			AzureName: "max_connections",
 			Owner:     testcommon.AsOwner(flexibleServer),
 			Source:    to.Ptr(mysql.ConfigurationSource_UserOverride),
-			Value:     to.Ptr("20"),
+			Value:     new("20"),
 		},
 	}
 

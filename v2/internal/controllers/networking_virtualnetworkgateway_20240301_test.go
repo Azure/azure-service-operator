@@ -11,7 +11,6 @@ import (
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_Networking_VirtualNetworkGateway_20240301_CRUD(t *testing.T) {
@@ -30,7 +29,7 @@ func Test_Networking_VirtualNetworkGateway_20240301_CRUD(t *testing.T) {
 		ObjectMeta: tc.MakeObjectMetaWithName("gatewaysubnet"),
 		Spec: network.VirtualNetworksSubnet_Spec{
 			Owner:         testcommon.AsOwner(vnet),
-			AddressPrefix: to.Ptr("10.0.0.0/24"),
+			AddressPrefix: new("10.0.0.0/24"),
 		},
 	}
 
@@ -54,7 +53,7 @@ func newVnetGateway20240301(tc *testcommon.KubePerTestContext, publicIPAddress *
 		Spec: network.VirtualNetworkGateway_Spec{
 			GatewayType: &gatewayType,
 			IpConfigurations: []network.VirtualNetworkGatewayIPConfiguration{{
-				Name: to.Ptr("config1"),
+				Name: new("config1"),
 				PublicIPAddress: &network.SubResource{
 					Reference: tc.MakeReferenceFromResource(publicIPAddress),
 				},

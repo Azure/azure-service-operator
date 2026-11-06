@@ -17,7 +17,6 @@ import (
 	batch "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -137,7 +136,7 @@ func createResourceGroup(
 			Namespace: namespace,
 		},
 		Spec: resources.ResourceGroup_Spec{
-			Location:  to.Ptr("West US"),
+			Location:  new("West US"),
 			AzureName: name,
 		},
 	}

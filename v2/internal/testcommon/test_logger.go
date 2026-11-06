@@ -45,7 +45,7 @@ func NewTestLogger(t *testing.T) logr.Logger {
 // TestLogger is a logr.Logger wrapper around t.Log, so that we can use it in the controller
 type TestLogger struct {
 	t      *testing.T
-	values []interface{}
+	values []any
 
 	enabled bool
 	name    string
@@ -59,9 +59,9 @@ func (*TestLogger) Init(info logr.RuntimeInfo) {
 
 // kvListFormat was adapted from the klog method of the same name and formats a keysAndValues list into
 // a sequence of "key"="value" pairs.
-func kvListFormat(b *bytes.Buffer, keysAndValues ...interface{}) {
+func kvListFormat(b *bytes.Buffer, keysAndValues ...any) {
 	for i := 0; i < len(keysAndValues); i += 2 {
-		var v interface{}
+		var v any
 		k := keysAndValues[i]
 		if i+1 < len(keysAndValues) {
 			v = keysAndValues[i+1]
@@ -129,7 +129,7 @@ func (t *TestLogger) handlePanic() {
 	}
 }
 
-func (t *TestLogger) Info(level int, msg string, keysAndValues ...interface{}) {
+func (t *TestLogger) Info(level int, msg string, keysAndValues ...any) {
 	defer t.handlePanic()
 
 	if t.Enabled(level) {
@@ -149,7 +149,7 @@ func (t *TestLogger) Enabled(_level int) bool {
 	return t.enabled
 }
 
-func (t *TestLogger) Error(err error, msg string, keysAndValues ...interface{}) {
+func (t *TestLogger) Error(err error, msg string, keysAndValues ...any) {
 	defer t.handlePanic()
 
 	if t.Enabled(0) {
@@ -172,7 +172,7 @@ func (t *TestLogger) V(level int) logr.Logger {
 	return logr.New(result)
 }
 
-func (t *TestLogger) WithValues(keysAndValues ...interface{}) logr.LogSink {
+func (t *TestLogger) WithValues(keysAndValues ...any) logr.LogSink {
 	result := t.clone()
 	result.values = append(result.values, keysAndValues...)
 

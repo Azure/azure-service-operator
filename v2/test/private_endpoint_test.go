@@ -16,7 +16,6 @@ import (
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
@@ -44,7 +43,7 @@ func Test_Networking_PrivateEndpoint_WithoutAutoApproval_CRUD(t *testing.T) {
 			Owner:    testcommon.AsOwner(rg),
 			ManualPrivateLinkServiceConnections: []network.PrivateLinkServiceConnection{
 				{
-					Name: to.Ptr("testEndpoint"),
+					Name: new("testEndpoint"),
 					PrivateLinkServiceReference: &genruntime.WellKnownResourceReference{
 						ResourceReference: *tc.MakeReferenceFromResource(sa),
 					},
@@ -91,7 +90,7 @@ func newVMSubnet(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResou
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
 		Spec: networkvnet.VirtualNetworksSubnet_Spec{
 			Owner:         owner,
-			AddressPrefix: to.Ptr("10.0.0.0/24"),
+			AddressPrefix: new("10.0.0.0/24"),
 		},
 	}
 }

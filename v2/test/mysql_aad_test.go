@@ -93,9 +93,9 @@ func Test_MySQL_AADUser(t *testing.T) {
 		Spec: mysql20220101.FlexibleServersAdministrator_Spec{
 			Owner:             testcommon.AsOwner(server),
 			AdministratorType: to.Ptr(mysql20220101.AdministratorProperties_AdministratorType_ActiveDirectory),
-			Login:             to.Ptr(identityName),
-			TenantId:          to.Ptr(tc.AzureTenant),
-			Sid:               to.Ptr(identityClientID),
+			Login:             new(identityName),
+			TenantId:          new(tc.AzureTenant),
+			Sid:               new(identityClientID),
 			IdentityResourceReference: &genruntime.ResourceReference{
 				ARMID: identityARMID,
 			},

@@ -196,7 +196,6 @@ func (c *Cleaner) updateStorageVersions(
 
 func (c *Cleaner) migrateObjects(ctx context.Context, objectsToMigrate *unstructured.UnstructuredList) error {
 	for _, obj := range objectsToMigrate.Items {
-		obj := obj
 		if c.dryRun {
 			c.log.Info(
 				"Would migrate resource",

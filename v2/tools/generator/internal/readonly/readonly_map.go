@@ -5,7 +5,11 @@
 
 package readonly
 
-import "golang.org/x/exp/maps"
+import (
+	maps0 "maps"
+
+	"golang.org/x/exp/maps"
+)
 
 type Map[K comparable, V any] struct {
 	inner map[K]V
@@ -51,9 +55,7 @@ func (m Map[K, V]) Clone() map[K]V {
 // maps.Clone doesn’t work correctly, see: https://github.com/golang/go/issues/53087
 func Clone[K comparable, V any](m map[K]V) map[K]V {
 	r := make(map[K]V, len(m))
-	for k, v := range m {
-		r[k] = v
-	}
+	maps0.Copy(r, m)
 	return r
 }
 

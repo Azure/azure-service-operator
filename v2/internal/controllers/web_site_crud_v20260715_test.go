@@ -28,7 +28,7 @@ func Test_Web_Site_v20260715_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Flex Consumption is only available in a subset of regions.
-	tc.AzureRegion = to.Ptr("northeurope")
+	tc.AzureRegion = new("northeurope")
 
 	// Flex Consumption function apps deploy their package from a blob container, authenticated
 	// with a user-assigned identity that has data access to the storage account.
@@ -41,7 +41,7 @@ func Test_Web_Site_v20260715_CRUD(t *testing.T) {
 			Kind:                  to.Ptr(storage.StorageAccount_Kind_Spec_StorageV2),
 			Sku:                   &storage.Sku{Name: to.Ptr(storage.SkuName_Standard_LRS)},
 			AccessTier:            to.Ptr(storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot),
-			AllowBlobPublicAccess: to.Ptr(false),
+			AllowBlobPublicAccess: new(false),
 		},
 	}
 
@@ -95,11 +95,11 @@ func Test_Web_Site_v20260715_CRUD(t *testing.T) {
 	site := &v20260715.Site{
 		ObjectMeta: tc.MakeObjectMeta("function"),
 		Spec: v20260715.Site_Spec{
-			Enabled:             to.Ptr(true),
+			Enabled:             new(true),
 			Owner:               testcommon.AsOwner(rg),
 			Location:            tc.AzureRegion,
-			Kind:                to.Ptr("functionapp,linux"),
-			HttpsOnly:           to.Ptr(true),
+			Kind:                new("functionapp,linux"),
+			HttpsOnly:           new(true),
 			ServerFarmReference: tc.MakeReferenceFromResource(serverFarm),
 			Identity: &v20260715.ManagedServiceIdentity{
 				Type: to.Ptr(v20260715.ManagedServiceIdentityType_UserAssigned),
@@ -109,16 +109,16 @@ func Test_Web_Site_v20260715_CRUD(t *testing.T) {
 			},
 			SiteConfig: &v20260715.SiteConfig{
 				AppSettings: []v20260715.NameValuePair{
-					{Name: to.Ptr("AzureWebJobsStorage__accountName"), Value: to.Ptr(acct.AzureName())},
-					{Name: to.Ptr("AzureWebJobsStorage__credential"), Value: to.Ptr("managedidentity")},
-					{Name: to.Ptr("AzureWebJobsStorage__clientId"), Value: mi.Status.ClientId},
+					{Name: new("AzureWebJobsStorage__accountName"), Value: new(acct.AzureName())},
+					{Name: new("AzureWebJobsStorage__credential"), Value: new("managedidentity")},
+					{Name: new("AzureWebJobsStorage__clientId"), Value: mi.Status.ClientId},
 				},
 			},
 			FunctionAppConfig: &v20260715.FunctionAppConfig{
 				Deployment: &v20260715.FunctionsDeployment{
 					Storage: &v20260715.FunctionsDeploymentStorage{
 						Type:  to.Ptr(v20260715.FunctionsDeploymentStorageType_BlobContainer),
-						Value: to.Ptr(deploymentStorageURL),
+						Value: new(deploymentStorageURL),
 						Authentication: &v20260715.FunctionsDeploymentStorageAuthentication{
 							Type:                                  to.Ptr(v20260715.AuthenticationType_UserAssignedIdentity),
 							UserAssignedIdentityResourceReference: tc.MakeReferenceFromResource(mi),
@@ -127,11 +127,11 @@ func Test_Web_Site_v20260715_CRUD(t *testing.T) {
 				},
 				Runtime: &v20260715.FunctionsRuntime{
 					Name:    to.Ptr(v20260715.RuntimeName_DotnetIsolated),
-					Version: to.Ptr("8.0"),
+					Version: new("8.0"),
 				},
 				ScaleAndConcurrency: &v20260715.FunctionsScaleAndConcurrency{
-					InstanceMemoryMB:     to.Ptr(2048),
-					MaximumInstanceCount: to.Ptr(100),
+					InstanceMemoryMB:     new(2048),
+					MaximumInstanceCount: new(100),
 				},
 			},
 		},
@@ -145,9 +145,9 @@ func Test_Web_Site_v20260715_CRUD(t *testing.T) {
 
 	armId := *site.Status.Id
 	old := site.DeepCopy()
-	site.Spec.Enabled = to.Ptr(false)
+	site.Spec.Enabled = new(false)
 	tc.PatchResourceAndWait(old, site)
-	tc.Expect(site.Status.Enabled).To(gomega.Equal(to.Ptr(false)))
+	tc.Expect(site.Status.Enabled).To(gomega.Equal(new(false)))
 
 	tc.DeleteResourceAndWait(site)
 

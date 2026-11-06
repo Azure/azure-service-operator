@@ -13,7 +13,6 @@ import (
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -31,7 +30,7 @@ func Test_MachineLearning_Workspaces_CRUD(t *testing.T) {
 	}
 	tc := globalTestContext.ForTest(t)
 
-	tc.AzureRegion = to.Ptr("westus3")
+	tc.AzureRegion = new("westus3")
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	sa := newStorageAccount(tc, rg)
@@ -97,10 +96,10 @@ func newWorkspace(tc *testcommon.KubePerTestContext, owner *genruntime.KnownReso
 			Location: location,
 			Owner:    owner,
 			Sku: &machinelearningservices.Sku{
-				Name: to.Ptr("Standard_S1"),
-				Tier: to.Ptr("Basic"),
+				Name: new("Standard_S1"),
+				Tier: new("Basic"),
 			},
-			AllowPublicAccessWhenBehindVnet: to.Ptr(false),
+			AllowPublicAccessWhenBehindVnet: new(false),
 			Identity: &machinelearningservices.Identity{
 				Type: &identityType,
 			},
@@ -119,10 +118,10 @@ func WorkspaceConnection_CRUD(tc *testcommon.KubePerTestContext, workspaces *mac
 		ObjectMeta: tc.MakeObjectMeta("conn"),
 		Spec: machinelearningservices.WorkspacesConnection_Spec{
 			Owner:       testcommon.AsOwner(workspaces),
-			AuthType:    to.Ptr("PAT"),
-			Category:    to.Ptr("ACR"),
-			Target:      to.Ptr("www.microsoft.com"),
-			Value:       to.Ptr(jsonValue),
+			AuthType:    new("PAT"),
+			Category:    new("ACR"),
+			Target:      new("www.microsoft.com"),
+			Value:       new(jsonValue),
 			ValueFormat: &valueFormat,
 		},
 	}
@@ -173,21 +172,21 @@ func newWorkspacesCompute(tc *testcommon.KubePerTestContext, owner *genruntime.K
 			Location: tc.AzureRegion,
 			Owner:    owner,
 			Sku: &machinelearningservices.Sku{
-				Name: to.Ptr("Standard_S1"),
-				Tier: to.Ptr("Basic"),
+				Name: new("Standard_S1"),
+				Tier: new("Basic"),
 			},
 			Properties: &machinelearningservices.Compute{
 				VirtualMachine: &machinelearningservices.VirtualMachine{
 					ComputeLocation:   tc.AzureRegion,
 					ComputeType:       &computeType,
-					DisableLocalAuth:  to.Ptr(true),
+					DisableLocalAuth:  new(true),
 					ResourceReference: tc.MakeReferenceFromResource(vm),
 					Properties: &machinelearningservices.VirtualMachine_Properties{
 						AdministratorAccount: &machinelearningservices.VirtualMachineSshCredentials{
 							Password: &secret,
-							Username: to.Ptr("bloom"),
+							Username: new("bloom"),
 						},
-						SshPort: to.Ptr(22),
+						SshPort: new(22),
 					},
 				},
 			},
@@ -205,7 +204,7 @@ func newVMNetworkInterfaceWithPublicIP(tc *testcommon.KubePerTestContext, owner 
 			Location: tc.AzureRegion,
 			IpConfigurations: []network.NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded{
 				{
-					Name:                      to.Ptr("ipconfig1"),
+					Name:                      new("ipconfig1"),
 					PrivateIPAllocationMethod: &dynamic,
 					Subnet: &network.Subnet_NetworkInterface_SubResourceEmbedded{
 						Reference: tc.MakeReferenceFromResource(subnet),
@@ -244,14 +243,14 @@ func newNetworkSecurityGroupRule(tc *testcommon.KubePerTestContext, owner *genru
 		Spec: network.NetworkSecurityGroupsSecurityRule_Spec{
 			Owner:                    owner,
 			Protocol:                 &protocol,
-			SourcePortRange:          to.Ptr("*"),
-			DestinationPortRange:     to.Ptr("22"),
-			SourceAddressPrefix:      to.Ptr("*"),
-			DestinationAddressPrefix: to.Ptr("*"),
+			SourcePortRange:          new("*"),
+			DestinationPortRange:     new("22"),
+			SourceAddressPrefix:      new("*"),
+			DestinationAddressPrefix: new("*"),
 			Access:                   &allow,
-			Priority:                 to.Ptr(101),
+			Priority:                 new(101),
 			Direction:                &direction,
-			Description:              to.Ptr("The first rule of networking is don't talk about networking"),
+			Description:              new("The first rule of networking is don't talk about networking"),
 		},
 	}
 }

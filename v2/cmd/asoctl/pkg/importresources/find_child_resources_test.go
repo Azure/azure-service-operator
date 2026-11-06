@@ -44,7 +44,6 @@ func Test_FindChildResources_GivenParentResource_ReturnsExpectedChildResources(t
 	}
 
 	for name, c := range cases {
-		c := c
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)

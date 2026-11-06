@@ -15,7 +15,6 @@ import (
 
 	signalrservice "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20240301"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -38,27 +37,27 @@ func Test_SignalRService_SignalR_20240301_CRUD(t *testing.T) {
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &signalrservice.ResourceSku{
-				Capacity: to.Ptr(1),
-				Name:     to.Ptr("Premium_P1"),
+				Capacity: new(1),
+				Name:     new("Premium_P1"),
 			},
 			Identity: &signalrservice.ManagedIdentity{
 				Type: &systemAssigned,
 			},
 			Tls: &signalrservice.SignalRTlsSettings{
-				ClientCertEnabled: to.Ptr(false),
+				ClientCertEnabled: new(false),
 			},
 			Features: []signalrservice.SignalRFeature{{
 				Flag:  &serviceModeFlag,
-				Value: to.Ptr("Classic"),
+				Value: new("Classic"),
 			}, {
 				Flag:  &connectivityLogsFlag,
-				Value: to.Ptr("true"),
+				Value: new("true"),
 			}, {
 				Flag:  &enableMessagingLogsFlag,
-				Value: to.Ptr("true"),
+				Value: new("true"),
 			}, {
 				Flag:  &enableliveTraceFlag,
-				Value: to.Ptr("true"),
+				Value: new("true"),
 			}},
 			Cors: &signalrservice.SignalRCorsSettings{
 				AllowedOrigins: []string{"https://foo.com", "https://bar.com"},
@@ -71,7 +70,7 @@ func Test_SignalRService_SignalR_20240301_CRUD(t *testing.T) {
 					},
 				},
 				PrivateEndpoints: []signalrservice.PrivateEndpointACL{{
-					Name: to.Ptr("privateendpointname"),
+					Name: new("privateendpointname"),
 					Allow: []signalrservice.SignalRRequestType{
 						signalrservice.SignalRRequestType_ServerConnection,
 					},
@@ -79,10 +78,10 @@ func Test_SignalRService_SignalR_20240301_CRUD(t *testing.T) {
 			},
 			Upstream: &signalrservice.ServerlessUpstreamSettings{
 				Templates: []signalrservice.UpstreamTemplate{{
-					CategoryPattern: to.Ptr("*"),
-					EventPattern:    to.Ptr("connect,disconnect"),
-					HubPattern:      to.Ptr("*"),
-					UrlTemplate:     to.Ptr("https://example.com/chat/api/connect"),
+					CategoryPattern: new("*"),
+					EventPattern:    new("connect,disconnect"),
+					HubPattern:      new("*"),
+					UrlTemplate:     new("https://example.com/chat/api/connect"),
 				}},
 			},
 		},
@@ -210,10 +209,10 @@ func SignalR_Replica_20240301(tc *testcommon.KubePerTestContext, signalr *signal
 		Spec: signalrservice.Replica_Spec{
 			Owner: testcommon.AsOwner(signalr),
 			Sku: &signalrservice.ResourceSku{
-				Capacity: to.Ptr(1),
-				Name:     to.Ptr("Premium_P1"),
+				Capacity: new(1),
+				Name:     new("Premium_P1"),
 			},
-			Location: to.Ptr("westus3"), // This must be different than tc.AzureRegion
+			Location: new("westus3"), // This must be different than tc.AzureRegion
 		},
 	}
 

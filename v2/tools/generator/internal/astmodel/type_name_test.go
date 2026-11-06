@@ -34,7 +34,6 @@ func TestSingular_GivesExpectedResults(t *testing.T) {
 	ref := makeTestLocalPackageReference("Demo", "v2010")
 
 	for _, c := range cases {
-		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
@@ -65,7 +64,6 @@ func TestPlural_GivesExpectedResults(t *testing.T) {
 	ref := makeTestLocalPackageReference("Demo", "v2010")
 
 	for _, c := range cases {
-		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)

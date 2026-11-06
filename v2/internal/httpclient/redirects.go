@@ -44,8 +44,7 @@ func NewRedirectGuardedClient(base *http.Client, allowed Origin) *Client {
 
 func (c *Client) Do(req *http.Request) (*http.Response, error) {
 	resp, err := c.client.Do(req)
-	var rejected *DestinationError
-	if errors.As(err, &rejected) {
+	if rejected, ok := errors.AsType[*DestinationError](err); ok {
 		// http.Client wraps redirect errors in a url.Error containing the original URL.
 		return resp, rejected
 	}

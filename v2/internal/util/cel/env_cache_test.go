@@ -30,7 +30,7 @@ func Test_EnvCache_SameResourceType_CacheHit(t *testing.T) {
 		return asocel.NewEnv(resource)
 	}
 	cache := asocel.NewEnvCache(asometrics.NewCEL(), logr.Discard(), newEnvWrapper)
-	for i := 0; i < 10; i++ {
+	for range 10 {
 		_, err := cache.Get(reflect.TypeOf(resource))
 		g.Expect(err).ToNot(HaveOccurred())
 	}
@@ -51,13 +51,13 @@ func Test_EnvCache_DifferentResourceTypes_CacheHit(t *testing.T) {
 		return asocel.NewEnv(resource)
 	}
 	cache := asocel.NewEnvCache(asometrics.NewCEL(), logr.Discard(), newEnvWrapper)
-	for i := 0; i < 10; i++ {
+	for range 10 {
 		_, err := cache.Get(reflect.TypeOf(resource1))
 		g.Expect(err).ToNot(HaveOccurred())
 	}
 	g.Expect(called).To(Equal(1))
 
-	for i := 0; i < 10; i++ {
+	for range 10 {
 		_, err := cache.Get(reflect.TypeOf(resource2))
 		g.Expect(err).ToNot(HaveOccurred())
 	}

@@ -92,7 +92,7 @@ func SetOwnerUIDLabel(obj genruntime.ARMMetaObject) {
 	groupKind := obj.Owner().GroupKind()
 
 	for _, ref := range ownerRefs {
-		ownerGroup := strings.Split(ref.APIVersion, "/")[0]
+		ownerGroup, _, _ := strings.Cut(ref.APIVersion, "/")
 		if ref.Kind == groupKind.Kind && ownerGroup == groupKind.Group {
 			// Set the label with the UID of the owner
 			genruntime.AddLabel(obj, OwnerUIDLabel, string(ref.UID))

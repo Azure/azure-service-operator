@@ -12,7 +12,6 @@ import (
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v20250301"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_Networking_VirtualNetworkPeering_20250301_CRUD(t *testing.T) {
@@ -46,9 +45,9 @@ func Test_Networking_VirtualNetworkPeering_20250301_CRUD(t *testing.T) {
 
 	// Update peering to enable traffic forwarding
 	old := peering.DeepCopy()
-	peering.Spec.AllowForwardedTraffic = to.Ptr(true)
+	peering.Spec.AllowForwardedTraffic = new(true)
 	tc.PatchResourceAndWait(old, peering)
-	tc.Expect(peering.Status.AllowForwardedTraffic).To(Equal(to.Ptr(true)))
+	tc.Expect(peering.Status.AllowForwardedTraffic).To(Equal(new(true)))
 
 	tc.DeleteResourceAndWait(peering)
 

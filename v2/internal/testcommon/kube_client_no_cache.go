@@ -7,6 +7,7 @@ package testcommon
 
 import (
 	"context"
+	"slices"
 
 	"github.com/rotisserie/eris"
 	"k8s.io/apimachinery/pkg/api/meta"
@@ -149,13 +150,7 @@ func (i *Indexer) doSelectorsMatch(obj client.Object, selectors []fields.Selecto
 		}
 
 		values := extractValue(obj)
-		selectorMatches := false
-		for _, extractedVal := range values {
-			if val == extractedVal {
-				selectorMatches = true
-				break
-			}
-		}
+		selectorMatches := slices.Contains(values, val)
 
 		if !selectorMatches {
 			match = false

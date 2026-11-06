@@ -45,12 +45,12 @@ func createHcpTestPrerequisites(
 	subnet.Spec.NetworkSecurityGroup = &network.NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded{Reference: tc.MakeReferenceFromResource(nsg)}
 	integrationSubnet := newSubnet20201101(tc, vnet, "10.100.77.0/24")
 	integrationSubnet.Spec.Delegations = []network.Delegation{{
-		Name:        to.Ptr("Microsoft.RedHatOpenShift.hcpOpenShiftClusters"),
-		ServiceName: to.Ptr("Microsoft.RedHatOpenShift/hcpOpenShiftClusters"),
+		Name:        new("Microsoft.RedHatOpenShift.hcpOpenShiftClusters"),
+		ServiceName: new("Microsoft.RedHatOpenShift/hcpOpenShiftClusters"),
 	}}
 	vault := newVaultForDiskEncryptionSet("hcpkv", tc, rg)
-	vault.Spec.Properties.EnabledForDiskEncryption = to.Ptr(false)
-	vault.Spec.Properties.EnableRbacAuthorization = to.Ptr(true)
+	vault.Spec.Properties.EnabledForDiskEncryption = new(false)
+	vault.Spec.Properties.EnableRbacAuthorization = new(true)
 	objects := map[string]genruntime.ARMMetaObject{
 		"resourceGroup": rg, "vnet": vnet, "networkSecurityGroup": nsg, "subnet": subnet,
 		"vnetIntegrationSubnet": integrationSubnet, "vault": vault,

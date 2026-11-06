@@ -39,8 +39,8 @@ func Test_NetworkFrontDoorFirewallPolicy_CRUD(t *testing.T) {
 	afdFirewall.Spec.CustomRules.Rules = append(
 		afdFirewall.Spec.CustomRules.Rules,
 		frontdoor.CustomRule{
-			Name:         to.Ptr("BlockTrafficFromIPRanges"),
-			Priority:     to.Ptr(101),
+			Name:         new("BlockTrafficFromIPRanges"),
+			Priority:     new(101),
 			EnabledState: to.Ptr(frontdoor.CustomRule_EnabledState_Enabled),
 			RuleType:     to.Ptr(frontdoor.CustomRule_RuleType_MatchRule),
 			Action:       to.Ptr(frontdoor.ActionType_Block),
@@ -75,7 +75,7 @@ func newAFDFirewall(tc *testcommon.KubePerTestContext, rg *resources.ResourceGro
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("firewall")),
 		Spec: frontdoor.WebApplicationFirewallPolicy_Spec{
 			Owner:    testcommon.AsOwner(rg),
-			Location: to.Ptr("global"),
+			Location: new("global"),
 			Sku: &frontdoor.Sku{
 				Name: to.Ptr(frontdoor.Sku_Name_Standard_AzureFrontDoor),
 			},
@@ -86,18 +86,18 @@ func newAFDFirewall(tc *testcommon.KubePerTestContext, rg *resources.ResourceGro
 			CustomRules: &frontdoor.CustomRuleList{
 				Rules: []frontdoor.CustomRule{
 					{
-						Name:                       to.Ptr("RateLimit"),
-						Priority:                   to.Ptr(100),
+						Name:                       new("RateLimit"),
+						Priority:                   new(100),
 						EnabledState:               to.Ptr(frontdoor.CustomRule_EnabledState_Enabled),
 						RuleType:                   to.Ptr(frontdoor.CustomRule_RuleType_RateLimitRule),
-						RateLimitThreshold:         to.Ptr(10),
-						RateLimitDurationInMinutes: to.Ptr(5),
+						RateLimitThreshold:         new(10),
+						RateLimitDurationInMinutes: new(5),
 						Action:                     to.Ptr(frontdoor.ActionType_Block),
 						MatchConditions: []frontdoor.MatchCondition{
 							{
 								MatchVariable:   to.Ptr(frontdoor.MatchCondition_MatchVariable_RemoteAddr),
 								Operator:        to.Ptr(frontdoor.MatchCondition_Operator_IPMatch),
-								NegateCondition: to.Ptr(true),
+								NegateCondition: new(true),
 								MatchValue: []string{
 									"192.0.2.0/24",
 								},

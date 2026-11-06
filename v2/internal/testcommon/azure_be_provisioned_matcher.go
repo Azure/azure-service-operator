@@ -24,7 +24,7 @@ type AzureBeProvisionedMatcher struct {
 
 var _ types.GomegaMatcher = &AzureBeProvisionedMatcher{}
 
-func (m *AzureBeProvisionedMatcher) typedActual(actual interface{}) (*genericarmclient.PollerResponse[genericarmclient.GenericResource], error) {
+func (m *AzureBeProvisionedMatcher) typedActual(actual any) (*genericarmclient.PollerResponse[genericarmclient.GenericResource], error) {
 	poller, ok := actual.(*genericarmclient.PollerResponse[genericarmclient.GenericResource])
 	if !ok {
 		return nil, eris.Errorf("Expected actual of type *genericarmclient.PollerResponse, instead %T", actual)
@@ -33,7 +33,7 @@ func (m *AzureBeProvisionedMatcher) typedActual(actual interface{}) (*genericarm
 	return poller, nil
 }
 
-func (m *AzureBeProvisionedMatcher) Match(actual interface{}) (bool, error) {
+func (m *AzureBeProvisionedMatcher) Match(actual any) (bool, error) {
 	if actual == nil {
 		return false, nil
 	}
@@ -56,7 +56,7 @@ func (m *AzureBeProvisionedMatcher) Match(actual interface{}) (bool, error) {
 	return poller.Poller.Done(), nil
 }
 
-func (m *AzureBeProvisionedMatcher) message(actual interface{}, expectedMatch bool) string {
+func (m *AzureBeProvisionedMatcher) message(actual any, expectedMatch bool) string {
 	_, err := m.typedActual(actual)
 	if err != nil {
 		// Gomegas contract is that it won't call one of the message functions
@@ -76,16 +76,16 @@ func (m *AzureBeProvisionedMatcher) message(actual interface{}, expectedMatch bo
 	)
 }
 
-func (m *AzureBeProvisionedMatcher) FailureMessage(actual interface{}) string {
+func (m *AzureBeProvisionedMatcher) FailureMessage(actual any) string {
 	return m.message(actual, true)
 }
 
-func (m *AzureBeProvisionedMatcher) NegatedFailureMessage(actual interface{}) string {
+func (m *AzureBeProvisionedMatcher) NegatedFailureMessage(actual any) string {
 	return m.message(actual, false)
 }
 
 // MatchMayChangeInTheFuture implements OracleMatcher which of course isn't exported so we can't type-assert we implement it
-func (m *AzureBeProvisionedMatcher) MatchMayChangeInTheFuture(actual interface{}) bool {
+func (m *AzureBeProvisionedMatcher) MatchMayChangeInTheFuture(actual any) bool {
 	if actual == nil {
 		return false
 	}

@@ -25,7 +25,7 @@ func Test_ValidateEnum(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	validation := MakeEnumValidation([]interface{}{1, true, "hello"})
+	validation := MakeEnumValidation([]any{1, true, "hello"})
 	comment := GenerateKubebuilderComment(validation)
 
 	g.Expect(comment).To(Equal("// +kubebuilder:validation:Enum={1,true,hello}"))

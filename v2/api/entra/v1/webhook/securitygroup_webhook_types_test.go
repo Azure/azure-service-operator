@@ -21,7 +21,7 @@ func TestSecurityGroupWebhook_ValidateOptionalConfigMapReferences_BothSetFails(t
 	obj := &v1.SecurityGroup{
 		Spec: v1.SecurityGroupSpec{
 			Owners: []v1.SecurityGroupMemberReference{{
-				ObjectID: to.Ptr("11111111-1111-1111-1111-111111111111"),
+				ObjectID: new("11111111-1111-1111-1111-111111111111"),
 				ObjectIDFromConfig: &genruntime.ConfigMapReference{
 					Name: "ids",
 					Key:  "owner",
@@ -44,7 +44,7 @@ func TestSecurityGroupWebhook_ValidateOptionalConfigMapReferences_OneOrZeroSetPa
 	obj := &v1.SecurityGroup{
 		Spec: v1.SecurityGroupSpec{
 			Owners: []v1.SecurityGroupMemberReference{{
-				ObjectID: to.Ptr("11111111-1111-1111-1111-111111111111"),
+				ObjectID: new("11111111-1111-1111-1111-111111111111"),
 			}},
 			Members: []v1.SecurityGroupMemberReference{
 				{ObjectIDFromConfig: &ref},
@@ -66,7 +66,7 @@ func TestSecurityGroupWebhook_ValidateMembers_DynamicMembershipFails(t *testing.
 		Spec: v1.SecurityGroupSpec{
 			MembershipType: to.Ptr(v1.SecurityGroupMembershipTypeDynamic),
 			Members: []v1.SecurityGroupMemberReference{
-				{ObjectID: to.Ptr("11111111-1111-1111-1111-111111111111")},
+				{ObjectID: new("11111111-1111-1111-1111-111111111111")},
 			},
 		},
 	}
@@ -83,7 +83,7 @@ func TestSecurityGroupWebhook_ValidateMembers_AssignedMembershipPasses(t *testin
 		Spec: v1.SecurityGroupSpec{
 			MembershipType: to.Ptr(v1.SecurityGroupMembershipTypeAssigned),
 			Members: []v1.SecurityGroupMemberReference{
-				{ObjectID: to.Ptr("11111111-1111-1111-1111-111111111111")},
+				{ObjectID: new("11111111-1111-1111-1111-111111111111")},
 			},
 		},
 	}

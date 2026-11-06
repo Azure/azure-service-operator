@@ -59,17 +59,17 @@ func buildBenchmarkModel(tb testing.TB) (*ObjectModelConfiguration, []astmodel.I
 	typeNames := make([]astmodel.InternalTypeName, 0, groupCount*versionsPerGrp*typesPerVersion)
 	propNames := make([]astmodel.PropertyName, 0, propsPerType)
 
-	for p := 0; p < propsPerType; p++ {
+	for p := range propsPerType {
 		propNames = append(propNames, astmodel.PropertyName(fmt.Sprintf("Property%02d", p)))
 	}
 
-	for g := 0; g < groupCount; g++ {
+	for g := range groupCount {
 		groupName := fmt.Sprintf("group%02d", g)
-		for v := 0; v < versionsPerGrp; v++ {
+		for v := range versionsPerGrp {
 			// Use a realistic API-version style so lookup keys are non-trivial
 			versionName := fmt.Sprintf("v2020010%d", v+1)
 			pkg := test.MakeLocalPackageReference(groupName, versionName)
-			for t := 0; t < typesPerVersion; t++ {
+			for t := range typesPerVersion {
 				typeName := astmodel.MakeInternalTypeName(pkg, fmt.Sprintf("Type%03d", t))
 				typeNames = append(typeNames, typeName)
 

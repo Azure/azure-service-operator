@@ -11,7 +11,6 @@ import (
 	. "github.com/onsi/gomega"
 
 	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/arm"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_FuzzySetNetworkSecurityGroupsSecurityRules(t *testing.T) {
@@ -19,7 +18,7 @@ func Test_FuzzySetNetworkSecurityGroupsSecurityRules(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	nsg := &arm.NetworkSecurityGroup_Spec{
-		Location: to.Ptr("westus"),
+		Location: new("westus"),
 		Name:     "my-nsg",
 	}
 
@@ -60,11 +59,11 @@ func Test_FuzzySetNetworkSecurityGroupsSecurityRules(t *testing.T) {
 
 	err = setChildCollection(nsg, azureSecurityRules, "SecurityRules")
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(nsg.Location).To(Equal(to.Ptr("westus")))
+	g.Expect(nsg.Location).To(Equal(new("westus")))
 	g.Expect(nsg.Properties).ToNot(BeNil())
 	g.Expect(nsg.Properties.SecurityRules).To(HaveLen(1))
 	g.Expect(nsg.Properties.SecurityRules[0].Properties).ToNot(BeNil())
-	g.Expect(nsg.Properties.SecurityRules[0].Name).To(Equal(to.Ptr("myrule")))
+	g.Expect(nsg.Properties.SecurityRules[0].Name).To(Equal(new("myrule")))
 	g.Expect(nsg.Properties.SecurityRules[0].Properties.DestinationAddressPrefix).ToNot(BeNil())
 	g.Expect(nsg.Properties.SecurityRules[0].Properties.DestinationPortRange).ToNot(BeNil())
 }

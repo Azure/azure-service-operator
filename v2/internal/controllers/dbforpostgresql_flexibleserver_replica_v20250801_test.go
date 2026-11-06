@@ -33,7 +33,7 @@ func Test_DBForPostgreSQL_FlexibleServer_Replica_20250801(t *testing.T) {
 	tc := globalTestContext.ForTest(t)
 
 	// Capacity crunch in West US 2 makes this not work when live
-	tc.AzureRegion = to.Ptr("northeurope")
+	tc.AzureRegion = new("northeurope")
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
@@ -54,16 +54,16 @@ func Test_DBForPostgreSQL_FlexibleServer_Replica_20250801(t *testing.T) {
 			Owner:    testcommon.AsOwner(rg),
 			Version:  to.Ptr(postgresql.PostgresMajorVersion_17),
 			Sku: &postgresql.Sku{
-				Name: to.Ptr("Standard_D2ds_v5"),
+				Name: new("Standard_D2ds_v5"),
 				Tier: to.Ptr(postgresql.SkuTier_GeneralPurpose),
 			},
-			AdministratorLogin: to.Ptr("myadmin"),
+			AdministratorLogin: new("myadmin"),
 			AdministratorLoginPassword: &genruntime.SecretReference{
 				Name: secret.Name,
 				Key:  adminPasswordKey,
 			},
 			Storage: &postgresql.Storage{
-				StorageSizeGB: to.Ptr(32),
+				StorageSizeGB: new(32),
 			},
 		},
 	}

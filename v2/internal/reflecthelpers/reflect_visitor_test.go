@@ -30,7 +30,7 @@ func Test_ReflectVisitor_VisitsSimpleStruct(t *testing.T) {
 
 	var visitedTypes []reflect.Kind
 	visitor := NewReflectVisitor()
-	visitor.VisitPrimitive = func(this *ReflectVisitor, it reflect.Value, ctx interface{}) error {
+	visitor.VisitPrimitive = func(this *ReflectVisitor, it reflect.Value, ctx any) error {
 		visitedTypes = append(visitedTypes, it.Type().Kind())
 
 		return nil
@@ -57,7 +57,7 @@ func Test_ReflectVisitor_VisitsPtrToSimpleStruct(t *testing.T) {
 
 	var visitedTypes []reflect.Kind
 	visitor := NewReflectVisitor()
-	visitor.VisitPrimitive = func(this *ReflectVisitor, it reflect.Value, ctx interface{}) error {
+	visitor.VisitPrimitive = func(this *ReflectVisitor, it reflect.Value, ctx any) error {
 		visitedTypes = append(visitedTypes, it.Type().Kind())
 
 		return nil
@@ -84,7 +84,7 @@ func Test_ReflectVisitor_VisitsStructWithNilField(t *testing.T) {
 
 	var visitedTypes []reflect.Kind
 	visitor := NewReflectVisitor()
-	visitor.VisitPrimitive = func(this *ReflectVisitor, it reflect.Value, ctx interface{}) error {
+	visitor.VisitPrimitive = func(this *ReflectVisitor, it reflect.Value, ctx any) error {
 		visitedTypes = append(visitedTypes, it.Type().Kind())
 
 		return nil
@@ -111,7 +111,7 @@ func Test_ReflectVisitor_VisitsSlice(t *testing.T) {
 
 	var visitedTypes []reflect.Kind
 	visitor := NewReflectVisitor()
-	visitor.VisitPrimitive = func(this *ReflectVisitor, it reflect.Value, ctx interface{}) error {
+	visitor.VisitPrimitive = func(this *ReflectVisitor, it reflect.Value, ctx any) error {
 		visitedTypes = append(visitedTypes, it.Type().Kind())
 
 		return nil
@@ -153,7 +153,7 @@ func Test_ReflectVisitor_VisitsMap(t *testing.T) {
 
 	var visitedTypes []reflect.Kind
 	visitor := NewReflectVisitor()
-	visitor.VisitPrimitive = func(this *ReflectVisitor, it reflect.Value, ctx interface{}) error {
+	visitor.VisitPrimitive = func(this *ReflectVisitor, it reflect.Value, ctx any) error {
 		visitedTypes = append(visitedTypes, it.Type().Kind())
 
 		return nil
@@ -194,7 +194,7 @@ func Test_ReflectVisitor_ModifiesStructs(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	visitor := NewReflectVisitor()
-	visitor.VisitStruct = func(this *ReflectVisitor, it reflect.Value, ctx interface{}) error {
+	visitor.VisitStruct = func(this *ReflectVisitor, it reflect.Value, ctx any) error {
 		field := it.FieldByName("ChangeInt")
 		field.SetInt(5)
 

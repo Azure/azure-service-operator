@@ -35,7 +35,7 @@ func Test_Compute_Disk_20240302_CRUD(t *testing.T) {
 			CreationData: &compute.CreationData{
 				CreateOption: to.Ptr(compute.DiskCreateOption_Empty),
 			},
-			DiskSizeGB: to.Ptr(500),
+			DiskSizeGB: new(500),
 		},
 	}
 	tc.CreateResourceAndWait(disk)

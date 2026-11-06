@@ -680,8 +680,8 @@ func patternsToGroupOnly(patterns string) string {
 
 	parts := strings.Split(patterns, ";")
 	for i, part := range parts {
-		if slashIdx := strings.Index(part, "/"); slashIdx >= 0 {
-			parts[i] = part[:slashIdx]
+		if before, _, ok := strings.Cut(part, "/"); ok {
+			parts[i] = before
 		}
 	}
 

@@ -573,20 +573,20 @@ func (i *importableARMResource) SetOwner(
 	ownerField := specField.FieldByName("Owner")
 
 	// If the owner is a ResourceReference we can set it directly
-	if ownerField.Type() == reflect.PointerTo(reflect.TypeOf(genruntime.ResourceReference{})) {
+	if ownerField.Type() == reflect.PointerTo(reflect.TypeFor[genruntime.ResourceReference]()) {
 		ownerField.Set(reflect.ValueOf(&owner))
 		return
 	}
 
 	// If the owner is an ArbitraryOwnerReference we need to synthesize one
-	if ownerField.Type() == reflect.PointerTo(reflect.TypeOf(genruntime.ArbitraryOwnerReference{})) {
+	if ownerField.Type() == reflect.PointerTo(reflect.TypeFor[genruntime.ArbitraryOwnerReference]()) {
 		aor := owner.AsArbitraryOwnerReference()
 		ownerField.Set(reflect.ValueOf(&aor))
 		return
 	}
 
 	// if the owner is a KnownResourceReference, we need to synthesize one
-	if ownerField.Type() == reflect.PointerTo(reflect.TypeOf(genruntime.KnownResourceReference{})) {
+	if ownerField.Type() == reflect.PointerTo(reflect.TypeFor[genruntime.KnownResourceReference]()) {
 		krr := owner.AsKnownResourceReference()
 		ownerField.Set(reflect.ValueOf(&krr))
 		return

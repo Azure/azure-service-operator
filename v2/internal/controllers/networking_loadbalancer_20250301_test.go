@@ -16,7 +16,6 @@ import (
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v20250301"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -34,7 +33,7 @@ func Test_Networking_LoadBalancer_20250301_CRUD(t *testing.T) {
 	allocationMethod := network.IPAllocationMethod_Static
 	publicIPAddress := &network.PublicIPAddress{
 		TypeMeta: metav1.TypeMeta{
-			Kind: reflect.TypeOf(network.PublicIPAddress{}).Name(),
+			Kind: reflect.TypeFor[network.PublicIPAddress]().Name(),
 		},
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("publicip")),
 		Spec: network.PublicIPAddress_Spec{
@@ -77,16 +76,16 @@ func Test_Networking_LoadBalancer_20250301_CRUD(t *testing.T) {
 			// TODO: The below stuff isn't really necessary for LB CRUD but is required for VMSS...
 			InboundNatPools: []network.InboundNatPool{
 				{
-					Name: to.Ptr("MyFancyNatPool"),
+					Name: new("MyFancyNatPool"),
 					FrontendIPConfiguration: &network.SubResource{
 						Reference: &genruntime.ResourceReference{
 							ARMID: frontendIPConfigurationARMID,
 						},
 					},
 					Protocol:               &protocol,
-					FrontendPortRangeStart: to.Ptr(50_000),
-					FrontendPortRangeEnd:   to.Ptr(51_000),
-					BackendPort:            to.Ptr(22),
+					FrontendPortRangeStart: new(50_000),
+					FrontendPortRangeEnd:   new(51_000),
+					BackendPort:            new(22),
 				},
 			},
 		},
@@ -120,13 +119,13 @@ func LoadBalancer_InboundNatRule_20250301_CRUD(tc *testcommon.KubePerTestContext
 	natRule := &network.LoadBalancersInboundNatRule{
 		ObjectMeta: tc.MakeObjectMeta("rule"),
 		Spec: network.LoadBalancersInboundNatRule_Spec{
-			BackendPort: to.Ptr(22),
+			BackendPort: new(22),
 			FrontendIPConfiguration: &network.SubResource{
 				Reference: &genruntime.ResourceReference{
 					ARMID: frontendIPConfigurationARMID,
 				},
 			},
-			FrontendPort: to.Ptr(28),
+			FrontendPort: new(28),
 			Owner:        testcommon.AsOwner(lb),
 		},
 	}

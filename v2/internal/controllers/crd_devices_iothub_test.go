@@ -29,7 +29,7 @@ func Test_Devices_IotHub_CRUD(t *testing.T) {
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &devices.IotHubSkuInfo{
-				Capacity: to.Ptr(5),
+				Capacity: new(5),
 				Name:     to.Ptr(devices.IotHubSkuInfo_Name_B1),
 			},
 			OperatorSpec: &devices.IotHubOperatorSpec{

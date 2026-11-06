@@ -8,6 +8,7 @@ package astmodel
 import (
 	"fmt"
 	"iter"
+	"maps"
 	"math/big"
 	"regexp"
 
@@ -175,7 +176,7 @@ func (set TypeDefinitionSet) AddAllowDuplicates(def TypeDefinition) error {
 	return nil
 }
 
-func DiffTypes(x, y interface{}) string {
+func DiffTypes(x, y any) string {
 	allowAll := cmp.AllowUnexported(
 		AllOfType{},
 		ObjectType{},
@@ -272,12 +273,8 @@ func (set TypeDefinitionSet) OverlayWith(t TypeDefinitionSet) TypeDefinitionSet 
 	// Single-pass merge: pre-allocate to the upper bound and copy both maps in.
 	// Entries from `t` overwrite entries from `set` to preserve the documented semantics.
 	result := make(TypeDefinitionSet, len(set)+len(t))
-	for k, v := range set {
-		result[k] = v
-	}
-	for k, v := range t {
-		result[k] = v
-	}
+	maps.Copy(result, set)
+	maps.Copy(result, t)
 	return result
 }
 
@@ -302,9 +299,7 @@ func TypesDisjointUnion(s1 TypeDefinitionSet, s2 TypeDefinitionSet) TypeDefiniti
 // Copy makes an independent copy of this set of types
 func (set TypeDefinitionSet) Copy() TypeDefinitionSet {
 	result := make(TypeDefinitionSet, len(set))
-	for name, def := range set {
-		result[name] = def
-	}
+	maps.Copy(result, set)
 	return result
 }
 

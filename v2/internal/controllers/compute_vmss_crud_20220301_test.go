@@ -18,7 +18,6 @@ import (
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -45,33 +44,33 @@ func newVMSS20220301(
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &compute2022.Sku{
-				Name:     to.Ptr("STANDARD_D1_v2"),
-				Capacity: to.Ptr(1),
+				Name:     new("STANDARD_D1_v2"),
+				Capacity: new(1),
 			},
-			PlatformFaultDomainCount: to.Ptr(3),
-			SinglePlacementGroup:     to.Ptr(false),
+			PlatformFaultDomainCount: new(3),
+			SinglePlacementGroup:     new(false),
 			UpgradePolicy: &compute2022.UpgradePolicy{
 				Mode: &upgradePolicyMode,
 			},
 			VirtualMachineProfile: &compute2022.VirtualMachineScaleSetVMProfile{
 				StorageProfile: &compute2022.VirtualMachineScaleSetStorageProfile{
 					ImageReference: &compute2022.ImageReference{
-						Publisher: to.Ptr("Canonical"),
-						Offer:     to.Ptr("UbuntuServer"),
-						Sku:       to.Ptr("18.04-lts"),
-						Version:   to.Ptr("latest"),
+						Publisher: new("Canonical"),
+						Offer:     new("UbuntuServer"),
+						Sku:       new("18.04-lts"),
+						Version:   new("latest"),
 					},
 				},
 				OsProfile: &compute2022.VirtualMachineScaleSetOSProfile{
-					ComputerNamePrefix: to.Ptr("computer"),
+					ComputerNamePrefix: new("computer"),
 					AdminUsername:      &adminUsername,
 					LinuxConfiguration: &compute2022.LinuxConfiguration{
-						DisablePasswordAuthentication: to.Ptr(true),
+						DisablePasswordAuthentication: new(true),
 						Ssh: &compute2022.SshConfiguration{
 							PublicKeys: []compute2022.SshPublicKeySpec{
 								{
 									KeyData: sshPublicKey,
-									Path:    to.Ptr(fmt.Sprintf("/home/%s/.ssh/authorized_keys", adminUsername)),
+									Path:    new(fmt.Sprintf("/home/%s/.ssh/authorized_keys", adminUsername)),
 								},
 							},
 						},
@@ -80,11 +79,11 @@ func newVMSS20220301(
 				NetworkProfile: &compute2022.VirtualMachineScaleSetNetworkProfile{
 					NetworkInterfaceConfigurations: []compute2022.VirtualMachineScaleSetNetworkConfiguration{
 						{
-							Name:    to.Ptr("mynicconfig"),
-							Primary: to.Ptr(true),
+							Name:    new("mynicconfig"),
+							Primary: new(true),
 							IpConfigurations: []compute2022.VirtualMachineScaleSetIPConfiguration{
 								{
-									Name: to.Ptr("myipconfiguration"),
+									Name: new("myipconfiguration"),
 									Subnet: &compute2022.ApiEntityReference{
 										Reference: tc.MakeReferenceFromResource(subnet),
 									},
@@ -108,7 +107,7 @@ func Test_Compute_VMSS_20220301_CRUD(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 	// Move to a different reason where we have quota
-	tc.AzureRegion = to.Ptr("westeurope")
+	tc.AzureRegion = new("westeurope")
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
@@ -132,9 +131,9 @@ func Test_Compute_VMSS_20220301_CRUD(t *testing.T) {
 		Extensions: []compute2022.VirtualMachineScaleSetExtension{
 			{
 				Name:               &extensionName,
-				Publisher:          to.Ptr("Microsoft.Azure.Extensions"),
-				Type:               to.Ptr("CustomScript"),
-				TypeHandlerVersion: to.Ptr("2.0"),
+				Publisher:          new("Microsoft.Azure.Extensions"),
+				Type:               new("CustomScript"),
+				TypeHandlerVersion: new("2.0"),
 				Settings: map[string]v1.JSON{
 					"commandToExecute": {
 						Raw: []byte(`"/bin/bash -c \"echo hello\""`),
@@ -192,9 +191,9 @@ func VMSS_Extension_20220301_CRUD(tc *testcommon.KubePerTestContext, vmss *compu
 		ObjectMeta: tc.MakeObjectMetaWithName(extensionName),
 		Spec: compute2022.VirtualMachineScaleSetsExtension_Spec{
 			Owner:              testcommon.AsOwner(vmss),
-			Publisher:          to.Ptr("Microsoft.ManagedServices"),
-			Type:               to.Ptr("ApplicationHealthLinux"),
-			TypeHandlerVersion: to.Ptr("1.0"),
+			Publisher:          new("Microsoft.ManagedServices"),
+			Type:               new("ApplicationHealthLinux"),
+			TypeHandlerVersion: new("1.0"),
 		},
 	}
 

@@ -37,11 +37,11 @@ func Test_Quota_Quota_v20250901_CRUD(t *testing.T) {
 			},
 			Properties: &quota.QuotaProperties{
 				Name: &quota.ResourceName{
-					Value: to.Ptr("cores"),
+					Value: new("cores"),
 				},
 				Limit: &quota.LimitJsonObject{
 					LimitValue: &quota.LimitObject{
-						Value:           to.Ptr(100),
+						Value:           new(100),
 						LimitObjectType: to.Ptr(quota.LimitType_LimitValue),
 						LimitType:       to.Ptr(quota.QuotaLimitTypes_Independent), // Add missing limitType
 					},
@@ -60,19 +60,19 @@ func Test_Quota_Quota_v20250901_CRUD(t *testing.T) {
 	if quotaResource.Status.Properties != nil {
 		g.Expect(quotaResource.Status.Properties.Name).ToNot(BeNil())
 		if quotaResource.Status.Properties.Name != nil {
-			g.Expect(quotaResource.Status.Properties.Name.Value).To(Equal(to.Ptr("cores")))
+			g.Expect(quotaResource.Status.Properties.Name.Value).To(Equal(new("cores")))
 		}
 	}
 
 	// Update the Quota limit
 	old := quotaResource.DeepCopy()
-	quotaResource.Spec.Properties.Limit.LimitValue.Value = to.Ptr(200)
+	quotaResource.Spec.Properties.Limit.LimitValue.Value = new(200)
 	tc.PatchResourceAndWait(old, quotaResource)
 
 	if quotaResource.Status.Properties != nil &&
 		quotaResource.Status.Properties.Limit != nil &&
 		quotaResource.Status.Properties.Limit.LimitValue != nil {
-		g.Expect(quotaResource.Status.Properties.Limit.LimitValue.Value).To(Equal(to.Ptr(200)))
+		g.Expect(quotaResource.Status.Properties.Limit.LimitValue.Value).To(Equal(new(200)))
 	}
 
 	// NOTE: We do NOT test deletion here because:

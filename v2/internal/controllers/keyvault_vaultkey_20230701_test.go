@@ -55,9 +55,9 @@ func Test_KeyVault_VaultKey_20230701_CRUD(t *testing.T) {
 					Family: to.Ptr(keyvault.Sku_Family_A),
 					Name:   to.Ptr(keyvault.Sku_Name_Standard),
 				},
-				TenantId:                  to.Ptr(tc.AzureTenant),
-				EnableRbacAuthorization:   to.Ptr(true),
-				SoftDeleteRetentionInDays: to.Ptr(7),
+				TenantId:                  new(tc.AzureTenant),
+				EnableRbacAuthorization:   new(true),
+				SoftDeleteRetentionInDays: new(7),
 			},
 		},
 	}
@@ -70,26 +70,26 @@ func Test_KeyVault_VaultKey_20230701_CRUD(t *testing.T) {
 			Owner: testcommon.AsOwner(vault),
 			OperatorSpec: &vaultkey.VaultKeyOperatorSpec{
 				// Soft-delete the key in Azure when this resource is deleted, covering the data-plane Deleter path
-				DeleteMode: to.Ptr("delete"),
+				DeleteMode: new("delete"),
 			},
 			Properties: &vaultkey.KeyProperties{
 				Kty:     to.Ptr(vaultkey.KeyProperties_Kty_RSA),
-				KeySize: to.Ptr(2048),
+				KeySize: new(2048),
 				Attributes: &vaultkey.KeyAttributes{
-					Enabled:    to.Ptr(true),
-					Exportable: to.Ptr(false),
+					Enabled:    new(true),
+					Exportable: new(false),
 				},
 				RotationPolicy: &vaultkey.RotationPolicy{
-					Attributes: &vaultkey.KeyRotationPolicyAttributes{ExpiryTime: to.Ptr("P2Y")},
+					Attributes: &vaultkey.KeyRotationPolicyAttributes{ExpiryTime: new("P2Y")},
 					LifetimeActions: []vaultkey.LifetimeAction{
 						{
 							Action:  &vaultkey.Action{Type: to.Ptr(vaultkey.Action_Type_Rotate)},
-							Trigger: &vaultkey.Trigger{TimeAfterCreate: to.Ptr("P90D")},
+							Trigger: &vaultkey.Trigger{TimeAfterCreate: new("P90D")},
 						},
 						{
 							// A non-default notify trigger, so the recording shows the service keeps it
 							Action:  &vaultkey.Action{Type: to.Ptr(vaultkey.Action_Type_Notify)},
-							Trigger: &vaultkey.Trigger{TimeBeforeExpiry: to.Ptr("P60D")},
+							Trigger: &vaultkey.Trigger{TimeBeforeExpiry: new("P60D")},
 						},
 					},
 				},
@@ -104,7 +104,7 @@ func Test_KeyVault_VaultKey_20230701_CRUD(t *testing.T) {
 	// Update: a mutable property is applied through the data plane by the VaultKeyExtension's
 	// PostReconcileCheck before the resource reaches Ready at the new generation
 	old := key.DeepCopy()
-	key.Spec.Properties.Attributes.Enabled = to.Ptr(false)
+	key.Spec.Properties.Attributes.Enabled = new(false)
 	tc.PatchResourceAndWait(old, key)
 
 	var live struct {

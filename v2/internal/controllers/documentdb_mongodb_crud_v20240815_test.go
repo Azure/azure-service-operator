@@ -26,7 +26,7 @@ func Test_DocumentDB_MongoDatabase_v20240815_CRUD(t *testing.T) {
 	tc := globalTestContext.ForTest(t)
 
 	// The normal default region has capacity constraints, so we use australiaeast instead
-	tc.AzureRegion = to.Ptr("australiaeast")
+	tc.AzureRegion = new("australiaeast")
 
 	// Create our resource group
 	rg := tc.CreateTestResourceGroupAndWait()
@@ -42,10 +42,10 @@ func Test_DocumentDB_MongoDatabase_v20240815_CRUD(t *testing.T) {
 			Kind:     &kind,
 			Capabilities: []documentdb.Capability{
 				{
-					Name: to.Ptr("EnableMongo"),
+					Name: new("EnableMongo"),
 				},
 				{
-					Name: to.Ptr("EnableMongoRoleBasedAccessControl"),
+					Name: new("EnableMongoRoleBasedAccessControl"),
 				},
 			},
 			DatabaseAccountOfferType: &offerType,
@@ -68,7 +68,7 @@ func Test_DocumentDB_MongoDatabase_v20240815_CRUD(t *testing.T) {
 			Location: tc.AzureRegion,
 			Options: &documentdb.CreateUpdateOptions{
 				AutoscaleSettings: &documentdb.AutoscaleSettings{
-					MaxThroughput: to.Ptr(4000),
+					MaxThroughput: new(4000),
 				},
 			},
 			Owner: testcommon.AsOwner(&acct),
@@ -155,7 +155,7 @@ func DocumentDB_MongoDB_Collection_v20240815_CRUD(tc *testcommon.KubePerTestCont
 		Spec: documentdb.MongodbDatabaseCollection_Spec{
 			Location: tc.AzureRegion,
 			Options: &documentdb.CreateUpdateOptions{
-				Throughput: to.Ptr(400),
+				Throughput: new(400),
 			},
 			Owner: testcommon.AsOwner(db),
 			Resource: &documentdb.MongoDBCollectionResource{
@@ -165,7 +165,7 @@ func DocumentDB_MongoDB_Collection_v20240815_CRUD(tc *testcommon.KubePerTestCont
 						Keys: []string{"_id"},
 					},
 					Options: &documentdb.MongoIndexOptions{
-						Unique: to.Ptr(true),
+						Unique: new(true),
 					},
 				}},
 			},
@@ -219,7 +219,7 @@ func DocumentDB_MongoDB_Database_ThroughputSettings_v20240815_CRUD(tc *testcommo
 				// We cannot change this to be a fixed throughput as we already created the database using
 				// autoscale and they do not allow switching back to fixed from that.
 				AutoscaleSettings: &documentdb.AutoscaleSettingsResource{
-					MaxThroughput: to.Ptr(5000),
+					MaxThroughput: new(5000),
 				},
 			},
 		},
@@ -235,15 +235,15 @@ func DocumentDB_MongoDB_Database_ThroughputSettings_v20240815_CRUD(tc *testcommo
 	// Ensure that the status is what we expect
 	tc.Expect(throughputSettings.Status.Id).ToNot(BeNil())
 	tc.Expect(throughputSettings.Status.Resource).ToNot(BeNil())
-	tc.Expect(throughputSettings.Status.Resource.AutoscaleSettings.MaxThroughput).To(Equal(to.Ptr(5000)))
+	tc.Expect(throughputSettings.Status.Resource.AutoscaleSettings.MaxThroughput).To(Equal(new(5000)))
 
 	tc.LogSubsectionf("Increase max throughput to 6000")
 	old := throughputSettings.DeepCopy()
-	throughputSettings.Spec.Resource.AutoscaleSettings.MaxThroughput = to.Ptr(6000)
+	throughputSettings.Spec.Resource.AutoscaleSettings.MaxThroughput = new(6000)
 	tc.PatchResourceAndWait(old, &throughputSettings)
 	tc.Expect(throughputSettings.Status.Resource).ToNot(BeNil())
 	tc.Expect(throughputSettings.Status.Resource.AutoscaleSettings).ToNot(BeNil())
-	tc.Expect(throughputSettings.Status.Resource.AutoscaleSettings.MaxThroughput).To(Equal(to.Ptr(6000)))
+	tc.Expect(throughputSettings.Status.Resource.AutoscaleSettings.MaxThroughput).To(Equal(new(6000)))
 }
 
 func DocumentDB_MongoDB_Database_Collections_ThroughputSettings_v20240815_CRUD(tc *testcommon.KubePerTestContext, collection client.Object) {
@@ -252,7 +252,7 @@ func DocumentDB_MongoDB_Database_Collections_ThroughputSettings_v20240815_CRUD(t
 		Spec: documentdb.MongodbDatabaseCollectionThroughputSetting_Spec{
 			Owner: testcommon.AsOwner(collection),
 			Resource: &documentdb.ThroughputSettingsResource{
-				Throughput: to.Ptr(500),
+				Throughput: new(500),
 			},
 		},
 	}
@@ -267,14 +267,14 @@ func DocumentDB_MongoDB_Database_Collections_ThroughputSettings_v20240815_CRUD(t
 	// Ensure that the status is what we expect
 	tc.Expect(throughputSettings.Status.Id).ToNot(BeNil())
 	tc.Expect(throughputSettings.Status.Resource).ToNot(BeNil())
-	tc.Expect(throughputSettings.Status.Resource.Throughput).To(Equal(to.Ptr(500)))
+	tc.Expect(throughputSettings.Status.Resource.Throughput).To(Equal(new(500)))
 
 	tc.T.Log("increase throughput to 600")
 	old := throughputSettings.DeepCopy()
-	throughputSettings.Spec.Resource.Throughput = to.Ptr(600)
+	throughputSettings.Spec.Resource.Throughput = new(600)
 	tc.PatchResourceAndWait(old, &throughputSettings)
 	tc.Expect(throughputSettings.Status.Resource).ToNot(BeNil())
-	tc.Expect(throughputSettings.Status.Resource.Throughput).To(Equal(to.Ptr(600)))
+	tc.Expect(throughputSettings.Status.Resource.Throughput).To(Equal(new(600)))
 }
 
 func DocumentDB_MongoDB_MongodbUserDefintion_v20240815_CRUD(tc *testcommon.KubePerTestContext, dbName string, acct client.Object) {
@@ -300,18 +300,18 @@ func DocumentDB_MongoDB_MongodbUserDefintion_v20240815_CRUD(tc *testcommon.KubeP
 			Owner:        testcommon.AsOwner(acct),
 			AzureName:    fmt.Sprintf("%s.%s", dbName, userName),
 			UserName:     &userName,
-			DatabaseName: to.Ptr(dbName),
+			DatabaseName: new(dbName),
 			Password: &genruntime.SecretReference{
 				Name: name,
 				Key:  "password",
 			},
 			Roles: []documentdb.Role{
 				{
-					Db:   to.Ptr(dbName),
-					Role: to.Ptr("read"),
+					Db:   new(dbName),
+					Role: new("read"),
 				},
 			},
-			Mechanisms: to.Ptr("SCRAM-SHA-256"),
+			Mechanisms: new("SCRAM-SHA-256"),
 		},
 	}
 
@@ -327,8 +327,8 @@ func DocumentDB_MongoDB_MongodbUserDefintion_v20240815_CRUD(tc *testcommon.KubeP
 	tc.Expect(user.Status).ToNot(BeNil())
 	tc.Expect(user.Status.Id).ToNot(BeNil())
 	tc.Expect(user.Status.Roles).To(ContainElement(documentdb.Role_STATUS{
-		Db:   to.Ptr(dbName),
-		Role: to.Ptr("read"),
+		Db:   new(dbName),
+		Role: new("read"),
 	}))
 
 	tc.LogSectionf("Updating roles on user")
@@ -337,14 +337,14 @@ func DocumentDB_MongoDB_MongodbUserDefintion_v20240815_CRUD(tc *testcommon.KubeP
 	user.Spec.Roles = append(
 		user.Spec.Roles,
 		documentdb.Role{
-			Db:   to.Ptr(dbName),
-			Role: to.Ptr("dbAdmin"),
+			Db:   new(dbName),
+			Role: new("dbAdmin"),
 		},
 	)
 	tc.PatchResourceAndWait(old, &user)
 	tc.Expect(user.Status.Roles).To(ContainElement(documentdb.Role_STATUS{
-		Db:   to.Ptr(dbName),
-		Role: to.Ptr("dbAdmin"),
+		Db:   new(dbName),
+		Role: new("dbAdmin"),
 	}))
 }
 
@@ -358,12 +358,12 @@ func DocumentDB_MongoDB_MongodbRoleDefinition_v20240815_CRUD(tc *testcommon.Kube
 			Owner:        testcommon.AsOwner(acct),
 			AzureName:    name,
 			RoleName:     &roleName,
-			DatabaseName: to.Ptr(dbName),
+			DatabaseName: new(dbName),
 			Privileges: []documentdb.Privilege{
 				{
 					Actions: []string{"dbStats"},
 					Resource: &documentdb.Privilege_Resource{
-						Db: to.Ptr(dbName),
+						Db: new(dbName),
 					},
 				},
 			},
@@ -382,7 +382,7 @@ func DocumentDB_MongoDB_MongodbRoleDefinition_v20240815_CRUD(tc *testcommon.Kube
 	tc.Expect(role.Status.Privileges).To(ContainElement(documentdb.Privilege_STATUS{
 		Actions: []string{"dbStats"},
 		Resource: &documentdb.Privilege_Resource_STATUS{
-			Db: to.Ptr(dbName),
+			Db: new(dbName),
 		},
 	}))
 
@@ -394,7 +394,7 @@ func DocumentDB_MongoDB_MongodbRoleDefinition_v20240815_CRUD(tc *testcommon.Kube
 		documentdb.Privilege{
 			Actions: []string{"dropDatabase"},
 			Resource: &documentdb.Privilege_Resource{
-				Db: to.Ptr(dbName),
+				Db: new(dbName),
 			},
 		},
 	)
@@ -404,13 +404,13 @@ func DocumentDB_MongoDB_MongodbRoleDefinition_v20240815_CRUD(tc *testcommon.Kube
 		{
 			Actions: []string{"dropDatabase"},
 			Resource: &documentdb.Privilege_Resource_STATUS{
-				Db: to.Ptr(dbName),
+				Db: new(dbName),
 			},
 		},
 		{
 			Actions: []string{"dbStats"},
 			Resource: &documentdb.Privilege_Resource_STATUS{
-				Db: to.Ptr(dbName),
+				Db: new(dbName),
 			},
 		},
 	}))

@@ -45,7 +45,6 @@ func TestTypeFlag_IsOn_GivenType_ReturnsExpectedValue(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
@@ -77,7 +76,6 @@ func TestTypeFlag_RemoveFrom_ReturnsExpectedValue(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)

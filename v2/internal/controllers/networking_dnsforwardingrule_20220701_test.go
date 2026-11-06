@@ -83,13 +83,13 @@ func DnsForwardingRuleset_ForwardingRules_20220701_CRUD(tc *testcommon.KubePerTe
 	rule := &network.DnsForwardingRuleSetsForwardingRule{
 		ObjectMeta: tc.MakeObjectMeta("rule"),
 		Spec: network.DnsForwardingRuleSetsForwardingRule_Spec{
-			DomainName:          to.Ptr("test."),
+			DomainName:          new("test."),
 			ForwardingRuleState: to.Ptr(network.ForwardingRuleProperties_ForwardingRuleState_Disabled),
 			Owner:               testcommon.AsOwner(set),
 			TargetDnsServers: []network.TargetDnsServer{
 				{
-					IpAddress: to.Ptr("192.168.1.1"),
-					Port:      to.Ptr(53),
+					IpAddress: new("192.168.1.1"),
+					Port:      new(53),
 				},
 			},
 		},

@@ -8,6 +8,7 @@ package webhook
 import (
 	"context"
 	"reflect"
+	"slices"
 
 	"github.com/rotisserie/eris"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
@@ -75,16 +76,14 @@ func (vaultKey *VaultKey) validateNoImportKeyOp(_ context.Context, obj *v2023070
 		return nil, nil
 	}
 
-	for _, op := range obj.Spec.Properties.KeyOps {
-		if op == v20230701.KeyProperties_KeyOps_Import {
-			return nil, eris.Errorf(
-				"spec.properties.keyOps must not include \"import\" for %s : %s; a key with the import "+
-					"operation is a BYOK key exchange key, which is outside the generation-only scope of "+
-					"this resource",
-				obj.GetObjectKind().GroupVersionKind(),
-				obj.GetName(),
-			)
-		}
+	if slices.Contains(obj.Spec.Properties.KeyOps, v20230701.KeyProperties_KeyOps_Import) {
+		return nil, eris.Errorf(
+			"spec.properties.keyOps must not include \"import\" for %s : %s; a key with the import "+
+				"operation is a BYOK key exchange key, which is outside the generation-only scope of "+
+				"this resource",
+			obj.GetObjectKind().GroupVersionKind(),
+			obj.GetName(),
+		)
 	}
 
 	return nil, nil

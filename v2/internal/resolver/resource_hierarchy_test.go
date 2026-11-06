@@ -16,7 +16,6 @@ import (
 
 	batch "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -37,7 +36,7 @@ func Test_ResourceHierarchy_ResourceGroupOnly(t *testing.T) {
 
 	location, err := hierarchy.Location()
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(a.Spec.Location).To(Equal(to.Ptr(location)))
+	g.Expect(a.Spec.Location).To(Equal(new(location)))
 	g.Expect(hierarchy.AzureName()).To(Equal(resourceGroupName))
 	g.Expect(hierarchy.FullyQualifiedARMID("00000000-0000-0000-0000-000000000000")).To(Equal(expectedARMID))
 }
@@ -386,7 +385,7 @@ func Test_ResourceHierarchy_ChildResourceIDOverride_DoesNotImpactResourceItself(
 
 	location, err := hierarchy.Location()
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(a.Spec.Location).To(Equal(to.Ptr(location)))
+	g.Expect(a.Spec.Location).To(Equal(new(location)))
 	g.Expect(hierarchy.AzureName()).To(Equal(resourceGroupName))
 	g.Expect(hierarchy.FullyQualifiedARMID("00000000-0000-0000-0000-000000000000")).To(Equal(expectedARMID))
 }

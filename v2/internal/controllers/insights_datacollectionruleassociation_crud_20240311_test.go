@@ -29,7 +29,7 @@ func Test_Insights_DataCollectionRuleAssociation_v20240311_CRUD(t *testing.T) {
 	endpoint := &insights.DataCollectionEndpoint{
 		ObjectMeta: tc.MakeObjectMeta("dce"),
 		Spec: insights.DataCollectionEndpoint_Spec{
-			Description: to.Ptr("Data collection endpoint for association testing"),
+			Description: new("Data collection endpoint for association testing"),
 			Kind:        to.Ptr(insights.KnownDataCollectionEndpointResourceKind_Linux),
 			Location:    tc.AzureRegion,
 			Owner:       testcommon.AsOwner(rg),
@@ -42,7 +42,7 @@ func Test_Insights_DataCollectionRuleAssociation_v20240311_CRUD(t *testing.T) {
 		Spec: insights.DataCollectionRuleAssociation_Spec{
 			AzureName:                       "configurationAccessEndpoint",
 			DataCollectionEndpointReference: tc.MakeReferenceFromResource(endpoint),
-			Description:                     to.Ptr("Data collection rule association for testing"),
+			Description:                     new("Data collection rule association for testing"),
 			Owner:                           tc.AsExtensionOwner(sa),
 		},
 	}
@@ -58,7 +58,7 @@ func Test_Insights_DataCollectionRuleAssociation_v20240311_CRUD(t *testing.T) {
 
 	// Test update - associations don't typically support tags, but we can update the description
 	old := association.DeepCopy()
-	association.Spec.Description = to.Ptr("Updated data collection rule association description")
+	association.Spec.Description = new("Updated data collection rule association description")
 
 	tc.PatchResourceAndWait(old, association)
 	tc.Expect(association.Status.Description).To(Equal(association.Spec.Description))

@@ -65,8 +65,8 @@ func Test_VaultKey_SecuritySensitiveFieldSets(t *testing.T) {
 
 			typ := reflect.TypeOf(c.value)
 			names := make([]string, 0, typ.NumField())
-			for i := 0; i < typ.NumField(); i++ {
-				names = append(names, typ.Field(i).Name)
+			for field := range typ.Fields() {
+				names = append(names, field.Name)
 			}
 			sort.Strings(names)
 

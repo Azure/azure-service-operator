@@ -53,7 +53,7 @@ func LogObj(log logr.Logger, level int, note string, obj genruntime.MetaObject) 
 			ourAnnotations[key] = value
 		}
 
-		keysAndValues := []interface{}{
+		keysAndValues := []any{
 			"kind", obj.GetObjectKind(),
 			"resourceVersion", obj.GetResourceVersion(),
 			"generation", obj.GetGeneration(),

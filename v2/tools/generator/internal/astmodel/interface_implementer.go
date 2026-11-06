@@ -7,6 +7,7 @@ package astmodel
 
 import (
 	"go/token"
+	maps0 "maps"
 	"sort"
 
 	"github.com/dave/dst"
@@ -194,9 +195,7 @@ func (i InterfaceImplementer) copy() InterfaceImplementer {
 	result := i
 
 	result.interfaces = make(map[TypeName]*InterfaceImplementation, len(i.interfaces))
-	for k, v := range i.interfaces {
-		result.interfaces[k] = v
-	}
+	maps0.Copy(result.interfaces, i.interfaces)
 
 	return result
 }

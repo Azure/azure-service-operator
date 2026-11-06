@@ -34,7 +34,7 @@ func addNodes(r *StructureReport, name string, count int) {
 		return // base case
 	}
 
-	for i := 0; i < count; i++ {
+	for i := range count {
 		n := fmt.Sprintf("%s.%d", name, i+1)
 		nested := r.Addf("%s", n)
 		addNodes(nested, n, count-i-1)

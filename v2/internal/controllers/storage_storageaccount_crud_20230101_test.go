@@ -369,7 +369,7 @@ func StorageAccount_ManagementPolicy_20230101_CRUD(tc *testcommon.KubePerTestCon
 							Actions: &storage.ManagementPolicyAction{
 								Version: &storage.ManagementPolicyVersion{
 									Delete: &storage.DateAfterCreation{
-										DaysAfterCreationGreaterThan: to.Ptr(30),
+										DaysAfterCreationGreaterThan: new(30),
 									},
 								},
 							},
@@ -378,8 +378,8 @@ func StorageAccount_ManagementPolicy_20230101_CRUD(tc *testcommon.KubePerTestCon
 								PrefixMatch: []string{"sample-container/blob1"},
 							},
 						},
-						Enabled: to.Ptr(true),
-						Name:    to.Ptr("test-rule"),
+						Enabled: new(true),
+						Name:    new("test-rule"),
 						Type:    &ruleType,
 					},
 				},

@@ -13,7 +13,6 @@ import (
 	app "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_App_ManagedEnvironment_CRUD(t *testing.T) {
@@ -53,10 +52,10 @@ func newManagedEnvironment(tc *testcommon.KubePerTestContext, rg *resources.Reso
 			Owner:    testcommon.AsOwner(rg),
 			WorkloadProfiles: []app.WorkloadProfile{
 				{
-					MaximumCount:        to.Ptr(2),
-					MinimumCount:        to.Ptr(1),
-					Name:                to.Ptr("profile1"),
-					WorkloadProfileType: to.Ptr("D4"),
+					MaximumCount:        new(2),
+					MinimumCount:        new(1),
+					Name:                new("profile1"),
+					WorkloadProfileType: new("D4"),
 				},
 			},
 		},

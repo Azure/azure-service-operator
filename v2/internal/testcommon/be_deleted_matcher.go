@@ -15,7 +15,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-func actualAsObj(actual interface{}) (client.Object, error) {
+func actualAsObj(actual any) (client.Object, error) {
 	obj, ok := actual.(client.Object)
 	if !ok {
 		return nil, eris.Errorf("expected client.Object, was: %T", actual)
@@ -33,7 +33,7 @@ type BeDeletedMatcher struct {
 
 var _ types.GomegaMatcher = &BeDeletedMatcher{}
 
-func (m *BeDeletedMatcher) Match(actual interface{}) (bool, error) {
+func (m *BeDeletedMatcher) Match(actual any) (bool, error) {
 	if actual == nil {
 		return false, nil
 	}
@@ -46,7 +46,7 @@ func (m *BeDeletedMatcher) Match(actual interface{}) (bool, error) {
 	return m.verify.Deleted(m.ctx, obj)
 }
 
-func (m *BeDeletedMatcher) message(actual interface{}, negate bool) string {
+func (m *BeDeletedMatcher) message(actual any, negate bool) string {
 	obj, err := actualAsObj(actual)
 	if err != nil {
 		// Gomegas contract is that it won't call one of the message functions
@@ -63,16 +63,16 @@ func (m *BeDeletedMatcher) message(actual interface{}, negate bool) string {
 	return gomegaformat.Message(obj, fmt.Sprintf("%sto be deleted", notStr))
 }
 
-func (m *BeDeletedMatcher) FailureMessage(actual interface{}) string {
+func (m *BeDeletedMatcher) FailureMessage(actual any) string {
 	return m.message(actual, false)
 }
 
-func (m *BeDeletedMatcher) NegatedFailureMessage(actual interface{}) string {
+func (m *BeDeletedMatcher) NegatedFailureMessage(actual any) string {
 	return m.message(actual, true)
 }
 
 // MatchMayChangeInTheFuture implements OracleMatcher which of course isn't exported so we can't type-assert we implement it
-func (m *BeDeletedMatcher) MatchMayChangeInTheFuture(actual interface{}) bool {
+func (m *BeDeletedMatcher) MatchMayChangeInTheFuture(actual any) bool {
 	if actual == nil {
 		return false
 	}

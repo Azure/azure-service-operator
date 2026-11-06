@@ -548,7 +548,7 @@ func makeDirectoryObjects(ids []uuid.UUID) []msgraphmodels.DirectoryObjectable {
 	result := make([]msgraphmodels.DirectoryObjectable, 0, len(ids))
 	for _, id := range ids {
 		object := msgraphmodels.NewDirectoryObject()
-		object.SetId(to.Ptr(id.String()))
+		object.SetId(new(id.String()))
 		result = append(result, object)
 	}
 

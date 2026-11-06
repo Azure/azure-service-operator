@@ -54,7 +54,7 @@ func Test_Compute_DiskAccess_20240302_CRUD(t *testing.T) {
 			Owner:    testcommon.AsOwner(rg),
 			PrivateLinkServiceConnections: []network.PrivateLinkServiceConnection{
 				{
-					Name: to.Ptr("diskEndpoint"),
+					Name: new("diskEndpoint"),
 					PrivateLinkServiceReference: &genruntime.WellKnownResourceReference{
 						ResourceReference: *tc.MakeReferenceFromResource(diskAccess),
 					},
@@ -79,7 +79,7 @@ func Test_Compute_DiskAccess_20240302_CRUD(t *testing.T) {
 			CreationData: &compute.CreationData{
 				CreateOption: to.Ptr(compute.DiskCreateOption_Empty),
 			},
-			DiskSizeGB:          to.Ptr(500),
+			DiskSizeGB:          new(500),
 			NetworkAccessPolicy: to.Ptr(compute.NetworkAccessPolicy_AllowPrivate),
 			DiskAccessReference: tc.MakeReferenceFromResource(diskAccess),
 		},

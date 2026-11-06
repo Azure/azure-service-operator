@@ -33,7 +33,7 @@ func Test_NamespaceSecretsSpecified_AllSecretsSpecifiedAllSecretsReturned(t *tes
 
 	// If this doesn't compile, check that the version of eventhub imported is the hub version
 	secretNames := namespaceSecretsSpecified(obj)
-	expectedTags := reflecthelpers.GetJSONTags(reflect.TypeOf(eventhub.NamespaceOperatorSecrets{}))
+	expectedTags := reflecthelpers.GetJSONTags(reflect.TypeFor[eventhub.NamespaceOperatorSecrets]())
 	// We expect every property in the secrets struct to be considered a secret except for the $propertyBag one
 	// (that property exists because this is the storage version)
 	expectedTags.Remove("$propertyBag")

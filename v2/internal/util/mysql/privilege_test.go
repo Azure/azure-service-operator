@@ -71,7 +71,6 @@ func TestDiffCurrentAndExpectedSQLRoles(t *testing.T) {
 	// permissions.
 
 	for _, c := range cases {
-		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
@@ -129,7 +128,6 @@ func TestValidatePrivilegeNames(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
@@ -170,7 +168,6 @@ func TestEscapeBacktickIdentifier(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)

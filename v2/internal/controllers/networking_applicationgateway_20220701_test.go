@@ -50,11 +50,11 @@ func Test_Networking_ApplicationGateway_20220701_CRUD(t *testing.T) {
 		ObjectMeta: tc.MakeObjectMetaWithName(appGatewayName),
 		Spec: network.ApplicationGateway_Spec{
 			AutoscaleConfiguration: &network.ApplicationGatewayAutoscaleConfiguration{
-				MaxCapacity: to.Ptr(3),
-				MinCapacity: to.Ptr(1),
+				MaxCapacity: new(3),
+				MinCapacity: new(1),
 			},
 			AzureName: appGatewayName,
-			Location:  to.Ptr(rg.Location()),
+			Location:  new(rg.Location()),
 			Owner:     testcommon.AsOwner(rg),
 			Sku: &network.ApplicationGatewaySku{
 				Name: to.Ptr(network.ApplicationGatewaySku_Name(network.ApplicationGatewaySku_Name_STATUS_WAF_V2)),
@@ -68,7 +68,7 @@ func Test_Networking_ApplicationGateway_20220701_CRUD(t *testing.T) {
 			},
 			HttpListeners: []network.ApplicationGatewayHttpListener{
 				{
-					Name: to.Ptr(appGtsListenerName),
+					Name: new(appGtsListenerName),
 					FrontendIPConfiguration: &network.SubResource{
 						Reference: &genruntime.ResourceReference{
 							ARMID: appGtwFeIpConfigID,
@@ -87,7 +87,7 @@ func Test_Networking_ApplicationGateway_20220701_CRUD(t *testing.T) {
 			BackendHttpSettingsCollection: appGtwBackendHttpSettings,
 			RequestRoutingRules: []network.ApplicationGatewayRequestRoutingRule{
 				{
-					Name: to.Ptr("app-gtw-routing-rule-1"),
+					Name: new("app-gtw-routing-rule-1"),
 					BackendAddressPool: &network.SubResource{
 						Reference: &genruntime.ResourceReference{
 							ARMID: appGtwBackendPoolsID,
@@ -104,7 +104,7 @@ func Test_Networking_ApplicationGateway_20220701_CRUD(t *testing.T) {
 						},
 					},
 					RuleType: to.Ptr(network.ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType_Basic),
-					Priority: to.Ptr(100),
+					Priority: new(100),
 				},
 			},
 		},
@@ -128,7 +128,7 @@ func defineApplicationGatewayIPConfiguration20220701(subnet *genruntime.Resource
 	subResName := "app-gw-ip-config-1"
 	appGtwFeIpConfig := []network.ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded{
 		{
-			Name: to.Ptr(subResName),
+			Name: new(subResName),
 			Subnet: &network.SubResource{
 				Reference: subnet,
 			},
@@ -148,8 +148,8 @@ func defineApplicationGatewayWebApplicationFirewallPolicy(tc *testcommon.KubePer
 			Location: tc.AzureRegion,
 			CustomRules: []network2024.WebApplicationFirewallCustomRule{
 				{
-					Name:     to.Ptr("rule1"),
-					Priority: to.Ptr(100),
+					Name:     new("rule1"),
+					Priority: new(100),
 					RuleType: to.Ptr(network2024.WebApplicationFirewallCustomRule_RuleType_MatchRule),
 					Action:   to.Ptr(network2024.WebApplicationFirewallCustomRule_Action_Block),
 					MatchConditions: []network2024.MatchCondition{
@@ -160,7 +160,7 @@ func defineApplicationGatewayWebApplicationFirewallPolicy(tc *testcommon.KubePer
 								},
 							},
 							Operator:         to.Ptr(network2024.MatchCondition_Operator_IPMatch),
-							NegationConditon: to.Ptr(true),
+							NegationConditon: new(true),
 							MatchValues: []string{
 								"10.10.10.0/24",
 							},
@@ -169,17 +169,17 @@ func defineApplicationGatewayWebApplicationFirewallPolicy(tc *testcommon.KubePer
 				},
 			},
 			PolicySettings: &network2024.PolicySettings{
-				RequestBodyCheck:       to.Ptr(true),
-				MaxRequestBodySizeInKb: to.Ptr(128),
-				FileUploadLimitInMb:    to.Ptr(100),
+				RequestBodyCheck:       new(true),
+				MaxRequestBodySizeInKb: new(128),
+				FileUploadLimitInMb:    new(100),
 				State:                  to.Ptr(network2024.PolicySettings_State_Enabled),
 				Mode:                   to.Ptr(network2024.PolicySettings_Mode_Prevention),
 			},
 			ManagedRules: &network2024.ManagedRulesDefinition{
 				ManagedRuleSets: []network2024.ManagedRuleSet{
 					{
-						RuleSetType:    to.Ptr("OWASP"),
-						RuleSetVersion: to.Ptr("3.2"),
+						RuleSetType:    new("OWASP"),
+						RuleSetVersion: new("3.2"),
 					},
 				},
 			},
@@ -200,15 +200,15 @@ func defineApplicationGatewayFrontendIPConfiguration20220701(
 	appGtwFeIpName2 := "app-gw-fip-config-2"
 	appGtwFeIpConfig := []network.ApplicationGatewayFrontendIPConfiguration{
 		{
-			Name:                      to.Ptr(appGtwFeIpName),
-			PrivateIPAddress:          to.Ptr("10.0.0.10"),
+			Name:                      new(appGtwFeIpName),
+			PrivateIPAddress:          new("10.0.0.10"),
 			PrivateIPAllocationMethod: to.Ptr(network.IPAllocationMethod_Static),
 			Subnet: &network.SubResource{
 				Reference: subnet,
 			},
 		},
 		{
-			Name: to.Ptr(appGtwFeIpName2),
+			Name: new(appGtwFeIpName2),
 			PublicIPAddress: &network.SubResource{
 				Reference: publicIP,
 			},
@@ -223,8 +223,8 @@ func defineApplicationGatewayFrontendPort20220701(tc *testcommon.KubePerTestCont
 	appGtwFePortName := "app-gw-fe-port-1"
 	AppGtwFEPorts := []network.ApplicationGatewayFrontendPort{
 		{
-			Name: to.Ptr(appGtwFePortName),
-			Port: to.Ptr(80),
+			Name: new(appGtwFePortName),
+			Port: new(80),
 		},
 	}
 	appGtwFePortsID, err := getFrontendPortsARMID(tc, rg, appGatewayName, "frontendPorts", appGtwFePortName)
@@ -236,10 +236,10 @@ func defineApplicationGatewayBackendAddressPool20220701(tc *testcommon.KubePerTe
 	subResname := "app-gw-be-pool-1"
 	subRes := []network.ApplicationGatewayBackendAddressPool{
 		{
-			Name: to.Ptr(subResname),
+			Name: new(subResname),
 			BackendAddresses: []network.ApplicationGatewayBackendAddress{
 				{
-					IpAddress: to.Ptr("10.0.1.1"),
+					IpAddress: new("10.0.1.1"),
 				},
 			},
 		},
@@ -253,11 +253,11 @@ func defineApplicationGatewayBackendHttpSettings20220701(tc *testcommon.KubePerT
 	subResname := "app-gw-be-http-setting-1"
 	subRes := []network.ApplicationGatewayBackendHttpSettings{
 		{
-			Name:                           to.Ptr(subResname),
-			Port:                           to.Ptr(8443),
+			Name:                           new(subResname),
+			Port:                           new(8443),
 			Protocol:                       to.Ptr(network.ApplicationGatewayProtocol_Http),
 			CookieBasedAffinity:            to.Ptr(network.ApplicationGatewayBackendHttpSettingsPropertiesFormat_CookieBasedAffinity_Disabled),
-			PickHostNameFromBackendAddress: to.Ptr(false),
+			PickHostNameFromBackendAddress: new(false),
 		},
 	}
 	subResARMID, err := getFrontendPortsARMID(tc, rg, appGatewayName, "backendHttpSettingsCollection", subResname)

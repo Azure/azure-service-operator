@@ -34,7 +34,7 @@ func Test_AppConfiguration_KeyValue_v20240601_CRUD(t *testing.T) {
 			Location:   tc.AzureRegion,
 			Owner:      testcommon.AsOwner(rg),
 			Sku: &appconfig.Sku{
-				Name: to.Ptr("standard"),
+				Name: new("standard"),
 			},
 			PublicNetworkAccess: to.Ptr(appconfig.ConfigurationStoreProperties_PublicNetworkAccess_Enabled),
 		},
@@ -75,8 +75,8 @@ func AppConfiguration_KeyValue_v1api20240601_CRUD(tc *testcommon.KubePerTestCont
 		Spec: appconfig.KeyValue_Spec{
 			AzureName:   "MyApp:Settings:TestKey",
 			Owner:       testcommon.AsOwner(cs),
-			Value:       to.Ptr("TestValue"),
-			ContentType: to.Ptr("text/plain"),
+			Value:       new("TestValue"),
+			ContentType: new("text/plain"),
 			Tags: map[string]string{
 				"Environment": "Test",
 				"Team":        "Backend",
@@ -94,7 +94,7 @@ func AppConfiguration_KeyValue_v1api20240601_CRUD(tc *testcommon.KubePerTestCont
 
 	// Update the value
 	old := keyValue.DeepCopy()
-	keyValue.Spec.Value = to.Ptr("UpdatedTestValue")
+	keyValue.Spec.Value = new("UpdatedTestValue")
 	tc.PatchResourceAndWait(old, keyValue)
 	tc.Expect(*keyValue.Status.Value).To(Equal("UpdatedTestValue"))
 
@@ -119,7 +119,7 @@ func AppConfiguration_Replica_v1api20240601_CRUD(tc *testcommon.KubePerTestConte
 		Spec: appconfig.Replica_Spec{
 			AzureName: "eastus2replica",
 			Owner:     testcommon.AsOwner(cs),
-			Location:  to.Ptr("eastus2"),
+			Location:  new("eastus2"),
 		},
 	}
 
@@ -155,10 +155,10 @@ func AppConfiguration_Snapshot_v1api20240601_CRUD(tc *testcommon.KubePerTestCont
 			CompositionType: to.Ptr(appconfig.SnapshotProperties_CompositionType_Key),
 			Filters: []appconfig.KeyValueFilter{
 				{
-					Key: to.Ptr("MyApp:*"),
+					Key: new("MyApp:*"),
 				},
 			},
-			RetentionPeriod: to.Ptr(60 * 60 * 24 * 30), // 30 days
+			RetentionPeriod: new(60 * 60 * 24 * 30), // 30 days
 			Tags: map[string]string{
 				"Environment": "Test",
 				"Purpose":     "Testing",

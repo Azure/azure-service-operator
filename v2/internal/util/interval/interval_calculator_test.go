@@ -441,7 +441,7 @@ func Test_ReadyConditionErrorWithCallerSuppliedRequeueAfter_SmallerThanBackoff_U
 	)
 
 	// Drive the failure counter up so the Slow backoff is 8s
-	for i := 0; i < 3; i++ {
+	for range 3 {
 		_, _ = calc.NextInterval(req, ctrl.Result{}, inputErr)
 	}
 

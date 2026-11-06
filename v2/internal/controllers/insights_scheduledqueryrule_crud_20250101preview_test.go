@@ -22,7 +22,7 @@ func Test_Insights_ScheduledQueryRule_20250101preview_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
-	tc.AzureRegion = to.Ptr("eastus")
+	tc.AzureRegion = new("eastus")
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
@@ -81,18 +81,18 @@ func Test_Insights_ScheduledQueryRule_20250101preview_CRUD(t *testing.T) {
 				AllOf: []insights.Condition{
 					{
 						FailingPeriods: &insights.ConditionFailingPeriods{
-							MinFailingPeriodsToAlert:  to.Ptr(1),
-							NumberOfEvaluationPeriods: to.Ptr(1),
+							MinFailingPeriodsToAlert:  new(1),
+							NumberOfEvaluationPeriods: new(1),
 						},
 						Operator:                  to.Ptr(insights.ConditionOperator_LessThan),
-						Query:                     to.Ptr("requests | summarize CountByCountry=count() by client_CountryOrRegion"),
+						Query:                     new("requests | summarize CountByCountry=count() by client_CountryOrRegion"),
 						ResourceIdColumnReference: nil,
-						Threshold:                 to.Ptr(10.0),
+						Threshold:                 new(10.0),
 						TimeAggregation:           to.Ptr(insights.TimeAggregation_Count),
 					},
 				},
 			},
-			EvaluationFrequency: to.Ptr("PT10M"),
+			EvaluationFrequency: new("PT10M"),
 			Identity: &insights.MicrosoftCommonIdentity{
 				Type: to.Ptr(insights.MicrosoftCommonIdentityType_UserAssigned),
 				UserAssignedIdentities: []insights.UserAssignedIdentityDetails{
@@ -107,7 +107,7 @@ func Test_Insights_ScheduledQueryRule_20250101preview_CRUD(t *testing.T) {
 				*tc.MakeReferenceFromResource(component),
 			},
 			Severity:   to.Ptr(insights.AlertSeverity_0),
-			WindowSize: to.Ptr("PT10M"),
+			WindowSize: new("PT10M"),
 		},
 	}
 

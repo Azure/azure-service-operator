@@ -28,7 +28,7 @@ func Test_Kusto_Cluster_20230815_CRUD(t *testing.T) {
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &kusto.AzureSku{
-				Capacity: to.Ptr(2),
+				Capacity: new(2),
 				Name:     to.Ptr(kusto.AzureSku_Name_Standard_D13_V2),
 				Tier:     to.Ptr(kusto.AzureSku_Tier_Standard),
 			},
@@ -51,7 +51,7 @@ func Test_Kusto_Cluster_20230815_CRUD(t *testing.T) {
 	armId := *cluster.Status.Id
 
 	old := cluster.DeepCopy()
-	cluster.Spec.EnablePurge = to.Ptr(true)
+	cluster.Spec.EnablePurge = new(true)
 	tc.PatchResourceAndWait(old, cluster)
 
 	tc.DeleteResourceAndWait(cluster)

@@ -21,7 +21,7 @@ func Test_AKS_ManagedCluster_20260501_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
-	tc.AzureRegion = to.Ptr("westus3") // TODO: the default test region of westus2 doesn't allow ds2_v2 at the moment
+	tc.AzureRegion = new("westus3") // TODO: the default test region of westus2 doesn't allow ds2_v2 at the moment
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
@@ -30,12 +30,12 @@ func Test_AKS_ManagedCluster_20260501_CRUD(t *testing.T) {
 		Spec: aks.ManagedCluster_Spec{
 			Location:  tc.AzureRegion,
 			Owner:     testcommon.AsOwner(rg),
-			DnsPrefix: to.Ptr("aso"),
+			DnsPrefix: new("aso"),
 			AgentPoolProfiles: []aks.ManagedClusterAgentPoolProfile{
 				{
-					Name:   to.Ptr("ap1"),
-					Count:  to.Ptr(1),
-					VmSize: to.Ptr("Standard_DS2_v2"),
+					Name:   new("ap1"),
+					Count:  new(1),
+					VmSize: new("Standard_DS2_v2"),
 					OsType: to.Ptr(aks.ManagedClusterAgentPoolProfile_OsType_Linux),
 					OsSKU:  to.Ptr(aks.OSSKU_AzureContainerLinux),
 					Mode:   to.Ptr(aks.AgentPoolMode_System),
@@ -45,7 +45,7 @@ func Test_AKS_ManagedCluster_20260501_CRUD(t *testing.T) {
 				Type: to.Ptr(aks.ResourceIdentityType_SystemAssigned),
 			},
 			OidcIssuerProfile: &aks.ManagedClusterOIDCIssuerProfile{
-				Enabled: to.Ptr(true),
+				Enabled: new(true),
 			},
 		},
 	}
@@ -113,8 +113,8 @@ func AKS_ManagedCluster_AgentPool_20260501_CRUD(tc *testcommon.KubePerTestContex
 		ObjectMeta: tc.MakeObjectMetaWithName("ap2"),
 		Spec: aks.ManagedClustersAgentPool_Spec{
 			Owner:  testcommon.AsOwner(cluster),
-			Count:  to.Ptr(1),
-			VmSize: to.Ptr("Standard_DS2_v2"),
+			Count:  new(1),
+			VmSize: new("Standard_DS2_v2"),
 			OsType: &osType,
 			OsSKU:  &osSKU,
 			Mode:   to.Ptr(aks.AgentPoolMode_User),
@@ -125,7 +125,7 @@ func AKS_ManagedCluster_AgentPool_20260501_CRUD(tc *testcommon.KubePerTestContex
 	defer tc.DeleteResourceAndWait(agentPool)
 
 	tc.Expect(agentPool.Status.Id).ToNot(BeNil())
-	tc.Expect(agentPool.Status.Count).To(Equal(to.Ptr(1)))
+	tc.Expect(agentPool.Status.Count).To(Equal(new(1)))
 	tc.Expect(agentPool.Status.OsType).ToNot(BeNil())
 	tc.Expect(string(*agentPool.Status.OsType)).To(Equal(string(osType)))
 	tc.Expect(agentPool.Status.OsSKU).ToNot(BeNil())

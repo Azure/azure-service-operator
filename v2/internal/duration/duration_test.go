@@ -54,7 +54,6 @@ func TestDuration_String(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		c := c
 		t.Run(c.Expected, func(t *testing.T) {
 			t.Parallel()
 			d := ISO8601{Duration: c.Duration}
@@ -93,7 +92,6 @@ func TestDuration_JSON(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		c := c
 		t.Run(c.Name, func(t *testing.T) {
 			t.Parallel()
 			var testStruct DurationTest

@@ -12,7 +12,6 @@ import (
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v20250301"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -49,7 +48,7 @@ func Test_Networking_PrivateEndpoint_Alias_20250301_CRUD(t *testing.T) {
 			},
 			IpConfigurations: []network.PrivateLinkServiceIpConfiguration{
 				{
-					Name:                      to.Ptr("config"),
+					Name:                      new("config"),
 					PrivateIPAddressVersion:   &ipVersion,
 					PrivateIPAllocationMethod: &ipAllocationMethod,
 					Subnet: &network.Subnet_PrivateLinkService_SubResourceEmbedded{
@@ -92,7 +91,7 @@ func Test_Networking_PrivateEndpoint_Alias_20250301_CRUD(t *testing.T) {
 		ObjectMeta: tc.MakeObjectMeta("pesubnet"),
 		Spec: network.VirtualNetworksSubnet_Spec{
 			Owner:         testcommon.AsOwner(vnet),
-			AddressPrefix: to.Ptr("10.0.1.0/24"),
+			AddressPrefix: new("10.0.1.0/24"),
 		},
 	}
 	tc.CreateResourceAndWait(peSubnet)
@@ -108,7 +107,7 @@ func Test_Networking_PrivateEndpoint_Alias_20250301_CRUD(t *testing.T) {
 			Owner:    testcommon.AsOwner(rg),
 			ManualPrivateLinkServiceConnections: []network.PrivateLinkServiceConnection{
 				{
-					Name: to.Ptr("aliasConnection"),
+					Name: new("aliasConnection"),
 					PrivateLinkServiceReference: &genruntime.WellKnownResourceReference{
 						WellKnownName: plsAlias,
 					},

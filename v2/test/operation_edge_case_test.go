@@ -19,7 +19,6 @@ import (
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
@@ -120,33 +119,33 @@ func newVMSSWithInvalidPublisher(tc *testcommon.KubePerTestContext, loadBalancer
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &compute.Sku{
-				Name:     to.Ptr("Standard_D2s_v3"),
-				Capacity: to.Ptr(1),
+				Name:     new("Standard_D2s_v3"),
+				Capacity: new(1),
 			},
-			PlatformFaultDomainCount: to.Ptr(3),
-			SinglePlacementGroup:     to.Ptr(false),
+			PlatformFaultDomainCount: new(3),
+			SinglePlacementGroup:     new(false),
 			UpgradePolicy: &compute.UpgradePolicy{
 				Mode: &upgradePolicyMode,
 			},
 			VirtualMachineProfile: &compute.VirtualMachineScaleSetVMProfile{
 				StorageProfile: &compute.VirtualMachineScaleSetStorageProfile{
 					ImageReference: &compute.ImageReference{
-						Publisher: to.Ptr("this publisher"),
-						Offer:     to.Ptr("does not"),
-						Sku:       to.Ptr("exist"),
-						Version:   to.Ptr("latest"),
+						Publisher: new("this publisher"),
+						Offer:     new("does not"),
+						Sku:       new("exist"),
+						Version:   new("latest"),
 					},
 				},
 				OsProfile: &compute.VirtualMachineScaleSetOSProfile{
-					ComputerNamePrefix: to.Ptr("computer"),
+					ComputerNamePrefix: new("computer"),
 					AdminUsername:      &adminUsername,
 					LinuxConfiguration: &compute.LinuxConfiguration{
-						DisablePasswordAuthentication: to.Ptr(true),
+						DisablePasswordAuthentication: new(true),
 						Ssh: &compute.SshConfiguration{
 							PublicKeys: []compute.SshPublicKeySpec{
 								{
 									KeyData: sshPublicKey,
-									Path:    to.Ptr(fmt.Sprintf("/home/%s/.ssh/authorized_keys", adminUsername)),
+									Path:    new(fmt.Sprintf("/home/%s/.ssh/authorized_keys", adminUsername)),
 								},
 							},
 						},
@@ -155,11 +154,11 @@ func newVMSSWithInvalidPublisher(tc *testcommon.KubePerTestContext, loadBalancer
 				NetworkProfile: &compute.VirtualMachineScaleSetNetworkProfile{
 					NetworkInterfaceConfigurations: []compute.VirtualMachineScaleSetNetworkConfiguration{
 						{
-							Name:    to.Ptr("mynicconfig"),
-							Primary: to.Ptr(true),
+							Name:    new("mynicconfig"),
+							Primary: new(true),
 							IpConfigurations: []compute.VirtualMachineScaleSetIPConfiguration{
 								{
-									Name:   to.Ptr("myipconfiguration"),
+									Name:   new("myipconfiguration"),
 									Subnet: subnetRef,
 									LoadBalancerInboundNatPools: []compute.SubResource{
 										{
@@ -178,10 +177,10 @@ func newVMSSWithInvalidPublisher(tc *testcommon.KubePerTestContext, loadBalancer
 
 func newImageReference() *compute.ImageReference {
 	return &compute.ImageReference{
-		Publisher: to.Ptr("Canonical"),
-		Offer:     to.Ptr("ubuntu-24_04-lts"),
-		Sku:       to.Ptr("server"),
-		Version:   to.Ptr("latest"),
+		Publisher: new("Canonical"),
+		Offer:     new("ubuntu-24_04-lts"),
+		Sku:       new("server"),
+		Version:   new("latest"),
 	}
 }
 
@@ -239,16 +238,16 @@ func newLoadBalancerForVMSS(tc *testcommon.KubePerTestContext, rg *resources.Res
 			},
 			InboundNatPools: []network.InboundNatPool{
 				{
-					Name: to.Ptr("MyFancyNatPool"),
+					Name: new("MyFancyNatPool"),
 					FrontendIPConfiguration: &network.SubResource{
 						Reference: &genruntime.ResourceReference{
 							ARMID: frontIPConfigurationARMID,
 						},
 					},
 					Protocol:               &protocol,
-					FrontendPortRangeStart: to.Ptr(50_000),
-					FrontendPortRangeEnd:   to.Ptr(51_000),
-					BackendPort:            to.Ptr(22),
+					FrontendPortRangeStart: new(50_000),
+					FrontendPortRangeEnd:   new(51_000),
+					BackendPort:            new(22),
 				},
 			},
 		},

@@ -13,7 +13,6 @@ import (
 
 	web "github.com/Azure/azure-service-operator/v2/api/web/v20220301"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_Web_SitesSourcecontrol_v20220301_CRUD(t *testing.T) {
@@ -25,7 +24,7 @@ func Test_Web_SitesSourcecontrol_v20220301_CRUD(t *testing.T) {
 
 	// Our default region (West US 2) is capacity constrained for web at the moment.
 	// location := tc.AzureRegion
-	tc.AzureRegion = to.Ptr("westus3")
+	tc.AzureRegion = new("westus3")
 
 	serverFarm := newServerFarm(tc, rg, *tc.AzureRegion)
 
@@ -34,7 +33,7 @@ func Test_Web_SitesSourcecontrol_v20220301_CRUD(t *testing.T) {
 	site := &web.Site{
 		ObjectMeta: tc.MakeObjectMeta("function"),
 		Spec: web.Site_Spec{
-			Enabled:             to.Ptr(true),
+			Enabled:             new(true),
 			Owner:               testcommon.AsOwner(rg),
 			Location:            tc.AzureRegion,
 			ServerFarmReference: tc.MakeReferenceFromResource(serverFarm),
@@ -44,9 +43,9 @@ func Test_Web_SitesSourcecontrol_v20220301_CRUD(t *testing.T) {
 	sourcecontrol := &web.SitesSourcecontrol{
 		ObjectMeta: tc.MakeObjectMeta("sourcecontrol"),
 		Spec: web.SitesSourcecontrol_Spec{
-			RepoUrl:             to.Ptr("https://github.com/splunk/azure-functions-splunk.git"),
-			Branch:              to.Ptr("master"),
-			IsManualIntegration: to.Ptr(true),
+			RepoUrl:             new("https://github.com/splunk/azure-functions-splunk.git"),
+			Branch:              new("master"),
+			IsManualIntegration: new(true),
 			Owner:               testcommon.AsOwner(site),
 		},
 	}

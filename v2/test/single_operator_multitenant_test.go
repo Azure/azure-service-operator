@@ -226,8 +226,8 @@ func newFederatedIdentityCredential(tc *testcommon.KubePerTestContext, umi *mana
 			Audiences: []string{
 				"api://AzureADTokenExchange",
 			},
-			Issuer:  to.Ptr(issuer),
-			Subject: to.Ptr(FICSubject),
+			Issuer:  new(issuer),
+			Subject: new(FICSubject),
 		},
 	}
 }

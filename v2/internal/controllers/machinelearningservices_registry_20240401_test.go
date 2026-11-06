@@ -28,17 +28,17 @@ func Test_MachineLearning_Registry_20240401_CRUD(t *testing.T) {
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &machinelearningservices.Sku{
-				Name: to.Ptr("P3"),
+				Name: new("P3"),
 				Tier: to.Ptr(machinelearningservices.SkuTier_Free),
 			},
-			PublicNetworkAccess: to.Ptr("Disabled"),
+			PublicNetworkAccess: new("Disabled"),
 			RegionDetails: []machinelearningservices.RegistryRegionArmDetails{
 				{
 					AcrDetails: []machinelearningservices.AcrDetails{
 						{
 							SystemCreatedAcrAccount: &machinelearningservices.SystemCreatedAcrAccount{
-								AcrAccountName: to.Ptr("myasoamltestacr"),
-								AcrAccountSku:  to.Ptr("Premium"),
+								AcrAccountName: new("myasoamltestacr"),
+								AcrAccountSku:  new("Premium"),
 							},
 						},
 					},
@@ -46,9 +46,9 @@ func Test_MachineLearning_Registry_20240401_CRUD(t *testing.T) {
 					StorageAccountDetails: []machinelearningservices.StorageAccountDetails{
 						{
 							SystemCreatedStorageAccount: &machinelearningservices.SystemCreatedStorageAccount{
-								AllowBlobPublicAccess: to.Ptr(false),
-								StorageAccountName:    to.Ptr("myasoamltestsa"),
-								StorageAccountType:    to.Ptr("Standard_LRS"),
+								AllowBlobPublicAccess: new(false),
+								StorageAccountName:    new("myasoamltestsa"),
+								StorageAccountType:    new("Standard_LRS"),
 							},
 						},
 					},

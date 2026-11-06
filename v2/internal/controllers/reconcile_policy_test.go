@@ -17,7 +17,6 @@ import (
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -31,7 +30,7 @@ func Test_ReconcilePolicy_SkipReconcileAddedAlongWithTagsChange_ReconcileIsSkipp
 
 	// check properties
 	tc.Expect(rg.Status.Location).To(Equal(tc.AzureRegion))
-	tc.Expect(rg.Status.Properties.ProvisioningState).To(Equal(to.Ptr("Succeeded")))
+	tc.Expect(rg.Status.Properties.ProvisioningState).To(Equal(new("Succeeded")))
 	tc.Expect(rg.Status.Id).ToNot(BeNil())
 
 	// Update the tags but also skip reconcile
@@ -65,7 +64,7 @@ func Test_ReconcilePolicy_UnknownPolicyIsIgnored(t *testing.T) {
 
 	// check properties
 	tc.Expect(rg.Status.Location).To(Equal(tc.AzureRegion))
-	tc.Expect(rg.Status.Properties.ProvisioningState).To(Equal(to.Ptr("Succeeded")))
+	tc.Expect(rg.Status.Properties.ProvisioningState).To(Equal(new("Succeeded")))
 	tc.Expect(rg.Status.Id).ToNot(BeNil())
 
 	// Update the tags but also reconcile policy
@@ -130,7 +129,7 @@ func Test_ReconcilePolicy_SkipReconcileAddedToNamespace_ReconcileIsSkipped(t *te
 
 	// check properties
 	tc.Expect(rg.Status.Location).To(Equal(tc.AzureRegion))
-	tc.Expect(rg.Status.Properties.ProvisioningState).To(Equal(to.Ptr("Succeeded")))
+	tc.Expect(rg.Status.Properties.ProvisioningState).To(Equal(new("Succeeded")))
 	tc.Expect(rg.Status.Id).ToNot(BeNil())
 
 	// Update the namespace to skip reconcile
@@ -289,7 +288,7 @@ func testDeleteSkipped(t *testing.T, opts deleteSkippedOptions) {
 
 	// check properties
 	tc.Expect(rg.Status.Location).To(Equal(tc.AzureRegion))
-	tc.Expect(rg.Status.Properties.ProvisioningState).To(Equal(to.Ptr("Succeeded")))
+	tc.Expect(rg.Status.Properties.ProvisioningState).To(Equal(new("Succeeded")))
 	tc.Expect(rg.Status.Id).ToNot(BeNil())
 	armId := *rg.Status.Id
 

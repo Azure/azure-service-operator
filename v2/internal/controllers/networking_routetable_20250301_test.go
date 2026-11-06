@@ -14,7 +14,6 @@ import (
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v20250301"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_Networking_RouteTable_20250301_CRUD(t *testing.T) {
@@ -63,9 +62,9 @@ func Routes_20250301_CRUD(tc *testcommon.KubePerTestContext, routeTable *network
 		ObjectMeta: tc.MakeObjectMeta("ipv6route"),
 		Spec: network.RouteTablesRoute_Spec{
 			Owner:            testcommon.AsOwner(routeTable),
-			AddressPrefix:    to.Ptr("cab:cab::/96"),
+			AddressPrefix:    new("cab:cab::/96"),
 			NextHopType:      &nextHopType,
-			NextHopIpAddress: to.Ptr("ace:cab:deca:f00d::1"),
+			NextHopIpAddress: new("ace:cab:deca:f00d::1"),
 		},
 	}
 
@@ -73,9 +72,9 @@ func Routes_20250301_CRUD(tc *testcommon.KubePerTestContext, routeTable *network
 		ObjectMeta: tc.MakeObjectMeta("ipv4route"),
 		Spec: network.RouteTablesRoute_Spec{
 			Owner:            testcommon.AsOwner(routeTable),
-			AddressPrefix:    to.Ptr("Storage"),
+			AddressPrefix:    new("Storage"),
 			NextHopType:      &nextHopType,
-			NextHopIpAddress: to.Ptr("10.0.100.4"),
+			NextHopIpAddress: new("10.0.100.4"),
 		},
 	}
 
@@ -91,7 +90,7 @@ func Routes_20250301_CRUD(tc *testcommon.KubePerTestContext, routeTable *network
 
 	// Update the subnet
 	old := ipv4Route.DeepCopy()
-	ipv4Route.Spec.NextHopIpAddress = to.Ptr("10.0.100.5")
+	ipv4Route.Spec.NextHopIpAddress = new("10.0.100.5")
 	tc.Patch(old, ipv4Route)
 
 	objectKey := client.ObjectKeyFromObject(ipv4Route)
@@ -101,7 +100,7 @@ func Routes_20250301_CRUD(tc *testcommon.KubePerTestContext, routeTable *network
 		updated := &network.RouteTablesRoute{}
 		tc.GetResource(objectKey, updated)
 		return updated.Status.NextHopIpAddress
-	}).Should(Equal(to.Ptr("10.0.100.5")))
+	}).Should(Equal(new("10.0.100.5")))
 
 	tc.DeleteResourcesAndWait(ipv4Route, ipv6Route)
 
@@ -130,9 +129,9 @@ func Test_Networking_Route_CreatedThenRouteTableUpdated_20250301_RouteStillExist
 		ObjectMeta: tc.MakeObjectMeta("ipv4route"),
 		Spec: network.RouteTablesRoute_Spec{
 			Owner:            testcommon.AsOwner(routeTable),
-			AddressPrefix:    to.Ptr("Storage"),
+			AddressPrefix:    new("Storage"),
 			NextHopType:      &nextHopType,
-			NextHopIpAddress: to.Ptr("10.0.100.4"),
+			NextHopIpAddress: new("10.0.100.4"),
 		},
 	}
 

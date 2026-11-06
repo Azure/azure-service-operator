@@ -14,7 +14,6 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
@@ -65,7 +64,7 @@ func (extension *ProductExtension) Delete(
 		productName,
 		"*",
 		&armapimanagement.ProductClientDeleteOptions{
-			DeleteSubscriptions: to.Ptr(true),
+			DeleteSubscriptions: new(true),
 		},
 	)
 	if err != nil {

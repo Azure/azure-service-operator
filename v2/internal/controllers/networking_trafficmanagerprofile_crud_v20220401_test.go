@@ -30,12 +30,12 @@ func Test_Networking_TrafficManagerProfile(t *testing.T) {
 		ObjectMeta: tc.MakeObjectMeta("profile"),
 		Spec: network.TrafficManagerProfile_Spec{
 			DnsConfig: &network.DnsConfig{
-				RelativeName: to.Ptr("aso-test"),
+				RelativeName: new("aso-test"),
 			},
-			Location: to.Ptr("global"),
+			Location: new("global"),
 			MonitorConfig: &network.MonitorConfig{
 				Protocol: to.Ptr(network.MonitorProtocol_TCP),
-				Port:     to.Ptr(443),
+				Port:     new(443),
 			},
 			OperatorSpec: &network.TrafficManagerProfileOperatorSpec{
 				ConfigMaps: &network.TrafficManagerProfileOperatorConfigMaps{
@@ -99,12 +99,12 @@ func Networking_TrafficManagerProfiles_NestedEndpoint(tc *testcommon.KubePerTest
 		ObjectMeta: tc.MakeObjectMeta("profile"),
 		Spec: network.TrafficManagerProfile_Spec{
 			DnsConfig: &network.DnsConfig{
-				RelativeName: to.Ptr("nested-test"),
+				RelativeName: new("nested-test"),
 			},
-			Location: to.Ptr("global"),
+			Location: new("global"),
 			MonitorConfig: &network.MonitorConfig{
 				Protocol: to.Ptr(network.MonitorProtocol_TCP),
-				Port:     to.Ptr(443),
+				Port:     new(443),
 			},
 			Owner:                testcommon.AsOwner(rg),
 			TrafficRoutingMethod: to.Ptr(network.TrafficRoutingMethod_Performance),
@@ -132,7 +132,7 @@ func Networking_TrafficManagerProfiles_ExternalEndpoint(tc *testcommon.KubePerTe
 			AlwaysServe:      to.Ptr(network.AlwaysServe_Enabled),
 			EndpointLocation: tc.AzureRegion,
 			Owner:            testcommon.AsOwner(tmp),
-			Target:           to.Ptr("contoso.com"),
+			Target:           new("contoso.com"),
 		},
 	}
 
@@ -143,7 +143,7 @@ func Networking_TrafficManagerProfiles_ExternalEndpoint(tc *testcommon.KubePerTe
 func Networking_TrafficManagerProfiles_AzureEndpoint(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, tmp *network.TrafficManagerProfile) {
 	publicIp := newPublicIP20201101(tc, testcommon.AsOwner(rg))
 	publicIp.Spec.DnsSettings = &network2020.PublicIPAddressDnsSettings{
-		DomainNameLabel: to.Ptr("mydemoapp"),
+		DomainNameLabel: new("mydemoapp"),
 	}
 
 	endpoint := &network.TrafficManagerProfilesAzureEndpoint{

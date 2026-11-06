@@ -30,7 +30,7 @@ func Test_CDN_Profile_AFD_CRUD(t *testing.T) {
 	profile := &cdn.Profile{
 		ObjectMeta: tc.MakeObjectMeta("cdnprofile"),
 		Spec: cdn.Profile_Spec{
-			Location: to.Ptr("Global"),
+			Location: new("Global"),
 			Owner:    testcommon.AsOwner(rg),
 			Sku:      &cdn.Sku{Name: &sku},
 		},
@@ -130,7 +130,7 @@ func newAFDEndpoint(tc *testcommon.KubePerTestContext, profile *cdn.Profile) *cd
 		ObjectMeta: tc.MakeObjectMeta("cdn-endpoint"),
 		Spec: cdn.AfdEndpoint_Spec{
 			Owner:        testcommon.AsOwner(profile),
-			Location:     to.Ptr("Global"),
+			Location:     new("Global"),
 			EnabledState: to.Ptr(cdn.AFDEndpointProperties_EnabledState_Enabled),
 		},
 	}
@@ -142,14 +142,14 @@ func newAFDOriginGroup(tc *testcommon.KubePerTestContext, profile *cdn.Profile) 
 		Spec: cdn.AfdOriginGroup_Spec{
 			Owner: testcommon.AsOwner(profile),
 			LoadBalancingSettings: &cdn.LoadBalancingSettingsParameters{
-				SampleSize:                to.Ptr(4),
-				SuccessfulSamplesRequired: to.Ptr(3),
+				SampleSize:                new(4),
+				SuccessfulSamplesRequired: new(3),
 			},
 			HealthProbeSettings: &cdn.HealthProbeParameters{
-				ProbePath:              to.Ptr("/"),
+				ProbePath:              new("/"),
 				ProbeRequestType:       to.Ptr(cdn.HealthProbeParameters_ProbeRequestType_HEAD),
 				ProbeProtocol:          to.Ptr(cdn.HealthProbeParameters_ProbeProtocol_Http),
-				ProbeIntervalInSeconds: to.Ptr(100),
+				ProbeIntervalInSeconds: new(100),
 			},
 		},
 	}
@@ -160,8 +160,8 @@ func newAFDOrigin(tc *testcommon.KubePerTestContext, originGroup *cdn.AfdOriginG
 		ObjectMeta: tc.MakeObjectMeta("origin"),
 		Spec: cdn.AfdOrigin_Spec{
 			Owner:    testcommon.AsOwner(originGroup),
-			HostName: to.Ptr("example.com"),
-			HttpPort: to.Ptr(80),
+			HostName: new("example.com"),
+			HttpPort: new(80),
 		},
 	}
 }
@@ -198,7 +198,7 @@ func newAFDCustomDomain(tc *testcommon.KubePerTestContext, profile *cdn.Profile)
 		ObjectMeta: tc.MakeObjectMeta("custdomain"),
 		Spec: cdn.AfdCustomDomain_Spec{
 			Owner:    testcommon.AsOwner(profile),
-			HostName: to.Ptr("example.com"),
+			HostName: new("example.com"),
 		},
 	}
 }
@@ -252,7 +252,7 @@ func newRule(tc *testcommon.KubePerTestContext, rule *cdn.RuleSet) *cdn.Rule {
 						Name: to.Ptr(cdn.DeliveryRuleUrlPathCondition_Name_UrlPath),
 						Parameters: &cdn.UrlPathMatchConditionParameters{
 							Operator:        to.Ptr(cdn.UrlPathMatchConditionParameters_Operator_BeginsWith),
-							NegateCondition: to.Ptr(false),
+							NegateCondition: new(false),
 							MatchValues: []string{
 								"secure/",
 							},
@@ -271,8 +271,8 @@ func newRule(tc *testcommon.KubePerTestContext, rule *cdn.RuleSet) *cdn.Rule {
 						Parameters: &cdn.UrlRedirectActionParameters{
 							RedirectType:        to.Ptr(cdn.UrlRedirectActionParameters_RedirectType_TemporaryRedirect),
 							DestinationProtocol: to.Ptr(cdn.UrlRedirectActionParameters_DestinationProtocol_Https),
-							CustomHostname:      to.Ptr("microsoft.com"),
-							CustomPath:          to.Ptr("/"),
+							CustomHostname:      new("microsoft.com"),
+							CustomPath:          new("/"),
 							TypeName:            to.Ptr(cdn.UrlRedirectActionParameters_TypeName_DeliveryRuleUrlRedirectActionParameters),
 						},
 					},
@@ -287,7 +287,7 @@ func CDN_Profile_Update(tc *testcommon.KubePerTestContext, profile *cdn.Profile)
 	tc.Expect(profile.Spec.OriginResponseTimeoutSeconds).To(BeNil())
 
 	old := profile.DeepCopy()
-	profile.Spec.OriginResponseTimeoutSeconds = to.Ptr(37)
+	profile.Spec.OriginResponseTimeoutSeconds = new(37)
 
 	tc.PatchResourceAndWait(old, profile)
 
@@ -309,7 +309,7 @@ func CDN_AfdEndpoint_Update(tc *testcommon.KubePerTestContext, endpoint *cdn.Afd
 func CDN_AfdOriginGroup_Update(tc *testcommon.KubePerTestContext, originGroup *cdn.AfdOriginGroup) {
 	old := originGroup.DeepCopy()
 	originGroup.Spec.HealthProbeSettings.ProbeRequestType = to.Ptr(cdn.HealthProbeParameters_ProbeRequestType_GET)
-	originGroup.Spec.HealthProbeSettings.ProbeIntervalInSeconds = to.Ptr(50)
+	originGroup.Spec.HealthProbeSettings.ProbeIntervalInSeconds = new(50)
 
 	tc.PatchResourceAndWait(old, originGroup)
 
@@ -322,7 +322,7 @@ func CDN_AfdOriginGroup_Update(tc *testcommon.KubePerTestContext, originGroup *c
 
 func CDN_AfdOrigin_Update(tc *testcommon.KubePerTestContext, origin *cdn.AfdOrigin) {
 	old := origin.DeepCopy()
-	origin.Spec.HttpPort = to.Ptr(8080)
+	origin.Spec.HttpPort = new(8080)
 
 	tc.PatchResourceAndWait(old, origin)
 
@@ -332,7 +332,7 @@ func CDN_AfdOrigin_Update(tc *testcommon.KubePerTestContext, origin *cdn.AfdOrig
 
 func CDN_Rule_Update(tc *testcommon.KubePerTestContext, rule *cdn.Rule) {
 	old := rule.DeepCopy()
-	rule.Spec.Order = to.Ptr(7)
+	rule.Spec.Order = new(7)
 
 	tc.PatchResourceAndWait(old, rule)
 

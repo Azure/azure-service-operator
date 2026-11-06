@@ -8,6 +8,7 @@ package pipeline
 import (
 	"context"
 	"fmt"
+	slices0 "slices"
 	"strings"
 
 	"github.com/rotisserie/eris"
@@ -229,14 +230,6 @@ func simplifyPropNames(names []propertyNames) []propertyNames {
 	}
 
 	return result
-}
-
-func min(x, y int) int {
-	if x < y {
-		return x
-	}
-
-	return y
 }
 
 // commonUppercasedSuffix returns the longest common suffix that
@@ -598,14 +591,6 @@ func (s synthesizer) handleArrayArray(leftArray *astmodel.ArrayType, rightArray 
 	return leftArray.WithElement(intersected), nil
 }
 
-func max(left, right int) int {
-	if left > right {
-		return left
-	}
-
-	return right
-}
-
 func (s synthesizer) handleObjectObject(
 	leftObj *astmodel.ObjectType,
 	rightObj *astmodel.ObjectType,
@@ -666,11 +651,8 @@ func (s synthesizer) handleEnumEnum(leftEnum *astmodel.EnumType, rightEnum *astm
 	leftOptions := leftEnum.Options()
 	inBoth := make([]astmodel.EnumValue, 0, len(leftOptions))
 	for _, option := range leftOptions {
-		for _, otherOption := range rightEnum.Options() {
-			if option == otherOption {
-				inBoth = append(inBoth, option)
-				break
-			}
+		if slices0.Contains(rightEnum.Options(), option) {
+			inBoth = append(inBoth, option)
 		}
 	}
 

@@ -13,7 +13,6 @@ import (
 	network2020 "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 // Refer to the follow ARM template examples:
@@ -32,7 +31,7 @@ func Test_Networking_BastionHost_20240301_CRUD(t *testing.T) {
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
 		Spec: network2020.VirtualNetworksSubnet_Spec{
 			Owner:         testcommon.AsOwner(vnet),
-			AddressPrefix: to.Ptr("10.0.0.0/24"),
+			AddressPrefix: new("10.0.0.0/24"),
 			AzureName:     "AzureBastionSubnet", // The subnet must have this name in Azure for Bastion to work
 		},
 	}
@@ -45,7 +44,7 @@ func Test_Networking_BastionHost_20240301_CRUD(t *testing.T) {
 			Location: tc.AzureRegion,
 			IpConfigurations: []network.BastionHostIPConfiguration{
 				{
-					Name: to.Ptr("IpConf"),
+					Name: new("IpConf"),
 					PublicIPAddress: &network.SubResource{
 						Reference: tc.MakeReferenceFromResource(publicIPAddress),
 					},

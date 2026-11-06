@@ -7,6 +7,7 @@ package testcommon
 
 import (
 	"fmt"
+	"maps"
 	"math"
 	"os"
 	"path"
@@ -130,9 +131,7 @@ func CreateTestResourceGroupDefaultTags() map[string]string {
 	// adding them doesn't tie a recording to the tenant it was made in. In record mode, a malformed setting
 	// is reported when the credentials are read, before any test runs.
 	policyTags, _ := creds.ResourceGroupTagsFromEnvironment()
-	for key, value := range policyTags {
-		tags[key] = value
-	}
+	maps.Copy(tags, policyTags)
 
 	return tags
 }
@@ -361,11 +360,11 @@ func (tc *KubePerTestContext) deadlineTimeout() time.Duration {
 	return deadlineTimeout
 }
 
-func (tc *KubePerTestContext) Expect(actual interface{}) gomega.Assertion {
+func (tc *KubePerTestContext) Expect(actual any) gomega.Assertion {
 	return tc.G.Expect(actual)
 }
 
-func (tc *KubePerTestContext) Eventually(actual interface{}, intervals ...interface{}) gomega.AsyncAssertion {
+func (tc *KubePerTestContext) Eventually(actual any, intervals ...any) gomega.AsyncAssertion {
 	if len(intervals) > 0 {
 		return tc.G.Eventually(actual, intervals...)
 	}
@@ -765,7 +764,6 @@ type Subtest struct {
 // In most cases, RunParallelSubtests should be used instead of this.
 func (tc *KubePerTestContext) RunSubtests(tests ...Subtest) {
 	for _, test := range tests {
-		test := test
 		passed := tc.T.Run(test.Name, func(t *testing.T) {
 			test.Test(tc.Subtest(t))
 		})
@@ -787,7 +785,6 @@ func (tc *KubePerTestContext) RunParallelSubtests(tests ...Subtest) {
 	allPassed := true
 	tc.T.Run("subtests", func(t *testing.T) {
 		for _, test := range tests {
-			test := test
 			passed := t.Run(test.Name, func(t *testing.T) {
 				t.Parallel()
 				test.Test(tc.Subtest(t))

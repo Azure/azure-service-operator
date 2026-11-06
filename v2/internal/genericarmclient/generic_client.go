@@ -168,7 +168,7 @@ func (client *GenericClient) BeginCreateOrUpdateByID(
 	ctx context.Context,
 	resourceID string,
 	apiVersion string,
-	resource interface{},
+	resource any,
 ) (*PollerResponse[GenericResource], error) {
 	// The linter doesn't realize that the response is closed in the course of
 	// the autorest.NewPoller call below. Suppressing it as it is a false positive.
@@ -195,7 +195,7 @@ func (client *GenericClient) createOrUpdateByID(
 	ctx context.Context,
 	resourceID string,
 	apiVersion string,
-	resource interface{},
+	resource any,
 ) (*http.Response, error) {
 	req, err := client.createOrUpdateByIDCreateRequest(ctx, resourceID, apiVersion, resource)
 	if err != nil {
@@ -219,7 +219,7 @@ func (client *GenericClient) createOrUpdateByIDCreateRequest(
 	ctx context.Context,
 	resourceID string,
 	apiVersion string,
-	resource interface{},
+	resource any,
 ) (*policy.Request, error) {
 	if resourceID == "" {
 		return nil, eris.New("parameter resourceID cannot be empty")
@@ -344,7 +344,7 @@ func (client *GenericClient) GetByID(
 	ctx context.Context,
 	resourceID string,
 	apiVersion string,
-	resource interface{},
+	resource any,
 ) (time.Duration, error) {
 	req, err := client.getByIDCreateRequest(ctx, resourceID, apiVersion)
 	if err != nil {
@@ -383,7 +383,7 @@ func (client *GenericClient) getByIDCreateRequest(ctx context.Context, resourceI
 }
 
 // getByIDHandleResponse handles the GetByID response.
-func (client *GenericClient) getByIDHandleResponse(resp *http.Response, resource interface{}) error {
+func (client *GenericClient) getByIDHandleResponse(resp *http.Response, resource any) error {
 	if err := runtime.UnmarshalAsJSON(resp, resource); err != nil {
 		return err
 	}

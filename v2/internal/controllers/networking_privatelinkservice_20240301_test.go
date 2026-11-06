@@ -13,7 +13,6 @@ import (
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -44,7 +43,7 @@ func Test_Networking_PrivateLinkService_20240301_CRUD(t *testing.T) {
 			},
 			IpConfigurations: []network.PrivateLinkServiceIpConfiguration{
 				{
-					Name:                      to.Ptr("config"),
+					Name:                      new("config"),
 					PrivateIPAddressVersion:   &ipVersion,
 					PrivateIPAllocationMethod: &ipAllocationMethod,
 					Subnet: &network.Subnet_PrivateLinkService_SubResourceEmbedded{
@@ -128,16 +127,16 @@ func newLoadBalancerForPLS20240301(tc *testcommon.KubePerTestContext, rg *resour
 			},
 			InboundNatPools: []network.InboundNatPool{
 				{
-					Name: to.Ptr("MyFancyNatPool"),
+					Name: new("MyFancyNatPool"),
 					FrontendIPConfiguration: &network.SubResource{
 						Reference: &genruntime.ResourceReference{
 							ARMID: frontendIPConfigurationARMID,
 						},
 					},
 					Protocol:               &protocol,
-					FrontendPortRangeStart: to.Ptr(50_000),
-					FrontendPortRangeEnd:   to.Ptr(51_000),
-					BackendPort:            to.Ptr(22),
+					FrontendPortRangeStart: new(50_000),
+					FrontendPortRangeEnd:   new(51_000),
+					BackendPort:            new(22),
 				},
 			},
 		},

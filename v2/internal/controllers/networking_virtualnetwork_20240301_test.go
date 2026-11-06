@@ -12,7 +12,6 @@ import (
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -55,14 +54,14 @@ func Subnet_20240301_CRUD(tc *testcommon.KubePerTestContext, vnet *network.Virtu
 	defer tc.DeleteResourceAndWait(subnet)
 
 	tc.Expect(subnet.Status.Id).ToNot(BeNil())
-	tc.Expect(subnet.Status.AddressPrefix).To(Equal(to.Ptr("10.0.0.0/24")))
+	tc.Expect(subnet.Status.AddressPrefix).To(Equal(new("10.0.0.0/24")))
 
 	// Update the subnet
 	old := subnet.DeepCopy()
 	subnet.Spec.Delegations = []network.Delegation{
 		{
-			Name:        to.Ptr("mydelegation"),
-			ServiceName: to.Ptr("Microsoft.DBforMySQL/serversv2"),
+			Name:        new("mydelegation"),
+			ServiceName: new("Microsoft.DBforMySQL/serversv2"),
 		},
 	}
 	tc.PatchResourceAndWait(old, subnet)
@@ -74,7 +73,7 @@ func newSubnet20240301(tc *testcommon.KubePerTestContext, vnet *network.VirtualN
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
 		Spec: network.VirtualNetworksSubnet_Spec{
 			Owner:         testcommon.AsOwner(vnet),
-			AddressPrefix: to.Ptr(addressPrefix),
+			AddressPrefix: new(addressPrefix),
 		},
 	}
 	return subnet
@@ -91,7 +90,7 @@ func Test_Networking_Subnet_CreatedThenVNETUpdated_20240301_SubnetStillExists(t 
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
 		Spec: network.VirtualNetworksSubnet_Spec{
 			Owner:         testcommon.AsOwner(vnet),
-			AddressPrefix: to.Ptr("10.0.0.0/24"),
+			AddressPrefix: new("10.0.0.0/24"),
 		},
 	}
 

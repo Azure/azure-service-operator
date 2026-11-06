@@ -25,7 +25,7 @@ func Test_Networking_NetworkWatcher_20241001_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	tc.AzureRegion = to.Ptr("newzealandnorth") // Can only have one network watcher per region per subscription, so we use a less common region for tests
+	tc.AzureRegion = new("newzealandnorth") // Can only have one network watcher per region per subscription, so we use a less common region for tests
 
 	// NetworkWatcher
 	networkWatcher := &network.NetworkWatcher{
@@ -103,16 +103,16 @@ func NetworkWatcher_FlowLog_20241001_CRUD(
 		Spec: network.NetworkWatchersFlowLog_Spec{
 			Owner:                   testcommon.AsOwner(networkWatcher),
 			Location:                tc.AzureRegion,
-			Enabled:                 to.Ptr(true),
+			Enabled:                 new(true),
 			TargetResourceReference: tc.MakeReferenceFromResource(nsg),
 			StorageReference:        tc.MakeReferenceFromResource(storageAccount),
 			RetentionPolicy: &network.RetentionPolicyParameters{
-				Enabled: to.Ptr(true),
-				Days:    to.Ptr(7), // 7 days retention for testing
+				Enabled: new(true),
+				Days:    new(7), // 7 days retention for testing
 			},
 			Format: &network.FlowLogFormatParameters{
 				Type:    to.Ptr(network.FlowLogFormatParameters_Type_JSON),
-				Version: to.Ptr(2), // Use JSON format version 2
+				Version: new(2), // Use JSON format version 2
 			},
 		},
 	}
@@ -123,29 +123,29 @@ func NetworkWatcher_FlowLog_20241001_CRUD(
 	flowLogArmId := *flowLog.Status.Id
 
 	// Verify the flow log was created with correct properties
-	tc.Expect(flowLog.Status.Enabled).To(Equal(to.Ptr(true)))
+	tc.Expect(flowLog.Status.Enabled).To(Equal(new(true)))
 	tc.Expect(flowLog.Status.RetentionPolicy).ToNot(BeNil())
-	tc.Expect(flowLog.Status.RetentionPolicy.Enabled).To(Equal(to.Ptr(true)))
-	tc.Expect(flowLog.Status.RetentionPolicy.Days).To(Equal(to.Ptr(7)))
+	tc.Expect(flowLog.Status.RetentionPolicy.Enabled).To(Equal(new(true)))
+	tc.Expect(flowLog.Status.RetentionPolicy.Days).To(Equal(new(7)))
 	tc.Expect(flowLog.Status.Format).ToNot(BeNil())
 	tc.Expect(flowLog.Status.Format.Type).To(Equal(to.Ptr(network.FlowLogFormatParameters_Type_STATUS_JSON)))
-	tc.Expect(flowLog.Status.Format.Version).To(Equal(to.Ptr(2)))
+	tc.Expect(flowLog.Status.Format.Version).To(Equal(new(2)))
 
 	// Test updating flow log - change retention to 14 days
 	oldFlowLog := flowLog.DeepCopy()
-	flowLog.Spec.RetentionPolicy.Days = to.Ptr(14)
+	flowLog.Spec.RetentionPolicy.Days = new(14)
 	flowLog.Spec.Tags = map[string]string{
 		"updated": "true",
 	}
 	tc.PatchResourceAndWait(oldFlowLog, flowLog)
-	tc.Expect(flowLog.Status.RetentionPolicy.Days).To(Equal(to.Ptr(14)))
+	tc.Expect(flowLog.Status.RetentionPolicy.Days).To(Equal(new(14)))
 	tc.Expect(flowLog.Status.Tags).To(HaveKey("updated"))
 
 	// Test disabling flow log
 	oldFlowLog2 := flowLog.DeepCopy()
-	flowLog.Spec.Enabled = to.Ptr(false)
+	flowLog.Spec.Enabled = new(false)
 	tc.PatchResourceAndWait(oldFlowLog2, flowLog)
-	tc.Expect(flowLog.Status.Enabled).To(Equal(to.Ptr(false)))
+	tc.Expect(flowLog.Status.Enabled).To(Equal(new(false)))
 
 	tc.DeleteResourceAndWait(flowLog)
 

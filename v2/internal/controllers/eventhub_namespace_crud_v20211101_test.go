@@ -14,7 +14,6 @@ import (
 
 	eventhub "github.com/Azure/azure-service-operator/v2/api/eventhub/v20211101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -36,24 +35,24 @@ func Test_EventHub_Namespace_v20211101_CRUD(t *testing.T) {
 				Name: &skuName,
 				Tier: &skuTier,
 			},
-			IsAutoInflateEnabled:   to.Ptr(true),
-			MaximumThroughputUnits: to.Ptr(1),
-			DisableLocalAuth:       to.Ptr(true),
+			IsAutoInflateEnabled:   new(true),
+			MaximumThroughputUnits: new(1),
+			DisableLocalAuth:       new(true),
 		},
 	}
 
 	tc.CreateResourceAndWait(namespace)
 
 	tc.Expect(namespace.Status.Id).ToNot(BeNil())
-	tc.Expect(namespace.Status.MaximumThroughputUnits).To(Equal(to.Ptr(1)))
-	tc.Expect(namespace.Status.DisableLocalAuth).To(Equal(to.Ptr(true)))
+	tc.Expect(namespace.Status.MaximumThroughputUnits).To(Equal(new(1)))
+	tc.Expect(namespace.Status.DisableLocalAuth).To(Equal(new(true)))
 	armId := *namespace.Status.Id
 
 	// Perform a simple patch
 	old := namespace.DeepCopy()
-	namespace.Spec.MaximumThroughputUnits = to.Ptr(2)
+	namespace.Spec.MaximumThroughputUnits = new(2)
 	tc.PatchResourceAndWait(old, namespace)
-	tc.Expect(namespace.Status.MaximumThroughputUnits).To(Equal(to.Ptr(2)))
+	tc.Expect(namespace.Status.MaximumThroughputUnits).To(Equal(new(2)))
 
 	// Run secret sub tests
 	tc.RunSubtests(
@@ -109,8 +108,8 @@ func EventHub_CRUD_v20211101(tc *testcommon.KubePerTestContext, namespace client
 		ObjectMeta: tc.MakeObjectMeta("eventhub"),
 		Spec: eventhub.NamespacesEventhub_Spec{
 			Owner:                  testcommon.AsOwner(namespace),
-			MessageRetentionInDays: to.Ptr(7),
-			PartitionCount:         to.Ptr(1),
+			MessageRetentionInDays: new(7),
+			PartitionCount:         new(1),
 		},
 	}
 
@@ -141,9 +140,9 @@ func EventHub_CRUD_v20211101(tc *testcommon.KubePerTestContext, namespace client
 
 	// Perform a simple patch
 	old := eh.DeepCopy()
-	eh.Spec.MessageRetentionInDays = to.Ptr(3)
+	eh.Spec.MessageRetentionInDays = new(3)
 	tc.PatchResourceAndWait(old, eh)
-	tc.Expect(eh.Status.MessageRetentionInDays).To(Equal(to.Ptr(3)))
+	tc.Expect(eh.Status.MessageRetentionInDays).To(Equal(new(3)))
 }
 
 func Namespace_AuthorizationRules_CRUD_v20211101(tc *testcommon.KubePerTestContext, namespace client.Object) {
@@ -243,12 +242,12 @@ func EventHubAuthorizationRule_SecretsWrittenToSameKubeSecret_v20211101(tc *test
 }
 
 func EventHub_ConsumerGroup_CRUD_v20211101(tc *testcommon.KubePerTestContext, eh client.Object) {
-	userMetadata := to.Ptr("This is some fun metadata")
+	userMetadata := new("This is some fun metadata")
 	consumerGroup := &eventhub.NamespacesEventhubsConsumerGroup{
 		ObjectMeta: tc.MakeObjectMeta("eventhub"),
 		Spec: eventhub.NamespacesEventhubsConsumerGroup_Spec{
 			Owner:        testcommon.AsOwner(eh),
-			UserMetadata: to.Ptr("This is some fun metadata"),
+			UserMetadata: new("This is some fun metadata"),
 		},
 	}
 

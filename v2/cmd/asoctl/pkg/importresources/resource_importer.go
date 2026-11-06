@@ -219,7 +219,7 @@ func (ri *ResourceImporter) startWorkers(
 
 	wg := conc.NewWaitGroup()
 	workersRequired := ri.desiredWorkers()
-	for i := 0; i < workersRequired; i++ {
+	for range workersRequired {
 		wg.Go(func() {
 			ri.importWorker(ctx, resources, successes, failures, ri.reporter)
 		})

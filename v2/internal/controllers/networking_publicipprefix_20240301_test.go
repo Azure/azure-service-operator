@@ -26,7 +26,7 @@ func Test_Networking_PublicIPPrefix_20240301_CRUD(t *testing.T) {
 		Spec: network.PublicIPPrefix_Spec{
 			Location:               tc.AzureRegion,
 			Owner:                  testcommon.AsOwner(rg),
-			PrefixLength:           to.Ptr(28),
+			PrefixLength:           new(28),
 			PublicIPAddressVersion: to.Ptr(network.IPVersion_IPv4),
 			Sku: &network.PublicIPPrefixSku{
 				Name: to.Ptr(network.PublicIPPrefixSku_Name_Standard),

@@ -15,7 +15,6 @@ import (
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -30,7 +29,7 @@ func Test_Networking_PrivateEndpoint_20240301_CRUD(t *testing.T) {
 
 	saKind := storage.StorageAccount_Kind_Spec_BlobStorage
 	sa := newStorageAccount(tc, rg)
-	sa.Spec.AllowBlobPublicAccess = to.Ptr(false)
+	sa.Spec.AllowBlobPublicAccess = new(false)
 	sa.Spec.Kind = &saKind
 
 	vnet := newVMVirtualNetwork(tc, testcommon.AsOwner(rg))
@@ -92,7 +91,7 @@ func PrivateEndpoint_DNSZoneGroup_20240301_CRUD(tc *testcommon.KubePerTestContex
 			Owner: testcommon.AsOwner(endpoint),
 			PrivateDnsZoneConfigs: []network.PrivateDnsZoneConfig{
 				{
-					Name:                    to.Ptr("config"),
+					Name:                    new("config"),
 					PrivateDnsZoneReference: tc.MakeReferenceFromResource(zone),
 				},
 			},
@@ -114,7 +113,7 @@ func newPrivateEndpoint20240301(tc *testcommon.KubePerTestContext, rg *resources
 			Owner:    testcommon.AsOwner(rg),
 			PrivateLinkServiceConnections: []network.PrivateLinkServiceConnection{
 				{
-					Name: to.Ptr("testEndpoint"),
+					Name: new("testEndpoint"),
 					PrivateLinkServiceReference: &genruntime.WellKnownResourceReference{
 						ResourceReference: *tc.MakeReferenceFromResource(sa),
 					},

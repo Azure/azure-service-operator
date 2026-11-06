@@ -47,7 +47,7 @@ func Test_RedHatOpenShift_HcpOpenShiftCluster_v20260901preview_CRUD(t *testing.T
 
 	tc := globalTestContext.ForTest(t)
 	values := loadHcpTestConfig(tc, configPath)
-	tc.AzureRegion = to.Ptr(values["location"])
+	tc.AzureRegion = new(values["location"])
 	rg := tc.CreateTestResourceGroupAndWait()
 	prerequisites := createHcpTestPrerequisites(tc, rg, values)
 	fixture := loadHcpTestResources(tc, values)
@@ -57,7 +57,7 @@ func Test_RedHatOpenShift_HcpOpenShiftCluster_v20260901preview_CRUD(t *testing.T
 		Spec:       fixture.Cluster,
 	}
 	cluster.Spec.Owner = testcommon.AsOwner(rg)
-	cluster.Spec.Properties.Platform.ManagedResourceGroup = to.Ptr(tc.Namer.GenerateName("hcp-managed"))
+	cluster.Spec.Properties.Platform.ManagedResourceGroup = new(tc.Namer.GenerateName("hcp-managed"))
 	nodePool := &aro.HcpOpenShiftClustersNodePool{
 		ObjectMeta: tc.MakeObjectMeta("workers"),
 		Spec:       fixture.NodePool,
@@ -106,7 +106,7 @@ func Test_RedHatOpenShift_HcpOpenShiftCluster_v20260901preview_CRUD(t *testing.T
 	tc.Expect(nodePool.Status.Id).ToNot(BeNil())
 	tc.Expect(nodePool.Status.Properties).ToNot(BeNil())
 	tc.Expect(nodePool.Status.Properties.ProvisioningState).To(Equal(to.Ptr(aro.ProvisioningState_STATUS_Succeeded)))
-	tc.Expect(nodePool.Status.Properties.Replicas).To(Equal(to.Ptr(2)))
+	tc.Expect(nodePool.Status.Properties.Replicas).To(Equal(new(2)))
 	tc.Expect(externalAuth.Status.Id).ToNot(BeNil())
 	tc.Expect(externalAuth.Status.Properties).ToNot(BeNil())
 	tc.Expect(externalAuth.Status.Properties.ProvisioningState).To(Equal(to.Ptr(aro.ExternalAuthProvisioningState_STATUS_Succeeded)))
@@ -119,18 +119,18 @@ func Test_RedHatOpenShift_HcpOpenShiftCluster_v20260901preview_CRUD(t *testing.T
 	tc.Expect(cluster.Status.Tags).To(HaveKeyWithValue("aso-test", "updated"))
 
 	oldNodePool := nodePool.DeepCopy()
-	nodePool.Spec.Properties.Replicas = to.Ptr(3)
+	nodePool.Spec.Properties.Replicas = new(3)
 	tc.PatchResourceAndWait(oldNodePool, nodePool)
-	tc.Expect(nodePool.Status.Properties.Replicas).To(Equal(to.Ptr(3)))
+	tc.Expect(nodePool.Status.Properties.Replicas).To(Equal(new(3)))
 
 	oldExternalAuth := externalAuth.DeepCopy()
-	externalAuth.Spec.Properties.Claim.Mappings.Username.Prefix = to.Ptr("updated:")
+	externalAuth.Spec.Properties.Claim.Mappings.Username.Prefix = new("updated:")
 	externalAuth.Spec.Properties.Claim.Mappings.Username.PrefixPolicy = to.Ptr(aro.UsernameClaimPrefixPolicy_Prefix)
 	tc.PatchResourceAndWait(oldExternalAuth, externalAuth)
 	tc.Expect(externalAuth.Status.Properties.Claim).ToNot(BeNil())
 	tc.Expect(externalAuth.Status.Properties.Claim.Mappings).ToNot(BeNil())
 	tc.Expect(externalAuth.Status.Properties.Claim.Mappings.Username).ToNot(BeNil())
-	tc.Expect(externalAuth.Status.Properties.Claim.Mappings.Username.Prefix).To(Equal(to.Ptr("updated:")))
+	tc.Expect(externalAuth.Status.Properties.Claim.Mappings.Username.Prefix).To(Equal(new("updated:")))
 
 	// Azure rejects an explicit DELETE of a cluster's last remaining node pool while the
 	// cluster still exists ("Forbidden: The last node pool can not be deleted from a

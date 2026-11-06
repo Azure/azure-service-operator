@@ -178,7 +178,7 @@ func requestAdminCredential(
 		resourceGroupName,
 		clusterName,
 		armhcp20260901preview.HcpOpenShiftClusterAdminCredentialRequest{
-			CertificateSigningRequest: to.Ptr(string(csrPEM)),
+			CertificateSigningRequest: new(string(csrPEM)),
 		},
 		nil,
 	)

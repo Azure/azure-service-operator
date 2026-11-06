@@ -15,7 +15,6 @@ import (
 
 	communication "github.com/Azure/azure-service-operator/v2/api/communication/v20230401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -100,9 +99,9 @@ func newCommunicationService(tc *testcommon.KubePerTestContext, rg client.Object
 	return &communication.CommunicationService{
 		ObjectMeta: tc.MakeObjectMeta("commssvc"),
 		Spec: communication.CommunicationService_Spec{
-			Location:     to.Ptr("global"),
+			Location:     new("global"),
 			Owner:        testcommon.AsOwner(rg),
-			DataLocation: to.Ptr("UnitedStates"),
+			DataLocation: new("UnitedStates"),
 		},
 	}
 }
@@ -111,9 +110,9 @@ func newEmailService(tc *testcommon.KubePerTestContext, rg client.Object) *commu
 	return &communication.EmailService{
 		ObjectMeta: tc.MakeObjectMeta("emailsvc"),
 		Spec: communication.EmailService_Spec{
-			Location:     to.Ptr("global"),
+			Location:     new("global"),
 			Owner:        testcommon.AsOwner(rg),
-			DataLocation: to.Ptr("UnitedStates"),
+			DataLocation: new("UnitedStates"),
 		},
 	}
 }
@@ -126,7 +125,7 @@ func newAzureManagedDomain(tc *testcommon.KubePerTestContext, emailSvc *communic
 		ObjectMeta: tc.MakeObjectMetaWithName("azuremanageddomain"),
 		Spec: communication.Domain_Spec{
 			AzureName:              "AzureManagedDomain",
-			Location:               to.Ptr("global"),
+			Location:               new("global"),
 			Owner:                  testcommon.AsOwner(emailSvc),
 			DomainManagement:       &azureManaged,
 			UserEngagementTracking: &disabled,
@@ -140,8 +139,8 @@ func newSenderUsername(tc *testcommon.KubePerTestContext, domain *communication.
 		Spec: communication.SenderUsername_Spec{
 			AzureName:   "testuser",
 			Owner:       testcommon.AsOwner(domain),
-			Username:    to.Ptr("testuser"),
-			DisplayName: to.Ptr("ASO Test User"),
+			Username:    new("testuser"),
+			DisplayName: new("ASO Test User"),
 		},
 	}
 }

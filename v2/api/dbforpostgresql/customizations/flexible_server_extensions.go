@@ -183,7 +183,7 @@ func (ext *FlexibleServerExtension) ModifyARMResource(
 
 	log.V(Verbose).Info("Replica already exists, sending createMode Update", "resourceID", armObj.GetID())
 
-	err = reflecthelpers.SetProperty(armObj.Spec(), "Properties.CreateMode", to.Ptr(createModeUpdate))
+	err = reflecthelpers.SetProperty(armObj.Spec(), "Properties.CreateMode", new(createModeUpdate))
 	if err != nil {
 		return nil, eris.Wrapf(err, "setting CreateMode to %s", createModeUpdate)
 	}

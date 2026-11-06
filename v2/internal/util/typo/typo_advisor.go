@@ -64,7 +64,7 @@ func (advisor *Advisor) ClearTerms() {
 }
 
 // Errorf creates a new error with advice, or a simple error if no advice possible
-func (advisor *Advisor) Errorf(typo string, format string, args ...interface{}) error {
+func (advisor *Advisor) Errorf(typo string, format string, args ...any) error {
 	advisor.lock.RLock()
 	defer advisor.lock.RUnlock()
 
@@ -97,7 +97,7 @@ func (advisor *Advisor) Errorf(typo string, format string, args ...interface{}) 
 }
 
 // Wrapf adds any guidance to the provided error, if possible
-func (advisor *Advisor) Wrapf(originalError error, typo string, format string, args ...interface{}) error {
+func (advisor *Advisor) Wrapf(originalError error, typo string, format string, args ...any) error {
 	advisor.lock.RLock()
 	defer advisor.lock.RUnlock()
 

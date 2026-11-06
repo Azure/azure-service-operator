@@ -22,7 +22,7 @@ type KubeBuilderValidation struct {
 	name string
 
 	// value is a bool, an int, or a string, or a list of those
-	value interface{}
+	value any
 }
 
 // GenerateKubebuilderComment converts the given validation to
@@ -120,7 +120,7 @@ const (
 
 // MakeEnumValidation returns a Validation that requires the value be one of the
 // passed 'permittedValues'
-func MakeEnumValidation(permittedValues []interface{}) KubeBuilderValidation {
+func MakeEnumValidation(permittedValues []any) KubeBuilderValidation {
 	return KubeBuilderValidation{EnumValidationName, permittedValues}
 }
 

@@ -13,7 +13,6 @@ import (
 	compute2020 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930"
 	compute2022 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_Compute_Image_20220301_CRUD(t *testing.T) {
@@ -32,7 +31,7 @@ func Test_Compute_Image_20220301_CRUD(t *testing.T) {
 			CreationData: &compute2020.CreationData{
 				CreateOption: &createOption,
 			},
-			DiskSizeGB: to.Ptr(32),
+			DiskSizeGB: new(32),
 			Location:   tc.AzureRegion,
 			Owner:      testcommon.AsOwner(rg),
 		},
@@ -50,7 +49,7 @@ func Test_Compute_Image_20220301_CRUD(t *testing.T) {
 			Owner:            testcommon.AsOwner(rg),
 			StorageProfile: &compute2022.ImageStorageProfile{
 				OsDisk: &compute2022.ImageOSDisk{
-					DiskSizeGB: to.Ptr(32),
+					DiskSizeGB: new(32),
 					OsType:     &linuxOS,
 					OsState:    &linuxOSState,
 					Snapshot: &compute2022.SubResource{

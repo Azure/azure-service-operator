@@ -5,6 +5,7 @@ package controllers_test
 
 import (
 	"fmt"
+	"slices"
 	"testing"
 	"time"
 
@@ -138,12 +139,7 @@ func checkNeverGetsFinalizer(tc *testcommon.KubePerTestContext, original metav1.
 // hasFinalizer accepts a metav1 object and returns true if the object has the provided finalizer.
 func hasFinalizer(o metav1.Object, finalizer string) bool {
 	f := o.GetFinalizers()
-	for _, e := range f {
-		if e == finalizer {
-			return true
-		}
-	}
-	return false
+	return slices.Contains(f, finalizer)
 }
 
 func TestOperatorNamespacePreventsReconciling(t *testing.T) {
