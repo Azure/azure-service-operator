@@ -5,7 +5,8 @@ package v20260901preview
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview/storage"
+	v20260901ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview/storage"
+	v20261001s "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20261001/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -28,7 +29,7 @@ func Test_ExternalAuthClaimProfile_WhenPropertiesConverted_RoundTripsWithoutLoss
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.ExternalAuthClaimProfile
+		var other v20260901ps.ExternalAuthClaimProfile
 		err := copied.AssignProperties_To_ExternalAuthClaimProfile(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -125,7 +126,7 @@ func Test_ExternalAuthClaimProfile_STATUS_WhenPropertiesConverted_RoundTripsWith
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.ExternalAuthClaimProfile_STATUS
+		var other v20260901ps.ExternalAuthClaimProfile_STATUS
 		err := copied.AssignProperties_To_ExternalAuthClaimProfile_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -222,7 +223,7 @@ func Test_ExternalAuthClientComponentProfile_WhenPropertiesConverted_RoundTripsW
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.ExternalAuthClientComponentProfile
+		var other v20260901ps.ExternalAuthClientComponentProfile
 		err := copied.AssignProperties_To_ExternalAuthClientComponentProfile(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -318,7 +319,7 @@ func Test_ExternalAuthClientComponentProfile_STATUS_WhenPropertiesConverted_Roun
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.ExternalAuthClientComponentProfile_STATUS
+		var other v20260901ps.ExternalAuthClientComponentProfile_STATUS
 		err := copied.AssignProperties_To_ExternalAuthClientComponentProfile_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -414,7 +415,7 @@ func Test_ExternalAuthClientProfile_WhenPropertiesConverted_RoundTripsWithoutLos
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.ExternalAuthClientProfile
+		var other v20260901ps.ExternalAuthClientProfile
 		err := copied.AssignProperties_To_ExternalAuthClientProfile(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -515,7 +516,7 @@ func Test_ExternalAuthClientProfile_STATUS_WhenPropertiesConverted_RoundTripsWit
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.ExternalAuthClientProfile_STATUS
+		var other v20260901ps.ExternalAuthClientProfile_STATUS
 		err := copied.AssignProperties_To_ExternalAuthClientProfile_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -616,7 +617,7 @@ func Test_ExternalAuthProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.ExternalAuthProperties
+		var other v20260901ps.ExternalAuthProperties
 		err := copied.AssignProperties_To_ExternalAuthProperties(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -715,7 +716,7 @@ func Test_ExternalAuthProperties_STATUS_WhenPropertiesConverted_RoundTripsWithou
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.ExternalAuthProperties_STATUS
+		var other v20260901ps.ExternalAuthProperties_STATUS
 		err := copied.AssignProperties_To_ExternalAuthProperties_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -818,7 +819,7 @@ func Test_GroupClaimProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.GroupClaimProfile
+		var other v20260901ps.GroupClaimProfile
 		err := copied.AssignProperties_To_GroupClaimProfile(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -914,7 +915,7 @@ func Test_GroupClaimProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.GroupClaimProfile_STATUS
+		var other v20260901ps.GroupClaimProfile_STATUS
 		err := copied.AssignProperties_To_GroupClaimProfile_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -1010,7 +1011,7 @@ func Test_HcpOpenShiftClustersExternalAuth_WhenConvertedToHub_RoundTripsWithoutL
 		copied := subject.DeepCopy()
 
 		// Convert to our hub version
-		var hub storage.HcpOpenShiftClustersExternalAuth
+		var hub v20261001s.HcpOpenShiftClustersExternalAuth
 		err := copied.ConvertTo(&hub)
 		if err != nil {
 			t.Fatal("ConvertTo: " + err.Error())
@@ -1048,7 +1049,7 @@ func Test_HcpOpenShiftClustersExternalAuth_WhenPropertiesConverted_RoundTripsWit
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.HcpOpenShiftClustersExternalAuth
+		var other v20260901ps.HcpOpenShiftClustersExternalAuth
 		err := copied.AssignProperties_To_HcpOpenShiftClustersExternalAuth(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -1145,7 +1146,7 @@ func Test_HcpOpenShiftClustersExternalAuthOperatorSpec_WhenPropertiesConverted_R
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.HcpOpenShiftClustersExternalAuthOperatorSpec
+		var other v20260901ps.HcpOpenShiftClustersExternalAuthOperatorSpec
 		err := copied.AssignProperties_To_HcpOpenShiftClustersExternalAuthOperatorSpec(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -1234,7 +1235,7 @@ func Test_HcpOpenShiftClustersExternalAuth_STATUS_WhenPropertiesConverted_RoundT
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.HcpOpenShiftClustersExternalAuth_STATUS
+		var other v20260901ps.HcpOpenShiftClustersExternalAuth_STATUS
 		err := copied.AssignProperties_To_HcpOpenShiftClustersExternalAuth_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -1335,7 +1336,7 @@ func Test_HcpOpenShiftClustersExternalAuth_Spec_WhenPropertiesConverted_RoundTri
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.HcpOpenShiftClustersExternalAuth_Spec
+		var other v20260901ps.HcpOpenShiftClustersExternalAuth_Spec
 		err := copied.AssignProperties_To_HcpOpenShiftClustersExternalAuth_Spec(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -1434,7 +1435,7 @@ func Test_TokenClaimMappingsProfile_WhenPropertiesConverted_RoundTripsWithoutLos
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.TokenClaimMappingsProfile
+		var other v20260901ps.TokenClaimMappingsProfile
 		err := copied.AssignProperties_To_TokenClaimMappingsProfile(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -1531,7 +1532,7 @@ func Test_TokenClaimMappingsProfile_STATUS_WhenPropertiesConverted_RoundTripsWit
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.TokenClaimMappingsProfile_STATUS
+		var other v20260901ps.TokenClaimMappingsProfile_STATUS
 		err := copied.AssignProperties_To_TokenClaimMappingsProfile_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -1628,7 +1629,7 @@ func Test_TokenClaimValidationRule_WhenPropertiesConverted_RoundTripsWithoutLoss
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.TokenClaimValidationRule
+		var other v20260901ps.TokenClaimValidationRule
 		err := copied.AssignProperties_To_TokenClaimValidationRule(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -1725,7 +1726,7 @@ func Test_TokenClaimValidationRule_STATUS_WhenPropertiesConverted_RoundTripsWith
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.TokenClaimValidationRule_STATUS
+		var other v20260901ps.TokenClaimValidationRule_STATUS
 		err := copied.AssignProperties_To_TokenClaimValidationRule_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -1822,7 +1823,7 @@ func Test_TokenIssuerProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.TokenIssuerProfile
+		var other v20260901ps.TokenIssuerProfile
 		err := copied.AssignProperties_To_TokenIssuerProfile(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -1920,7 +1921,7 @@ func Test_TokenIssuerProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.TokenIssuerProfile_STATUS
+		var other v20260901ps.TokenIssuerProfile_STATUS
 		err := copied.AssignProperties_To_TokenIssuerProfile_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -2018,7 +2019,7 @@ func Test_TokenRequiredClaim_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.TokenRequiredClaim
+		var other v20260901ps.TokenRequiredClaim
 		err := copied.AssignProperties_To_TokenRequiredClaim(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -2113,7 +2114,7 @@ func Test_TokenRequiredClaim_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.TokenRequiredClaim_STATUS
+		var other v20260901ps.TokenRequiredClaim_STATUS
 		err := copied.AssignProperties_To_TokenRequiredClaim_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -2209,7 +2210,7 @@ func Test_UsernameClaimProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.UsernameClaimProfile
+		var other v20260901ps.UsernameClaimProfile
 		err := copied.AssignProperties_To_UsernameClaimProfile(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -2308,7 +2309,7 @@ func Test_UsernameClaimProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutL
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.UsernameClaimProfile_STATUS
+		var other v20260901ps.UsernameClaimProfile_STATUS
 		err := copied.AssignProperties_To_UsernameClaimProfile_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
