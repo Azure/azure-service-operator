@@ -102,6 +102,12 @@ func (r *PropertyChangesReporter) SaveReports(baseFolder string) error {
 	})
 
 	for _, pkg := range packages {
+		if !astmodel.IsStoragePackageReference(pkg) {
+			// Skip non-storage packages as it's the storage-storage differences that are really interesting
+			// Changes between api <--> storage packages are deterministic and well known.
+			continue
+		}
+
 		filePath := filepath.Join(baseFolder, pkg.FolderPath(), "property-changes.md")
 		err := r.saveReport(filePath, pairsByPackage[pkg])
 		if err != nil {
