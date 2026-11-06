@@ -119,8 +119,6 @@ func (r *PropertyChangesReport) WriteTo(writer io.Writer) error {
 	rpt.AddHeading("Resources")
 	r.writeSummaryTable(rpt, resourceRows)
 
-	rpt.AddLines("", "Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).")
-
 	rpt.AddHeading("Objects")
 	r.writeSummaryTable(rpt, objectRows)
 
