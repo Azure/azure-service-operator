@@ -76,20 +76,14 @@ To unambiguously identify the resource you want to add, you need to know the Azu
   </div>
   <div class="td-navbar__search d-none d-lg-block">
     <div class="td-search td-search--offline">
-  <div class="td-search__icon" aria-hidden="true"></div>
-  <input
-    type="search"
-    name="q"
-    class="td-search__input form-control"
-    placeholder='Search this site…'
-    aria-label='Search this site…'
-    autocomplete="off"
-    
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.68b70246b9dbd328081e24347875df4b.json"
-    data-offline-search-base-href="/"
-    data-offline-search-max-results="10"
-  >
-</div>
+    <div class="td-search__icon" aria-hidden="true"></div>
+    <input type="search" name="q" class="td-search__input form-control"
+      placeholder="Search documentation..." aria-label="Search documentation..." autocomplete="off"
+      data-offline-search-index-json-src="/azure-service-operator/offline-search-index-documentation.b112f492c4c4860319278cdf89317943.json"
+      data-offline-search-base-href="/"
+      data-offline-search-max-results="10">
+  </div>
+
   </div>
 </div>
 </nav>
@@ -102,20 +96,14 @@ To unambiguously identify the resource you want to add, you need to know the Azu
   <div id="content-mobile">
   <form class="td-sidebar__search d-flex align-items-center">
     <div class="td-search td-search--offline">
-  <div class="td-search__icon" aria-hidden="true"></div>
-  <input
-    type="search"
-    name="q"
-    class="td-search__input form-control"
-    placeholder='Search this site…'
-    aria-label='Search this site…'
-    autocomplete="off"
-    
-    data-offline-search-index-json-src="/azure-service-operator/offline-search-index.68b70246b9dbd328081e24347875df4b.json"
-    data-offline-search-base-href="/"
-    data-offline-search-max-results="10"
-  >
-</div>
+    <div class="td-search__icon" aria-hidden="true"></div>
+    <input type="search" name="q" class="td-search__input form-control"
+      placeholder="Search documentation..." aria-label="Search documentation..." autocomplete="off"
+      data-offline-search-index-json-src="/azure-service-operator/offline-search-index-documentation.b112f492c4c4860319278cdf89317943.json"
+      data-offline-search-base-href="/"
+      data-offline-search-max-results="10">
+  </div>
+
     <button class="btn btn-link td-sidebar__toggle" type="button" data-bs-toggle="collapse" data-bs-target="#td-section-nav" aria-controls="td-section-nav" aria-expanded="false" aria-label="Toggle section navigation">
     </button>
   </form>
@@ -373,9 +361,12 @@ To unambiguously identify the resource you want to add, you need to know the Azu
   </div>
 </footer>
     </div>
-    <script src="/azure-service-operator/js/main.min.a79219248190e5ca305868f1e0d29a218240acb447a9543ac7857c2b6b546946.js" integrity="sha256-p5IZJIGQ5cowWGjx4NKaIYJArLRHqVQ6x4V8K2tUaUY=" crossorigin="anonymous"></script>
+    <script src="/azure-service-operator/js/main.min.e2a4e184cfaf2618611afe02111752163e80250398c971366566d5f1bae2acfe.js" integrity="sha256-4qThhM&#43;vJhhhGv4CERdSFj6AJQOYyXE2ZWbV8brirP4=" crossorigin="anonymous"></script>
 <script defer src="/azure-service-operator/js/click-to-copy.min.decf3b53d8827d840369f490775626e2a5200e150a733f78f0081c126426cbbf.js" integrity="sha256-3s87U9iCfYQDafSQd1Ym4qUgDhUKcz948AgcEmQmy78=" crossorigin="anonymous"></script>
 <script src='/azure-service-operator/js/tabpane-persist.js'></script>
+<script id="aso-search-config" type="application/json">
+    {"workerURL":"/azure-service-operator/js/offline-search-worker.08baa9fbe43553d7999e3665d6ae08d75dde45628f01eadcf3b3a0f570c9270a.js"}
+  </script>
 
   </body>
 </html>
