@@ -24,7 +24,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 	<meta itemprop="description" content="APIVersion Value Description “2026-09-01-preview” HcpOpenShiftCluster Generator information:
 Generated from: /redhatopenshift/resource-manager/Microsoft.RedHatOpenShift/hcpopenshiftclusters/preview/2026-09-01-preview/openapi.json ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.RedHatOpenShift/​hcpOpenShiftClusters/​{hcpOpenShiftClusterName} Used by: HcpOpenShiftClusterList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftCluster_SpecOptional status HcpOpenShiftCluster_STATUSOptional HcpOpenShiftCluster_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional identity The managed service identities assigned to this resource. ManagedServiceIdentityOptional location The geo-location where the resource lives stringRequired operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure HcpOpenShiftClusterOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired properties The resource-specific properties for this resource. HcpOpenShiftClusterPropertiesOptional tags Resource tags. map[string]stringOptional HcpOpenShiftCluster_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional identity The managed service identities assigned to this resource. ManagedServiceIdentity_STATUSOptional location The geo-location where the resource lives stringOptional name The name of the resource stringOptional properties The resource-specific properties for this resource. HcpOpenShiftClusterProperties_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional HcpOpenShiftClusterList Generator information:">
-	<meta itemprop="wordCount" content="8726">
+	<meta itemprop="wordCount" content="8663">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="redhatopenshift.azure.com/v20260901preview">
 	<meta name="twitter:description" content="APIVersion Value Description “2026-09-01-preview” HcpOpenShiftCluster Generator information:
@@ -79,7 +79,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
     <div class="td-search__icon" aria-hidden="true"></div>
     <input type="search" name="q" class="td-search__input form-control"
       placeholder="Search API reference..." aria-label="Search API reference..." autocomplete="off"
-      data-offline-search-index-json-src="/azure-service-operator/offline-search-index-reference.dd7ed02e00acec2492882ddc481f5cb3.json"
+      data-offline-search-index-json-src="/azure-service-operator/offline-search-index-reference.40c5b860e612bc932d63e8573b166087.json"
       data-offline-search-base-href="/"
       data-offline-search-max-results="10">
   </div>
@@ -99,7 +99,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
     <div class="td-search__icon" aria-hidden="true"></div>
     <input type="search" name="q" class="td-search__input form-control"
       placeholder="Search API reference..." aria-label="Search API reference..." autocomplete="off"
-      data-offline-search-index-json-src="/azure-service-operator/offline-search-index-reference.dd7ed02e00acec2492882ddc481f5cb3.json"
+      data-offline-search-index-json-src="/azure-service-operator/offline-search-index-reference.40c5b860e612bc932d63e8573b166087.json"
       data-offline-search-base-href="/"
       data-offline-search-max-results="10">
   </div>
@@ -2144,16 +2144,21 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 			</tr>
 			<tr>
 					<td>replicas</td>
-					<td>The number of worker nodes, it cannot be used together with autoscaling. Validation:</td>
-					<td></td>
+					<td>The number of worker nodes, it cannot be used together with autoscaling. Validation:<ul><li>Minimum: 0</li><li>Maximum: 200 (only when availabilityZone is not specified)</li><li>No maximum when availabilityZone is specified</li></ul></td>
+					<td>int<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>taints</td>
+					<td>Taints for the nodes.</td>
+					<td><a href="#Taint">Taint[]</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>version</td>
+					<td>OpenShift version for the nodepool</td>
+					<td><a href="#NodePoolVersionProfile">NodePoolVersionProfile</a><br/><small>Optional</small></td>
 			</tr>
 	</tbody>
 </table>
-<ul>
-<li>Minimum: 0</li>
-<li>Maximum: 200 (only when availabilityZone is not specified)</li>
-<li>No maximum when availabilityZone is specified| int<br/><small>Optional</small>| | taints| Taints for the nodes.| <a href="#Taint">Taint[]</a><br/><small>Optional</small>| | version| OpenShift version for the nodepool| <a href="#NodePoolVersionProfile">NodePoolVersionProfile</a><br/><small>Optional</small>|</li>
-</ul>
 <h2 id="NodePoolProperties_STATUS">NodePoolProperties_STATUS</h2>
 <p>Represents the node pool properties</p>
 <p>Used by: <a href="#HcpOpenShiftClustersNodePool_STATUS">HcpOpenShiftClustersNodePool_STATUS</a>.</p>
@@ -2198,16 +2203,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 			</tr>
 			<tr>
 					<td>replicas</td>
-					<td>The number of worker nodes, it cannot be used together with autoscaling. Validation:</td>
-					<td></td>
+					<td>The number of worker nodes, it cannot be used together with autoscaling. Validation:<ul><li>Minimum: 0</li><li>Maximum: 200 (only when availabilityZone is not specified)</li><li>No maximum when availabilityZone is specified</li></ul></td>
+					<td>int<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>status</td>
+					<td>Status of the node pool resource</td>
+					<td><a href="#ResourceStatus_STATUS">ResourceStatus_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>taints</td>
+					<td>Taints for the nodes.</td>
+					<td><a href="#Taint_STATUS">Taint_STATUS[]</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>version</td>
+					<td>OpenShift version for the nodepool</td>
+					<td><a href="#NodePoolVersionProfile_STATUS">NodePoolVersionProfile_STATUS</a><br/><small>Optional</small></td>
 			</tr>
 	</tbody>
 </table>
-<ul>
-<li>Minimum: 0</li>
-<li>Maximum: 200 (only when availabilityZone is not specified)</li>
-<li>No maximum when availabilityZone is specified| int<br/><small>Optional</small>| | status| Status of the node pool resource| <a href="#ResourceStatus_STATUS">ResourceStatus_STATUS</a><br/><small>Optional</small>| | taints| Taints for the nodes.| <a href="#Taint_STATUS">Taint_STATUS[]</a><br/><small>Optional</small>| | version| OpenShift version for the nodepool| <a href="#NodePoolVersionProfile_STATUS">NodePoolVersionProfile_STATUS</a><br/><small>Optional</small>|</li>
-</ul>
 <h2 id="SystemData_STATUS">SystemData_STATUS</h2>
 <p>Metadata pertaining to creation and last modification of the resource.</p>
 <p>Used by: <a href="#HcpOpenShiftCluster_STATUS">HcpOpenShiftCluster_STATUS</a>, <a href="#HcpOpenShiftClustersExternalAuth_STATUS">HcpOpenShiftClustersExternalAuth_STATUS</a>, and <a href="#HcpOpenShiftClustersNodePool_STATUS">HcpOpenShiftClustersNodePool_STATUS</a>.</p>
@@ -2744,34 +2759,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 	<tbody>
 			<tr>
 					<td>mirrors</td>
-					<td>mirrors is zero or more locations that may also contain the same images. No mirror will be configured if not specified. Images can be pulled from these mirrors only if they are referenced by their digests. The mirrored location is obtained by replacing the part of the input reference that matches source by the mirrors entry, e.g. for registry.redhat.io/product/repo reference, a (source, mirror) pair *.redhat.io, mirror.local/redhat causes a mirror.local/redhat/product/repo repository to be used. The order of mirrors in this list is treated as the user&rsquo;s desired priority, while source is by default considered lower priority than all mirrors. If no mirror is specified or all image pulls from the mirror list fail, the image will continue to be pulled from the repository in the pull spec. Other cluster configuration, including (but not limited to) other imageDigestMirrors objects, may impact the exact order mirrors are contacted in, or some mirrors may be contacted in parallel, so this should be considered a preference rather than a guarantee of ordering. mirrors uses one of the following formats:</td>
-					<td></td>
+					<td>mirrors is zero or more locations that may also contain the same images. No mirror will be configured if not specified. Images can be pulled from these mirrors only if they are referenced by their digests. The mirrored location is obtained by replacing the part of the input reference that matches source by the mirrors entry, e.g. for registry.redhat.io/product/repo reference, a (source, mirror) pair *.redhat.io, mirror.local/redhat causes a mirror.local/redhat/product/repo repository to be used. The order of mirrors in this list is treated as the user&rsquo;s desired priority, while source is by default considered lower priority than all mirrors. If no mirror is specified or all image pulls from the mirror list fail, the image will continue to be pulled from the repository in the pull spec. Other cluster configuration, including (but not limited to) other imageDigestMirrors objects, may impact the exact order mirrors are contacted in, or some mirrors may be contacted in parallel, so this should be considered a preference rather than a guarantee of ordering. mirrors uses one of the following formats:<ul><li>host[:port]</li><li>host[:port]/namespace[/namespace&hellip;]</li><li>host[:port]/namespace[/namespace&hellip;]/repo for more information about the format, see: <a href="https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table">https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table</a></li></ul></td>
+					<td><a href="#ImageRepository">ImageRepository[]</a><br/><small>Required</small></td>
+			</tr>
+			<tr>
+					<td>source</td>
+					<td>source matches the repository that users refer to, e.g. in image pull specifications. Setting source to a registry hostname, e.g. docker.io, quay.io, or registry.redhat.io, will match the image pull specification of the corresponding registry. source uses one of the following formats:<ul><li>host[:port]</li><li>host[:port]/namespace[/namespace&hellip;]</li><li>host[:port]/namespace[/namespace&hellip;]/repo</li><li>[*.]host for more information about the format, see: <a href="https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table">https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table</a></li></ul></td>
+					<td><a href="#ImageRepository">ImageRepository</a><br/><small>Required</small></td>
 			</tr>
 	</tbody>
 </table>
-<ul>
-<li>
-<p>host[:port]</p>
-</li>
-<li>
-<p>host[:port]/namespace[/namespace&hellip;]</p>
-</li>
-<li>
-<p>host[:port]/namespace[/namespace&hellip;]/repo for more information about the format, see: <a href="https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table">https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table</a>| <a href="#ImageRepository">ImageRepository[]</a><br/><small>Required</small>| | source| source matches the repository that users refer to, e.g. in image pull specifications. Setting source to a registry hostname, e.g. docker.io, quay.io, or registry.redhat.io, will match the image pull specification of the corresponding registry. source uses one of the following formats:</p>
-</li>
-<li>
-<p>host[:port]</p>
-</li>
-<li>
-<p>host[:port]/namespace[/namespace&hellip;]</p>
-</li>
-<li>
-<p>host[:port]/namespace[/namespace&hellip;]/repo</p>
-</li>
-<li>
-<p>[*.]host for more information about the format, see: <a href="https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table">https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table</a>| <a href="#ImageRepository">ImageRepository</a><br/><small>Required</small>|</p>
-</li>
-</ul>
 <h2 id="ImageDigestMirror_STATUS">ImageDigestMirror_STATUS</h2>
 <p>ImageDigestMirror specifies a set of mirror registries to redirect image pulls targeting the specified source registries.</p>
 <p>Used by: <a href="#HcpOpenShiftClusterProperties_STATUS">HcpOpenShiftClusterProperties_STATUS</a>.</p>
@@ -2786,34 +2783,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 	<tbody>
 			<tr>
 					<td>mirrors</td>
-					<td>mirrors is zero or more locations that may also contain the same images. No mirror will be configured if not specified. Images can be pulled from these mirrors only if they are referenced by their digests. The mirrored location is obtained by replacing the part of the input reference that matches source by the mirrors entry, e.g. for registry.redhat.io/product/repo reference, a (source, mirror) pair *.redhat.io, mirror.local/redhat causes a mirror.local/redhat/product/repo repository to be used. The order of mirrors in this list is treated as the user&rsquo;s desired priority, while source is by default considered lower priority than all mirrors. If no mirror is specified or all image pulls from the mirror list fail, the image will continue to be pulled from the repository in the pull spec. Other cluster configuration, including (but not limited to) other imageDigestMirrors objects, may impact the exact order mirrors are contacted in, or some mirrors may be contacted in parallel, so this should be considered a preference rather than a guarantee of ordering. mirrors uses one of the following formats:</td>
-					<td></td>
+					<td>mirrors is zero or more locations that may also contain the same images. No mirror will be configured if not specified. Images can be pulled from these mirrors only if they are referenced by their digests. The mirrored location is obtained by replacing the part of the input reference that matches source by the mirrors entry, e.g. for registry.redhat.io/product/repo reference, a (source, mirror) pair *.redhat.io, mirror.local/redhat causes a mirror.local/redhat/product/repo repository to be used. The order of mirrors in this list is treated as the user&rsquo;s desired priority, while source is by default considered lower priority than all mirrors. If no mirror is specified or all image pulls from the mirror list fail, the image will continue to be pulled from the repository in the pull spec. Other cluster configuration, including (but not limited to) other imageDigestMirrors objects, may impact the exact order mirrors are contacted in, or some mirrors may be contacted in parallel, so this should be considered a preference rather than a guarantee of ordering. mirrors uses one of the following formats:<ul><li>host[:port]</li><li>host[:port]/namespace[/namespace&hellip;]</li><li>host[:port]/namespace[/namespace&hellip;]/repo for more information about the format, see: <a href="https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table">https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table</a></li></ul></td>
+					<td><a href="#ImageRepository_STATUS">ImageRepository_STATUS[]</a><br/><small>Required</small></td>
+			</tr>
+			<tr>
+					<td>source</td>
+					<td>source matches the repository that users refer to, e.g. in image pull specifications. Setting source to a registry hostname, e.g. docker.io, quay.io, or registry.redhat.io, will match the image pull specification of the corresponding registry. source uses one of the following formats:<ul><li>host[:port]</li><li>host[:port]/namespace[/namespace&hellip;]</li><li>host[:port]/namespace[/namespace&hellip;]/repo</li><li>[*.]host for more information about the format, see: <a href="https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table">https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table</a></li></ul></td>
+					<td><a href="#ImageRepository_STATUS">ImageRepository_STATUS</a><br/><small>Required</small></td>
 			</tr>
 	</tbody>
 </table>
-<ul>
-<li>
-<p>host[:port]</p>
-</li>
-<li>
-<p>host[:port]/namespace[/namespace&hellip;]</p>
-</li>
-<li>
-<p>host[:port]/namespace[/namespace&hellip;]/repo for more information about the format, see: <a href="https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table">https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table</a>| <a href="#ImageRepository_STATUS">ImageRepository_STATUS[]</a><br/><small>Required</small>| | source| source matches the repository that users refer to, e.g. in image pull specifications. Setting source to a registry hostname, e.g. docker.io, quay.io, or registry.redhat.io, will match the image pull specification of the corresponding registry. source uses one of the following formats:</p>
-</li>
-<li>
-<p>host[:port]</p>
-</li>
-<li>
-<p>host[:port]/namespace[/namespace&hellip;]</p>
-</li>
-<li>
-<p>host[:port]/namespace[/namespace&hellip;]/repo</p>
-</li>
-<li>
-<p>[*.]host for more information about the format, see: <a href="https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table">https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table</a>| <a href="#ImageRepository_STATUS">ImageRepository_STATUS</a><br/><small>Required</small>|</p>
-</li>
-</ul>
 <h2 id="IngressProfile">IngressProfile</h2>
 <p>Information about the Ingress of a cluster.</p>
 <p>Used by: <a href="#HcpOpenShiftClusterProperties">HcpOpenShiftClusterProperties</a>.</p>
@@ -3050,31 +3029,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 	<tbody>
 			<tr>
 					<td>max</td>
-					<td>The maximum number of nodes in the node pool. Validation:</td>
-					<td></td>
+					<td>The maximum number of nodes in the node pool. Validation:<ul><li>Minimum: 0 (must be &gt;= min)</li><li>Maximum: 200 (only when availabilityZone is not specified)</li><li>No maximum when availabilityZone is specified</li></ul></td>
+					<td>int<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>min</td>
+					<td>The minimum number of nodes in the node pool. Validation:<ul><li>Minimum: 0</li><li>Maximum: 200 (only when availabilityZone is not specified)</li><li>No maximum when availabilityZone is specified</li></ul></td>
+					<td>int<br/><small>Optional</small></td>
 			</tr>
 	</tbody>
 </table>
-<ul>
-<li>
-<p>Minimum: 0 (must be &gt;= min)</p>
-</li>
-<li>
-<p>Maximum: 200 (only when availabilityZone is not specified)</p>
-</li>
-<li>
-<p>No maximum when availabilityZone is specified| int<br/><small>Optional</small>| | min| The minimum number of nodes in the node pool. Validation:</p>
-</li>
-<li>
-<p>Minimum: 0</p>
-</li>
-<li>
-<p>Maximum: 200 (only when availabilityZone is not specified)</p>
-</li>
-<li>
-<p>No maximum when availabilityZone is specified| int<br/><small>Optional</small>|</p>
-</li>
-</ul>
 <h2 id="NodePoolAutoScaling_STATUS">NodePoolAutoScaling_STATUS</h2>
 <p>Node pool autoscaling</p>
 <p>Used by: <a href="#NodePoolProperties_STATUS">NodePoolProperties_STATUS</a>.</p>
@@ -3089,31 +3053,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 	<tbody>
 			<tr>
 					<td>max</td>
-					<td>The maximum number of nodes in the node pool. Validation:</td>
-					<td></td>
+					<td>The maximum number of nodes in the node pool. Validation:<ul><li>Minimum: 0 (must be &gt;= min)</li><li>Maximum: 200 (only when availabilityZone is not specified)</li><li>No maximum when availabilityZone is specified</li></ul></td>
+					<td>int<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>min</td>
+					<td>The minimum number of nodes in the node pool. Validation:<ul><li>Minimum: 0</li><li>Maximum: 200 (only when availabilityZone is not specified)</li><li>No maximum when availabilityZone is specified</li></ul></td>
+					<td>int<br/><small>Optional</small></td>
 			</tr>
 	</tbody>
 </table>
-<ul>
-<li>
-<p>Minimum: 0 (must be &gt;= min)</p>
-</li>
-<li>
-<p>Maximum: 200 (only when availabilityZone is not specified)</p>
-</li>
-<li>
-<p>No maximum when availabilityZone is specified| int<br/><small>Optional</small>| | min| The minimum number of nodes in the node pool. Validation:</p>
-</li>
-<li>
-<p>Minimum: 0</p>
-</li>
-<li>
-<p>Maximum: 200 (only when availabilityZone is not specified)</p>
-</li>
-<li>
-<p>No maximum when availabilityZone is specified| int<br/><small>Optional</small>|</p>
-</li>
-</ul>
 <h2 id="NodePoolPlatformProfile">NodePoolPlatformProfile</h2>
 <p>Azure node pool platform configuration</p>
 <p>Used by: <a href="#NodePoolProperties">NodePoolProperties</a>.</p>
@@ -3128,19 +3077,31 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 	<tbody>
 			<tr>
 					<td>availabilityZone</td>
-					<td>The availability zone for the node pool. Please read the documentation to see which regions support availability zones</td>
-					<td></td>
+					<td>The availability zone for the node pool. Please read the documentation to see which regions support availability zones<ul><li><a href="https://learn.microsoft.com/en-us/azure/availability-zones/az-overview">https://learn.microsoft.com/en-us/azure/availability-zones/az-overview</a></li></ul></td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>enableEncryptionAtHost</td>
+					<td>Whether to enable host based OS and data drive encryption. - <a href="https://learn.microsoft.com/en-us/azure/virtual-machines/disk-encryption#encryption-at-host---end-to-end-encryption-for-your-vm-data">https://learn.microsoft.com/en-us/azure/virtual-machines/disk-encryption#encryption-at-host---end-to-end-encryption-for-your-vm-data</a></td>
+					<td>bool<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>osDisk</td>
+					<td>The settings and configuration options for OSDisk</td>
+					<td><a href="#OsDiskProfile">OsDiskProfile</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>subnetReference</td>
+					<td>The Azure resource ID of the worker subnet. Note that a subnet cannot be reused between ARO-HCP Clusters, however the same subnet can be used for NodePools of the same cluster.</td>
+					<td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>vmSize</td>
+					<td>The VM size according to the documentation:<ul><li><a href="https://learn.microsoft.com/en-us/azure/virtual-machines/sizes">https://learn.microsoft.com/en-us/azure/virtual-machines/sizes</a></li></ul></td>
+					<td>string<br/><small>Required</small></td>
 			</tr>
 	</tbody>
 </table>
-<ul>
-<li>
-<p><a href="https://learn.microsoft.com/en-us/azure/availability-zones/az-overview">https://learn.microsoft.com/en-us/azure/availability-zones/az-overview</a>| string<br/><small>Optional</small>| | enableEncryptionAtHost| Whether to enable host based OS and data drive encryption. - <a href="https://learn.microsoft.com/en-us/azure/virtual-machines/disk-encryption#encryption-at-host---end-to-end-encryption-for-your-vm-data">https://learn.microsoft.com/en-us/azure/virtual-machines/disk-encryption#encryption-at-host---end-to-end-encryption-for-your-vm-data</a>| bool<br/><small>Optional</small>| | osDisk| The settings and configuration options for OSDisk| <a href="#OsDiskProfile">OsDiskProfile</a><br/><small>Optional</small>| | subnetReference| The Azure resource ID of the worker subnet. Note that a subnet cannot be reused between ARO-HCP Clusters, however the same subnet can be used for NodePools of the same cluster.| <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small>| | vmSize| The VM size according to the documentation:</p>
-</li>
-<li>
-<p><a href="https://learn.microsoft.com/en-us/azure/virtual-machines/sizes">https://learn.microsoft.com/en-us/azure/virtual-machines/sizes</a>| string<br/><small>Required</small>|</p>
-</li>
-</ul>
 <h2 id="NodePoolPlatformProfile_STATUS">NodePoolPlatformProfile_STATUS</h2>
 <p>Azure node pool platform configuration</p>
 <p>Used by: <a href="#NodePoolProperties_STATUS">NodePoolProperties_STATUS</a>.</p>
@@ -3155,19 +3116,31 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 	<tbody>
 			<tr>
 					<td>availabilityZone</td>
-					<td>The availability zone for the node pool. Please read the documentation to see which regions support availability zones</td>
-					<td></td>
+					<td>The availability zone for the node pool. Please read the documentation to see which regions support availability zones<ul><li><a href="https://learn.microsoft.com/en-us/azure/availability-zones/az-overview">https://learn.microsoft.com/en-us/azure/availability-zones/az-overview</a></li></ul></td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>enableEncryptionAtHost</td>
+					<td>Whether to enable host based OS and data drive encryption. - <a href="https://learn.microsoft.com/en-us/azure/virtual-machines/disk-encryption#encryption-at-host---end-to-end-encryption-for-your-vm-data">https://learn.microsoft.com/en-us/azure/virtual-machines/disk-encryption#encryption-at-host---end-to-end-encryption-for-your-vm-data</a></td>
+					<td>bool<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>osDisk</td>
+					<td>The settings and configuration options for OSDisk</td>
+					<td><a href="#OsDiskProfile_STATUS">OsDiskProfile_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>subnetId</td>
+					<td>The Azure resource ID of the worker subnet. Note that a subnet cannot be reused between ARO-HCP Clusters, however the same subnet can be used for NodePools of the same cluster.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>vmSize</td>
+					<td>The VM size according to the documentation:<ul><li><a href="https://learn.microsoft.com/en-us/azure/virtual-machines/sizes">https://learn.microsoft.com/en-us/azure/virtual-machines/sizes</a></li></ul></td>
+					<td>string<br/><small>Optional</small></td>
 			</tr>
 	</tbody>
 </table>
-<ul>
-<li>
-<p><a href="https://learn.microsoft.com/en-us/azure/availability-zones/az-overview">https://learn.microsoft.com/en-us/azure/availability-zones/az-overview</a>| string<br/><small>Optional</small>| | enableEncryptionAtHost| Whether to enable host based OS and data drive encryption. - <a href="https://learn.microsoft.com/en-us/azure/virtual-machines/disk-encryption#encryption-at-host---end-to-end-encryption-for-your-vm-data">https://learn.microsoft.com/en-us/azure/virtual-machines/disk-encryption#encryption-at-host---end-to-end-encryption-for-your-vm-data</a>| bool<br/><small>Optional</small>| | osDisk| The settings and configuration options for OSDisk| <a href="#OsDiskProfile_STATUS">OsDiskProfile_STATUS</a><br/><small>Optional</small>| | subnetId| The Azure resource ID of the worker subnet. Note that a subnet cannot be reused between ARO-HCP Clusters, however the same subnet can be used for NodePools of the same cluster.| string<br/><small>Optional</small>| | vmSize| The VM size according to the documentation:</p>
-</li>
-<li>
-<p><a href="https://learn.microsoft.com/en-us/azure/virtual-machines/sizes">https://learn.microsoft.com/en-us/azure/virtual-machines/sizes</a>| string<br/><small>Optional</small>|</p>
-</li>
-</ul>
 <h2 id="NodePoolVersionProfile">NodePoolVersionProfile</h2>
 <p>Versions represents an OpenShift version.</p>
 <p>Used by: <a href="#NodePoolProperties">NodePoolProperties</a>.</p>
@@ -4083,19 +4056,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 	<tbody>
 			<tr>
 					<td>diskStorageAccountType</td>
-					<td>The type of the disk storage account</td>
-					<td></td>
+					<td>The type of the disk storage account<ul><li><a href="https://learn.microsoft.com/en-us/azure/virtual-machines/disks-types">https://learn.microsoft.com/en-us/azure/virtual-machines/disks-types</a></li></ul></td>
+					<td><a href="#OsDiskProfile_DiskStorageAccountType">OsDiskProfile_DiskStorageAccountType</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>diskType</td>
+					<td>The type of the OS disk.<ul><li><a href="https://learn.microsoft.com/en-us/azure/virtual-machines/ephemeral-os-disks">https://learn.microsoft.com/en-us/azure/virtual-machines/ephemeral-os-disks</a></li></ul></td>
+					<td><a href="#OsDiskProfile_DiskType">OsDiskProfile_DiskType</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>encryptionSetReference</td>
+					<td>The ID of the DiskEncryptionSet resource to use to encrypt the OS disks for the VMs. This needs to exist in the same subscription id listed in the Hosted Cluster, HostedCluster.Spec.Platform.Azure.SubscriptionID. DiskEncryptionSetID should also exist in a resource group under the same subscription id and the same location listed in the Hosted Cluster, HostedCluster.Spec.Platform.Azure.Location. Details on how to create a Disk Encryption Set can be found here: <a href="https://learn.microsoft.com/en-us/azure/virtual-machines/disks-enable-customer-managed-keys-portal#set-up-your-disk-encryption-set">https://learn.microsoft.com/en-us/azure/virtual-machines/disks-enable-customer-managed-keys-portal#set-up-your-disk-encryption-set</a></td>
+					<td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>sizeGiB</td>
+					<td>The OS disk size in GiB. Maximum is 4095 GiB for Managed disks. For Ephemeral disks, the maximum is 2040 GiB; Azure may enforce a lower effective limit based on the selected VM size&rsquo;s local cache, temp, or NVMe capacity.</td>
+					<td>int<br/><small>Optional</small></td>
 			</tr>
 	</tbody>
 </table>
-<ul>
-<li>
-<p><a href="https://learn.microsoft.com/en-us/azure/virtual-machines/disks-types">https://learn.microsoft.com/en-us/azure/virtual-machines/disks-types</a>| <a href="#OsDiskProfile_DiskStorageAccountType">OsDiskProfile_DiskStorageAccountType</a><br/><small>Optional</small>| | diskType| The type of the OS disk.</p>
-</li>
-<li>
-<p><a href="https://learn.microsoft.com/en-us/azure/virtual-machines/ephemeral-os-disks">https://learn.microsoft.com/en-us/azure/virtual-machines/ephemeral-os-disks</a>| <a href="#OsDiskProfile_DiskType">OsDiskProfile_DiskType</a><br/><small>Optional</small>| | encryptionSetReference| The ID of the DiskEncryptionSet resource to use to encrypt the OS disks for the VMs. This needs to exist in the same subscription id listed in the Hosted Cluster, HostedCluster.Spec.Platform.Azure.SubscriptionID. DiskEncryptionSetID should also exist in a resource group under the same subscription id and the same location listed in the Hosted Cluster, HostedCluster.Spec.Platform.Azure.Location. Details on how to create a Disk Encryption Set can be found here: <a href="https://learn.microsoft.com/en-us/azure/virtual-machines/disks-enable-customer-managed-keys-portal#set-up-your-disk-encryption-set">https://learn.microsoft.com/en-us/azure/virtual-machines/disks-enable-customer-managed-keys-portal#set-up-your-disk-encryption-set</a>| <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small>| | sizeGiB| The OS disk size in GiB. Maximum is 4095 GiB for Managed disks. For Ephemeral disks, the maximum is 2040 GiB; Azure may enforce a lower effective limit based on the selected VM size&rsquo;s local cache, temp, or NVMe capacity.| int<br/><small>Optional</small>|</p>
-</li>
-</ul>
 <h2 id="OsDiskProfile_STATUS">OsDiskProfile_STATUS</h2>
 <p>The settings and configuration options for OSDisk</p>
 <p>Used by: <a href="#NodePoolPlatformProfile_STATUS">NodePoolPlatformProfile_STATUS</a>.</p>
@@ -4110,19 +4090,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec HcpOpenShiftClu
 	<tbody>
 			<tr>
 					<td>diskStorageAccountType</td>
-					<td>The type of the disk storage account</td>
-					<td></td>
+					<td>The type of the disk storage account<ul><li><a href="https://learn.microsoft.com/en-us/azure/virtual-machines/disks-types">https://learn.microsoft.com/en-us/azure/virtual-machines/disks-types</a></li></ul></td>
+					<td><a href="#OsDiskProfile_DiskStorageAccountType_STATUS">OsDiskProfile_DiskStorageAccountType_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>diskType</td>
+					<td>The type of the OS disk.<ul><li><a href="https://learn.microsoft.com/en-us/azure/virtual-machines/ephemeral-os-disks">https://learn.microsoft.com/en-us/azure/virtual-machines/ephemeral-os-disks</a></li></ul></td>
+					<td><a href="#OsDiskProfile_DiskType_STATUS">OsDiskProfile_DiskType_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>encryptionSetId</td>
+					<td>The ID of the DiskEncryptionSet resource to use to encrypt the OS disks for the VMs. This needs to exist in the same subscription id listed in the Hosted Cluster, HostedCluster.Spec.Platform.Azure.SubscriptionID. DiskEncryptionSetID should also exist in a resource group under the same subscription id and the same location listed in the Hosted Cluster, HostedCluster.Spec.Platform.Azure.Location. Details on how to create a Disk Encryption Set can be found here: <a href="https://learn.microsoft.com/en-us/azure/virtual-machines/disks-enable-customer-managed-keys-portal#set-up-your-disk-encryption-set">https://learn.microsoft.com/en-us/azure/virtual-machines/disks-enable-customer-managed-keys-portal#set-up-your-disk-encryption-set</a></td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>sizeGiB</td>
+					<td>The OS disk size in GiB. Maximum is 4095 GiB for Managed disks. For Ephemeral disks, the maximum is 2040 GiB; Azure may enforce a lower effective limit based on the selected VM size&rsquo;s local cache, temp, or NVMe capacity.</td>
+					<td>int<br/><small>Optional</small></td>
 			</tr>
 	</tbody>
 </table>
-<ul>
-<li>
-<p><a href="https://learn.microsoft.com/en-us/azure/virtual-machines/disks-types">https://learn.microsoft.com/en-us/azure/virtual-machines/disks-types</a>| <a href="#OsDiskProfile_DiskStorageAccountType_STATUS">OsDiskProfile_DiskStorageAccountType_STATUS</a><br/><small>Optional</small>| | diskType| The type of the OS disk.</p>
-</li>
-<li>
-<p><a href="https://learn.microsoft.com/en-us/azure/virtual-machines/ephemeral-os-disks">https://learn.microsoft.com/en-us/azure/virtual-machines/ephemeral-os-disks</a>| <a href="#OsDiskProfile_DiskType_STATUS">OsDiskProfile_DiskType_STATUS</a><br/><small>Optional</small>| | encryptionSetId| The ID of the DiskEncryptionSet resource to use to encrypt the OS disks for the VMs. This needs to exist in the same subscription id listed in the Hosted Cluster, HostedCluster.Spec.Platform.Azure.SubscriptionID. DiskEncryptionSetID should also exist in a resource group under the same subscription id and the same location listed in the Hosted Cluster, HostedCluster.Spec.Platform.Azure.Location. Details on how to create a Disk Encryption Set can be found here: <a href="https://learn.microsoft.com/en-us/azure/virtual-machines/disks-enable-customer-managed-keys-portal#set-up-your-disk-encryption-set">https://learn.microsoft.com/en-us/azure/virtual-machines/disks-enable-customer-managed-keys-portal#set-up-your-disk-encryption-set</a>| string<br/><small>Optional</small>| | sizeGiB| The OS disk size in GiB. Maximum is 4095 GiB for Managed disks. For Ephemeral disks, the maximum is 2040 GiB; Azure may enforce a lower effective limit based on the selected VM size&rsquo;s local cache, temp, or NVMe capacity.| int<br/><small>Optional</small>|</p>
-</li>
-</ul>
 <h2 id="PlatformProfile_OutboundType">PlatformProfile_OutboundType</h2>
 <p>Used by: <a href="#PlatformProfile">PlatformProfile</a>.</p>
 <table>

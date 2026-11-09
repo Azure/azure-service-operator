@@ -24,7 +24,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
 	<meta itemprop="description" content="APIVersion Value Description “2021-11-01” Server Generator information:
 Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/Servers.json ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName} Used by: ServerList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOptional status Server_STATUSOptional Server_Spec Property Description Type administratorLogin Administrator username for the server. Once created it cannot be changed. stringOptional administratorLoginPassword The administrator login password (required for server creation). genruntime.SecretReferenceOptional administrators The Azure Active Directory administrator of the server. ServerExternalAdministratorOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional federatedClientId The Client id used for cross tenant CMK scenario stringOptional identity The Azure Active Directory identity of the server. ResourceIdentityOptional keyId A CMK URI of the key to use for encryption. stringOptional location Resource location. stringRequired minimalTlsVersion Minimal TLS version. Allowed values: 1.0, 1.1, 1.2 stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ServerOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired primaryUserAssignedIdentityReference The resource id of a user assigned identity to be used by default. genruntime.ResourceReferenceOptional publicNetworkAccess Whether or not public endpoint access is allowed for this server. Value is optional but if passed in, must be Enabled or Disabled ServerProperties_PublicNetworkAccessOptional restrictOutboundNetworkAccess Whether or not to restrict outbound network access for this server. Value is optional but if passed in, must be Enabled or Disabled ServerProperties_RestrictOutboundNetworkAccessOptional tags Resource tags. map[string]stringOptional version The version of the server. stringOptional Server_STATUS Property Description Type administratorLogin Administrator username for the server. Once created it cannot be changed. stringOptional administrators The Azure Active Directory administrator of the server. ServerExternalAdministrator_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional federatedClientId The Client id used for cross tenant CMK scenario stringOptional fullyQualifiedDomainName The fully qualified domain name of the server. stringOptional id Resource ID. stringOptional identity The Azure Active Directory identity of the server. ResourceIdentity_STATUSOptional keyId A CMK URI of the key to use for encryption. stringOptional kind Kind of sql server. This is metadata used for the Azure portal experience. stringOptional location Resource location. stringOptional minimalTlsVersion Minimal TLS version. Allowed values: 1.0, 1.1, 1.2 stringOptional name Resource name. stringOptional primaryUserAssignedIdentityId The resource id of a user assigned identity to be used by default. stringOptional privateEndpointConnections List of private endpoint connections on a server ServerPrivateEndpointConnection_STATUS[]Optional publicNetworkAccess Whether or not public endpoint access is allowed for this server. Value is optional but if passed in, must be Enabled or Disabled ServerProperties_PublicNetworkAccess_STATUSOptional restrictOutboundNetworkAccess Whether or not to restrict outbound network access for this server. Value is optional but if passed in, must be Enabled or Disabled ServerProperties_RestrictOutboundNetworkAccess_STATUSOptional state The state of the server. stringOptional tags Resource tags. map[string]stringOptional type Resource type. stringOptional version The version of the server. stringOptional workspaceFeature Whether or not existing server has a workspace created and if it allows connection from workspace ServerProperties_WorkspaceFeature_STATUSOptional ServerList Generator information:">
-	<meta itemprop="wordCount" content="21749">
+	<meta itemprop="wordCount" content="21695">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="sql.azure.com/v1api20211101">
 	<meta name="twitter:description" content="APIVersion Value Description “2021-11-01” Server Generator information:
@@ -79,7 +79,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
     <div class="td-search__icon" aria-hidden="true"></div>
     <input type="search" name="q" class="td-search__input form-control"
       placeholder="Search API reference..." aria-label="Search API reference..." autocomplete="off"
-      data-offline-search-index-json-src="/azure-service-operator/offline-search-index-reference.dd7ed02e00acec2492882ddc481f5cb3.json"
+      data-offline-search-index-json-src="/azure-service-operator/offline-search-index-reference.40c5b860e612bc932d63e8573b166087.json"
       data-offline-search-base-href="/"
       data-offline-search-max-results="10">
   </div>
@@ -99,7 +99,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
     <div class="td-search__icon" aria-hidden="true"></div>
     <input type="search" name="q" class="td-search__input form-control"
       placeholder="Search API reference..." aria-label="Search API reference..." autocomplete="off"
-      data-offline-search-index-json-src="/azure-service-operator/offline-search-index-reference.dd7ed02e00acec2492882ddc481f5cb3.json"
+      data-offline-search-index-json-src="/azure-service-operator/offline-search-index-reference.40c5b860e612bc932d63e8573b166087.json"
       data-offline-search-base-href="/"
       data-offline-search-max-results="10">
   </div>
@@ -1782,19 +1782,61 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
 			</tr>
 			<tr>
 					<td>isDevopsAuditEnabled</td>
-					<td>Note: This field will soon be deprecated. Going forward, use the dedicated Server DevOps Audit Settings APIs to configure DevOps audit. See:</td>
-					<td></td>
+					<td>Note: This field will soon be deprecated. Going forward, use the dedicated Server DevOps Audit Settings APIs to configure DevOps audit. See:<ul><li><a href="https://learn.microsoft.com/en-us/rest/api/sql/server-devops-audit-settings/create-or-update">Server DevOps Audit Settings - Create Or</li></ul>Update</a><ul><li><a href="https://learn.microsoft.com/en-us/rest/api/sql/server-devops-audit-settings/get">Server DevOps Audit Settings - Get</a> &mdash;</li></ul>Specifies the state of devops audit. If state is Enabled, devops logs will be sent to Azure Monitor. In order to send the events to Azure Monitor, specify <code>State</code> as <code>Enabled</code>, <code>IsAzureMonitorTargetEnabled</code> as true and <code>IsDevopsAuditEnabled</code> as true When using REST API to configure auditing, Diagnostic Settings with <code>DevOpsOperationsAudit</code> diagnostic logs category on the master database should also be created. Diagnostic Settings URI format: PUT https​://management.azure.com/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroup}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​master/​providers/​microsoft.insights/​diagnosticSettings/​{settingsName}?api-version=2017-05-01-preview For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2033207">Diagnostic Settings REST API</a> or <a href="https://go.microsoft.com/fwlink/?linkid=2033043">Diagnostic Settings PowerShell</a></td>
+					<td>bool<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>isManagedIdentityInUse</td>
+					<td>Specifies whether Managed Identity is used to access blob storage</td>
+					<td>bool<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>isStorageSecondaryKeyInUse</td>
+					<td>Specifies whether storageAccountAccessKey value is the storage&rsquo;s secondary key.</td>
+					<td>bool<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>operatorSpec</td>
+					<td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+					<td><a href="#ServersAuditingSettingOperatorSpec">ServersAuditingSettingOperatorSpec</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>owner</td>
+					<td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a sql.azure.com/Server resource</td>
+					<td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+			</tr>
+			<tr>
+					<td>queueDelayMs</td>
+					<td>Specifies the amount of time in milliseconds that can elapse before audit actions are forced to be processed. The default minimum value is 1000 (1 second). The maximum is 2,147,483,647.</td>
+					<td>int<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>retentionDays</td>
+					<td>Specifies the number of days to keep in the audit logs in the storage account.</td>
+					<td>int<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>state</td>
+					<td>Specifies the state of the audit. If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are required.</td>
+					<td><a href="#ServerBlobAuditingPolicyProperties_State">ServerBlobAuditingPolicyProperties_State</a><br/><small>Required</small></td>
+			</tr>
+			<tr>
+					<td>storageAccountAccessKey</td>
+					<td>Specifies the identifier key of the auditing storage account. If state is Enabled and storageEndpoint is specified, not specifying the storageAccountAccessKey will use SQL server system-assigned managed identity to access the storage. Prerequisites for using managed identity authentication: 1. Assign SQL Server a system-assigned managed identity in Azure Active Directory (AAD). 2. Grant SQL Server identity access to the storage account by adding &lsquo;Storage Blob Data Contributor&rsquo; RBAC role to the server identity. For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2114355">Auditing to storage using Managed Identity authentication</a></td>
+					<td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">genruntime.SecretReference</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>storageAccountSubscriptionId</td>
+					<td>Specifies the blob storage subscription Id.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>storageEndpoint</td>
+					<td>Specifies the blob storage endpoint (e.g. <a href="https://MyAccount.blob.core.windows.net">https://MyAccount.blob.core.windows.net</a>). If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required.</td>
+					<td>string<br/><small>Optional</small></td>
 			</tr>
 	</tbody>
 </table>
-<ul>
-<li>[Server DevOps Audit Settings - Create Or</li>
-</ul>
-<p>Update](<a href="https://learn.microsoft.com/en-us/rest/api/sql/server-devops-audit-settings/create-or-update">https://learn.microsoft.com/en-us/rest/api/sql/server-devops-audit-settings/create-or-update</a>)</p>
-<ul>
-<li><a href="https://learn.microsoft.com/en-us/rest/api/sql/server-devops-audit-settings/get">Server DevOps Audit Settings - Get</a> &mdash;</li>
-</ul>
-<p>Specifies the state of devops audit. If state is Enabled, devops logs will be sent to Azure Monitor. In order to send the events to Azure Monitor, specify <code>State</code> as <code>Enabled</code>, <code>IsAzureMonitorTargetEnabled</code> as true and <code>IsDevopsAuditEnabled</code> as true When using REST API to configure auditing, Diagnostic Settings with <code>DevOpsOperationsAudit</code> diagnostic logs category on the master database should also be created. Diagnostic Settings URI format: PUT https​://management.azure.com/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroup}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​master/​providers/​microsoft.insights/​diagnosticSettings/​{settingsName}?api-version=2017-05-01-preview For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2033207">Diagnostic Settings REST API</a> or <a href="https://go.microsoft.com/fwlink/?linkid=2033043">Diagnostic Settings PowerShell</a>| bool<br/><small>Optional</small>| | isManagedIdentityInUse| Specifies whether Managed Identity is used to access blob storage| bool<br/><small>Optional</small>| | isStorageSecondaryKeyInUse| Specifies whether storageAccountAccessKey value is the storage&rsquo;s secondary key.| bool<br/><small>Optional</small>| | operatorSpec| The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure| <a href="#ServersAuditingSettingOperatorSpec">ServersAuditingSettingOperatorSpec</a><br/><small>Optional</small>| | owner| The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a sql.azure.com/Server resource| <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small>| | queueDelayMs| Specifies the amount of time in milliseconds that can elapse before audit actions are forced to be processed. The default minimum value is 1000 (1 second). The maximum is 2,147,483,647.| int<br/><small>Optional</small>| | retentionDays| Specifies the number of days to keep in the audit logs in the storage account.| int<br/><small>Optional</small>| | state| Specifies the state of the audit. If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are required.| <a href="#ServerBlobAuditingPolicyProperties_State">ServerBlobAuditingPolicyProperties_State</a><br/><small>Required</small>| | storageAccountAccessKey| Specifies the identifier key of the auditing storage account. If state is Enabled and storageEndpoint is specified, not specifying the storageAccountAccessKey will use SQL server system-assigned managed identity to access the storage. Prerequisites for using managed identity authentication: 1. Assign SQL Server a system-assigned managed identity in Azure Active Directory (AAD). 2. Grant SQL Server identity access to the storage account by adding &lsquo;Storage Blob Data Contributor&rsquo; RBAC role to the server identity. For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2114355">Auditing to storage using Managed Identity authentication</a>| <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">genruntime.SecretReference</a><br/><small>Optional</small>| | storageAccountSubscriptionId| Specifies the blob storage subscription Id.| string<br/><small>Optional</small>| | storageEndpoint| Specifies the blob storage endpoint (e.g. <a href="https://MyAccount.blob.core.windows.net">https://MyAccount.blob.core.windows.net</a>). If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required.| string<br/><small>Optional</small>|</p>
 <h3 id="ServersAuditingSetting_STATUS">ServersAuditingSetting_STATUS</h3>
 <table>
 	<thead>
@@ -1827,19 +1869,56 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
 			</tr>
 			<tr>
 					<td>isDevopsAuditEnabled</td>
-					<td>Note: This field will soon be deprecated. Going forward, use the dedicated Server DevOps Audit Settings APIs to configure DevOps audit. See:</td>
-					<td></td>
+					<td>Note: This field will soon be deprecated. Going forward, use the dedicated Server DevOps Audit Settings APIs to configure DevOps audit. See:<ul><li><a href="https://learn.microsoft.com/en-us/rest/api/sql/server-devops-audit-settings/create-or-update">Server DevOps Audit Settings - Create Or</li></ul>Update</a><ul><li><a href="https://learn.microsoft.com/en-us/rest/api/sql/server-devops-audit-settings/get">Server DevOps Audit Settings - Get</a> &mdash;</li></ul>Specifies the state of devops audit. If state is Enabled, devops logs will be sent to Azure Monitor. In order to send the events to Azure Monitor, specify <code>State</code> as <code>Enabled</code>, <code>IsAzureMonitorTargetEnabled</code> as true and <code>IsDevopsAuditEnabled</code> as true When using REST API to configure auditing, Diagnostic Settings with <code>DevOpsOperationsAudit</code> diagnostic logs category on the master database should also be created. Diagnostic Settings URI format: PUT https​://management.azure.com/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroup}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​master/​providers/​microsoft.insights/​diagnosticSettings/​{settingsName}?api-version=2017-05-01-preview For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2033207">Diagnostic Settings REST API</a> or <a href="https://go.microsoft.com/fwlink/?linkid=2033043">Diagnostic Settings PowerShell</a></td>
+					<td>bool<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>isManagedIdentityInUse</td>
+					<td>Specifies whether Managed Identity is used to access blob storage</td>
+					<td>bool<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>isStorageSecondaryKeyInUse</td>
+					<td>Specifies whether storageAccountAccessKey value is the storage&rsquo;s secondary key.</td>
+					<td>bool<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>name</td>
+					<td>Resource name.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>queueDelayMs</td>
+					<td>Specifies the amount of time in milliseconds that can elapse before audit actions are forced to be processed. The default minimum value is 1000 (1 second). The maximum is 2,147,483,647.</td>
+					<td>int<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>retentionDays</td>
+					<td>Specifies the number of days to keep in the audit logs in the storage account.</td>
+					<td>int<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>state</td>
+					<td>Specifies the state of the audit. If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are required.</td>
+					<td><a href="#ServerBlobAuditingPolicyProperties_State_STATUS">ServerBlobAuditingPolicyProperties_State_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>storageAccountSubscriptionId</td>
+					<td>Specifies the blob storage subscription Id.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>storageEndpoint</td>
+					<td>Specifies the blob storage endpoint (e.g. <a href="https://MyAccount.blob.core.windows.net">https://MyAccount.blob.core.windows.net</a>). If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>type</td>
+					<td>Resource type.</td>
+					<td>string<br/><small>Optional</small></td>
 			</tr>
 	</tbody>
 </table>
-<ul>
-<li>[Server DevOps Audit Settings - Create Or</li>
-</ul>
-<p>Update](<a href="https://learn.microsoft.com/en-us/rest/api/sql/server-devops-audit-settings/create-or-update">https://learn.microsoft.com/en-us/rest/api/sql/server-devops-audit-settings/create-or-update</a>)</p>
-<ul>
-<li><a href="https://learn.microsoft.com/en-us/rest/api/sql/server-devops-audit-settings/get">Server DevOps Audit Settings - Get</a> &mdash;</li>
-</ul>
-<p>Specifies the state of devops audit. If state is Enabled, devops logs will be sent to Azure Monitor. In order to send the events to Azure Monitor, specify <code>State</code> as <code>Enabled</code>, <code>IsAzureMonitorTargetEnabled</code> as true and <code>IsDevopsAuditEnabled</code> as true When using REST API to configure auditing, Diagnostic Settings with <code>DevOpsOperationsAudit</code> diagnostic logs category on the master database should also be created. Diagnostic Settings URI format: PUT https​://management.azure.com/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroup}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​master/​providers/​microsoft.insights/​diagnosticSettings/​{settingsName}?api-version=2017-05-01-preview For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2033207">Diagnostic Settings REST API</a> or <a href="https://go.microsoft.com/fwlink/?linkid=2033043">Diagnostic Settings PowerShell</a>| bool<br/><small>Optional</small>| | isManagedIdentityInUse| Specifies whether Managed Identity is used to access blob storage| bool<br/><small>Optional</small>| | isStorageSecondaryKeyInUse| Specifies whether storageAccountAccessKey value is the storage&rsquo;s secondary key.| bool<br/><small>Optional</small>| | name| Resource name.| string<br/><small>Optional</small>| | queueDelayMs| Specifies the amount of time in milliseconds that can elapse before audit actions are forced to be processed. The default minimum value is 1000 (1 second). The maximum is 2,147,483,647.| int<br/><small>Optional</small>| | retentionDays| Specifies the number of days to keep in the audit logs in the storage account.| int<br/><small>Optional</small>| | state| Specifies the state of the audit. If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are required.| <a href="#ServerBlobAuditingPolicyProperties_State_STATUS">ServerBlobAuditingPolicyProperties_State_STATUS</a><br/><small>Optional</small>| | storageAccountSubscriptionId| Specifies the blob storage subscription Id.| string<br/><small>Optional</small>| | storageEndpoint| Specifies the blob storage endpoint (e.g. <a href="https://MyAccount.blob.core.windows.net">https://MyAccount.blob.core.windows.net</a>). If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required.| string<br/><small>Optional</small>| | type| Resource type.| string<br/><small>Optional</small>|</p>
 <h2 id="ServersAuditingSettingList">ServersAuditingSettingList</h2>
 <p>Generator information:</p>
 <ul>
@@ -5621,19 +5700,61 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
 			</tr>
 			<tr>
 					<td>isDevopsAuditEnabled</td>
-					<td>Note: This field will soon be deprecated. Going forward, use the dedicated Server DevOps Audit Settings APIs to configure DevOps audit. See:</td>
-					<td></td>
+					<td>Note: This field will soon be deprecated. Going forward, use the dedicated Server DevOps Audit Settings APIs to configure DevOps audit. See:<ul><li><a href="https://learn.microsoft.com/en-us/rest/api/sql/server-devops-audit-settings/create-or-update">Server DevOps Audit Settings - Create Or</li></ul>Update</a><ul><li><a href="https://learn.microsoft.com/en-us/rest/api/sql/server-devops-audit-settings/get">Server DevOps Audit Settings - Get</a> &mdash;</li></ul>Specifies the state of devops audit. If state is Enabled, devops logs will be sent to Azure Monitor. In order to send the events to Azure Monitor, specify <code>State</code> as <code>Enabled</code>, <code>IsAzureMonitorTargetEnabled</code> as true and <code>IsDevopsAuditEnabled</code> as true When using REST API to configure auditing, Diagnostic Settings with <code>DevOpsOperationsAudit</code> diagnostic logs category on the master database should also be created. Diagnostic Settings URI format: PUT https​://management.azure.com/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroup}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​master/​providers/​microsoft.insights/​diagnosticSettings/​{settingsName}?api-version=2017-05-01-preview For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2033207">Diagnostic Settings REST API</a> or <a href="https://go.microsoft.com/fwlink/?linkid=2033043">Diagnostic Settings PowerShell</a></td>
+					<td>bool<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>isManagedIdentityInUse</td>
+					<td>Specifies whether Managed Identity is used to access blob storage</td>
+					<td>bool<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>isStorageSecondaryKeyInUse</td>
+					<td>Specifies whether storageAccountAccessKey value is the storage&rsquo;s secondary key.</td>
+					<td>bool<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>operatorSpec</td>
+					<td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+					<td><a href="#ServersAuditingSettingOperatorSpec">ServersAuditingSettingOperatorSpec</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>owner</td>
+					<td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a sql.azure.com/Server resource</td>
+					<td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+			</tr>
+			<tr>
+					<td>queueDelayMs</td>
+					<td>Specifies the amount of time in milliseconds that can elapse before audit actions are forced to be processed. The default minimum value is 1000 (1 second). The maximum is 2,147,483,647.</td>
+					<td>int<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>retentionDays</td>
+					<td>Specifies the number of days to keep in the audit logs in the storage account.</td>
+					<td>int<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>state</td>
+					<td>Specifies the state of the audit. If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are required.</td>
+					<td><a href="#ServerBlobAuditingPolicyProperties_State">ServerBlobAuditingPolicyProperties_State</a><br/><small>Required</small></td>
+			</tr>
+			<tr>
+					<td>storageAccountAccessKey</td>
+					<td>Specifies the identifier key of the auditing storage account. If state is Enabled and storageEndpoint is specified, not specifying the storageAccountAccessKey will use SQL server system-assigned managed identity to access the storage. Prerequisites for using managed identity authentication: 1. Assign SQL Server a system-assigned managed identity in Azure Active Directory (AAD). 2. Grant SQL Server identity access to the storage account by adding &lsquo;Storage Blob Data Contributor&rsquo; RBAC role to the server identity. For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2114355">Auditing to storage using Managed Identity authentication</a></td>
+					<td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">genruntime.SecretReference</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>storageAccountSubscriptionId</td>
+					<td>Specifies the blob storage subscription Id.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>storageEndpoint</td>
+					<td>Specifies the blob storage endpoint (e.g. <a href="https://MyAccount.blob.core.windows.net">https://MyAccount.blob.core.windows.net</a>). If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required.</td>
+					<td>string<br/><small>Optional</small></td>
 			</tr>
 	</tbody>
 </table>
-<ul>
-<li>[Server DevOps Audit Settings - Create Or</li>
-</ul>
-<p>Update](<a href="https://learn.microsoft.com/en-us/rest/api/sql/server-devops-audit-settings/create-or-update">https://learn.microsoft.com/en-us/rest/api/sql/server-devops-audit-settings/create-or-update</a>)</p>
-<ul>
-<li><a href="https://learn.microsoft.com/en-us/rest/api/sql/server-devops-audit-settings/get">Server DevOps Audit Settings - Get</a> &mdash;</li>
-</ul>
-<p>Specifies the state of devops audit. If state is Enabled, devops logs will be sent to Azure Monitor. In order to send the events to Azure Monitor, specify <code>State</code> as <code>Enabled</code>, <code>IsAzureMonitorTargetEnabled</code> as true and <code>IsDevopsAuditEnabled</code> as true When using REST API to configure auditing, Diagnostic Settings with <code>DevOpsOperationsAudit</code> diagnostic logs category on the master database should also be created. Diagnostic Settings URI format: PUT https​://management.azure.com/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroup}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​master/​providers/​microsoft.insights/​diagnosticSettings/​{settingsName}?api-version=2017-05-01-preview For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2033207">Diagnostic Settings REST API</a> or <a href="https://go.microsoft.com/fwlink/?linkid=2033043">Diagnostic Settings PowerShell</a>| bool<br/><small>Optional</small>| | isManagedIdentityInUse| Specifies whether Managed Identity is used to access blob storage| bool<br/><small>Optional</small>| | isStorageSecondaryKeyInUse| Specifies whether storageAccountAccessKey value is the storage&rsquo;s secondary key.| bool<br/><small>Optional</small>| | operatorSpec| The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure| <a href="#ServersAuditingSettingOperatorSpec">ServersAuditingSettingOperatorSpec</a><br/><small>Optional</small>| | owner| The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a sql.azure.com/Server resource| <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small>| | queueDelayMs| Specifies the amount of time in milliseconds that can elapse before audit actions are forced to be processed. The default minimum value is 1000 (1 second). The maximum is 2,147,483,647.| int<br/><small>Optional</small>| | retentionDays| Specifies the number of days to keep in the audit logs in the storage account.| int<br/><small>Optional</small>| | state| Specifies the state of the audit. If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are required.| <a href="#ServerBlobAuditingPolicyProperties_State">ServerBlobAuditingPolicyProperties_State</a><br/><small>Required</small>| | storageAccountAccessKey| Specifies the identifier key of the auditing storage account. If state is Enabled and storageEndpoint is specified, not specifying the storageAccountAccessKey will use SQL server system-assigned managed identity to access the storage. Prerequisites for using managed identity authentication: 1. Assign SQL Server a system-assigned managed identity in Azure Active Directory (AAD). 2. Grant SQL Server identity access to the storage account by adding &lsquo;Storage Blob Data Contributor&rsquo; RBAC role to the server identity. For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2114355">Auditing to storage using Managed Identity authentication</a>| <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">genruntime.SecretReference</a><br/><small>Optional</small>| | storageAccountSubscriptionId| Specifies the blob storage subscription Id.| string<br/><small>Optional</small>| | storageEndpoint| Specifies the blob storage endpoint (e.g. <a href="https://MyAccount.blob.core.windows.net">https://MyAccount.blob.core.windows.net</a>). If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required.| string<br/><small>Optional</small>|</p>
 <h2 id="ServersAuditingSetting_STATUS">ServersAuditingSetting_STATUS</h2>
 <p>Used by: <a href="#ServersAuditingSetting">ServersAuditingSetting</a>.</p>
 <table>
@@ -5667,19 +5788,56 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
 			</tr>
 			<tr>
 					<td>isDevopsAuditEnabled</td>
-					<td>Note: This field will soon be deprecated. Going forward, use the dedicated Server DevOps Audit Settings APIs to configure DevOps audit. See:</td>
-					<td></td>
+					<td>Note: This field will soon be deprecated. Going forward, use the dedicated Server DevOps Audit Settings APIs to configure DevOps audit. See:<ul><li><a href="https://learn.microsoft.com/en-us/rest/api/sql/server-devops-audit-settings/create-or-update">Server DevOps Audit Settings - Create Or</li></ul>Update</a><ul><li><a href="https://learn.microsoft.com/en-us/rest/api/sql/server-devops-audit-settings/get">Server DevOps Audit Settings - Get</a> &mdash;</li></ul>Specifies the state of devops audit. If state is Enabled, devops logs will be sent to Azure Monitor. In order to send the events to Azure Monitor, specify <code>State</code> as <code>Enabled</code>, <code>IsAzureMonitorTargetEnabled</code> as true and <code>IsDevopsAuditEnabled</code> as true When using REST API to configure auditing, Diagnostic Settings with <code>DevOpsOperationsAudit</code> diagnostic logs category on the master database should also be created. Diagnostic Settings URI format: PUT https​://management.azure.com/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroup}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​master/​providers/​microsoft.insights/​diagnosticSettings/​{settingsName}?api-version=2017-05-01-preview For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2033207">Diagnostic Settings REST API</a> or <a href="https://go.microsoft.com/fwlink/?linkid=2033043">Diagnostic Settings PowerShell</a></td>
+					<td>bool<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>isManagedIdentityInUse</td>
+					<td>Specifies whether Managed Identity is used to access blob storage</td>
+					<td>bool<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>isStorageSecondaryKeyInUse</td>
+					<td>Specifies whether storageAccountAccessKey value is the storage&rsquo;s secondary key.</td>
+					<td>bool<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>name</td>
+					<td>Resource name.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>queueDelayMs</td>
+					<td>Specifies the amount of time in milliseconds that can elapse before audit actions are forced to be processed. The default minimum value is 1000 (1 second). The maximum is 2,147,483,647.</td>
+					<td>int<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>retentionDays</td>
+					<td>Specifies the number of days to keep in the audit logs in the storage account.</td>
+					<td>int<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>state</td>
+					<td>Specifies the state of the audit. If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are required.</td>
+					<td><a href="#ServerBlobAuditingPolicyProperties_State_STATUS">ServerBlobAuditingPolicyProperties_State_STATUS</a><br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>storageAccountSubscriptionId</td>
+					<td>Specifies the blob storage subscription Id.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>storageEndpoint</td>
+					<td>Specifies the blob storage endpoint (e.g. <a href="https://MyAccount.blob.core.windows.net">https://MyAccount.blob.core.windows.net</a>). If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required.</td>
+					<td>string<br/><small>Optional</small></td>
+			</tr>
+			<tr>
+					<td>type</td>
+					<td>Resource type.</td>
+					<td>string<br/><small>Optional</small></td>
 			</tr>
 	</tbody>
 </table>
-<ul>
-<li>[Server DevOps Audit Settings - Create Or</li>
-</ul>
-<p>Update](<a href="https://learn.microsoft.com/en-us/rest/api/sql/server-devops-audit-settings/create-or-update">https://learn.microsoft.com/en-us/rest/api/sql/server-devops-audit-settings/create-or-update</a>)</p>
-<ul>
-<li><a href="https://learn.microsoft.com/en-us/rest/api/sql/server-devops-audit-settings/get">Server DevOps Audit Settings - Get</a> &mdash;</li>
-</ul>
-<p>Specifies the state of devops audit. If state is Enabled, devops logs will be sent to Azure Monitor. In order to send the events to Azure Monitor, specify <code>State</code> as <code>Enabled</code>, <code>IsAzureMonitorTargetEnabled</code> as true and <code>IsDevopsAuditEnabled</code> as true When using REST API to configure auditing, Diagnostic Settings with <code>DevOpsOperationsAudit</code> diagnostic logs category on the master database should also be created. Diagnostic Settings URI format: PUT https​://management.azure.com/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroup}/​providers/​Microsoft.Sql/​servers/​{serverName}/​databases/​master/​providers/​microsoft.insights/​diagnosticSettings/​{settingsName}?api-version=2017-05-01-preview For more information, see <a href="https://go.microsoft.com/fwlink/?linkid=2033207">Diagnostic Settings REST API</a> or <a href="https://go.microsoft.com/fwlink/?linkid=2033043">Diagnostic Settings PowerShell</a>| bool<br/><small>Optional</small>| | isManagedIdentityInUse| Specifies whether Managed Identity is used to access blob storage| bool<br/><small>Optional</small>| | isStorageSecondaryKeyInUse| Specifies whether storageAccountAccessKey value is the storage&rsquo;s secondary key.| bool<br/><small>Optional</small>| | name| Resource name.| string<br/><small>Optional</small>| | queueDelayMs| Specifies the amount of time in milliseconds that can elapse before audit actions are forced to be processed. The default minimum value is 1000 (1 second). The maximum is 2,147,483,647.| int<br/><small>Optional</small>| | retentionDays| Specifies the number of days to keep in the audit logs in the storage account.| int<br/><small>Optional</small>| | state| Specifies the state of the audit. If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are required.| <a href="#ServerBlobAuditingPolicyProperties_State_STATUS">ServerBlobAuditingPolicyProperties_State_STATUS</a><br/><small>Optional</small>| | storageAccountSubscriptionId| Specifies the blob storage subscription Id.| string<br/><small>Optional</small>| | storageEndpoint| Specifies the blob storage endpoint (e.g. <a href="https://MyAccount.blob.core.windows.net">https://MyAccount.blob.core.windows.net</a>). If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required.| string<br/><small>Optional</small>| | type| Resource type.| string<br/><small>Optional</small>|</p>
 <h2 id="ServersAzureADOnlyAuthentication_Spec">ServersAzureADOnlyAuthentication_Spec</h2>
 <p>Used by: <a href="#ServersAzureADOnlyAuthentication">ServersAzureADOnlyAuthentication</a>.</p>
 <table>
