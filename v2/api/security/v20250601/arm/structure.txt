@@ -13,7 +13,7 @@ DefenderForStorageSetting_STATUS: Object (4 properties)
 │   │   ├── OnUpload: *Object (3 properties)
 │   │   │   ├── CapGBPerMonth: *int
 │   │   │   ├── Filters: *Object (3 properties)
-│   │   │   │   ├── ExcludeBlobsLargerThan: *int
+│   │   │   │   ├── ExcludeBlobsLargerThan: *uint64
 │   │   │   │   ├── ExcludeBlobsWithPrefix: string[]
 │   │   │   │   └── ExcludeBlobsWithSuffix: string[]
 │   │   │   └── IsEnabled: *bool
@@ -40,7 +40,7 @@ DefenderForStorageSetting_Spec: Object (2 properties)
     │   ├── OnUpload: *Object (3 properties)
     │   │   ├── CapGBPerMonth: *int
     │   │   ├── Filters: *Object (3 properties)
-    │   │   │   ├── ExcludeBlobsLargerThan: *int
+    │   │   │   ├── ExcludeBlobsLargerThan: *uint64
     │   │   │   ├── ExcludeBlobsWithPrefix: string[]
     │   │   │   └── ExcludeBlobsWithSuffix: string[]
     │   │   └── IsEnabled: *bool

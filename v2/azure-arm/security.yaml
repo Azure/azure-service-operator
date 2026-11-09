@@ -10,15 +10,15 @@ typeTransformers:
     version: v*20250601
     property: ExcludeBlobsLargerThan
     target:
-      name: int
+      name: uint64
       optional: true
-    because: The Swagger specifies format int64 but omits type integer for this byte limit.
+    because: The Swagger omits type integer; this non-negative byte limit needs a fixed-width integer.
 
 groupModelConfiguration:
   2025-06-01:
     DefenderForStorageSetting:
       $exportAs: DefenderForStorageSetting
-      $supportedFrom: v2.22.0
+      $supportedFrom: v2.23.0
     MalwareScanningProperties:
       ScanResultsEventGridTopicResourceId:
         $referenceType: arm

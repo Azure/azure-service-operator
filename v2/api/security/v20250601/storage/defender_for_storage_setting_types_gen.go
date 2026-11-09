@@ -329,7 +329,7 @@ type OperationStatus_STATUS struct {
 // Optional. Determine which blobs get scanned by On Upload malware scanning. An Or operation is performed between each
 // filter type.
 type OnUploadFilters struct {
-	ExcludeBlobsLargerThan *int                   `json:"excludeBlobsLargerThan,omitempty"`
+	ExcludeBlobsLargerThan *uint64                `json:"excludeBlobsLargerThan,omitempty"`
 	ExcludeBlobsWithPrefix []string               `json:"excludeBlobsWithPrefix,omitempty"`
 	ExcludeBlobsWithSuffix []string               `json:"excludeBlobsWithSuffix,omitempty"`
 	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -339,7 +339,7 @@ type OnUploadFilters struct {
 // Optional. Determine which blobs get scanned by On Upload malware scanning. An Or operation is performed between each
 // filter type.
 type OnUploadFilters_STATUS struct {
-	ExcludeBlobsLargerThan *int                   `json:"excludeBlobsLargerThan,omitempty"`
+	ExcludeBlobsLargerThan *uint64                `json:"excludeBlobsLargerThan,omitempty"`
 	ExcludeBlobsWithPrefix []string               `json:"excludeBlobsWithPrefix,omitempty"`
 	ExcludeBlobsWithSuffix []string               `json:"excludeBlobsWithSuffix,omitempty"`
 	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`

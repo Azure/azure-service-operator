@@ -19,7 +19,7 @@ DefenderForStorageSetting: Resource
 │   │   │   ├── OnUpload: *Object (4 properties)
 │   │   │   │   ├── CapGBPerMonth: *int
 │   │   │   │   ├── Filters: *Object (4 properties)
-│   │   │   │   │   ├── ExcludeBlobsLargerThan: *int
+│   │   │   │   │   ├── ExcludeBlobsLargerThan: *uint64
 │   │   │   │   │   ├── ExcludeBlobsWithPrefix: string[]
 │   │   │   │   │   ├── ExcludeBlobsWithSuffix: string[]
 │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
@@ -44,7 +44,7 @@ DefenderForStorageSetting: Resource
     │   │   ├── OnUpload: *Object (4 properties)
     │   │   │   ├── CapGBPerMonth: *int
     │   │   │   ├── Filters: *Object (4 properties)
-    │   │   │   │   ├── ExcludeBlobsLargerThan: *int
+    │   │   │   │   ├── ExcludeBlobsLargerThan: *uint64
     │   │   │   │   ├── ExcludeBlobsWithPrefix: string[]
     │   │   │   │   ├── ExcludeBlobsWithSuffix: string[]
     │   │   │   │   └── PropertyBag: genruntime.PropertyBag

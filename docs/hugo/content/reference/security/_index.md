@@ -14,7 +14,7 @@ Azure does not support deleting these settings. To remove the Kubernetes resourc
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource                  | ARM Version | CRD Version | Supported From | Sample                                                                                                                                   |
-|---------------------------|-------------|-------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------|
-| DefenderForStorageSetting | 2025-06-01  | v20250601   | v2.22.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/security/v20250601/v20250601_defenderforstoragesetting.yaml) |
+| Resource                                                                                              | ARM Version | CRD Version | Supported From | Sample                                                                                                                                   |
+|-------------------------------------------------------------------------------------------------------|-------------|-------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------|
+| [DefenderForStorageSetting]({{< relref "/reference/security/v20250601#DefenderForStorageSetting" >}}) | 2025-06-01  | v20250601   | v2.23.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/security/v20250601/v20250601_defenderforstoragesetting.yaml) |
 

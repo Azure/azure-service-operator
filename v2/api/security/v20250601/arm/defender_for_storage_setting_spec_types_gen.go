@@ -96,7 +96,7 @@ type OnUploadProperties struct {
 type OnUploadFilters struct {
 	// ExcludeBlobsLargerThan: Optional. Specifies the maximum size in bytes for blobs to be scanned. This parameter accepts a
 	// single positive integer value. Blobs larger than this value will be excluded from scanning.
-	ExcludeBlobsLargerThan *int `json:"excludeBlobsLargerThan,omitempty"`
+	ExcludeBlobsLargerThan *uint64 `json:"excludeBlobsLargerThan,omitempty"`
 
 	// ExcludeBlobsWithPrefix: Optional. A list of prefixes to exclude from on-upload malware scanning.
 	// Format: `container-name/blob-name` (start with the container name; do not include the storage account name).

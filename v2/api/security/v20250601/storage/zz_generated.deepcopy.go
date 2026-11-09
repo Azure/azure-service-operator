@@ -373,7 +373,7 @@ func (in *OnUploadFilters) DeepCopyInto(out *OnUploadFilters) {
 	*out = *in
 	if in.ExcludeBlobsLargerThan != nil {
 		in, out := &in.ExcludeBlobsLargerThan, &out.ExcludeBlobsLargerThan
-		*out = new(int)
+		*out = new(uint64)
 		**out = **in
 	}
 	if in.ExcludeBlobsWithPrefix != nil {
@@ -410,7 +410,7 @@ func (in *OnUploadFilters_STATUS) DeepCopyInto(out *OnUploadFilters_STATUS) {
 	*out = *in
 	if in.ExcludeBlobsLargerThan != nil {
 		in, out := &in.ExcludeBlobsLargerThan, &out.ExcludeBlobsLargerThan
-		*out = new(int)
+		*out = new(uint64)
 		**out = **in
 	}
 	if in.ExcludeBlobsWithPrefix != nil {

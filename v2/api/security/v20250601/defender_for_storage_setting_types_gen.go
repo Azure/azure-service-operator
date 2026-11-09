@@ -2186,7 +2186,7 @@ func (status *OperationStatus_STATUS) AssignProperties_To_OperationStatus_STATUS
 type OnUploadFilters struct {
 	// ExcludeBlobsLargerThan: Optional. Specifies the maximum size in bytes for blobs to be scanned. This parameter accepts a
 	// single positive integer value. Blobs larger than this value will be excluded from scanning.
-	ExcludeBlobsLargerThan *int `json:"excludeBlobsLargerThan,omitempty"`
+	ExcludeBlobsLargerThan *uint64 `json:"excludeBlobsLargerThan,omitempty"`
 
 	// ExcludeBlobsWithPrefix: Optional. A list of prefixes to exclude from on-upload malware scanning.
 	// Format: `container-name/blob-name` (start with the container name; do not include the storage account name).
@@ -2263,7 +2263,12 @@ func (filters *OnUploadFilters) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 func (filters *OnUploadFilters) AssignProperties_From_OnUploadFilters(source *storage.OnUploadFilters) error {
 
 	// ExcludeBlobsLargerThan
-	filters.ExcludeBlobsLargerThan = genruntime.ClonePointerToInt(source.ExcludeBlobsLargerThan)
+	if source.ExcludeBlobsLargerThan != nil {
+		excludeBlobsLargerThan := *source.ExcludeBlobsLargerThan
+		filters.ExcludeBlobsLargerThan = &excludeBlobsLargerThan
+	} else {
+		filters.ExcludeBlobsLargerThan = nil
+	}
 
 	// ExcludeBlobsWithPrefix
 	filters.ExcludeBlobsWithPrefix = genruntime.CloneSliceOfString(source.ExcludeBlobsWithPrefix)
@@ -2281,7 +2286,12 @@ func (filters *OnUploadFilters) AssignProperties_To_OnUploadFilters(destination 
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ExcludeBlobsLargerThan
-	destination.ExcludeBlobsLargerThan = genruntime.ClonePointerToInt(filters.ExcludeBlobsLargerThan)
+	if filters.ExcludeBlobsLargerThan != nil {
+		excludeBlobsLargerThan := *filters.ExcludeBlobsLargerThan
+		destination.ExcludeBlobsLargerThan = &excludeBlobsLargerThan
+	} else {
+		destination.ExcludeBlobsLargerThan = nil
+	}
 
 	// ExcludeBlobsWithPrefix
 	destination.ExcludeBlobsWithPrefix = genruntime.CloneSliceOfString(filters.ExcludeBlobsWithPrefix)
@@ -2304,7 +2314,12 @@ func (filters *OnUploadFilters) AssignProperties_To_OnUploadFilters(destination 
 func (filters *OnUploadFilters) Initialize_From_OnUploadFilters_STATUS(source *OnUploadFilters_STATUS) error {
 
 	// ExcludeBlobsLargerThan
-	filters.ExcludeBlobsLargerThan = genruntime.ClonePointerToInt(source.ExcludeBlobsLargerThan)
+	if source.ExcludeBlobsLargerThan != nil {
+		excludeBlobsLargerThan := *source.ExcludeBlobsLargerThan
+		filters.ExcludeBlobsLargerThan = &excludeBlobsLargerThan
+	} else {
+		filters.ExcludeBlobsLargerThan = nil
+	}
 
 	// ExcludeBlobsWithPrefix
 	filters.ExcludeBlobsWithPrefix = genruntime.CloneSliceOfString(source.ExcludeBlobsWithPrefix)
@@ -2321,7 +2336,7 @@ func (filters *OnUploadFilters) Initialize_From_OnUploadFilters_STATUS(source *O
 type OnUploadFilters_STATUS struct {
 	// ExcludeBlobsLargerThan: Optional. Specifies the maximum size in bytes for blobs to be scanned. This parameter accepts a
 	// single positive integer value. Blobs larger than this value will be excluded from scanning.
-	ExcludeBlobsLargerThan *int `json:"excludeBlobsLargerThan,omitempty"`
+	ExcludeBlobsLargerThan *uint64 `json:"excludeBlobsLargerThan,omitempty"`
 
 	// ExcludeBlobsWithPrefix: Optional. A list of prefixes to exclude from on-upload malware scanning.
 	// Format: `container-name/blob-name` (start with the container name; do not include the storage account name).
@@ -2373,7 +2388,12 @@ func (filters *OnUploadFilters_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 func (filters *OnUploadFilters_STATUS) AssignProperties_From_OnUploadFilters_STATUS(source *storage.OnUploadFilters_STATUS) error {
 
 	// ExcludeBlobsLargerThan
-	filters.ExcludeBlobsLargerThan = genruntime.ClonePointerToInt(source.ExcludeBlobsLargerThan)
+	if source.ExcludeBlobsLargerThan != nil {
+		excludeBlobsLargerThan := *source.ExcludeBlobsLargerThan
+		filters.ExcludeBlobsLargerThan = &excludeBlobsLargerThan
+	} else {
+		filters.ExcludeBlobsLargerThan = nil
+	}
 
 	// ExcludeBlobsWithPrefix
 	filters.ExcludeBlobsWithPrefix = genruntime.CloneSliceOfString(source.ExcludeBlobsWithPrefix)
@@ -2391,7 +2411,12 @@ func (filters *OnUploadFilters_STATUS) AssignProperties_To_OnUploadFilters_STATU
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ExcludeBlobsLargerThan
-	destination.ExcludeBlobsLargerThan = genruntime.ClonePointerToInt(filters.ExcludeBlobsLargerThan)
+	if filters.ExcludeBlobsLargerThan != nil {
+		excludeBlobsLargerThan := *filters.ExcludeBlobsLargerThan
+		destination.ExcludeBlobsLargerThan = &excludeBlobsLargerThan
+	} else {
+		destination.ExcludeBlobsLargerThan = nil
+	}
 
 	// ExcludeBlobsWithPrefix
 	destination.ExcludeBlobsWithPrefix = genruntime.CloneSliceOfString(filters.ExcludeBlobsWithPrefix)

@@ -536,7 +536,7 @@ func OnUploadFiltersGenerator() *rapid.Generator[OnUploadFilters] {
 	}
 
 	sliceOfString := rapid.SliceOf(rapid.String())
-	excludeBlobsLargerThan := rapid.Ptr(rapid.Int(), true)
+	excludeBlobsLargerThan := rapid.Ptr(rapid.Uint64(), true)
 
 	onUploadFiltersGenerator = rapid.Custom(func(t *rapid.T) OnUploadFilters {
 		var result OnUploadFilters
@@ -596,7 +596,7 @@ func OnUploadFilters_STATUSGenerator() *rapid.Generator[OnUploadFilters_STATUS] 
 	}
 
 	sliceOfString := rapid.SliceOf(rapid.String())
-	excludeBlobsLargerThan := rapid.Ptr(rapid.Int(), true)
+	excludeBlobsLargerThan := rapid.Ptr(rapid.Uint64(), true)
 
 	onUploadFilters_STATUSGenerator = rapid.Custom(func(t *rapid.T) OnUploadFilters_STATUS {
 		var result OnUploadFilters_STATUS
