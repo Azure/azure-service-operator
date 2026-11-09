@@ -8,8 +8,6 @@ Results of a shallow (non-recursive) comparison of types between this package (v
 |:----------|:----------|:---------:|:------|
 | Person    | Person    | Identical |       |
 
-Comparing resources in this package with the next package in the [conversion graph](https://azure.github.io/azure-service-operator/design/versioning/).
-
 ## Objects
 
 | v20200101     | v20211231     |  Status   | Notes |
