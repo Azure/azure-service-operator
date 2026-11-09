@@ -94,6 +94,7 @@ func Test_PropertyChangesReport_typesEquivalent_GivenTypes_ReturnsExpectedResult
 
 	for name, c := range cases {
 		t.Run(name, func(t *testing.T) {
+			t.Parallel()
 			g := gomega.NewWithT(t)
 
 			result := rpt.typesEquivalent(c.left, c.right)
