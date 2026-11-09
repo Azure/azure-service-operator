@@ -81,7 +81,7 @@ TEST_FILTER="<your-test-here>" task controller:test-controllers
 **Samples:**
 
 ```bash
-TEST_FILTER="Test_Samples_CreationAndDeletion/<your-test-here>" ./hack/tools/task controller:test-samples
+TEST_FILTER="Test_Samples_CreationAndDeletion/<your-test-here>" task controller:test-samples
 ```
 
 ### Verify success
