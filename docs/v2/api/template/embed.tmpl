@@ -6,6 +6,6 @@
 {{- if .Type | createLink -}}
 ]({{ .Type | createLink }})
 {{- end -}}
-| {{ .Description | unwrap | applyEdits -}} 
+| {{ .Description | unwrapTable | applyEdits -}}
 | |
 {{- end }}

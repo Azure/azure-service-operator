@@ -1356,11 +1356,6 @@ tasks:
           AZURE_MI_CLIENT_ID:
             sh: "cat {{.KIND_WORKLOAD_IDENTITY_PATH}}/azure/miclientid.txt"
 
-  # Stub retained until migration of workflows complete
-  controller:gen-crd-docs:
-    cmds:
-      - task: doc:crd-api
-
   ############### Crossplane targets ###############
 
   crossplane:quick-checks:
