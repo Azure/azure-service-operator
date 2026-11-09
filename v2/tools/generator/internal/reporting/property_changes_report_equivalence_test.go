@@ -8,6 +8,8 @@ package reporting
 import (
 	"testing"
 
+	"github.com/onsi/gomega"
+
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
@@ -92,10 +94,10 @@ func Test_PropertyChangesReport_typesEquivalent_GivenTypes_ReturnsExpectedResult
 
 	for name, c := range cases {
 		t.Run(name, func(t *testing.T) {
+			g := gomega.NewWithT(t)
+
 			result := rpt.typesEquivalent(c.left, c.right)
-			if result != c.expected {
-				t.Errorf("expected %v, got %v", c.expected, result)
-			}
+			g.Expect(result).To(gomega.Equal(c.expected))
 		})
 	}
 }
