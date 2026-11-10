@@ -99,6 +99,7 @@ tasks:
       - task: controller:ci
       - task: crossplane:ci
       - task: asoctl:ci
+      - task: go-workspace-checks
       - task: format-code
       - task: verify-no-changes
 
@@ -121,10 +122,23 @@ tasks:
     desc: Tidy the go.mod files
     dir : v2
     cmds:
+      - go work sync
       - task: controller:go-mod-tidy
       - task: asoctl:go-mod-tidy
+      - cd samples && go mod tidy
       - task: generator:go-mod-tidy
       - task: mangle-test:go-mod-tidy
+
+  go-workspace-checks:
+    desc: Verify go.work is in sync with all v2 modules
+    dir: v2
+    cmds:
+      - go work use -r .
+      - go work sync
+      - |
+        for d in $(go list -m -f '{{"{{.Dir}}"}}'); do
+          echo "checking $d" && (cd "$d" && GOWORK=off go mod tidy -diff) || exit 1
+        done
 
   lint:
     desc: Run lint checks.
@@ -224,7 +238,7 @@ tasks:
       - "{{.ARCHIVE}}"
     cmds:
       - mkdir -p ./bin/{{.GOOS}}-{{.GOARCH}}
-      - GOOS={{.GOOS}} GOARCH={{.GOARCH}} go build {{.LDFLAGS}} -o {{.EXECUTABLE}}
+      - GOWORK=off GOOS={{.GOOS}} GOARCH={{.GOARCH}} go build {{.LDFLAGS}} -o {{.EXECUTABLE}}
       - if [ "{{.ARCHIVETYPE}}" = ".zip" ]; then zip -j -r {{.ARCHIVE}} {{.EXECUTABLE}}; fi
       - if [ "{{.ARCHIVETYPE}}" = ".gz" ]; then gzip -v -c {{.EXECUTABLE}} > {{.ARCHIVE}} ; fi
     vars:

@@ -5,17 +5,10 @@
 
 version: 2
 updates:
-  # ASO v2 controller 
+  # ASO v2 controller. /v2 is the go.work workspace root, so its member modules
+  # (cmd/asoctl, samples, tools/generator, tools/mangle-test-json) are updated in one PR.
   - package-ecosystem: "gomod"
-    directories:
-      # These are not recursive, need to list each directory individually.
-      # We don't use wildcard/globbing because it times out w/ our large repo.
-      - "/v2"
-      - "/v2/cmd/asoctl"
-      - "/v2/samples/"
-      - "/v2/tools/generator"
-      - "/v2/tools/mangle-test-json"
-      - "/hack/crossplane"
+    directory: "/v2"
     schedule:
       interval: "weekly"
     rebase-strategy: "disabled"
@@ -38,6 +31,40 @@ updates:
           - "k8s.io/*"
           - "sigs.k8s.io/*"
       # Group security updates too
+      k8s-go-deps-sec:
+        applies-to: security-updates
+        patterns:
+          - "k8s.io/*"
+          - "sigs.k8s.io/*"
+      go-deps-sec:
+        applies-to: security-updates
+        patterns:
+          - "*"
+        exclude-patterns:
+          - "k8s.io/*"
+          - "sigs.k8s.io/*"
+
+  # Crossplane generator is not a member of the v2 workspace, so it is updated separately
+  - package-ecosystem: "gomod"
+    directory: "/hack/crossplane"
+    schedule:
+      interval: "weekly"
+    rebase-strategy: "disabled"
+    commit-message:
+      prefix: "chore"
+    groups:
+      k8s-go-deps:
+        applies-to: version-updates
+        patterns:
+          - "k8s.io/*"
+          - "sigs.k8s.io/*"
+      go-deps:
+        applies-to: version-updates
+        patterns:
+          - "*"
+        exclude-patterns:
+          - "k8s.io/*"
+          - "sigs.k8s.io/*"
       k8s-go-deps-sec:
         applies-to: security-updates
         patterns:
