@@ -104,7 +104,7 @@ We show steps for using a Service Principal below, as it's easiest to get starte
 Managed Identity with [Azure Workload Identity]( {{< relref "credential-format#managed-identity-via-workload-identity" >}} ) for
 use-cases other than testing.
 
-See [Security best practices]({{< relref "security" >}}) for the full list of security best practices.
+See [Security best practices]({{< relref "/guide/security" >}}) for the full list of security best practices.
 {{% /alert %}}
 
 First, set the following environment variables to your Azure Tenant ID and Subscription ID with your values:

@@ -11,7 +11,7 @@ _resource scope_ takes precedence over _namespace scope_ which takes precedence 
 {{% alert title="Warning" color="warning" %}}
 Be careful when using the global scope credential. A user in any namespace in your cluster will have the ability
 to do everything that the global credential can do. For security best practice we recommend using namespace scoped
-or resource scoped credentials. See [security best practices]({{< relref "security" >}}) for more details.
+or resource scoped credentials. See [security best practices]({{< relref "/guide/security" >}}) for more details.
 {{% /alert %}}
 
 The global credential resides in the `aso-controller-settings` secret deployed as part of operator deployment in
