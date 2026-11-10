@@ -242,7 +242,18 @@ func Test_SQL_InstanceFailoverGroup_v20250101_CRUD(t *testing.T) {
 	tc.Expect(failoverGroup.Status.Id).ToNot(BeNil())
 	armId := *failoverGroup.Status.Id
 
-	tc.DeleteResourceAndWait(failoverGroup)
+	tc.DeleteResourcesAndWait(
+		rg,
+		primaryVnet,
+		secondaryVnet,
+		primarySubnet,
+		secondarySubnet,
+		peerings[0],
+		peerings[1],
+		primary,
+		secondary,
+		failoverGroup,
+	)
 
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
@@ -251,14 +262,6 @@ func Test_SQL_InstanceFailoverGroup_v20250101_CRUD(t *testing.T) {
 	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
-
-	// Delete the peerings and then the instances explicitly, before the test's resource group is cleaned up. When
-	// they were left to the resource group deletion, Azure's deletion of the group failed part way (its activity log
-	// showed AnotherOperationInProgress on the peering deletes and
-	// SubnetCannotGetUpdatedWhenParentVnetDeletionWasAttemptedEarlier on a managed instance subnet), and the group was
-	// left behind, empty, after the test had already stopped waiting for it.
-	tc.DeleteResourcesAndWait(peerings[0], peerings[1])
-	tc.DeleteResourcesAndWait(secondary, primary)
 }
 
 // newManagedInstanceNetwork creates a virtual network and a subnet delegated to SQL Managed Instance, in the test's
