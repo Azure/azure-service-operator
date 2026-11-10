@@ -1,0 +1,152 @@
+apiVersion: redhatopenshift.azure.com/v20261001
+kind: HcpOpenShiftCluster
+metadata:
+  name: aso-sample-hcp
+  namespace: default
+spec:
+  azureName: aso-sample-hcp
+  location: uksouth
+  owner:
+    group: resources.azure.com
+    kind: ResourceGroup
+    name: aso-sample-rg
+  identity:
+    type: UserAssigned
+    userAssignedIdentities:
+        - reference:
+            group: managedidentity.azure.com
+            kind: UserAssignedIdentity
+            name: aso-sample-cp-cloud-controller-manager
+        - reference:
+            group: managedidentity.azure.com
+            kind: UserAssignedIdentity
+            name: aso-sample-cp-cloud-network-config
+        - reference:
+            group: managedidentity.azure.com
+            kind: UserAssignedIdentity
+            name: aso-sample-cp-cluster-api-azure
+        - reference:
+            group: managedidentity.azure.com
+            kind: UserAssignedIdentity
+            name: aso-sample-cp-control-plane
+        - reference:
+            group: managedidentity.azure.com
+            kind: UserAssignedIdentity
+            name: aso-sample-cp-disk-csi-driver
+        - reference:
+            group: managedidentity.azure.com
+            kind: UserAssignedIdentity
+            name: aso-sample-cp-file-csi-driver
+        - reference:
+            group: managedidentity.azure.com
+            kind: UserAssignedIdentity
+            name: aso-sample-cp-image-registry
+        - reference:
+            group: managedidentity.azure.com
+            kind: UserAssignedIdentity
+            name: aso-sample-cp-ingress
+        - reference:
+            group: managedidentity.azure.com
+            kind: UserAssignedIdentity
+            name: aso-sample-cp-kms
+        - reference:
+            group: managedidentity.azure.com
+            kind: UserAssignedIdentity
+            name: aso-sample-service-managed-identity
+  properties:
+    platform:
+      networkSecurityGroupReference:
+        group: network.azure.com
+        kind: NetworkSecurityGroup
+        name: aso-sample-nsg
+      operatorsAuthentication:
+        userAssignedIdentities:
+          controlPlaneOperatorsReferences:
+            cloud-controller-manager:
+              group: managedidentity.azure.com
+              kind: UserAssignedIdentity
+              name: aso-sample-cp-cloud-controller-manager
+            cloud-network-config:
+              group: managedidentity.azure.com
+              kind: UserAssignedIdentity
+              name: aso-sample-cp-cloud-network-config
+            cluster-api-azure:
+              group: managedidentity.azure.com
+              kind: UserAssignedIdentity
+              name: aso-sample-cp-cluster-api-azure
+            control-plane:
+              group: managedidentity.azure.com
+              kind: UserAssignedIdentity
+              name: aso-sample-cp-control-plane
+            disk-csi-driver:
+              group: managedidentity.azure.com
+              kind: UserAssignedIdentity
+              name: aso-sample-cp-disk-csi-driver
+            file-csi-driver:
+              group: managedidentity.azure.com
+              kind: UserAssignedIdentity
+              name: aso-sample-cp-file-csi-driver
+            image-registry:
+              group: managedidentity.azure.com
+              kind: UserAssignedIdentity
+              name: aso-sample-cp-image-registry
+            ingress:
+              group: managedidentity.azure.com
+              kind: UserAssignedIdentity
+              name: aso-sample-cp-ingress
+            kms:
+              group: managedidentity.azure.com
+              kind: UserAssignedIdentity
+              name: aso-sample-cp-kms
+          dataPlaneOperatorsReferences:
+            disk-csi-driver:
+              group: managedidentity.azure.com
+              kind: UserAssignedIdentity
+              name: aso-sample-dp-disk-csi-driver
+            file-csi-driver:
+              group: managedidentity.azure.com
+              kind: UserAssignedIdentity
+              name: aso-sample-dp-file-csi-driver
+            image-registry:
+              group: managedidentity.azure.com
+              kind: UserAssignedIdentity
+              name: aso-sample-dp-image-registry
+          serviceManagedIdentityReference:
+            group: managedidentity.azure.com
+            kind: UserAssignedIdentity
+            name: aso-sample-service-managed-identity
+      subnetReference:
+        group: network.azure.com
+        kind: VirtualNetworksSubnet
+        name: "aso-sample-vnet-aso-sample-subnet"
+      managedResourceGroup: "aso-sample-managed-rg"
+      outboundType: LoadBalancer
+    cryptoRestrictions: None
+    ingress:
+      type: Public
+    clusterImageRegistry:
+      state: Enabled
+    etcd:
+      dataEncryption:
+        keyManagementMode: CustomerManaged
+        customerManaged:
+          encryptionType: KMS
+          kms:
+            vaultName: "aso-sample-kv"
+            activeKey:
+              name: "etcd-data-kms-encryption-key"
+              version: "00000000000000000000000000000000"
+    network:
+      hostPrefix: 23
+      networkType: OVNKubernetes
+      machineCidr: "10.0.0.0/16"
+      podCidr: "10.128.0.0/14"
+      serviceCidr: "172.30.0.0/16"
+    version:
+      channelGroup: stable
+      id: "4.19"
+    api:
+      visibility: Public
+  tags:
+    environment: production
+    owner: sre-team

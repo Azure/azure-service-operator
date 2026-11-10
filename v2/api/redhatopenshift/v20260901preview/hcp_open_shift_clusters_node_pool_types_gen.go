@@ -51,22 +51,36 @@ var _ conversion.Convertible = &HcpOpenShiftClustersNodePool{}
 
 // ConvertFrom populates our HcpOpenShiftClustersNodePool from the provided hub HcpOpenShiftClustersNodePool
 func (pool *HcpOpenShiftClustersNodePool) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.HcpOpenShiftClustersNodePool)
-	if !ok {
-		return fmt.Errorf("expected redhatopenshift/v20260901preview/storage/HcpOpenShiftClustersNodePool but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.HcpOpenShiftClustersNodePool
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return pool.AssignProperties_From_HcpOpenShiftClustersNodePool(source)
+	err = pool.AssignProperties_From_HcpOpenShiftClustersNodePool(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to pool")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub HcpOpenShiftClustersNodePool from our HcpOpenShiftClustersNodePool
 func (pool *HcpOpenShiftClustersNodePool) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.HcpOpenShiftClustersNodePool)
-	if !ok {
-		return fmt.Errorf("expected redhatopenshift/v20260901preview/storage/HcpOpenShiftClustersNodePool but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.HcpOpenShiftClustersNodePool
+	err := pool.AssignProperties_To_HcpOpenShiftClustersNodePool(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from pool")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return pool.AssignProperties_To_HcpOpenShiftClustersNodePool(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &HcpOpenShiftClustersNodePool{}
@@ -87,17 +101,6 @@ func (pool *HcpOpenShiftClustersNodePool) SecretDestinationExpressions() []*core
 		return nil
 	}
 	return pool.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &HcpOpenShiftClustersNodePool{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (pool *HcpOpenShiftClustersNodePool) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*HcpOpenShiftClustersNodePool_STATUS); ok {
-		return pool.Spec.Initialize_From_HcpOpenShiftClustersNodePool_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type HcpOpenShiftClustersNodePool_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &HcpOpenShiftClustersNodePool{}
@@ -569,43 +572,6 @@ func (pool *HcpOpenShiftClustersNodePool_Spec) AssignProperties_To_HcpOpenShiftC
 	return nil
 }
 
-// Initialize_From_HcpOpenShiftClustersNodePool_STATUS populates our HcpOpenShiftClustersNodePool_Spec from the provided source HcpOpenShiftClustersNodePool_STATUS
-func (pool *HcpOpenShiftClustersNodePool_Spec) Initialize_From_HcpOpenShiftClustersNodePool_STATUS(source *HcpOpenShiftClustersNodePool_STATUS) error {
-
-	// Identity
-	if source.Identity != nil {
-		var identity ManagedServiceIdentity
-		err := identity.Initialize_From_ManagedServiceIdentity_STATUS(source.Identity)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ManagedServiceIdentity_STATUS() to populate field Identity")
-		}
-		pool.Identity = &identity
-	} else {
-		pool.Identity = nil
-	}
-
-	// Location
-	pool.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Properties
-	if source.Properties != nil {
-		var property NodePoolProperties
-		err := property.Initialize_From_NodePoolProperties_STATUS(source.Properties)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_NodePoolProperties_STATUS() to populate field Properties")
-		}
-		pool.Properties = &property
-	} else {
-		pool.Properties = nil
-	}
-
-	// Tags
-	pool.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (pool *HcpOpenShiftClustersNodePool_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1010,15 +976,21 @@ func (operator *HcpOpenShiftClustersNodePoolOperatorSpec) AssignProperties_To_Hc
 
 // Represents the node pool properties
 type NodePoolProperties struct {
-	// AutoRepair: Auto-repair
+	// AutoRepair: autoRepair specifies whether health checks should be enabled for machines
+	// in the NodePool. Enabling this feature will cause the controller to
+	// automatically delete unhealthy machines. The unhealthy criteria are
+	// determined by checking the Node Ready condition and a timeout that might
+	// vary depending on the platform provider. autoRepair will not take action
+	// when more than 2 Nodes are unhealthy at the same time, giving time for
+	// the cluster to stabilize or for the user to manually intervene.
 	AutoRepair *bool `json:"autoRepair,omitempty"`
 
 	// AutoScaling: Representation of a autoscaling in a node pool.
 	AutoScaling *NodePoolAutoScaling `json:"autoScaling,omitempty"`
 
-	// Labels: Kubernetes labels to propagate to the NodePool Nodes
+	// Labels: Kubernetes labels to propagate to the NodePool Nodes.
 	// Note that when the labels are updated this is only applied to newly
-	// create nodes in the Nodepool, existing node labels remain unchanged.
+	// created nodes in the NodePool, existing node labels remain unchanged.
 	Labels []Label `json:"labels,omitempty"`
 
 	// NodeDrainTimeoutMinutes: nodeDrainTimeoutMinutes is the grace period for how long Pod Disruption Budget-protected
@@ -1043,7 +1015,7 @@ type NodePoolProperties struct {
 	// - No maximum when availabilityZone is specified
 	Replicas *int `json:"replicas,omitempty"`
 
-	// Taints: Taints for the nodes
+	// Taints: Taints for the nodes.
 	Taints []Taint `json:"taints,omitempty"`
 
 	// Version: OpenShift version for the nodepool
@@ -1401,106 +1373,23 @@ func (properties *NodePoolProperties) AssignProperties_To_NodePoolProperties(des
 	return nil
 }
 
-// Initialize_From_NodePoolProperties_STATUS populates our NodePoolProperties from the provided source NodePoolProperties_STATUS
-func (properties *NodePoolProperties) Initialize_From_NodePoolProperties_STATUS(source *NodePoolProperties_STATUS) error {
-
-	// AutoRepair
-	if source.AutoRepair != nil {
-		autoRepair := *source.AutoRepair
-		properties.AutoRepair = &autoRepair
-	} else {
-		properties.AutoRepair = nil
-	}
-
-	// AutoScaling
-	if source.AutoScaling != nil {
-		var autoScaling NodePoolAutoScaling
-		err := autoScaling.Initialize_From_NodePoolAutoScaling_STATUS(source.AutoScaling)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_NodePoolAutoScaling_STATUS() to populate field AutoScaling")
-		}
-		properties.AutoScaling = &autoScaling
-	} else {
-		properties.AutoScaling = nil
-	}
-
-	// Labels
-	if source.Labels != nil {
-		labelList := make([]Label, len(source.Labels))
-		for labelIndex, labelItem := range source.Labels {
-			var label Label
-			err := label.Initialize_From_Label_STATUS(&labelItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_Label_STATUS() to populate field Labels")
-			}
-			labelList[labelIndex] = label
-		}
-		properties.Labels = labelList
-	} else {
-		properties.Labels = nil
-	}
-
-	// NodeDrainTimeoutMinutes
-	properties.NodeDrainTimeoutMinutes = genruntime.ClonePointerToInt(source.NodeDrainTimeoutMinutes)
-
-	// Platform
-	if source.Platform != nil {
-		var platform NodePoolPlatformProfile
-		err := platform.Initialize_From_NodePoolPlatformProfile_STATUS(source.Platform)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_NodePoolPlatformProfile_STATUS() to populate field Platform")
-		}
-		properties.Platform = &platform
-	} else {
-		properties.Platform = nil
-	}
-
-	// Replicas
-	properties.Replicas = genruntime.ClonePointerToInt(source.Replicas)
-
-	// Taints
-	if source.Taints != nil {
-		taintList := make([]Taint, len(source.Taints))
-		for taintIndex, taintItem := range source.Taints {
-			var taint Taint
-			err := taint.Initialize_From_Taint_STATUS(&taintItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_Taint_STATUS() to populate field Taints")
-			}
-			taintList[taintIndex] = taint
-		}
-		properties.Taints = taintList
-	} else {
-		properties.Taints = nil
-	}
-
-	// Version
-	if source.Version != nil {
-		var version NodePoolVersionProfile
-		err := version.Initialize_From_NodePoolVersionProfile_STATUS(source.Version)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_NodePoolVersionProfile_STATUS() to populate field Version")
-		}
-		properties.Version = &version
-	} else {
-		properties.Version = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Represents the node pool properties
 type NodePoolProperties_STATUS struct {
-	// AutoRepair: Auto-repair
+	// AutoRepair: autoRepair specifies whether health checks should be enabled for machines
+	// in the NodePool. Enabling this feature will cause the controller to
+	// automatically delete unhealthy machines. The unhealthy criteria are
+	// determined by checking the Node Ready condition and a timeout that might
+	// vary depending on the platform provider. autoRepair will not take action
+	// when more than 2 Nodes are unhealthy at the same time, giving time for
+	// the cluster to stabilize or for the user to manually intervene.
 	AutoRepair *bool `json:"autoRepair,omitempty"`
 
 	// AutoScaling: Representation of a autoscaling in a node pool.
 	AutoScaling *NodePoolAutoScaling_STATUS `json:"autoScaling,omitempty"`
 
-	// Labels: Kubernetes labels to propagate to the NodePool Nodes
+	// Labels: Kubernetes labels to propagate to the NodePool Nodes.
 	// Note that when the labels are updated this is only applied to newly
-	// create nodes in the Nodepool, existing node labels remain unchanged.
+	// created nodes in the NodePool, existing node labels remain unchanged.
 	Labels []Label_STATUS `json:"labels,omitempty"`
 
 	// NodeDrainTimeoutMinutes: nodeDrainTimeoutMinutes is the grace period for how long Pod Disruption Budget-protected
@@ -1529,7 +1418,7 @@ type NodePoolProperties_STATUS struct {
 	// Status: Status of the node pool resource
 	Status *ResourceStatus_STATUS `json:"status,omitempty"`
 
-	// Taints: Taints for the nodes
+	// Taints: Taints for the nodes.
 	Taints []Taint_STATUS `json:"taints,omitempty"`
 
 	// Version: OpenShift version for the nodepool
@@ -1968,19 +1857,6 @@ func (label *Label) AssignProperties_To_Label(destination *storage.Label) error 
 	return nil
 }
 
-// Initialize_From_Label_STATUS populates our Label from the provided source Label_STATUS
-func (label *Label) Initialize_From_Label_STATUS(source *Label_STATUS) error {
-
-	// Key
-	label.Key = genruntime.ClonePointerToString(source.Key)
-
-	// Value
-	label.Value = genruntime.ClonePointerToString(source.Value)
-
-	// No error
-	return nil
-}
-
 // Label represents the Kubernetes label
 type Label_STATUS struct {
 	// Key: The key of the label
@@ -2160,19 +2036,6 @@ func (scaling *NodePoolAutoScaling) AssignProperties_To_NodePoolAutoScaling(dest
 	return nil
 }
 
-// Initialize_From_NodePoolAutoScaling_STATUS populates our NodePoolAutoScaling from the provided source NodePoolAutoScaling_STATUS
-func (scaling *NodePoolAutoScaling) Initialize_From_NodePoolAutoScaling_STATUS(source *NodePoolAutoScaling_STATUS) error {
-
-	// Max
-	scaling.Max = genruntime.ClonePointerToInt(source.Max)
-
-	// Min
-	scaling.Min = genruntime.ClonePointerToInt(source.Min)
-
-	// No error
-	return nil
-}
-
 // Node pool autoscaling
 type NodePoolAutoScaling_STATUS struct {
 	// Max: The maximum number of nodes in the node pool.
@@ -2270,7 +2133,7 @@ type NodePoolPlatformProfile struct {
 	// OsDisk: The settings and configuration options for OSDisk
 	OsDisk *OsDiskProfile `json:"osDisk,omitempty"`
 
-	// SubnetReference: The Azure resource ID of the worker subnet
+	// SubnetReference: The Azure resource ID of the worker subnet.
 	// Note that a subnet cannot be reused between ARO-HCP Clusters, however the
 	// same subnet can be used for NodePools of the same cluster.
 	SubnetReference *genruntime.ResourceReference `armReference:"SubnetId" json:"subnetReference,omitempty"`
@@ -2468,47 +2331,6 @@ func (profile *NodePoolPlatformProfile) AssignProperties_To_NodePoolPlatformProf
 	return nil
 }
 
-// Initialize_From_NodePoolPlatformProfile_STATUS populates our NodePoolPlatformProfile from the provided source NodePoolPlatformProfile_STATUS
-func (profile *NodePoolPlatformProfile) Initialize_From_NodePoolPlatformProfile_STATUS(source *NodePoolPlatformProfile_STATUS) error {
-
-	// AvailabilityZone
-	profile.AvailabilityZone = genruntime.ClonePointerToString(source.AvailabilityZone)
-
-	// EnableEncryptionAtHost
-	if source.EnableEncryptionAtHost != nil {
-		enableEncryptionAtHost := *source.EnableEncryptionAtHost
-		profile.EnableEncryptionAtHost = &enableEncryptionAtHost
-	} else {
-		profile.EnableEncryptionAtHost = nil
-	}
-
-	// OsDisk
-	if source.OsDisk != nil {
-		var osDisk OsDiskProfile
-		err := osDisk.Initialize_From_OsDiskProfile_STATUS(source.OsDisk)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_OsDiskProfile_STATUS() to populate field OsDisk")
-		}
-		profile.OsDisk = &osDisk
-	} else {
-		profile.OsDisk = nil
-	}
-
-	// SubnetReference
-	if source.SubnetId != nil {
-		subnetReference := genruntime.CreateResourceReferenceFromARMID(*source.SubnetId)
-		profile.SubnetReference = &subnetReference
-	} else {
-		profile.SubnetReference = nil
-	}
-
-	// VmSize
-	profile.VmSize = genruntime.ClonePointerToString(source.VmSize)
-
-	// No error
-	return nil
-}
-
 // Azure node pool platform configuration
 type NodePoolPlatformProfile_STATUS struct {
 	// AvailabilityZone: The availability zone for the node pool.
@@ -2524,7 +2346,7 @@ type NodePoolPlatformProfile_STATUS struct {
 	// OsDisk: The settings and configuration options for OSDisk
 	OsDisk *OsDiskProfile_STATUS `json:"osDisk,omitempty"`
 
-	// SubnetId: The Azure resource ID of the worker subnet
+	// SubnetId: The Azure resource ID of the worker subnet.
 	// Note that a subnet cannot be reused between ARO-HCP Clusters, however the
 	// same subnet can be used for NodePools of the same cluster.
 	SubnetId *string `json:"subnetId,omitempty"`
@@ -2673,6 +2495,8 @@ type NodePoolVersionProfile struct {
 	// ChannelGroup: ChannelGroup is the name of the set to which this version belongs.
 	// Each version belongs to only a single set.
 	// If not specified, the default value is 'stable'.
+	// This property is intended to be updateable, but that support is not yet
+	// complete. Until then, changing this value after node pool creation is rejected.
 	ChannelGroup *string `json:"channelGroup,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -2766,24 +2590,13 @@ func (profile *NodePoolVersionProfile) AssignProperties_To_NodePoolVersionProfil
 	return nil
 }
 
-// Initialize_From_NodePoolVersionProfile_STATUS populates our NodePoolVersionProfile from the provided source NodePoolVersionProfile_STATUS
-func (profile *NodePoolVersionProfile) Initialize_From_NodePoolVersionProfile_STATUS(source *NodePoolVersionProfile_STATUS) error {
-
-	// ChannelGroup
-	profile.ChannelGroup = genruntime.ClonePointerToString(source.ChannelGroup)
-
-	// Id
-	profile.Id = genruntime.ClonePointerToString(source.Id)
-
-	// No error
-	return nil
-}
-
 // Versions represents an OpenShift version.
 type NodePoolVersionProfile_STATUS struct {
 	// ChannelGroup: ChannelGroup is the name of the set to which this version belongs.
 	// Each version belongs to only a single set.
 	// If not specified, the default value is 'stable'.
+	// This property is intended to be updateable, but that support is not yet
+	// complete. Until then, changing this value after node pool creation is rejected.
 	ChannelGroup *string `json:"channelGroup,omitempty"`
 
 	// Id: ID is the unique identifier of the version.
@@ -2986,27 +2799,6 @@ func (taint *Taint) AssignProperties_To_Taint(destination *storage.Taint) error 
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Taint_STATUS populates our Taint from the provided source Taint_STATUS
-func (taint *Taint) Initialize_From_Taint_STATUS(source *Taint_STATUS) error {
-
-	// Effect
-	if source.Effect != nil {
-		effect := genruntime.ToEnum(string(*source.Effect), effect_Values)
-		taint.Effect = &effect
-	} else {
-		taint.Effect = nil
-	}
-
-	// Key
-	taint.Key = genruntime.ClonePointerToString(source.Key)
-
-	// Value
-	taint.Value = genruntime.ClonePointerToString(source.Value)
 
 	// No error
 	return nil
@@ -3331,40 +3123,6 @@ func (profile *OsDiskProfile) AssignProperties_To_OsDiskProfile(destination *sto
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_OsDiskProfile_STATUS populates our OsDiskProfile from the provided source OsDiskProfile_STATUS
-func (profile *OsDiskProfile) Initialize_From_OsDiskProfile_STATUS(source *OsDiskProfile_STATUS) error {
-
-	// DiskStorageAccountType
-	if source.DiskStorageAccountType != nil {
-		diskStorageAccountType := genruntime.ToEnum(string(*source.DiskStorageAccountType), osDiskProfile_DiskStorageAccountType_Values)
-		profile.DiskStorageAccountType = &diskStorageAccountType
-	} else {
-		profile.DiskStorageAccountType = nil
-	}
-
-	// DiskType
-	if source.DiskType != nil {
-		diskType := genruntime.ToEnum(string(*source.DiskType), osDiskProfile_DiskType_Values)
-		profile.DiskType = &diskType
-	} else {
-		profile.DiskType = nil
-	}
-
-	// EncryptionSetReference
-	if source.EncryptionSetId != nil {
-		encryptionSetReference := genruntime.CreateResourceReferenceFromARMID(*source.EncryptionSetId)
-		profile.EncryptionSetReference = &encryptionSetReference
-	} else {
-		profile.EncryptionSetReference = nil
-	}
-
-	// SizeGiB
-	profile.SizeGiB = genruntime.ClonePointerToInt(source.SizeGiB)
 
 	// No error
 	return nil

@@ -29,11 +29,11 @@ func (rule *FirewallRule_Spec) GetType() string {
 	return "Microsoft.DocumentDB/mongoClusters/firewallRules"
 }
 
-// The properties of a mongo cluster firewall rule.
+// The properties of a DocumentDB cluster firewall rule.
 type FirewallRuleProperties struct {
-	// EndIpAddress: The end IP address of the mongo cluster firewall rule. Must be IPv4 format.
+	// EndIpAddress: The end IP address of the DocumentDB cluster firewall rule. Must be IPv4 format.
 	EndIpAddress *string `json:"endIpAddress,omitempty"`
 
-	// StartIpAddress: The start IP address of the mongo cluster firewall rule. Must be IPv4 format.
+	// StartIpAddress: The start IP address of the DocumentDB cluster firewall rule. Must be IPv4 format.
 	StartIpAddress *string `json:"startIpAddress,omitempty"`
 }

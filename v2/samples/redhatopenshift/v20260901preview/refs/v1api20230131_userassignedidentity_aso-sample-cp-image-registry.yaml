@@ -1,0 +1,9 @@
+apiVersion: managedidentity.azure.com/v1api20230131
+kind: UserAssignedIdentity
+metadata:
+  name: aso-sample-cp-image-registry
+  namespace: default
+spec:
+  location: uksouth
+  owner:
+    name: aso-sample-rg

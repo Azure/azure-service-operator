@@ -45,6 +45,7 @@ var wholeSampleExclusions = []*regexp.Regexp{
 	// HCP samples reference external prerequisites (VNet, NSG, managed identities, Key Vault) that
 	// aren't yet self-contained in the sample directory; see v2/internal/controllers/testdata/redhatopenshift-hcp/README.md.
 	regexp.MustCompile(`/redhatopenshift/v20260901preview(?:/|$)`),
+	regexp.MustCompile(`/redhatopenshift/v20261001(?:/|$)`),
 	regexp.MustCompile(`/documentdb/sqldatabase/v1api20210515`), // This is blocked by corp policy (can't set DisableLocalAuth)
 	regexp.MustCompile(`/compute/v20250401`),                    // Quota restrictions mean we can't rerecord capacity reservation
 	// TODO: remove once Test_Keyvault_v20230701_CreationAndDeletion.yaml has been recorded. The VaultKey
@@ -82,10 +83,10 @@ var exclusions = []*regexp.Regexp{
 	// Older versions only pass because their recordings predate this service-side validation.
 	regexp.MustCompile(`dbforpostgresql/.*_flexibleserversvirtualendpoint.yaml`),
 
-	// Excluding sql serversadministrator and serversazureadonlyauthentication as they both require AAD auth
-	// which the samples recordings aren't using.
-	regexp.MustCompile(`sql/.*_serversadministrator.yaml`),
-	regexp.MustCompile(`sql/.*_serversazureadonlyauthentication.yaml`),
+	// The general SQL samples don't configure these separate AAD resources.
+	// Dedicated scenarios such as sql/aadonly_v1api20211101 do test them.
+	regexp.MustCompile(`sql/v[^/]+/.*_serversadministrator.yaml`),
+	regexp.MustCompile(`sql/v[^/]+/.*_serversazureadonlyauthentication.yaml`),
 
 	// Requires creating multiple linked SQL servers which is hard to do in the samples
 	regexp.MustCompile(`sql/.*_serversfailovergroup.yaml`),

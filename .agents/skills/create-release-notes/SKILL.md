@@ -15,7 +15,7 @@ This skill creates polished, user-facing release notes for Azure Service Operato
    ```
    This determines the last release tag (latest `v2.x.y`) and outputs the commits (PRs) between that tag and HEAD.
 
-2. **Categorize and format** the raw changelog into polished release notes following the formatting rules below.
+2. **Categorize and format** the raw changelog into polished release notes following the formatting rules below. Check the changelog and any release-planning issues or context supplied by the user for breaking changes in this release and upcoming breaking changes.
 
 3. **For "New resources" entries**, determine the correct Kubernetes group by checking which `v2/api/$group` folders changed:
    ```bash
@@ -26,7 +26,23 @@ This skill creates polished, user-facing release notes for Azure Service Operato
 
 ## Formatting Rules
 
-Format the raw changelog into the sections below. Each section has specific transformation rules.
+Format the raw changelog into the sections below, in the order shown. Each section has specific transformation rules.
+
+### Breaking Changes Section
+
+- Use the release-note heading `### Breaking changes`, before `### New resources` and before `### Upcoming breaking changes` when that section is present.
+- Include breaking changes that take effect in this release, such as removed resources, changed defaults, or new compatibility requirements.
+- Describe the user-visible impact and any required migration steps, workarounds, or configuration changes.
+- Use short PR or issue references like `(#1234)`.
+- Omit this section entirely if there are no breaking changes in this release.
+
+### Upcoming Breaking Changes Section
+
+- Use the release-note heading `### Upcoming breaking changes`, below `### Breaking changes` when present and above `### New resources`.
+- Include announced or proposed breaking changes that do not take effect in this release.
+- Clearly distinguish proposals from confirmed plans, and state that these changes are not part of this release. Include the target release only if it is known.
+- Describe how users can prepare or provide feedback, and link to the relevant planning issue or discussion.
+- Omit this section entirely if there are no upcoming breaking changes to announce.
 
 ### New Resources Section
 
@@ -67,7 +83,8 @@ For entries about new resources or new API versions:
 - Remove all "Code Structure Diagrams" entries.
 - Always remove `by @username in https://github.com/...` suffixes
 - Replace full PR URLs with short references: `(#1234)`
-- Do not use any sections other than the 4 above (New Resources, Features, Bug Fixes, Documentation). Dependency updates are a feature.
+- Use only these sections, in this order: Breaking changes (optional), Upcoming breaking changes (optional), New resources, Features, Bug fixes, Documentation. Dependency updates are a feature.
+- Put current and upcoming breaking changes in their respective sections rather than duplicating them under Features or Bug fixes.
 - If in doubt, err on the side of including the entry - the human reviewer can always remove it if necessary but it's hard to add it back later.
 - Group items logically within sections (e.g. asoctl items together at the end)
 - Output the final release notes in raw (not rendered) markdown format
@@ -183,6 +200,8 @@ ca72de605 Update docs for 2.18 (#5203)
 ```
 
 ## Example output
+
+This example has no current or upcoming breaking changes, so both optional sections are omitted.
 
 ```
 ## What's Changed

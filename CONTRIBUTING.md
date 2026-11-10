@@ -17,6 +17,21 @@ The [Microsoft CLA](https://cla.microsoft.com/) must be signed by all contributo
 2. Fork the desired repo, develop and test your code changes.
 3. Submit a pull request.
 
+## Pull Request Titles and Commit Messages
+
+Use Conventional Commits for pull request titles and commit messages: `<type>: <short description>`.
+
+The prefixes used in this repository are:
+
+* `feat`: New features, resources, or API versions.
+* `fix`: Bug fixes.
+* `docs`: Documentation changes.
+* `test`: Test-only changes.
+* `perf`: Performance improvements.
+* `chore`: Maintenance, dependency updates, and tooling changes.
+
+For example, use `docs: update docs for 2.22` for a release documentation PR.
+
 ## Contributing to Azure Service Operator v2
 
 See [Contributing to Azure Service Operator v2](https://azure.github.io/azure-service-operator/contributing/) for instructions on how to build ASO v2 and test your code.

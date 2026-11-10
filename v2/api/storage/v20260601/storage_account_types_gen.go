@@ -30,7 +30,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2026-06-01/openapi.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2026-06-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}
 type StorageAccount struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -296,7 +296,7 @@ func (account *StorageAccount) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2026-06-01/openapi.json
+// - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2026-06-01/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}
 type StorageAccountList struct {
 	metav1.TypeMeta `json:",inline"`

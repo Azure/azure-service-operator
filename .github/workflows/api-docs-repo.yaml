@@ -51,7 +51,7 @@ jobs:
           submodules: "true"
 
       - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # pinned to v4.6.0
+        uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # pinned to v4.7.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -73,7 +73,7 @@ jobs:
       - name: Generate API docs
         run: |
           container_id=${{ env.container_id }}
-          docker exec "$container_id" task controller:gen-crd-docs
+          docker exec "$container_id" task doc:crd-api
 
       # After generating the API docs (above), regenerate our index files as now new CRDs can be linked to their docs
       # Have to force this to ensure the index files are updated
