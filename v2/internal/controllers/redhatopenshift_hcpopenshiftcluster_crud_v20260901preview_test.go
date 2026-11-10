@@ -50,7 +50,7 @@ func Test_RedHatOpenShift_HcpOpenShiftCluster_v20260901preview_CRUD(t *testing.T
 	tc.AzureRegion = to.Ptr(values["location"])
 	rg := tc.CreateTestResourceGroupAndWait()
 	prerequisites := createHcpTestPrerequisites(tc, rg, values)
-	fixture := loadHcpTestResources(tc, values)
+	fixture := loadHcpTestResources[hcpTestResources](tc, values)
 
 	cluster := &aro.HcpOpenShiftCluster{
 		ObjectMeta: tc.MakeObjectMeta("hcp"),
@@ -205,7 +205,7 @@ func loadHcpTestConfig(tc *testcommon.KubePerTestContext, configPath string) map
 	return values
 }
 
-func loadHcpTestResources(tc *testcommon.KubePerTestContext, values map[string]string) hcpTestResources {
+func loadHcpTestResources[T any](tc *testcommon.KubePerTestContext, values map[string]string) T {
 	tc.T.Helper()
 	replacements := make([]string, 0, 2*len(values))
 	for key, value := range values {
@@ -217,7 +217,7 @@ func loadHcpTestResources(tc *testcommon.KubePerTestContext, values map[string]s
 	tc.Expect(err).ToNot(HaveOccurred())
 	data := strings.NewReplacer(replacements...).Replace(string(fixtureBytes))
 	tc.Expect(data).ToNot(ContainSubstring("${"), "unresolved HCP fixture parameter")
-	var result hcpTestResources
+	var result T
 	decoder := json.NewDecoder(strings.NewReader(data))
 	decoder.DisallowUnknownFields()
 	tc.Expect(decoder.Decode(&result)).To(Succeed())

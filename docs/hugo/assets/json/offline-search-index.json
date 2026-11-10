@@ -1,0 +1,18 @@
+{{- $reference := .Reference -}}
+{{- $documents := slice -}}
+{{- range hugo.Sites -}}
+  {{- range where .Pages ".Params.exclude_search" "!=" true -}}
+    {{- if eq (eq .Section "reference") $reference -}}
+      {{- $documents = $documents | append (dict
+        "ref" .RelPermalink
+        "title" .Title
+        "categories" (.Params.categories | default "")
+        "tags" (.Params.tags | default "")
+        "description" (.Description | default "")
+        "body" (.Plain | htmlUnescape)
+        "excerpt" ((.Description | default .Plain) | htmlUnescape | truncate (.Site.Params.offlineSearchSummaryLength | default 70) | htmlUnescape)
+      ) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- $documents | jsonify -}}

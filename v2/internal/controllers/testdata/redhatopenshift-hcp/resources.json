@@ -155,7 +155,6 @@
       }
     },
     "tags": {
-      "aro-hcp.experimental.cluster.single-replica": "SingleReplica",
       "aro-hcp.experimental.cluster.size-override": "Minimal"
     }
   },
@@ -186,7 +185,6 @@
       "replicas": 2
     },
     "tags": {
-      "aro-hcp.experimental.cluster.single-replica": "SingleReplica",
       "aro-hcp.experimental.cluster.size-override": "Minimal"
     }
   },

@@ -15,14 +15,14 @@ import (
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
-	armhcp20260901preview "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redhatopenshifthcp/armredhatopenshifthcp"
+	armhcp20261001 "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redhatopenshifthcp/armredhatopenshifthcp"
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/tools/clientcmd"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
-	"github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview/storage"
+	"github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20261001/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
@@ -148,7 +148,7 @@ func requestAdminCredential(
 ) (string, error) {
 	// Using armClient.ClientOptions() here ensures we share the same HTTP connection, so this is not opening a new
 	// connection each time through
-	hcpClient, err := armhcp20260901preview.NewHcpOpenShiftClustersClient(subscriptionID, armClient.Creds(), armClient.ClientOptions())
+	hcpClient, err := armhcp20261001.NewHcpOpenShiftClustersClient(subscriptionID, armClient.Creds(), armClient.ClientOptions())
 	if err != nil {
 		return "", eris.Wrapf(err, "failed to create new HcpOpenShiftClustersClient")
 	}
@@ -177,7 +177,7 @@ func requestAdminCredential(
 		ctx,
 		resourceGroupName,
 		clusterName,
-		armhcp20260901preview.HcpOpenShiftClusterAdminCredentialRequest{
+		armhcp20261001.HcpOpenShiftClusterAdminCredentialRequest{
 			CertificateSigningRequest: to.Ptr(string(csrPEM)),
 		},
 		nil,

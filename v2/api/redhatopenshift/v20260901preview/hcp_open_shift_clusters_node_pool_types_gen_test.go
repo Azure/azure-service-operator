@@ -5,7 +5,8 @@ package v20260901preview
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview/storage"
+	v20260901ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview/storage"
+	v20261001s "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20261001/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -28,7 +29,7 @@ func Test_HcpOpenShiftClustersNodePool_WhenConvertedToHub_RoundTripsWithoutLoss(
 		copied := subject.DeepCopy()
 
 		// Convert to our hub version
-		var hub storage.HcpOpenShiftClustersNodePool
+		var hub v20261001s.HcpOpenShiftClustersNodePool
 		err := copied.ConvertTo(&hub)
 		if err != nil {
 			t.Fatal("ConvertTo: " + err.Error())
@@ -66,7 +67,7 @@ func Test_HcpOpenShiftClustersNodePool_WhenPropertiesConverted_RoundTripsWithout
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.HcpOpenShiftClustersNodePool
+		var other v20260901ps.HcpOpenShiftClustersNodePool
 		err := copied.AssignProperties_To_HcpOpenShiftClustersNodePool(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -163,7 +164,7 @@ func Test_HcpOpenShiftClustersNodePoolOperatorSpec_WhenPropertiesConverted_Round
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.HcpOpenShiftClustersNodePoolOperatorSpec
+		var other v20260901ps.HcpOpenShiftClustersNodePoolOperatorSpec
 		err := copied.AssignProperties_To_HcpOpenShiftClustersNodePoolOperatorSpec(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -252,7 +253,7 @@ func Test_HcpOpenShiftClustersNodePool_STATUS_WhenPropertiesConverted_RoundTrips
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.HcpOpenShiftClustersNodePool_STATUS
+		var other v20260901ps.HcpOpenShiftClustersNodePool_STATUS
 		err := copied.AssignProperties_To_HcpOpenShiftClustersNodePool_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -360,7 +361,7 @@ func Test_HcpOpenShiftClustersNodePool_Spec_WhenPropertiesConverted_RoundTripsWi
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.HcpOpenShiftClustersNodePool_Spec
+		var other v20260901ps.HcpOpenShiftClustersNodePool_Spec
 		err := copied.AssignProperties_To_HcpOpenShiftClustersNodePool_Spec(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -467,7 +468,7 @@ func Test_Label_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.Label
+		var other v20260901ps.Label
 		err := copied.AssignProperties_To_Label(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -562,7 +563,7 @@ func Test_Label_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.Label_STATUS
+		var other v20260901ps.Label_STATUS
 		err := copied.AssignProperties_To_Label_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -657,7 +658,7 @@ func Test_NodePoolAutoScaling_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.NodePoolAutoScaling
+		var other v20260901ps.NodePoolAutoScaling
 		err := copied.AssignProperties_To_NodePoolAutoScaling(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -753,7 +754,7 @@ func Test_NodePoolAutoScaling_STATUS_WhenPropertiesConverted_RoundTripsWithoutLo
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.NodePoolAutoScaling_STATUS
+		var other v20260901ps.NodePoolAutoScaling_STATUS
 		err := copied.AssignProperties_To_NodePoolAutoScaling_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -849,7 +850,7 @@ func Test_NodePoolPlatformProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.NodePoolPlatformProfile
+		var other v20260901ps.NodePoolPlatformProfile
 		err := copied.AssignProperties_To_NodePoolPlatformProfile(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -949,7 +950,7 @@ func Test_NodePoolPlatformProfile_STATUS_WhenPropertiesConverted_RoundTripsWitho
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.NodePoolPlatformProfile_STATUS
+		var other v20260901ps.NodePoolPlatformProfile_STATUS
 		err := copied.AssignProperties_To_NodePoolPlatformProfile_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -1050,7 +1051,7 @@ func Test_NodePoolProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.NodePoolProperties
+		var other v20260901ps.NodePoolProperties
 		err := copied.AssignProperties_To_NodePoolProperties(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -1158,7 +1159,7 @@ func Test_NodePoolProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.NodePoolProperties_STATUS
+		var other v20260901ps.NodePoolProperties_STATUS
 		err := copied.AssignProperties_To_NodePoolProperties_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -1270,7 +1271,7 @@ func Test_NodePoolVersionProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.NodePoolVersionProfile
+		var other v20260901ps.NodePoolVersionProfile
 		err := copied.AssignProperties_To_NodePoolVersionProfile(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -1366,7 +1367,7 @@ func Test_NodePoolVersionProfile_STATUS_WhenPropertiesConverted_RoundTripsWithou
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.NodePoolVersionProfile_STATUS
+		var other v20260901ps.NodePoolVersionProfile_STATUS
 		err := copied.AssignProperties_To_NodePoolVersionProfile_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -1462,7 +1463,7 @@ func Test_OsDiskProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.OsDiskProfile
+		var other v20260901ps.OsDiskProfile
 		err := copied.AssignProperties_To_OsDiskProfile(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -1560,7 +1561,7 @@ func Test_OsDiskProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.OsDiskProfile_STATUS
+		var other v20260901ps.OsDiskProfile_STATUS
 		err := copied.AssignProperties_To_OsDiskProfile_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -1661,7 +1662,7 @@ func Test_Taint_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.Taint
+		var other v20260901ps.Taint
 		err := copied.AssignProperties_To_Taint(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
@@ -1758,7 +1759,7 @@ func Test_Taint_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.Taint_STATUS
+		var other v20260901ps.Taint_STATUS
 		err := copied.AssignProperties_To_Taint_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
