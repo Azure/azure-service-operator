@@ -13,6 +13,7 @@ import (
 
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
+	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20230131"
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
 	sql "github.com/Azure/azure-service-operator/v2/api/sql/v20250101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -154,21 +155,41 @@ func SQL_ManagedInstance_Database_v20250101_CRUD(tc *testcommon.KubePerTestConte
 //   - The virtual networks must be connected (here, with global peering in both directions).
 //   - The secondary instance must be created in the same DNS zone as the primary (dnsZonePartner).
 //
+// Both instances use Entra-only authentication with a test-created managed identity as administrator.
+//
 // Note that this test is expensive: it creates two managed instances, each taking several hours to provision
 // (4-6 hours observed), and the second cannot start until the first is ready.
 func Test_SQL_InstanceFailoverGroup_v20250101_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
-	primaryRegion := to.Ptr("westeurope")
-	secondaryRegion := to.Ptr("germanywestcentral")
+	primaryRegion := to.Ptr("swedencentral")
+	secondaryRegion := to.Ptr("westus3")
 	tc.AzureRegion = primaryRegion
 
-	secretName := "sqlmisecret"
-	adminPasswordKey := "adminPassword"
-	adminPasswordSecretRef := createPasswordSecret(secretName, adminPasswordKey, tc)
-
 	rg := tc.CreateTestResourceGroupAndWait()
+
+	identityConfigMap := "miadminconfig"
+	adminIdentity := &managedidentity.UserAssignedIdentity{
+		ObjectMeta: tc.MakeObjectMeta("miadmin"),
+		Spec: managedidentity.UserAssignedIdentity_Spec{
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(rg),
+			OperatorSpec: &managedidentity.UserAssignedIdentityOperatorSpec{
+				ConfigMaps: &managedidentity.UserAssignedIdentityOperatorConfigMaps{
+					PrincipalId: &genruntime.ConfigMapDestination{
+						Name: identityConfigMap,
+						Key:  "oid",
+					},
+					TenantId: &genruntime.ConfigMapDestination{
+						Name: identityConfigMap,
+						Key:  "tenant",
+					},
+				},
+			},
+		},
+	}
+	tc.CreateResourceAndWait(adminIdentity)
 
 	primaryVnet, primarySubnet := newManagedInstanceNetwork(tc, rg, "primary", "10.1.0.0/16", "10.1.0.0/26")
 	secondaryVnet, secondarySubnet := newManagedInstanceNetworkInRegion(tc, rg, secondaryRegion, "secondary", "10.2.0.0/16", "10.2.0.0/26")
@@ -185,11 +206,23 @@ func Test_SQL_InstanceFailoverGroup_v20250101_CRUD(t *testing.T) {
 		return &sql.ManagedInstance{
 			ObjectMeta: tc.MakeObjectMeta(name),
 			Spec: sql.ManagedInstance_Spec{
-				Location:                   region,
-				Owner:                      testcommon.AsOwner(rg),
-				AdministratorLogin:         to.Ptr("miadmin"),
-				AdministratorLoginPassword: &adminPasswordSecretRef,
-				SubnetReference:            tc.MakeReferenceFromResource(subnet),
+				Location: region,
+				Owner:    testcommon.AsOwner(rg),
+				Administrators: &sql.ManagedInstanceExternalAdministrator{
+					AdministratorType:         to.Ptr(sql.AdministratorType_ActiveDirectory),
+					PrincipalType:             to.Ptr(sql.PrincipalType_Application),
+					AzureADOnlyAuthentication: to.Ptr(true),
+					Login:                     to.Ptr(adminIdentity.Name),
+					SidFromConfig: &genruntime.ConfigMapReference{
+						Name: identityConfigMap,
+						Key:  "oid",
+					},
+					TenantIdFromConfig: &genruntime.ConfigMapReference{
+						Name: identityConfigMap,
+						Key:  "tenant",
+					},
+				},
+				SubnetReference: tc.MakeReferenceFromResource(subnet),
 				Sku: &sql.Sku{
 					Name: to.Ptr("GP_Gen5"),
 					Tier: to.Ptr("GeneralPurpose"),
