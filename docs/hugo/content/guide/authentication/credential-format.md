@@ -894,9 +894,13 @@ spec:
 EOF
 ```
 
+{{% /tab %}}
+{{< /tabpane >}}
+
 ## User Assigned Identity Credentials
 
 ### General
+
 {{% alert title="Warning" color="warning" %}}
 This option is only available for 1st party Microsoft applications who have access to the msi data-plane.
 {{% /alert %}}
@@ -906,7 +910,9 @@ authentication. As a 1st party Microsoft application, one has access to pull a u
 certificate information from the MSI data plane. Using this data, a user can authenticate to Azure Cloud.
 
 ### Prerequisites
+
 A JSON file with information from the user assigned managed identity. It should be in this format:
+
 ```json
         {
             "client_id": "0998...",
@@ -927,28 +933,31 @@ A JSON file with information from the user assigned managed identity. It should 
 Note, the client secret should be a base64 encoded certificate.
 
 The steps to get this information from the MSI data plane are as follows:
+
 1. Make an unauthenticated GET or POST (no Authorization request headers) on the x-ms-identity-url received from ARM to get the token authority and, on older api versions, resource.
 2. Get an Access Token from Azure AD using your Resource Provider applicationId and Certificate. The applicationId should match the one you added to your manifest. The response should give you an access token.
 3. Perform a GET or POST to MSI on the same URL from earlier to get the Credentials using this bearer token.
 
 The only required environment variable is AZURE_USER_ASSIGNED_IDENTITY_CREDENTIALS.
+
 ```bash
 export AZURE_USER_ASSIGNED_IDENTITY_CREDENTIALS="/path/to/credentials-file.json" # The file path to the msi data plane credentials in a JSON file format.
 ```
 
 It is expected this JSON file is available in a volume on the pod needing to authenticate with Azure cloud with this
-authentication method. For example, if the credentials were stored as a secret in Azure Key Vault, one could use the 
-Secrets CSI Driver and a SecretProviderClass custom resource to automatically have the file mounted into a volume on a 
+authentication method. For example, if the credentials were stored as a secret in Azure Key Vault, one could use the
+Secrets CSI Driver and a SecretProviderClass custom resource to automatically have the file mounted into a volume on a
 pod.
 
 {{% alert title="Warning" color="warning" %}}
 No option is exposed to configure additional deployment volumes in the Helm chart because it is reserved for use by Microsoft 1st party access and not intended for 3rd party use.
 {{% /alert %}}
 
-The cloud configuration defaults to Azure Public. If you want to configure the cloud configuration, you will need to 
-export at least AZURE_AUTHORITY_HOST. Both AZURE_RESOURCE_MANAGER_AUDIENCE and AZURE_RESOURCE_MANAGER_ENDPOINT must be 
+The cloud configuration defaults to Azure Public. If you want to configure the cloud configuration, you will need to
+export at least AZURE_AUTHORITY_HOST. Both AZURE_RESOURCE_MANAGER_AUDIENCE and AZURE_RESOURCE_MANAGER_ENDPOINT must be
 specified if you wish to set values for these two fields.
-(see https://learn.microsoft.com/en-us/cli/azure/manage-clouds-azure-cli#list-available-clouds for more info):
+(see <https://learn.microsoft.com/en-us/cli/azure/manage-clouds-azure-cli#list-available-clouds> for more info):
+
 ```bash
 export AZURE_AUTHORITY_HOST="https://login.microsoftonline.com/" # The URL of the Entra authority.
 export AZURE_RESOURCE_MANAGER_AUDIENCE=""                        # The Azure Resource Manager Entra audience.
@@ -975,9 +984,6 @@ EOF
 **Note:** The `aso-controller-settings` secret contains more configuration than just the global credential.
 If ASO was already installed on your cluster and you are updating the `aso-controller-settings` secret, ensure that
 [other values]( {{< relref "aso-controller-settings-options" >}} ) in that secret are not being overwritten.
-
-{{% /tab %}}
-{{< /tabpane >}}
 
 ## Azure CLI
 
