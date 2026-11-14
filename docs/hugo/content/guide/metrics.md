@@ -195,8 +195,8 @@ and is organised into the following sections:
 ### Prerequisites
 
 - **Prometheus must already be scraping ASO.** See [scraping metrics securely](#scraping-metrics-securely-via-https-using-rbac) above.
-  The dashboard expects each series to carry a `namespace` label, which Prometheus Operator `ServiceMonitor` and `PodMonitor`
-  resources add by default.
+  The dashboard expects each series to carry `job` and `namespace` labels, which Prometheus Operator `ServiceMonitor` and
+  `PodMonitor` resources add by default.
 - **Grafana 10 or later** with a Prometheus data source.
 
 ### How to import the dashboard
@@ -208,8 +208,8 @@ and is organised into the following sections:
     ```
 
 2. In Grafana, open **Dashboards** > **New** > **Import**, and upload `azure-service-operator.json`.
-3. **Select** your Prometheus data source and the namespace ASO is installed in (by default, `azureserviceoperator-system`)
-   using the variables at the top of the dashboard.
+3. **Select** your Prometheus data source, the job that scrapes ASO, and the namespace ASO is installed in (by default,
+   `azureserviceoperator-system`) using the variables at the top of the dashboard.
 
 If you run Grafana with the dashboard sidecar enabled (for example, from the `kube-prometheus-stack` Helm chart), you can
 instead load the dashboard from a labelled `ConfigMap` in the namespace the sidecar watches:
@@ -224,11 +224,13 @@ $ kubectl label configmap aso-grafana-dashboard --namespace monitoring grafana_d
 | Variable    | Description                                                                                                      |
 |-------------|------------------------------------------------------------------------------------------------------------------|
 | Data source | The Prometheus data source to query.                                                                             |
-| Namespace   | The namespace ASO is installed in. Only namespaces emitting ASO-specific metrics are listed.                     |
+| Job         | The Prometheus job that scrapes the ASO controller. Defaults to `azureserviceoperator-controller-manager-metrics-service`, the job name a `ServiceMonitor` for ASO's metrics service produces. |
+| Namespace   | The namespace ASO is installed in.                                                                               |
 | Controller  | One or more ASO controllers to show. ASO runs one controller per resource kind; defaults to all controllers.      |
 
-The Azure Resource Manager, webhook, and controller process panels are filtered by namespace only, as those metrics are not
-reported per controller. If you see unusually high throttling, see [diagnosing Azure throttling]( {{< relref "azure-throttling" >}} ).
+Every panel is filtered by job and namespace, so metrics from other applications in the same namespace are excluded. The Azure
+Resource Manager, webhook, and controller process panels are not filtered by controller, as those metrics are not reported per
+controller. If you see unusually high throttling, see [diagnosing Azure throttling]( {{< relref "azure-throttling" >}} ).
 
 {{% alert title="Note" %}}
 ASO records most reconciliation failures, including errors returned by Azure, on each resource's `Ready` condition and retries

@@ -68,6 +68,32 @@
         "current": {}
       },
       {
+        "name": "job",
+        "label": "Job",
+        "type": "query",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${datasource}"
+        },
+        "description": "Prometheus job that scrapes the ASO controller. A Prometheus Operator ServiceMonitor for ASO's metrics service produces the default value.",
+        "query": {
+          "query": "label_values(up, job)",
+          "refId": "job"
+        },
+        "definition": "label_values(up, job)",
+        "refresh": 1,
+        "sort": 1,
+        "multi": false,
+        "includeAll": false,
+        "hide": 0,
+        "allowCustomValue": true,
+        "current": {
+          "selected": true,
+          "text": "azureserviceoperator-controller-manager-metrics-service",
+          "value": "azureserviceoperator-controller-manager-metrics-service"
+        }
+      },
+      {
         "name": "namespace",
         "label": "Namespace",
         "type": "query",
@@ -75,12 +101,12 @@
           "type": "prometheus",
           "uid": "${datasource}"
         },
-        "description": "Namespace ASO is installed in. Only namespaces that emit ASO-specific metrics are listed.",
+        "description": "Namespace ASO is installed in.",
         "query": {
-          "query": "label_values(azure_requests_time_seconds_count, namespace)",
+          "query": "label_values(up{job=\"$job\"}, namespace)",
           "refId": "namespace"
         },
-        "definition": "label_values(azure_requests_time_seconds_count, namespace)",
+        "definition": "label_values(up{job=\"$job\"}, namespace)",
         "refresh": 2,
         "sort": 1,
         "multi": false,
@@ -98,10 +124,10 @@
         },
         "description": "ASO runs one controller per resource kind.",
         "query": {
-          "query": "label_values(controller_runtime_reconcile_total{namespace=~\"$namespace\"}, controller)",
+          "query": "label_values(controller_runtime_reconcile_total{job=\"$job\", namespace=~\"$namespace\"}, controller)",
           "refId": "controller"
         },
-        "definition": "label_values(controller_runtime_reconcile_total{namespace=~\"$namespace\"}, controller)",
+        "definition": "label_values(controller_runtime_reconcile_total{job=\"$job\", namespace=~\"$namespace\"}, controller)",
         "refresh": 2,
         "sort": 1,
         "multi": true,
@@ -155,9 +181,10 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum(rate(controller_runtime_reconcile_total{namespace=~\"$namespace\", controller=~\"$controller\"}[$__rate_interval]))",
+          "expr": "sum(rate(controller_runtime_reconcile_total{job=\"$job\", namespace=~\"$namespace\", controller=~\"$controller\"}[$__rate_interval]))",
           "legendFormat": "",
           "range": true,
+          "instant": false,
           "refId": "A"
         }
       ],
@@ -214,9 +241,10 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "((sum(rate(azure_successful_requests_total{namespace=~\"$namespace\", responseCode=~\"[45]..\", responseCode!=\"404\"}[$__rate_interval])) or vector(0)) + (sum(rate(azure_failed_requests_total{namespace=~\"$namespace\"}[$__rate_interval])) or vector(0))) / (sum(rate(azure_requests_time_seconds_count{namespace=~\"$namespace\"}[$__rate_interval])) > 0)",
+          "expr": "((sum(rate(azure_successful_requests_total{job=\"$job\", namespace=~\"$namespace\", responseCode=~\"[45]..\", responseCode!=\"404\"}[$__rate_interval])) or vector(0)) + (sum(rate(azure_failed_requests_total{job=\"$job\", namespace=~\"$namespace\"}[$__rate_interval])) or vector(0))) / (sum(rate(azure_requests_time_seconds_count{job=\"$job\", namespace=~\"$namespace\"}[$__rate_interval])) > 0)",
           "legendFormat": "",
-          "range": true,
+          "range": false,
+          "instant": true,
           "refId": "A"
         }
       ],
@@ -282,9 +310,10 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum(workqueue_depth{namespace=~\"$namespace\", controller=~\"$controller\"})",
+          "expr": "sum(workqueue_depth{job=\"$job\", namespace=~\"$namespace\", controller=~\"$controller\"})",
           "legendFormat": "",
           "range": true,
+          "instant": false,
           "refId": "A"
         }
       ],
@@ -349,9 +378,10 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum(rate(azure_requests_time_seconds_count{namespace=~\"$namespace\"}[$__rate_interval]))",
+          "expr": "sum(rate(azure_requests_time_seconds_count{job=\"$job\", namespace=~\"$namespace\"}[$__rate_interval]))",
           "legendFormat": "",
           "range": true,
+          "instant": false,
           "refId": "A"
         }
       ],
@@ -408,9 +438,10 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum(rate(azure_successful_requests_total{namespace=~\"$namespace\", responseCode=\"429\"}[$__rate_interval])) or vector(0)",
+          "expr": "sum(rate(azure_successful_requests_total{job=\"$job\", namespace=~\"$namespace\", responseCode=\"429\"}[$__rate_interval])) or vector(0)",
           "legendFormat": "",
           "range": true,
+          "instant": false,
           "refId": "A"
         }
       ],
@@ -471,9 +502,10 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum(increase(controller_runtime_reconcile_panics_total{namespace=~\"$namespace\", controller=~\"$controller\"}[$__range])) or vector(0)",
+          "expr": "sum(increase(controller_runtime_reconcile_panics_total{job=\"$job\", namespace=~\"$namespace\", controller=~\"$controller\"}[$__range])) or vector(0)",
           "legendFormat": "",
           "range": true,
+          "instant": false,
           "refId": "A"
         }
       ],
@@ -547,9 +579,10 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum by (result) (rate(controller_runtime_reconcile_total{namespace=~\"$namespace\", controller=~\"$controller\"}[$__rate_interval]))",
+          "expr": "sum by (result) (rate(controller_runtime_reconcile_total{job=\"$job\", namespace=~\"$namespace\", controller=~\"$controller\"}[$__rate_interval]))",
           "legendFormat": "{{result}}",
           "range": true,
+          "instant": false,
           "refId": "A"
         }
       ],
@@ -607,9 +640,10 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "topk(10, sum by (controller) (rate(controller_runtime_reconcile_total{namespace=~\"$namespace\", controller=~\"$controller\"}[$__rate_interval])))",
+          "expr": "topk(10, sum by (controller) (rate(controller_runtime_reconcile_total{job=\"$job\", namespace=~\"$namespace\", controller=~\"$controller\"}[$__rate_interval])))",
           "legendFormat": "{{controller}}",
           "range": true,
+          "instant": false,
           "refId": "A"
         }
       ],
@@ -667,9 +701,10 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "histogram_quantile(0.5, sum by (le) (rate(controller_runtime_reconcile_time_seconds_bucket{namespace=~\"$namespace\", controller=~\"$controller\"}[$__rate_interval])))",
+          "expr": "histogram_quantile(0.5, sum by (le) (rate(controller_runtime_reconcile_time_seconds_bucket{job=\"$job\", namespace=~\"$namespace\", controller=~\"$controller\"}[$__rate_interval])))",
           "legendFormat": "p50",
           "range": true,
+          "instant": false,
           "refId": "A"
         },
         {
@@ -677,9 +712,10 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "histogram_quantile(0.95, sum by (le) (rate(controller_runtime_reconcile_time_seconds_bucket{namespace=~\"$namespace\", controller=~\"$controller\"}[$__rate_interval])))",
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(controller_runtime_reconcile_time_seconds_bucket{job=\"$job\", namespace=~\"$namespace\", controller=~\"$controller\"}[$__rate_interval])))",
           "legendFormat": "p95",
           "range": true,
+          "instant": false,
           "refId": "B"
         },
         {
@@ -687,9 +723,10 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "histogram_quantile(0.99, sum by (le) (rate(controller_runtime_reconcile_time_seconds_bucket{namespace=~\"$namespace\", controller=~\"$controller\"}[$__rate_interval])))",
+          "expr": "histogram_quantile(0.99, sum by (le) (rate(controller_runtime_reconcile_time_seconds_bucket{job=\"$job\", namespace=~\"$namespace\", controller=~\"$controller\"}[$__rate_interval])))",
           "legendFormat": "p99",
           "range": true,
+          "instant": false,
           "refId": "C"
         }
       ],
@@ -747,15 +784,17 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "topk(10, histogram_quantile(0.95, sum by (controller, le) (rate(controller_runtime_reconcile_time_seconds_bucket{namespace=~\"$namespace\", controller=~\"$controller\"}[$__rate_interval]))) > 0)",
+          "expr": "topk(10, histogram_quantile(0.95, sum by (controller, le) (rate(controller_runtime_reconcile_time_seconds_bucket{job=\"$job\", namespace=~\"$namespace\", controller=~\"$controller\"}[$__rate_interval]))) > 0)",
           "legendFormat": "{{controller}}",
           "range": true,
+          "instant": false,
           "refId": "A"
         }
       ],
       "fieldConfig": {
         "defaults": {
           "unit": "s",
+          "noValue": "No reconciles in this period",
           "custom": {
             "drawStyle": "line",
             "lineWidth": 1,
@@ -807,9 +846,10 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "topk(10, sum by (controller) (rate(controller_runtime_reconcile_errors_total{namespace=~\"$namespace\", controller=~\"$controller\"}[$__rate_interval])) > 0)",
+          "expr": "topk(10, sum by (controller) (rate(controller_runtime_reconcile_errors_total{job=\"$job\", namespace=~\"$namespace\", controller=~\"$controller\"}[$__rate_interval])) > 0)",
           "legendFormat": "{{controller}}",
           "range": true,
+          "instant": false,
           "refId": "A"
         }
       ],
@@ -868,9 +908,10 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "topk(10, sum by (controller) (controller_runtime_active_workers{namespace=~\"$namespace\", controller=~\"$controller\"}) > 0)",
+          "expr": "topk(10, sum by (controller) (controller_runtime_active_workers{job=\"$job\", namespace=~\"$namespace\", controller=~\"$controller\"}) > 0)",
           "legendFormat": "{{controller}}",
           "range": true,
+          "instant": false,
           "refId": "A"
         },
         {
@@ -878,9 +919,10 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "max(controller_runtime_max_concurrent_reconciles{namespace=~\"$namespace\", controller=~\"$controller\"})",
+          "expr": "max(controller_runtime_max_concurrent_reconciles{job=\"$job\", namespace=~\"$namespace\", controller=~\"$controller\"})",
           "legendFormat": "limit per controller",
           "range": true,
+          "instant": false,
           "refId": "B"
         }
       ],
@@ -982,9 +1024,10 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "topk(10, sum by (controller) (workqueue_depth{namespace=~\"$namespace\", controller=~\"$controller\"}) > 0)",
+          "expr": "topk(10, sum by (controller) (workqueue_depth{job=\"$job\", namespace=~\"$namespace\", controller=~\"$controller\"}) > 0)",
           "legendFormat": "{{controller}}",
           "range": true,
+          "instant": false,
           "refId": "A"
         }
       ],
@@ -1043,15 +1086,17 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "topk(10, histogram_quantile(0.95, sum by (controller, le) (rate(workqueue_queue_duration_seconds_bucket{namespace=~\"$namespace\", controller=~\"$controller\"}[$__rate_interval]))) > 0)",
+          "expr": "topk(10, histogram_quantile(0.95, sum by (controller, le) (rate(workqueue_queue_duration_seconds_bucket{job=\"$job\", namespace=~\"$namespace\", controller=~\"$controller\"}[$__rate_interval]))) > 0)",
           "legendFormat": "{{controller}}",
           "range": true,
+          "instant": false,
           "refId": "A"
         }
       ],
       "fieldConfig": {
         "defaults": {
           "unit": "s",
+          "noValue": "No items processed in this period",
           "custom": {
             "drawStyle": "line",
             "lineWidth": 1,
@@ -1103,9 +1148,10 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "topk(10, sum by (controller) (rate(workqueue_retries_total{namespace=~\"$namespace\", controller=~\"$controller\"}[$__rate_interval])) > 0)",
+          "expr": "topk(10, sum by (controller) (rate(workqueue_retries_total{job=\"$job\", namespace=~\"$namespace\", controller=~\"$controller\"}[$__rate_interval])) > 0)",
           "legendFormat": "{{controller}}",
           "range": true,
+          "instant": false,
           "refId": "A"
         }
       ],
@@ -1164,9 +1210,10 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "topk(10, max by (controller) (workqueue_longest_running_processor_seconds{namespace=~\"$namespace\", controller=~\"$controller\"}) > 0)",
+          "expr": "topk(10, max by (controller) (workqueue_longest_running_processor_seconds{job=\"$job\", namespace=~\"$namespace\", controller=~\"$controller\"}) > 0)",
           "legendFormat": "{{controller}}",
           "range": true,
+          "instant": false,
           "refId": "A"
         }
       ],
@@ -1238,9 +1285,10 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum by (responseCode) (rate(azure_successful_requests_total{namespace=~\"$namespace\"}[$__rate_interval]))",
+          "expr": "sum by (responseCode) (rate(azure_successful_requests_total{job=\"$job\", namespace=~\"$namespace\"}[$__rate_interval]))",
           "legendFormat": "{{responseCode}}",
           "range": true,
+          "instant": false,
           "refId": "A"
         }
       ],
@@ -1299,9 +1347,10 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum by (requestType) (rate(azure_requests_time_seconds_count{namespace=~\"$namespace\"}[$__rate_interval]))",
+          "expr": "sum by (requestType) (rate(azure_requests_time_seconds_count{job=\"$job\", namespace=~\"$namespace\"}[$__rate_interval]))",
           "legendFormat": "{{requestType}}",
           "range": true,
+          "instant": false,
           "refId": "A"
         }
       ],
@@ -1359,15 +1408,17 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "histogram_quantile(0.95, sum by (requestType, le) (rate(azure_requests_time_seconds_bucket{namespace=~\"$namespace\"}[$__rate_interval]))) > 0",
+          "expr": "histogram_quantile(0.95, sum by (requestType, le) (rate(azure_requests_time_seconds_bucket{job=\"$job\", namespace=~\"$namespace\"}[$__rate_interval]))) > 0",
           "legendFormat": "{{requestType}}",
           "range": true,
+          "instant": false,
           "refId": "A"
         }
       ],
       "fieldConfig": {
         "defaults": {
           "unit": "s",
+          "noValue": "No Azure requests in this period",
           "custom": {
             "drawStyle": "line",
             "lineWidth": 1,
@@ -1419,9 +1470,10 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "topk(10, sum by (resource) (rate(azure_requests_time_seconds_count{namespace=~\"$namespace\"}[$__rate_interval])))",
+          "expr": "topk(10, sum by (resource) (rate(azure_requests_time_seconds_count{job=\"$job\", namespace=~\"$namespace\"}[$__rate_interval])))",
           "legendFormat": "{{resource}}",
           "range": true,
+          "instant": false,
           "refId": "A"
         }
       ],
@@ -1479,9 +1531,10 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum by (resource) (rate(azure_successful_requests_total{namespace=~\"$namespace\", responseCode=\"429\"}[$__rate_interval]))",
+          "expr": "sum by (resource) (rate(azure_successful_requests_total{job=\"$job\", namespace=~\"$namespace\", responseCode=\"429\"}[$__rate_interval]))",
           "legendFormat": "{{resource}}",
           "range": true,
+          "instant": false,
           "refId": "A"
         }
       ],
@@ -1540,9 +1593,10 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum by (resource) (rate(azure_failed_requests_total{namespace=~\"$namespace\"}[$__rate_interval]))",
+          "expr": "sum by (resource) (rate(azure_failed_requests_total{job=\"$job\", namespace=~\"$namespace\"}[$__rate_interval]))",
           "legendFormat": "{{resource}}",
           "range": true,
+          "instant": false,
           "refId": "A"
         }
       ],
@@ -1614,9 +1668,10 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum by (code) (rate(controller_runtime_webhook_requests_total{namespace=~\"$namespace\"}[$__rate_interval]))",
+          "expr": "sum by (code) (rate(controller_runtime_webhook_requests_total{job=\"$job\", namespace=~\"$namespace\"}[$__rate_interval]))",
           "legendFormat": "{{code}}",
           "range": true,
+          "instant": false,
           "refId": "A"
         }
       ],
@@ -1674,15 +1729,17 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "topk(10, histogram_quantile(0.95, sum by (webhook, le) (rate(controller_runtime_webhook_latency_seconds_bucket{namespace=~\"$namespace\"}[$__rate_interval]))) > 0)",
+          "expr": "topk(10, histogram_quantile(0.95, sum by (webhook, le) (rate(controller_runtime_webhook_latency_seconds_bucket{job=\"$job\", namespace=~\"$namespace\"}[$__rate_interval]))) > 0)",
           "legendFormat": "{{webhook}}",
           "range": true,
+          "instant": false,
           "refId": "A"
         }
       ],
       "fieldConfig": {
         "defaults": {
           "unit": "s",
+          "noValue": "No webhook requests in this period",
           "custom": {
             "drawStyle": "line",
             "lineWidth": 1,
@@ -1734,9 +1791,10 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum(controller_runtime_webhook_requests_in_flight{namespace=~\"$namespace\"})",
+          "expr": "sum(controller_runtime_webhook_requests_in_flight{job=\"$job\", namespace=~\"$namespace\"})",
           "legendFormat": "in flight",
           "range": true,
+          "instant": false,
           "refId": "A"
         }
       ],
@@ -1807,9 +1865,10 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "rate(process_cpu_seconds_total{namespace=~\"$namespace\"}[$__rate_interval])",
+          "expr": "rate(process_cpu_seconds_total{job=\"$job\", namespace=~\"$namespace\"}[$__rate_interval])",
           "legendFormat": "{{pod}}",
           "range": true,
+          "instant": false,
           "refId": "A"
         }
       ],
@@ -1867,9 +1926,10 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "process_resident_memory_bytes{namespace=~\"$namespace\"}",
+          "expr": "process_resident_memory_bytes{job=\"$job\", namespace=~\"$namespace\"}",
           "legendFormat": "{{pod}} resident",
           "range": true,
+          "instant": false,
           "refId": "A"
         },
         {
@@ -1877,9 +1937,10 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "go_memstats_heap_inuse_bytes{namespace=~\"$namespace\"}",
+          "expr": "go_memstats_heap_inuse_bytes{job=\"$job\", namespace=~\"$namespace\"}",
           "legendFormat": "{{pod}} heap in use",
           "range": true,
+          "instant": false,
           "refId": "B"
         }
       ],
@@ -1937,9 +1998,10 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "go_goroutines{namespace=~\"$namespace\"}",
+          "expr": "go_goroutines{job=\"$job\", namespace=~\"$namespace\"}",
           "legendFormat": "{{pod}}",
           "range": true,
+          "instant": false,
           "refId": "A"
         }
       ],
