@@ -145,7 +145,7 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 4,
+        "w": 8,
         "x": 0,
         "y": 1
       },
@@ -197,15 +197,15 @@
       "type": "stat",
       "id": 3,
       "title": "Azure request error ratio",
-      "description": "Share of requests to Azure Resource Manager that failed: requests with no response plus 4xx/5xx responses. 404 responses are excluded because ASO routinely receives them when checking whether a resource exists before creating it. ASO records most reconcile failures on each resource's Ready condition rather than as reconcile errors, so this is the best metric-based signal that resources are failing.",
+      "description": "Share of requests to Azure Resource Manager that failed: requests with no response plus 4xx/5xx responses. 404 responses are excluded because ASO routinely receives them when checking whether a resource exists before creating it. ASO records most reconcile failures on each resource's Ready condition rather than as reconcile errors, so this is the best metric-based signal that resources are failing. In a quiet cluster even a single failing resource can produce a high ratio, because ASO only re-checks healthy resources periodically; check Azure requests / s for the volume involved.",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
       },
       "gridPos": {
         "h": 4,
-        "w": 4,
-        "x": 4,
+        "w": 8,
+        "x": 8,
         "y": 1
       },
       "targets": [
@@ -214,7 +214,7 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "((sum(rate(azure_successful_requests_total{namespace=~\"$namespace\", responseCode=~\"[45]..\", responseCode!=\"404\"}[$__rate_interval])) or vector(0)) + (sum(rate(azure_failed_requests_total{namespace=~\"$namespace\"}[$__rate_interval])) or vector(0))) / sum(rate(azure_requests_time_seconds_count{namespace=~\"$namespace\"}[$__rate_interval]))",
+          "expr": "((sum(rate(azure_successful_requests_total{namespace=~\"$namespace\", responseCode=~\"[45]..\", responseCode!=\"404\"}[$__rate_interval])) or vector(0)) + (sum(rate(azure_failed_requests_total{namespace=~\"$namespace\"}[$__rate_interval])) or vector(0))) / (sum(rate(azure_requests_time_seconds_count{namespace=~\"$namespace\"}[$__rate_interval])) > 0)",
           "legendFormat": "",
           "range": true,
           "refId": "A"
@@ -223,6 +223,7 @@
       "fieldConfig": {
         "defaults": {
           "unit": "percentunit",
+          "noValue": "No Azure requests",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -271,8 +272,8 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 4,
-        "x": 8,
+        "w": 8,
+        "x": 16,
         "y": 1
       },
       "targets": [
@@ -338,9 +339,9 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 4,
-        "x": 12,
-        "y": 1
+        "w": 8,
+        "x": 0,
+        "y": 5
       },
       "targets": [
         {
@@ -397,9 +398,9 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 4,
-        "x": 16,
-        "y": 1
+        "w": 8,
+        "x": 8,
+        "y": 5
       },
       "targets": [
         {
@@ -460,9 +461,9 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 4,
-        "x": 20,
-        "y": 1
+        "w": 8,
+        "x": 16,
+        "y": 5
       },
       "targets": [
         {
@@ -521,7 +522,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 5
+        "y": 9
       },
       "panels": []
     },
@@ -538,7 +539,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 6
+        "y": 10
       },
       "targets": [
         {
@@ -598,7 +599,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 6
+        "y": 10
       },
       "targets": [
         {
@@ -658,7 +659,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 14
+        "y": 18
       },
       "targets": [
         {
@@ -738,7 +739,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 14
+        "y": 18
       },
       "targets": [
         {
@@ -746,7 +747,7 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "topk(10, histogram_quantile(0.95, sum by (controller, le) (rate(controller_runtime_reconcile_time_seconds_bucket{namespace=~\"$namespace\", controller=~\"$controller\"}[$__rate_interval]))))",
+          "expr": "topk(10, histogram_quantile(0.95, sum by (controller, le) (rate(controller_runtime_reconcile_time_seconds_bucket{namespace=~\"$namespace\", controller=~\"$controller\"}[$__rate_interval]))) > 0)",
           "legendFormat": "{{controller}}",
           "range": true,
           "refId": "A"
@@ -798,7 +799,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 22
+        "y": 26
       },
       "targets": [
         {
@@ -849,8 +850,8 @@
     {
       "type": "timeseries",
       "id": 14,
-      "title": "Active workers",
-      "description": "Workers currently reconciling, compared to the configured maximum (MAX_CONCURRENT_RECONCILES).",
+      "title": "Active workers by controller (top 10)",
+      "description": "Workers currently reconciling per controller. Each controller can run at most MAX_CONCURRENT_RECONCILES workers (dashed line); a controller that stays at its limit while its queue grows needs more workers.",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
@@ -859,7 +860,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 22
+        "y": 26
       },
       "targets": [
         {
@@ -867,8 +868,8 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum(controller_runtime_active_workers{namespace=~\"$namespace\", controller=~\"$controller\"})",
-          "legendFormat": "active",
+          "expr": "topk(10, sum by (controller) (controller_runtime_active_workers{namespace=~\"$namespace\", controller=~\"$controller\"}) > 0)",
+          "legendFormat": "{{controller}}",
           "range": true,
           "refId": "A"
         },
@@ -877,8 +878,8 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum(controller_runtime_max_concurrent_reconciles{namespace=~\"$namespace\", controller=~\"$controller\"})",
-          "legendFormat": "max",
+          "expr": "max(controller_runtime_max_concurrent_reconciles{namespace=~\"$namespace\", controller=~\"$controller\"})",
+          "legendFormat": "limit per controller",
           "range": true,
           "refId": "B"
         }
@@ -886,6 +887,7 @@
       "fieldConfig": {
         "defaults": {
           "unit": "short",
+          "noValue": "No active workers",
           "custom": {
             "drawStyle": "line",
             "lineWidth": 1,
@@ -898,7 +900,37 @@
           },
           "min": 0
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "limit per controller"
+            },
+            "properties": [
+              {
+                "id": "custom.lineStyle",
+                "value": {
+                  "fill": "dash",
+                  "dash": [
+                    10,
+                    10
+                  ]
+                }
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 0
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "red"
+                }
+              }
+            ]
+          }
+        ]
       },
       "options": {
         "legend": {
@@ -925,7 +957,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 30
+        "y": 34
       },
       "panels": []
     },
@@ -942,7 +974,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 31
+        "y": 35
       },
       "targets": [
         {
@@ -1003,7 +1035,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 31
+        "y": 35
       },
       "targets": [
         {
@@ -1011,7 +1043,7 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "topk(10, histogram_quantile(0.95, sum by (controller, le) (rate(workqueue_queue_duration_seconds_bucket{namespace=~\"$namespace\", controller=~\"$controller\"}[$__rate_interval]))))",
+          "expr": "topk(10, histogram_quantile(0.95, sum by (controller, le) (rate(workqueue_queue_duration_seconds_bucket{namespace=~\"$namespace\", controller=~\"$controller\"}[$__rate_interval]))) > 0)",
           "legendFormat": "{{controller}}",
           "range": true,
           "refId": "A"
@@ -1063,7 +1095,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 39
+        "y": 43
       },
       "targets": [
         {
@@ -1124,7 +1156,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 39
+        "y": 43
       },
       "targets": [
         {
@@ -1181,7 +1213,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 47
+        "y": 51
       },
       "panels": []
     },
@@ -1198,7 +1230,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 48
+        "y": 52
       },
       "targets": [
         {
@@ -1259,7 +1291,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 48
+        "y": 52
       },
       "targets": [
         {
@@ -1319,7 +1351,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 56
+        "y": 60
       },
       "targets": [
         {
@@ -1327,7 +1359,7 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "histogram_quantile(0.95, sum by (requestType, le) (rate(azure_requests_time_seconds_bucket{namespace=~\"$namespace\"}[$__rate_interval])))",
+          "expr": "histogram_quantile(0.95, sum by (requestType, le) (rate(azure_requests_time_seconds_bucket{namespace=~\"$namespace\"}[$__rate_interval]))) > 0",
           "legendFormat": "{{requestType}}",
           "range": true,
           "refId": "A"
@@ -1379,7 +1411,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 56
+        "y": 60
       },
       "targets": [
         {
@@ -1439,7 +1471,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 64
+        "y": 68
       },
       "targets": [
         {
@@ -1500,7 +1532,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 64
+        "y": 68
       },
       "targets": [
         {
@@ -1557,7 +1589,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 72
+        "y": 76
       },
       "panels": []
     },
@@ -1574,7 +1606,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 73
+        "y": 77
       },
       "targets": [
         {
@@ -1634,7 +1666,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 73
+        "y": 77
       },
       "targets": [
         {
@@ -1642,7 +1674,7 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "topk(10, histogram_quantile(0.95, sum by (webhook, le) (rate(controller_runtime_webhook_latency_seconds_bucket{namespace=~\"$namespace\"}[$__rate_interval]))))",
+          "expr": "topk(10, histogram_quantile(0.95, sum by (webhook, le) (rate(controller_runtime_webhook_latency_seconds_bucket{namespace=~\"$namespace\"}[$__rate_interval]))) > 0)",
           "legendFormat": "{{webhook}}",
           "range": true,
           "refId": "A"
@@ -1694,7 +1726,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 73
+        "y": 77
       },
       "targets": [
         {
@@ -1750,7 +1782,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 81
+        "y": 85
       },
       "panels": []
     },
@@ -1767,7 +1799,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 82
+        "y": 86
       },
       "targets": [
         {
@@ -1827,7 +1859,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 82
+        "y": 86
       },
       "targets": [
         {
@@ -1897,7 +1929,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 82
+        "y": 86
       },
       "targets": [
         {
