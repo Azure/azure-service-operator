@@ -38,7 +38,7 @@ These architectures are often used with GitOps tools such as Flux or ArgoCD.
 
 See also:
 - [Reducing access]({{< relref "reducing-access" >}}).
-- [Security best practices]({{< relref "security" >}}).
+- [Security best practices]({{< relref "/guide/security" >}}).
 
 ### Cluster per environment
 

@@ -407,6 +407,10 @@ func TestCategorizeResourceScope(t *testing.T) {
 			path:     "/{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}",
 			expected: astmodel.ResourceScopeExtension,
 		},
+		"defender for storage setting": {
+			path:     "/{resourceId}/providers/Microsoft.Security/defenderForStorageSettings/{settingName}",
+			expected: astmodel.ResourceScopeExtension,
+		},
 	}
 
 	for name, c := range cases {

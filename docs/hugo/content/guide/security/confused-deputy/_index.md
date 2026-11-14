@@ -33,6 +33,6 @@ and grant each Azure identity only the permissions required for resources manage
 
 For more information, see:
 
-- [Security best practices]({{< relref "security" >}})
+- [Security best practices]({{< relref "/guide/security" >}})
 - [Reducing access]({{< relref "reducing-access" >}})
 - [Best Practices for Using Azure Service Operator]({{< relref "best-practices" >}})

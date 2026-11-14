@@ -945,3 +945,24 @@ func Test_TypeTransformer_RequirePropertiesWereMatched_ReturnsExpectedResults(t 
 		)
 	}
 }
+
+func Test_TransformCanTransformOptionalPropertyToUInt64(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	transformer := config.TypeTransformer{
+		TypeMatcher: config.TypeMatcher{Name: config.NewFieldMatcher("*")},
+		Property:    config.NewFieldMatcher("Limit"),
+		Target: &config.TransformResult{
+			Name:     config.NewFieldMatcher("uint64"),
+			Optional: true,
+		},
+	}
+	prop := astmodel.NewPropertyDefinition("Limit", "limit", astmodel.NewOptionalType(astmodel.AnyType))
+	result, err := transformer.TransformProperty(student2019, astmodel.NewObjectType().WithProperties(prop))
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(result).ToNot(BeNil())
+	limit, ok := result.NewType.Property("Limit")
+	g.Expect(ok).To(BeTrue())
+	g.Expect(limit.PropertyType()).To(Equal(astmodel.NewOptionalType(astmodel.UInt64Type)))
+}
