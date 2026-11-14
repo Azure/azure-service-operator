@@ -185,8 +185,8 @@ and is organised into the following sections:
 
 | Section                         | What it shows                                                                                  |
 |---------------------------------|------------------------------------------------------------------------------------------------|
-| Overview                        | Reconcile rate, reconcile error ratio, work queue depth, Azure request rate, throttling, panics |
-| Reconciliation                  | Reconciles by result, errors and terminal errors by controller, reconcile duration, workers     |
+| Overview                        | Reconcile rate, Azure request error ratio, work queue depth, Azure request rate, throttling, panics |
+| Reconciliation                  | Reconciles by result and by controller, reconcile errors, reconcile duration, workers          |
 | Work queue                      | Queue depth, wait time, retries, and longest running reconcile per controller                  |
 | Azure Resource Manager requests | Requests by response code and method, latency, busiest resource types, throttled (429) requests |
 | Webhooks                        | Admission webhook requests, latency, and requests in flight                                     |
@@ -229,4 +229,11 @@ $ kubectl label configmap aso-grafana-dashboard --namespace monitoring grafana_d
 
 The Azure Resource Manager, webhook, and controller process panels are filtered by namespace only, as those metrics are not
 reported per controller. If you see unusually high throttling, see [diagnosing Azure throttling]( {{< relref "azure-throttling" >}} ).
+
+{{% alert title="Note" %}}
+ASO records most reconciliation failures, including errors returned by Azure, on each resource's `Ready` condition and retries
+them with a `requeue_after` result. These failures are not counted by `controller_runtime_reconcile_errors_total`, so use the
+**Azure request error ratio** and the Azure Resource Manager panels to spot failing resources, then
+[check the resource's conditions]( {{< relref "conditions" >}} ) to find the cause.
+{{% /alert %}}
 

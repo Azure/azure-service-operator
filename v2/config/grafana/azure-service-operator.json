@@ -196,8 +196,8 @@
     {
       "type": "stat",
       "id": 3,
-      "title": "Reconcile error ratio",
-      "description": "Share of reconciliations that returned an error.",
+      "title": "Azure request error ratio",
+      "description": "Share of requests to Azure Resource Manager that failed: requests with no response plus 4xx/5xx responses. 404 responses are excluded because ASO routinely receives them when checking whether a resource exists before creating it. ASO records most reconcile failures on each resource's Ready condition rather than as reconcile errors, so this is the best metric-based signal that resources are failing.",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
@@ -214,7 +214,7 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum(rate(controller_runtime_reconcile_total{namespace=~\"$namespace\", controller=~\"$controller\", result=\"error\"}[$__rate_interval])) / sum(rate(controller_runtime_reconcile_total{namespace=~\"$namespace\", controller=~\"$controller\"}[$__rate_interval]))",
+          "expr": "((sum(rate(azure_successful_requests_total{namespace=~\"$namespace\", responseCode=~\"[45]..\", responseCode!=\"404\"}[$__rate_interval])) or vector(0)) + (sum(rate(azure_failed_requests_total{namespace=~\"$namespace\"}[$__rate_interval])) or vector(0))) / sum(rate(azure_requests_time_seconds_count{namespace=~\"$namespace\"}[$__rate_interval]))",
           "legendFormat": "",
           "range": true,
           "refId": "A"
@@ -588,8 +588,8 @@
     {
       "type": "timeseries",
       "id": 10,
-      "title": "Reconcile errors by controller (top 10)",
-      "description": "Controllers with the highest rate of reconcile errors.",
+      "title": "Reconciles by controller (top 10)",
+      "description": "Controllers doing the most reconciliation work.",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
@@ -606,7 +606,7 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "topk(10, sum by (controller) (rate(controller_runtime_reconcile_errors_total{namespace=~\"$namespace\", controller=~\"$controller\"}[$__rate_interval])) > 0)",
+          "expr": "topk(10, sum by (controller) (rate(controller_runtime_reconcile_total{namespace=~\"$namespace\", controller=~\"$controller\"}[$__rate_interval])))",
           "legendFormat": "{{controller}}",
           "range": true,
           "refId": "A"
@@ -788,8 +788,8 @@
     {
       "type": "timeseries",
       "id": 13,
-      "title": "Terminal reconcile errors by controller",
-      "description": "Errors that ASO will not retry until the resource changes.",
+      "title": "Reconcile errors returned to controller-runtime (top 10)",
+      "description": "Errors returned from reconciliation, such as Kubernetes API failures. ASO records most failures, including errors from Azure, on each resource's Ready condition and retries them as requeue_after, so they don't appear here. Use the Azure Resource Manager panels and `kubectl get` to find failing resources.",
       "datasource": {
         "type": "prometheus",
         "uid": "${datasource}"
@@ -806,7 +806,7 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum by (controller) (rate(controller_runtime_terminal_reconcile_errors_total{namespace=~\"$namespace\", controller=~\"$controller\"}[$__rate_interval])) > 0",
+          "expr": "topk(10, sum by (controller) (rate(controller_runtime_reconcile_errors_total{namespace=~\"$namespace\", controller=~\"$controller\"}[$__rate_interval])) > 0)",
           "legendFormat": "{{controller}}",
           "range": true,
           "refId": "A"
@@ -815,6 +815,7 @@
       "fieldConfig": {
         "defaults": {
           "unit": "ops",
+          "noValue": "No reconcile errors",
           "custom": {
             "drawStyle": "line",
             "lineWidth": 1,
@@ -958,6 +959,7 @@
       "fieldConfig": {
         "defaults": {
           "unit": "short",
+          "noValue": "No items queued",
           "custom": {
             "drawStyle": "line",
             "lineWidth": 1,
@@ -1078,6 +1080,7 @@
       "fieldConfig": {
         "defaults": {
           "unit": "ops",
+          "noValue": "No retries",
           "custom": {
             "drawStyle": "line",
             "lineWidth": 1,
@@ -1138,6 +1141,7 @@
       "fieldConfig": {
         "defaults": {
           "unit": "s",
+          "noValue": "No reconciles in progress",
           "custom": {
             "drawStyle": "line",
             "lineWidth": 1,
@@ -1211,6 +1215,7 @@
       "fieldConfig": {
         "defaults": {
           "unit": "reqps",
+          "noValue": "No responses received from Azure",
           "custom": {
             "drawStyle": "line",
             "lineWidth": 1,
@@ -1451,6 +1456,7 @@
       "fieldConfig": {
         "defaults": {
           "unit": "reqps",
+          "noValue": "No throttling",
           "custom": {
             "drawStyle": "line",
             "lineWidth": 1,
@@ -1511,6 +1517,7 @@
       "fieldConfig": {
         "defaults": {
           "unit": "reqps",
+          "noValue": "No failed requests",
           "custom": {
             "drawStyle": "line",
             "lineWidth": 1,
