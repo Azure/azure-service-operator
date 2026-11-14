@@ -177,3 +177,56 @@ is an independent metric. Below are the labels used in ASOv2 metrics:
 - **requestType**: HTTP request method ( GET | PUT | DELETE ).
 - **responseCode**: HTTP status code in response from Azure.
 
+## Visualizing metrics with Grafana
+
+We provide a sample Grafana dashboard so you can monitor ASO without building one from scratch. The dashboard is available at
+[`v2/config/grafana/azure-service-operator.json`](https://github.com/Azure/azure-service-operator/blob/main/v2/config/grafana/azure-service-operator.json)
+and is organised into the following sections:
+
+| Section                         | What it shows                                                                                  |
+|---------------------------------|------------------------------------------------------------------------------------------------|
+| Overview                        | Reconcile rate, reconcile error ratio, work queue depth, Azure request rate, throttling, panics |
+| Reconciliation                  | Reconciles by result, errors and terminal errors by controller, reconcile duration, workers     |
+| Work queue                      | Queue depth, wait time, retries, and longest running reconcile per controller                  |
+| Azure Resource Manager requests | Requests by response code and method, latency, busiest resource types, throttled (429) requests |
+| Webhooks                        | Admission webhook requests, latency, and requests in flight                                     |
+| Controller process              | CPU, memory, and goroutines of the ASO controller pods                                          |
+
+### Prerequisites
+
+- **Prometheus must already be scraping ASO.** See [scraping metrics securely](#scraping-metrics-securely-via-https-using-rbac) above.
+  The dashboard expects each series to carry a `namespace` label, which Prometheus Operator `ServiceMonitor` and `PodMonitor`
+  resources add by default.
+- **Grafana 10 or later** with a Prometheus data source.
+
+### How to import the dashboard
+
+1. **Download** the dashboard JSON:
+
+    ```bash
+    $ curl --location --output azure-service-operator.json https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/config/grafana/azure-service-operator.json
+    ```
+
+2. In Grafana, open **Dashboards** > **New** > **Import**, and upload `azure-service-operator.json`.
+3. **Select** your Prometheus data source and the namespace ASO is installed in (by default, `azureserviceoperator-system`)
+   using the variables at the top of the dashboard.
+
+If you run Grafana with the dashboard sidecar enabled (for example, from the `kube-prometheus-stack` Helm chart), you can
+instead load the dashboard from a labelled `ConfigMap` in the namespace the sidecar watches:
+
+```bash
+$ kubectl create configmap aso-grafana-dashboard --namespace monitoring --from-file=azure-service-operator.json
+$ kubectl label configmap aso-grafana-dashboard --namespace monitoring grafana_dashboard=1
+```
+
+### Dashboard variables
+
+| Variable    | Description                                                                                                      |
+|-------------|------------------------------------------------------------------------------------------------------------------|
+| Data source | The Prometheus data source to query.                                                                             |
+| Namespace   | The namespace ASO is installed in. Only namespaces emitting ASO-specific metrics are listed.                     |
+| Controller  | One or more ASO controllers to show. ASO runs one controller per resource kind; defaults to all controllers.      |
+
+The Azure Resource Manager, webhook, and controller process panels are filtered by namespace only, as those metrics are not
+reported per controller. If you see unusually high throttling, see [diagnosing Azure throttling]( {{< relref "azure-throttling" >}} ).
+
