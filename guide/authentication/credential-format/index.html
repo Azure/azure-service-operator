@@ -315,9 +315,15 @@ AZURE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT Note that the global credential scope ha
         <li><a href="#create-the-secret-4">Create the secret</a></li>
       </ul>
     </li>
+    <li><a href="#user-assigned-identity-credentials">User Assigned Identity Credentials</a>
+      <ul>
+        <li><a href="#general">General</a></li>
+        <li><a href="#prerequisites-5">Prerequisites</a></li>
+      </ul>
+    </li>
     <li><a href="#azure-cli">Azure CLI</a>
       <ul>
-        <li><a href="#prerequisites-5">Prerequisites</a></li>
+        <li><a href="#prerequisites-6">Prerequisites</a></li>
       </ul>
     </li>
   </ul>
@@ -1241,7 +1247,11 @@ If ASO was already installed on your cluster and you are updating the <code>aso-
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">spec:
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  location: westcentralus
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
-</span></span></code></pre></div><h2 id="user-assigned-identity-credentials">User Assigned Identity Credentials</h2>
+</span></span></code></pre></div>
+    </div>
+</div>
+
+<h2 id="user-assigned-identity-credentials">User Assigned Identity Credentials</h2>
 <h3 id="general">General</h3>
 <div class="alert alert-warning" role="alert"><div class="h4 alert-heading" role="heading">Warning</div>
 <p>This option is only available for 1st party Microsoft applications who have access to the msi data-plane.</p>
@@ -1249,7 +1259,7 @@ If ASO was already installed on your cluster and you are updating the <code>aso-
 <p>This authentication type is similar to user assigned managed identity authentication combined with client certificate
 authentication. As a 1st party Microsoft application, one has access to pull a user assigned managed identity&rsquo;s backing
 certificate information from the MSI data plane. Using this data, a user can authenticate to Azure Cloud.</p>
-<h3 id="prerequisites">Prerequisites</h3>
+<h3 id="prerequisites-5">Prerequisites</h3>
 <p>A JSON file with information from the user assigned managed identity. It should be in this format:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>        {
 </span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;client_id&#34;</span>: <span style="color:#e6db74">&#34;0998...&#34;</span>,
@@ -1304,16 +1314,12 @@ specified if you wish to set values for these two fields.
 </span></span></code></pre></div><p><strong>Note:</strong> The <code>aso-controller-settings</code> secret contains more configuration than just the global credential.
 If ASO was already installed on your cluster and you are updating the <code>aso-controller-settings</code> secret, ensure that
 <a href="/azure-service-operator/guide/aso-controller-settings-options/">other values</a> in that secret are not being overwritten.</p>
-
-    </div>
-</div>
-
 <h2 id="azure-cli">Azure CLI</h2>
 <p>The global credential chain can use <code>az login</code> when the controller runs as a <strong>local process</strong> and is started with <code>--enable-azure-cli-authentication</code>. This flag is <strong>off by default</strong>, so in-cluster pods do not invoke <code>az</code>. <code>asoctl</code> already uses Azure CLI without this flag.</p>
 <div class="alert alert-warning" role="alert"><div class="h4 alert-heading" role="heading">Warning</div>
 <p>Do not set <code>--enable-azure-cli-authentication</code> on the in-cluster operator pod. The CLI token cache cannot be mounted into a pod, and credentials need refresh. Use workload identity or a service principal in production clusters.</p>
 </div>
-<h3 id="prerequisites-5">Prerequisites</h3>
+<h3 id="prerequisites-6">Prerequisites</h3>
 <ol>
 <li><a href="https://learn.microsoft.com/cli/azure/install-azure-cli">Azure CLI</a> installed on the host running the controller.</li>
 <li>An <code>az login</code> session for the subscription ASO should use.</li>
