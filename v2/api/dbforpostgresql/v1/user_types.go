@@ -87,9 +87,15 @@ type UserSpec struct {
 	// at https://www.postgresql.org/docs/current/role-attributes.html.
 	RoleOptions *RoleOptionsSpec `json:"roleOptions,omitempty"`
 
-	// +kubebuilder:validation:Required
 	// LocalUser contains details for creating a standard (non-aad) postgresql User.
+	// Exactly one of LocalUser and AADUser must be set.
 	LocalUser *LocalUserSpec `json:"localUser,omitempty"`
+
+	// AADUser contains details for creating a Microsoft Entra ID (AAD) user: a role bound to an Entra principal (a managed
+	// identity, a service principal, a user or a group), which signs in with an Entra token instead of a password. The
+	// operator signs in as the server's Entra administrator using its own credential.
+	// Exactly one of LocalUser and AADUser must be set.
+	AADUser *AADUserSpec `json:"aadUser,omitempty"`
 }
 
 // OriginalVersion returns the original API version used to create the resource.
@@ -112,6 +118,26 @@ type LocalUserSpec struct {
 	// +kubebuilder:validation:Required
 	// Password is the password to use for the user
 	Password *genruntime.SecretReference `json:"password,omitempty"`
+}
+
+type AADUserSpec struct {
+	// +kubebuilder:validation:Required
+	// ServerAdminUsername is the name of the server's Microsoft Entra administrator that the operator's identity signs in
+	// as. If the administrator was configured with Azure Service Operator, this should match the Administrator's
+	// $.spec.principalName field. If the administrator is a group, this is the group name, not the name of the identity
+	// that is a member of the group.
+	ServerAdminUsername string `json:"serverAdminUsername,omitempty"`
+
+	// ObjectId is the Microsoft Entra object ID of the principal. When set, the role is created with
+	// pgaadauth_create_principal_with_oid, so the AzureName may differ from the principal's display name, and
+	// PrincipalType must be set too. When omitted, the role is created with pgaadauth_create_principal, which binds it to
+	// the principal whose display name is the AzureName.
+	ObjectId string `json:"objectId,omitempty"`
+
+	// +kubebuilder:validation:Enum=user;group;service
+	// PrincipalType is the kind of principal ObjectId names: user, group or service (a managed identity or service
+	// principal). Required when ObjectId is set.
+	PrincipalType string `json:"principalType,omitempty"`
 }
 
 type RoleOptionsSpec struct {

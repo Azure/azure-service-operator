@@ -133,6 +133,7 @@ func GetKnownStorageTypes(
 				clients.KubeClient,
 				resourceResolver,
 				positiveConditions,
+				credentialProvider,
 				options.Config,
 			),
 			Predicate: makeStandardPredicate(),
