@@ -10,14 +10,11 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
+// Test_SchedulerInstanceProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of SchedulerInstanceProfile_STATUS can be assigned to storage and back losslessly
 func Test_SchedulerInstanceProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -25,44 +22,34 @@ func Test_SchedulerInstanceProfile_STATUS_WhenPropertiesConverted_RoundTripsWith
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from SchedulerInstanceProfile_STATUS to SchedulerInstanceProfile_STATUS via AssignProperties_To_SchedulerInstanceProfile_STATUS & AssignProperties_From_SchedulerInstanceProfile_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSchedulerInstanceProfile_STATUS, SchedulerInstanceProfile_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := SchedulerInstanceProfile_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForSchedulerInstanceProfile_STATUS tests if a specific instance of SchedulerInstanceProfile_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForSchedulerInstanceProfile_STATUS(subject SchedulerInstanceProfile_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.SchedulerInstanceProfile_STATUS
+		err := copied.AssignProperties_To_SchedulerInstanceProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SchedulerInstanceProfile_STATUS
-	err := copied.AssignProperties_To_SchedulerInstanceProfile_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual SchedulerInstanceProfile_STATUS
+		err = actual.AssignProperties_From_SchedulerInstanceProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SchedulerInstanceProfile_STATUS
-	err = actual.AssignProperties_From_SchedulerInstanceProfile_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_SchedulerInstanceProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -72,29 +59,23 @@ func Test_SchedulerInstanceProfile_STATUS_WhenSerializedToJson_DeserializesAsEqu
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SchedulerInstanceProfile_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSchedulerInstanceProfile_STATUS, SchedulerInstanceProfile_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSchedulerInstanceProfile_STATUS)
 }
 
 // RunJSONSerializationTestForSchedulerInstanceProfile_STATUS runs a test to see if a specific instance of SchedulerInstanceProfile_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSchedulerInstanceProfile_STATUS(subject SchedulerInstanceProfile_STATUS) string {
+func RunJSONSerializationTestForSchedulerInstanceProfile_STATUS(t *rapid.T) {
+	subject := SchedulerInstanceProfile_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SchedulerInstanceProfile_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -103,32 +84,29 @@ func RunJSONSerializationTestForSchedulerInstanceProfile_STATUS(subject Schedule
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SchedulerInstanceProfile_STATUS instances for property testing - lazily instantiated by
 // SchedulerInstanceProfile_STATUSGenerator()
-var schedulerInstanceProfile_STATUSGenerator gopter.Gen
+var schedulerInstanceProfile_STATUSGenerator *rapid.Generator[SchedulerInstanceProfile_STATUS]
 
 // SchedulerInstanceProfile_STATUSGenerator returns a generator of SchedulerInstanceProfile_STATUS instances for property testing.
-func SchedulerInstanceProfile_STATUSGenerator() gopter.Gen {
+func SchedulerInstanceProfile_STATUSGenerator() *rapid.Generator[SchedulerInstanceProfile_STATUS] {
 	if schedulerInstanceProfile_STATUSGenerator != nil {
 		return schedulerInstanceProfile_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSchedulerInstanceProfile_STATUS(generators)
-	schedulerInstanceProfile_STATUSGenerator = gen.Struct(reflect.TypeOf(SchedulerInstanceProfile_STATUS{}), generators)
+	schedulerConfigMode := rapid.Ptr(rapid.String(), true)
+
+	schedulerInstanceProfile_STATUSGenerator = rapid.Custom(func(t *rapid.T) SchedulerInstanceProfile_STATUS {
+		var result SchedulerInstanceProfile_STATUS
+		result.SchedulerConfigMode = schedulerConfigMode.Draw(t, "SchedulerConfigMode")
+		return result
+	})
 
 	return schedulerInstanceProfile_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSchedulerInstanceProfile_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSchedulerInstanceProfile_STATUS(gens map[string]gopter.Gen) {
-	gens["SchedulerConfigMode"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_SchedulerProfileSchedulerInstanceProfiles_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -138,29 +116,23 @@ func Test_SchedulerProfileSchedulerInstanceProfiles_STATUS_WhenSerializedToJson_
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SchedulerProfileSchedulerInstanceProfiles_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSchedulerProfileSchedulerInstanceProfiles_STATUS, SchedulerProfileSchedulerInstanceProfiles_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSchedulerProfileSchedulerInstanceProfiles_STATUS)
 }
 
 // RunJSONSerializationTestForSchedulerProfileSchedulerInstanceProfiles_STATUS runs a test to see if a specific instance of SchedulerProfileSchedulerInstanceProfiles_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSchedulerProfileSchedulerInstanceProfiles_STATUS(subject SchedulerProfileSchedulerInstanceProfiles_STATUS) string {
+func RunJSONSerializationTestForSchedulerProfileSchedulerInstanceProfiles_STATUS(t *rapid.T) {
+	subject := SchedulerProfileSchedulerInstanceProfiles_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SchedulerProfileSchedulerInstanceProfiles_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -169,34 +141,32 @@ func RunJSONSerializationTestForSchedulerProfileSchedulerInstanceProfiles_STATUS
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SchedulerProfileSchedulerInstanceProfiles_STATUS instances for property testing - lazily instantiated by
 // SchedulerProfileSchedulerInstanceProfiles_STATUSGenerator()
-var schedulerProfileSchedulerInstanceProfiles_STATUSGenerator gopter.Gen
+var schedulerProfileSchedulerInstanceProfiles_STATUSGenerator *rapid.Generator[SchedulerProfileSchedulerInstanceProfiles_STATUS]
 
 // SchedulerProfileSchedulerInstanceProfiles_STATUSGenerator returns a generator of SchedulerProfileSchedulerInstanceProfiles_STATUS instances for property testing.
-func SchedulerProfileSchedulerInstanceProfiles_STATUSGenerator() gopter.Gen {
+func SchedulerProfileSchedulerInstanceProfiles_STATUSGenerator() *rapid.Generator[SchedulerProfileSchedulerInstanceProfiles_STATUS] {
 	if schedulerProfileSchedulerInstanceProfiles_STATUSGenerator != nil {
 		return schedulerProfileSchedulerInstanceProfiles_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForSchedulerProfileSchedulerInstanceProfiles_STATUS(generators)
-	schedulerProfileSchedulerInstanceProfiles_STATUSGenerator = gen.Struct(reflect.TypeOf(SchedulerProfileSchedulerInstanceProfiles_STATUS{}), generators)
+	upstream := rapid.Ptr(SchedulerInstanceProfile_STATUSGenerator(), true)
+
+	schedulerProfileSchedulerInstanceProfiles_STATUSGenerator = rapid.Custom(func(t *rapid.T) SchedulerProfileSchedulerInstanceProfiles_STATUS {
+		var result SchedulerProfileSchedulerInstanceProfiles_STATUS
+		result.Upstream = upstream.Draw(t, "Upstream")
+		return result
+	})
 
 	return schedulerProfileSchedulerInstanceProfiles_STATUSGenerator
 }
 
-// AddRelatedPropertyGeneratorsForSchedulerProfileSchedulerInstanceProfiles_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSchedulerProfileSchedulerInstanceProfiles_STATUS(gens map[string]gopter.Gen) {
-	gens["Upstream"] = gen.PtrOf(SchedulerInstanceProfile_STATUSGenerator())
-}
-
+// Test_SchedulerProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of SchedulerProfile_STATUS can be assigned to storage and back losslessly
 func Test_SchedulerProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -204,44 +174,34 @@ func Test_SchedulerProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from SchedulerProfile_STATUS to SchedulerProfile_STATUS via AssignProperties_To_SchedulerProfile_STATUS & AssignProperties_From_SchedulerProfile_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSchedulerProfile_STATUS, SchedulerProfile_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := SchedulerProfile_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForSchedulerProfile_STATUS tests if a specific instance of SchedulerProfile_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForSchedulerProfile_STATUS(subject SchedulerProfile_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.SchedulerProfile_STATUS
+		err := copied.AssignProperties_To_SchedulerProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SchedulerProfile_STATUS
-	err := copied.AssignProperties_To_SchedulerProfile_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual SchedulerProfile_STATUS
+		err = actual.AssignProperties_From_SchedulerProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SchedulerProfile_STATUS
-	err = actual.AssignProperties_From_SchedulerProfile_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_SchedulerProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -251,29 +211,23 @@ func Test_SchedulerProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *te
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SchedulerProfile_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSchedulerProfile_STATUS, SchedulerProfile_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSchedulerProfile_STATUS)
 }
 
 // RunJSONSerializationTestForSchedulerProfile_STATUS runs a test to see if a specific instance of SchedulerProfile_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSchedulerProfile_STATUS(subject SchedulerProfile_STATUS) string {
+func RunJSONSerializationTestForSchedulerProfile_STATUS(t *rapid.T) {
+	subject := SchedulerProfile_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SchedulerProfile_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -282,30 +236,27 @@ func RunJSONSerializationTestForSchedulerProfile_STATUS(subject SchedulerProfile
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SchedulerProfile_STATUS instances for property testing - lazily instantiated by
 // SchedulerProfile_STATUSGenerator()
-var schedulerProfile_STATUSGenerator gopter.Gen
+var schedulerProfile_STATUSGenerator *rapid.Generator[SchedulerProfile_STATUS]
 
 // SchedulerProfile_STATUSGenerator returns a generator of SchedulerProfile_STATUS instances for property testing.
-func SchedulerProfile_STATUSGenerator() gopter.Gen {
+func SchedulerProfile_STATUSGenerator() *rapid.Generator[SchedulerProfile_STATUS] {
 	if schedulerProfile_STATUSGenerator != nil {
 		return schedulerProfile_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForSchedulerProfile_STATUS(generators)
-	schedulerProfile_STATUSGenerator = gen.Struct(reflect.TypeOf(SchedulerProfile_STATUS{}), generators)
+	schedulerInstanceProfiles := rapid.Ptr(SchedulerProfileSchedulerInstanceProfiles_STATUSGenerator(), true)
+
+	schedulerProfile_STATUSGenerator = rapid.Custom(func(t *rapid.T) SchedulerProfile_STATUS {
+		var result SchedulerProfile_STATUS
+		result.SchedulerInstanceProfiles = schedulerInstanceProfiles.Draw(t, "SchedulerInstanceProfiles")
+		return result
+	})
 
 	return schedulerProfile_STATUSGenerator
-}
-
-// AddRelatedPropertyGeneratorsForSchedulerProfile_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSchedulerProfile_STATUS(gens map[string]gopter.Gen) {
-	gens["SchedulerInstanceProfiles"] = gen.PtrOf(SchedulerProfileSchedulerInstanceProfiles_STATUSGenerator())
 }

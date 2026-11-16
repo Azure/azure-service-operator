@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_APIServerAccessProfile_WhenSerializedToJson_DeserializesAsEqual(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of APIServerAccessProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAPIServerAccessProfile, APIServerAccessProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAPIServerAccessProfile)
 }
 
 // RunJSONSerializationTestForAPIServerAccessProfile runs a test to see if a specific instance of APIServerAccessProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForAPIServerAccessProfile(subject APIServerAccessProfile) string {
+func RunJSONSerializationTestForAPIServerAccessProfile(t *rapid.T) {
+	subject := APIServerAccessProfileGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual APIServerAccessProfile
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,34 +45,32 @@ func RunJSONSerializationTestForAPIServerAccessProfile(subject APIServerAccessPr
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of APIServerAccessProfile instances for property testing - lazily instantiated by
 // APIServerAccessProfileGenerator()
-var apiServerAccessProfileGenerator gopter.Gen
+var apiServerAccessProfileGenerator *rapid.Generator[APIServerAccessProfile]
 
 // APIServerAccessProfileGenerator returns a generator of APIServerAccessProfile instances for property testing.
-func APIServerAccessProfileGenerator() gopter.Gen {
+func APIServerAccessProfileGenerator() *rapid.Generator[APIServerAccessProfile] {
 	if apiServerAccessProfileGenerator != nil {
 		return apiServerAccessProfileGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAPIServerAccessProfile(generators)
-	apiServerAccessProfileGenerator = gen.Struct(reflect.TypeOf(APIServerAccessProfile{}), generators)
+	ptrBool := rapid.Ptr(rapid.Bool(), true)
+	subnetId := rapid.Ptr(rapid.String(), true)
+
+	apiServerAccessProfileGenerator = rapid.Custom(func(t *rapid.T) APIServerAccessProfile {
+		var result APIServerAccessProfile
+		result.EnablePrivateCluster = ptrBool.Draw(t, "EnablePrivateCluster")
+		result.EnableVnetIntegration = ptrBool.Draw(t, "EnableVnetIntegration")
+		result.SubnetId = subnetId.Draw(t, "SubnetId")
+		return result
+	})
 
 	return apiServerAccessProfileGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAPIServerAccessProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAPIServerAccessProfile(gens map[string]gopter.Gen) {
-	gens["EnablePrivateCluster"] = gen.PtrOf(gen.Bool())
-	gens["EnableVnetIntegration"] = gen.PtrOf(gen.Bool())
-	gens["SubnetId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_AgentProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -92,29 +80,23 @@ func Test_AgentProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AgentProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAgentProfile, AgentProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAgentProfile)
 }
 
 // RunJSONSerializationTestForAgentProfile runs a test to see if a specific instance of AgentProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForAgentProfile(subject AgentProfile) string {
+func RunJSONSerializationTestForAgentProfile(t *rapid.T) {
+	subject := AgentProfileGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AgentProfile
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -123,32 +105,29 @@ func RunJSONSerializationTestForAgentProfile(subject AgentProfile) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AgentProfile instances for property testing - lazily instantiated by AgentProfileGenerator()
-var agentProfileGenerator gopter.Gen
+var agentProfileGenerator *rapid.Generator[AgentProfile]
 
 // AgentProfileGenerator returns a generator of AgentProfile instances for property testing.
-func AgentProfileGenerator() gopter.Gen {
+func AgentProfileGenerator() *rapid.Generator[AgentProfile] {
 	if agentProfileGenerator != nil {
 		return agentProfileGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAgentProfile(generators)
-	agentProfileGenerator = gen.Struct(reflect.TypeOf(AgentProfile{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	agentProfileGenerator = rapid.Custom(func(t *rapid.T) AgentProfile {
+		var result AgentProfile
+		result.SubnetId = ptrString.Draw(t, "SubnetId")
+		result.VmSize = ptrString.Draw(t, "VmSize")
+		return result
+	})
 
 	return agentProfileGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAgentProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAgentProfile(gens map[string]gopter.Gen) {
-	gens["SubnetId"] = gen.PtrOf(gen.AlphaString())
-	gens["VmSize"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_FleetHubProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -158,29 +137,23 @@ func Test_FleetHubProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FleetHubProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFleetHubProfile, FleetHubProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFleetHubProfile)
 }
 
 // RunJSONSerializationTestForFleetHubProfile runs a test to see if a specific instance of FleetHubProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForFleetHubProfile(subject FleetHubProfile) string {
+func RunJSONSerializationTestForFleetHubProfile(t *rapid.T) {
+	subject := FleetHubProfileGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FleetHubProfile
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -189,46 +162,32 @@ func RunJSONSerializationTestForFleetHubProfile(subject FleetHubProfile) string 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FleetHubProfile instances for property testing - lazily instantiated by FleetHubProfileGenerator()
-var fleetHubProfileGenerator gopter.Gen
+var fleetHubProfileGenerator *rapid.Generator[FleetHubProfile]
 
 // FleetHubProfileGenerator returns a generator of FleetHubProfile instances for property testing.
-// We first initialize fleetHubProfileGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func FleetHubProfileGenerator() gopter.Gen {
+func FleetHubProfileGenerator() *rapid.Generator[FleetHubProfile] {
 	if fleetHubProfileGenerator != nil {
 		return fleetHubProfileGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleetHubProfile(generators)
-	fleetHubProfileGenerator = gen.Struct(reflect.TypeOf(FleetHubProfile{}), generators)
+	agentProfile := rapid.Ptr(AgentProfileGenerator(), true)
+	apiServerAccessProfile := rapid.Ptr(APIServerAccessProfileGenerator(), true)
+	dnsPrefix := rapid.Ptr(rapid.String(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleetHubProfile(generators)
-	AddRelatedPropertyGeneratorsForFleetHubProfile(generators)
-	fleetHubProfileGenerator = gen.Struct(reflect.TypeOf(FleetHubProfile{}), generators)
+	fleetHubProfileGenerator = rapid.Custom(func(t *rapid.T) FleetHubProfile {
+		var result FleetHubProfile
+		result.AgentProfile = agentProfile.Draw(t, "AgentProfile")
+		result.ApiServerAccessProfile = apiServerAccessProfile.Draw(t, "ApiServerAccessProfile")
+		result.DnsPrefix = dnsPrefix.Draw(t, "DnsPrefix")
+		return result
+	})
 
 	return fleetHubProfileGenerator
-}
-
-// AddIndependentPropertyGeneratorsForFleetHubProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFleetHubProfile(gens map[string]gopter.Gen) {
-	gens["DnsPrefix"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForFleetHubProfile is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFleetHubProfile(gens map[string]gopter.Gen) {
-	gens["AgentProfile"] = gen.PtrOf(AgentProfileGenerator())
-	gens["ApiServerAccessProfile"] = gen.PtrOf(APIServerAccessProfileGenerator())
 }
 
 func Test_FleetProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -238,29 +197,23 @@ func Test_FleetProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FleetProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFleetProperties, FleetPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFleetProperties)
 }
 
 // RunJSONSerializationTestForFleetProperties runs a test to see if a specific instance of FleetProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForFleetProperties(subject FleetProperties) string {
+func RunJSONSerializationTestForFleetProperties(t *rapid.T) {
+	subject := FleetPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FleetProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -269,31 +222,28 @@ func RunJSONSerializationTestForFleetProperties(subject FleetProperties) string 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FleetProperties instances for property testing - lazily instantiated by FleetPropertiesGenerator()
-var fleetPropertiesGenerator gopter.Gen
+var fleetPropertiesGenerator *rapid.Generator[FleetProperties]
 
 // FleetPropertiesGenerator returns a generator of FleetProperties instances for property testing.
-func FleetPropertiesGenerator() gopter.Gen {
+func FleetPropertiesGenerator() *rapid.Generator[FleetProperties] {
 	if fleetPropertiesGenerator != nil {
 		return fleetPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForFleetProperties(generators)
-	fleetPropertiesGenerator = gen.Struct(reflect.TypeOf(FleetProperties{}), generators)
+	hubProfile := rapid.Ptr(FleetHubProfileGenerator(), true)
+
+	fleetPropertiesGenerator = rapid.Custom(func(t *rapid.T) FleetProperties {
+		var result FleetProperties
+		result.HubProfile = hubProfile.Draw(t, "HubProfile")
+		return result
+	})
 
 	return fleetPropertiesGenerator
-}
-
-// AddRelatedPropertyGeneratorsForFleetProperties is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFleetProperties(gens map[string]gopter.Gen) {
-	gens["HubProfile"] = gen.PtrOf(FleetHubProfileGenerator())
 }
 
 func Test_Fleet_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -303,29 +253,23 @@ func Test_Fleet_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Fleet_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFleet_Spec, Fleet_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFleet_Spec)
 }
 
 // RunJSONSerializationTestForFleet_Spec runs a test to see if a specific instance of Fleet_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForFleet_Spec(subject Fleet_Spec) string {
+func RunJSONSerializationTestForFleet_Spec(t *rapid.T) {
+	subject := Fleet_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Fleet_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -334,50 +278,38 @@ func RunJSONSerializationTestForFleet_Spec(subject Fleet_Spec) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Fleet_Spec instances for property testing - lazily instantiated by Fleet_SpecGenerator()
-var fleet_SpecGenerator gopter.Gen
+var fleet_SpecGenerator *rapid.Generator[Fleet_Spec]
 
 // Fleet_SpecGenerator returns a generator of Fleet_Spec instances for property testing.
-// We first initialize fleet_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Fleet_SpecGenerator() gopter.Gen {
+func Fleet_SpecGenerator() *rapid.Generator[Fleet_Spec] {
 	if fleet_SpecGenerator != nil {
 		return fleet_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleet_Spec(generators)
-	fleet_SpecGenerator = gen.Struct(reflect.TypeOf(Fleet_Spec{}), generators)
+	identity := rapid.Ptr(ManagedServiceIdentityGenerator(), true)
+	location := rapid.Ptr(rapid.String(), true)
+	name := rapid.String()
+	properties := rapid.Ptr(FleetPropertiesGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleet_Spec(generators)
-	AddRelatedPropertyGeneratorsForFleet_Spec(generators)
-	fleet_SpecGenerator = gen.Struct(reflect.TypeOf(Fleet_Spec{}), generators)
+	fleet_SpecGenerator = rapid.Custom(func(t *rapid.T) Fleet_Spec {
+		var result Fleet_Spec
+		result.Identity = identity.Draw(t, "Identity")
+		result.Location = location.Draw(t, "Location")
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Tags = tags.Draw(t, "Tags")
+		return result
+	})
 
 	return fleet_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForFleet_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFleet_Spec(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForFleet_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFleet_Spec(gens map[string]gopter.Gen) {
-	gens["Identity"] = gen.PtrOf(ManagedServiceIdentityGenerator())
-	gens["Properties"] = gen.PtrOf(FleetPropertiesGenerator())
 }
 
 func Test_ManagedServiceIdentity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -387,29 +319,23 @@ func Test_ManagedServiceIdentity_WhenSerializedToJson_DeserializesAsEqual(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedServiceIdentity via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedServiceIdentity, ManagedServiceIdentityGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForManagedServiceIdentity)
 }
 
 // RunJSONSerializationTestForManagedServiceIdentity runs a test to see if a specific instance of ManagedServiceIdentity round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedServiceIdentity(subject ManagedServiceIdentity) string {
+func RunJSONSerializationTestForManagedServiceIdentity(t *rapid.T) {
+	subject := ManagedServiceIdentityGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ManagedServiceIdentity
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -418,52 +344,33 @@ func RunJSONSerializationTestForManagedServiceIdentity(subject ManagedServiceIde
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ManagedServiceIdentity instances for property testing - lazily instantiated by
 // ManagedServiceIdentityGenerator()
-var managedServiceIdentityGenerator gopter.Gen
+var managedServiceIdentityGenerator *rapid.Generator[ManagedServiceIdentity]
 
 // ManagedServiceIdentityGenerator returns a generator of ManagedServiceIdentity instances for property testing.
-// We first initialize managedServiceIdentityGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ManagedServiceIdentityGenerator() gopter.Gen {
+func ManagedServiceIdentityGenerator() *rapid.Generator[ManagedServiceIdentity] {
 	if managedServiceIdentityGenerator != nil {
 		return managedServiceIdentityGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedServiceIdentity(generators)
-	managedServiceIdentityGenerator = gen.Struct(reflect.TypeOf(ManagedServiceIdentity{}), generators)
+	typeVar := rapid.Ptr(rapid.SampledFrom([]ManagedServiceIdentityType{ManagedServiceIdentityType_None, ManagedServiceIdentityType_SystemAssigned, ManagedServiceIdentityType_SystemAssignedUserAssigned, ManagedServiceIdentityType_UserAssigned}), true)
+	userAssignedIdentities := rapid.MapOf(
+		rapid.String(),
+		UserAssignedIdentityDetailsGenerator())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedServiceIdentity(generators)
-	AddRelatedPropertyGeneratorsForManagedServiceIdentity(generators)
-	managedServiceIdentityGenerator = gen.Struct(reflect.TypeOf(ManagedServiceIdentity{}), generators)
+	managedServiceIdentityGenerator = rapid.Custom(func(t *rapid.T) ManagedServiceIdentity {
+		var result ManagedServiceIdentity
+		result.Type = typeVar.Draw(t, "Type")
+		result.UserAssignedIdentities = userAssignedIdentities.Draw(t, "UserAssignedIdentities")
+		return result
+	})
 
 	return managedServiceIdentityGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedServiceIdentity is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedServiceIdentity(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ManagedServiceIdentityType_None,
-		ManagedServiceIdentityType_SystemAssigned,
-		ManagedServiceIdentityType_SystemAssignedUserAssigned,
-		ManagedServiceIdentityType_UserAssigned))
-}
-
-// AddRelatedPropertyGeneratorsForManagedServiceIdentity is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedServiceIdentity(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(
-		gen.AlphaString(),
-		UserAssignedIdentityDetailsGenerator())
 }
 
 func Test_UserAssignedIdentityDetails_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -473,29 +380,23 @@ func Test_UserAssignedIdentityDetails_WhenSerializedToJson_DeserializesAsEqual(t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UserAssignedIdentityDetails via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUserAssignedIdentityDetails, UserAssignedIdentityDetailsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForUserAssignedIdentityDetails)
 }
 
 // RunJSONSerializationTestForUserAssignedIdentityDetails runs a test to see if a specific instance of UserAssignedIdentityDetails round trips to JSON and back losslessly
-func RunJSONSerializationTestForUserAssignedIdentityDetails(subject UserAssignedIdentityDetails) string {
+func RunJSONSerializationTestForUserAssignedIdentityDetails(t *rapid.T) {
+	subject := UserAssignedIdentityDetailsGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual UserAssignedIdentityDetails
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -504,24 +405,21 @@ func RunJSONSerializationTestForUserAssignedIdentityDetails(subject UserAssigned
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of UserAssignedIdentityDetails instances for property testing - lazily instantiated by
 // UserAssignedIdentityDetailsGenerator()
-var userAssignedIdentityDetailsGenerator gopter.Gen
+var userAssignedIdentityDetailsGenerator *rapid.Generator[UserAssignedIdentityDetails]
 
 // UserAssignedIdentityDetailsGenerator returns a generator of UserAssignedIdentityDetails instances for property testing.
-func UserAssignedIdentityDetailsGenerator() gopter.Gen {
+func UserAssignedIdentityDetailsGenerator() *rapid.Generator[UserAssignedIdentityDetails] {
 	if userAssignedIdentityDetailsGenerator != nil {
 		return userAssignedIdentityDetailsGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	userAssignedIdentityDetailsGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentityDetails{}), generators)
+	userAssignedIdentityDetailsGenerator = rapid.Just(UserAssignedIdentityDetails{})
 
 	return userAssignedIdentityDetailsGenerator
 }

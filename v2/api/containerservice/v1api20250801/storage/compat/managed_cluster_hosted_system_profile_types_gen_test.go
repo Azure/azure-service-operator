@@ -10,14 +10,11 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
+// Test_ManagedClusterHostedSystemProfile_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ManagedClusterHostedSystemProfile can be assigned to storage and back losslessly
 func Test_ManagedClusterHostedSystemProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -25,44 +22,34 @@ func Test_ManagedClusterHostedSystemProfile_WhenPropertiesConverted_RoundTripsWi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ManagedClusterHostedSystemProfile to ManagedClusterHostedSystemProfile via AssignProperties_To_ManagedClusterHostedSystemProfile & AssignProperties_From_ManagedClusterHostedSystemProfile returns original",
-		prop.ForAll(RunPropertyAssignmentTestForManagedClusterHostedSystemProfile, ManagedClusterHostedSystemProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ManagedClusterHostedSystemProfileGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForManagedClusterHostedSystemProfile tests if a specific instance of ManagedClusterHostedSystemProfile can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForManagedClusterHostedSystemProfile(subject ManagedClusterHostedSystemProfile) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ManagedClusterHostedSystemProfile
+		err := copied.AssignProperties_To_ManagedClusterHostedSystemProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedClusterHostedSystemProfile
-	err := copied.AssignProperties_To_ManagedClusterHostedSystemProfile(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ManagedClusterHostedSystemProfile
+		err = actual.AssignProperties_From_ManagedClusterHostedSystemProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ManagedClusterHostedSystemProfile
-	err = actual.AssignProperties_From_ManagedClusterHostedSystemProfile(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ManagedClusterHostedSystemProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -72,29 +59,23 @@ func Test_ManagedClusterHostedSystemProfile_WhenSerializedToJson_DeserializesAsE
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedClusterHostedSystemProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterHostedSystemProfile, ManagedClusterHostedSystemProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForManagedClusterHostedSystemProfile)
 }
 
 // RunJSONSerializationTestForManagedClusterHostedSystemProfile runs a test to see if a specific instance of ManagedClusterHostedSystemProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterHostedSystemProfile(subject ManagedClusterHostedSystemProfile) string {
+func RunJSONSerializationTestForManagedClusterHostedSystemProfile(t *rapid.T) {
+	subject := ManagedClusterHostedSystemProfileGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ManagedClusterHostedSystemProfile
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -103,30 +84,27 @@ func RunJSONSerializationTestForManagedClusterHostedSystemProfile(subject Manage
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ManagedClusterHostedSystemProfile instances for property testing - lazily instantiated by
 // ManagedClusterHostedSystemProfileGenerator()
-var managedClusterHostedSystemProfileGenerator gopter.Gen
+var managedClusterHostedSystemProfileGenerator *rapid.Generator[ManagedClusterHostedSystemProfile]
 
 // ManagedClusterHostedSystemProfileGenerator returns a generator of ManagedClusterHostedSystemProfile instances for property testing.
-func ManagedClusterHostedSystemProfileGenerator() gopter.Gen {
+func ManagedClusterHostedSystemProfileGenerator() *rapid.Generator[ManagedClusterHostedSystemProfile] {
 	if managedClusterHostedSystemProfileGenerator != nil {
 		return managedClusterHostedSystemProfileGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterHostedSystemProfile(generators)
-	managedClusterHostedSystemProfileGenerator = gen.Struct(reflect.TypeOf(ManagedClusterHostedSystemProfile{}), generators)
+	enabled := rapid.Ptr(rapid.Bool(), true)
+
+	managedClusterHostedSystemProfileGenerator = rapid.Custom(func(t *rapid.T) ManagedClusterHostedSystemProfile {
+		var result ManagedClusterHostedSystemProfile
+		result.Enabled = enabled.Draw(t, "Enabled")
+		return result
+	})
 
 	return managedClusterHostedSystemProfileGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedClusterHostedSystemProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterHostedSystemProfile(gens map[string]gopter.Gen) {
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
 }

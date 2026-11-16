@@ -10,14 +10,11 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
+// Test_AutoScaleProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of AutoScaleProfile_STATUS can be assigned to storage and back losslessly
 func Test_AutoScaleProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -25,44 +22,34 @@ func Test_AutoScaleProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AutoScaleProfile_STATUS to AutoScaleProfile_STATUS via AssignProperties_To_AutoScaleProfile_STATUS & AssignProperties_From_AutoScaleProfile_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAutoScaleProfile_STATUS, AutoScaleProfile_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := AutoScaleProfile_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForAutoScaleProfile_STATUS tests if a specific instance of AutoScaleProfile_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForAutoScaleProfile_STATUS(subject AutoScaleProfile_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.AutoScaleProfile_STATUS
+		err := copied.AssignProperties_To_AutoScaleProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AutoScaleProfile_STATUS
-	err := copied.AssignProperties_To_AutoScaleProfile_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual AutoScaleProfile_STATUS
+		err = actual.AssignProperties_From_AutoScaleProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AutoScaleProfile_STATUS
-	err = actual.AssignProperties_From_AutoScaleProfile_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_AutoScaleProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -72,29 +59,23 @@ func Test_AutoScaleProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *te
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AutoScaleProfile_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAutoScaleProfile_STATUS, AutoScaleProfile_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAutoScaleProfile_STATUS)
 }
 
 // RunJSONSerializationTestForAutoScaleProfile_STATUS runs a test to see if a specific instance of AutoScaleProfile_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForAutoScaleProfile_STATUS(subject AutoScaleProfile_STATUS) string {
+func RunJSONSerializationTestForAutoScaleProfile_STATUS(t *rapid.T) {
+	subject := AutoScaleProfile_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AutoScaleProfile_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -103,32 +84,30 @@ func RunJSONSerializationTestForAutoScaleProfile_STATUS(subject AutoScaleProfile
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AutoScaleProfile_STATUS instances for property testing - lazily instantiated by
 // AutoScaleProfile_STATUSGenerator()
-var autoScaleProfile_STATUSGenerator gopter.Gen
+var autoScaleProfile_STATUSGenerator *rapid.Generator[AutoScaleProfile_STATUS]
 
 // AutoScaleProfile_STATUSGenerator returns a generator of AutoScaleProfile_STATUS instances for property testing.
-func AutoScaleProfile_STATUSGenerator() gopter.Gen {
+func AutoScaleProfile_STATUSGenerator() *rapid.Generator[AutoScaleProfile_STATUS] {
 	if autoScaleProfile_STATUSGenerator != nil {
 		return autoScaleProfile_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAutoScaleProfile_STATUS(generators)
-	autoScaleProfile_STATUSGenerator = gen.Struct(reflect.TypeOf(AutoScaleProfile_STATUS{}), generators)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+	size := rapid.Ptr(rapid.String(), true)
+
+	autoScaleProfile_STATUSGenerator = rapid.Custom(func(t *rapid.T) AutoScaleProfile_STATUS {
+		var result AutoScaleProfile_STATUS
+		result.MaxCount = ptrInt.Draw(t, "MaxCount")
+		result.MinCount = ptrInt.Draw(t, "MinCount")
+		result.Size = size.Draw(t, "Size")
+		return result
+	})
 
 	return autoScaleProfile_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAutoScaleProfile_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAutoScaleProfile_STATUS(gens map[string]gopter.Gen) {
-	gens["MaxCount"] = gen.PtrOf(gen.Int())
-	gens["MinCount"] = gen.PtrOf(gen.Int())
-	gens["Size"] = gen.PtrOf(gen.AlphaString())
 }

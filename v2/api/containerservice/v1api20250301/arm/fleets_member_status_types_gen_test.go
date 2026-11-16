@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_FleetMemberProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FleetMemberProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFleetMemberProperties_STATUS, FleetMemberProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFleetMemberProperties_STATUS)
 }
 
 // RunJSONSerializationTestForFleetMemberProperties_STATUS runs a test to see if a specific instance of FleetMemberProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForFleetMemberProperties_STATUS(subject FleetMemberProperties_STATUS) string {
+func RunJSONSerializationTestForFleetMemberProperties_STATUS(t *rapid.T) {
+	subject := FleetMemberProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FleetMemberProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,54 +45,34 @@ func RunJSONSerializationTestForFleetMemberProperties_STATUS(subject FleetMember
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FleetMemberProperties_STATUS instances for property testing - lazily instantiated by
 // FleetMemberProperties_STATUSGenerator()
-var fleetMemberProperties_STATUSGenerator gopter.Gen
+var fleetMemberProperties_STATUSGenerator *rapid.Generator[FleetMemberProperties_STATUS]
 
 // FleetMemberProperties_STATUSGenerator returns a generator of FleetMemberProperties_STATUS instances for property testing.
-// We first initialize fleetMemberProperties_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func FleetMemberProperties_STATUSGenerator() gopter.Gen {
+func FleetMemberProperties_STATUSGenerator() *rapid.Generator[FleetMemberProperties_STATUS] {
 	if fleetMemberProperties_STATUSGenerator != nil {
 		return fleetMemberProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleetMemberProperties_STATUS(generators)
-	fleetMemberProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(FleetMemberProperties_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	provisioningState := rapid.Ptr(rapid.SampledFrom([]FleetMemberProvisioningState_STATUS{FleetMemberProvisioningState_STATUS_Canceled, FleetMemberProvisioningState_STATUS_Failed, FleetMemberProvisioningState_STATUS_Joining, FleetMemberProvisioningState_STATUS_Leaving, FleetMemberProvisioningState_STATUS_Succeeded, FleetMemberProvisioningState_STATUS_Updating}), true)
+	status := rapid.Ptr(FleetMemberStatus_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleetMemberProperties_STATUS(generators)
-	AddRelatedPropertyGeneratorsForFleetMemberProperties_STATUS(generators)
-	fleetMemberProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(FleetMemberProperties_STATUS{}), generators)
+	fleetMemberProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) FleetMemberProperties_STATUS {
+		var result FleetMemberProperties_STATUS
+		result.ClusterResourceId = ptrString.Draw(t, "ClusterResourceId")
+		result.Group = ptrString.Draw(t, "Group")
+		result.ProvisioningState = provisioningState.Draw(t, "ProvisioningState")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return fleetMemberProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForFleetMemberProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFleetMemberProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["ClusterResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["Group"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		FleetMemberProvisioningState_STATUS_Canceled,
-		FleetMemberProvisioningState_STATUS_Failed,
-		FleetMemberProvisioningState_STATUS_Joining,
-		FleetMemberProvisioningState_STATUS_Leaving,
-		FleetMemberProvisioningState_STATUS_Succeeded,
-		FleetMemberProvisioningState_STATUS_Updating))
-}
-
-// AddRelatedPropertyGeneratorsForFleetMemberProperties_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFleetMemberProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["Status"] = gen.PtrOf(FleetMemberStatus_STATUSGenerator())
 }
 
 func Test_FleetMemberStatus_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -112,29 +82,23 @@ func Test_FleetMemberStatus_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FleetMemberStatus_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFleetMemberStatus_STATUS, FleetMemberStatus_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFleetMemberStatus_STATUS)
 }
 
 // RunJSONSerializationTestForFleetMemberStatus_STATUS runs a test to see if a specific instance of FleetMemberStatus_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForFleetMemberStatus_STATUS(subject FleetMemberStatus_STATUS) string {
+func RunJSONSerializationTestForFleetMemberStatus_STATUS(t *rapid.T) {
+	subject := FleetMemberStatus_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FleetMemberStatus_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -143,46 +107,31 @@ func RunJSONSerializationTestForFleetMemberStatus_STATUS(subject FleetMemberStat
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FleetMemberStatus_STATUS instances for property testing - lazily instantiated by
 // FleetMemberStatus_STATUSGenerator()
-var fleetMemberStatus_STATUSGenerator gopter.Gen
+var fleetMemberStatus_STATUSGenerator *rapid.Generator[FleetMemberStatus_STATUS]
 
 // FleetMemberStatus_STATUSGenerator returns a generator of FleetMemberStatus_STATUS instances for property testing.
-// We first initialize fleetMemberStatus_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func FleetMemberStatus_STATUSGenerator() gopter.Gen {
+func FleetMemberStatus_STATUSGenerator() *rapid.Generator[FleetMemberStatus_STATUS] {
 	if fleetMemberStatus_STATUSGenerator != nil {
 		return fleetMemberStatus_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleetMemberStatus_STATUS(generators)
-	fleetMemberStatus_STATUSGenerator = gen.Struct(reflect.TypeOf(FleetMemberStatus_STATUS{}), generators)
+	lastOperationError := rapid.Ptr(ErrorDetail_STATUSGenerator(), true)
+	lastOperationId := rapid.Ptr(rapid.String(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleetMemberStatus_STATUS(generators)
-	AddRelatedPropertyGeneratorsForFleetMemberStatus_STATUS(generators)
-	fleetMemberStatus_STATUSGenerator = gen.Struct(reflect.TypeOf(FleetMemberStatus_STATUS{}), generators)
+	fleetMemberStatus_STATUSGenerator = rapid.Custom(func(t *rapid.T) FleetMemberStatus_STATUS {
+		var result FleetMemberStatus_STATUS
+		result.LastOperationError = lastOperationError.Draw(t, "LastOperationError")
+		result.LastOperationId = lastOperationId.Draw(t, "LastOperationId")
+		return result
+	})
 
 	return fleetMemberStatus_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForFleetMemberStatus_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFleetMemberStatus_STATUS(gens map[string]gopter.Gen) {
-	gens["LastOperationId"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForFleetMemberStatus_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFleetMemberStatus_STATUS(gens map[string]gopter.Gen) {
-	gens["LastOperationError"] = gen.PtrOf(ErrorDetail_STATUSGenerator())
 }
 
 func Test_FleetsMember_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -192,29 +141,23 @@ func Test_FleetsMember_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FleetsMember_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFleetsMember_STATUS, FleetsMember_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFleetsMember_STATUS)
 }
 
 // RunJSONSerializationTestForFleetsMember_STATUS runs a test to see if a specific instance of FleetsMember_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForFleetsMember_STATUS(subject FleetsMember_STATUS) string {
+func RunJSONSerializationTestForFleetsMember_STATUS(t *rapid.T) {
+	subject := FleetsMember_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FleetsMember_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -223,48 +166,34 @@ func RunJSONSerializationTestForFleetsMember_STATUS(subject FleetsMember_STATUS)
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FleetsMember_STATUS instances for property testing - lazily instantiated by
 // FleetsMember_STATUSGenerator()
-var fleetsMember_STATUSGenerator gopter.Gen
+var fleetsMember_STATUSGenerator *rapid.Generator[FleetsMember_STATUS]
 
 // FleetsMember_STATUSGenerator returns a generator of FleetsMember_STATUS instances for property testing.
-// We first initialize fleetsMember_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func FleetsMember_STATUSGenerator() gopter.Gen {
+func FleetsMember_STATUSGenerator() *rapid.Generator[FleetsMember_STATUS] {
 	if fleetsMember_STATUSGenerator != nil {
 		return fleetsMember_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleetsMember_STATUS(generators)
-	fleetsMember_STATUSGenerator = gen.Struct(reflect.TypeOf(FleetsMember_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	properties := rapid.Ptr(FleetMemberProperties_STATUSGenerator(), true)
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleetsMember_STATUS(generators)
-	AddRelatedPropertyGeneratorsForFleetsMember_STATUS(generators)
-	fleetsMember_STATUSGenerator = gen.Struct(reflect.TypeOf(FleetsMember_STATUS{}), generators)
+	fleetsMember_STATUSGenerator = rapid.Custom(func(t *rapid.T) FleetsMember_STATUS {
+		var result FleetsMember_STATUS
+		result.ETag = ptrString.Draw(t, "ETag")
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return fleetsMember_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForFleetsMember_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFleetsMember_STATUS(gens map[string]gopter.Gen) {
-	gens["ETag"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForFleetsMember_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFleetsMember_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(FleetMemberProperties_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }

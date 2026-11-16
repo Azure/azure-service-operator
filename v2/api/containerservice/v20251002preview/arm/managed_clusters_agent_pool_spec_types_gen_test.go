@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_AgentPoolArtifactStreamingProfile_WhenSerializedToJson_DeserializesAsE
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AgentPoolArtifactStreamingProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAgentPoolArtifactStreamingProfile, AgentPoolArtifactStreamingProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAgentPoolArtifactStreamingProfile)
 }
 
 // RunJSONSerializationTestForAgentPoolArtifactStreamingProfile runs a test to see if a specific instance of AgentPoolArtifactStreamingProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForAgentPoolArtifactStreamingProfile(subject AgentPoolArtifactStreamingProfile) string {
+func RunJSONSerializationTestForAgentPoolArtifactStreamingProfile(t *rapid.T) {
+	subject := AgentPoolArtifactStreamingProfileGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AgentPoolArtifactStreamingProfile
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,32 +45,29 @@ func RunJSONSerializationTestForAgentPoolArtifactStreamingProfile(subject AgentP
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AgentPoolArtifactStreamingProfile instances for property testing - lazily instantiated by
 // AgentPoolArtifactStreamingProfileGenerator()
-var agentPoolArtifactStreamingProfileGenerator gopter.Gen
+var agentPoolArtifactStreamingProfileGenerator *rapid.Generator[AgentPoolArtifactStreamingProfile]
 
 // AgentPoolArtifactStreamingProfileGenerator returns a generator of AgentPoolArtifactStreamingProfile instances for property testing.
-func AgentPoolArtifactStreamingProfileGenerator() gopter.Gen {
+func AgentPoolArtifactStreamingProfileGenerator() *rapid.Generator[AgentPoolArtifactStreamingProfile] {
 	if agentPoolArtifactStreamingProfileGenerator != nil {
 		return agentPoolArtifactStreamingProfileGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAgentPoolArtifactStreamingProfile(generators)
-	agentPoolArtifactStreamingProfileGenerator = gen.Struct(reflect.TypeOf(AgentPoolArtifactStreamingProfile{}), generators)
+	enabled := rapid.Ptr(rapid.Bool(), true)
+
+	agentPoolArtifactStreamingProfileGenerator = rapid.Custom(func(t *rapid.T) AgentPoolArtifactStreamingProfile {
+		var result AgentPoolArtifactStreamingProfile
+		result.Enabled = enabled.Draw(t, "Enabled")
+		return result
+	})
 
 	return agentPoolArtifactStreamingProfileGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAgentPoolArtifactStreamingProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAgentPoolArtifactStreamingProfile(gens map[string]gopter.Gen) {
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
 }
 
 func Test_AgentPoolBlueGreenUpgradeSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -90,29 +77,23 @@ func Test_AgentPoolBlueGreenUpgradeSettings_WhenSerializedToJson_DeserializesAsE
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AgentPoolBlueGreenUpgradeSettings via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAgentPoolBlueGreenUpgradeSettings, AgentPoolBlueGreenUpgradeSettingsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAgentPoolBlueGreenUpgradeSettings)
 }
 
 // RunJSONSerializationTestForAgentPoolBlueGreenUpgradeSettings runs a test to see if a specific instance of AgentPoolBlueGreenUpgradeSettings round trips to JSON and back losslessly
-func RunJSONSerializationTestForAgentPoolBlueGreenUpgradeSettings(subject AgentPoolBlueGreenUpgradeSettings) string {
+func RunJSONSerializationTestForAgentPoolBlueGreenUpgradeSettings(t *rapid.T) {
+	subject := AgentPoolBlueGreenUpgradeSettingsGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AgentPoolBlueGreenUpgradeSettings
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -121,35 +102,33 @@ func RunJSONSerializationTestForAgentPoolBlueGreenUpgradeSettings(subject AgentP
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AgentPoolBlueGreenUpgradeSettings instances for property testing - lazily instantiated by
 // AgentPoolBlueGreenUpgradeSettingsGenerator()
-var agentPoolBlueGreenUpgradeSettingsGenerator gopter.Gen
+var agentPoolBlueGreenUpgradeSettingsGenerator *rapid.Generator[AgentPoolBlueGreenUpgradeSettings]
 
 // AgentPoolBlueGreenUpgradeSettingsGenerator returns a generator of AgentPoolBlueGreenUpgradeSettings instances for property testing.
-func AgentPoolBlueGreenUpgradeSettingsGenerator() gopter.Gen {
+func AgentPoolBlueGreenUpgradeSettingsGenerator() *rapid.Generator[AgentPoolBlueGreenUpgradeSettings] {
 	if agentPoolBlueGreenUpgradeSettingsGenerator != nil {
 		return agentPoolBlueGreenUpgradeSettingsGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAgentPoolBlueGreenUpgradeSettings(generators)
-	agentPoolBlueGreenUpgradeSettingsGenerator = gen.Struct(reflect.TypeOf(AgentPoolBlueGreenUpgradeSettings{}), generators)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+	drainBatchSize := rapid.Ptr(rapid.String(), true)
+
+	agentPoolBlueGreenUpgradeSettingsGenerator = rapid.Custom(func(t *rapid.T) AgentPoolBlueGreenUpgradeSettings {
+		var result AgentPoolBlueGreenUpgradeSettings
+		result.BatchSoakDurationInMinutes = ptrInt.Draw(t, "BatchSoakDurationInMinutes")
+		result.DrainBatchSize = drainBatchSize.Draw(t, "DrainBatchSize")
+		result.DrainTimeoutInMinutes = ptrInt.Draw(t, "DrainTimeoutInMinutes")
+		result.FinalSoakDurationInMinutes = ptrInt.Draw(t, "FinalSoakDurationInMinutes")
+		return result
+	})
 
 	return agentPoolBlueGreenUpgradeSettingsGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAgentPoolBlueGreenUpgradeSettings is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAgentPoolBlueGreenUpgradeSettings(gens map[string]gopter.Gen) {
-	gens["BatchSoakDurationInMinutes"] = gen.PtrOf(gen.Int())
-	gens["DrainBatchSize"] = gen.PtrOf(gen.AlphaString())
-	gens["DrainTimeoutInMinutes"] = gen.PtrOf(gen.Int())
-	gens["FinalSoakDurationInMinutes"] = gen.PtrOf(gen.Int())
 }
 
 func Test_AgentPoolGatewayProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -159,29 +138,23 @@ func Test_AgentPoolGatewayProfile_WhenSerializedToJson_DeserializesAsEqual(t *te
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AgentPoolGatewayProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAgentPoolGatewayProfile, AgentPoolGatewayProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAgentPoolGatewayProfile)
 }
 
 // RunJSONSerializationTestForAgentPoolGatewayProfile runs a test to see if a specific instance of AgentPoolGatewayProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForAgentPoolGatewayProfile(subject AgentPoolGatewayProfile) string {
+func RunJSONSerializationTestForAgentPoolGatewayProfile(t *rapid.T) {
+	subject := AgentPoolGatewayProfileGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AgentPoolGatewayProfile
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -190,32 +163,29 @@ func RunJSONSerializationTestForAgentPoolGatewayProfile(subject AgentPoolGateway
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AgentPoolGatewayProfile instances for property testing - lazily instantiated by
 // AgentPoolGatewayProfileGenerator()
-var agentPoolGatewayProfileGenerator gopter.Gen
+var agentPoolGatewayProfileGenerator *rapid.Generator[AgentPoolGatewayProfile]
 
 // AgentPoolGatewayProfileGenerator returns a generator of AgentPoolGatewayProfile instances for property testing.
-func AgentPoolGatewayProfileGenerator() gopter.Gen {
+func AgentPoolGatewayProfileGenerator() *rapid.Generator[AgentPoolGatewayProfile] {
 	if agentPoolGatewayProfileGenerator != nil {
 		return agentPoolGatewayProfileGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAgentPoolGatewayProfile(generators)
-	agentPoolGatewayProfileGenerator = gen.Struct(reflect.TypeOf(AgentPoolGatewayProfile{}), generators)
+	publicIPPrefixSize := rapid.Ptr(rapid.Int(), true)
+
+	agentPoolGatewayProfileGenerator = rapid.Custom(func(t *rapid.T) AgentPoolGatewayProfile {
+		var result AgentPoolGatewayProfile
+		result.PublicIPPrefixSize = publicIPPrefixSize.Draw(t, "PublicIPPrefixSize")
+		return result
+	})
 
 	return agentPoolGatewayProfileGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAgentPoolGatewayProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAgentPoolGatewayProfile(gens map[string]gopter.Gen) {
-	gens["PublicIPPrefixSize"] = gen.PtrOf(gen.Int())
 }
 
 func Test_AgentPoolNetworkProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -225,29 +195,23 @@ func Test_AgentPoolNetworkProfile_WhenSerializedToJson_DeserializesAsEqual(t *te
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AgentPoolNetworkProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAgentPoolNetworkProfile, AgentPoolNetworkProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAgentPoolNetworkProfile)
 }
 
 // RunJSONSerializationTestForAgentPoolNetworkProfile runs a test to see if a specific instance of AgentPoolNetworkProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForAgentPoolNetworkProfile(subject AgentPoolNetworkProfile) string {
+func RunJSONSerializationTestForAgentPoolNetworkProfile(t *rapid.T) {
+	subject := AgentPoolNetworkProfileGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AgentPoolNetworkProfile
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -256,47 +220,33 @@ func RunJSONSerializationTestForAgentPoolNetworkProfile(subject AgentPoolNetwork
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AgentPoolNetworkProfile instances for property testing - lazily instantiated by
 // AgentPoolNetworkProfileGenerator()
-var agentPoolNetworkProfileGenerator gopter.Gen
+var agentPoolNetworkProfileGenerator *rapid.Generator[AgentPoolNetworkProfile]
 
 // AgentPoolNetworkProfileGenerator returns a generator of AgentPoolNetworkProfile instances for property testing.
-// We first initialize agentPoolNetworkProfileGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func AgentPoolNetworkProfileGenerator() gopter.Gen {
+func AgentPoolNetworkProfileGenerator() *rapid.Generator[AgentPoolNetworkProfile] {
 	if agentPoolNetworkProfileGenerator != nil {
 		return agentPoolNetworkProfileGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAgentPoolNetworkProfile(generators)
-	agentPoolNetworkProfileGenerator = gen.Struct(reflect.TypeOf(AgentPoolNetworkProfile{}), generators)
+	allowedHostPorts := rapid.SliceOf(PortRangeGenerator())
+	applicationSecurityGroups := rapid.SliceOf(rapid.String())
+	nodePublicIPTags := rapid.SliceOf(IPTagGenerator())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAgentPoolNetworkProfile(generators)
-	AddRelatedPropertyGeneratorsForAgentPoolNetworkProfile(generators)
-	agentPoolNetworkProfileGenerator = gen.Struct(reflect.TypeOf(AgentPoolNetworkProfile{}), generators)
+	agentPoolNetworkProfileGenerator = rapid.Custom(func(t *rapid.T) AgentPoolNetworkProfile {
+		var result AgentPoolNetworkProfile
+		result.AllowedHostPorts = allowedHostPorts.Draw(t, "AllowedHostPorts")
+		result.ApplicationSecurityGroups = applicationSecurityGroups.Draw(t, "ApplicationSecurityGroups")
+		result.NodePublicIPTags = nodePublicIPTags.Draw(t, "NodePublicIPTags")
+		return result
+	})
 
 	return agentPoolNetworkProfileGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAgentPoolNetworkProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAgentPoolNetworkProfile(gens map[string]gopter.Gen) {
-	gens["ApplicationSecurityGroups"] = gen.SliceOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForAgentPoolNetworkProfile is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAgentPoolNetworkProfile(gens map[string]gopter.Gen) {
-	gens["AllowedHostPorts"] = gen.SliceOf(PortRangeGenerator())
-	gens["NodePublicIPTags"] = gen.SliceOf(IPTagGenerator())
 }
 
 func Test_AgentPoolSecurityProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -306,29 +256,23 @@ func Test_AgentPoolSecurityProfile_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AgentPoolSecurityProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAgentPoolSecurityProfile, AgentPoolSecurityProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAgentPoolSecurityProfile)
 }
 
 // RunJSONSerializationTestForAgentPoolSecurityProfile runs a test to see if a specific instance of AgentPoolSecurityProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForAgentPoolSecurityProfile(subject AgentPoolSecurityProfile) string {
+func RunJSONSerializationTestForAgentPoolSecurityProfile(t *rapid.T) {
+	subject := AgentPoolSecurityProfileGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AgentPoolSecurityProfile
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -337,34 +281,32 @@ func RunJSONSerializationTestForAgentPoolSecurityProfile(subject AgentPoolSecuri
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AgentPoolSecurityProfile instances for property testing - lazily instantiated by
 // AgentPoolSecurityProfileGenerator()
-var agentPoolSecurityProfileGenerator gopter.Gen
+var agentPoolSecurityProfileGenerator *rapid.Generator[AgentPoolSecurityProfile]
 
 // AgentPoolSecurityProfileGenerator returns a generator of AgentPoolSecurityProfile instances for property testing.
-func AgentPoolSecurityProfileGenerator() gopter.Gen {
+func AgentPoolSecurityProfileGenerator() *rapid.Generator[AgentPoolSecurityProfile] {
 	if agentPoolSecurityProfileGenerator != nil {
 		return agentPoolSecurityProfileGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAgentPoolSecurityProfile(generators)
-	agentPoolSecurityProfileGenerator = gen.Struct(reflect.TypeOf(AgentPoolSecurityProfile{}), generators)
+	ptrBool := rapid.Ptr(rapid.Bool(), true)
+	sshAccess := rapid.Ptr(rapid.SampledFrom([]AgentPoolSSHAccess{AgentPoolSSHAccess_Disabled, AgentPoolSSHAccess_EntraId, AgentPoolSSHAccess_LocalUser}), true)
+
+	agentPoolSecurityProfileGenerator = rapid.Custom(func(t *rapid.T) AgentPoolSecurityProfile {
+		var result AgentPoolSecurityProfile
+		result.EnableSecureBoot = ptrBool.Draw(t, "EnableSecureBoot")
+		result.EnableVTPM = ptrBool.Draw(t, "EnableVTPM")
+		result.SshAccess = sshAccess.Draw(t, "SshAccess")
+		return result
+	})
 
 	return agentPoolSecurityProfileGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAgentPoolSecurityProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAgentPoolSecurityProfile(gens map[string]gopter.Gen) {
-	gens["EnableSecureBoot"] = gen.PtrOf(gen.Bool())
-	gens["EnableVTPM"] = gen.PtrOf(gen.Bool())
-	gens["SshAccess"] = gen.PtrOf(gen.OneConstOf(AgentPoolSSHAccess_Disabled, AgentPoolSSHAccess_EntraId, AgentPoolSSHAccess_LocalUser))
 }
 
 func Test_AgentPoolUpgradeSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -374,29 +316,23 @@ func Test_AgentPoolUpgradeSettings_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AgentPoolUpgradeSettings via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAgentPoolUpgradeSettings, AgentPoolUpgradeSettingsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAgentPoolUpgradeSettings)
 }
 
 // RunJSONSerializationTestForAgentPoolUpgradeSettings runs a test to see if a specific instance of AgentPoolUpgradeSettings round trips to JSON and back losslessly
-func RunJSONSerializationTestForAgentPoolUpgradeSettings(subject AgentPoolUpgradeSettings) string {
+func RunJSONSerializationTestForAgentPoolUpgradeSettings(t *rapid.T) {
+	subject := AgentPoolUpgradeSettingsGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AgentPoolUpgradeSettings
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -405,37 +341,36 @@ func RunJSONSerializationTestForAgentPoolUpgradeSettings(subject AgentPoolUpgrad
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AgentPoolUpgradeSettings instances for property testing - lazily instantiated by
 // AgentPoolUpgradeSettingsGenerator()
-var agentPoolUpgradeSettingsGenerator gopter.Gen
+var agentPoolUpgradeSettingsGenerator *rapid.Generator[AgentPoolUpgradeSettings]
 
 // AgentPoolUpgradeSettingsGenerator returns a generator of AgentPoolUpgradeSettings instances for property testing.
-func AgentPoolUpgradeSettingsGenerator() gopter.Gen {
+func AgentPoolUpgradeSettingsGenerator() *rapid.Generator[AgentPoolUpgradeSettings] {
 	if agentPoolUpgradeSettingsGenerator != nil {
 		return agentPoolUpgradeSettingsGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAgentPoolUpgradeSettings(generators)
-	agentPoolUpgradeSettingsGenerator = gen.Struct(reflect.TypeOf(AgentPoolUpgradeSettings{}), generators)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	undrainableNodeBehavior := rapid.Ptr(rapid.SampledFrom([]UndrainableNodeBehavior{UndrainableNodeBehavior_Cordon, UndrainableNodeBehavior_Schedule}), true)
+
+	agentPoolUpgradeSettingsGenerator = rapid.Custom(func(t *rapid.T) AgentPoolUpgradeSettings {
+		var result AgentPoolUpgradeSettings
+		result.DrainTimeoutInMinutes = ptrInt.Draw(t, "DrainTimeoutInMinutes")
+		result.MaxBlockedNodes = ptrString.Draw(t, "MaxBlockedNodes")
+		result.MaxSurge = ptrString.Draw(t, "MaxSurge")
+		result.MaxUnavailable = ptrString.Draw(t, "MaxUnavailable")
+		result.NodeSoakDurationInMinutes = ptrInt.Draw(t, "NodeSoakDurationInMinutes")
+		result.UndrainableNodeBehavior = undrainableNodeBehavior.Draw(t, "UndrainableNodeBehavior")
+		return result
+	})
 
 	return agentPoolUpgradeSettingsGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAgentPoolUpgradeSettings is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAgentPoolUpgradeSettings(gens map[string]gopter.Gen) {
-	gens["DrainTimeoutInMinutes"] = gen.PtrOf(gen.Int())
-	gens["MaxBlockedNodes"] = gen.PtrOf(gen.AlphaString())
-	gens["MaxSurge"] = gen.PtrOf(gen.AlphaString())
-	gens["MaxUnavailable"] = gen.PtrOf(gen.AlphaString())
-	gens["NodeSoakDurationInMinutes"] = gen.PtrOf(gen.Int())
-	gens["UndrainableNodeBehavior"] = gen.PtrOf(gen.OneConstOf(UndrainableNodeBehavior_Cordon, UndrainableNodeBehavior_Schedule))
 }
 
 func Test_AgentPoolWindowsProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -445,29 +380,23 @@ func Test_AgentPoolWindowsProfile_WhenSerializedToJson_DeserializesAsEqual(t *te
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AgentPoolWindowsProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAgentPoolWindowsProfile, AgentPoolWindowsProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAgentPoolWindowsProfile)
 }
 
 // RunJSONSerializationTestForAgentPoolWindowsProfile runs a test to see if a specific instance of AgentPoolWindowsProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForAgentPoolWindowsProfile(subject AgentPoolWindowsProfile) string {
+func RunJSONSerializationTestForAgentPoolWindowsProfile(t *rapid.T) {
+	subject := AgentPoolWindowsProfileGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AgentPoolWindowsProfile
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -476,32 +405,29 @@ func RunJSONSerializationTestForAgentPoolWindowsProfile(subject AgentPoolWindows
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AgentPoolWindowsProfile instances for property testing - lazily instantiated by
 // AgentPoolWindowsProfileGenerator()
-var agentPoolWindowsProfileGenerator gopter.Gen
+var agentPoolWindowsProfileGenerator *rapid.Generator[AgentPoolWindowsProfile]
 
 // AgentPoolWindowsProfileGenerator returns a generator of AgentPoolWindowsProfile instances for property testing.
-func AgentPoolWindowsProfileGenerator() gopter.Gen {
+func AgentPoolWindowsProfileGenerator() *rapid.Generator[AgentPoolWindowsProfile] {
 	if agentPoolWindowsProfileGenerator != nil {
 		return agentPoolWindowsProfileGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAgentPoolWindowsProfile(generators)
-	agentPoolWindowsProfileGenerator = gen.Struct(reflect.TypeOf(AgentPoolWindowsProfile{}), generators)
+	disableOutboundNat := rapid.Ptr(rapid.Bool(), true)
+
+	agentPoolWindowsProfileGenerator = rapid.Custom(func(t *rapid.T) AgentPoolWindowsProfile {
+		var result AgentPoolWindowsProfile
+		result.DisableOutboundNat = disableOutboundNat.Draw(t, "DisableOutboundNat")
+		return result
+	})
 
 	return agentPoolWindowsProfileGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAgentPoolWindowsProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAgentPoolWindowsProfile(gens map[string]gopter.Gen) {
-	gens["DisableOutboundNat"] = gen.PtrOf(gen.Bool())
 }
 
 func Test_AutoScaleProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -511,29 +437,23 @@ func Test_AutoScaleProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AutoScaleProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAutoScaleProfile, AutoScaleProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAutoScaleProfile)
 }
 
 // RunJSONSerializationTestForAutoScaleProfile runs a test to see if a specific instance of AutoScaleProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForAutoScaleProfile(subject AutoScaleProfile) string {
+func RunJSONSerializationTestForAutoScaleProfile(t *rapid.T) {
+	subject := AutoScaleProfileGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AutoScaleProfile
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -542,33 +462,31 @@ func RunJSONSerializationTestForAutoScaleProfile(subject AutoScaleProfile) strin
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AutoScaleProfile instances for property testing - lazily instantiated by AutoScaleProfileGenerator()
-var autoScaleProfileGenerator gopter.Gen
+var autoScaleProfileGenerator *rapid.Generator[AutoScaleProfile]
 
 // AutoScaleProfileGenerator returns a generator of AutoScaleProfile instances for property testing.
-func AutoScaleProfileGenerator() gopter.Gen {
+func AutoScaleProfileGenerator() *rapid.Generator[AutoScaleProfile] {
 	if autoScaleProfileGenerator != nil {
 		return autoScaleProfileGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAutoScaleProfile(generators)
-	autoScaleProfileGenerator = gen.Struct(reflect.TypeOf(AutoScaleProfile{}), generators)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+	size := rapid.Ptr(rapid.String(), true)
+
+	autoScaleProfileGenerator = rapid.Custom(func(t *rapid.T) AutoScaleProfile {
+		var result AutoScaleProfile
+		result.MaxCount = ptrInt.Draw(t, "MaxCount")
+		result.MinCount = ptrInt.Draw(t, "MinCount")
+		result.Size = size.Draw(t, "Size")
+		return result
+	})
 
 	return autoScaleProfileGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAutoScaleProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAutoScaleProfile(gens map[string]gopter.Gen) {
-	gens["MaxCount"] = gen.PtrOf(gen.Int())
-	gens["MinCount"] = gen.PtrOf(gen.Int())
-	gens["Size"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_GPUProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -578,29 +496,23 @@ func Test_GPUProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of GPUProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForGPUProfile, GPUProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForGPUProfile)
 }
 
 // RunJSONSerializationTestForGPUProfile runs a test to see if a specific instance of GPUProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForGPUProfile(subject GPUProfile) string {
+func RunJSONSerializationTestForGPUProfile(t *rapid.T) {
+	subject := GPUProfileGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual GPUProfile
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -609,32 +521,30 @@ func RunJSONSerializationTestForGPUProfile(subject GPUProfile) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of GPUProfile instances for property testing - lazily instantiated by GPUProfileGenerator()
-var gpuProfileGenerator gopter.Gen
+var gpuProfileGenerator *rapid.Generator[GPUProfile]
 
 // GPUProfileGenerator returns a generator of GPUProfile instances for property testing.
-func GPUProfileGenerator() gopter.Gen {
+func GPUProfileGenerator() *rapid.Generator[GPUProfile] {
 	if gpuProfileGenerator != nil {
 		return gpuProfileGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForGPUProfile(generators)
-	gpuProfileGenerator = gen.Struct(reflect.TypeOf(GPUProfile{}), generators)
+	driver := rapid.Ptr(rapid.SampledFrom([]GPUDriver{GPUDriver_Install, GPUDriver_None}), true)
+	driverType := rapid.Ptr(rapid.SampledFrom([]DriverType{DriverType_CUDA, DriverType_GRID}), true)
+
+	gpuProfileGenerator = rapid.Custom(func(t *rapid.T) GPUProfile {
+		var result GPUProfile
+		result.Driver = driver.Draw(t, "Driver")
+		result.DriverType = driverType.Draw(t, "DriverType")
+		return result
+	})
 
 	return gpuProfileGenerator
-}
-
-// AddIndependentPropertyGeneratorsForGPUProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForGPUProfile(gens map[string]gopter.Gen) {
-	gens["Driver"] = gen.PtrOf(gen.OneConstOf(GPUDriver_Install, GPUDriver_None))
-	gens["DriverType"] = gen.PtrOf(gen.OneConstOf(DriverType_CUDA, DriverType_GRID))
 }
 
 func Test_IPTag_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -644,29 +554,23 @@ func Test_IPTag_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of IPTag via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForIPTag, IPTagGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForIPTag)
 }
 
 // RunJSONSerializationTestForIPTag runs a test to see if a specific instance of IPTag round trips to JSON and back losslessly
-func RunJSONSerializationTestForIPTag(subject IPTag) string {
+func RunJSONSerializationTestForIPTag(t *rapid.T) {
+	subject := IPTagGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual IPTag
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -675,32 +579,29 @@ func RunJSONSerializationTestForIPTag(subject IPTag) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of IPTag instances for property testing - lazily instantiated by IPTagGenerator()
-var ipTagGenerator gopter.Gen
+var ipTagGenerator *rapid.Generator[IPTag]
 
 // IPTagGenerator returns a generator of IPTag instances for property testing.
-func IPTagGenerator() gopter.Gen {
+func IPTagGenerator() *rapid.Generator[IPTag] {
 	if ipTagGenerator != nil {
 		return ipTagGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIPTag(generators)
-	ipTagGenerator = gen.Struct(reflect.TypeOf(IPTag{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	ipTagGenerator = rapid.Custom(func(t *rapid.T) IPTag {
+		var result IPTag
+		result.IpTagType = ptrString.Draw(t, "IpTagType")
+		result.Tag = ptrString.Draw(t, "Tag")
+		return result
+	})
 
 	return ipTagGenerator
-}
-
-// AddIndependentPropertyGeneratorsForIPTag is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForIPTag(gens map[string]gopter.Gen) {
-	gens["IpTagType"] = gen.PtrOf(gen.AlphaString())
-	gens["Tag"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_KubeletConfig_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -710,29 +611,23 @@ func Test_KubeletConfig_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of KubeletConfig via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForKubeletConfig, KubeletConfigGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForKubeletConfig)
 }
 
 // RunJSONSerializationTestForKubeletConfig runs a test to see if a specific instance of KubeletConfig round trips to JSON and back losslessly
-func RunJSONSerializationTestForKubeletConfig(subject KubeletConfig) string {
+func RunJSONSerializationTestForKubeletConfig(t *rapid.T) {
+	subject := KubeletConfigGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual KubeletConfig
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -741,42 +636,43 @@ func RunJSONSerializationTestForKubeletConfig(subject KubeletConfig) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of KubeletConfig instances for property testing - lazily instantiated by KubeletConfigGenerator()
-var kubeletConfigGenerator gopter.Gen
+var kubeletConfigGenerator *rapid.Generator[KubeletConfig]
 
 // KubeletConfigGenerator returns a generator of KubeletConfig instances for property testing.
-func KubeletConfigGenerator() gopter.Gen {
+func KubeletConfigGenerator() *rapid.Generator[KubeletConfig] {
 	if kubeletConfigGenerator != nil {
 		return kubeletConfigGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForKubeletConfig(generators)
-	kubeletConfigGenerator = gen.Struct(reflect.TypeOf(KubeletConfig{}), generators)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+	ptrBool := rapid.Ptr(rapid.Bool(), true)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	allowedUnsafeSysctls := rapid.SliceOf(rapid.String())
+	seccompDefault := rapid.Ptr(rapid.SampledFrom([]SeccompDefault{SeccompDefault_RuntimeDefault, SeccompDefault_Unconfined}), true)
+
+	kubeletConfigGenerator = rapid.Custom(func(t *rapid.T) KubeletConfig {
+		var result KubeletConfig
+		result.AllowedUnsafeSysctls = allowedUnsafeSysctls.Draw(t, "AllowedUnsafeSysctls")
+		result.ContainerLogMaxFiles = ptrInt.Draw(t, "ContainerLogMaxFiles")
+		result.ContainerLogMaxSizeMB = ptrInt.Draw(t, "ContainerLogMaxSizeMB")
+		result.CpuCfsQuota = ptrBool.Draw(t, "CpuCfsQuota")
+		result.CpuCfsQuotaPeriod = ptrString.Draw(t, "CpuCfsQuotaPeriod")
+		result.CpuManagerPolicy = ptrString.Draw(t, "CpuManagerPolicy")
+		result.FailSwapOn = ptrBool.Draw(t, "FailSwapOn")
+		result.ImageGcHighThreshold = ptrInt.Draw(t, "ImageGcHighThreshold")
+		result.ImageGcLowThreshold = ptrInt.Draw(t, "ImageGcLowThreshold")
+		result.PodMaxPids = ptrInt.Draw(t, "PodMaxPids")
+		result.SeccompDefault = seccompDefault.Draw(t, "SeccompDefault")
+		result.TopologyManagerPolicy = ptrString.Draw(t, "TopologyManagerPolicy")
+		return result
+	})
 
 	return kubeletConfigGenerator
-}
-
-// AddIndependentPropertyGeneratorsForKubeletConfig is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForKubeletConfig(gens map[string]gopter.Gen) {
-	gens["AllowedUnsafeSysctls"] = gen.SliceOf(gen.AlphaString())
-	gens["ContainerLogMaxFiles"] = gen.PtrOf(gen.Int())
-	gens["ContainerLogMaxSizeMB"] = gen.PtrOf(gen.Int())
-	gens["CpuCfsQuota"] = gen.PtrOf(gen.Bool())
-	gens["CpuCfsQuotaPeriod"] = gen.PtrOf(gen.AlphaString())
-	gens["CpuManagerPolicy"] = gen.PtrOf(gen.AlphaString())
-	gens["FailSwapOn"] = gen.PtrOf(gen.Bool())
-	gens["ImageGcHighThreshold"] = gen.PtrOf(gen.Int())
-	gens["ImageGcLowThreshold"] = gen.PtrOf(gen.Int())
-	gens["PodMaxPids"] = gen.PtrOf(gen.Int())
-	gens["SeccompDefault"] = gen.PtrOf(gen.OneConstOf(SeccompDefault_RuntimeDefault, SeccompDefault_Unconfined))
-	gens["TopologyManagerPolicy"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_LinuxOSConfig_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -786,29 +682,23 @@ func Test_LinuxOSConfig_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of LinuxOSConfig via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLinuxOSConfig, LinuxOSConfigGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForLinuxOSConfig)
 }
 
 // RunJSONSerializationTestForLinuxOSConfig runs a test to see if a specific instance of LinuxOSConfig round trips to JSON and back losslessly
-func RunJSONSerializationTestForLinuxOSConfig(subject LinuxOSConfig) string {
+func RunJSONSerializationTestForLinuxOSConfig(t *rapid.T) {
+	subject := LinuxOSConfigGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual LinuxOSConfig
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -817,47 +707,33 @@ func RunJSONSerializationTestForLinuxOSConfig(subject LinuxOSConfig) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of LinuxOSConfig instances for property testing - lazily instantiated by LinuxOSConfigGenerator()
-var linuxOSConfigGenerator gopter.Gen
+var linuxOSConfigGenerator *rapid.Generator[LinuxOSConfig]
 
 // LinuxOSConfigGenerator returns a generator of LinuxOSConfig instances for property testing.
-// We first initialize linuxOSConfigGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func LinuxOSConfigGenerator() gopter.Gen {
+func LinuxOSConfigGenerator() *rapid.Generator[LinuxOSConfig] {
 	if linuxOSConfigGenerator != nil {
 		return linuxOSConfigGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLinuxOSConfig(generators)
-	linuxOSConfigGenerator = gen.Struct(reflect.TypeOf(LinuxOSConfig{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	swapFileSizeMB := rapid.Ptr(rapid.Int(), true)
+	sysctls := rapid.Ptr(SysctlConfigGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLinuxOSConfig(generators)
-	AddRelatedPropertyGeneratorsForLinuxOSConfig(generators)
-	linuxOSConfigGenerator = gen.Struct(reflect.TypeOf(LinuxOSConfig{}), generators)
+	linuxOSConfigGenerator = rapid.Custom(func(t *rapid.T) LinuxOSConfig {
+		var result LinuxOSConfig
+		result.SwapFileSizeMB = swapFileSizeMB.Draw(t, "SwapFileSizeMB")
+		result.Sysctls = sysctls.Draw(t, "Sysctls")
+		result.TransparentHugePageDefrag = ptrString.Draw(t, "TransparentHugePageDefrag")
+		result.TransparentHugePageEnabled = ptrString.Draw(t, "TransparentHugePageEnabled")
+		return result
+	})
 
 	return linuxOSConfigGenerator
-}
-
-// AddIndependentPropertyGeneratorsForLinuxOSConfig is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLinuxOSConfig(gens map[string]gopter.Gen) {
-	gens["SwapFileSizeMB"] = gen.PtrOf(gen.Int())
-	gens["TransparentHugePageDefrag"] = gen.PtrOf(gen.AlphaString())
-	gens["TransparentHugePageEnabled"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForLinuxOSConfig is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForLinuxOSConfig(gens map[string]gopter.Gen) {
-	gens["Sysctls"] = gen.PtrOf(SysctlConfigGenerator())
 }
 
 func Test_LocalDNSOverride_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -867,29 +743,23 @@ func Test_LocalDNSOverride_WhenSerializedToJson_DeserializesAsEqual(t *testing.T
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of LocalDNSOverride via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLocalDNSOverride, LocalDNSOverrideGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForLocalDNSOverride)
 }
 
 // RunJSONSerializationTestForLocalDNSOverride runs a test to see if a specific instance of LocalDNSOverride round trips to JSON and back losslessly
-func RunJSONSerializationTestForLocalDNSOverride(subject LocalDNSOverride) string {
+func RunJSONSerializationTestForLocalDNSOverride(t *rapid.T) {
+	subject := LocalDNSOverrideGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual LocalDNSOverride
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -898,38 +768,40 @@ func RunJSONSerializationTestForLocalDNSOverride(subject LocalDNSOverride) strin
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of LocalDNSOverride instances for property testing - lazily instantiated by LocalDNSOverrideGenerator()
-var localDNSOverrideGenerator gopter.Gen
+var localDNSOverrideGenerator *rapid.Generator[LocalDNSOverride]
 
 // LocalDNSOverrideGenerator returns a generator of LocalDNSOverride instances for property testing.
-func LocalDNSOverrideGenerator() gopter.Gen {
+func LocalDNSOverrideGenerator() *rapid.Generator[LocalDNSOverride] {
 	if localDNSOverrideGenerator != nil {
 		return localDNSOverrideGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLocalDNSOverride(generators)
-	localDNSOverrideGenerator = gen.Struct(reflect.TypeOf(LocalDNSOverride{}), generators)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+	forwardDestination := rapid.Ptr(rapid.SampledFrom([]LocalDNSOverride_ForwardDestination{LocalDNSOverride_ForwardDestination_ClusterCoreDNS, LocalDNSOverride_ForwardDestination_VnetDNS}), true)
+	forwardPolicy := rapid.Ptr(rapid.SampledFrom([]LocalDNSOverride_ForwardPolicy{LocalDNSOverride_ForwardPolicy_Random, LocalDNSOverride_ForwardPolicy_RoundRobin, LocalDNSOverride_ForwardPolicy_Sequential}), true)
+	protocol := rapid.Ptr(rapid.SampledFrom([]LocalDNSOverride_Protocol{LocalDNSOverride_Protocol_ForceTCP, LocalDNSOverride_Protocol_PreferUDP}), true)
+	queryLogging := rapid.Ptr(rapid.SampledFrom([]LocalDNSOverride_QueryLogging{LocalDNSOverride_QueryLogging_Error, LocalDNSOverride_QueryLogging_Log}), true)
+	serveStale := rapid.Ptr(rapid.SampledFrom([]LocalDNSOverride_ServeStale{LocalDNSOverride_ServeStale_Disable, LocalDNSOverride_ServeStale_Immediate, LocalDNSOverride_ServeStale_Verify}), true)
+
+	localDNSOverrideGenerator = rapid.Custom(func(t *rapid.T) LocalDNSOverride {
+		var result LocalDNSOverride
+		result.CacheDurationInSeconds = ptrInt.Draw(t, "CacheDurationInSeconds")
+		result.ForwardDestination = forwardDestination.Draw(t, "ForwardDestination")
+		result.ForwardPolicy = forwardPolicy.Draw(t, "ForwardPolicy")
+		result.MaxConcurrent = ptrInt.Draw(t, "MaxConcurrent")
+		result.Protocol = protocol.Draw(t, "Protocol")
+		result.QueryLogging = queryLogging.Draw(t, "QueryLogging")
+		result.ServeStale = serveStale.Draw(t, "ServeStale")
+		result.ServeStaleDurationInSeconds = ptrInt.Draw(t, "ServeStaleDurationInSeconds")
+		return result
+	})
 
 	return localDNSOverrideGenerator
-}
-
-// AddIndependentPropertyGeneratorsForLocalDNSOverride is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLocalDNSOverride(gens map[string]gopter.Gen) {
-	gens["CacheDurationInSeconds"] = gen.PtrOf(gen.Int())
-	gens["ForwardDestination"] = gen.PtrOf(gen.OneConstOf(LocalDNSOverride_ForwardDestination_ClusterCoreDNS, LocalDNSOverride_ForwardDestination_VnetDNS))
-	gens["ForwardPolicy"] = gen.PtrOf(gen.OneConstOf(LocalDNSOverride_ForwardPolicy_Random, LocalDNSOverride_ForwardPolicy_RoundRobin, LocalDNSOverride_ForwardPolicy_Sequential))
-	gens["MaxConcurrent"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(LocalDNSOverride_Protocol_ForceTCP, LocalDNSOverride_Protocol_PreferUDP))
-	gens["QueryLogging"] = gen.PtrOf(gen.OneConstOf(LocalDNSOverride_QueryLogging_Error, LocalDNSOverride_QueryLogging_Log))
-	gens["ServeStale"] = gen.PtrOf(gen.OneConstOf(LocalDNSOverride_ServeStale_Disable, LocalDNSOverride_ServeStale_Immediate, LocalDNSOverride_ServeStale_Verify))
-	gens["ServeStaleDurationInSeconds"] = gen.PtrOf(gen.Int())
 }
 
 func Test_LocalDNSProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -939,29 +811,23 @@ func Test_LocalDNSProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of LocalDNSProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLocalDNSProfile, LocalDNSProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForLocalDNSProfile)
 }
 
 // RunJSONSerializationTestForLocalDNSProfile runs a test to see if a specific instance of LocalDNSProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForLocalDNSProfile(subject LocalDNSProfile) string {
+func RunJSONSerializationTestForLocalDNSProfile(t *rapid.T) {
+	subject := LocalDNSProfileGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual LocalDNSProfile
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -970,50 +836,33 @@ func RunJSONSerializationTestForLocalDNSProfile(subject LocalDNSProfile) string 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of LocalDNSProfile instances for property testing - lazily instantiated by LocalDNSProfileGenerator()
-var localDNSProfileGenerator gopter.Gen
+var localDNSProfileGenerator *rapid.Generator[LocalDNSProfile]
 
 // LocalDNSProfileGenerator returns a generator of LocalDNSProfile instances for property testing.
-// We first initialize localDNSProfileGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func LocalDNSProfileGenerator() gopter.Gen {
+func LocalDNSProfileGenerator() *rapid.Generator[LocalDNSProfile] {
 	if localDNSProfileGenerator != nil {
 		return localDNSProfileGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLocalDNSProfile(generators)
-	localDNSProfileGenerator = gen.Struct(reflect.TypeOf(LocalDNSProfile{}), generators)
+	mapOfStringToLocalDNSOverride := rapid.MapOf(
+		rapid.String(),
+		LocalDNSOverrideGenerator())
+	mode := rapid.Ptr(rapid.SampledFrom([]LocalDNSProfile_Mode{LocalDNSProfile_Mode_Disabled, LocalDNSProfile_Mode_Preferred, LocalDNSProfile_Mode_Required}), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLocalDNSProfile(generators)
-	AddRelatedPropertyGeneratorsForLocalDNSProfile(generators)
-	localDNSProfileGenerator = gen.Struct(reflect.TypeOf(LocalDNSProfile{}), generators)
+	localDNSProfileGenerator = rapid.Custom(func(t *rapid.T) LocalDNSProfile {
+		var result LocalDNSProfile
+		result.KubeDNSOverrides = mapOfStringToLocalDNSOverride.Draw(t, "KubeDNSOverrides")
+		result.Mode = mode.Draw(t, "Mode")
+		result.VnetDNSOverrides = mapOfStringToLocalDNSOverride.Draw(t, "VnetDNSOverrides")
+		return result
+	})
 
 	return localDNSProfileGenerator
-}
-
-// AddIndependentPropertyGeneratorsForLocalDNSProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLocalDNSProfile(gens map[string]gopter.Gen) {
-	gens["Mode"] = gen.PtrOf(gen.OneConstOf(LocalDNSProfile_Mode_Disabled, LocalDNSProfile_Mode_Preferred, LocalDNSProfile_Mode_Required))
-}
-
-// AddRelatedPropertyGeneratorsForLocalDNSProfile is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForLocalDNSProfile(gens map[string]gopter.Gen) {
-	gens["KubeDNSOverrides"] = gen.MapOf(
-		gen.AlphaString(),
-		LocalDNSOverrideGenerator())
-	gens["VnetDNSOverrides"] = gen.MapOf(
-		gen.AlphaString(),
-		LocalDNSOverrideGenerator())
 }
 
 func Test_ManagedClusterAgentPoolProfileProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1023,29 +872,23 @@ func Test_ManagedClusterAgentPoolProfileProperties_WhenSerializedToJson_Deserial
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedClusterAgentPoolProfileProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterAgentPoolProfileProperties, ManagedClusterAgentPoolProfilePropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForManagedClusterAgentPoolProfileProperties)
 }
 
 // RunJSONSerializationTestForManagedClusterAgentPoolProfileProperties runs a test to see if a specific instance of ManagedClusterAgentPoolProfileProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterAgentPoolProfileProperties(subject ManagedClusterAgentPoolProfileProperties) string {
+func RunJSONSerializationTestForManagedClusterAgentPoolProfileProperties(t *rapid.T) {
+	subject := ManagedClusterAgentPoolProfilePropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ManagedClusterAgentPoolProfileProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1054,47 +897,119 @@ func RunJSONSerializationTestForManagedClusterAgentPoolProfileProperties(subject
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ManagedClusterAgentPoolProfileProperties instances for property testing - lazily instantiated by
 // ManagedClusterAgentPoolProfilePropertiesGenerator()
-var managedClusterAgentPoolProfilePropertiesGenerator gopter.Gen
+var managedClusterAgentPoolProfilePropertiesGenerator *rapid.Generator[ManagedClusterAgentPoolProfileProperties]
 
 // ManagedClusterAgentPoolProfilePropertiesGenerator returns a generator of ManagedClusterAgentPoolProfileProperties instances for property testing.
-func ManagedClusterAgentPoolProfilePropertiesGenerator() gopter.Gen {
+func ManagedClusterAgentPoolProfilePropertiesGenerator() *rapid.Generator[ManagedClusterAgentPoolProfileProperties] {
 	if managedClusterAgentPoolProfilePropertiesGenerator != nil {
 		return managedClusterAgentPoolProfilePropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfileProperties(generators)
-	managedClusterAgentPoolProfilePropertiesGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAgentPoolProfileProperties{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+	ptrBool := rapid.Ptr(rapid.Bool(), true)
+	mapOfStringToString := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
+	artifactStreamingProfile := rapid.Ptr(AgentPoolArtifactStreamingProfileGenerator(), true)
+	creationData := rapid.Ptr(CreationDataGenerator(), true)
+	gatewayProfile := rapid.Ptr(AgentPoolGatewayProfileGenerator(), true)
+	gpuInstanceProfile := rapid.Ptr(rapid.SampledFrom([]GPUInstanceProfile{GPUInstanceProfile_MIG1G, GPUInstanceProfile_MIG2G, GPUInstanceProfile_MIG3G, GPUInstanceProfile_MIG4G, GPUInstanceProfile_MIG7G}), true)
+	gpuProfile := rapid.Ptr(GPUProfileGenerator(), true)
+	kubeletConfig := rapid.Ptr(KubeletConfigGenerator(), true)
+	kubeletDiskType := rapid.Ptr(rapid.SampledFrom([]KubeletDiskType{KubeletDiskType_OS, KubeletDiskType_Temporary}), true)
+	linuxOSConfig := rapid.Ptr(LinuxOSConfigGenerator(), true)
+	localDNSProfile := rapid.Ptr(LocalDNSProfileGenerator(), true)
+	mode := rapid.Ptr(rapid.SampledFrom([]AgentPoolMode{AgentPoolMode_Gateway, AgentPoolMode_Machines, AgentPoolMode_ManagedSystem, AgentPoolMode_System, AgentPoolMode_User}), true)
+	networkProfile := rapid.Ptr(AgentPoolNetworkProfileGenerator(), true)
+	nodeCustomizationProfile := rapid.Ptr(NodeCustomizationProfileGenerator(), true)
+	osDiskType := rapid.Ptr(rapid.SampledFrom([]OSDiskType{OSDiskType_Ephemeral, OSDiskType_Managed}), true)
+	osSKU := rapid.Ptr(rapid.SampledFrom([]OSSKU{OSSKU_AzureLinux, OSSKU_AzureLinux3, OSSKU_CBLMariner, OSSKU_Flatcar, OSSKU_Mariner, OSSKU_Ubuntu, OSSKU_Ubuntu2204, OSSKU_Ubuntu2404, OSSKU_Windows2019, OSSKU_Windows2022, OSSKU_Windows2025, OSSKU_WindowsAnnual}), true)
+	osType := rapid.Ptr(rapid.SampledFrom([]ManagedClusterAgentPoolProfileProperties_OsType{ManagedClusterAgentPoolProfileProperties_OsType_Linux, ManagedClusterAgentPoolProfileProperties_OsType_Windows}), true)
+	podIPAllocationMode := rapid.Ptr(rapid.SampledFrom([]PodIPAllocationMode{PodIPAllocationMode_DynamicIndividual, PodIPAllocationMode_StaticBlock}), true)
+	powerState := rapid.Ptr(PowerStateGenerator(), true)
+	scaleDownMode := rapid.Ptr(rapid.SampledFrom([]ScaleDownMode{ScaleDownMode_Deallocate, ScaleDownMode_Delete}), true)
+	scaleSetEvictionPolicy := rapid.Ptr(rapid.SampledFrom([]ManagedClusterAgentPoolProfileProperties_ScaleSetEvictionPolicy{ManagedClusterAgentPoolProfileProperties_ScaleSetEvictionPolicy_Deallocate, ManagedClusterAgentPoolProfileProperties_ScaleSetEvictionPolicy_Delete}), true)
+	scaleSetPriority := rapid.Ptr(rapid.SampledFrom([]ManagedClusterAgentPoolProfileProperties_ScaleSetPriority{ManagedClusterAgentPoolProfileProperties_ScaleSetPriority_Regular, ManagedClusterAgentPoolProfileProperties_ScaleSetPriority_Spot}), true)
+	securityProfile := rapid.Ptr(AgentPoolSecurityProfileGenerator(), true)
+	spotMaxPrice := rapid.Ptr(rapid.Float64(), true)
+	typeVar := rapid.Ptr(rapid.SampledFrom([]AgentPoolType{AgentPoolType_AvailabilitySet, AgentPoolType_VirtualMachineScaleSets, AgentPoolType_VirtualMachines}), true)
+	upgradeSettings := rapid.Ptr(AgentPoolUpgradeSettingsGenerator(), true)
+	upgradeSettingsBlueGreen := rapid.Ptr(AgentPoolBlueGreenUpgradeSettingsGenerator(), true)
+	upgradeStrategy := rapid.Ptr(rapid.SampledFrom([]UpgradeStrategy{UpgradeStrategy_BlueGreen, UpgradeStrategy_Rolling}), true)
+	virtualMachineNodesStatus := rapid.SliceOf(VirtualMachineNodesGenerator())
+	virtualMachinesProfile := rapid.Ptr(VirtualMachinesProfileGenerator(), true)
+	windowsProfile := rapid.Ptr(AgentPoolWindowsProfileGenerator(), true)
+	workloadRuntime := rapid.Ptr(rapid.SampledFrom([]WorkloadRuntime{WorkloadRuntime_KataMshvVmIsolation, WorkloadRuntime_KataVmIsolation, WorkloadRuntime_OCIContainer, WorkloadRuntime_WasmWasi}), true)
+
+	managedClusterAgentPoolProfilePropertiesGenerator = rapid.Custom(func(t *rapid.T) ManagedClusterAgentPoolProfileProperties {
+		var result ManagedClusterAgentPoolProfileProperties
+		result.ArtifactStreamingProfile = artifactStreamingProfile.Draw(t, "ArtifactStreamingProfile")
+		result.AvailabilityZones = sliceOfString.Draw(t, "AvailabilityZones")
+		result.CapacityReservationGroupID = ptrString.Draw(t, "CapacityReservationGroupID")
+		result.Count = ptrInt.Draw(t, "Count")
+		result.CreationData = creationData.Draw(t, "CreationData")
+		result.EnableAutoScaling = ptrBool.Draw(t, "EnableAutoScaling")
+		result.EnableEncryptionAtHost = ptrBool.Draw(t, "EnableEncryptionAtHost")
+		result.EnableFIPS = ptrBool.Draw(t, "EnableFIPS")
+		result.EnableNodePublicIP = ptrBool.Draw(t, "EnableNodePublicIP")
+		result.EnableUltraSSD = ptrBool.Draw(t, "EnableUltraSSD")
+		result.GatewayProfile = gatewayProfile.Draw(t, "GatewayProfile")
+		result.GpuInstanceProfile = gpuInstanceProfile.Draw(t, "GpuInstanceProfile")
+		result.GpuProfile = gpuProfile.Draw(t, "GpuProfile")
+		result.HostGroupID = ptrString.Draw(t, "HostGroupID")
+		result.KubeletConfig = kubeletConfig.Draw(t, "KubeletConfig")
+		result.KubeletDiskType = kubeletDiskType.Draw(t, "KubeletDiskType")
+		result.LinuxOSConfig = linuxOSConfig.Draw(t, "LinuxOSConfig")
+		result.LocalDNSProfile = localDNSProfile.Draw(t, "LocalDNSProfile")
+		result.MaxCount = ptrInt.Draw(t, "MaxCount")
+		result.MaxPods = ptrInt.Draw(t, "MaxPods")
+		result.MessageOfTheDay = ptrString.Draw(t, "MessageOfTheDay")
+		result.MinCount = ptrInt.Draw(t, "MinCount")
+		result.Mode = mode.Draw(t, "Mode")
+		result.NetworkProfile = networkProfile.Draw(t, "NetworkProfile")
+		result.NodeCustomizationProfile = nodeCustomizationProfile.Draw(t, "NodeCustomizationProfile")
+		result.NodeImageVersion = ptrString.Draw(t, "NodeImageVersion")
+		result.NodeInitializationTaints = sliceOfString.Draw(t, "NodeInitializationTaints")
+		result.NodeLabels = mapOfStringToString.Draw(t, "NodeLabels")
+		result.NodePublicIPPrefixID = ptrString.Draw(t, "NodePublicIPPrefixID")
+		result.NodeTaints = sliceOfString.Draw(t, "NodeTaints")
+		result.OrchestratorVersion = ptrString.Draw(t, "OrchestratorVersion")
+		result.OsDiskSizeGB = ptrInt.Draw(t, "OsDiskSizeGB")
+		result.OsDiskType = osDiskType.Draw(t, "OsDiskType")
+		result.OsSKU = osSKU.Draw(t, "OsSKU")
+		result.OsType = osType.Draw(t, "OsType")
+		result.PodIPAllocationMode = podIPAllocationMode.Draw(t, "PodIPAllocationMode")
+		result.PodSubnetID = ptrString.Draw(t, "PodSubnetID")
+		result.PowerState = powerState.Draw(t, "PowerState")
+		result.ProximityPlacementGroupID = ptrString.Draw(t, "ProximityPlacementGroupID")
+		result.ScaleDownMode = scaleDownMode.Draw(t, "ScaleDownMode")
+		result.ScaleSetEvictionPolicy = scaleSetEvictionPolicy.Draw(t, "ScaleSetEvictionPolicy")
+		result.ScaleSetPriority = scaleSetPriority.Draw(t, "ScaleSetPriority")
+		result.SecurityProfile = securityProfile.Draw(t, "SecurityProfile")
+		result.SpotMaxPrice = spotMaxPrice.Draw(t, "SpotMaxPrice")
+		result.Tags = mapOfStringToString.Draw(t, "Tags")
+		result.Type = typeVar.Draw(t, "Type")
+		result.UpgradeSettings = upgradeSettings.Draw(t, "UpgradeSettings")
+		result.UpgradeSettingsBlueGreen = upgradeSettingsBlueGreen.Draw(t, "UpgradeSettingsBlueGreen")
+		result.UpgradeStrategy = upgradeStrategy.Draw(t, "UpgradeStrategy")
+		result.VirtualMachineNodesStatus = virtualMachineNodesStatus.Draw(t, "VirtualMachineNodesStatus")
+		result.VirtualMachinesProfile = virtualMachinesProfile.Draw(t, "VirtualMachinesProfile")
+		result.VmSize = ptrString.Draw(t, "VmSize")
+		result.VnetSubnetID = ptrString.Draw(t, "VnetSubnetID")
+		result.WindowsProfile = windowsProfile.Draw(t, "WindowsProfile")
+		result.WorkloadRuntime = workloadRuntime.Draw(t, "WorkloadRuntime")
+		return result
+	})
 
 	return managedClusterAgentPoolProfilePropertiesGenerator
-}
-
-// AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfileProperties is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfileProperties(gens map[string]gopter.Gen) {
-	gens["ArtifactStreamingProfile"] = gen.PtrOf(AgentPoolArtifactStreamingProfileGenerator())
-	gens["CreationData"] = gen.PtrOf(CreationDataGenerator())
-	gens["GatewayProfile"] = gen.PtrOf(AgentPoolGatewayProfileGenerator())
-	gens["GpuProfile"] = gen.PtrOf(GPUProfileGenerator())
-	gens["KubeletConfig"] = gen.PtrOf(KubeletConfigGenerator())
-	gens["LinuxOSConfig"] = gen.PtrOf(LinuxOSConfigGenerator())
-	gens["LocalDNSProfile"] = gen.PtrOf(LocalDNSProfileGenerator())
-	gens["NetworkProfile"] = gen.PtrOf(AgentPoolNetworkProfileGenerator())
-	gens["NodeCustomizationProfile"] = gen.PtrOf(NodeCustomizationProfileGenerator())
-	gens["PowerState"] = gen.PtrOf(PowerStateGenerator())
-	gens["SecurityProfile"] = gen.PtrOf(AgentPoolSecurityProfileGenerator())
-	gens["UpgradeSettings"] = gen.PtrOf(AgentPoolUpgradeSettingsGenerator())
-	gens["UpgradeSettingsBlueGreen"] = gen.PtrOf(AgentPoolBlueGreenUpgradeSettingsGenerator())
-	gens["VirtualMachineNodesStatus"] = gen.SliceOf(VirtualMachineNodesGenerator())
-	gens["VirtualMachinesProfile"] = gen.PtrOf(VirtualMachinesProfileGenerator())
-	gens["WindowsProfile"] = gen.PtrOf(AgentPoolWindowsProfileGenerator())
 }
 
 func Test_ManagedClustersAgentPool_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1104,29 +1019,23 @@ func Test_ManagedClustersAgentPool_Spec_WhenSerializedToJson_DeserializesAsEqual
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedClustersAgentPool_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClustersAgentPool_Spec, ManagedClustersAgentPool_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForManagedClustersAgentPool_Spec)
 }
 
 // RunJSONSerializationTestForManagedClustersAgentPool_Spec runs a test to see if a specific instance of ManagedClustersAgentPool_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClustersAgentPool_Spec(subject ManagedClustersAgentPool_Spec) string {
+func RunJSONSerializationTestForManagedClustersAgentPool_Spec(t *rapid.T) {
+	subject := ManagedClustersAgentPool_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ManagedClustersAgentPool_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1135,46 +1044,31 @@ func RunJSONSerializationTestForManagedClustersAgentPool_Spec(subject ManagedClu
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ManagedClustersAgentPool_Spec instances for property testing - lazily instantiated by
 // ManagedClustersAgentPool_SpecGenerator()
-var managedClustersAgentPool_SpecGenerator gopter.Gen
+var managedClustersAgentPool_SpecGenerator *rapid.Generator[ManagedClustersAgentPool_Spec]
 
 // ManagedClustersAgentPool_SpecGenerator returns a generator of ManagedClustersAgentPool_Spec instances for property testing.
-// We first initialize managedClustersAgentPool_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ManagedClustersAgentPool_SpecGenerator() gopter.Gen {
+func ManagedClustersAgentPool_SpecGenerator() *rapid.Generator[ManagedClustersAgentPool_Spec] {
 	if managedClustersAgentPool_SpecGenerator != nil {
 		return managedClustersAgentPool_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClustersAgentPool_Spec(generators)
-	managedClustersAgentPool_SpecGenerator = gen.Struct(reflect.TypeOf(ManagedClustersAgentPool_Spec{}), generators)
+	name := rapid.String()
+	properties := rapid.Ptr(ManagedClusterAgentPoolProfilePropertiesGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClustersAgentPool_Spec(generators)
-	AddRelatedPropertyGeneratorsForManagedClustersAgentPool_Spec(generators)
-	managedClustersAgentPool_SpecGenerator = gen.Struct(reflect.TypeOf(ManagedClustersAgentPool_Spec{}), generators)
+	managedClustersAgentPool_SpecGenerator = rapid.Custom(func(t *rapid.T) ManagedClustersAgentPool_Spec {
+		var result ManagedClustersAgentPool_Spec
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return managedClustersAgentPool_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedClustersAgentPool_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClustersAgentPool_Spec(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForManagedClustersAgentPool_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedClustersAgentPool_Spec(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(ManagedClusterAgentPoolProfilePropertiesGenerator())
 }
 
 func Test_ManualScaleProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1184,29 +1078,23 @@ func Test_ManualScaleProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManualScaleProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManualScaleProfile, ManualScaleProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForManualScaleProfile)
 }
 
 // RunJSONSerializationTestForManualScaleProfile runs a test to see if a specific instance of ManualScaleProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForManualScaleProfile(subject ManualScaleProfile) string {
+func RunJSONSerializationTestForManualScaleProfile(t *rapid.T) {
+	subject := ManualScaleProfileGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ManualScaleProfile
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1215,32 +1103,30 @@ func RunJSONSerializationTestForManualScaleProfile(subject ManualScaleProfile) s
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ManualScaleProfile instances for property testing - lazily instantiated by ManualScaleProfileGenerator()
-var manualScaleProfileGenerator gopter.Gen
+var manualScaleProfileGenerator *rapid.Generator[ManualScaleProfile]
 
 // ManualScaleProfileGenerator returns a generator of ManualScaleProfile instances for property testing.
-func ManualScaleProfileGenerator() gopter.Gen {
+func ManualScaleProfileGenerator() *rapid.Generator[ManualScaleProfile] {
 	if manualScaleProfileGenerator != nil {
 		return manualScaleProfileGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManualScaleProfile(generators)
-	manualScaleProfileGenerator = gen.Struct(reflect.TypeOf(ManualScaleProfile{}), generators)
+	count := rapid.Ptr(rapid.Int(), true)
+	size := rapid.Ptr(rapid.String(), true)
+
+	manualScaleProfileGenerator = rapid.Custom(func(t *rapid.T) ManualScaleProfile {
+		var result ManualScaleProfile
+		result.Count = count.Draw(t, "Count")
+		result.Size = size.Draw(t, "Size")
+		return result
+	})
 
 	return manualScaleProfileGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManualScaleProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManualScaleProfile(gens map[string]gopter.Gen) {
-	gens["Count"] = gen.PtrOf(gen.Int())
-	gens["Size"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_NodeCustomizationProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1250,29 +1136,23 @@ func Test_NodeCustomizationProfile_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of NodeCustomizationProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNodeCustomizationProfile, NodeCustomizationProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForNodeCustomizationProfile)
 }
 
 // RunJSONSerializationTestForNodeCustomizationProfile runs a test to see if a specific instance of NodeCustomizationProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForNodeCustomizationProfile(subject NodeCustomizationProfile) string {
+func RunJSONSerializationTestForNodeCustomizationProfile(t *rapid.T) {
+	subject := NodeCustomizationProfileGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual NodeCustomizationProfile
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1281,32 +1161,29 @@ func RunJSONSerializationTestForNodeCustomizationProfile(subject NodeCustomizati
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of NodeCustomizationProfile instances for property testing - lazily instantiated by
 // NodeCustomizationProfileGenerator()
-var nodeCustomizationProfileGenerator gopter.Gen
+var nodeCustomizationProfileGenerator *rapid.Generator[NodeCustomizationProfile]
 
 // NodeCustomizationProfileGenerator returns a generator of NodeCustomizationProfile instances for property testing.
-func NodeCustomizationProfileGenerator() gopter.Gen {
+func NodeCustomizationProfileGenerator() *rapid.Generator[NodeCustomizationProfile] {
 	if nodeCustomizationProfileGenerator != nil {
 		return nodeCustomizationProfileGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNodeCustomizationProfile(generators)
-	nodeCustomizationProfileGenerator = gen.Struct(reflect.TypeOf(NodeCustomizationProfile{}), generators)
+	nodeCustomizationId := rapid.Ptr(rapid.String(), true)
+
+	nodeCustomizationProfileGenerator = rapid.Custom(func(t *rapid.T) NodeCustomizationProfile {
+		var result NodeCustomizationProfile
+		result.NodeCustomizationId = nodeCustomizationId.Draw(t, "NodeCustomizationId")
+		return result
+	})
 
 	return nodeCustomizationProfileGenerator
-}
-
-// AddIndependentPropertyGeneratorsForNodeCustomizationProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNodeCustomizationProfile(gens map[string]gopter.Gen) {
-	gens["NodeCustomizationId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_PortRange_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1316,29 +1193,23 @@ func Test_PortRange_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PortRange via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPortRange, PortRangeGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForPortRange)
 }
 
 // RunJSONSerializationTestForPortRange runs a test to see if a specific instance of PortRange round trips to JSON and back losslessly
-func RunJSONSerializationTestForPortRange(subject PortRange) string {
+func RunJSONSerializationTestForPortRange(t *rapid.T) {
+	subject := PortRangeGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual PortRange
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1347,33 +1218,31 @@ func RunJSONSerializationTestForPortRange(subject PortRange) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of PortRange instances for property testing - lazily instantiated by PortRangeGenerator()
-var portRangeGenerator gopter.Gen
+var portRangeGenerator *rapid.Generator[PortRange]
 
 // PortRangeGenerator returns a generator of PortRange instances for property testing.
-func PortRangeGenerator() gopter.Gen {
+func PortRangeGenerator() *rapid.Generator[PortRange] {
 	if portRangeGenerator != nil {
 		return portRangeGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPortRange(generators)
-	portRangeGenerator = gen.Struct(reflect.TypeOf(PortRange{}), generators)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+	protocol := rapid.Ptr(rapid.SampledFrom([]Protocol{Protocol_TCP, Protocol_UDP}), true)
+
+	portRangeGenerator = rapid.Custom(func(t *rapid.T) PortRange {
+		var result PortRange
+		result.PortEnd = ptrInt.Draw(t, "PortEnd")
+		result.PortStart = ptrInt.Draw(t, "PortStart")
+		result.Protocol = protocol.Draw(t, "Protocol")
+		return result
+	})
 
 	return portRangeGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPortRange is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPortRange(gens map[string]gopter.Gen) {
-	gens["PortEnd"] = gen.PtrOf(gen.Int())
-	gens["PortStart"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(Protocol_TCP, Protocol_UDP))
 }
 
 func Test_PowerState_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1383,29 +1252,23 @@ func Test_PowerState_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PowerState via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPowerState, PowerStateGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForPowerState)
 }
 
 // RunJSONSerializationTestForPowerState runs a test to see if a specific instance of PowerState round trips to JSON and back losslessly
-func RunJSONSerializationTestForPowerState(subject PowerState) string {
+func RunJSONSerializationTestForPowerState(t *rapid.T) {
+	subject := PowerStateGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual PowerState
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1414,31 +1277,28 @@ func RunJSONSerializationTestForPowerState(subject PowerState) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of PowerState instances for property testing - lazily instantiated by PowerStateGenerator()
-var powerStateGenerator gopter.Gen
+var powerStateGenerator *rapid.Generator[PowerState]
 
 // PowerStateGenerator returns a generator of PowerState instances for property testing.
-func PowerStateGenerator() gopter.Gen {
+func PowerStateGenerator() *rapid.Generator[PowerState] {
 	if powerStateGenerator != nil {
 		return powerStateGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPowerState(generators)
-	powerStateGenerator = gen.Struct(reflect.TypeOf(PowerState{}), generators)
+	code := rapid.Ptr(rapid.SampledFrom([]Code{Code_Running, Code_Stopped}), true)
+
+	powerStateGenerator = rapid.Custom(func(t *rapid.T) PowerState {
+		var result PowerState
+		result.Code = code.Draw(t, "Code")
+		return result
+	})
 
 	return powerStateGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPowerState is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPowerState(gens map[string]gopter.Gen) {
-	gens["Code"] = gen.PtrOf(gen.OneConstOf(Code_Running, Code_Stopped))
 }
 
 func Test_ScaleProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1448,29 +1308,23 @@ func Test_ScaleProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ScaleProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForScaleProfile, ScaleProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForScaleProfile)
 }
 
 // RunJSONSerializationTestForScaleProfile runs a test to see if a specific instance of ScaleProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForScaleProfile(subject ScaleProfile) string {
+func RunJSONSerializationTestForScaleProfile(t *rapid.T) {
+	subject := ScaleProfileGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ScaleProfile
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1479,32 +1333,30 @@ func RunJSONSerializationTestForScaleProfile(subject ScaleProfile) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ScaleProfile instances for property testing - lazily instantiated by ScaleProfileGenerator()
-var scaleProfileGenerator gopter.Gen
+var scaleProfileGenerator *rapid.Generator[ScaleProfile]
 
 // ScaleProfileGenerator returns a generator of ScaleProfile instances for property testing.
-func ScaleProfileGenerator() gopter.Gen {
+func ScaleProfileGenerator() *rapid.Generator[ScaleProfile] {
 	if scaleProfileGenerator != nil {
 		return scaleProfileGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForScaleProfile(generators)
-	scaleProfileGenerator = gen.Struct(reflect.TypeOf(ScaleProfile{}), generators)
+	autoscale := rapid.Ptr(AutoScaleProfileGenerator(), true)
+	manual := rapid.SliceOf(ManualScaleProfileGenerator())
+
+	scaleProfileGenerator = rapid.Custom(func(t *rapid.T) ScaleProfile {
+		var result ScaleProfile
+		result.Autoscale = autoscale.Draw(t, "Autoscale")
+		result.Manual = manual.Draw(t, "Manual")
+		return result
+	})
 
 	return scaleProfileGenerator
-}
-
-// AddRelatedPropertyGeneratorsForScaleProfile is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForScaleProfile(gens map[string]gopter.Gen) {
-	gens["Autoscale"] = gen.PtrOf(AutoScaleProfileGenerator())
-	gens["Manual"] = gen.SliceOf(ManualScaleProfileGenerator())
 }
 
 func Test_SysctlConfig_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1514,29 +1366,23 @@ func Test_SysctlConfig_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SysctlConfig via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSysctlConfig, SysctlConfigGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSysctlConfig)
 }
 
 // RunJSONSerializationTestForSysctlConfig runs a test to see if a specific instance of SysctlConfig round trips to JSON and back losslessly
-func RunJSONSerializationTestForSysctlConfig(subject SysctlConfig) string {
+func RunJSONSerializationTestForSysctlConfig(t *rapid.T) {
+	subject := SysctlConfigGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SysctlConfig
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1545,58 +1391,57 @@ func RunJSONSerializationTestForSysctlConfig(subject SysctlConfig) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SysctlConfig instances for property testing - lazily instantiated by SysctlConfigGenerator()
-var sysctlConfigGenerator gopter.Gen
+var sysctlConfigGenerator *rapid.Generator[SysctlConfig]
 
 // SysctlConfigGenerator returns a generator of SysctlConfig instances for property testing.
-func SysctlConfigGenerator() gopter.Gen {
+func SysctlConfigGenerator() *rapid.Generator[SysctlConfig] {
 	if sysctlConfigGenerator != nil {
 		return sysctlConfigGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSysctlConfig(generators)
-	sysctlConfigGenerator = gen.Struct(reflect.TypeOf(SysctlConfig{}), generators)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+	netIpv4IpLocalPortRange := rapid.Ptr(rapid.String(), true)
+	netIpv4TcpTwReuse := rapid.Ptr(rapid.Bool(), true)
+
+	sysctlConfigGenerator = rapid.Custom(func(t *rapid.T) SysctlConfig {
+		var result SysctlConfig
+		result.FsAioMaxNr = ptrInt.Draw(t, "FsAioMaxNr")
+		result.FsFileMax = ptrInt.Draw(t, "FsFileMax")
+		result.FsInotifyMaxUserWatches = ptrInt.Draw(t, "FsInotifyMaxUserWatches")
+		result.FsNrOpen = ptrInt.Draw(t, "FsNrOpen")
+		result.KernelThreadsMax = ptrInt.Draw(t, "KernelThreadsMax")
+		result.NetCoreNetdevMaxBacklog = ptrInt.Draw(t, "NetCoreNetdevMaxBacklog")
+		result.NetCoreOptmemMax = ptrInt.Draw(t, "NetCoreOptmemMax")
+		result.NetCoreRmemDefault = ptrInt.Draw(t, "NetCoreRmemDefault")
+		result.NetCoreRmemMax = ptrInt.Draw(t, "NetCoreRmemMax")
+		result.NetCoreSomaxconn = ptrInt.Draw(t, "NetCoreSomaxconn")
+		result.NetCoreWmemDefault = ptrInt.Draw(t, "NetCoreWmemDefault")
+		result.NetCoreWmemMax = ptrInt.Draw(t, "NetCoreWmemMax")
+		result.NetIpv4IpLocalPortRange = netIpv4IpLocalPortRange.Draw(t, "NetIpv4IpLocalPortRange")
+		result.NetIpv4NeighDefaultGcThresh1 = ptrInt.Draw(t, "NetIpv4NeighDefaultGcThresh1")
+		result.NetIpv4NeighDefaultGcThresh2 = ptrInt.Draw(t, "NetIpv4NeighDefaultGcThresh2")
+		result.NetIpv4NeighDefaultGcThresh3 = ptrInt.Draw(t, "NetIpv4NeighDefaultGcThresh3")
+		result.NetIpv4TcpFinTimeout = ptrInt.Draw(t, "NetIpv4TcpFinTimeout")
+		result.NetIpv4TcpKeepaliveProbes = ptrInt.Draw(t, "NetIpv4TcpKeepaliveProbes")
+		result.NetIpv4TcpKeepaliveTime = ptrInt.Draw(t, "NetIpv4TcpKeepaliveTime")
+		result.NetIpv4TcpMaxSynBacklog = ptrInt.Draw(t, "NetIpv4TcpMaxSynBacklog")
+		result.NetIpv4TcpMaxTwBuckets = ptrInt.Draw(t, "NetIpv4TcpMaxTwBuckets")
+		result.NetIpv4TcpTwReuse = netIpv4TcpTwReuse.Draw(t, "NetIpv4TcpTwReuse")
+		result.NetIpv4TcpkeepaliveIntvl = ptrInt.Draw(t, "NetIpv4TcpkeepaliveIntvl")
+		result.NetNetfilterNfConntrackBuckets = ptrInt.Draw(t, "NetNetfilterNfConntrackBuckets")
+		result.NetNetfilterNfConntrackMax = ptrInt.Draw(t, "NetNetfilterNfConntrackMax")
+		result.VmMaxMapCount = ptrInt.Draw(t, "VmMaxMapCount")
+		result.VmSwappiness = ptrInt.Draw(t, "VmSwappiness")
+		result.VmVfsCachePressure = ptrInt.Draw(t, "VmVfsCachePressure")
+		return result
+	})
 
 	return sysctlConfigGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSysctlConfig is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSysctlConfig(gens map[string]gopter.Gen) {
-	gens["FsAioMaxNr"] = gen.PtrOf(gen.Int())
-	gens["FsFileMax"] = gen.PtrOf(gen.Int())
-	gens["FsInotifyMaxUserWatches"] = gen.PtrOf(gen.Int())
-	gens["FsNrOpen"] = gen.PtrOf(gen.Int())
-	gens["KernelThreadsMax"] = gen.PtrOf(gen.Int())
-	gens["NetCoreNetdevMaxBacklog"] = gen.PtrOf(gen.Int())
-	gens["NetCoreOptmemMax"] = gen.PtrOf(gen.Int())
-	gens["NetCoreRmemDefault"] = gen.PtrOf(gen.Int())
-	gens["NetCoreRmemMax"] = gen.PtrOf(gen.Int())
-	gens["NetCoreSomaxconn"] = gen.PtrOf(gen.Int())
-	gens["NetCoreWmemDefault"] = gen.PtrOf(gen.Int())
-	gens["NetCoreWmemMax"] = gen.PtrOf(gen.Int())
-	gens["NetIpv4IpLocalPortRange"] = gen.PtrOf(gen.AlphaString())
-	gens["NetIpv4NeighDefaultGcThresh1"] = gen.PtrOf(gen.Int())
-	gens["NetIpv4NeighDefaultGcThresh2"] = gen.PtrOf(gen.Int())
-	gens["NetIpv4NeighDefaultGcThresh3"] = gen.PtrOf(gen.Int())
-	gens["NetIpv4TcpFinTimeout"] = gen.PtrOf(gen.Int())
-	gens["NetIpv4TcpKeepaliveProbes"] = gen.PtrOf(gen.Int())
-	gens["NetIpv4TcpKeepaliveTime"] = gen.PtrOf(gen.Int())
-	gens["NetIpv4TcpMaxSynBacklog"] = gen.PtrOf(gen.Int())
-	gens["NetIpv4TcpMaxTwBuckets"] = gen.PtrOf(gen.Int())
-	gens["NetIpv4TcpTwReuse"] = gen.PtrOf(gen.Bool())
-	gens["NetIpv4TcpkeepaliveIntvl"] = gen.PtrOf(gen.Int())
-	gens["NetNetfilterNfConntrackBuckets"] = gen.PtrOf(gen.Int())
-	gens["NetNetfilterNfConntrackMax"] = gen.PtrOf(gen.Int())
-	gens["VmMaxMapCount"] = gen.PtrOf(gen.Int())
-	gens["VmSwappiness"] = gen.PtrOf(gen.Int())
-	gens["VmVfsCachePressure"] = gen.PtrOf(gen.Int())
 }
 
 func Test_VirtualMachineNodes_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1606,29 +1451,23 @@ func Test_VirtualMachineNodes_WhenSerializedToJson_DeserializesAsEqual(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualMachineNodes via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineNodes, VirtualMachineNodesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForVirtualMachineNodes)
 }
 
 // RunJSONSerializationTestForVirtualMachineNodes runs a test to see if a specific instance of VirtualMachineNodes round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineNodes(subject VirtualMachineNodes) string {
+func RunJSONSerializationTestForVirtualMachineNodes(t *rapid.T) {
+	subject := VirtualMachineNodesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual VirtualMachineNodes
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1637,33 +1476,31 @@ func RunJSONSerializationTestForVirtualMachineNodes(subject VirtualMachineNodes)
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of VirtualMachineNodes instances for property testing - lazily instantiated by
 // VirtualMachineNodesGenerator()
-var virtualMachineNodesGenerator gopter.Gen
+var virtualMachineNodesGenerator *rapid.Generator[VirtualMachineNodes]
 
 // VirtualMachineNodesGenerator returns a generator of VirtualMachineNodes instances for property testing.
-func VirtualMachineNodesGenerator() gopter.Gen {
+func VirtualMachineNodesGenerator() *rapid.Generator[VirtualMachineNodes] {
 	if virtualMachineNodesGenerator != nil {
 		return virtualMachineNodesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineNodes(generators)
-	virtualMachineNodesGenerator = gen.Struct(reflect.TypeOf(VirtualMachineNodes{}), generators)
+	count := rapid.Ptr(rapid.Int(), true)
+	size := rapid.Ptr(rapid.String(), true)
+
+	virtualMachineNodesGenerator = rapid.Custom(func(t *rapid.T) VirtualMachineNodes {
+		var result VirtualMachineNodes
+		result.Count = count.Draw(t, "Count")
+		result.Size = size.Draw(t, "Size")
+		return result
+	})
 
 	return virtualMachineNodesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForVirtualMachineNodes is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineNodes(gens map[string]gopter.Gen) {
-	gens["Count"] = gen.PtrOf(gen.Int())
-	gens["Size"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_VirtualMachinesProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1673,29 +1510,23 @@ func Test_VirtualMachinesProfile_WhenSerializedToJson_DeserializesAsEqual(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualMachinesProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachinesProfile, VirtualMachinesProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForVirtualMachinesProfile)
 }
 
 // RunJSONSerializationTestForVirtualMachinesProfile runs a test to see if a specific instance of VirtualMachinesProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachinesProfile(subject VirtualMachinesProfile) string {
+func RunJSONSerializationTestForVirtualMachinesProfile(t *rapid.T) {
+	subject := VirtualMachinesProfileGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual VirtualMachinesProfile
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1704,30 +1535,27 @@ func RunJSONSerializationTestForVirtualMachinesProfile(subject VirtualMachinesPr
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of VirtualMachinesProfile instances for property testing - lazily instantiated by
 // VirtualMachinesProfileGenerator()
-var virtualMachinesProfileGenerator gopter.Gen
+var virtualMachinesProfileGenerator *rapid.Generator[VirtualMachinesProfile]
 
 // VirtualMachinesProfileGenerator returns a generator of VirtualMachinesProfile instances for property testing.
-func VirtualMachinesProfileGenerator() gopter.Gen {
+func VirtualMachinesProfileGenerator() *rapid.Generator[VirtualMachinesProfile] {
 	if virtualMachinesProfileGenerator != nil {
 		return virtualMachinesProfileGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForVirtualMachinesProfile(generators)
-	virtualMachinesProfileGenerator = gen.Struct(reflect.TypeOf(VirtualMachinesProfile{}), generators)
+	scale := rapid.Ptr(ScaleProfileGenerator(), true)
+
+	virtualMachinesProfileGenerator = rapid.Custom(func(t *rapid.T) VirtualMachinesProfile {
+		var result VirtualMachinesProfile
+		result.Scale = scale.Draw(t, "Scale")
+		return result
+	})
 
 	return virtualMachinesProfileGenerator
-}
-
-// AddRelatedPropertyGeneratorsForVirtualMachinesProfile is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachinesProfile(gens map[string]gopter.Gen) {
-	gens["Scale"] = gen.PtrOf(ScaleProfileGenerator())
 }

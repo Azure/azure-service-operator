@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_FleetUpdateStrategyProperties_STATUS_WhenSerializedToJson_Deserializes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FleetUpdateStrategyProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFleetUpdateStrategyProperties_STATUS, FleetUpdateStrategyProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFleetUpdateStrategyProperties_STATUS)
 }
 
 // RunJSONSerializationTestForFleetUpdateStrategyProperties_STATUS runs a test to see if a specific instance of FleetUpdateStrategyProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForFleetUpdateStrategyProperties_STATUS(subject FleetUpdateStrategyProperties_STATUS) string {
+func RunJSONSerializationTestForFleetUpdateStrategyProperties_STATUS(t *rapid.T) {
+	subject := FleetUpdateStrategyProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FleetUpdateStrategyProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,46 +45,31 @@ func RunJSONSerializationTestForFleetUpdateStrategyProperties_STATUS(subject Fle
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FleetUpdateStrategyProperties_STATUS instances for property testing - lazily instantiated by
 // FleetUpdateStrategyProperties_STATUSGenerator()
-var fleetUpdateStrategyProperties_STATUSGenerator gopter.Gen
+var fleetUpdateStrategyProperties_STATUSGenerator *rapid.Generator[FleetUpdateStrategyProperties_STATUS]
 
 // FleetUpdateStrategyProperties_STATUSGenerator returns a generator of FleetUpdateStrategyProperties_STATUS instances for property testing.
-// We first initialize fleetUpdateStrategyProperties_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func FleetUpdateStrategyProperties_STATUSGenerator() gopter.Gen {
+func FleetUpdateStrategyProperties_STATUSGenerator() *rapid.Generator[FleetUpdateStrategyProperties_STATUS] {
 	if fleetUpdateStrategyProperties_STATUSGenerator != nil {
 		return fleetUpdateStrategyProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleetUpdateStrategyProperties_STATUS(generators)
-	fleetUpdateStrategyProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(FleetUpdateStrategyProperties_STATUS{}), generators)
+	provisioningState := rapid.Ptr(rapid.SampledFrom([]FleetUpdateStrategyProvisioningState_STATUS{FleetUpdateStrategyProvisioningState_STATUS_Canceled, FleetUpdateStrategyProvisioningState_STATUS_Failed, FleetUpdateStrategyProvisioningState_STATUS_Succeeded}), true)
+	strategy := rapid.Ptr(UpdateRunStrategy_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleetUpdateStrategyProperties_STATUS(generators)
-	AddRelatedPropertyGeneratorsForFleetUpdateStrategyProperties_STATUS(generators)
-	fleetUpdateStrategyProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(FleetUpdateStrategyProperties_STATUS{}), generators)
+	fleetUpdateStrategyProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) FleetUpdateStrategyProperties_STATUS {
+		var result FleetUpdateStrategyProperties_STATUS
+		result.ProvisioningState = provisioningState.Draw(t, "ProvisioningState")
+		result.Strategy = strategy.Draw(t, "Strategy")
+		return result
+	})
 
 	return fleetUpdateStrategyProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForFleetUpdateStrategyProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFleetUpdateStrategyProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(FleetUpdateStrategyProvisioningState_STATUS_Canceled, FleetUpdateStrategyProvisioningState_STATUS_Failed, FleetUpdateStrategyProvisioningState_STATUS_Succeeded))
-}
-
-// AddRelatedPropertyGeneratorsForFleetUpdateStrategyProperties_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFleetUpdateStrategyProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["Strategy"] = gen.PtrOf(UpdateRunStrategy_STATUSGenerator())
 }
 
 func Test_FleetsUpdateStrategy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -104,29 +79,23 @@ func Test_FleetsUpdateStrategy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FleetsUpdateStrategy_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFleetsUpdateStrategy_STATUS, FleetsUpdateStrategy_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFleetsUpdateStrategy_STATUS)
 }
 
 // RunJSONSerializationTestForFleetsUpdateStrategy_STATUS runs a test to see if a specific instance of FleetsUpdateStrategy_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForFleetsUpdateStrategy_STATUS(subject FleetsUpdateStrategy_STATUS) string {
+func RunJSONSerializationTestForFleetsUpdateStrategy_STATUS(t *rapid.T) {
+	subject := FleetsUpdateStrategy_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FleetsUpdateStrategy_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -135,48 +104,34 @@ func RunJSONSerializationTestForFleetsUpdateStrategy_STATUS(subject FleetsUpdate
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FleetsUpdateStrategy_STATUS instances for property testing - lazily instantiated by
 // FleetsUpdateStrategy_STATUSGenerator()
-var fleetsUpdateStrategy_STATUSGenerator gopter.Gen
+var fleetsUpdateStrategy_STATUSGenerator *rapid.Generator[FleetsUpdateStrategy_STATUS]
 
 // FleetsUpdateStrategy_STATUSGenerator returns a generator of FleetsUpdateStrategy_STATUS instances for property testing.
-// We first initialize fleetsUpdateStrategy_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func FleetsUpdateStrategy_STATUSGenerator() gopter.Gen {
+func FleetsUpdateStrategy_STATUSGenerator() *rapid.Generator[FleetsUpdateStrategy_STATUS] {
 	if fleetsUpdateStrategy_STATUSGenerator != nil {
 		return fleetsUpdateStrategy_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleetsUpdateStrategy_STATUS(generators)
-	fleetsUpdateStrategy_STATUSGenerator = gen.Struct(reflect.TypeOf(FleetsUpdateStrategy_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	properties := rapid.Ptr(FleetUpdateStrategyProperties_STATUSGenerator(), true)
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleetsUpdateStrategy_STATUS(generators)
-	AddRelatedPropertyGeneratorsForFleetsUpdateStrategy_STATUS(generators)
-	fleetsUpdateStrategy_STATUSGenerator = gen.Struct(reflect.TypeOf(FleetsUpdateStrategy_STATUS{}), generators)
+	fleetsUpdateStrategy_STATUSGenerator = rapid.Custom(func(t *rapid.T) FleetsUpdateStrategy_STATUS {
+		var result FleetsUpdateStrategy_STATUS
+		result.ETag = ptrString.Draw(t, "ETag")
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return fleetsUpdateStrategy_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForFleetsUpdateStrategy_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFleetsUpdateStrategy_STATUS(gens map[string]gopter.Gen) {
-	gens["ETag"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForFleetsUpdateStrategy_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFleetsUpdateStrategy_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(FleetUpdateStrategyProperties_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
