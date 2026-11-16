@@ -12,8 +12,6 @@ import "github.com/Azure/azure-service-operator/v2/internal/set"
 var gopterGroups = set.Make(
 	"apimanagement",
 	"app",
-	"cache",
-	"cdn",
 	"compute",
 	"containerinstance",
 	"containerservice",

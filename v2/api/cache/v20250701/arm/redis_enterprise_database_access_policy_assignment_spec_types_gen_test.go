@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_AccessPolicyAssignmentProperties_WhenSerializedToJson_DeserializesAsEq
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AccessPolicyAssignmentProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAccessPolicyAssignmentProperties, AccessPolicyAssignmentPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAccessPolicyAssignmentProperties)
 }
 
 // RunJSONSerializationTestForAccessPolicyAssignmentProperties runs a test to see if a specific instance of AccessPolicyAssignmentProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForAccessPolicyAssignmentProperties(subject AccessPolicyAssignmentProperties) string {
+func RunJSONSerializationTestForAccessPolicyAssignmentProperties(t *rapid.T) {
+	subject := AccessPolicyAssignmentPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AccessPolicyAssignmentProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,46 +45,31 @@ func RunJSONSerializationTestForAccessPolicyAssignmentProperties(subject AccessP
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AccessPolicyAssignmentProperties instances for property testing - lazily instantiated by
 // AccessPolicyAssignmentPropertiesGenerator()
-var accessPolicyAssignmentPropertiesGenerator gopter.Gen
+var accessPolicyAssignmentPropertiesGenerator *rapid.Generator[AccessPolicyAssignmentProperties]
 
 // AccessPolicyAssignmentPropertiesGenerator returns a generator of AccessPolicyAssignmentProperties instances for property testing.
-// We first initialize accessPolicyAssignmentPropertiesGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func AccessPolicyAssignmentPropertiesGenerator() gopter.Gen {
+func AccessPolicyAssignmentPropertiesGenerator() *rapid.Generator[AccessPolicyAssignmentProperties] {
 	if accessPolicyAssignmentPropertiesGenerator != nil {
 		return accessPolicyAssignmentPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAccessPolicyAssignmentProperties(generators)
-	accessPolicyAssignmentPropertiesGenerator = gen.Struct(reflect.TypeOf(AccessPolicyAssignmentProperties{}), generators)
+	accessPolicyName := rapid.Ptr(rapid.String(), true)
+	user := rapid.Ptr(AccessPolicyAssignmentProperties_UserGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAccessPolicyAssignmentProperties(generators)
-	AddRelatedPropertyGeneratorsForAccessPolicyAssignmentProperties(generators)
-	accessPolicyAssignmentPropertiesGenerator = gen.Struct(reflect.TypeOf(AccessPolicyAssignmentProperties{}), generators)
+	accessPolicyAssignmentPropertiesGenerator = rapid.Custom(func(t *rapid.T) AccessPolicyAssignmentProperties {
+		var result AccessPolicyAssignmentProperties
+		result.AccessPolicyName = accessPolicyName.Draw(t, "AccessPolicyName")
+		result.User = user.Draw(t, "User")
+		return result
+	})
 
 	return accessPolicyAssignmentPropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAccessPolicyAssignmentProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAccessPolicyAssignmentProperties(gens map[string]gopter.Gen) {
-	gens["AccessPolicyName"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForAccessPolicyAssignmentProperties is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAccessPolicyAssignmentProperties(gens map[string]gopter.Gen) {
-	gens["User"] = gen.PtrOf(AccessPolicyAssignmentProperties_UserGenerator())
 }
 
 func Test_AccessPolicyAssignmentProperties_User_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -104,29 +79,23 @@ func Test_AccessPolicyAssignmentProperties_User_WhenSerializedToJson_Deserialize
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AccessPolicyAssignmentProperties_User via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAccessPolicyAssignmentProperties_User, AccessPolicyAssignmentProperties_UserGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAccessPolicyAssignmentProperties_User)
 }
 
 // RunJSONSerializationTestForAccessPolicyAssignmentProperties_User runs a test to see if a specific instance of AccessPolicyAssignmentProperties_User round trips to JSON and back losslessly
-func RunJSONSerializationTestForAccessPolicyAssignmentProperties_User(subject AccessPolicyAssignmentProperties_User) string {
+func RunJSONSerializationTestForAccessPolicyAssignmentProperties_User(t *rapid.T) {
+	subject := AccessPolicyAssignmentProperties_UserGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AccessPolicyAssignmentProperties_User
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -135,32 +104,29 @@ func RunJSONSerializationTestForAccessPolicyAssignmentProperties_User(subject Ac
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AccessPolicyAssignmentProperties_User instances for property testing - lazily instantiated by
 // AccessPolicyAssignmentProperties_UserGenerator()
-var accessPolicyAssignmentProperties_UserGenerator gopter.Gen
+var accessPolicyAssignmentProperties_UserGenerator *rapid.Generator[AccessPolicyAssignmentProperties_User]
 
 // AccessPolicyAssignmentProperties_UserGenerator returns a generator of AccessPolicyAssignmentProperties_User instances for property testing.
-func AccessPolicyAssignmentProperties_UserGenerator() gopter.Gen {
+func AccessPolicyAssignmentProperties_UserGenerator() *rapid.Generator[AccessPolicyAssignmentProperties_User] {
 	if accessPolicyAssignmentProperties_UserGenerator != nil {
 		return accessPolicyAssignmentProperties_UserGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAccessPolicyAssignmentProperties_User(generators)
-	accessPolicyAssignmentProperties_UserGenerator = gen.Struct(reflect.TypeOf(AccessPolicyAssignmentProperties_User{}), generators)
+	objectId := rapid.Ptr(rapid.String(), true)
+
+	accessPolicyAssignmentProperties_UserGenerator = rapid.Custom(func(t *rapid.T) AccessPolicyAssignmentProperties_User {
+		var result AccessPolicyAssignmentProperties_User
+		result.ObjectId = objectId.Draw(t, "ObjectId")
+		return result
+	})
 
 	return accessPolicyAssignmentProperties_UserGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAccessPolicyAssignmentProperties_User is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAccessPolicyAssignmentProperties_User(gens map[string]gopter.Gen) {
-	gens["ObjectId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_RedisEnterpriseDatabaseAccessPolicyAssignment_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -170,29 +136,23 @@ func Test_RedisEnterpriseDatabaseAccessPolicyAssignment_Spec_WhenSerializedToJso
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RedisEnterpriseDatabaseAccessPolicyAssignment_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisEnterpriseDatabaseAccessPolicyAssignment_Spec, RedisEnterpriseDatabaseAccessPolicyAssignment_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRedisEnterpriseDatabaseAccessPolicyAssignment_Spec)
 }
 
 // RunJSONSerializationTestForRedisEnterpriseDatabaseAccessPolicyAssignment_Spec runs a test to see if a specific instance of RedisEnterpriseDatabaseAccessPolicyAssignment_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisEnterpriseDatabaseAccessPolicyAssignment_Spec(subject RedisEnterpriseDatabaseAccessPolicyAssignment_Spec) string {
+func RunJSONSerializationTestForRedisEnterpriseDatabaseAccessPolicyAssignment_Spec(t *rapid.T) {
+	subject := RedisEnterpriseDatabaseAccessPolicyAssignment_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RedisEnterpriseDatabaseAccessPolicyAssignment_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -201,44 +161,29 @@ func RunJSONSerializationTestForRedisEnterpriseDatabaseAccessPolicyAssignment_Sp
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RedisEnterpriseDatabaseAccessPolicyAssignment_Spec instances for property testing - lazily instantiated
 // by RedisEnterpriseDatabaseAccessPolicyAssignment_SpecGenerator()
-var redisEnterpriseDatabaseAccessPolicyAssignment_SpecGenerator gopter.Gen
+var redisEnterpriseDatabaseAccessPolicyAssignment_SpecGenerator *rapid.Generator[RedisEnterpriseDatabaseAccessPolicyAssignment_Spec]
 
 // RedisEnterpriseDatabaseAccessPolicyAssignment_SpecGenerator returns a generator of RedisEnterpriseDatabaseAccessPolicyAssignment_Spec instances for property testing.
-// We first initialize redisEnterpriseDatabaseAccessPolicyAssignment_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func RedisEnterpriseDatabaseAccessPolicyAssignment_SpecGenerator() gopter.Gen {
+func RedisEnterpriseDatabaseAccessPolicyAssignment_SpecGenerator() *rapid.Generator[RedisEnterpriseDatabaseAccessPolicyAssignment_Spec] {
 	if redisEnterpriseDatabaseAccessPolicyAssignment_SpecGenerator != nil {
 		return redisEnterpriseDatabaseAccessPolicyAssignment_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisEnterpriseDatabaseAccessPolicyAssignment_Spec(generators)
-	redisEnterpriseDatabaseAccessPolicyAssignment_SpecGenerator = gen.Struct(reflect.TypeOf(RedisEnterpriseDatabaseAccessPolicyAssignment_Spec{}), generators)
+	name := rapid.String()
+	properties := rapid.Ptr(AccessPolicyAssignmentPropertiesGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisEnterpriseDatabaseAccessPolicyAssignment_Spec(generators)
-	AddRelatedPropertyGeneratorsForRedisEnterpriseDatabaseAccessPolicyAssignment_Spec(generators)
-	redisEnterpriseDatabaseAccessPolicyAssignment_SpecGenerator = gen.Struct(reflect.TypeOf(RedisEnterpriseDatabaseAccessPolicyAssignment_Spec{}), generators)
+	redisEnterpriseDatabaseAccessPolicyAssignment_SpecGenerator = rapid.Custom(func(t *rapid.T) RedisEnterpriseDatabaseAccessPolicyAssignment_Spec {
+		var result RedisEnterpriseDatabaseAccessPolicyAssignment_Spec
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return redisEnterpriseDatabaseAccessPolicyAssignment_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRedisEnterpriseDatabaseAccessPolicyAssignment_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedisEnterpriseDatabaseAccessPolicyAssignment_Spec(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForRedisEnterpriseDatabaseAccessPolicyAssignment_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRedisEnterpriseDatabaseAccessPolicyAssignment_Spec(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(AccessPolicyAssignmentPropertiesGenerator())
 }
