@@ -8,6 +8,7 @@ package postgresql
 import (
 	"context"
 	"database/sql"
+	"strings"
 
 	"github.com/rotisserie/eris"
 
@@ -50,4 +51,85 @@ func CreateAADUser(ctx context.Context, db *sql.DB, roleName string, objectID st
 	}
 
 	return &SQLUser{Name: roleName}, nil
+}
+
+// AADPrincipal is the Microsoft Entra principal a role is bound to.
+type AADPrincipal struct {
+	ObjectID      string
+	PrincipalType string
+}
+
+// GetAADPrincipal returns the Microsoft Entra principal the role is bound to, or nil if the role is not bound to one
+// (for example a local role created with a password).
+// See https://learn.microsoft.com/azure/postgresql/flexible-server/how-to-manage-azure-ad-users.
+func GetAADPrincipal(ctx context.Context, db *sql.DB, roleName string) (*AADPrincipal, error) {
+	// pgaadauth_list_principals(false) lists every role bound to a Microsoft Entra principal, administrators included.
+	// Columns are matched by name, ignoring case, so the query doesn't depend on the extension's column order.
+	rows, err := db.QueryContext(ctx, "SELECT * FROM pgaadauth_list_principals(false)")
+	if err != nil {
+		return nil, eris.Wrap(err, "listing Microsoft Entra principals")
+	}
+	defer rows.Close()
+
+	columns, err := rows.Columns()
+	if err != nil {
+		return nil, eris.Wrap(err, "reading Microsoft Entra principal columns")
+	}
+
+	var result *AADPrincipal
+	for rows.Next() {
+		values := make([]sql.NullString, len(columns))
+		dest := make([]any, len(columns))
+		for i := range values {
+			dest[i] = &values[i]
+		}
+		err = rows.Scan(dest...)
+		if err != nil {
+			return nil, eris.Wrap(err, "extracting Microsoft Entra principal")
+		}
+
+		principal := make(map[string]string, len(columns))
+		for i, column := range columns {
+			principal[strings.ToLower(column)] = values[i].String
+		}
+		if principal["rolname"] == roleName {
+			result = &AADPrincipal{
+				ObjectID:      principal["objectid"],
+				PrincipalType: principal["principaltype"],
+			}
+		}
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, eris.Wrap(err, "iterating Microsoft Entra principals")
+	}
+
+	return result, nil
+}
+
+// VerifyAADPrincipal returns an error unless an existing role is bound to the Microsoft Entra principal the spec asks
+// for: any Entra principal when objectID is empty (the role was bound by display name, which can't be checked here),
+// otherwise that object ID and, when given, that principal type.
+func VerifyAADPrincipal(roleName string, actual *AADPrincipal, objectID string, principalType string) error {
+	if actual == nil {
+		return eris.Errorf("role %s already exists and is not bound to a Microsoft Entra principal", roleName)
+	}
+
+	if objectID != "" && !strings.EqualFold(actual.ObjectID, objectID) {
+		return eris.Errorf(
+			"role %s already exists and is bound to Microsoft Entra object %s, not %s",
+			roleName,
+			actual.ObjectID,
+			objectID)
+	}
+
+	if objectID != "" && principalType != "" && !strings.EqualFold(actual.PrincipalType, principalType) {
+		return eris.Errorf(
+			"role %s already exists and is bound to a Microsoft Entra principal of type %s, not %s",
+			roleName,
+			actual.PrincipalType,
+			principalType)
+	}
+
+	return nil
 }

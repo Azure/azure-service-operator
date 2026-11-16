@@ -108,11 +108,21 @@ func (r *PostgreSQLUserReconciler) CreateOrUpdate(
 	if user.Spec.AADUser != nil {
 		log.V(Status).Info("Creating PostgreSql AAD user")
 
-		// An AAD user has no password to keep in sync, so an existing role is left as it is
 		if sqlUser == nil {
 			sqlUser, err = postgresqlutil.CreateAADUser(ctx, db, username, user.Spec.AADUser.ObjectId, user.Spec.AADUser.PrincipalType)
 			if err != nil {
 				return ctrl.Result{}, eris.Wrap(err, "failed to create user")
+			}
+		} else {
+			// An AAD user has no password to keep in sync, but an existing role must be bound to the expected
+			// principal before role options and roles are applied to it
+			principal, err := postgresqlutil.GetAADPrincipal(ctx, db, username)
+			if err != nil {
+				return ctrl.Result{}, eris.Wrap(err, "failed to look up Microsoft Entra principal")
+			}
+			err = postgresqlutil.VerifyAADPrincipal(username, principal, user.Spec.AADUser.ObjectId, user.Spec.AADUser.PrincipalType)
+			if err != nil {
+				return ctrl.Result{}, conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityError, conditions.ReasonFailed)
 			}
 		}
 	} else {
