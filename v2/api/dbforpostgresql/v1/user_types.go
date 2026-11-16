@@ -93,8 +93,10 @@ type UserSpec struct {
 	// granted directly to the user on any database not listed are revoked. When omitted, database
 	// privileges are not managed. Databases owned by the user are never managed (an owner holds every
 	// privilege on its database).
+	// An empty map is kept (not dropped as omitted) and revokes every privilege granted directly to the user.
 	// You can read more about these privileges at https://www.postgresql.org/docs/current/ddl-priv.html.
-	DatabasePrivileges map[string][]string `json:"databasePrivileges,omitempty"`
+	// +kubebuilder:validation:Optional
+	DatabasePrivileges map[string][]string `json:"databasePrivileges,omitzero"`
 
 	// +kubebuilder:validation:Required
 	// LocalUser contains details for creating a standard (non-aad) postgresql User.

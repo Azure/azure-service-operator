@@ -119,3 +119,139 @@ func TestDiffCurrentAndExpectedDatabasePrivileges(t *testing.T) {
 		})
 	}
 }
+
+func TestValidateDatabasePrivileges(t *testing.T) {
+	t.Parallel()
+
+	cases := []struct {
+		name      string
+		dbPrivs   map[string][]string
+		expectErr bool
+	}{{
+		name:    "Nil",
+		dbPrivs: nil,
+	}, {
+		name:    "Empty",
+		dbPrivs: map[string][]string{},
+	}, {
+		name:    "Valid privileges",
+		dbPrivs: map[string][]string{"app": {"CONNECT", "temp"}, "reports": {"ALL"}},
+	}, {
+		name:      "Table privilege on one database is rejected",
+		dbPrivs:   map[string][]string{"app": {"CONNECT"}, "reports": {"SELECT"}},
+		expectErr: true,
+	}}
+
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			err := ValidateDatabasePrivileges(c.dbPrivs)
+			if c.expectErr {
+				g.Expect(err).To(HaveOccurred())
+				return
+			}
+			g.Expect(err).ToNot(HaveOccurred())
+		})
+	}
+}
+
+func TestPlanDatabasePrivileges(t *testing.T) {
+	t.Parallel()
+
+	cases := []struct {
+		name     string
+		current  map[string]set.Set[string]
+		desired  map[string]set.Set[string]
+		owned    set.Set[string]
+		expected map[string]SQLDatabasePrivilegeDelta
+	}{{
+		name:     "Matching privileges need no changes",
+		current:  map[string]set.Set[string]{"app": set.Make("CONNECT")},
+		desired:  map[string]set.Set[string]{"app": set.Make("CONNECT")},
+		owned:    set.Make[string](),
+		expected: map[string]SQLDatabasePrivilegeDelta{},
+	}, {
+		name:    "Unlisted database is revoked and listed database is granted",
+		current: map[string]set.Set[string]{"old": set.Make("CONNECT", "TEMPORARY")},
+		desired: map[string]set.Set[string]{"app": set.Make("CONNECT")},
+		owned:   set.Make[string](),
+		expected: map[string]SQLDatabasePrivilegeDelta{
+			"old": {AddedPrivileges: set.Make[string](), DeletedPrivileges: set.Make("CONNECT", "TEMPORARY")},
+			"app": {AddedPrivileges: set.Make("CONNECT"), DeletedPrivileges: set.Make[string]()},
+		},
+	}, {
+		name:     "Owned database listed in the spec is never granted",
+		current:  map[string]set.Set[string]{},
+		desired:  map[string]set.Set[string]{"mine": set.Make("CONNECT", "CREATE", "TEMPORARY")},
+		owned:    set.Make("mine"),
+		expected: map[string]SQLDatabasePrivilegeDelta{},
+	}, {
+		name:     "Owned database not listed in the spec is never revoked",
+		current:  map[string]set.Set[string]{"mine": set.Make("CONNECT")},
+		desired:  map[string]set.Set[string]{},
+		owned:    set.Make("mine"),
+		expected: map[string]SQLDatabasePrivilegeDelta{},
+	}}
+
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			g.Expect(PlanDatabasePrivileges(c.current, c.desired, c.owned)).To(Equal(c.expected))
+		})
+	}
+}
+
+func TestDatabasePrivilegeMismatches(t *testing.T) {
+	t.Parallel()
+
+	cases := []struct {
+		name          string
+		actual        map[string]set.Set[string]
+		desired       map[string]set.Set[string]
+		owned         set.Set[string]
+		expectedTexts []string
+	}{{
+		name:    "Applied privileges match",
+		actual:  map[string]set.Set[string]{"app": set.Make("CONNECT")},
+		desired: map[string]set.Set[string]{"app": set.Make("CONNECT")},
+		owned:   set.Make[string](),
+	}, {
+		name:          "Grant that only warned is reported",
+		actual:        map[string]set.Set[string]{"app": set.Make("CONNECT")},
+		desired:       map[string]set.Set[string]{"app": set.Make("CONNECT", "CREATE")},
+		owned:         set.Make[string](),
+		expectedTexts: []string{"database app", "missing: [CREATE]"},
+	}, {
+		name:          "Revoke that only warned is reported",
+		actual:        map[string]set.Set[string]{"other": set.Make("TEMPORARY")},
+		desired:       map[string]set.Set[string]{},
+		owned:         set.Make[string](),
+		expectedTexts: []string{"database other", "unexpected: [TEMPORARY]"},
+	}, {
+		name:    "Owned database is not reported",
+		actual:  map[string]set.Set[string]{},
+		desired: map[string]set.Set[string]{"mine": set.Make("CONNECT")},
+		owned:   set.Make("mine"),
+	}}
+
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			err := DatabasePrivilegeMismatches(c.actual, c.desired, c.owned)
+			if len(c.expectedTexts) == 0 {
+				g.Expect(err).ToNot(HaveOccurred())
+				return
+			}
+			g.Expect(err).To(HaveOccurred())
+			for _, text := range c.expectedTexts {
+				g.Expect(err.Error()).To(ContainSubstring(text))
+			}
+		})
+	}
+}

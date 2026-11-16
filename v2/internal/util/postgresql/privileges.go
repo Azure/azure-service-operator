@@ -9,6 +9,8 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"maps"
+	"slices"
 	"strings"
 
 	"github.com/rotisserie/eris"
@@ -75,6 +77,32 @@ func DiffCurrentAndExpectedDatabasePrivileges(currentPrivileges set.Set[string],
 	return result
 }
 
+// ValidateDatabasePrivileges returns an error if any of the given privileges is not a database privilege.
+// It runs no SQL, so callers can reject a bad spec before changing anything on the server.
+func ValidateDatabasePrivileges(dbPrivs map[string][]string) error {
+	_, err := normalizeDatabasePrivilegeMap(dbPrivs)
+	return err
+}
+
+func normalizeDatabasePrivilegeMap(dbPrivs map[string][]string) (map[string]set.Set[string], error) {
+	result := make(map[string]set.Set[string], len(dbPrivs))
+	var errs []error
+	for _, database := range slices.Sorted(maps.Keys(dbPrivs)) {
+		normalized, err := NormalizeDatabasePrivileges(dbPrivs[database])
+		if err != nil {
+			errs = append(errs, eris.Wrapf(err, "database %s", database))
+			continue
+		}
+		result[database] = normalized
+	}
+
+	if len(errs) > 0 {
+		return nil, kerrors.NewAggregate(errs)
+	}
+
+	return result, nil
+}
+
 // GetUserDatabasePrivileges gets the privileges granted directly to the user on each database,
 // keyed by database name. Databases the user owns are omitted: an owner implicitly holds every
 // privilege on its database.
@@ -113,18 +141,72 @@ WHERE r.rolname = $1 AND d.datdba <> r.oid`,
 	return result, nil
 }
 
+// getUserOwnedDatabases gets the names of the databases owned by the user.
+func getUserOwnedDatabases(ctx context.Context, db *sql.DB, user string) (set.Set[string], error) {
+	rows, err := db.QueryContext(
+		ctx,
+		`SELECT d.datname
+FROM pg_database d
+JOIN pg_roles r ON r.oid = d.datdba
+WHERE r.rolname = $1`,
+		user,
+	)
+	if err != nil {
+		return nil, eris.Wrapf(err, "listing databases owned by user %s", user)
+	}
+	defer rows.Close()
+
+	result := set.Make[string]()
+	for rows.Next() {
+		var database string
+		err = rows.Scan(&database)
+		if err != nil {
+			return nil, eris.Wrap(err, "extracting database name")
+		}
+		result.Add(database)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, eris.Wrap(err, "iterating owned databases")
+	}
+
+	return result, nil
+}
+
+// PlanDatabasePrivileges returns, for each database whose privileges need to change, the privileges to grant
+// and to revoke so that the current privileges become the desired ones. Databases in owned are skipped: an owner
+// implicitly holds every privilege on its database, so its privileges are never managed.
+func PlanDatabasePrivileges(
+	current map[string]set.Set[string],
+	desired map[string]set.Set[string],
+	owned set.Set[string],
+) map[string]SQLDatabasePrivilegeDelta {
+	result := make(map[string]SQLDatabasePrivilegeDelta)
+	for database := range unionKeys(current, desired) {
+		if owned.Contains(database) {
+			continue
+		}
+
+		delta := DiffCurrentAndExpectedDatabasePrivileges(orEmpty(current[database]), orEmpty(desired[database]))
+		if len(delta.AddedPrivileges) > 0 || len(delta.DeletedPrivileges) > 0 {
+			result[database] = delta
+		}
+	}
+
+	return result
+}
+
 // ReconcileUserDatabasePrivileges grants and revokes database privileges so that the user holds
 // exactly the given privileges on each database (keyed by database name), and none on any other
-// database. If there's an error applying privileges for one database it will still continue to
-// apply privileges for subsequent databases (before reporting all errors).
+// database. Databases the user owns are left alone. If there's an error applying privileges for one
+// database it will still continue to apply privileges for subsequent databases (before reporting all errors).
+//
+// PostgreSQL only warns, rather than failing, when the administrator lacks the grant option for some of
+// the privileges, so the privileges are read back afterwards and any difference is reported as an error.
 func ReconcileUserDatabasePrivileges(ctx context.Context, db *sql.DB, user string, dbPrivs map[string][]string) error {
-	desiredPrivs := make(map[string]set.Set[string], len(dbPrivs))
-	for database, privs := range dbPrivs {
-		normalized, err := NormalizeDatabasePrivileges(privs)
-		if err != nil {
-			return eris.Wrapf(err, "database %s", database)
-		}
-		desiredPrivs[database] = normalized
+	desiredPrivs, err := normalizeDatabasePrivilegeMap(dbPrivs)
+	if err != nil {
+		return err
 	}
 
 	currentPrivs, err := GetUserDatabasePrivileges(ctx, db, user)
@@ -132,27 +214,20 @@ func ReconcileUserDatabasePrivileges(ctx context.Context, db *sql.DB, user strin
 		return eris.Wrapf(err, "couldn't get existing database privileges for user %s", user)
 	}
 
-	allDatabases := make(set.Set[string])
-	for database := range desiredPrivs {
-		allDatabases.Add(database)
+	owned, err := getUserOwnedDatabases(ctx, db, user)
+	if err != nil {
+		return err
 	}
-	for database := range currentPrivs {
-		allDatabases.Add(database)
+
+	plan := PlanDatabasePrivileges(currentPrivs, desiredPrivs, owned)
+	if len(plan) == 0 {
+		// Nothing to do
+		return nil
 	}
 
 	var dbErrors []error
-	for database := range allDatabases {
-		current := currentPrivs[database]
-		if current == nil {
-			current = set.Make[string]()
-		}
-		expected := desiredPrivs[database]
-		if expected == nil {
-			expected = set.Make[string]()
-		}
-
-		delta := DiffCurrentAndExpectedDatabasePrivileges(current, expected)
-
+	for _, database := range slices.Sorted(maps.Keys(plan)) {
+		delta := plan[database]
 		err = grantDatabasePrivileges(ctx, db, database, user, delta.AddedPrivileges)
 		if err != nil {
 			dbErrors = append(dbErrors, eris.Wrap(err, database))
@@ -163,13 +238,67 @@ func ReconcileUserDatabasePrivileges(ctx context.Context, db *sql.DB, user strin
 		}
 	}
 
-	return kerrors.NewAggregate(dbErrors)
+	if len(dbErrors) > 0 {
+		return kerrors.NewAggregate(dbErrors)
+	}
+
+	// Verify that the changes took effect
+	appliedPrivs, err := GetUserDatabasePrivileges(ctx, db, user)
+	if err != nil {
+		return eris.Wrapf(err, "couldn't verify database privileges for user %s", user)
+	}
+
+	return DatabasePrivilegeMismatches(appliedPrivs, desiredPrivs, owned)
+}
+
+// DatabasePrivilegeMismatches returns an error naming every database (other than those in owned) where the
+// actual privileges differ from the desired ones, or nil if they all match.
+func DatabasePrivilegeMismatches(
+	actual map[string]set.Set[string],
+	desired map[string]set.Set[string],
+	owned set.Set[string],
+) error {
+	plan := PlanDatabasePrivileges(actual, desired, owned)
+
+	errs := make([]error, 0, len(plan))
+	for _, database := range slices.Sorted(maps.Keys(plan)) {
+		delta := plan[database]
+		errs = append(
+			errs,
+			eris.Errorf(
+				"database %s: privileges for the user were not applied (missing: [%s], unexpected: [%s]); check that the administrator holds these privileges WITH GRANT OPTION and that no other role granted them",
+				database,
+				strings.Join(set.AsSortedSlice(delta.AddedPrivileges), ", "),
+				strings.Join(set.AsSortedSlice(delta.DeletedPrivileges), ", "),
+			))
+	}
+
+	return kerrors.NewAggregate(errs)
 }
 
 // RevokeAllDatabasePrivileges revokes every privilege the user holds on any database.
 // PostgreSQL refuses to drop a role that still holds privileges, so this must run before DropUser.
 func RevokeAllDatabasePrivileges(ctx context.Context, db *sql.DB, user string) error {
 	return ReconcileUserDatabasePrivileges(ctx, db, user, nil)
+}
+
+func unionKeys[V any](maps ...map[string]V) set.Set[string] {
+	result := set.Make[string]()
+	for _, m := range maps {
+		for k := range m {
+			result.Add(k)
+		}
+	}
+
+	return result
+}
+
+func orEmpty(s set.Set[string]) set.Set[string] {
+	if s == nil {
+		return set.Make[string]()
+	}
+
+	return s
 }
 
 func grantDatabasePrivileges(ctx context.Context, db *sql.DB, database string, user string, privileges set.Set[string]) error {

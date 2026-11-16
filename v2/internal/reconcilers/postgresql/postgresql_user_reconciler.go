@@ -81,6 +81,13 @@ func (r *PostgreSQLUserReconciler) CreateOrUpdate(
 	// Augment Log
 	log = log.WithValues("azureName", user.AzureName())
 
+	// Reject invalid database privileges before any SQL runs, so a bad spec never leaves a partially updated user
+	err = postgresqlutil.ValidateDatabasePrivileges(user.Spec.DatabasePrivileges)
+	if err != nil {
+		err = eris.Wrap(err, "invalid .spec.databasePrivileges")
+		return ctrl.Result{}, conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityError, conditions.ReasonFailed)
+	}
+
 	// Resolve the secrets
 	secrets, err := r.ResourceResolver.ResolveResourceSecretReferences(ctx, user)
 	if err != nil {
