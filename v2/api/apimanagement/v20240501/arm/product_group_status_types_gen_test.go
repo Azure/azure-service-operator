@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_ProductGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ProductGroup_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProductGroup_STATUS, ProductGroup_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForProductGroup_STATUS)
 }
 
 // RunJSONSerializationTestForProductGroup_STATUS runs a test to see if a specific instance of ProductGroup_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForProductGroup_STATUS(subject ProductGroup_STATUS) string {
+func RunJSONSerializationTestForProductGroup_STATUS(t *rapid.T) {
+	subject := ProductGroup_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ProductGroup_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,24 +45,21 @@ func RunJSONSerializationTestForProductGroup_STATUS(subject ProductGroup_STATUS)
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ProductGroup_STATUS instances for property testing - lazily instantiated by
 // ProductGroup_STATUSGenerator()
-var productGroup_STATUSGenerator gopter.Gen
+var productGroup_STATUSGenerator *rapid.Generator[ProductGroup_STATUS]
 
 // ProductGroup_STATUSGenerator returns a generator of ProductGroup_STATUS instances for property testing.
-func ProductGroup_STATUSGenerator() gopter.Gen {
+func ProductGroup_STATUSGenerator() *rapid.Generator[ProductGroup_STATUS] {
 	if productGroup_STATUSGenerator != nil {
 		return productGroup_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	productGroup_STATUSGenerator = gen.Struct(reflect.TypeOf(ProductGroup_STATUS{}), generators)
+	productGroup_STATUSGenerator = rapid.Just(ProductGroup_STATUS{})
 
 	return productGroup_STATUSGenerator
 }

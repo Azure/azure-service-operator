@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_ServiceGatewayApi_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ServiceGatewayApi_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServiceGatewayApi_STATUS, ServiceGatewayApi_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForServiceGatewayApi_STATUS)
 }
 
 // RunJSONSerializationTestForServiceGatewayApi_STATUS runs a test to see if a specific instance of ServiceGatewayApi_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForServiceGatewayApi_STATUS(subject ServiceGatewayApi_STATUS) string {
+func RunJSONSerializationTestForServiceGatewayApi_STATUS(t *rapid.T) {
+	subject := ServiceGatewayApi_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ServiceGatewayApi_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,24 +45,21 @@ func RunJSONSerializationTestForServiceGatewayApi_STATUS(subject ServiceGatewayA
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ServiceGatewayApi_STATUS instances for property testing - lazily instantiated by
 // ServiceGatewayApi_STATUSGenerator()
-var serviceGatewayApi_STATUSGenerator gopter.Gen
+var serviceGatewayApi_STATUSGenerator *rapid.Generator[ServiceGatewayApi_STATUS]
 
 // ServiceGatewayApi_STATUSGenerator returns a generator of ServiceGatewayApi_STATUS instances for property testing.
-func ServiceGatewayApi_STATUSGenerator() gopter.Gen {
+func ServiceGatewayApi_STATUSGenerator() *rapid.Generator[ServiceGatewayApi_STATUS] {
 	if serviceGatewayApi_STATUSGenerator != nil {
 		return serviceGatewayApi_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	serviceGatewayApi_STATUSGenerator = gen.Struct(reflect.TypeOf(ServiceGatewayApi_STATUS{}), generators)
+	serviceGatewayApi_STATUSGenerator = rapid.Just(ServiceGatewayApi_STATUS{})
 
 	return serviceGatewayApi_STATUSGenerator
 }

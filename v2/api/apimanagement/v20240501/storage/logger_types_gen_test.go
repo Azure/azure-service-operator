@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_Logger_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Logger via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLogger, LoggerGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForLogger)
 }
 
 // RunJSONSerializationTestForLogger runs a test to see if a specific instance of Logger round trips to JSON and back losslessly
-func RunJSONSerializationTestForLogger(subject Logger) string {
+func RunJSONSerializationTestForLogger(t *rapid.T) {
+	subject := LoggerGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Logger
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,32 +45,30 @@ func RunJSONSerializationTestForLogger(subject Logger) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Logger instances for property testing - lazily instantiated by LoggerGenerator()
-var loggerGenerator gopter.Gen
+var loggerGenerator *rapid.Generator[Logger]
 
 // LoggerGenerator returns a generator of Logger instances for property testing.
-func LoggerGenerator() gopter.Gen {
+func LoggerGenerator() *rapid.Generator[Logger] {
 	if loggerGenerator != nil {
 		return loggerGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForLogger(generators)
-	loggerGenerator = gen.Struct(reflect.TypeOf(Logger{}), generators)
+	spec := Logger_SpecGenerator()
+	status := Logger_STATUSGenerator()
+
+	loggerGenerator = rapid.Custom(func(t *rapid.T) Logger {
+		var result Logger
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return loggerGenerator
-}
-
-// AddRelatedPropertyGeneratorsForLogger is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForLogger(gens map[string]gopter.Gen) {
-	gens["Spec"] = Logger_SpecGenerator()
-	gens["Status"] = Logger_STATUSGenerator()
 }
 
 func Test_LoggerOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -90,29 +78,23 @@ func Test_LoggerOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of LoggerOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLoggerOperatorSpec, LoggerOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForLoggerOperatorSpec)
 }
 
 // RunJSONSerializationTestForLoggerOperatorSpec runs a test to see if a specific instance of LoggerOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForLoggerOperatorSpec(subject LoggerOperatorSpec) string {
+func RunJSONSerializationTestForLoggerOperatorSpec(t *rapid.T) {
+	subject := LoggerOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual LoggerOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -121,23 +103,20 @@ func RunJSONSerializationTestForLoggerOperatorSpec(subject LoggerOperatorSpec) s
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of LoggerOperatorSpec instances for property testing - lazily instantiated by LoggerOperatorSpecGenerator()
-var loggerOperatorSpecGenerator gopter.Gen
+var loggerOperatorSpecGenerator *rapid.Generator[LoggerOperatorSpec]
 
 // LoggerOperatorSpecGenerator returns a generator of LoggerOperatorSpec instances for property testing.
-func LoggerOperatorSpecGenerator() gopter.Gen {
+func LoggerOperatorSpecGenerator() *rapid.Generator[LoggerOperatorSpec] {
 	if loggerOperatorSpecGenerator != nil {
 		return loggerOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	loggerOperatorSpecGenerator = gen.Struct(reflect.TypeOf(LoggerOperatorSpec{}), generators)
+	loggerOperatorSpecGenerator = rapid.Just(LoggerOperatorSpec{})
 
 	return loggerOperatorSpecGenerator
 }
@@ -149,29 +128,23 @@ func Test_Logger_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Logger_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLogger_STATUS, Logger_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForLogger_STATUS)
 }
 
 // RunJSONSerializationTestForLogger_STATUS runs a test to see if a specific instance of Logger_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForLogger_STATUS(subject Logger_STATUS) string {
+func RunJSONSerializationTestForLogger_STATUS(t *rapid.T) {
+	subject := Logger_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Logger_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -180,40 +153,39 @@ func RunJSONSerializationTestForLogger_STATUS(subject Logger_STATUS) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Logger_STATUS instances for property testing - lazily instantiated by Logger_STATUSGenerator()
-var logger_STATUSGenerator gopter.Gen
+var logger_STATUSGenerator *rapid.Generator[Logger_STATUS]
 
 // Logger_STATUSGenerator returns a generator of Logger_STATUS instances for property testing.
-func Logger_STATUSGenerator() gopter.Gen {
+func Logger_STATUSGenerator() *rapid.Generator[Logger_STATUS] {
 	if logger_STATUSGenerator != nil {
 		return logger_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLogger_STATUS(generators)
-	logger_STATUSGenerator = gen.Struct(reflect.TypeOf(Logger_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	credentials := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
+	isBuffered := rapid.Ptr(rapid.Bool(), true)
+
+	logger_STATUSGenerator = rapid.Custom(func(t *rapid.T) Logger_STATUS {
+		var result Logger_STATUS
+		result.Credentials = credentials.Draw(t, "Credentials")
+		result.Description = ptrString.Draw(t, "Description")
+		result.Id = ptrString.Draw(t, "Id")
+		result.IsBuffered = isBuffered.Draw(t, "IsBuffered")
+		result.LoggerType = ptrString.Draw(t, "LoggerType")
+		result.Name = ptrString.Draw(t, "Name")
+		result.ResourceId = ptrString.Draw(t, "ResourceId")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return logger_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForLogger_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLogger_STATUS(gens map[string]gopter.Gen) {
-	gens["Credentials"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["IsBuffered"] = gen.PtrOf(gen.Bool())
-	gens["LoggerType"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_Logger_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -223,29 +195,23 @@ func Test_Logger_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Logger_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLogger_Spec, Logger_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForLogger_Spec)
 }
 
 // RunJSONSerializationTestForLogger_Spec runs a test to see if a specific instance of Logger_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForLogger_Spec(subject Logger_Spec) string {
+func RunJSONSerializationTestForLogger_Spec(t *rapid.T) {
+	subject := Logger_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Logger_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -254,47 +220,34 @@ func RunJSONSerializationTestForLogger_Spec(subject Logger_Spec) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Logger_Spec instances for property testing - lazily instantiated by Logger_SpecGenerator()
-var logger_SpecGenerator gopter.Gen
+var logger_SpecGenerator *rapid.Generator[Logger_Spec]
 
 // Logger_SpecGenerator returns a generator of Logger_Spec instances for property testing.
-// We first initialize logger_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Logger_SpecGenerator() gopter.Gen {
+func Logger_SpecGenerator() *rapid.Generator[Logger_Spec] {
 	if logger_SpecGenerator != nil {
 		return logger_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLogger_Spec(generators)
-	logger_SpecGenerator = gen.Struct(reflect.TypeOf(Logger_Spec{}), generators)
+	genString := rapid.String()
+	ptrString := rapid.Ptr(rapid.String(), true)
+	isBuffered := rapid.Ptr(rapid.Bool(), true)
+	operatorSpec := rapid.Ptr(LoggerOperatorSpecGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLogger_Spec(generators)
-	AddRelatedPropertyGeneratorsForLogger_Spec(generators)
-	logger_SpecGenerator = gen.Struct(reflect.TypeOf(Logger_Spec{}), generators)
+	logger_SpecGenerator = rapid.Custom(func(t *rapid.T) Logger_Spec {
+		var result Logger_Spec
+		result.AzureName = genString.Draw(t, "AzureName")
+		result.Description = ptrString.Draw(t, "Description")
+		result.IsBuffered = isBuffered.Draw(t, "IsBuffered")
+		result.LoggerType = ptrString.Draw(t, "LoggerType")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		result.OriginalVersion = genString.Draw(t, "OriginalVersion")
+		return result
+	})
 
 	return logger_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForLogger_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLogger_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["IsBuffered"] = gen.PtrOf(gen.Bool())
-	gens["LoggerType"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForLogger_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForLogger_Spec(gens map[string]gopter.Gen) {
-	gens["OperatorSpec"] = gen.PtrOf(LoggerOperatorSpecGenerator())
 }

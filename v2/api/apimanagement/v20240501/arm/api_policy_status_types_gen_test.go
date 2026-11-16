@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_ApiPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApiPolicy_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApiPolicy_STATUS, ApiPolicy_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForApiPolicy_STATUS)
 }
 
 // RunJSONSerializationTestForApiPolicy_STATUS runs a test to see if a specific instance of ApiPolicy_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForApiPolicy_STATUS(subject ApiPolicy_STATUS) string {
+func RunJSONSerializationTestForApiPolicy_STATUS(t *rapid.T) {
+	subject := ApiPolicy_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ApiPolicy_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,47 +45,32 @@ func RunJSONSerializationTestForApiPolicy_STATUS(subject ApiPolicy_STATUS) strin
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ApiPolicy_STATUS instances for property testing - lazily instantiated by ApiPolicy_STATUSGenerator()
-var apiPolicy_STATUSGenerator gopter.Gen
+var apiPolicy_STATUSGenerator *rapid.Generator[ApiPolicy_STATUS]
 
 // ApiPolicy_STATUSGenerator returns a generator of ApiPolicy_STATUS instances for property testing.
-// We first initialize apiPolicy_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ApiPolicy_STATUSGenerator() gopter.Gen {
+func ApiPolicy_STATUSGenerator() *rapid.Generator[ApiPolicy_STATUS] {
 	if apiPolicy_STATUSGenerator != nil {
 		return apiPolicy_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApiPolicy_STATUS(generators)
-	apiPolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(ApiPolicy_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	properties := rapid.Ptr(PolicyContractProperties_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApiPolicy_STATUS(generators)
-	AddRelatedPropertyGeneratorsForApiPolicy_STATUS(generators)
-	apiPolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(ApiPolicy_STATUS{}), generators)
+	apiPolicy_STATUSGenerator = rapid.Custom(func(t *rapid.T) ApiPolicy_STATUS {
+		var result ApiPolicy_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return apiPolicy_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApiPolicy_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApiPolicy_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForApiPolicy_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForApiPolicy_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(PolicyContractProperties_STATUSGenerator())
 }
 
 func Test_PolicyContractProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -105,29 +80,23 @@ func Test_PolicyContractProperties_STATUS_WhenSerializedToJson_DeserializesAsEqu
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PolicyContractProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPolicyContractProperties_STATUS, PolicyContractProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForPolicyContractProperties_STATUS)
 }
 
 // RunJSONSerializationTestForPolicyContractProperties_STATUS runs a test to see if a specific instance of PolicyContractProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForPolicyContractProperties_STATUS(subject PolicyContractProperties_STATUS) string {
+func RunJSONSerializationTestForPolicyContractProperties_STATUS(t *rapid.T) {
+	subject := PolicyContractProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual PolicyContractProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -136,35 +105,29 @@ func RunJSONSerializationTestForPolicyContractProperties_STATUS(subject PolicyCo
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of PolicyContractProperties_STATUS instances for property testing - lazily instantiated by
 // PolicyContractProperties_STATUSGenerator()
-var policyContractProperties_STATUSGenerator gopter.Gen
+var policyContractProperties_STATUSGenerator *rapid.Generator[PolicyContractProperties_STATUS]
 
 // PolicyContractProperties_STATUSGenerator returns a generator of PolicyContractProperties_STATUS instances for property testing.
-func PolicyContractProperties_STATUSGenerator() gopter.Gen {
+func PolicyContractProperties_STATUSGenerator() *rapid.Generator[PolicyContractProperties_STATUS] {
 	if policyContractProperties_STATUSGenerator != nil {
 		return policyContractProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPolicyContractProperties_STATUS(generators)
-	policyContractProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(PolicyContractProperties_STATUS{}), generators)
+	format := rapid.Ptr(rapid.SampledFrom([]PolicyContractProperties_Format_STATUS{PolicyContractProperties_Format_STATUS_Rawxml, PolicyContractProperties_Format_STATUS_RawxmlLink, PolicyContractProperties_Format_STATUS_Xml, PolicyContractProperties_Format_STATUS_XmlLink}), true)
+	value := rapid.Ptr(rapid.String(), true)
+
+	policyContractProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) PolicyContractProperties_STATUS {
+		var result PolicyContractProperties_STATUS
+		result.Format = format.Draw(t, "Format")
+		result.Value = value.Draw(t, "Value")
+		return result
+	})
 
 	return policyContractProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPolicyContractProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPolicyContractProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["Format"] = gen.PtrOf(gen.OneConstOf(
-		PolicyContractProperties_Format_STATUS_Rawxml,
-		PolicyContractProperties_Format_STATUS_RawxmlLink,
-		PolicyContractProperties_Format_STATUS_Xml,
-		PolicyContractProperties_Format_STATUS_XmlLink))
-	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }

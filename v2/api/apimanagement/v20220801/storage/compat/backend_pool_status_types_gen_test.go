@@ -10,14 +10,11 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
+// Test_BackendPoolItem_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of BackendPoolItem_STATUS can be assigned to storage and back losslessly
 func Test_BackendPoolItem_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -25,44 +22,34 @@ func Test_BackendPoolItem_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from BackendPoolItem_STATUS to BackendPoolItem_STATUS via AssignProperties_To_BackendPoolItem_STATUS & AssignProperties_From_BackendPoolItem_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForBackendPoolItem_STATUS, BackendPoolItem_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := BackendPoolItem_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForBackendPoolItem_STATUS tests if a specific instance of BackendPoolItem_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForBackendPoolItem_STATUS(subject BackendPoolItem_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.BackendPoolItem_STATUS
+		err := copied.AssignProperties_To_BackendPoolItem_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BackendPoolItem_STATUS
-	err := copied.AssignProperties_To_BackendPoolItem_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual BackendPoolItem_STATUS
+		err = actual.AssignProperties_From_BackendPoolItem_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual BackendPoolItem_STATUS
-	err = actual.AssignProperties_From_BackendPoolItem_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_BackendPoolItem_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -72,29 +59,23 @@ func Test_BackendPoolItem_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BackendPoolItem_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBackendPoolItem_STATUS, BackendPoolItem_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForBackendPoolItem_STATUS)
 }
 
 // RunJSONSerializationTestForBackendPoolItem_STATUS runs a test to see if a specific instance of BackendPoolItem_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForBackendPoolItem_STATUS(subject BackendPoolItem_STATUS) string {
+func RunJSONSerializationTestForBackendPoolItem_STATUS(t *rapid.T) {
+	subject := BackendPoolItem_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual BackendPoolItem_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -103,34 +84,32 @@ func RunJSONSerializationTestForBackendPoolItem_STATUS(subject BackendPoolItem_S
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of BackendPoolItem_STATUS instances for property testing - lazily instantiated by
 // BackendPoolItem_STATUSGenerator()
-var backendPoolItem_STATUSGenerator gopter.Gen
+var backendPoolItem_STATUSGenerator *rapid.Generator[BackendPoolItem_STATUS]
 
 // BackendPoolItem_STATUSGenerator returns a generator of BackendPoolItem_STATUS instances for property testing.
-func BackendPoolItem_STATUSGenerator() gopter.Gen {
+func BackendPoolItem_STATUSGenerator() *rapid.Generator[BackendPoolItem_STATUS] {
 	if backendPoolItem_STATUSGenerator != nil {
 		return backendPoolItem_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBackendPoolItem_STATUS(generators)
-	backendPoolItem_STATUSGenerator = gen.Struct(reflect.TypeOf(BackendPoolItem_STATUS{}), generators)
+	id := rapid.Ptr(rapid.String(), true)
+
+	backendPoolItem_STATUSGenerator = rapid.Custom(func(t *rapid.T) BackendPoolItem_STATUS {
+		var result BackendPoolItem_STATUS
+		result.Id = id.Draw(t, "Id")
+		return result
+	})
 
 	return backendPoolItem_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForBackendPoolItem_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBackendPoolItem_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_BackendPool_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of BackendPool_STATUS can be assigned to storage and back losslessly
 func Test_BackendPool_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -138,44 +117,34 @@ func Test_BackendPool_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from BackendPool_STATUS to BackendPool_STATUS via AssignProperties_To_BackendPool_STATUS & AssignProperties_From_BackendPool_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForBackendPool_STATUS, BackendPool_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := BackendPool_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForBackendPool_STATUS tests if a specific instance of BackendPool_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForBackendPool_STATUS(subject BackendPool_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.BackendPool_STATUS
+		err := copied.AssignProperties_To_BackendPool_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BackendPool_STATUS
-	err := copied.AssignProperties_To_BackendPool_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual BackendPool_STATUS
+		err = actual.AssignProperties_From_BackendPool_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual BackendPool_STATUS
-	err = actual.AssignProperties_From_BackendPool_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_BackendPool_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -185,29 +154,23 @@ func Test_BackendPool_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BackendPool_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBackendPool_STATUS, BackendPool_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForBackendPool_STATUS)
 }
 
 // RunJSONSerializationTestForBackendPool_STATUS runs a test to see if a specific instance of BackendPool_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForBackendPool_STATUS(subject BackendPool_STATUS) string {
+func RunJSONSerializationTestForBackendPool_STATUS(t *rapid.T) {
+	subject := BackendPool_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual BackendPool_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -216,29 +179,26 @@ func RunJSONSerializationTestForBackendPool_STATUS(subject BackendPool_STATUS) s
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of BackendPool_STATUS instances for property testing - lazily instantiated by BackendPool_STATUSGenerator()
-var backendPool_STATUSGenerator gopter.Gen
+var backendPool_STATUSGenerator *rapid.Generator[BackendPool_STATUS]
 
 // BackendPool_STATUSGenerator returns a generator of BackendPool_STATUS instances for property testing.
-func BackendPool_STATUSGenerator() gopter.Gen {
+func BackendPool_STATUSGenerator() *rapid.Generator[BackendPool_STATUS] {
 	if backendPool_STATUSGenerator != nil {
 		return backendPool_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForBackendPool_STATUS(generators)
-	backendPool_STATUSGenerator = gen.Struct(reflect.TypeOf(BackendPool_STATUS{}), generators)
+	services := rapid.SliceOf(BackendPoolItem_STATUSGenerator())
+
+	backendPool_STATUSGenerator = rapid.Custom(func(t *rapid.T) BackendPool_STATUS {
+		var result BackendPool_STATUS
+		result.Services = services.Draw(t, "Services")
+		return result
+	})
 
 	return backendPool_STATUSGenerator
-}
-
-// AddRelatedPropertyGeneratorsForBackendPool_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForBackendPool_STATUS(gens map[string]gopter.Gen) {
-	gens["Services"] = gen.SliceOf(BackendPoolItem_STATUSGenerator())
 }
