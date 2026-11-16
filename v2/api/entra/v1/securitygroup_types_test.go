@@ -4,16 +4,76 @@
 package v1
 
 import (
+	"encoding/json"
 	"testing"
 
 	. "github.com/onsi/gomega"
 
 	"github.com/google/uuid"
+	"github.com/microsoft/kiota-abstractions-go/store"
+	jsonserialization "github.com/microsoft/kiota-serialization-json-go"
 	msgraphmodels "github.com/microsoftgraph/msgraph-beta-sdk-go/models"
 
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
+
+func TestSecurityGroupSpec_AssignToGroup_SerializesGroupTypes(t *testing.T) {
+	t.Parallel()
+
+	tests := map[string]struct {
+		membershipType *SecurityGroupMembershipType
+		expected       string
+	}{
+		"default assigned": {
+			expected: `[]`,
+		},
+		"assigned": {
+			membershipType: to.Ptr(SecurityGroupMembershipTypeAssigned),
+			expected:       `[]`,
+		},
+		"assigned Microsoft 365": {
+			membershipType: to.Ptr(SecurityGroupMembershipTypeAssignedM365),
+			expected:       `["Unified"]`,
+		},
+		"dynamic": {
+			membershipType: to.Ptr(SecurityGroupMembershipTypeDynamic),
+			expected:       `["DynamicMembership"]`,
+		},
+		"dynamic Microsoft 365": {
+			membershipType: to.Ptr(SecurityGroupMembershipTypeDynamicM365),
+			expected:       `["Unified", "DynamicMembership"]`,
+		},
+	}
+
+	for name, test := range tests {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+			spec := SecurityGroupSpec{MembershipType: test.membershipType}
+			group := msgraphmodels.NewGroup()
+			spec.AssignToGroup(group)
+
+			factory := store.NewBackingStoreSerializationWriterProxyFactory(
+				jsonserialization.NewJsonSerializationWriterFactory(),
+			)
+			writer, err := factory.GetSerializationWriter("application/json")
+			g.Expect(err).ToNot(HaveOccurred())
+			t.Cleanup(func() {
+				g.Expect(writer.Close()).To(Succeed())
+			})
+
+			g.Expect(writer.WriteObjectValue("", group)).To(Succeed())
+			content, err := writer.GetSerializedContent()
+			g.Expect(err).ToNot(HaveOccurred())
+
+			var payload map[string]json.RawMessage
+			g.Expect(json.Unmarshal(content, &payload)).To(Succeed())
+			g.Expect(payload).To(HaveKey("groupTypes"))
+			g.Expect(string(payload["groupTypes"])).To(MatchJSON(test.expected))
+		})
+	}
+}
 
 func TestSecurityGroupSpec_AssignODataBindOnCreate_UsesInlineObjectID(t *testing.T) {
 	t.Parallel()

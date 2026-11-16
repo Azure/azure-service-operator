@@ -259,7 +259,8 @@ func (spec *SecurityGroupSpec) AssignToGroup(model models.Groupable) {
 	var groupTypes []string
 	switch membershipType {
 	case SecurityGroupMembershipTypeAssigned:
-	// Empty list means assigned membership
+		// Empty list means assigned membership; Graph does not accept null.
+		groupTypes = []string{}
 	case SecurityGroupMembershipTypeAssignedM365:
 		groupTypes = []string{"Unified"}
 	case SecurityGroupMembershipTypeDynamic:
