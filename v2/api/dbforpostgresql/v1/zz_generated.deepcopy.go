@@ -132,6 +132,22 @@ func (in *UserSpec) DeepCopyInto(out *UserSpec) {
 		*out = new(RoleOptionsSpec)
 		**out = **in
 	}
+	if in.DatabasePrivileges != nil {
+		in, out := &in.DatabasePrivileges, &out.DatabasePrivileges
+		*out = make(map[string][]string, len(*in))
+		for key, val := range *in {
+			var outVal []string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = make([]string, len(*in))
+				copy(*out, *in)
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.LocalUser != nil {
 		in, out := &in.LocalUser, &out.LocalUser
 		*out = new(LocalUserSpec)
