@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_FlexibleServersAdvancedThreatProtectionSettings_Spec_WhenSerializedToJ
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FlexibleServersAdvancedThreatProtectionSettings_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFlexibleServersAdvancedThreatProtectionSettings_Spec, FlexibleServersAdvancedThreatProtectionSettings_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFlexibleServersAdvancedThreatProtectionSettings_Spec)
 }
 
 // RunJSONSerializationTestForFlexibleServersAdvancedThreatProtectionSettings_Spec runs a test to see if a specific instance of FlexibleServersAdvancedThreatProtectionSettings_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForFlexibleServersAdvancedThreatProtectionSettings_Spec(subject FlexibleServersAdvancedThreatProtectionSettings_Spec) string {
+func RunJSONSerializationTestForFlexibleServersAdvancedThreatProtectionSettings_Spec(t *rapid.T) {
+	subject := FlexibleServersAdvancedThreatProtectionSettings_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FlexibleServersAdvancedThreatProtectionSettings_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,46 +45,31 @@ func RunJSONSerializationTestForFlexibleServersAdvancedThreatProtectionSettings_
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FlexibleServersAdvancedThreatProtectionSettings_Spec instances for property testing - lazily
 // instantiated by FlexibleServersAdvancedThreatProtectionSettings_SpecGenerator()
-var flexibleServersAdvancedThreatProtectionSettings_SpecGenerator gopter.Gen
+var flexibleServersAdvancedThreatProtectionSettings_SpecGenerator *rapid.Generator[FlexibleServersAdvancedThreatProtectionSettings_Spec]
 
 // FlexibleServersAdvancedThreatProtectionSettings_SpecGenerator returns a generator of FlexibleServersAdvancedThreatProtectionSettings_Spec instances for property testing.
-// We first initialize flexibleServersAdvancedThreatProtectionSettings_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func FlexibleServersAdvancedThreatProtectionSettings_SpecGenerator() gopter.Gen {
+func FlexibleServersAdvancedThreatProtectionSettings_SpecGenerator() *rapid.Generator[FlexibleServersAdvancedThreatProtectionSettings_Spec] {
 	if flexibleServersAdvancedThreatProtectionSettings_SpecGenerator != nil {
 		return flexibleServersAdvancedThreatProtectionSettings_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServersAdvancedThreatProtectionSettings_Spec(generators)
-	flexibleServersAdvancedThreatProtectionSettings_SpecGenerator = gen.Struct(reflect.TypeOf(FlexibleServersAdvancedThreatProtectionSettings_Spec{}), generators)
+	name := rapid.String()
+	properties := rapid.Ptr(ServerThreatProtectionPropertiesGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServersAdvancedThreatProtectionSettings_Spec(generators)
-	AddRelatedPropertyGeneratorsForFlexibleServersAdvancedThreatProtectionSettings_Spec(generators)
-	flexibleServersAdvancedThreatProtectionSettings_SpecGenerator = gen.Struct(reflect.TypeOf(FlexibleServersAdvancedThreatProtectionSettings_Spec{}), generators)
+	flexibleServersAdvancedThreatProtectionSettings_SpecGenerator = rapid.Custom(func(t *rapid.T) FlexibleServersAdvancedThreatProtectionSettings_Spec {
+		var result FlexibleServersAdvancedThreatProtectionSettings_Spec
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return flexibleServersAdvancedThreatProtectionSettings_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForFlexibleServersAdvancedThreatProtectionSettings_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFlexibleServersAdvancedThreatProtectionSettings_Spec(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForFlexibleServersAdvancedThreatProtectionSettings_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFlexibleServersAdvancedThreatProtectionSettings_Spec(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(ServerThreatProtectionPropertiesGenerator())
 }
 
 func Test_ServerThreatProtectionProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -104,29 +79,23 @@ func Test_ServerThreatProtectionProperties_WhenSerializedToJson_DeserializesAsEq
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ServerThreatProtectionProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServerThreatProtectionProperties, ServerThreatProtectionPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForServerThreatProtectionProperties)
 }
 
 // RunJSONSerializationTestForServerThreatProtectionProperties runs a test to see if a specific instance of ServerThreatProtectionProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForServerThreatProtectionProperties(subject ServerThreatProtectionProperties) string {
+func RunJSONSerializationTestForServerThreatProtectionProperties(t *rapid.T) {
+	subject := ServerThreatProtectionPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ServerThreatProtectionProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -135,30 +104,27 @@ func RunJSONSerializationTestForServerThreatProtectionProperties(subject ServerT
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ServerThreatProtectionProperties instances for property testing - lazily instantiated by
 // ServerThreatProtectionPropertiesGenerator()
-var serverThreatProtectionPropertiesGenerator gopter.Gen
+var serverThreatProtectionPropertiesGenerator *rapid.Generator[ServerThreatProtectionProperties]
 
 // ServerThreatProtectionPropertiesGenerator returns a generator of ServerThreatProtectionProperties instances for property testing.
-func ServerThreatProtectionPropertiesGenerator() gopter.Gen {
+func ServerThreatProtectionPropertiesGenerator() *rapid.Generator[ServerThreatProtectionProperties] {
 	if serverThreatProtectionPropertiesGenerator != nil {
 		return serverThreatProtectionPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServerThreatProtectionProperties(generators)
-	serverThreatProtectionPropertiesGenerator = gen.Struct(reflect.TypeOf(ServerThreatProtectionProperties{}), generators)
+	state := rapid.Ptr(rapid.SampledFrom([]ServerThreatProtectionProperties_State{ServerThreatProtectionProperties_State_Disabled, ServerThreatProtectionProperties_State_Enabled}), true)
+
+	serverThreatProtectionPropertiesGenerator = rapid.Custom(func(t *rapid.T) ServerThreatProtectionProperties {
+		var result ServerThreatProtectionProperties
+		result.State = state.Draw(t, "State")
+		return result
+	})
 
 	return serverThreatProtectionPropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForServerThreatProtectionProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServerThreatProtectionProperties(gens map[string]gopter.Gen) {
-	gens["State"] = gen.PtrOf(gen.OneConstOf(ServerThreatProtectionProperties_State_Disabled, ServerThreatProtectionProperties_State_Enabled))
 }

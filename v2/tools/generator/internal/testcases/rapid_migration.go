@@ -18,8 +18,6 @@ var gopterGroups = set.Make(
 	"containerinstance",
 	"containerservice",
 	"dataprotection",
-	"dbformysql",
-	"dbforpostgresql",
 	"documentdb",
 	"entra",
 	"eventgrid",
