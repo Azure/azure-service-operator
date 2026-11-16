@@ -10,14 +10,11 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
+// Test_ManagedClusterHostedSystemProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ManagedClusterHostedSystemProfile_STATUS can be assigned to storage and back losslessly
 func Test_ManagedClusterHostedSystemProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -25,44 +22,34 @@ func Test_ManagedClusterHostedSystemProfile_STATUS_WhenPropertiesConverted_Round
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ManagedClusterHostedSystemProfile_STATUS to ManagedClusterHostedSystemProfile_STATUS via AssignProperties_To_ManagedClusterHostedSystemProfile_STATUS & AssignProperties_From_ManagedClusterHostedSystemProfile_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForManagedClusterHostedSystemProfile_STATUS, ManagedClusterHostedSystemProfile_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ManagedClusterHostedSystemProfile_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForManagedClusterHostedSystemProfile_STATUS tests if a specific instance of ManagedClusterHostedSystemProfile_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForManagedClusterHostedSystemProfile_STATUS(subject ManagedClusterHostedSystemProfile_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ManagedClusterHostedSystemProfile_STATUS
+		err := copied.AssignProperties_To_ManagedClusterHostedSystemProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedClusterHostedSystemProfile_STATUS
-	err := copied.AssignProperties_To_ManagedClusterHostedSystemProfile_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ManagedClusterHostedSystemProfile_STATUS
+		err = actual.AssignProperties_From_ManagedClusterHostedSystemProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ManagedClusterHostedSystemProfile_STATUS
-	err = actual.AssignProperties_From_ManagedClusterHostedSystemProfile_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ManagedClusterHostedSystemProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -72,29 +59,23 @@ func Test_ManagedClusterHostedSystemProfile_STATUS_WhenSerializedToJson_Deserial
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedClusterHostedSystemProfile_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterHostedSystemProfile_STATUS, ManagedClusterHostedSystemProfile_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForManagedClusterHostedSystemProfile_STATUS)
 }
 
 // RunJSONSerializationTestForManagedClusterHostedSystemProfile_STATUS runs a test to see if a specific instance of ManagedClusterHostedSystemProfile_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterHostedSystemProfile_STATUS(subject ManagedClusterHostedSystemProfile_STATUS) string {
+func RunJSONSerializationTestForManagedClusterHostedSystemProfile_STATUS(t *rapid.T) {
+	subject := ManagedClusterHostedSystemProfile_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ManagedClusterHostedSystemProfile_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -103,30 +84,27 @@ func RunJSONSerializationTestForManagedClusterHostedSystemProfile_STATUS(subject
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ManagedClusterHostedSystemProfile_STATUS instances for property testing - lazily instantiated by
 // ManagedClusterHostedSystemProfile_STATUSGenerator()
-var managedClusterHostedSystemProfile_STATUSGenerator gopter.Gen
+var managedClusterHostedSystemProfile_STATUSGenerator *rapid.Generator[ManagedClusterHostedSystemProfile_STATUS]
 
 // ManagedClusterHostedSystemProfile_STATUSGenerator returns a generator of ManagedClusterHostedSystemProfile_STATUS instances for property testing.
-func ManagedClusterHostedSystemProfile_STATUSGenerator() gopter.Gen {
+func ManagedClusterHostedSystemProfile_STATUSGenerator() *rapid.Generator[ManagedClusterHostedSystemProfile_STATUS] {
 	if managedClusterHostedSystemProfile_STATUSGenerator != nil {
 		return managedClusterHostedSystemProfile_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterHostedSystemProfile_STATUS(generators)
-	managedClusterHostedSystemProfile_STATUSGenerator = gen.Struct(reflect.TypeOf(ManagedClusterHostedSystemProfile_STATUS{}), generators)
+	enabled := rapid.Ptr(rapid.Bool(), true)
+
+	managedClusterHostedSystemProfile_STATUSGenerator = rapid.Custom(func(t *rapid.T) ManagedClusterHostedSystemProfile_STATUS {
+		var result ManagedClusterHostedSystemProfile_STATUS
+		result.Enabled = enabled.Draw(t, "Enabled")
+		return result
+	})
 
 	return managedClusterHostedSystemProfile_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedClusterHostedSystemProfile_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterHostedSystemProfile_STATUS(gens map[string]gopter.Gen) {
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
 }
