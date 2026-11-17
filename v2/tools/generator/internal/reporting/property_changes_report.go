@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"slices"
 	"sort"
 	"strings"
 
@@ -265,11 +266,8 @@ func formatStatuses(statuses []changeStatus) string {
 func formatAddedProperties(rows []propertyChangeRow) string {
 	var names []string
 	for _, row := range rows {
-		for _, status := range row.statuses {
-			if status == statusNew {
-				names = append(names, row.nextName)
-				break
-			}
+		if slices.Contains(row.statuses, statusNew) {
+			names = append(names, row.nextName)
 		}
 	}
 

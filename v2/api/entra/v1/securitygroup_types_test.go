@@ -28,19 +28,19 @@ func TestSecurityGroupSpec_AssignToGroup_SerializesGroupTypes(t *testing.T) {
 			expected: `[]`,
 		},
 		"assigned": {
-			membershipType: to.Ptr(SecurityGroupMembershipTypeAssigned),
+			membershipType: new(SecurityGroupMembershipTypeAssigned),
 			expected:       `[]`,
 		},
 		"assigned Microsoft 365": {
-			membershipType: to.Ptr(SecurityGroupMembershipTypeAssignedM365),
+			membershipType: new(SecurityGroupMembershipTypeAssignedM365),
 			expected:       `["Unified"]`,
 		},
 		"dynamic": {
-			membershipType: to.Ptr(SecurityGroupMembershipTypeDynamic),
+			membershipType: new(SecurityGroupMembershipTypeDynamic),
 			expected:       `["DynamicMembership"]`,
 		},
 		"dynamic Microsoft 365": {
-			membershipType: to.Ptr(SecurityGroupMembershipTypeDynamicM365),
+			membershipType: new(SecurityGroupMembershipTypeDynamicM365),
 			expected:       `["Unified", "DynamicMembership"]`,
 		},
 	}
