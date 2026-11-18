@@ -11,14 +11,11 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
+// Test_DiskAccess_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of DiskAccess round trips to the hub storage version and back losslessly
 func Test_DiskAccess_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -26,47 +23,37 @@ func Test_DiskAccess_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DiskAccess to hub returns original",
-		prop.ForAll(RunResourceConversionTestForDiskAccess, DiskAccessGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DiskAccessGenerator().Draw(t, "subject")
+		// Copy subject to make sure conversion doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Convert to our hub version
+		var hub compute_v20240302s.DiskAccess
+		err := copied.ConvertTo(&hub)
+		if err != nil {
+			t.Fatal("ConvertTo: " + err.Error())
+		}
+
+		// Convert from our hub version
+		var actual DiskAccess
+		err = actual.ConvertFrom(&hub)
+		if err != nil {
+			t.Fatal("ConvertFrom: " + err.Error())
+		}
+
+		// Compare actual with what we started with
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
-// RunResourceConversionTestForDiskAccess tests if a specific instance of DiskAccess round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForDiskAccess(subject DiskAccess) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub compute_v20240302s.DiskAccess
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual DiskAccess
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
+// Test_DiskAccess_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DiskAccess can be assigned to storage and back losslessly
 func Test_DiskAccess_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -74,44 +61,34 @@ func Test_DiskAccess_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DiskAccess to DiskAccess via AssignProperties_To_DiskAccess & AssignProperties_From_DiskAccess returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDiskAccess, DiskAccessGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DiskAccessGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDiskAccess tests if a specific instance of DiskAccess can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDiskAccess(subject DiskAccess) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other compute_v1api20240302s.DiskAccess
+		err := copied.AssignProperties_To_DiskAccess(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other compute_v1api20240302s.DiskAccess
-	err := copied.AssignProperties_To_DiskAccess(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DiskAccess
+		err = actual.AssignProperties_From_DiskAccess(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DiskAccess
-	err = actual.AssignProperties_From_DiskAccess(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DiskAccess_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -121,29 +98,23 @@ func Test_DiskAccess_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DiskAccess via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDiskAccess, DiskAccessGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDiskAccess)
 }
 
 // RunJSONSerializationTestForDiskAccess runs a test to see if a specific instance of DiskAccess round trips to JSON and back losslessly
-func RunJSONSerializationTestForDiskAccess(subject DiskAccess) string {
+func RunJSONSerializationTestForDiskAccess(t *rapid.T) {
+	subject := DiskAccessGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DiskAccess
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -152,34 +123,33 @@ func RunJSONSerializationTestForDiskAccess(subject DiskAccess) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DiskAccess instances for property testing - lazily instantiated by DiskAccessGenerator()
-var diskAccessGenerator gopter.Gen
+var diskAccessGenerator *rapid.Generator[DiskAccess]
 
 // DiskAccessGenerator returns a generator of DiskAccess instances for property testing.
-func DiskAccessGenerator() gopter.Gen {
+func DiskAccessGenerator() *rapid.Generator[DiskAccess] {
 	if diskAccessGenerator != nil {
 		return diskAccessGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForDiskAccess(generators)
-	diskAccessGenerator = gen.Struct(reflect.TypeOf(DiskAccess{}), generators)
+	spec := DiskAccess_SpecGenerator()
+	status := DiskAccess_STATUSGenerator()
+
+	diskAccessGenerator = rapid.Custom(func(t *rapid.T) DiskAccess {
+		var result DiskAccess
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return diskAccessGenerator
 }
 
-// AddRelatedPropertyGeneratorsForDiskAccess is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDiskAccess(gens map[string]gopter.Gen) {
-	gens["Spec"] = DiskAccess_SpecGenerator()
-	gens["Status"] = DiskAccess_STATUSGenerator()
-}
-
+// Test_DiskAccessOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DiskAccessOperatorSpec can be assigned to storage and back losslessly
 func Test_DiskAccessOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -187,44 +157,34 @@ func Test_DiskAccessOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DiskAccessOperatorSpec to DiskAccessOperatorSpec via AssignProperties_To_DiskAccessOperatorSpec & AssignProperties_From_DiskAccessOperatorSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDiskAccessOperatorSpec, DiskAccessOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DiskAccessOperatorSpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDiskAccessOperatorSpec tests if a specific instance of DiskAccessOperatorSpec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDiskAccessOperatorSpec(subject DiskAccessOperatorSpec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other compute_v1api20240302s.DiskAccessOperatorSpec
+		err := copied.AssignProperties_To_DiskAccessOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other compute_v1api20240302s.DiskAccessOperatorSpec
-	err := copied.AssignProperties_To_DiskAccessOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DiskAccessOperatorSpec
+		err = actual.AssignProperties_From_DiskAccessOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DiskAccessOperatorSpec
-	err = actual.AssignProperties_From_DiskAccessOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DiskAccessOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -234,29 +194,23 @@ func Test_DiskAccessOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DiskAccessOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDiskAccessOperatorSpec, DiskAccessOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDiskAccessOperatorSpec)
 }
 
 // RunJSONSerializationTestForDiskAccessOperatorSpec runs a test to see if a specific instance of DiskAccessOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForDiskAccessOperatorSpec(subject DiskAccessOperatorSpec) string {
+func RunJSONSerializationTestForDiskAccessOperatorSpec(t *rapid.T) {
+	subject := DiskAccessOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DiskAccessOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -265,28 +219,26 @@ func RunJSONSerializationTestForDiskAccessOperatorSpec(subject DiskAccessOperato
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DiskAccessOperatorSpec instances for property testing - lazily instantiated by
 // DiskAccessOperatorSpecGenerator()
-var diskAccessOperatorSpecGenerator gopter.Gen
+var diskAccessOperatorSpecGenerator *rapid.Generator[DiskAccessOperatorSpec]
 
 // DiskAccessOperatorSpecGenerator returns a generator of DiskAccessOperatorSpec instances for property testing.
-func DiskAccessOperatorSpecGenerator() gopter.Gen {
+func DiskAccessOperatorSpecGenerator() *rapid.Generator[DiskAccessOperatorSpec] {
 	if diskAccessOperatorSpecGenerator != nil {
 		return diskAccessOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	diskAccessOperatorSpecGenerator = gen.Struct(reflect.TypeOf(DiskAccessOperatorSpec{}), generators)
+	diskAccessOperatorSpecGenerator = rapid.Just(DiskAccessOperatorSpec{})
 
 	return diskAccessOperatorSpecGenerator
 }
 
+// Test_DiskAccess_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DiskAccess_STATUS can be assigned to storage and back losslessly
 func Test_DiskAccess_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -294,44 +246,34 @@ func Test_DiskAccess_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DiskAccess_STATUS to DiskAccess_STATUS via AssignProperties_To_DiskAccess_STATUS & AssignProperties_From_DiskAccess_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDiskAccess_STATUS, DiskAccess_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DiskAccess_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDiskAccess_STATUS tests if a specific instance of DiskAccess_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDiskAccess_STATUS(subject DiskAccess_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other compute_v1api20240302s.DiskAccess_STATUS
+		err := copied.AssignProperties_To_DiskAccess_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other compute_v1api20240302s.DiskAccess_STATUS
-	err := copied.AssignProperties_To_DiskAccess_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DiskAccess_STATUS
+		err = actual.AssignProperties_From_DiskAccess_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DiskAccess_STATUS
-	err = actual.AssignProperties_From_DiskAccess_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DiskAccess_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -341,29 +283,23 @@ func Test_DiskAccess_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DiskAccess_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDiskAccess_STATUS, DiskAccess_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDiskAccess_STATUS)
 }
 
 // RunJSONSerializationTestForDiskAccess_STATUS runs a test to see if a specific instance of DiskAccess_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDiskAccess_STATUS(subject DiskAccess_STATUS) string {
+func RunJSONSerializationTestForDiskAccess_STATUS(t *rapid.T) {
+	subject := DiskAccess_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DiskAccess_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -372,57 +308,46 @@ func RunJSONSerializationTestForDiskAccess_STATUS(subject DiskAccess_STATUS) str
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DiskAccess_STATUS instances for property testing - lazily instantiated by DiskAccess_STATUSGenerator()
-var diskAccess_STATUSGenerator gopter.Gen
+var diskAccess_STATUSGenerator *rapid.Generator[DiskAccess_STATUS]
 
 // DiskAccess_STATUSGenerator returns a generator of DiskAccess_STATUS instances for property testing.
-// We first initialize diskAccess_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DiskAccess_STATUSGenerator() gopter.Gen {
+func DiskAccess_STATUSGenerator() *rapid.Generator[DiskAccess_STATUS] {
 	if diskAccess_STATUSGenerator != nil {
 		return diskAccess_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDiskAccess_STATUS(generators)
-	diskAccess_STATUSGenerator = gen.Struct(reflect.TypeOf(DiskAccess_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	extendedLocation := rapid.Ptr(ExtendedLocation_STATUSGenerator(), true)
+	privateEndpointConnections := rapid.SliceOf(PrivateEndpointConnection_STATUSGenerator())
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDiskAccess_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDiskAccess_STATUS(generators)
-	diskAccess_STATUSGenerator = gen.Struct(reflect.TypeOf(DiskAccess_STATUS{}), generators)
+	diskAccess_STATUSGenerator = rapid.Custom(func(t *rapid.T) DiskAccess_STATUS {
+		var result DiskAccess_STATUS
+		result.ExtendedLocation = extendedLocation.Draw(t, "ExtendedLocation")
+		result.Id = ptrString.Draw(t, "Id")
+		result.Location = ptrString.Draw(t, "Location")
+		result.Name = ptrString.Draw(t, "Name")
+		result.PrivateEndpointConnections = privateEndpointConnections.Draw(t, "PrivateEndpointConnections")
+		result.ProvisioningState = ptrString.Draw(t, "ProvisioningState")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.Tags = tags.Draw(t, "Tags")
+		result.TimeCreated = ptrString.Draw(t, "TimeCreated")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return diskAccess_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDiskAccess_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDiskAccess_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["TimeCreated"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDiskAccess_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDiskAccess_STATUS(gens map[string]gopter.Gen) {
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUSGenerator())
-	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnection_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
-}
-
+// Test_DiskAccess_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DiskAccess_Spec can be assigned to storage and back losslessly
 func Test_DiskAccess_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -430,44 +355,34 @@ func Test_DiskAccess_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DiskAccess_Spec to DiskAccess_Spec via AssignProperties_To_DiskAccess_Spec & AssignProperties_From_DiskAccess_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDiskAccess_Spec, DiskAccess_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DiskAccess_SpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDiskAccess_Spec tests if a specific instance of DiskAccess_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDiskAccess_Spec(subject DiskAccess_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other compute_v1api20240302s.DiskAccess_Spec
+		err := copied.AssignProperties_To_DiskAccess_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other compute_v1api20240302s.DiskAccess_Spec
-	err := copied.AssignProperties_To_DiskAccess_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DiskAccess_Spec
+		err = actual.AssignProperties_From_DiskAccess_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DiskAccess_Spec
-	err = actual.AssignProperties_From_DiskAccess_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DiskAccess_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -477,29 +392,23 @@ func Test_DiskAccess_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DiskAccess_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDiskAccess_Spec, DiskAccess_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDiskAccess_Spec)
 }
 
 // RunJSONSerializationTestForDiskAccess_Spec runs a test to see if a specific instance of DiskAccess_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForDiskAccess_Spec(subject DiskAccess_Spec) string {
+func RunJSONSerializationTestForDiskAccess_Spec(t *rapid.T) {
+	subject := DiskAccess_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DiskAccess_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -508,52 +417,41 @@ func RunJSONSerializationTestForDiskAccess_Spec(subject DiskAccess_Spec) string 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DiskAccess_Spec instances for property testing - lazily instantiated by DiskAccess_SpecGenerator()
-var diskAccess_SpecGenerator gopter.Gen
+var diskAccess_SpecGenerator *rapid.Generator[DiskAccess_Spec]
 
 // DiskAccess_SpecGenerator returns a generator of DiskAccess_Spec instances for property testing.
-// We first initialize diskAccess_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DiskAccess_SpecGenerator() gopter.Gen {
+func DiskAccess_SpecGenerator() *rapid.Generator[DiskAccess_Spec] {
 	if diskAccess_SpecGenerator != nil {
 		return diskAccess_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDiskAccess_Spec(generators)
-	diskAccess_SpecGenerator = gen.Struct(reflect.TypeOf(DiskAccess_Spec{}), generators)
+	azureName := rapid.String()
+	extendedLocation := rapid.Ptr(ExtendedLocationGenerator(), true)
+	location := rapid.Ptr(rapid.String(), true)
+	operatorSpec := rapid.Ptr(DiskAccessOperatorSpecGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDiskAccess_Spec(generators)
-	AddRelatedPropertyGeneratorsForDiskAccess_Spec(generators)
-	diskAccess_SpecGenerator = gen.Struct(reflect.TypeOf(DiskAccess_Spec{}), generators)
+	diskAccess_SpecGenerator = rapid.Custom(func(t *rapid.T) DiskAccess_Spec {
+		var result DiskAccess_Spec
+		result.AzureName = azureName.Draw(t, "AzureName")
+		result.ExtendedLocation = extendedLocation.Draw(t, "ExtendedLocation")
+		result.Location = location.Draw(t, "Location")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		result.Tags = tags.Draw(t, "Tags")
+		return result
+	})
 
 	return diskAccess_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDiskAccess_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDiskAccess_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDiskAccess_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDiskAccess_Spec(gens map[string]gopter.Gen) {
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
-	gens["OperatorSpec"] = gen.PtrOf(DiskAccessOperatorSpecGenerator())
-}
-
+// Test_PrivateEndpointConnection_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of PrivateEndpointConnection_STATUS can be assigned to storage and back losslessly
 func Test_PrivateEndpointConnection_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -561,44 +459,34 @@ func Test_PrivateEndpointConnection_STATUS_WhenPropertiesConverted_RoundTripsWit
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from PrivateEndpointConnection_STATUS to PrivateEndpointConnection_STATUS via AssignProperties_To_PrivateEndpointConnection_STATUS & AssignProperties_From_PrivateEndpointConnection_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS, PrivateEndpointConnection_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := PrivateEndpointConnection_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS tests if a specific instance of PrivateEndpointConnection_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS(subject PrivateEndpointConnection_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other compute_v1api20240302s.PrivateEndpointConnection_STATUS
+		err := copied.AssignProperties_To_PrivateEndpointConnection_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other compute_v1api20240302s.PrivateEndpointConnection_STATUS
-	err := copied.AssignProperties_To_PrivateEndpointConnection_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual PrivateEndpointConnection_STATUS
+		err = actual.AssignProperties_From_PrivateEndpointConnection_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual PrivateEndpointConnection_STATUS
-	err = actual.AssignProperties_From_PrivateEndpointConnection_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_PrivateEndpointConnection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -608,29 +496,23 @@ func Test_PrivateEndpointConnection_STATUS_WhenSerializedToJson_DeserializesAsEq
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrivateEndpointConnection_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateEndpointConnection_STATUS, PrivateEndpointConnection_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForPrivateEndpointConnection_STATUS)
 }
 
 // RunJSONSerializationTestForPrivateEndpointConnection_STATUS runs a test to see if a specific instance of PrivateEndpointConnection_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateEndpointConnection_STATUS(subject PrivateEndpointConnection_STATUS) string {
+func RunJSONSerializationTestForPrivateEndpointConnection_STATUS(t *rapid.T) {
+	subject := PrivateEndpointConnection_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual PrivateEndpointConnection_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -639,30 +521,27 @@ func RunJSONSerializationTestForPrivateEndpointConnection_STATUS(subject Private
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of PrivateEndpointConnection_STATUS instances for property testing - lazily instantiated by
 // PrivateEndpointConnection_STATUSGenerator()
-var privateEndpointConnection_STATUSGenerator gopter.Gen
+var privateEndpointConnection_STATUSGenerator *rapid.Generator[PrivateEndpointConnection_STATUS]
 
 // PrivateEndpointConnection_STATUSGenerator returns a generator of PrivateEndpointConnection_STATUS instances for property testing.
-func PrivateEndpointConnection_STATUSGenerator() gopter.Gen {
+func PrivateEndpointConnection_STATUSGenerator() *rapid.Generator[PrivateEndpointConnection_STATUS] {
 	if privateEndpointConnection_STATUSGenerator != nil {
 		return privateEndpointConnection_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS(generators)
-	privateEndpointConnection_STATUSGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnection_STATUS{}), generators)
+	id := rapid.Ptr(rapid.String(), true)
+
+	privateEndpointConnection_STATUSGenerator = rapid.Custom(func(t *rapid.T) PrivateEndpointConnection_STATUS {
+		var result PrivateEndpointConnection_STATUS
+		result.Id = id.Draw(t, "Id")
+		return result
+	})
 
 	return privateEndpointConnection_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
