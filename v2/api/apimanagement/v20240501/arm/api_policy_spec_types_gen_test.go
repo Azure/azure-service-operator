@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_ApiPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApiPolicy_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApiPolicy_Spec, ApiPolicy_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForApiPolicy_Spec)
 }
 
 // RunJSONSerializationTestForApiPolicy_Spec runs a test to see if a specific instance of ApiPolicy_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForApiPolicy_Spec(subject ApiPolicy_Spec) string {
+func RunJSONSerializationTestForApiPolicy_Spec(t *rapid.T) {
+	subject := ApiPolicy_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ApiPolicy_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,45 +45,30 @@ func RunJSONSerializationTestForApiPolicy_Spec(subject ApiPolicy_Spec) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ApiPolicy_Spec instances for property testing - lazily instantiated by ApiPolicy_SpecGenerator()
-var apiPolicy_SpecGenerator gopter.Gen
+var apiPolicy_SpecGenerator *rapid.Generator[ApiPolicy_Spec]
 
 // ApiPolicy_SpecGenerator returns a generator of ApiPolicy_Spec instances for property testing.
-// We first initialize apiPolicy_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ApiPolicy_SpecGenerator() gopter.Gen {
+func ApiPolicy_SpecGenerator() *rapid.Generator[ApiPolicy_Spec] {
 	if apiPolicy_SpecGenerator != nil {
 		return apiPolicy_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApiPolicy_Spec(generators)
-	apiPolicy_SpecGenerator = gen.Struct(reflect.TypeOf(ApiPolicy_Spec{}), generators)
+	name := rapid.String()
+	properties := rapid.Ptr(PolicyContractPropertiesGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApiPolicy_Spec(generators)
-	AddRelatedPropertyGeneratorsForApiPolicy_Spec(generators)
-	apiPolicy_SpecGenerator = gen.Struct(reflect.TypeOf(ApiPolicy_Spec{}), generators)
+	apiPolicy_SpecGenerator = rapid.Custom(func(t *rapid.T) ApiPolicy_Spec {
+		var result ApiPolicy_Spec
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return apiPolicy_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApiPolicy_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApiPolicy_Spec(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForApiPolicy_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForApiPolicy_Spec(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(PolicyContractPropertiesGenerator())
 }
 
 func Test_PolicyContractProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -103,29 +78,23 @@ func Test_PolicyContractProperties_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PolicyContractProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPolicyContractProperties, PolicyContractPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForPolicyContractProperties)
 }
 
 // RunJSONSerializationTestForPolicyContractProperties runs a test to see if a specific instance of PolicyContractProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForPolicyContractProperties(subject PolicyContractProperties) string {
+func RunJSONSerializationTestForPolicyContractProperties(t *rapid.T) {
+	subject := PolicyContractPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual PolicyContractProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -134,35 +103,29 @@ func RunJSONSerializationTestForPolicyContractProperties(subject PolicyContractP
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of PolicyContractProperties instances for property testing - lazily instantiated by
 // PolicyContractPropertiesGenerator()
-var policyContractPropertiesGenerator gopter.Gen
+var policyContractPropertiesGenerator *rapid.Generator[PolicyContractProperties]
 
 // PolicyContractPropertiesGenerator returns a generator of PolicyContractProperties instances for property testing.
-func PolicyContractPropertiesGenerator() gopter.Gen {
+func PolicyContractPropertiesGenerator() *rapid.Generator[PolicyContractProperties] {
 	if policyContractPropertiesGenerator != nil {
 		return policyContractPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPolicyContractProperties(generators)
-	policyContractPropertiesGenerator = gen.Struct(reflect.TypeOf(PolicyContractProperties{}), generators)
+	format := rapid.Ptr(rapid.SampledFrom([]PolicyContractProperties_Format{PolicyContractProperties_Format_Rawxml, PolicyContractProperties_Format_RawxmlLink, PolicyContractProperties_Format_Xml, PolicyContractProperties_Format_XmlLink}), true)
+	value := rapid.Ptr(rapid.String(), true)
+
+	policyContractPropertiesGenerator = rapid.Custom(func(t *rapid.T) PolicyContractProperties {
+		var result PolicyContractProperties
+		result.Format = format.Draw(t, "Format")
+		result.Value = value.Draw(t, "Value")
+		return result
+	})
 
 	return policyContractPropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPolicyContractProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPolicyContractProperties(gens map[string]gopter.Gen) {
-	gens["Format"] = gen.PtrOf(gen.OneConstOf(
-		PolicyContractProperties_Format_Rawxml,
-		PolicyContractProperties_Format_RawxmlLink,
-		PolicyContractProperties_Format_Xml,
-		PolicyContractProperties_Format_XmlLink))
-	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }

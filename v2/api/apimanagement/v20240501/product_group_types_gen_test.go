@@ -10,14 +10,11 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
+// Test_ProductGroup_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of ProductGroup round trips to the hub storage version and back losslessly
 func Test_ProductGroup_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -25,47 +22,37 @@ func Test_ProductGroup_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ProductGroup to hub returns original",
-		prop.ForAll(RunResourceConversionTestForProductGroup, ProductGroupGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ProductGroupGenerator().Draw(t, "subject")
+		// Copy subject to make sure conversion doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Convert to our hub version
+		var hub storage.ProductGroup
+		err := copied.ConvertTo(&hub)
+		if err != nil {
+			t.Fatal("ConvertTo: " + err.Error())
+		}
+
+		// Convert from our hub version
+		var actual ProductGroup
+		err = actual.ConvertFrom(&hub)
+		if err != nil {
+			t.Fatal("ConvertFrom: " + err.Error())
+		}
+
+		// Compare actual with what we started with
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
-// RunResourceConversionTestForProductGroup tests if a specific instance of ProductGroup round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForProductGroup(subject ProductGroup) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub storage.ProductGroup
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual ProductGroup
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
+// Test_ProductGroup_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ProductGroup can be assigned to storage and back losslessly
 func Test_ProductGroup_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -73,44 +60,34 @@ func Test_ProductGroup_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ProductGroup to ProductGroup via AssignProperties_To_ProductGroup & AssignProperties_From_ProductGroup returns original",
-		prop.ForAll(RunPropertyAssignmentTestForProductGroup, ProductGroupGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ProductGroupGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForProductGroup tests if a specific instance of ProductGroup can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForProductGroup(subject ProductGroup) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ProductGroup
+		err := copied.AssignProperties_To_ProductGroup(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ProductGroup
-	err := copied.AssignProperties_To_ProductGroup(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ProductGroup
+		err = actual.AssignProperties_From_ProductGroup(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ProductGroup
-	err = actual.AssignProperties_From_ProductGroup(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ProductGroup_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -120,29 +97,23 @@ func Test_ProductGroup_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ProductGroup via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProductGroup, ProductGroupGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForProductGroup)
 }
 
 // RunJSONSerializationTestForProductGroup runs a test to see if a specific instance of ProductGroup round trips to JSON and back losslessly
-func RunJSONSerializationTestForProductGroup(subject ProductGroup) string {
+func RunJSONSerializationTestForProductGroup(t *rapid.T) {
+	subject := ProductGroupGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ProductGroup
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -151,34 +122,33 @@ func RunJSONSerializationTestForProductGroup(subject ProductGroup) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ProductGroup instances for property testing - lazily instantiated by ProductGroupGenerator()
-var productGroupGenerator gopter.Gen
+var productGroupGenerator *rapid.Generator[ProductGroup]
 
 // ProductGroupGenerator returns a generator of ProductGroup instances for property testing.
-func ProductGroupGenerator() gopter.Gen {
+func ProductGroupGenerator() *rapid.Generator[ProductGroup] {
 	if productGroupGenerator != nil {
 		return productGroupGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForProductGroup(generators)
-	productGroupGenerator = gen.Struct(reflect.TypeOf(ProductGroup{}), generators)
+	spec := ProductGroup_SpecGenerator()
+	status := ProductGroup_STATUSGenerator()
+
+	productGroupGenerator = rapid.Custom(func(t *rapid.T) ProductGroup {
+		var result ProductGroup
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return productGroupGenerator
 }
 
-// AddRelatedPropertyGeneratorsForProductGroup is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForProductGroup(gens map[string]gopter.Gen) {
-	gens["Spec"] = ProductGroup_SpecGenerator()
-	gens["Status"] = ProductGroup_STATUSGenerator()
-}
-
+// Test_ProductGroupOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ProductGroupOperatorSpec can be assigned to storage and back losslessly
 func Test_ProductGroupOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -186,44 +156,34 @@ func Test_ProductGroupOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ProductGroupOperatorSpec to ProductGroupOperatorSpec via AssignProperties_To_ProductGroupOperatorSpec & AssignProperties_From_ProductGroupOperatorSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForProductGroupOperatorSpec, ProductGroupOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ProductGroupOperatorSpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForProductGroupOperatorSpec tests if a specific instance of ProductGroupOperatorSpec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForProductGroupOperatorSpec(subject ProductGroupOperatorSpec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ProductGroupOperatorSpec
+		err := copied.AssignProperties_To_ProductGroupOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ProductGroupOperatorSpec
-	err := copied.AssignProperties_To_ProductGroupOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ProductGroupOperatorSpec
+		err = actual.AssignProperties_From_ProductGroupOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ProductGroupOperatorSpec
-	err = actual.AssignProperties_From_ProductGroupOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ProductGroupOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -233,29 +193,23 @@ func Test_ProductGroupOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ProductGroupOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProductGroupOperatorSpec, ProductGroupOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForProductGroupOperatorSpec)
 }
 
 // RunJSONSerializationTestForProductGroupOperatorSpec runs a test to see if a specific instance of ProductGroupOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForProductGroupOperatorSpec(subject ProductGroupOperatorSpec) string {
+func RunJSONSerializationTestForProductGroupOperatorSpec(t *rapid.T) {
+	subject := ProductGroupOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ProductGroupOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -264,28 +218,26 @@ func RunJSONSerializationTestForProductGroupOperatorSpec(subject ProductGroupOpe
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ProductGroupOperatorSpec instances for property testing - lazily instantiated by
 // ProductGroupOperatorSpecGenerator()
-var productGroupOperatorSpecGenerator gopter.Gen
+var productGroupOperatorSpecGenerator *rapid.Generator[ProductGroupOperatorSpec]
 
 // ProductGroupOperatorSpecGenerator returns a generator of ProductGroupOperatorSpec instances for property testing.
-func ProductGroupOperatorSpecGenerator() gopter.Gen {
+func ProductGroupOperatorSpecGenerator() *rapid.Generator[ProductGroupOperatorSpec] {
 	if productGroupOperatorSpecGenerator != nil {
 		return productGroupOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	productGroupOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ProductGroupOperatorSpec{}), generators)
+	productGroupOperatorSpecGenerator = rapid.Just(ProductGroupOperatorSpec{})
 
 	return productGroupOperatorSpecGenerator
 }
 
+// Test_ProductGroup_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ProductGroup_STATUS can be assigned to storage and back losslessly
 func Test_ProductGroup_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -293,44 +245,34 @@ func Test_ProductGroup_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ProductGroup_STATUS to ProductGroup_STATUS via AssignProperties_To_ProductGroup_STATUS & AssignProperties_From_ProductGroup_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForProductGroup_STATUS, ProductGroup_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ProductGroup_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForProductGroup_STATUS tests if a specific instance of ProductGroup_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForProductGroup_STATUS(subject ProductGroup_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ProductGroup_STATUS
+		err := copied.AssignProperties_To_ProductGroup_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ProductGroup_STATUS
-	err := copied.AssignProperties_To_ProductGroup_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ProductGroup_STATUS
+		err = actual.AssignProperties_From_ProductGroup_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ProductGroup_STATUS
-	err = actual.AssignProperties_From_ProductGroup_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ProductGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -340,29 +282,23 @@ func Test_ProductGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ProductGroup_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProductGroup_STATUS, ProductGroup_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForProductGroup_STATUS)
 }
 
 // RunJSONSerializationTestForProductGroup_STATUS runs a test to see if a specific instance of ProductGroup_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForProductGroup_STATUS(subject ProductGroup_STATUS) string {
+func RunJSONSerializationTestForProductGroup_STATUS(t *rapid.T) {
+	subject := ProductGroup_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ProductGroup_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -371,28 +307,26 @@ func RunJSONSerializationTestForProductGroup_STATUS(subject ProductGroup_STATUS)
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ProductGroup_STATUS instances for property testing - lazily instantiated by
 // ProductGroup_STATUSGenerator()
-var productGroup_STATUSGenerator gopter.Gen
+var productGroup_STATUSGenerator *rapid.Generator[ProductGroup_STATUS]
 
 // ProductGroup_STATUSGenerator returns a generator of ProductGroup_STATUS instances for property testing.
-func ProductGroup_STATUSGenerator() gopter.Gen {
+func ProductGroup_STATUSGenerator() *rapid.Generator[ProductGroup_STATUS] {
 	if productGroup_STATUSGenerator != nil {
 		return productGroup_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	productGroup_STATUSGenerator = gen.Struct(reflect.TypeOf(ProductGroup_STATUS{}), generators)
+	productGroup_STATUSGenerator = rapid.Just(ProductGroup_STATUS{})
 
 	return productGroup_STATUSGenerator
 }
 
+// Test_ProductGroup_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ProductGroup_Spec can be assigned to storage and back losslessly
 func Test_ProductGroup_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -400,44 +334,34 @@ func Test_ProductGroup_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ProductGroup_Spec to ProductGroup_Spec via AssignProperties_To_ProductGroup_Spec & AssignProperties_From_ProductGroup_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForProductGroup_Spec, ProductGroup_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ProductGroup_SpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForProductGroup_Spec tests if a specific instance of ProductGroup_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForProductGroup_Spec(subject ProductGroup_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ProductGroup_Spec
+		err := copied.AssignProperties_To_ProductGroup_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ProductGroup_Spec
-	err := copied.AssignProperties_To_ProductGroup_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ProductGroup_Spec
+		err = actual.AssignProperties_From_ProductGroup_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ProductGroup_Spec
-	err = actual.AssignProperties_From_ProductGroup_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ProductGroup_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -447,29 +371,23 @@ func Test_ProductGroup_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ProductGroup_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProductGroup_Spec, ProductGroup_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForProductGroup_Spec)
 }
 
 // RunJSONSerializationTestForProductGroup_Spec runs a test to see if a specific instance of ProductGroup_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForProductGroup_Spec(subject ProductGroup_Spec) string {
+func RunJSONSerializationTestForProductGroup_Spec(t *rapid.T) {
+	subject := ProductGroup_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ProductGroup_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -478,43 +396,28 @@ func RunJSONSerializationTestForProductGroup_Spec(subject ProductGroup_Spec) str
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ProductGroup_Spec instances for property testing - lazily instantiated by ProductGroup_SpecGenerator()
-var productGroup_SpecGenerator gopter.Gen
+var productGroup_SpecGenerator *rapid.Generator[ProductGroup_Spec]
 
 // ProductGroup_SpecGenerator returns a generator of ProductGroup_Spec instances for property testing.
-// We first initialize productGroup_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ProductGroup_SpecGenerator() gopter.Gen {
+func ProductGroup_SpecGenerator() *rapid.Generator[ProductGroup_Spec] {
 	if productGroup_SpecGenerator != nil {
 		return productGroup_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProductGroup_Spec(generators)
-	productGroup_SpecGenerator = gen.Struct(reflect.TypeOf(ProductGroup_Spec{}), generators)
+	azureName := rapid.String()
+	operatorSpec := rapid.Ptr(ProductGroupOperatorSpecGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProductGroup_Spec(generators)
-	AddRelatedPropertyGeneratorsForProductGroup_Spec(generators)
-	productGroup_SpecGenerator = gen.Struct(reflect.TypeOf(ProductGroup_Spec{}), generators)
+	productGroup_SpecGenerator = rapid.Custom(func(t *rapid.T) ProductGroup_Spec {
+		var result ProductGroup_Spec
+		result.AzureName = azureName.Draw(t, "AzureName")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		return result
+	})
 
 	return productGroup_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForProductGroup_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProductGroup_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForProductGroup_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForProductGroup_Spec(gens map[string]gopter.Gen) {
-	gens["OperatorSpec"] = gen.PtrOf(ProductGroupOperatorSpecGenerator())
 }
