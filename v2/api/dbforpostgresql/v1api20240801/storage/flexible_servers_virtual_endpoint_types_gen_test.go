@@ -11,14 +11,11 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
+// Test_FlexibleServersVirtualEndpoint_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of FlexibleServersVirtualEndpoint round trips to the hub storage version and back losslessly
 func Test_FlexibleServersVirtualEndpoint_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -26,47 +23,37 @@ func Test_FlexibleServersVirtualEndpoint_WhenConvertedToHub_RoundTripsWithoutLos
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from FlexibleServersVirtualEndpoint to hub returns original",
-		prop.ForAll(RunResourceConversionTestForFlexibleServersVirtualEndpoint, FlexibleServersVirtualEndpointGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+	rapid.Check(t, func(t *rapid.T) {
+		subject := FlexibleServersVirtualEndpointGenerator().Draw(t, "subject")
+		// Copy subject to make sure conversion doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Convert to our hub version
+		var hub v20250801s.FlexibleServersVirtualEndpoint
+		err := copied.ConvertTo(&hub)
+		if err != nil {
+			t.Fatal("ConvertTo: " + err.Error())
+		}
+
+		// Convert from our hub version
+		var actual FlexibleServersVirtualEndpoint
+		err = actual.ConvertFrom(&hub)
+		if err != nil {
+			t.Fatal("ConvertFrom: " + err.Error())
+		}
+
+		// Compare actual with what we started with
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
-// RunResourceConversionTestForFlexibleServersVirtualEndpoint tests if a specific instance of FlexibleServersVirtualEndpoint round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForFlexibleServersVirtualEndpoint(subject FlexibleServersVirtualEndpoint) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub v20250801s.FlexibleServersVirtualEndpoint
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual FlexibleServersVirtualEndpoint
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
+// Test_FlexibleServersVirtualEndpoint_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of FlexibleServersVirtualEndpoint can be assigned to storage and back losslessly
 func Test_FlexibleServersVirtualEndpoint_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -74,44 +61,34 @@ func Test_FlexibleServersVirtualEndpoint_WhenPropertiesConverted_RoundTripsWitho
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from FlexibleServersVirtualEndpoint to FlexibleServersVirtualEndpoint via AssignProperties_To_FlexibleServersVirtualEndpoint & AssignProperties_From_FlexibleServersVirtualEndpoint returns original",
-		prop.ForAll(RunPropertyAssignmentTestForFlexibleServersVirtualEndpoint, FlexibleServersVirtualEndpointGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := FlexibleServersVirtualEndpointGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForFlexibleServersVirtualEndpoint tests if a specific instance of FlexibleServersVirtualEndpoint can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForFlexibleServersVirtualEndpoint(subject FlexibleServersVirtualEndpoint) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other v20240801s.FlexibleServersVirtualEndpoint
+		err := copied.AssignProperties_To_FlexibleServersVirtualEndpoint(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240801s.FlexibleServersVirtualEndpoint
-	err := copied.AssignProperties_To_FlexibleServersVirtualEndpoint(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual FlexibleServersVirtualEndpoint
+		err = actual.AssignProperties_From_FlexibleServersVirtualEndpoint(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual FlexibleServersVirtualEndpoint
-	err = actual.AssignProperties_From_FlexibleServersVirtualEndpoint(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_FlexibleServersVirtualEndpoint_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -121,29 +98,23 @@ func Test_FlexibleServersVirtualEndpoint_WhenSerializedToJson_DeserializesAsEqua
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FlexibleServersVirtualEndpoint via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFlexibleServersVirtualEndpoint, FlexibleServersVirtualEndpointGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFlexibleServersVirtualEndpoint)
 }
 
 // RunJSONSerializationTestForFlexibleServersVirtualEndpoint runs a test to see if a specific instance of FlexibleServersVirtualEndpoint round trips to JSON and back losslessly
-func RunJSONSerializationTestForFlexibleServersVirtualEndpoint(subject FlexibleServersVirtualEndpoint) string {
+func RunJSONSerializationTestForFlexibleServersVirtualEndpoint(t *rapid.T) {
+	subject := FlexibleServersVirtualEndpointGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FlexibleServersVirtualEndpoint
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -152,35 +123,34 @@ func RunJSONSerializationTestForFlexibleServersVirtualEndpoint(subject FlexibleS
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FlexibleServersVirtualEndpoint instances for property testing - lazily instantiated by
 // FlexibleServersVirtualEndpointGenerator()
-var flexibleServersVirtualEndpointGenerator gopter.Gen
+var flexibleServersVirtualEndpointGenerator *rapid.Generator[FlexibleServersVirtualEndpoint]
 
 // FlexibleServersVirtualEndpointGenerator returns a generator of FlexibleServersVirtualEndpoint instances for property testing.
-func FlexibleServersVirtualEndpointGenerator() gopter.Gen {
+func FlexibleServersVirtualEndpointGenerator() *rapid.Generator[FlexibleServersVirtualEndpoint] {
 	if flexibleServersVirtualEndpointGenerator != nil {
 		return flexibleServersVirtualEndpointGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForFlexibleServersVirtualEndpoint(generators)
-	flexibleServersVirtualEndpointGenerator = gen.Struct(reflect.TypeOf(FlexibleServersVirtualEndpoint{}), generators)
+	spec := FlexibleServersVirtualEndpoint_SpecGenerator()
+	status := FlexibleServersVirtualEndpoint_STATUSGenerator()
+
+	flexibleServersVirtualEndpointGenerator = rapid.Custom(func(t *rapid.T) FlexibleServersVirtualEndpoint {
+		var result FlexibleServersVirtualEndpoint
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return flexibleServersVirtualEndpointGenerator
 }
 
-// AddRelatedPropertyGeneratorsForFlexibleServersVirtualEndpoint is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFlexibleServersVirtualEndpoint(gens map[string]gopter.Gen) {
-	gens["Spec"] = FlexibleServersVirtualEndpoint_SpecGenerator()
-	gens["Status"] = FlexibleServersVirtualEndpoint_STATUSGenerator()
-}
-
+// Test_FlexibleServersVirtualEndpointOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of FlexibleServersVirtualEndpointOperatorSpec can be assigned to storage and back losslessly
 func Test_FlexibleServersVirtualEndpointOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -188,44 +158,34 @@ func Test_FlexibleServersVirtualEndpointOperatorSpec_WhenPropertiesConverted_Rou
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from FlexibleServersVirtualEndpointOperatorSpec to FlexibleServersVirtualEndpointOperatorSpec via AssignProperties_To_FlexibleServersVirtualEndpointOperatorSpec & AssignProperties_From_FlexibleServersVirtualEndpointOperatorSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForFlexibleServersVirtualEndpointOperatorSpec, FlexibleServersVirtualEndpointOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := FlexibleServersVirtualEndpointOperatorSpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForFlexibleServersVirtualEndpointOperatorSpec tests if a specific instance of FlexibleServersVirtualEndpointOperatorSpec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForFlexibleServersVirtualEndpointOperatorSpec(subject FlexibleServersVirtualEndpointOperatorSpec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other v20240801s.FlexibleServersVirtualEndpointOperatorSpec
+		err := copied.AssignProperties_To_FlexibleServersVirtualEndpointOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240801s.FlexibleServersVirtualEndpointOperatorSpec
-	err := copied.AssignProperties_To_FlexibleServersVirtualEndpointOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual FlexibleServersVirtualEndpointOperatorSpec
+		err = actual.AssignProperties_From_FlexibleServersVirtualEndpointOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual FlexibleServersVirtualEndpointOperatorSpec
-	err = actual.AssignProperties_From_FlexibleServersVirtualEndpointOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_FlexibleServersVirtualEndpointOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -235,29 +195,23 @@ func Test_FlexibleServersVirtualEndpointOperatorSpec_WhenSerializedToJson_Deseri
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FlexibleServersVirtualEndpointOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFlexibleServersVirtualEndpointOperatorSpec, FlexibleServersVirtualEndpointOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFlexibleServersVirtualEndpointOperatorSpec)
 }
 
 // RunJSONSerializationTestForFlexibleServersVirtualEndpointOperatorSpec runs a test to see if a specific instance of FlexibleServersVirtualEndpointOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForFlexibleServersVirtualEndpointOperatorSpec(subject FlexibleServersVirtualEndpointOperatorSpec) string {
+func RunJSONSerializationTestForFlexibleServersVirtualEndpointOperatorSpec(t *rapid.T) {
+	subject := FlexibleServersVirtualEndpointOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FlexibleServersVirtualEndpointOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -266,28 +220,26 @@ func RunJSONSerializationTestForFlexibleServersVirtualEndpointOperatorSpec(subje
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FlexibleServersVirtualEndpointOperatorSpec instances for property testing - lazily instantiated by
 // FlexibleServersVirtualEndpointOperatorSpecGenerator()
-var flexibleServersVirtualEndpointOperatorSpecGenerator gopter.Gen
+var flexibleServersVirtualEndpointOperatorSpecGenerator *rapid.Generator[FlexibleServersVirtualEndpointOperatorSpec]
 
 // FlexibleServersVirtualEndpointOperatorSpecGenerator returns a generator of FlexibleServersVirtualEndpointOperatorSpec instances for property testing.
-func FlexibleServersVirtualEndpointOperatorSpecGenerator() gopter.Gen {
+func FlexibleServersVirtualEndpointOperatorSpecGenerator() *rapid.Generator[FlexibleServersVirtualEndpointOperatorSpec] {
 	if flexibleServersVirtualEndpointOperatorSpecGenerator != nil {
 		return flexibleServersVirtualEndpointOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	flexibleServersVirtualEndpointOperatorSpecGenerator = gen.Struct(reflect.TypeOf(FlexibleServersVirtualEndpointOperatorSpec{}), generators)
+	flexibleServersVirtualEndpointOperatorSpecGenerator = rapid.Just(FlexibleServersVirtualEndpointOperatorSpec{})
 
 	return flexibleServersVirtualEndpointOperatorSpecGenerator
 }
 
+// Test_FlexibleServersVirtualEndpoint_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of FlexibleServersVirtualEndpoint_STATUS can be assigned to storage and back losslessly
 func Test_FlexibleServersVirtualEndpoint_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -295,44 +247,34 @@ func Test_FlexibleServersVirtualEndpoint_STATUS_WhenPropertiesConverted_RoundTri
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from FlexibleServersVirtualEndpoint_STATUS to FlexibleServersVirtualEndpoint_STATUS via AssignProperties_To_FlexibleServersVirtualEndpoint_STATUS & AssignProperties_From_FlexibleServersVirtualEndpoint_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForFlexibleServersVirtualEndpoint_STATUS, FlexibleServersVirtualEndpoint_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := FlexibleServersVirtualEndpoint_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForFlexibleServersVirtualEndpoint_STATUS tests if a specific instance of FlexibleServersVirtualEndpoint_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForFlexibleServersVirtualEndpoint_STATUS(subject FlexibleServersVirtualEndpoint_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other v20240801s.FlexibleServersVirtualEndpoint_STATUS
+		err := copied.AssignProperties_To_FlexibleServersVirtualEndpoint_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240801s.FlexibleServersVirtualEndpoint_STATUS
-	err := copied.AssignProperties_To_FlexibleServersVirtualEndpoint_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual FlexibleServersVirtualEndpoint_STATUS
+		err = actual.AssignProperties_From_FlexibleServersVirtualEndpoint_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual FlexibleServersVirtualEndpoint_STATUS
-	err = actual.AssignProperties_From_FlexibleServersVirtualEndpoint_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_FlexibleServersVirtualEndpoint_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -342,29 +284,23 @@ func Test_FlexibleServersVirtualEndpoint_STATUS_WhenSerializedToJson_Deserialize
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FlexibleServersVirtualEndpoint_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFlexibleServersVirtualEndpoint_STATUS, FlexibleServersVirtualEndpoint_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFlexibleServersVirtualEndpoint_STATUS)
 }
 
 // RunJSONSerializationTestForFlexibleServersVirtualEndpoint_STATUS runs a test to see if a specific instance of FlexibleServersVirtualEndpoint_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForFlexibleServersVirtualEndpoint_STATUS(subject FlexibleServersVirtualEndpoint_STATUS) string {
+func RunJSONSerializationTestForFlexibleServersVirtualEndpoint_STATUS(t *rapid.T) {
+	subject := FlexibleServersVirtualEndpoint_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FlexibleServersVirtualEndpoint_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -373,53 +309,40 @@ func RunJSONSerializationTestForFlexibleServersVirtualEndpoint_STATUS(subject Fl
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FlexibleServersVirtualEndpoint_STATUS instances for property testing - lazily instantiated by
 // FlexibleServersVirtualEndpoint_STATUSGenerator()
-var flexibleServersVirtualEndpoint_STATUSGenerator gopter.Gen
+var flexibleServersVirtualEndpoint_STATUSGenerator *rapid.Generator[FlexibleServersVirtualEndpoint_STATUS]
 
 // FlexibleServersVirtualEndpoint_STATUSGenerator returns a generator of FlexibleServersVirtualEndpoint_STATUS instances for property testing.
-// We first initialize flexibleServersVirtualEndpoint_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func FlexibleServersVirtualEndpoint_STATUSGenerator() gopter.Gen {
+func FlexibleServersVirtualEndpoint_STATUSGenerator() *rapid.Generator[FlexibleServersVirtualEndpoint_STATUS] {
 	if flexibleServersVirtualEndpoint_STATUSGenerator != nil {
 		return flexibleServersVirtualEndpoint_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServersVirtualEndpoint_STATUS(generators)
-	flexibleServersVirtualEndpoint_STATUSGenerator = gen.Struct(reflect.TypeOf(FlexibleServersVirtualEndpoint_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServersVirtualEndpoint_STATUS(generators)
-	AddRelatedPropertyGeneratorsForFlexibleServersVirtualEndpoint_STATUS(generators)
-	flexibleServersVirtualEndpoint_STATUSGenerator = gen.Struct(reflect.TypeOf(FlexibleServersVirtualEndpoint_STATUS{}), generators)
+	flexibleServersVirtualEndpoint_STATUSGenerator = rapid.Custom(func(t *rapid.T) FlexibleServersVirtualEndpoint_STATUS {
+		var result FlexibleServersVirtualEndpoint_STATUS
+		result.EndpointType = ptrString.Draw(t, "EndpointType")
+		result.Id = ptrString.Draw(t, "Id")
+		result.Members = sliceOfString.Draw(t, "Members")
+		result.Name = ptrString.Draw(t, "Name")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.Type = ptrString.Draw(t, "Type")
+		result.VirtualEndpoints = sliceOfString.Draw(t, "VirtualEndpoints")
+		return result
+	})
 
 	return flexibleServersVirtualEndpoint_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForFlexibleServersVirtualEndpoint_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFlexibleServersVirtualEndpoint_STATUS(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Members"] = gen.SliceOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["VirtualEndpoints"] = gen.SliceOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForFlexibleServersVirtualEndpoint_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFlexibleServersVirtualEndpoint_STATUS(gens map[string]gopter.Gen) {
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
-}
-
+// Test_FlexibleServersVirtualEndpoint_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of FlexibleServersVirtualEndpoint_Spec can be assigned to storage and back losslessly
 func Test_FlexibleServersVirtualEndpoint_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -427,44 +350,34 @@ func Test_FlexibleServersVirtualEndpoint_Spec_WhenPropertiesConverted_RoundTrips
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from FlexibleServersVirtualEndpoint_Spec to FlexibleServersVirtualEndpoint_Spec via AssignProperties_To_FlexibleServersVirtualEndpoint_Spec & AssignProperties_From_FlexibleServersVirtualEndpoint_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForFlexibleServersVirtualEndpoint_Spec, FlexibleServersVirtualEndpoint_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := FlexibleServersVirtualEndpoint_SpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForFlexibleServersVirtualEndpoint_Spec tests if a specific instance of FlexibleServersVirtualEndpoint_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForFlexibleServersVirtualEndpoint_Spec(subject FlexibleServersVirtualEndpoint_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other v20240801s.FlexibleServersVirtualEndpoint_Spec
+		err := copied.AssignProperties_To_FlexibleServersVirtualEndpoint_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240801s.FlexibleServersVirtualEndpoint_Spec
-	err := copied.AssignProperties_To_FlexibleServersVirtualEndpoint_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual FlexibleServersVirtualEndpoint_Spec
+		err = actual.AssignProperties_From_FlexibleServersVirtualEndpoint_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual FlexibleServersVirtualEndpoint_Spec
-	err = actual.AssignProperties_From_FlexibleServersVirtualEndpoint_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_FlexibleServersVirtualEndpoint_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -474,29 +387,23 @@ func Test_FlexibleServersVirtualEndpoint_Spec_WhenSerializedToJson_DeserializesA
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FlexibleServersVirtualEndpoint_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFlexibleServersVirtualEndpoint_Spec, FlexibleServersVirtualEndpoint_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFlexibleServersVirtualEndpoint_Spec)
 }
 
 // RunJSONSerializationTestForFlexibleServersVirtualEndpoint_Spec runs a test to see if a specific instance of FlexibleServersVirtualEndpoint_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForFlexibleServersVirtualEndpoint_Spec(subject FlexibleServersVirtualEndpoint_Spec) string {
+func RunJSONSerializationTestForFlexibleServersVirtualEndpoint_Spec(t *rapid.T) {
+	subject := FlexibleServersVirtualEndpoint_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FlexibleServersVirtualEndpoint_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -505,47 +412,34 @@ func RunJSONSerializationTestForFlexibleServersVirtualEndpoint_Spec(subject Flex
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FlexibleServersVirtualEndpoint_Spec instances for property testing - lazily instantiated by
 // FlexibleServersVirtualEndpoint_SpecGenerator()
-var flexibleServersVirtualEndpoint_SpecGenerator gopter.Gen
+var flexibleServersVirtualEndpoint_SpecGenerator *rapid.Generator[FlexibleServersVirtualEndpoint_Spec]
 
 // FlexibleServersVirtualEndpoint_SpecGenerator returns a generator of FlexibleServersVirtualEndpoint_Spec instances for property testing.
-// We first initialize flexibleServersVirtualEndpoint_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func FlexibleServersVirtualEndpoint_SpecGenerator() gopter.Gen {
+func FlexibleServersVirtualEndpoint_SpecGenerator() *rapid.Generator[FlexibleServersVirtualEndpoint_Spec] {
 	if flexibleServersVirtualEndpoint_SpecGenerator != nil {
 		return flexibleServersVirtualEndpoint_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServersVirtualEndpoint_Spec(generators)
-	flexibleServersVirtualEndpoint_SpecGenerator = gen.Struct(reflect.TypeOf(FlexibleServersVirtualEndpoint_Spec{}), generators)
+	genString := rapid.String()
+	endpointType := rapid.Ptr(rapid.String(), true)
+	members := rapid.SliceOf(rapid.String())
+	operatorSpec := rapid.Ptr(FlexibleServersVirtualEndpointOperatorSpecGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServersVirtualEndpoint_Spec(generators)
-	AddRelatedPropertyGeneratorsForFlexibleServersVirtualEndpoint_Spec(generators)
-	flexibleServersVirtualEndpoint_SpecGenerator = gen.Struct(reflect.TypeOf(FlexibleServersVirtualEndpoint_Spec{}), generators)
+	flexibleServersVirtualEndpoint_SpecGenerator = rapid.Custom(func(t *rapid.T) FlexibleServersVirtualEndpoint_Spec {
+		var result FlexibleServersVirtualEndpoint_Spec
+		result.AzureName = genString.Draw(t, "AzureName")
+		result.EndpointType = endpointType.Draw(t, "EndpointType")
+		result.Members = members.Draw(t, "Members")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		result.OriginalVersion = genString.Draw(t, "OriginalVersion")
+		return result
+	})
 
 	return flexibleServersVirtualEndpoint_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForFlexibleServersVirtualEndpoint_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFlexibleServersVirtualEndpoint_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["EndpointType"] = gen.PtrOf(gen.AlphaString())
-	gens["Members"] = gen.SliceOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForFlexibleServersVirtualEndpoint_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFlexibleServersVirtualEndpoint_Spec(gens map[string]gopter.Gen) {
-	gens["OperatorSpec"] = gen.PtrOf(FlexibleServersVirtualEndpointOperatorSpecGenerator())
 }

@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_FlexibleServersVirtualEndpoint_STATUS_WhenSerializedToJson_Deserialize
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FlexibleServersVirtualEndpoint_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFlexibleServersVirtualEndpoint_STATUS, FlexibleServersVirtualEndpoint_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFlexibleServersVirtualEndpoint_STATUS)
 }
 
 // RunJSONSerializationTestForFlexibleServersVirtualEndpoint_STATUS runs a test to see if a specific instance of FlexibleServersVirtualEndpoint_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForFlexibleServersVirtualEndpoint_STATUS(subject FlexibleServersVirtualEndpoint_STATUS) string {
+func RunJSONSerializationTestForFlexibleServersVirtualEndpoint_STATUS(t *rapid.T) {
+	subject := FlexibleServersVirtualEndpoint_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FlexibleServersVirtualEndpoint_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,49 +45,35 @@ func RunJSONSerializationTestForFlexibleServersVirtualEndpoint_STATUS(subject Fl
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FlexibleServersVirtualEndpoint_STATUS instances for property testing - lazily instantiated by
 // FlexibleServersVirtualEndpoint_STATUSGenerator()
-var flexibleServersVirtualEndpoint_STATUSGenerator gopter.Gen
+var flexibleServersVirtualEndpoint_STATUSGenerator *rapid.Generator[FlexibleServersVirtualEndpoint_STATUS]
 
 // FlexibleServersVirtualEndpoint_STATUSGenerator returns a generator of FlexibleServersVirtualEndpoint_STATUS instances for property testing.
-// We first initialize flexibleServersVirtualEndpoint_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func FlexibleServersVirtualEndpoint_STATUSGenerator() gopter.Gen {
+func FlexibleServersVirtualEndpoint_STATUSGenerator() *rapid.Generator[FlexibleServersVirtualEndpoint_STATUS] {
 	if flexibleServersVirtualEndpoint_STATUSGenerator != nil {
 		return flexibleServersVirtualEndpoint_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServersVirtualEndpoint_STATUS(generators)
-	flexibleServersVirtualEndpoint_STATUSGenerator = gen.Struct(reflect.TypeOf(FlexibleServersVirtualEndpoint_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	properties := rapid.Ptr(VirtualEndpointResourceProperties_STATUSGenerator(), true)
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServersVirtualEndpoint_STATUS(generators)
-	AddRelatedPropertyGeneratorsForFlexibleServersVirtualEndpoint_STATUS(generators)
-	flexibleServersVirtualEndpoint_STATUSGenerator = gen.Struct(reflect.TypeOf(FlexibleServersVirtualEndpoint_STATUS{}), generators)
+	flexibleServersVirtualEndpoint_STATUSGenerator = rapid.Custom(func(t *rapid.T) FlexibleServersVirtualEndpoint_STATUS {
+		var result FlexibleServersVirtualEndpoint_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return flexibleServersVirtualEndpoint_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForFlexibleServersVirtualEndpoint_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFlexibleServersVirtualEndpoint_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForFlexibleServersVirtualEndpoint_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFlexibleServersVirtualEndpoint_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(VirtualEndpointResourceProperties_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_VirtualEndpointResourceProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -107,29 +83,23 @@ func Test_VirtualEndpointResourceProperties_STATUS_WhenSerializedToJson_Deserial
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualEndpointResourceProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualEndpointResourceProperties_STATUS, VirtualEndpointResourceProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForVirtualEndpointResourceProperties_STATUS)
 }
 
 // RunJSONSerializationTestForVirtualEndpointResourceProperties_STATUS runs a test to see if a specific instance of VirtualEndpointResourceProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualEndpointResourceProperties_STATUS(subject VirtualEndpointResourceProperties_STATUS) string {
+func RunJSONSerializationTestForVirtualEndpointResourceProperties_STATUS(t *rapid.T) {
+	subject := VirtualEndpointResourceProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual VirtualEndpointResourceProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -138,32 +108,30 @@ func RunJSONSerializationTestForVirtualEndpointResourceProperties_STATUS(subject
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of VirtualEndpointResourceProperties_STATUS instances for property testing - lazily instantiated by
 // VirtualEndpointResourceProperties_STATUSGenerator()
-var virtualEndpointResourceProperties_STATUSGenerator gopter.Gen
+var virtualEndpointResourceProperties_STATUSGenerator *rapid.Generator[VirtualEndpointResourceProperties_STATUS]
 
 // VirtualEndpointResourceProperties_STATUSGenerator returns a generator of VirtualEndpointResourceProperties_STATUS instances for property testing.
-func VirtualEndpointResourceProperties_STATUSGenerator() gopter.Gen {
+func VirtualEndpointResourceProperties_STATUSGenerator() *rapid.Generator[VirtualEndpointResourceProperties_STATUS] {
 	if virtualEndpointResourceProperties_STATUSGenerator != nil {
 		return virtualEndpointResourceProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualEndpointResourceProperties_STATUS(generators)
-	virtualEndpointResourceProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualEndpointResourceProperties_STATUS{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	endpointType := rapid.Ptr(rapid.SampledFrom([]VirtualEndpointResourceProperties_EndpointType_STATUS{VirtualEndpointResourceProperties_EndpointType_STATUS_ReadWrite}), true)
+
+	virtualEndpointResourceProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) VirtualEndpointResourceProperties_STATUS {
+		var result VirtualEndpointResourceProperties_STATUS
+		result.EndpointType = endpointType.Draw(t, "EndpointType")
+		result.Members = sliceOfString.Draw(t, "Members")
+		result.VirtualEndpoints = sliceOfString.Draw(t, "VirtualEndpoints")
+		return result
+	})
 
 	return virtualEndpointResourceProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForVirtualEndpointResourceProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualEndpointResourceProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(VirtualEndpointResourceProperties_EndpointType_STATUS_ReadWrite))
-	gens["Members"] = gen.SliceOf(gen.AlphaString())
-	gens["VirtualEndpoints"] = gen.SliceOf(gen.AlphaString())
 }
