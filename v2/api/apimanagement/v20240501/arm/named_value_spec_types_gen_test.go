@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_NamedValueCreateContractProperties_WhenSerializedToJson_DeserializesAs
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of NamedValueCreateContractProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamedValueCreateContractProperties, NamedValueCreateContractPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForNamedValueCreateContractProperties)
 }
 
 // RunJSONSerializationTestForNamedValueCreateContractProperties runs a test to see if a specific instance of NamedValueCreateContractProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamedValueCreateContractProperties(subject NamedValueCreateContractProperties) string {
+func RunJSONSerializationTestForNamedValueCreateContractProperties(t *rapid.T) {
+	subject := NamedValueCreateContractPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual NamedValueCreateContractProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,49 +45,36 @@ func RunJSONSerializationTestForNamedValueCreateContractProperties(subject Named
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of NamedValueCreateContractProperties instances for property testing - lazily instantiated by
 // NamedValueCreateContractPropertiesGenerator()
-var namedValueCreateContractPropertiesGenerator gopter.Gen
+var namedValueCreateContractPropertiesGenerator *rapid.Generator[NamedValueCreateContractProperties]
 
 // NamedValueCreateContractPropertiesGenerator returns a generator of NamedValueCreateContractProperties instances for property testing.
-// We first initialize namedValueCreateContractPropertiesGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func NamedValueCreateContractPropertiesGenerator() gopter.Gen {
+func NamedValueCreateContractPropertiesGenerator() *rapid.Generator[NamedValueCreateContractProperties] {
 	if namedValueCreateContractPropertiesGenerator != nil {
 		return namedValueCreateContractPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamedValueCreateContractProperties(generators)
-	namedValueCreateContractPropertiesGenerator = gen.Struct(reflect.TypeOf(NamedValueCreateContractProperties{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	keyVault := rapid.Ptr(KeyVaultContractCreatePropertiesGenerator(), true)
+	secret := rapid.Ptr(rapid.Bool(), true)
+	tags := rapid.SliceOf(rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamedValueCreateContractProperties(generators)
-	AddRelatedPropertyGeneratorsForNamedValueCreateContractProperties(generators)
-	namedValueCreateContractPropertiesGenerator = gen.Struct(reflect.TypeOf(NamedValueCreateContractProperties{}), generators)
+	namedValueCreateContractPropertiesGenerator = rapid.Custom(func(t *rapid.T) NamedValueCreateContractProperties {
+		var result NamedValueCreateContractProperties
+		result.DisplayName = ptrString.Draw(t, "DisplayName")
+		result.KeyVault = keyVault.Draw(t, "KeyVault")
+		result.Secret = secret.Draw(t, "Secret")
+		result.Tags = tags.Draw(t, "Tags")
+		result.Value = ptrString.Draw(t, "Value")
+		return result
+	})
 
 	return namedValueCreateContractPropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForNamedValueCreateContractProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNamedValueCreateContractProperties(gens map[string]gopter.Gen) {
-	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
-	gens["Secret"] = gen.PtrOf(gen.Bool())
-	gens["Tags"] = gen.SliceOf(gen.AlphaString())
-	gens["Value"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForNamedValueCreateContractProperties is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNamedValueCreateContractProperties(gens map[string]gopter.Gen) {
-	gens["KeyVault"] = gen.PtrOf(KeyVaultContractCreatePropertiesGenerator())
 }
 
 func Test_NamedValue_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -107,29 +84,23 @@ func Test_NamedValue_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of NamedValue_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamedValue_Spec, NamedValue_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForNamedValue_Spec)
 }
 
 // RunJSONSerializationTestForNamedValue_Spec runs a test to see if a specific instance of NamedValue_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamedValue_Spec(subject NamedValue_Spec) string {
+func RunJSONSerializationTestForNamedValue_Spec(t *rapid.T) {
+	subject := NamedValue_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual NamedValue_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -138,43 +109,28 @@ func RunJSONSerializationTestForNamedValue_Spec(subject NamedValue_Spec) string 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of NamedValue_Spec instances for property testing - lazily instantiated by NamedValue_SpecGenerator()
-var namedValue_SpecGenerator gopter.Gen
+var namedValue_SpecGenerator *rapid.Generator[NamedValue_Spec]
 
 // NamedValue_SpecGenerator returns a generator of NamedValue_Spec instances for property testing.
-// We first initialize namedValue_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func NamedValue_SpecGenerator() gopter.Gen {
+func NamedValue_SpecGenerator() *rapid.Generator[NamedValue_Spec] {
 	if namedValue_SpecGenerator != nil {
 		return namedValue_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamedValue_Spec(generators)
-	namedValue_SpecGenerator = gen.Struct(reflect.TypeOf(NamedValue_Spec{}), generators)
+	name := rapid.String()
+	properties := rapid.Ptr(NamedValueCreateContractPropertiesGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamedValue_Spec(generators)
-	AddRelatedPropertyGeneratorsForNamedValue_Spec(generators)
-	namedValue_SpecGenerator = gen.Struct(reflect.TypeOf(NamedValue_Spec{}), generators)
+	namedValue_SpecGenerator = rapid.Custom(func(t *rapid.T) NamedValue_Spec {
+		var result NamedValue_Spec
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return namedValue_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForNamedValue_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNamedValue_Spec(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForNamedValue_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNamedValue_Spec(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(NamedValueCreateContractPropertiesGenerator())
 }

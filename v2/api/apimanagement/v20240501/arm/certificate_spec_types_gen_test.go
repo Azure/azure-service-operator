@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_CertificateCreateOrUpdateProperties_WhenSerializedToJson_DeserializesA
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CertificateCreateOrUpdateProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCertificateCreateOrUpdateProperties, CertificateCreateOrUpdatePropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForCertificateCreateOrUpdateProperties)
 }
 
 // RunJSONSerializationTestForCertificateCreateOrUpdateProperties runs a test to see if a specific instance of CertificateCreateOrUpdateProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForCertificateCreateOrUpdateProperties(subject CertificateCreateOrUpdateProperties) string {
+func RunJSONSerializationTestForCertificateCreateOrUpdateProperties(t *rapid.T) {
+	subject := CertificateCreateOrUpdatePropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual CertificateCreateOrUpdateProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,47 +45,32 @@ func RunJSONSerializationTestForCertificateCreateOrUpdateProperties(subject Cert
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of CertificateCreateOrUpdateProperties instances for property testing - lazily instantiated by
 // CertificateCreateOrUpdatePropertiesGenerator()
-var certificateCreateOrUpdatePropertiesGenerator gopter.Gen
+var certificateCreateOrUpdatePropertiesGenerator *rapid.Generator[CertificateCreateOrUpdateProperties]
 
 // CertificateCreateOrUpdatePropertiesGenerator returns a generator of CertificateCreateOrUpdateProperties instances for property testing.
-// We first initialize certificateCreateOrUpdatePropertiesGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func CertificateCreateOrUpdatePropertiesGenerator() gopter.Gen {
+func CertificateCreateOrUpdatePropertiesGenerator() *rapid.Generator[CertificateCreateOrUpdateProperties] {
 	if certificateCreateOrUpdatePropertiesGenerator != nil {
 		return certificateCreateOrUpdatePropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCertificateCreateOrUpdateProperties(generators)
-	certificateCreateOrUpdatePropertiesGenerator = gen.Struct(reflect.TypeOf(CertificateCreateOrUpdateProperties{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	keyVault := rapid.Ptr(KeyVaultContractCreatePropertiesGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCertificateCreateOrUpdateProperties(generators)
-	AddRelatedPropertyGeneratorsForCertificateCreateOrUpdateProperties(generators)
-	certificateCreateOrUpdatePropertiesGenerator = gen.Struct(reflect.TypeOf(CertificateCreateOrUpdateProperties{}), generators)
+	certificateCreateOrUpdatePropertiesGenerator = rapid.Custom(func(t *rapid.T) CertificateCreateOrUpdateProperties {
+		var result CertificateCreateOrUpdateProperties
+		result.Data = ptrString.Draw(t, "Data")
+		result.KeyVault = keyVault.Draw(t, "KeyVault")
+		result.Password = ptrString.Draw(t, "Password")
+		return result
+	})
 
 	return certificateCreateOrUpdatePropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCertificateCreateOrUpdateProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCertificateCreateOrUpdateProperties(gens map[string]gopter.Gen) {
-	gens["Data"] = gen.PtrOf(gen.AlphaString())
-	gens["Password"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForCertificateCreateOrUpdateProperties is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForCertificateCreateOrUpdateProperties(gens map[string]gopter.Gen) {
-	gens["KeyVault"] = gen.PtrOf(KeyVaultContractCreatePropertiesGenerator())
 }
 
 func Test_Certificate_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -105,29 +80,23 @@ func Test_Certificate_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Certificate_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCertificate_Spec, Certificate_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForCertificate_Spec)
 }
 
 // RunJSONSerializationTestForCertificate_Spec runs a test to see if a specific instance of Certificate_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForCertificate_Spec(subject Certificate_Spec) string {
+func RunJSONSerializationTestForCertificate_Spec(t *rapid.T) {
+	subject := Certificate_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Certificate_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -136,45 +105,30 @@ func RunJSONSerializationTestForCertificate_Spec(subject Certificate_Spec) strin
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Certificate_Spec instances for property testing - lazily instantiated by Certificate_SpecGenerator()
-var certificate_SpecGenerator gopter.Gen
+var certificate_SpecGenerator *rapid.Generator[Certificate_Spec]
 
 // Certificate_SpecGenerator returns a generator of Certificate_Spec instances for property testing.
-// We first initialize certificate_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Certificate_SpecGenerator() gopter.Gen {
+func Certificate_SpecGenerator() *rapid.Generator[Certificate_Spec] {
 	if certificate_SpecGenerator != nil {
 		return certificate_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCertificate_Spec(generators)
-	certificate_SpecGenerator = gen.Struct(reflect.TypeOf(Certificate_Spec{}), generators)
+	name := rapid.String()
+	properties := rapid.Ptr(CertificateCreateOrUpdatePropertiesGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCertificate_Spec(generators)
-	AddRelatedPropertyGeneratorsForCertificate_Spec(generators)
-	certificate_SpecGenerator = gen.Struct(reflect.TypeOf(Certificate_Spec{}), generators)
+	certificate_SpecGenerator = rapid.Custom(func(t *rapid.T) Certificate_Spec {
+		var result Certificate_Spec
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return certificate_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCertificate_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCertificate_Spec(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForCertificate_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForCertificate_Spec(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(CertificateCreateOrUpdatePropertiesGenerator())
 }
 
 func Test_KeyVaultContractCreateProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -184,29 +138,23 @@ func Test_KeyVaultContractCreateProperties_WhenSerializedToJson_DeserializesAsEq
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of KeyVaultContractCreateProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForKeyVaultContractCreateProperties, KeyVaultContractCreatePropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForKeyVaultContractCreateProperties)
 }
 
 // RunJSONSerializationTestForKeyVaultContractCreateProperties runs a test to see if a specific instance of KeyVaultContractCreateProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForKeyVaultContractCreateProperties(subject KeyVaultContractCreateProperties) string {
+func RunJSONSerializationTestForKeyVaultContractCreateProperties(t *rapid.T) {
+	subject := KeyVaultContractCreatePropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual KeyVaultContractCreateProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -215,31 +163,28 @@ func RunJSONSerializationTestForKeyVaultContractCreateProperties(subject KeyVaul
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of KeyVaultContractCreateProperties instances for property testing - lazily instantiated by
 // KeyVaultContractCreatePropertiesGenerator()
-var keyVaultContractCreatePropertiesGenerator gopter.Gen
+var keyVaultContractCreatePropertiesGenerator *rapid.Generator[KeyVaultContractCreateProperties]
 
 // KeyVaultContractCreatePropertiesGenerator returns a generator of KeyVaultContractCreateProperties instances for property testing.
-func KeyVaultContractCreatePropertiesGenerator() gopter.Gen {
+func KeyVaultContractCreatePropertiesGenerator() *rapid.Generator[KeyVaultContractCreateProperties] {
 	if keyVaultContractCreatePropertiesGenerator != nil {
 		return keyVaultContractCreatePropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForKeyVaultContractCreateProperties(generators)
-	keyVaultContractCreatePropertiesGenerator = gen.Struct(reflect.TypeOf(KeyVaultContractCreateProperties{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	keyVaultContractCreatePropertiesGenerator = rapid.Custom(func(t *rapid.T) KeyVaultContractCreateProperties {
+		var result KeyVaultContractCreateProperties
+		result.IdentityClientId = ptrString.Draw(t, "IdentityClientId")
+		result.SecretIdentifier = ptrString.Draw(t, "SecretIdentifier")
+		return result
+	})
 
 	return keyVaultContractCreatePropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForKeyVaultContractCreateProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForKeyVaultContractCreateProperties(gens map[string]gopter.Gen) {
-	gens["IdentityClientId"] = gen.PtrOf(gen.AlphaString())
-	gens["SecretIdentifier"] = gen.PtrOf(gen.AlphaString())
 }

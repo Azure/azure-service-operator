@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_ApiDiagnostic_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApiDiagnostic_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApiDiagnostic_Spec, ApiDiagnostic_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForApiDiagnostic_Spec)
 }
 
 // RunJSONSerializationTestForApiDiagnostic_Spec runs a test to see if a specific instance of ApiDiagnostic_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForApiDiagnostic_Spec(subject ApiDiagnostic_Spec) string {
+func RunJSONSerializationTestForApiDiagnostic_Spec(t *rapid.T) {
+	subject := ApiDiagnostic_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ApiDiagnostic_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,45 +45,30 @@ func RunJSONSerializationTestForApiDiagnostic_Spec(subject ApiDiagnostic_Spec) s
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ApiDiagnostic_Spec instances for property testing - lazily instantiated by ApiDiagnostic_SpecGenerator()
-var apiDiagnostic_SpecGenerator gopter.Gen
+var apiDiagnostic_SpecGenerator *rapid.Generator[ApiDiagnostic_Spec]
 
 // ApiDiagnostic_SpecGenerator returns a generator of ApiDiagnostic_Spec instances for property testing.
-// We first initialize apiDiagnostic_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ApiDiagnostic_SpecGenerator() gopter.Gen {
+func ApiDiagnostic_SpecGenerator() *rapid.Generator[ApiDiagnostic_Spec] {
 	if apiDiagnostic_SpecGenerator != nil {
 		return apiDiagnostic_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApiDiagnostic_Spec(generators)
-	apiDiagnostic_SpecGenerator = gen.Struct(reflect.TypeOf(ApiDiagnostic_Spec{}), generators)
+	name := rapid.String()
+	properties := rapid.Ptr(DiagnosticContractPropertiesGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApiDiagnostic_Spec(generators)
-	AddRelatedPropertyGeneratorsForApiDiagnostic_Spec(generators)
-	apiDiagnostic_SpecGenerator = gen.Struct(reflect.TypeOf(ApiDiagnostic_Spec{}), generators)
+	apiDiagnostic_SpecGenerator = rapid.Custom(func(t *rapid.T) ApiDiagnostic_Spec {
+		var result ApiDiagnostic_Spec
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return apiDiagnostic_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApiDiagnostic_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApiDiagnostic_Spec(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForApiDiagnostic_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForApiDiagnostic_Spec(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(DiagnosticContractPropertiesGenerator())
 }
 
 func Test_BodyDiagnosticSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -103,29 +78,23 @@ func Test_BodyDiagnosticSettings_WhenSerializedToJson_DeserializesAsEqual(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BodyDiagnosticSettings via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBodyDiagnosticSettings, BodyDiagnosticSettingsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForBodyDiagnosticSettings)
 }
 
 // RunJSONSerializationTestForBodyDiagnosticSettings runs a test to see if a specific instance of BodyDiagnosticSettings round trips to JSON and back losslessly
-func RunJSONSerializationTestForBodyDiagnosticSettings(subject BodyDiagnosticSettings) string {
+func RunJSONSerializationTestForBodyDiagnosticSettings(t *rapid.T) {
+	subject := BodyDiagnosticSettingsGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual BodyDiagnosticSettings
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -134,32 +103,29 @@ func RunJSONSerializationTestForBodyDiagnosticSettings(subject BodyDiagnosticSet
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of BodyDiagnosticSettings instances for property testing - lazily instantiated by
 // BodyDiagnosticSettingsGenerator()
-var bodyDiagnosticSettingsGenerator gopter.Gen
+var bodyDiagnosticSettingsGenerator *rapid.Generator[BodyDiagnosticSettings]
 
 // BodyDiagnosticSettingsGenerator returns a generator of BodyDiagnosticSettings instances for property testing.
-func BodyDiagnosticSettingsGenerator() gopter.Gen {
+func BodyDiagnosticSettingsGenerator() *rapid.Generator[BodyDiagnosticSettings] {
 	if bodyDiagnosticSettingsGenerator != nil {
 		return bodyDiagnosticSettingsGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBodyDiagnosticSettings(generators)
-	bodyDiagnosticSettingsGenerator = gen.Struct(reflect.TypeOf(BodyDiagnosticSettings{}), generators)
+	bytes := rapid.Ptr(rapid.Int(), true)
+
+	bodyDiagnosticSettingsGenerator = rapid.Custom(func(t *rapid.T) BodyDiagnosticSettings {
+		var result BodyDiagnosticSettings
+		result.Bytes = bytes.Draw(t, "Bytes")
+		return result
+	})
 
 	return bodyDiagnosticSettingsGenerator
-}
-
-// AddIndependentPropertyGeneratorsForBodyDiagnosticSettings is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBodyDiagnosticSettings(gens map[string]gopter.Gen) {
-	gens["Bytes"] = gen.PtrOf(gen.Int())
 }
 
 func Test_DataMasking_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -169,29 +135,23 @@ func Test_DataMasking_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DataMasking via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDataMasking, DataMaskingGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDataMasking)
 }
 
 // RunJSONSerializationTestForDataMasking runs a test to see if a specific instance of DataMasking round trips to JSON and back losslessly
-func RunJSONSerializationTestForDataMasking(subject DataMasking) string {
+func RunJSONSerializationTestForDataMasking(t *rapid.T) {
+	subject := DataMaskingGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DataMasking
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -200,32 +160,29 @@ func RunJSONSerializationTestForDataMasking(subject DataMasking) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DataMasking instances for property testing - lazily instantiated by DataMaskingGenerator()
-var dataMaskingGenerator gopter.Gen
+var dataMaskingGenerator *rapid.Generator[DataMasking]
 
 // DataMaskingGenerator returns a generator of DataMasking instances for property testing.
-func DataMaskingGenerator() gopter.Gen {
+func DataMaskingGenerator() *rapid.Generator[DataMasking] {
 	if dataMaskingGenerator != nil {
 		return dataMaskingGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForDataMasking(generators)
-	dataMaskingGenerator = gen.Struct(reflect.TypeOf(DataMasking{}), generators)
+	sliceOfDataMaskingEntity := rapid.SliceOf(DataMaskingEntityGenerator())
+
+	dataMaskingGenerator = rapid.Custom(func(t *rapid.T) DataMasking {
+		var result DataMasking
+		result.Headers = sliceOfDataMaskingEntity.Draw(t, "Headers")
+		result.QueryParams = sliceOfDataMaskingEntity.Draw(t, "QueryParams")
+		return result
+	})
 
 	return dataMaskingGenerator
-}
-
-// AddRelatedPropertyGeneratorsForDataMasking is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDataMasking(gens map[string]gopter.Gen) {
-	gens["Headers"] = gen.SliceOf(DataMaskingEntityGenerator())
-	gens["QueryParams"] = gen.SliceOf(DataMaskingEntityGenerator())
 }
 
 func Test_DataMaskingEntity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -235,29 +192,23 @@ func Test_DataMaskingEntity_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DataMaskingEntity via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDataMaskingEntity, DataMaskingEntityGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDataMaskingEntity)
 }
 
 // RunJSONSerializationTestForDataMaskingEntity runs a test to see if a specific instance of DataMaskingEntity round trips to JSON and back losslessly
-func RunJSONSerializationTestForDataMaskingEntity(subject DataMaskingEntity) string {
+func RunJSONSerializationTestForDataMaskingEntity(t *rapid.T) {
+	subject := DataMaskingEntityGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DataMaskingEntity
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -266,32 +217,30 @@ func RunJSONSerializationTestForDataMaskingEntity(subject DataMaskingEntity) str
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DataMaskingEntity instances for property testing - lazily instantiated by DataMaskingEntityGenerator()
-var dataMaskingEntityGenerator gopter.Gen
+var dataMaskingEntityGenerator *rapid.Generator[DataMaskingEntity]
 
 // DataMaskingEntityGenerator returns a generator of DataMaskingEntity instances for property testing.
-func DataMaskingEntityGenerator() gopter.Gen {
+func DataMaskingEntityGenerator() *rapid.Generator[DataMaskingEntity] {
 	if dataMaskingEntityGenerator != nil {
 		return dataMaskingEntityGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDataMaskingEntity(generators)
-	dataMaskingEntityGenerator = gen.Struct(reflect.TypeOf(DataMaskingEntity{}), generators)
+	mode := rapid.Ptr(rapid.SampledFrom([]DataMaskingEntity_Mode{DataMaskingEntity_Mode_Hide, DataMaskingEntity_Mode_Mask}), true)
+	value := rapid.Ptr(rapid.String(), true)
+
+	dataMaskingEntityGenerator = rapid.Custom(func(t *rapid.T) DataMaskingEntity {
+		var result DataMaskingEntity
+		result.Mode = mode.Draw(t, "Mode")
+		result.Value = value.Draw(t, "Value")
+		return result
+	})
 
 	return dataMaskingEntityGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDataMaskingEntity is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDataMaskingEntity(gens map[string]gopter.Gen) {
-	gens["Mode"] = gen.PtrOf(gen.OneConstOf(DataMaskingEntity_Mode_Hide, DataMaskingEntity_Mode_Mask))
-	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_DiagnosticContractProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -301,29 +250,23 @@ func Test_DiagnosticContractProperties_WhenSerializedToJson_DeserializesAsEqual(
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DiagnosticContractProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDiagnosticContractProperties, DiagnosticContractPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDiagnosticContractProperties)
 }
 
 // RunJSONSerializationTestForDiagnosticContractProperties runs a test to see if a specific instance of DiagnosticContractProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForDiagnosticContractProperties(subject DiagnosticContractProperties) string {
+func RunJSONSerializationTestForDiagnosticContractProperties(t *rapid.T) {
+	subject := DiagnosticContractPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DiagnosticContractProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -332,54 +275,45 @@ func RunJSONSerializationTestForDiagnosticContractProperties(subject DiagnosticC
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DiagnosticContractProperties instances for property testing - lazily instantiated by
 // DiagnosticContractPropertiesGenerator()
-var diagnosticContractPropertiesGenerator gopter.Gen
+var diagnosticContractPropertiesGenerator *rapid.Generator[DiagnosticContractProperties]
 
 // DiagnosticContractPropertiesGenerator returns a generator of DiagnosticContractProperties instances for property testing.
-// We first initialize diagnosticContractPropertiesGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DiagnosticContractPropertiesGenerator() gopter.Gen {
+func DiagnosticContractPropertiesGenerator() *rapid.Generator[DiagnosticContractProperties] {
 	if diagnosticContractPropertiesGenerator != nil {
 		return diagnosticContractPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDiagnosticContractProperties(generators)
-	diagnosticContractPropertiesGenerator = gen.Struct(reflect.TypeOf(DiagnosticContractProperties{}), generators)
+	ptrPipelineDiagnosticSettings := rapid.Ptr(PipelineDiagnosticSettingsGenerator(), true)
+	ptrBool := rapid.Ptr(rapid.Bool(), true)
+	alwaysLog := rapid.Ptr(rapid.SampledFrom([]DiagnosticContractProperties_AlwaysLog{DiagnosticContractProperties_AlwaysLog_AllErrors}), true)
+	httpCorrelationProtocol := rapid.Ptr(rapid.SampledFrom([]DiagnosticContractProperties_HttpCorrelationProtocol{DiagnosticContractProperties_HttpCorrelationProtocol_Legacy, DiagnosticContractProperties_HttpCorrelationProtocol_None, DiagnosticContractProperties_HttpCorrelationProtocol_W3C}), true)
+	loggerId := rapid.Ptr(rapid.String(), true)
+	operationNameFormat := rapid.Ptr(rapid.SampledFrom([]DiagnosticContractProperties_OperationNameFormat{DiagnosticContractProperties_OperationNameFormat_Name, DiagnosticContractProperties_OperationNameFormat_Url}), true)
+	sampling := rapid.Ptr(SamplingSettingsGenerator(), true)
+	verbosity := rapid.Ptr(rapid.SampledFrom([]DiagnosticContractProperties_Verbosity{DiagnosticContractProperties_Verbosity_Error, DiagnosticContractProperties_Verbosity_Information, DiagnosticContractProperties_Verbosity_Verbose}), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDiagnosticContractProperties(generators)
-	AddRelatedPropertyGeneratorsForDiagnosticContractProperties(generators)
-	diagnosticContractPropertiesGenerator = gen.Struct(reflect.TypeOf(DiagnosticContractProperties{}), generators)
+	diagnosticContractPropertiesGenerator = rapid.Custom(func(t *rapid.T) DiagnosticContractProperties {
+		var result DiagnosticContractProperties
+		result.AlwaysLog = alwaysLog.Draw(t, "AlwaysLog")
+		result.Backend = ptrPipelineDiagnosticSettings.Draw(t, "Backend")
+		result.Frontend = ptrPipelineDiagnosticSettings.Draw(t, "Frontend")
+		result.HttpCorrelationProtocol = httpCorrelationProtocol.Draw(t, "HttpCorrelationProtocol")
+		result.LogClientIp = ptrBool.Draw(t, "LogClientIp")
+		result.LoggerId = loggerId.Draw(t, "LoggerId")
+		result.Metrics = ptrBool.Draw(t, "Metrics")
+		result.OperationNameFormat = operationNameFormat.Draw(t, "OperationNameFormat")
+		result.Sampling = sampling.Draw(t, "Sampling")
+		result.Verbosity = verbosity.Draw(t, "Verbosity")
+		return result
+	})
 
 	return diagnosticContractPropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDiagnosticContractProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDiagnosticContractProperties(gens map[string]gopter.Gen) {
-	gens["AlwaysLog"] = gen.PtrOf(gen.OneConstOf(DiagnosticContractProperties_AlwaysLog_AllErrors))
-	gens["HttpCorrelationProtocol"] = gen.PtrOf(gen.OneConstOf(DiagnosticContractProperties_HttpCorrelationProtocol_Legacy, DiagnosticContractProperties_HttpCorrelationProtocol_None, DiagnosticContractProperties_HttpCorrelationProtocol_W3C))
-	gens["LogClientIp"] = gen.PtrOf(gen.Bool())
-	gens["LoggerId"] = gen.PtrOf(gen.AlphaString())
-	gens["Metrics"] = gen.PtrOf(gen.Bool())
-	gens["OperationNameFormat"] = gen.PtrOf(gen.OneConstOf(DiagnosticContractProperties_OperationNameFormat_Name, DiagnosticContractProperties_OperationNameFormat_Url))
-	gens["Verbosity"] = gen.PtrOf(gen.OneConstOf(DiagnosticContractProperties_Verbosity_Error, DiagnosticContractProperties_Verbosity_Information, DiagnosticContractProperties_Verbosity_Verbose))
-}
-
-// AddRelatedPropertyGeneratorsForDiagnosticContractProperties is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDiagnosticContractProperties(gens map[string]gopter.Gen) {
-	gens["Backend"] = gen.PtrOf(PipelineDiagnosticSettingsGenerator())
-	gens["Frontend"] = gen.PtrOf(PipelineDiagnosticSettingsGenerator())
-	gens["Sampling"] = gen.PtrOf(SamplingSettingsGenerator())
 }
 
 func Test_HttpMessageDiagnostic_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -389,29 +323,23 @@ func Test_HttpMessageDiagnostic_WhenSerializedToJson_DeserializesAsEqual(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of HttpMessageDiagnostic via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForHttpMessageDiagnostic, HttpMessageDiagnosticGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForHttpMessageDiagnostic)
 }
 
 // RunJSONSerializationTestForHttpMessageDiagnostic runs a test to see if a specific instance of HttpMessageDiagnostic round trips to JSON and back losslessly
-func RunJSONSerializationTestForHttpMessageDiagnostic(subject HttpMessageDiagnostic) string {
+func RunJSONSerializationTestForHttpMessageDiagnostic(t *rapid.T) {
+	subject := HttpMessageDiagnosticGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual HttpMessageDiagnostic
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -420,47 +348,33 @@ func RunJSONSerializationTestForHttpMessageDiagnostic(subject HttpMessageDiagnos
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of HttpMessageDiagnostic instances for property testing - lazily instantiated by
 // HttpMessageDiagnosticGenerator()
-var httpMessageDiagnosticGenerator gopter.Gen
+var httpMessageDiagnosticGenerator *rapid.Generator[HttpMessageDiagnostic]
 
 // HttpMessageDiagnosticGenerator returns a generator of HttpMessageDiagnostic instances for property testing.
-// We first initialize httpMessageDiagnosticGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func HttpMessageDiagnosticGenerator() gopter.Gen {
+func HttpMessageDiagnosticGenerator() *rapid.Generator[HttpMessageDiagnostic] {
 	if httpMessageDiagnosticGenerator != nil {
 		return httpMessageDiagnosticGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForHttpMessageDiagnostic(generators)
-	httpMessageDiagnosticGenerator = gen.Struct(reflect.TypeOf(HttpMessageDiagnostic{}), generators)
+	body := rapid.Ptr(BodyDiagnosticSettingsGenerator(), true)
+	dataMasking := rapid.Ptr(DataMaskingGenerator(), true)
+	headers := rapid.SliceOf(rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForHttpMessageDiagnostic(generators)
-	AddRelatedPropertyGeneratorsForHttpMessageDiagnostic(generators)
-	httpMessageDiagnosticGenerator = gen.Struct(reflect.TypeOf(HttpMessageDiagnostic{}), generators)
+	httpMessageDiagnosticGenerator = rapid.Custom(func(t *rapid.T) HttpMessageDiagnostic {
+		var result HttpMessageDiagnostic
+		result.Body = body.Draw(t, "Body")
+		result.DataMasking = dataMasking.Draw(t, "DataMasking")
+		result.Headers = headers.Draw(t, "Headers")
+		return result
+	})
 
 	return httpMessageDiagnosticGenerator
-}
-
-// AddIndependentPropertyGeneratorsForHttpMessageDiagnostic is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForHttpMessageDiagnostic(gens map[string]gopter.Gen) {
-	gens["Headers"] = gen.SliceOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForHttpMessageDiagnostic is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForHttpMessageDiagnostic(gens map[string]gopter.Gen) {
-	gens["Body"] = gen.PtrOf(BodyDiagnosticSettingsGenerator())
-	gens["DataMasking"] = gen.PtrOf(DataMaskingGenerator())
 }
 
 func Test_PipelineDiagnosticSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -470,29 +384,23 @@ func Test_PipelineDiagnosticSettings_WhenSerializedToJson_DeserializesAsEqual(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PipelineDiagnosticSettings via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPipelineDiagnosticSettings, PipelineDiagnosticSettingsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForPipelineDiagnosticSettings)
 }
 
 // RunJSONSerializationTestForPipelineDiagnosticSettings runs a test to see if a specific instance of PipelineDiagnosticSettings round trips to JSON and back losslessly
-func RunJSONSerializationTestForPipelineDiagnosticSettings(subject PipelineDiagnosticSettings) string {
+func RunJSONSerializationTestForPipelineDiagnosticSettings(t *rapid.T) {
+	subject := PipelineDiagnosticSettingsGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual PipelineDiagnosticSettings
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -501,33 +409,30 @@ func RunJSONSerializationTestForPipelineDiagnosticSettings(subject PipelineDiagn
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of PipelineDiagnosticSettings instances for property testing - lazily instantiated by
 // PipelineDiagnosticSettingsGenerator()
-var pipelineDiagnosticSettingsGenerator gopter.Gen
+var pipelineDiagnosticSettingsGenerator *rapid.Generator[PipelineDiagnosticSettings]
 
 // PipelineDiagnosticSettingsGenerator returns a generator of PipelineDiagnosticSettings instances for property testing.
-func PipelineDiagnosticSettingsGenerator() gopter.Gen {
+func PipelineDiagnosticSettingsGenerator() *rapid.Generator[PipelineDiagnosticSettings] {
 	if pipelineDiagnosticSettingsGenerator != nil {
 		return pipelineDiagnosticSettingsGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForPipelineDiagnosticSettings(generators)
-	pipelineDiagnosticSettingsGenerator = gen.Struct(reflect.TypeOf(PipelineDiagnosticSettings{}), generators)
+	ptrHttpMessageDiagnostic := rapid.Ptr(HttpMessageDiagnosticGenerator(), true)
+
+	pipelineDiagnosticSettingsGenerator = rapid.Custom(func(t *rapid.T) PipelineDiagnosticSettings {
+		var result PipelineDiagnosticSettings
+		result.Request = ptrHttpMessageDiagnostic.Draw(t, "Request")
+		result.Response = ptrHttpMessageDiagnostic.Draw(t, "Response")
+		return result
+	})
 
 	return pipelineDiagnosticSettingsGenerator
-}
-
-// AddRelatedPropertyGeneratorsForPipelineDiagnosticSettings is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPipelineDiagnosticSettings(gens map[string]gopter.Gen) {
-	gens["Request"] = gen.PtrOf(HttpMessageDiagnosticGenerator())
-	gens["Response"] = gen.PtrOf(HttpMessageDiagnosticGenerator())
 }
 
 func Test_SamplingSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -537,29 +442,23 @@ func Test_SamplingSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SamplingSettings via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSamplingSettings, SamplingSettingsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSamplingSettings)
 }
 
 // RunJSONSerializationTestForSamplingSettings runs a test to see if a specific instance of SamplingSettings round trips to JSON and back losslessly
-func RunJSONSerializationTestForSamplingSettings(subject SamplingSettings) string {
+func RunJSONSerializationTestForSamplingSettings(t *rapid.T) {
+	subject := SamplingSettingsGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SamplingSettings
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -568,30 +467,28 @@ func RunJSONSerializationTestForSamplingSettings(subject SamplingSettings) strin
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SamplingSettings instances for property testing - lazily instantiated by SamplingSettingsGenerator()
-var samplingSettingsGenerator gopter.Gen
+var samplingSettingsGenerator *rapid.Generator[SamplingSettings]
 
 // SamplingSettingsGenerator returns a generator of SamplingSettings instances for property testing.
-func SamplingSettingsGenerator() gopter.Gen {
+func SamplingSettingsGenerator() *rapid.Generator[SamplingSettings] {
 	if samplingSettingsGenerator != nil {
 		return samplingSettingsGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSamplingSettings(generators)
-	samplingSettingsGenerator = gen.Struct(reflect.TypeOf(SamplingSettings{}), generators)
+	percentage := rapid.Ptr(rapid.Int(), true)
+	samplingType := rapid.Ptr(rapid.SampledFrom([]SamplingSettings_SamplingType{SamplingSettings_SamplingType_Fixed}), true)
+
+	samplingSettingsGenerator = rapid.Custom(func(t *rapid.T) SamplingSettings {
+		var result SamplingSettings
+		result.Percentage = percentage.Draw(t, "Percentage")
+		result.SamplingType = samplingType.Draw(t, "SamplingType")
+		return result
+	})
 
 	return samplingSettingsGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSamplingSettings is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSamplingSettings(gens map[string]gopter.Gen) {
-	gens["Percentage"] = gen.PtrOf(gen.Int())
-	gens["SamplingType"] = gen.PtrOf(gen.OneConstOf(SamplingSettings_SamplingType_Fixed))
 }

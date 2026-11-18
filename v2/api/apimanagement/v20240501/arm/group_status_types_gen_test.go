@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_GroupContractProperties_STATUS_WhenSerializedToJson_DeserializesAsEqua
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of GroupContractProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForGroupContractProperties_STATUS, GroupContractProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForGroupContractProperties_STATUS)
 }
 
 // RunJSONSerializationTestForGroupContractProperties_STATUS runs a test to see if a specific instance of GroupContractProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForGroupContractProperties_STATUS(subject GroupContractProperties_STATUS) string {
+func RunJSONSerializationTestForGroupContractProperties_STATUS(t *rapid.T) {
+	subject := GroupContractProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual GroupContractProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,36 +45,35 @@ func RunJSONSerializationTestForGroupContractProperties_STATUS(subject GroupCont
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of GroupContractProperties_STATUS instances for property testing - lazily instantiated by
 // GroupContractProperties_STATUSGenerator()
-var groupContractProperties_STATUSGenerator gopter.Gen
+var groupContractProperties_STATUSGenerator *rapid.Generator[GroupContractProperties_STATUS]
 
 // GroupContractProperties_STATUSGenerator returns a generator of GroupContractProperties_STATUS instances for property testing.
-func GroupContractProperties_STATUSGenerator() gopter.Gen {
+func GroupContractProperties_STATUSGenerator() *rapid.Generator[GroupContractProperties_STATUS] {
 	if groupContractProperties_STATUSGenerator != nil {
 		return groupContractProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForGroupContractProperties_STATUS(generators)
-	groupContractProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(GroupContractProperties_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	builtIn := rapid.Ptr(rapid.Bool(), true)
+	typeVar := rapid.Ptr(rapid.SampledFrom([]GroupContractProperties_Type_STATUS{GroupContractProperties_Type_STATUS_Custom, GroupContractProperties_Type_STATUS_External, GroupContractProperties_Type_STATUS_System}), true)
+
+	groupContractProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) GroupContractProperties_STATUS {
+		var result GroupContractProperties_STATUS
+		result.BuiltIn = builtIn.Draw(t, "BuiltIn")
+		result.Description = ptrString.Draw(t, "Description")
+		result.DisplayName = ptrString.Draw(t, "DisplayName")
+		result.ExternalId = ptrString.Draw(t, "ExternalId")
+		result.Type = typeVar.Draw(t, "Type")
+		return result
+	})
 
 	return groupContractProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForGroupContractProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForGroupContractProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["BuiltIn"] = gen.PtrOf(gen.Bool())
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
-	gens["ExternalId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(GroupContractProperties_Type_STATUS_Custom, GroupContractProperties_Type_STATUS_External, GroupContractProperties_Type_STATUS_System))
 }
 
 func Test_Group_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -94,29 +83,23 @@ func Test_Group_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Group_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForGroup_STATUS, Group_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForGroup_STATUS)
 }
 
 // RunJSONSerializationTestForGroup_STATUS runs a test to see if a specific instance of Group_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForGroup_STATUS(subject Group_STATUS) string {
+func RunJSONSerializationTestForGroup_STATUS(t *rapid.T) {
+	subject := Group_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Group_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -125,45 +108,30 @@ func RunJSONSerializationTestForGroup_STATUS(subject Group_STATUS) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Group_STATUS instances for property testing - lazily instantiated by Group_STATUSGenerator()
-var group_STATUSGenerator gopter.Gen
+var group_STATUSGenerator *rapid.Generator[Group_STATUS]
 
 // Group_STATUSGenerator returns a generator of Group_STATUS instances for property testing.
-// We first initialize group_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Group_STATUSGenerator() gopter.Gen {
+func Group_STATUSGenerator() *rapid.Generator[Group_STATUS] {
 	if group_STATUSGenerator != nil {
 		return group_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForGroup_STATUS(generators)
-	group_STATUSGenerator = gen.Struct(reflect.TypeOf(Group_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	properties := rapid.Ptr(GroupContractProperties_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForGroup_STATUS(generators)
-	AddRelatedPropertyGeneratorsForGroup_STATUS(generators)
-	group_STATUSGenerator = gen.Struct(reflect.TypeOf(Group_STATUS{}), generators)
+	group_STATUSGenerator = rapid.Custom(func(t *rapid.T) Group_STATUS {
+		var result Group_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return group_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForGroup_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForGroup_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForGroup_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForGroup_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(GroupContractProperties_STATUSGenerator())
 }
