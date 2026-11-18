@@ -42,7 +42,12 @@ func Compile(env *cel.Env, expression string) (*CompilationResult, error) {
 		return nil, err
 	}
 
-	program, err := env.Program(ast)
+	program, err := env.Program(
+		ast,
+		cel.CostTracking(stringCostEstimator{}),
+		cel.CostLimit(singleExpressionCostLimit),
+		cel.InterruptCheckFrequency(interruptFrequency),
+	)
 	if err != nil {
 		return nil, eris.Wrapf(err, "failed to generate program from CEL AST: %q", expression)
 	}

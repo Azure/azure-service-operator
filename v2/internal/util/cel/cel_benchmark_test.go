@@ -47,7 +47,7 @@ func BenchmarkCompileAndRun_Cached(b *testing.B) {
 	simpleResource := newSimpleResource()
 
 	for i := 0; i < b.N; i++ {
-		_, err = evaluator.CompileAndRun(`self.spec.location`, simpleResource, nil)
+		_, err = evaluator.CompileAndRun(b.Context(), asocel.NewEvaluationBudget(), `self.spec.location`, simpleResource, nil)
 		if err != nil {
 			b.Fatal(err)
 		}
@@ -63,7 +63,7 @@ func BenchmarkCompileAndRun_Uncached(b *testing.B) {
 	simpleResource := newSimpleResource()
 
 	for i := 0; i < b.N; i++ {
-		_, err = evaluator.CompileAndRun(`self.spec.location`, simpleResource, nil)
+		_, err = evaluator.CompileAndRun(b.Context(), asocel.NewEvaluationBudget(), `self.spec.location`, simpleResource, nil)
 		if err != nil {
 			b.Fatal(err)
 		}
