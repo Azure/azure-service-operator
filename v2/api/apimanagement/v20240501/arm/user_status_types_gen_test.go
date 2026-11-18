@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_UserContractProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UserContractProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUserContractProperties_STATUS, UserContractProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForUserContractProperties_STATUS)
 }
 
 // RunJSONSerializationTestForUserContractProperties_STATUS runs a test to see if a specific instance of UserContractProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForUserContractProperties_STATUS(subject UserContractProperties_STATUS) string {
+func RunJSONSerializationTestForUserContractProperties_STATUS(t *rapid.T) {
+	subject := UserContractProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual UserContractProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,56 +45,39 @@ func RunJSONSerializationTestForUserContractProperties_STATUS(subject UserContra
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of UserContractProperties_STATUS instances for property testing - lazily instantiated by
 // UserContractProperties_STATUSGenerator()
-var userContractProperties_STATUSGenerator gopter.Gen
+var userContractProperties_STATUSGenerator *rapid.Generator[UserContractProperties_STATUS]
 
 // UserContractProperties_STATUSGenerator returns a generator of UserContractProperties_STATUS instances for property testing.
-// We first initialize userContractProperties_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func UserContractProperties_STATUSGenerator() gopter.Gen {
+func UserContractProperties_STATUSGenerator() *rapid.Generator[UserContractProperties_STATUS] {
 	if userContractProperties_STATUSGenerator != nil {
 		return userContractProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUserContractProperties_STATUS(generators)
-	userContractProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(UserContractProperties_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	groups := rapid.SliceOf(GroupContractProperties_STATUSGenerator())
+	identities := rapid.SliceOf(UserIdentityContract_STATUSGenerator())
+	state := rapid.Ptr(rapid.SampledFrom([]UserContractProperties_State_STATUS{UserContractProperties_State_STATUS_Active, UserContractProperties_State_STATUS_Blocked, UserContractProperties_State_STATUS_Deleted, UserContractProperties_State_STATUS_Pending}), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUserContractProperties_STATUS(generators)
-	AddRelatedPropertyGeneratorsForUserContractProperties_STATUS(generators)
-	userContractProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(UserContractProperties_STATUS{}), generators)
+	userContractProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) UserContractProperties_STATUS {
+		var result UserContractProperties_STATUS
+		result.Email = ptrString.Draw(t, "Email")
+		result.FirstName = ptrString.Draw(t, "FirstName")
+		result.Groups = groups.Draw(t, "Groups")
+		result.Identities = identities.Draw(t, "Identities")
+		result.LastName = ptrString.Draw(t, "LastName")
+		result.Note = ptrString.Draw(t, "Note")
+		result.RegistrationDate = ptrString.Draw(t, "RegistrationDate")
+		result.State = state.Draw(t, "State")
+		return result
+	})
 
 	return userContractProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForUserContractProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUserContractProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["Email"] = gen.PtrOf(gen.AlphaString())
-	gens["FirstName"] = gen.PtrOf(gen.AlphaString())
-	gens["LastName"] = gen.PtrOf(gen.AlphaString())
-	gens["Note"] = gen.PtrOf(gen.AlphaString())
-	gens["RegistrationDate"] = gen.PtrOf(gen.AlphaString())
-	gens["State"] = gen.PtrOf(gen.OneConstOf(
-		UserContractProperties_State_STATUS_Active,
-		UserContractProperties_State_STATUS_Blocked,
-		UserContractProperties_State_STATUS_Deleted,
-		UserContractProperties_State_STATUS_Pending))
-}
-
-// AddRelatedPropertyGeneratorsForUserContractProperties_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForUserContractProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["Groups"] = gen.SliceOf(GroupContractProperties_STATUSGenerator())
-	gens["Identities"] = gen.SliceOf(UserIdentityContract_STATUSGenerator())
 }
 
 func Test_UserIdentityContract_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -114,29 +87,23 @@ func Test_UserIdentityContract_STATUS_WhenSerializedToJson_DeserializesAsEqual(t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UserIdentityContract_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUserIdentityContract_STATUS, UserIdentityContract_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForUserIdentityContract_STATUS)
 }
 
 // RunJSONSerializationTestForUserIdentityContract_STATUS runs a test to see if a specific instance of UserIdentityContract_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForUserIdentityContract_STATUS(subject UserIdentityContract_STATUS) string {
+func RunJSONSerializationTestForUserIdentityContract_STATUS(t *rapid.T) {
+	subject := UserIdentityContract_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual UserIdentityContract_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -145,33 +112,30 @@ func RunJSONSerializationTestForUserIdentityContract_STATUS(subject UserIdentity
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of UserIdentityContract_STATUS instances for property testing - lazily instantiated by
 // UserIdentityContract_STATUSGenerator()
-var userIdentityContract_STATUSGenerator gopter.Gen
+var userIdentityContract_STATUSGenerator *rapid.Generator[UserIdentityContract_STATUS]
 
 // UserIdentityContract_STATUSGenerator returns a generator of UserIdentityContract_STATUS instances for property testing.
-func UserIdentityContract_STATUSGenerator() gopter.Gen {
+func UserIdentityContract_STATUSGenerator() *rapid.Generator[UserIdentityContract_STATUS] {
 	if userIdentityContract_STATUSGenerator != nil {
 		return userIdentityContract_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUserIdentityContract_STATUS(generators)
-	userIdentityContract_STATUSGenerator = gen.Struct(reflect.TypeOf(UserIdentityContract_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	userIdentityContract_STATUSGenerator = rapid.Custom(func(t *rapid.T) UserIdentityContract_STATUS {
+		var result UserIdentityContract_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.Provider = ptrString.Draw(t, "Provider")
+		return result
+	})
 
 	return userIdentityContract_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForUserIdentityContract_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUserIdentityContract_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Provider"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_User_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -181,29 +145,23 @@ func Test_User_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of User_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUser_STATUS, User_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForUser_STATUS)
 }
 
 // RunJSONSerializationTestForUser_STATUS runs a test to see if a specific instance of User_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForUser_STATUS(subject User_STATUS) string {
+func RunJSONSerializationTestForUser_STATUS(t *rapid.T) {
+	subject := User_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual User_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -212,45 +170,30 @@ func RunJSONSerializationTestForUser_STATUS(subject User_STATUS) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of User_STATUS instances for property testing - lazily instantiated by User_STATUSGenerator()
-var user_STATUSGenerator gopter.Gen
+var user_STATUSGenerator *rapid.Generator[User_STATUS]
 
 // User_STATUSGenerator returns a generator of User_STATUS instances for property testing.
-// We first initialize user_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func User_STATUSGenerator() gopter.Gen {
+func User_STATUSGenerator() *rapid.Generator[User_STATUS] {
 	if user_STATUSGenerator != nil {
 		return user_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUser_STATUS(generators)
-	user_STATUSGenerator = gen.Struct(reflect.TypeOf(User_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	properties := rapid.Ptr(UserContractProperties_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUser_STATUS(generators)
-	AddRelatedPropertyGeneratorsForUser_STATUS(generators)
-	user_STATUSGenerator = gen.Struct(reflect.TypeOf(User_STATUS{}), generators)
+	user_STATUSGenerator = rapid.Custom(func(t *rapid.T) User_STATUS {
+		var result User_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return user_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForUser_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUser_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForUser_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForUser_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(UserContractProperties_STATUSGenerator())
 }

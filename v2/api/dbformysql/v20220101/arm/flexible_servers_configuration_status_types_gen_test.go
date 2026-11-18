@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_ConfigurationProperties_STATUS_WhenSerializedToJson_DeserializesAsEqua
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ConfigurationProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForConfigurationProperties_STATUS, ConfigurationProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForConfigurationProperties_STATUS)
 }
 
 // RunJSONSerializationTestForConfigurationProperties_STATUS runs a test to see if a specific instance of ConfigurationProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForConfigurationProperties_STATUS(subject ConfigurationProperties_STATUS) string {
+func RunJSONSerializationTestForConfigurationProperties_STATUS(t *rapid.T) {
+	subject := ConfigurationProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ConfigurationProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,42 +45,43 @@ func RunJSONSerializationTestForConfigurationProperties_STATUS(subject Configura
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ConfigurationProperties_STATUS instances for property testing - lazily instantiated by
 // ConfigurationProperties_STATUSGenerator()
-var configurationProperties_STATUSGenerator gopter.Gen
+var configurationProperties_STATUSGenerator *rapid.Generator[ConfigurationProperties_STATUS]
 
 // ConfigurationProperties_STATUSGenerator returns a generator of ConfigurationProperties_STATUS instances for property testing.
-func ConfigurationProperties_STATUSGenerator() gopter.Gen {
+func ConfigurationProperties_STATUSGenerator() *rapid.Generator[ConfigurationProperties_STATUS] {
 	if configurationProperties_STATUSGenerator != nil {
 		return configurationProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForConfigurationProperties_STATUS(generators)
-	configurationProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(ConfigurationProperties_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	isConfigPendingRestart := rapid.Ptr(rapid.SampledFrom([]ConfigurationProperties_IsConfigPendingRestart_STATUS{ConfigurationProperties_IsConfigPendingRestart_STATUS_False, ConfigurationProperties_IsConfigPendingRestart_STATUS_True}), true)
+	isDynamicConfig := rapid.Ptr(rapid.SampledFrom([]ConfigurationProperties_IsDynamicConfig_STATUS{ConfigurationProperties_IsDynamicConfig_STATUS_False, ConfigurationProperties_IsDynamicConfig_STATUS_True}), true)
+	isReadOnly := rapid.Ptr(rapid.SampledFrom([]ConfigurationProperties_IsReadOnly_STATUS{ConfigurationProperties_IsReadOnly_STATUS_False, ConfigurationProperties_IsReadOnly_STATUS_True}), true)
+	source := rapid.Ptr(rapid.SampledFrom([]ConfigurationProperties_Source_STATUS{ConfigurationProperties_Source_STATUS_SystemDefault, ConfigurationProperties_Source_STATUS_UserOverride}), true)
+
+	configurationProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) ConfigurationProperties_STATUS {
+		var result ConfigurationProperties_STATUS
+		result.AllowedValues = ptrString.Draw(t, "AllowedValues")
+		result.CurrentValue = ptrString.Draw(t, "CurrentValue")
+		result.DataType = ptrString.Draw(t, "DataType")
+		result.DefaultValue = ptrString.Draw(t, "DefaultValue")
+		result.Description = ptrString.Draw(t, "Description")
+		result.DocumentationLink = ptrString.Draw(t, "DocumentationLink")
+		result.IsConfigPendingRestart = isConfigPendingRestart.Draw(t, "IsConfigPendingRestart")
+		result.IsDynamicConfig = isDynamicConfig.Draw(t, "IsDynamicConfig")
+		result.IsReadOnly = isReadOnly.Draw(t, "IsReadOnly")
+		result.Source = source.Draw(t, "Source")
+		result.Value = ptrString.Draw(t, "Value")
+		return result
+	})
 
 	return configurationProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForConfigurationProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForConfigurationProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["AllowedValues"] = gen.PtrOf(gen.AlphaString())
-	gens["CurrentValue"] = gen.PtrOf(gen.AlphaString())
-	gens["DataType"] = gen.PtrOf(gen.AlphaString())
-	gens["DefaultValue"] = gen.PtrOf(gen.AlphaString())
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["DocumentationLink"] = gen.PtrOf(gen.AlphaString())
-	gens["IsConfigPendingRestart"] = gen.PtrOf(gen.OneConstOf(ConfigurationProperties_IsConfigPendingRestart_STATUS_False, ConfigurationProperties_IsConfigPendingRestart_STATUS_True))
-	gens["IsDynamicConfig"] = gen.PtrOf(gen.OneConstOf(ConfigurationProperties_IsDynamicConfig_STATUS_False, ConfigurationProperties_IsDynamicConfig_STATUS_True))
-	gens["IsReadOnly"] = gen.PtrOf(gen.OneConstOf(ConfigurationProperties_IsReadOnly_STATUS_False, ConfigurationProperties_IsReadOnly_STATUS_True))
-	gens["Source"] = gen.PtrOf(gen.OneConstOf(ConfigurationProperties_Source_STATUS_SystemDefault, ConfigurationProperties_Source_STATUS_UserOverride))
-	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_FlexibleServersConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -100,29 +91,23 @@ func Test_FlexibleServersConfiguration_STATUS_WhenSerializedToJson_DeserializesA
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FlexibleServersConfiguration_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFlexibleServersConfiguration_STATUS, FlexibleServersConfiguration_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFlexibleServersConfiguration_STATUS)
 }
 
 // RunJSONSerializationTestForFlexibleServersConfiguration_STATUS runs a test to see if a specific instance of FlexibleServersConfiguration_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForFlexibleServersConfiguration_STATUS(subject FlexibleServersConfiguration_STATUS) string {
+func RunJSONSerializationTestForFlexibleServersConfiguration_STATUS(t *rapid.T) {
+	subject := FlexibleServersConfiguration_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FlexibleServersConfiguration_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -131,47 +116,33 @@ func RunJSONSerializationTestForFlexibleServersConfiguration_STATUS(subject Flex
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FlexibleServersConfiguration_STATUS instances for property testing - lazily instantiated by
 // FlexibleServersConfiguration_STATUSGenerator()
-var flexibleServersConfiguration_STATUSGenerator gopter.Gen
+var flexibleServersConfiguration_STATUSGenerator *rapid.Generator[FlexibleServersConfiguration_STATUS]
 
 // FlexibleServersConfiguration_STATUSGenerator returns a generator of FlexibleServersConfiguration_STATUS instances for property testing.
-// We first initialize flexibleServersConfiguration_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func FlexibleServersConfiguration_STATUSGenerator() gopter.Gen {
+func FlexibleServersConfiguration_STATUSGenerator() *rapid.Generator[FlexibleServersConfiguration_STATUS] {
 	if flexibleServersConfiguration_STATUSGenerator != nil {
 		return flexibleServersConfiguration_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServersConfiguration_STATUS(generators)
-	flexibleServersConfiguration_STATUSGenerator = gen.Struct(reflect.TypeOf(FlexibleServersConfiguration_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	properties := rapid.Ptr(ConfigurationProperties_STATUSGenerator(), true)
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServersConfiguration_STATUS(generators)
-	AddRelatedPropertyGeneratorsForFlexibleServersConfiguration_STATUS(generators)
-	flexibleServersConfiguration_STATUSGenerator = gen.Struct(reflect.TypeOf(FlexibleServersConfiguration_STATUS{}), generators)
+	flexibleServersConfiguration_STATUSGenerator = rapid.Custom(func(t *rapid.T) FlexibleServersConfiguration_STATUS {
+		var result FlexibleServersConfiguration_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return flexibleServersConfiguration_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForFlexibleServersConfiguration_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFlexibleServersConfiguration_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForFlexibleServersConfiguration_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFlexibleServersConfiguration_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(ConfigurationProperties_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }

@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_VirtualMachineExtensionInstanceView_STATUS_WhenSerializedToJson_Deseri
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualMachineExtensionInstanceView_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineExtensionInstanceView_STATUS, VirtualMachineExtensionInstanceView_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForVirtualMachineExtensionInstanceView_STATUS)
 }
 
 // RunJSONSerializationTestForVirtualMachineExtensionInstanceView_STATUS runs a test to see if a specific instance of VirtualMachineExtensionInstanceView_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineExtensionInstanceView_STATUS(subject VirtualMachineExtensionInstanceView_STATUS) string {
+func RunJSONSerializationTestForVirtualMachineExtensionInstanceView_STATUS(t *rapid.T) {
+	subject := VirtualMachineExtensionInstanceView_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual VirtualMachineExtensionInstanceView_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,49 +45,34 @@ func RunJSONSerializationTestForVirtualMachineExtensionInstanceView_STATUS(subje
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of VirtualMachineExtensionInstanceView_STATUS instances for property testing - lazily instantiated by
 // VirtualMachineExtensionInstanceView_STATUSGenerator()
-var virtualMachineExtensionInstanceView_STATUSGenerator gopter.Gen
+var virtualMachineExtensionInstanceView_STATUSGenerator *rapid.Generator[VirtualMachineExtensionInstanceView_STATUS]
 
 // VirtualMachineExtensionInstanceView_STATUSGenerator returns a generator of VirtualMachineExtensionInstanceView_STATUS instances for property testing.
-// We first initialize virtualMachineExtensionInstanceView_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func VirtualMachineExtensionInstanceView_STATUSGenerator() gopter.Gen {
+func VirtualMachineExtensionInstanceView_STATUSGenerator() *rapid.Generator[VirtualMachineExtensionInstanceView_STATUS] {
 	if virtualMachineExtensionInstanceView_STATUSGenerator != nil {
 		return virtualMachineExtensionInstanceView_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineExtensionInstanceView_STATUS(generators)
-	virtualMachineExtensionInstanceView_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineExtensionInstanceView_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	sliceOfInstanceViewStatusSTATUS := rapid.SliceOf(InstanceViewStatus_STATUSGenerator())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineExtensionInstanceView_STATUS(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineExtensionInstanceView_STATUS(generators)
-	virtualMachineExtensionInstanceView_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineExtensionInstanceView_STATUS{}), generators)
+	virtualMachineExtensionInstanceView_STATUSGenerator = rapid.Custom(func(t *rapid.T) VirtualMachineExtensionInstanceView_STATUS {
+		var result VirtualMachineExtensionInstanceView_STATUS
+		result.Name = ptrString.Draw(t, "Name")
+		result.Statuses = sliceOfInstanceViewStatusSTATUS.Draw(t, "Statuses")
+		result.Substatuses = sliceOfInstanceViewStatusSTATUS.Draw(t, "Substatuses")
+		result.Type = ptrString.Draw(t, "Type")
+		result.TypeHandlerVersion = ptrString.Draw(t, "TypeHandlerVersion")
+		return result
+	})
 
 	return virtualMachineExtensionInstanceView_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForVirtualMachineExtensionInstanceView_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineExtensionInstanceView_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["TypeHandlerVersion"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForVirtualMachineExtensionInstanceView_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineExtensionInstanceView_STATUS(gens map[string]gopter.Gen) {
-	gens["Statuses"] = gen.SliceOf(InstanceViewStatus_STATUSGenerator())
-	gens["Substatuses"] = gen.SliceOf(InstanceViewStatus_STATUSGenerator())
 }
 
 func Test_VirtualMachineExtensionProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -107,29 +82,23 @@ func Test_VirtualMachineExtensionProperties_STATUS_WhenSerializedToJson_Deserial
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualMachineExtensionProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineExtensionProperties_STATUS, VirtualMachineExtensionProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForVirtualMachineExtensionProperties_STATUS)
 }
 
 // RunJSONSerializationTestForVirtualMachineExtensionProperties_STATUS runs a test to see if a specific instance of VirtualMachineExtensionProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineExtensionProperties_STATUS(subject VirtualMachineExtensionProperties_STATUS) string {
+func RunJSONSerializationTestForVirtualMachineExtensionProperties_STATUS(t *rapid.T) {
+	subject := VirtualMachineExtensionProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual VirtualMachineExtensionProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -138,52 +107,38 @@ func RunJSONSerializationTestForVirtualMachineExtensionProperties_STATUS(subject
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of VirtualMachineExtensionProperties_STATUS instances for property testing - lazily instantiated by
 // VirtualMachineExtensionProperties_STATUSGenerator()
-var virtualMachineExtensionProperties_STATUSGenerator gopter.Gen
+var virtualMachineExtensionProperties_STATUSGenerator *rapid.Generator[VirtualMachineExtensionProperties_STATUS]
 
 // VirtualMachineExtensionProperties_STATUSGenerator returns a generator of VirtualMachineExtensionProperties_STATUS instances for property testing.
-// We first initialize virtualMachineExtensionProperties_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func VirtualMachineExtensionProperties_STATUSGenerator() gopter.Gen {
+func VirtualMachineExtensionProperties_STATUSGenerator() *rapid.Generator[VirtualMachineExtensionProperties_STATUS] {
 	if virtualMachineExtensionProperties_STATUSGenerator != nil {
 		return virtualMachineExtensionProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineExtensionProperties_STATUS(generators)
-	virtualMachineExtensionProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineExtensionProperties_STATUS{}), generators)
+	ptrBool := rapid.Ptr(rapid.Bool(), true)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	instanceView := rapid.Ptr(VirtualMachineExtensionInstanceView_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineExtensionProperties_STATUS(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineExtensionProperties_STATUS(generators)
-	virtualMachineExtensionProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineExtensionProperties_STATUS{}), generators)
+	virtualMachineExtensionProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) VirtualMachineExtensionProperties_STATUS {
+		var result VirtualMachineExtensionProperties_STATUS
+		result.AutoUpgradeMinorVersion = ptrBool.Draw(t, "AutoUpgradeMinorVersion")
+		result.EnableAutomaticUpgrade = ptrBool.Draw(t, "EnableAutomaticUpgrade")
+		result.ForceUpdateTag = ptrString.Draw(t, "ForceUpdateTag")
+		result.InstanceView = instanceView.Draw(t, "InstanceView")
+		result.ProvisioningState = ptrString.Draw(t, "ProvisioningState")
+		result.Publisher = ptrString.Draw(t, "Publisher")
+		result.Type = ptrString.Draw(t, "Type")
+		result.TypeHandlerVersion = ptrString.Draw(t, "TypeHandlerVersion")
+		return result
+	})
 
 	return virtualMachineExtensionProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForVirtualMachineExtensionProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineExtensionProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["AutoUpgradeMinorVersion"] = gen.PtrOf(gen.Bool())
-	gens["EnableAutomaticUpgrade"] = gen.PtrOf(gen.Bool())
-	gens["ForceUpdateTag"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["Publisher"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["TypeHandlerVersion"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForVirtualMachineExtensionProperties_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineExtensionProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["InstanceView"] = gen.PtrOf(VirtualMachineExtensionInstanceView_STATUSGenerator())
 }
 
 func Test_VirtualMachinesExtension_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -193,29 +148,23 @@ func Test_VirtualMachinesExtension_STATUS_WhenSerializedToJson_DeserializesAsEqu
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualMachinesExtension_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachinesExtension_STATUS, VirtualMachinesExtension_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForVirtualMachinesExtension_STATUS)
 }
 
 // RunJSONSerializationTestForVirtualMachinesExtension_STATUS runs a test to see if a specific instance of VirtualMachinesExtension_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachinesExtension_STATUS(subject VirtualMachinesExtension_STATUS) string {
+func RunJSONSerializationTestForVirtualMachinesExtension_STATUS(t *rapid.T) {
+	subject := VirtualMachinesExtension_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual VirtualMachinesExtension_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -224,50 +173,36 @@ func RunJSONSerializationTestForVirtualMachinesExtension_STATUS(subject VirtualM
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of VirtualMachinesExtension_STATUS instances for property testing - lazily instantiated by
 // VirtualMachinesExtension_STATUSGenerator()
-var virtualMachinesExtension_STATUSGenerator gopter.Gen
+var virtualMachinesExtension_STATUSGenerator *rapid.Generator[VirtualMachinesExtension_STATUS]
 
 // VirtualMachinesExtension_STATUSGenerator returns a generator of VirtualMachinesExtension_STATUS instances for property testing.
-// We first initialize virtualMachinesExtension_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func VirtualMachinesExtension_STATUSGenerator() gopter.Gen {
+func VirtualMachinesExtension_STATUSGenerator() *rapid.Generator[VirtualMachinesExtension_STATUS] {
 	if virtualMachinesExtension_STATUSGenerator != nil {
 		return virtualMachinesExtension_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachinesExtension_STATUS(generators)
-	virtualMachinesExtension_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachinesExtension_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	properties := rapid.Ptr(VirtualMachineExtensionProperties_STATUSGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachinesExtension_STATUS(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachinesExtension_STATUS(generators)
-	virtualMachinesExtension_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachinesExtension_STATUS{}), generators)
+	virtualMachinesExtension_STATUSGenerator = rapid.Custom(func(t *rapid.T) VirtualMachinesExtension_STATUS {
+		var result VirtualMachinesExtension_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.Location = ptrString.Draw(t, "Location")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Tags = tags.Draw(t, "Tags")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return virtualMachinesExtension_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForVirtualMachinesExtension_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachinesExtension_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForVirtualMachinesExtension_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachinesExtension_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(VirtualMachineExtensionProperties_STATUSGenerator())
 }

@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_SnapshotProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SnapshotProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSnapshotProperties, SnapshotPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSnapshotProperties)
 }
 
 // RunJSONSerializationTestForSnapshotProperties runs a test to see if a specific instance of SnapshotProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForSnapshotProperties(subject SnapshotProperties) string {
+func RunJSONSerializationTestForSnapshotProperties(t *rapid.T) {
+	subject := SnapshotPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SnapshotProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,53 +45,46 @@ func RunJSONSerializationTestForSnapshotProperties(subject SnapshotProperties) s
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SnapshotProperties instances for property testing - lazily instantiated by SnapshotPropertiesGenerator()
-var snapshotPropertiesGenerator gopter.Gen
+var snapshotPropertiesGenerator *rapid.Generator[SnapshotProperties]
 
 // SnapshotPropertiesGenerator returns a generator of SnapshotProperties instances for property testing.
-// We first initialize snapshotPropertiesGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func SnapshotPropertiesGenerator() gopter.Gen {
+func SnapshotPropertiesGenerator() *rapid.Generator[SnapshotProperties] {
 	if snapshotPropertiesGenerator != nil {
 		return snapshotPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSnapshotProperties(generators)
-	snapshotPropertiesGenerator = gen.Struct(reflect.TypeOf(SnapshotProperties{}), generators)
+	creationData := rapid.Ptr(CreationDataGenerator(), true)
+	diskAccessId := rapid.Ptr(rapid.String(), true)
+	diskSizeGB := rapid.Ptr(rapid.Int(), true)
+	encryption := rapid.Ptr(EncryptionGenerator(), true)
+	encryptionSettingsCollection := rapid.Ptr(EncryptionSettingsCollectionGenerator(), true)
+	hyperVGeneration := rapid.Ptr(rapid.SampledFrom([]SnapshotProperties_HyperVGeneration{SnapshotProperties_HyperVGeneration_V1, SnapshotProperties_HyperVGeneration_V2}), true)
+	incremental := rapid.Ptr(rapid.Bool(), true)
+	networkAccessPolicy := rapid.Ptr(rapid.SampledFrom([]NetworkAccessPolicy{NetworkAccessPolicy_AllowAll, NetworkAccessPolicy_AllowPrivate, NetworkAccessPolicy_DenyAll}), true)
+	osType := rapid.Ptr(rapid.SampledFrom([]SnapshotProperties_OsType{SnapshotProperties_OsType_Linux, SnapshotProperties_OsType_Windows}), true)
+	purchasePlan := rapid.Ptr(PurchasePlanGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSnapshotProperties(generators)
-	AddRelatedPropertyGeneratorsForSnapshotProperties(generators)
-	snapshotPropertiesGenerator = gen.Struct(reflect.TypeOf(SnapshotProperties{}), generators)
+	snapshotPropertiesGenerator = rapid.Custom(func(t *rapid.T) SnapshotProperties {
+		var result SnapshotProperties
+		result.CreationData = creationData.Draw(t, "CreationData")
+		result.DiskAccessId = diskAccessId.Draw(t, "DiskAccessId")
+		result.DiskSizeGB = diskSizeGB.Draw(t, "DiskSizeGB")
+		result.Encryption = encryption.Draw(t, "Encryption")
+		result.EncryptionSettingsCollection = encryptionSettingsCollection.Draw(t, "EncryptionSettingsCollection")
+		result.HyperVGeneration = hyperVGeneration.Draw(t, "HyperVGeneration")
+		result.Incremental = incremental.Draw(t, "Incremental")
+		result.NetworkAccessPolicy = networkAccessPolicy.Draw(t, "NetworkAccessPolicy")
+		result.OsType = osType.Draw(t, "OsType")
+		result.PurchasePlan = purchasePlan.Draw(t, "PurchasePlan")
+		return result
+	})
 
 	return snapshotPropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSnapshotProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSnapshotProperties(gens map[string]gopter.Gen) {
-	gens["DiskAccessId"] = gen.PtrOf(gen.AlphaString())
-	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(SnapshotProperties_HyperVGeneration_V1, SnapshotProperties_HyperVGeneration_V2))
-	gens["Incremental"] = gen.PtrOf(gen.Bool())
-	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(NetworkAccessPolicy_AllowAll, NetworkAccessPolicy_AllowPrivate, NetworkAccessPolicy_DenyAll))
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(SnapshotProperties_OsType_Linux, SnapshotProperties_OsType_Windows))
-}
-
-// AddRelatedPropertyGeneratorsForSnapshotProperties is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSnapshotProperties(gens map[string]gopter.Gen) {
-	gens["CreationData"] = gen.PtrOf(CreationDataGenerator())
-	gens["Encryption"] = gen.PtrOf(EncryptionGenerator())
-	gens["EncryptionSettingsCollection"] = gen.PtrOf(EncryptionSettingsCollectionGenerator())
-	gens["PurchasePlan"] = gen.PtrOf(PurchasePlanGenerator())
 }
 
 func Test_SnapshotSku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -111,29 +94,23 @@ func Test_SnapshotSku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SnapshotSku via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSnapshotSku, SnapshotSkuGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSnapshotSku)
 }
 
 // RunJSONSerializationTestForSnapshotSku runs a test to see if a specific instance of SnapshotSku round trips to JSON and back losslessly
-func RunJSONSerializationTestForSnapshotSku(subject SnapshotSku) string {
+func RunJSONSerializationTestForSnapshotSku(t *rapid.T) {
+	subject := SnapshotSkuGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SnapshotSku
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -142,31 +119,28 @@ func RunJSONSerializationTestForSnapshotSku(subject SnapshotSku) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SnapshotSku instances for property testing - lazily instantiated by SnapshotSkuGenerator()
-var snapshotSkuGenerator gopter.Gen
+var snapshotSkuGenerator *rapid.Generator[SnapshotSku]
 
 // SnapshotSkuGenerator returns a generator of SnapshotSku instances for property testing.
-func SnapshotSkuGenerator() gopter.Gen {
+func SnapshotSkuGenerator() *rapid.Generator[SnapshotSku] {
 	if snapshotSkuGenerator != nil {
 		return snapshotSkuGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSnapshotSku(generators)
-	snapshotSkuGenerator = gen.Struct(reflect.TypeOf(SnapshotSku{}), generators)
+	name := rapid.Ptr(rapid.SampledFrom([]SnapshotSku_Name{SnapshotSku_Name_Premium_LRS, SnapshotSku_Name_Standard_LRS, SnapshotSku_Name_Standard_ZRS}), true)
+
+	snapshotSkuGenerator = rapid.Custom(func(t *rapid.T) SnapshotSku {
+		var result SnapshotSku
+		result.Name = name.Draw(t, "Name")
+		return result
+	})
 
 	return snapshotSkuGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSnapshotSku is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSnapshotSku(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(SnapshotSku_Name_Premium_LRS, SnapshotSku_Name_Standard_LRS, SnapshotSku_Name_Standard_ZRS))
 }
 
 func Test_Snapshot_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -176,29 +150,23 @@ func Test_Snapshot_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Snapshot_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSnapshot_Spec, Snapshot_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSnapshot_Spec)
 }
 
 // RunJSONSerializationTestForSnapshot_Spec runs a test to see if a specific instance of Snapshot_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForSnapshot_Spec(subject Snapshot_Spec) string {
+func RunJSONSerializationTestForSnapshot_Spec(t *rapid.T) {
+	subject := Snapshot_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Snapshot_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -207,49 +175,38 @@ func RunJSONSerializationTestForSnapshot_Spec(subject Snapshot_Spec) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Snapshot_Spec instances for property testing - lazily instantiated by Snapshot_SpecGenerator()
-var snapshot_SpecGenerator gopter.Gen
+var snapshot_SpecGenerator *rapid.Generator[Snapshot_Spec]
 
 // Snapshot_SpecGenerator returns a generator of Snapshot_Spec instances for property testing.
-// We first initialize snapshot_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Snapshot_SpecGenerator() gopter.Gen {
+func Snapshot_SpecGenerator() *rapid.Generator[Snapshot_Spec] {
 	if snapshot_SpecGenerator != nil {
 		return snapshot_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSnapshot_Spec(generators)
-	snapshot_SpecGenerator = gen.Struct(reflect.TypeOf(Snapshot_Spec{}), generators)
+	extendedLocation := rapid.Ptr(ExtendedLocationGenerator(), true)
+	location := rapid.Ptr(rapid.String(), true)
+	name := rapid.String()
+	properties := rapid.Ptr(SnapshotPropertiesGenerator(), true)
+	sku := rapid.Ptr(SnapshotSkuGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSnapshot_Spec(generators)
-	AddRelatedPropertyGeneratorsForSnapshot_Spec(generators)
-	snapshot_SpecGenerator = gen.Struct(reflect.TypeOf(Snapshot_Spec{}), generators)
+	snapshot_SpecGenerator = rapid.Custom(func(t *rapid.T) Snapshot_Spec {
+		var result Snapshot_Spec
+		result.ExtendedLocation = extendedLocation.Draw(t, "ExtendedLocation")
+		result.Location = location.Draw(t, "Location")
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Sku = sku.Draw(t, "Sku")
+		result.Tags = tags.Draw(t, "Tags")
+		return result
+	})
 
 	return snapshot_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSnapshot_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSnapshot_Spec(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForSnapshot_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSnapshot_Spec(gens map[string]gopter.Gen) {
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
-	gens["Properties"] = gen.PtrOf(SnapshotPropertiesGenerator())
-	gens["Sku"] = gen.PtrOf(SnapshotSkuGenerator())
 }

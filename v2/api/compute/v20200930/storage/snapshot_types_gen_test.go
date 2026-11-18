@@ -10,14 +10,11 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
+// Test_Snapshot_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of Snapshot round trips to the hub storage version and back losslessly
 func Test_Snapshot_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -25,47 +22,37 @@ func Test_Snapshot_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Snapshot to hub returns original",
-		prop.ForAll(RunResourceConversionTestForSnapshot, SnapshotGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+	rapid.Check(t, func(t *rapid.T) {
+		subject := SnapshotGenerator().Draw(t, "subject")
+		// Copy subject to make sure conversion doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Convert to our hub version
+		var hub storage.Snapshot
+		err := copied.ConvertTo(&hub)
+		if err != nil {
+			t.Fatal("ConvertTo: " + err.Error())
+		}
+
+		// Convert from our hub version
+		var actual Snapshot
+		err = actual.ConvertFrom(&hub)
+		if err != nil {
+			t.Fatal("ConvertFrom: " + err.Error())
+		}
+
+		// Compare actual with what we started with
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
-// RunResourceConversionTestForSnapshot tests if a specific instance of Snapshot round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForSnapshot(subject Snapshot) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub storage.Snapshot
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual Snapshot
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
+// Test_Snapshot_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Snapshot can be assigned to storage and back losslessly
 func Test_Snapshot_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -73,44 +60,34 @@ func Test_Snapshot_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Snapshot to Snapshot via AssignProperties_To_Snapshot & AssignProperties_From_Snapshot returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSnapshot, SnapshotGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := SnapshotGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForSnapshot tests if a specific instance of Snapshot can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForSnapshot(subject Snapshot) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.Snapshot
+		err := copied.AssignProperties_To_Snapshot(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Snapshot
-	err := copied.AssignProperties_To_Snapshot(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual Snapshot
+		err = actual.AssignProperties_From_Snapshot(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Snapshot
-	err = actual.AssignProperties_From_Snapshot(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_Snapshot_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -120,29 +97,23 @@ func Test_Snapshot_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Snapshot via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSnapshot, SnapshotGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSnapshot)
 }
 
 // RunJSONSerializationTestForSnapshot runs a test to see if a specific instance of Snapshot round trips to JSON and back losslessly
-func RunJSONSerializationTestForSnapshot(subject Snapshot) string {
+func RunJSONSerializationTestForSnapshot(t *rapid.T) {
+	subject := SnapshotGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Snapshot
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -151,34 +122,33 @@ func RunJSONSerializationTestForSnapshot(subject Snapshot) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Snapshot instances for property testing - lazily instantiated by SnapshotGenerator()
-var snapshotGenerator gopter.Gen
+var snapshotGenerator *rapid.Generator[Snapshot]
 
 // SnapshotGenerator returns a generator of Snapshot instances for property testing.
-func SnapshotGenerator() gopter.Gen {
+func SnapshotGenerator() *rapid.Generator[Snapshot] {
 	if snapshotGenerator != nil {
 		return snapshotGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForSnapshot(generators)
-	snapshotGenerator = gen.Struct(reflect.TypeOf(Snapshot{}), generators)
+	spec := Snapshot_SpecGenerator()
+	status := Snapshot_STATUSGenerator()
+
+	snapshotGenerator = rapid.Custom(func(t *rapid.T) Snapshot {
+		var result Snapshot
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return snapshotGenerator
 }
 
-// AddRelatedPropertyGeneratorsForSnapshot is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSnapshot(gens map[string]gopter.Gen) {
-	gens["Spec"] = Snapshot_SpecGenerator()
-	gens["Status"] = Snapshot_STATUSGenerator()
-}
-
+// Test_SnapshotOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of SnapshotOperatorSpec can be assigned to storage and back losslessly
 func Test_SnapshotOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -186,44 +156,34 @@ func Test_SnapshotOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from SnapshotOperatorSpec to SnapshotOperatorSpec via AssignProperties_To_SnapshotOperatorSpec & AssignProperties_From_SnapshotOperatorSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSnapshotOperatorSpec, SnapshotOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := SnapshotOperatorSpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForSnapshotOperatorSpec tests if a specific instance of SnapshotOperatorSpec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForSnapshotOperatorSpec(subject SnapshotOperatorSpec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.SnapshotOperatorSpec
+		err := copied.AssignProperties_To_SnapshotOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SnapshotOperatorSpec
-	err := copied.AssignProperties_To_SnapshotOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual SnapshotOperatorSpec
+		err = actual.AssignProperties_From_SnapshotOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SnapshotOperatorSpec
-	err = actual.AssignProperties_From_SnapshotOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_SnapshotOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -233,29 +193,23 @@ func Test_SnapshotOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SnapshotOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSnapshotOperatorSpec, SnapshotOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSnapshotOperatorSpec)
 }
 
 // RunJSONSerializationTestForSnapshotOperatorSpec runs a test to see if a specific instance of SnapshotOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForSnapshotOperatorSpec(subject SnapshotOperatorSpec) string {
+func RunJSONSerializationTestForSnapshotOperatorSpec(t *rapid.T) {
+	subject := SnapshotOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SnapshotOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -264,28 +218,26 @@ func RunJSONSerializationTestForSnapshotOperatorSpec(subject SnapshotOperatorSpe
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SnapshotOperatorSpec instances for property testing - lazily instantiated by
 // SnapshotOperatorSpecGenerator()
-var snapshotOperatorSpecGenerator gopter.Gen
+var snapshotOperatorSpecGenerator *rapid.Generator[SnapshotOperatorSpec]
 
 // SnapshotOperatorSpecGenerator returns a generator of SnapshotOperatorSpec instances for property testing.
-func SnapshotOperatorSpecGenerator() gopter.Gen {
+func SnapshotOperatorSpecGenerator() *rapid.Generator[SnapshotOperatorSpec] {
 	if snapshotOperatorSpecGenerator != nil {
 		return snapshotOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	snapshotOperatorSpecGenerator = gen.Struct(reflect.TypeOf(SnapshotOperatorSpec{}), generators)
+	snapshotOperatorSpecGenerator = rapid.Just(SnapshotOperatorSpec{})
 
 	return snapshotOperatorSpecGenerator
 }
 
+// Test_SnapshotSku_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of SnapshotSku can be assigned to storage and back losslessly
 func Test_SnapshotSku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -293,44 +245,34 @@ func Test_SnapshotSku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from SnapshotSku to SnapshotSku via AssignProperties_To_SnapshotSku & AssignProperties_From_SnapshotSku returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSnapshotSku, SnapshotSkuGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := SnapshotSkuGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForSnapshotSku tests if a specific instance of SnapshotSku can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForSnapshotSku(subject SnapshotSku) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.SnapshotSku
+		err := copied.AssignProperties_To_SnapshotSku(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SnapshotSku
-	err := copied.AssignProperties_To_SnapshotSku(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual SnapshotSku
+		err = actual.AssignProperties_From_SnapshotSku(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SnapshotSku
-	err = actual.AssignProperties_From_SnapshotSku(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_SnapshotSku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -340,29 +282,23 @@ func Test_SnapshotSku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SnapshotSku via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSnapshotSku, SnapshotSkuGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSnapshotSku)
 }
 
 // RunJSONSerializationTestForSnapshotSku runs a test to see if a specific instance of SnapshotSku round trips to JSON and back losslessly
-func RunJSONSerializationTestForSnapshotSku(subject SnapshotSku) string {
+func RunJSONSerializationTestForSnapshotSku(t *rapid.T) {
+	subject := SnapshotSkuGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SnapshotSku
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -371,33 +307,31 @@ func RunJSONSerializationTestForSnapshotSku(subject SnapshotSku) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SnapshotSku instances for property testing - lazily instantiated by SnapshotSkuGenerator()
-var snapshotSkuGenerator gopter.Gen
+var snapshotSkuGenerator *rapid.Generator[SnapshotSku]
 
 // SnapshotSkuGenerator returns a generator of SnapshotSku instances for property testing.
-func SnapshotSkuGenerator() gopter.Gen {
+func SnapshotSkuGenerator() *rapid.Generator[SnapshotSku] {
 	if snapshotSkuGenerator != nil {
 		return snapshotSkuGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSnapshotSku(generators)
-	snapshotSkuGenerator = gen.Struct(reflect.TypeOf(SnapshotSku{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+
+	snapshotSkuGenerator = rapid.Custom(func(t *rapid.T) SnapshotSku {
+		var result SnapshotSku
+		result.Name = name.Draw(t, "Name")
+		return result
+	})
 
 	return snapshotSkuGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSnapshotSku is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSnapshotSku(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_SnapshotSku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of SnapshotSku_STATUS can be assigned to storage and back losslessly
 func Test_SnapshotSku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -405,44 +339,34 @@ func Test_SnapshotSku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from SnapshotSku_STATUS to SnapshotSku_STATUS via AssignProperties_To_SnapshotSku_STATUS & AssignProperties_From_SnapshotSku_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSnapshotSku_STATUS, SnapshotSku_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := SnapshotSku_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForSnapshotSku_STATUS tests if a specific instance of SnapshotSku_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForSnapshotSku_STATUS(subject SnapshotSku_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.SnapshotSku_STATUS
+		err := copied.AssignProperties_To_SnapshotSku_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SnapshotSku_STATUS
-	err := copied.AssignProperties_To_SnapshotSku_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual SnapshotSku_STATUS
+		err = actual.AssignProperties_From_SnapshotSku_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SnapshotSku_STATUS
-	err = actual.AssignProperties_From_SnapshotSku_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_SnapshotSku_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -452,29 +376,23 @@ func Test_SnapshotSku_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SnapshotSku_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSnapshotSku_STATUS, SnapshotSku_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSnapshotSku_STATUS)
 }
 
 // RunJSONSerializationTestForSnapshotSku_STATUS runs a test to see if a specific instance of SnapshotSku_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSnapshotSku_STATUS(subject SnapshotSku_STATUS) string {
+func RunJSONSerializationTestForSnapshotSku_STATUS(t *rapid.T) {
+	subject := SnapshotSku_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SnapshotSku_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -483,34 +401,32 @@ func RunJSONSerializationTestForSnapshotSku_STATUS(subject SnapshotSku_STATUS) s
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SnapshotSku_STATUS instances for property testing - lazily instantiated by SnapshotSku_STATUSGenerator()
-var snapshotSku_STATUSGenerator gopter.Gen
+var snapshotSku_STATUSGenerator *rapid.Generator[SnapshotSku_STATUS]
 
 // SnapshotSku_STATUSGenerator returns a generator of SnapshotSku_STATUS instances for property testing.
-func SnapshotSku_STATUSGenerator() gopter.Gen {
+func SnapshotSku_STATUSGenerator() *rapid.Generator[SnapshotSku_STATUS] {
 	if snapshotSku_STATUSGenerator != nil {
 		return snapshotSku_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSnapshotSku_STATUS(generators)
-	snapshotSku_STATUSGenerator = gen.Struct(reflect.TypeOf(SnapshotSku_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	snapshotSku_STATUSGenerator = rapid.Custom(func(t *rapid.T) SnapshotSku_STATUS {
+		var result SnapshotSku_STATUS
+		result.Name = ptrString.Draw(t, "Name")
+		result.Tier = ptrString.Draw(t, "Tier")
+		return result
+	})
 
 	return snapshotSku_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSnapshotSku_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSnapshotSku_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tier"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_Snapshot_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Snapshot_STATUS can be assigned to storage and back losslessly
 func Test_Snapshot_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -518,44 +434,34 @@ func Test_Snapshot_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Snapshot_STATUS to Snapshot_STATUS via AssignProperties_To_Snapshot_STATUS & AssignProperties_From_Snapshot_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSnapshot_STATUS, Snapshot_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := Snapshot_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForSnapshot_STATUS tests if a specific instance of Snapshot_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForSnapshot_STATUS(subject Snapshot_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.Snapshot_STATUS
+		err := copied.AssignProperties_To_Snapshot_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Snapshot_STATUS
-	err := copied.AssignProperties_To_Snapshot_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual Snapshot_STATUS
+		err = actual.AssignProperties_From_Snapshot_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Snapshot_STATUS
-	err = actual.AssignProperties_From_Snapshot_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_Snapshot_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -565,29 +471,23 @@ func Test_Snapshot_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Snapshot_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSnapshot_STATUS, Snapshot_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSnapshot_STATUS)
 }
 
 // RunJSONSerializationTestForSnapshot_STATUS runs a test to see if a specific instance of Snapshot_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSnapshot_STATUS(subject Snapshot_STATUS) string {
+func RunJSONSerializationTestForSnapshot_STATUS(t *rapid.T) {
+	subject := Snapshot_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Snapshot_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -596,70 +496,64 @@ func RunJSONSerializationTestForSnapshot_STATUS(subject Snapshot_STATUS) string 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Snapshot_STATUS instances for property testing - lazily instantiated by Snapshot_STATUSGenerator()
-var snapshot_STATUSGenerator gopter.Gen
+var snapshot_STATUSGenerator *rapid.Generator[Snapshot_STATUS]
 
 // Snapshot_STATUSGenerator returns a generator of Snapshot_STATUS instances for property testing.
-// We first initialize snapshot_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Snapshot_STATUSGenerator() gopter.Gen {
+func Snapshot_STATUSGenerator() *rapid.Generator[Snapshot_STATUS] {
 	if snapshot_STATUSGenerator != nil {
 		return snapshot_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSnapshot_STATUS(generators)
-	snapshot_STATUSGenerator = gen.Struct(reflect.TypeOf(Snapshot_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+	creationData := rapid.Ptr(CreationData_STATUSGenerator(), true)
+	encryption := rapid.Ptr(Encryption_STATUSGenerator(), true)
+	encryptionSettingsCollection := rapid.Ptr(EncryptionSettingsCollection_STATUSGenerator(), true)
+	extendedLocation := rapid.Ptr(ExtendedLocation_STATUSGenerator(), true)
+	incremental := rapid.Ptr(rapid.Bool(), true)
+	purchasePlan := rapid.Ptr(PurchasePlan_STATUSGenerator(), true)
+	sku := rapid.Ptr(SnapshotSku_STATUSGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSnapshot_STATUS(generators)
-	AddRelatedPropertyGeneratorsForSnapshot_STATUS(generators)
-	snapshot_STATUSGenerator = gen.Struct(reflect.TypeOf(Snapshot_STATUS{}), generators)
+	snapshot_STATUSGenerator = rapid.Custom(func(t *rapid.T) Snapshot_STATUS {
+		var result Snapshot_STATUS
+		result.CreationData = creationData.Draw(t, "CreationData")
+		result.DiskAccessId = ptrString.Draw(t, "DiskAccessId")
+		result.DiskSizeBytes = ptrInt.Draw(t, "DiskSizeBytes")
+		result.DiskSizeGB = ptrInt.Draw(t, "DiskSizeGB")
+		result.DiskState = ptrString.Draw(t, "DiskState")
+		result.Encryption = encryption.Draw(t, "Encryption")
+		result.EncryptionSettingsCollection = encryptionSettingsCollection.Draw(t, "EncryptionSettingsCollection")
+		result.ExtendedLocation = extendedLocation.Draw(t, "ExtendedLocation")
+		result.HyperVGeneration = ptrString.Draw(t, "HyperVGeneration")
+		result.Id = ptrString.Draw(t, "Id")
+		result.Incremental = incremental.Draw(t, "Incremental")
+		result.Location = ptrString.Draw(t, "Location")
+		result.ManagedBy = ptrString.Draw(t, "ManagedBy")
+		result.Name = ptrString.Draw(t, "Name")
+		result.NetworkAccessPolicy = ptrString.Draw(t, "NetworkAccessPolicy")
+		result.OsType = ptrString.Draw(t, "OsType")
+		result.ProvisioningState = ptrString.Draw(t, "ProvisioningState")
+		result.PurchasePlan = purchasePlan.Draw(t, "PurchasePlan")
+		result.Sku = sku.Draw(t, "Sku")
+		result.Tags = tags.Draw(t, "Tags")
+		result.TimeCreated = ptrString.Draw(t, "TimeCreated")
+		result.Type = ptrString.Draw(t, "Type")
+		result.UniqueId = ptrString.Draw(t, "UniqueId")
+		return result
+	})
 
 	return snapshot_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSnapshot_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSnapshot_STATUS(gens map[string]gopter.Gen) {
-	gens["DiskAccessId"] = gen.PtrOf(gen.AlphaString())
-	gens["DiskSizeBytes"] = gen.PtrOf(gen.Int())
-	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["DiskState"] = gen.PtrOf(gen.AlphaString())
-	gens["HyperVGeneration"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Incremental"] = gen.PtrOf(gen.Bool())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["ManagedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.AlphaString())
-	gens["OsType"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["TimeCreated"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["UniqueId"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForSnapshot_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSnapshot_STATUS(gens map[string]gopter.Gen) {
-	gens["CreationData"] = gen.PtrOf(CreationData_STATUSGenerator())
-	gens["Encryption"] = gen.PtrOf(Encryption_STATUSGenerator())
-	gens["EncryptionSettingsCollection"] = gen.PtrOf(EncryptionSettingsCollection_STATUSGenerator())
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUSGenerator())
-	gens["PurchasePlan"] = gen.PtrOf(PurchasePlan_STATUSGenerator())
-	gens["Sku"] = gen.PtrOf(SnapshotSku_STATUSGenerator())
-}
-
+// Test_Snapshot_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Snapshot_Spec can be assigned to storage and back losslessly
 func Test_Snapshot_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -667,44 +561,34 @@ func Test_Snapshot_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Snapshot_Spec to Snapshot_Spec via AssignProperties_To_Snapshot_Spec & AssignProperties_From_Snapshot_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSnapshot_Spec, Snapshot_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := Snapshot_SpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForSnapshot_Spec tests if a specific instance of Snapshot_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForSnapshot_Spec(subject Snapshot_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.Snapshot_Spec
+		err := copied.AssignProperties_To_Snapshot_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Snapshot_Spec
-	err := copied.AssignProperties_To_Snapshot_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual Snapshot_Spec
+		err = actual.AssignProperties_From_Snapshot_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Snapshot_Spec
-	err = actual.AssignProperties_From_Snapshot_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_Snapshot_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -714,29 +598,23 @@ func Test_Snapshot_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Snapshot_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSnapshot_Spec, Snapshot_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSnapshot_Spec)
 }
 
 // RunJSONSerializationTestForSnapshot_Spec runs a test to see if a specific instance of Snapshot_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForSnapshot_Spec(subject Snapshot_Spec) string {
+func RunJSONSerializationTestForSnapshot_Spec(t *rapid.T) {
+	subject := Snapshot_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Snapshot_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -745,59 +623,54 @@ func RunJSONSerializationTestForSnapshot_Spec(subject Snapshot_Spec) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Snapshot_Spec instances for property testing - lazily instantiated by Snapshot_SpecGenerator()
-var snapshot_SpecGenerator gopter.Gen
+var snapshot_SpecGenerator *rapid.Generator[Snapshot_Spec]
 
 // Snapshot_SpecGenerator returns a generator of Snapshot_Spec instances for property testing.
-// We first initialize snapshot_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Snapshot_SpecGenerator() gopter.Gen {
+func Snapshot_SpecGenerator() *rapid.Generator[Snapshot_Spec] {
 	if snapshot_SpecGenerator != nil {
 		return snapshot_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSnapshot_Spec(generators)
-	snapshot_SpecGenerator = gen.Struct(reflect.TypeOf(Snapshot_Spec{}), generators)
+	genString := rapid.String()
+	ptrString := rapid.Ptr(rapid.String(), true)
+	creationData := rapid.Ptr(CreationDataGenerator(), true)
+	diskSizeGB := rapid.Ptr(rapid.Int(), true)
+	encryption := rapid.Ptr(EncryptionGenerator(), true)
+	encryptionSettingsCollection := rapid.Ptr(EncryptionSettingsCollectionGenerator(), true)
+	extendedLocation := rapid.Ptr(ExtendedLocationGenerator(), true)
+	incremental := rapid.Ptr(rapid.Bool(), true)
+	operatorSpec := rapid.Ptr(SnapshotOperatorSpecGenerator(), true)
+	purchasePlan := rapid.Ptr(PurchasePlanGenerator(), true)
+	sku := rapid.Ptr(SnapshotSkuGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSnapshot_Spec(generators)
-	AddRelatedPropertyGeneratorsForSnapshot_Spec(generators)
-	snapshot_SpecGenerator = gen.Struct(reflect.TypeOf(Snapshot_Spec{}), generators)
+	snapshot_SpecGenerator = rapid.Custom(func(t *rapid.T) Snapshot_Spec {
+		var result Snapshot_Spec
+		result.AzureName = genString.Draw(t, "AzureName")
+		result.CreationData = creationData.Draw(t, "CreationData")
+		result.DiskSizeGB = diskSizeGB.Draw(t, "DiskSizeGB")
+		result.Encryption = encryption.Draw(t, "Encryption")
+		result.EncryptionSettingsCollection = encryptionSettingsCollection.Draw(t, "EncryptionSettingsCollection")
+		result.ExtendedLocation = extendedLocation.Draw(t, "ExtendedLocation")
+		result.HyperVGeneration = ptrString.Draw(t, "HyperVGeneration")
+		result.Incremental = incremental.Draw(t, "Incremental")
+		result.Location = ptrString.Draw(t, "Location")
+		result.NetworkAccessPolicy = ptrString.Draw(t, "NetworkAccessPolicy")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		result.OriginalVersion = genString.Draw(t, "OriginalVersion")
+		result.OsType = ptrString.Draw(t, "OsType")
+		result.PurchasePlan = purchasePlan.Draw(t, "PurchasePlan")
+		result.Sku = sku.Draw(t, "Sku")
+		result.Tags = tags.Draw(t, "Tags")
+		return result
+	})
 
 	return snapshot_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSnapshot_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSnapshot_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["HyperVGeneration"] = gen.PtrOf(gen.AlphaString())
-	gens["Incremental"] = gen.PtrOf(gen.Bool())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["OsType"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForSnapshot_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSnapshot_Spec(gens map[string]gopter.Gen) {
-	gens["CreationData"] = gen.PtrOf(CreationDataGenerator())
-	gens["Encryption"] = gen.PtrOf(EncryptionGenerator())
-	gens["EncryptionSettingsCollection"] = gen.PtrOf(EncryptionSettingsCollectionGenerator())
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
-	gens["OperatorSpec"] = gen.PtrOf(SnapshotOperatorSpecGenerator())
-	gens["PurchasePlan"] = gen.PtrOf(PurchasePlanGenerator())
-	gens["Sku"] = gen.PtrOf(SnapshotSkuGenerator())
 }
