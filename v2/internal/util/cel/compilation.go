@@ -6,7 +6,7 @@
 package cel
 
 import (
-	"github.com/google/cel-go/cel"
+	"cel.dev/cel-go/cel"
 	"github.com/rotisserie/eris"
 )
 
