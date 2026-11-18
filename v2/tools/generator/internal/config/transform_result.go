@@ -284,6 +284,8 @@ func (tr *TransformResult) asPrimitiveType(name string) (*astmodel.PrimitiveType
 		return astmodel.FloatType, nil
 	case "int":
 		return astmodel.IntType, nil
+	case "uint64":
+		return astmodel.UInt64Type, nil
 	case "string":
 		return astmodel.StringType, nil
 	case "any":
