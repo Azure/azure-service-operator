@@ -25,13 +25,13 @@ type ExecutionResource struct {
 	Items []string `json:"items,omitempty"`
 }
 
-func Test_ExpressionExecutionLimits(t *testing.T) {
+func Test_ExpressionExecution_CPULimits(t *testing.T) {
 	t.Parallel()
 	cases := []struct {
 		name        string
 		expression  string
 		text        string
-		budget      uint64
+		cpuBudget   uint64
 		errStr      string
 		expectedStr string
 		expectedMap map[string]string
@@ -39,68 +39,63 @@ func Test_ExpressionExecutionLimits(t *testing.T) {
 		{
 			name:        "ordinary v3 formatting succeeds",
 			expression:  `"%s".format([["abc", 3.14]])`,
-			budget:      aggregateCostBudget,
+			cpuBudget:   aggregateCPUBudget,
 			expectedStr: `["abc", 3.140000]`,
 		},
 		{
 			name:        "float at precision boundary succeeds",
 			expression:  `"%.100f".format([1.0])`,
-			budget:      aggregateCostBudget,
+			cpuBudget:   aggregateCPUBudget,
 			expectedStr: "1." + strings.Repeat("0", 100),
 		},
 		{
 			name:       "constant excessive precision fails",
 			expression: `"%.101f".format([1.0])`,
-			budget:     aggregateCostBudget,
+			cpuBudget:  aggregateCPUBudget,
 			errStr:     "precision 101 exceeds maximum allowed precision 100",
 		},
 		{
 			name:       "dynamic excessive precision fails",
 			expression: `self.text.format([1.0])`,
 			text:       "%.101f",
-			budget:     aggregateCostBudget,
+			cpuBudget:  aggregateCPUBudget,
 			errStr:     "precision 101 exceeds maximum allowed precision 100",
 		},
 		{
 			name:       "per expression cost exceeds budget",
-			expression: `self.text.replace("a", "aa")`,
-			text:       strings.Repeat("a", 600000),
-			budget:     aggregateCostBudget,
+			expression: `string(self.text.indexOf(self.text))`, // Search costs 4000 * 4000 * 0.1 = 1.6M units, exceeding the 1M CPU limit.
+			text:       strings.Repeat("a", 4000),
+			cpuBudget:  aggregateCPUBudget,
 			errStr:     "actual cost limit exceeded",
 		},
 		{
-			name: "large string output within cost budget succeeds",
-			// self.text doesn't consume much CEL evaluation budget because self.text is a simple field access.
-			// The fact the field being accessed is very large doesn't play into the cost calculation.
-			// With that said, the practical upper bound on the size of self.text is 1MB and you can already make ASO read that into memory
-			// without CEL.
-			expression:  `self.text`,
-			text:        strings.Repeat("x", 1<<20+1), // roughly 1mb of string
-			budget:      aggregateCostBudget,
-			expectedStr: strings.Repeat("x", 1<<20+1),
+			name:       "one expensive map value within CPU budget succeeds",
+			expression: `{"a": string(self.text.indexOf(self.text))}`, // Each search costs ~625k units; its result is just "0".
+			text:       strings.Repeat("a", 2500),
+			cpuBudget:  aggregateCPUBudget,
+			expectedMap: map[string]string{
+				"a": "0",
+			},
 		},
 		{
-			name:       "large map output within cost budget succeeds",
-			expression: `{"a": self.text, "b": self.text}`,
-			text:       strings.Repeat("x", 1<<19+1),
-			budget:     aggregateCostBudget,
-			expectedMap: map[string]string{
-				"a": strings.Repeat("x", 1<<19+1), // roughly 500kb of string
-				"b": strings.Repeat("x", 1<<19+1), // roughly 500kb of string
-			},
+			name:       "two expensive map values exceed CPU budget",
+			expression: `{"a": string(self.text.indexOf(self.text)), "b": string(self.text.indexOf(self.text))}`, // Two searches cost ~1.25M units, exceeding the 1M limit.
+			text:       strings.Repeat("a", 2500),
+			cpuBudget:  aggregateCPUBudget,
+			errStr:     "actual cost limit exceeded",
 		},
 		{
 			name:       "aggregate budget exceeded before expression evaluation",
 			expression: `"a" + "b"`,
-			budget:     0,
-			errStr:     "aggregate cost budget exhausted",
+			cpuBudget:  0,
+			errStr:     "aggregate CPU budget exhausted",
 		},
 		{
 			name:       "aggregate budget exceeded after expression evaluation",
 			expression: `self.text.replace("a", "aa")`,
 			text:       "aaaa",
-			budget:     5,
-			errStr:     "aggregate cost budget exceeded",
+			cpuBudget:  5,
+			errStr:     "aggregate CPU budget exceeded",
 		},
 	}
 	for _, c := range cases {
@@ -109,9 +104,107 @@ func Test_ExpressionExecutionLimits(t *testing.T) {
 			g := NewGomegaWithT(t)
 			evaluator, err := NewExpressionEvaluator()
 			g.Expect(err).ToNot(HaveOccurred())
+			budget := NewEvaluationBudget()
+			budget.remainingCPU = c.cpuBudget
 			result, err := evaluator.CompileAndRun(
-				context.Background(),
-				&EvaluationBudget{remaining: c.budget},
+				t.Context(),
+				budget,
+				c.expression,
+				&ExecutionResource{Text: c.text},
+				nil,
+			)
+			if c.errStr != "" {
+				g.Expect(err).To(MatchError(ContainSubstring(c.errStr)))
+				g.Expect(result).To(BeNil())
+			} else {
+				g.Expect(err).ToNot(HaveOccurred())
+				g.Expect(result).ToNot(BeNil())
+				g.Expect(result.Value).To(Equal(c.expectedStr))
+				g.Expect(result.Values).To(Equal(c.expectedMap))
+			}
+		})
+	}
+}
+
+func Test_ExpressionExecution_MemoryLimits(t *testing.T) {
+	t.Parallel()
+	cases := []struct {
+		name         string
+		expression   string
+		text         string
+		memoryBudget uint32
+		errStr       string
+		expectedStr  string
+		expectedMap  map[string]string
+	}{
+		{
+			name:         "string output at memory limit succeeds",
+			expression:   `self.text`,
+			text:         strings.Repeat("x", 1_000_000),
+			memoryBudget: aggregateMemoryBudget,
+			expectedStr:  strings.Repeat("x", 1_000_000), // roughly 1mb of string
+		},
+		{
+			name:         "map output within memory budget succeeds",
+			expression:   `{"a": self.text, "b": self.text}`,
+			text:         strings.Repeat("x", 400_000),
+			memoryBudget: aggregateMemoryBudget,
+			expectedMap: map[string]string{
+				"a": strings.Repeat("x", 400_000), // roughly 400 kb of string
+				"b": strings.Repeat("x", 400_000), // roughly 400 kb of string
+			},
+		},
+		{
+			name:         "per expression memory limit exceeded",
+			expression:   `self.text`,
+			text:         strings.Repeat("x", 1_000_001),
+			memoryBudget: aggregateMemoryBudget,
+			errStr:       "memory limit exceeded",
+		},
+		{
+			name:         "oversized intermediate rejected despite small output",
+			expression:   `"%s%s".format([self.text, self.text]).substring(0, 1)`,
+			text:         strings.Repeat("x", 500_001),
+			memoryBudget: aggregateMemoryBudget,
+			errStr:       "memory limit exceeded",
+		},
+		{
+			name: "repeated formatting exceeds memory limit through shared string references",
+			// After two 10x expansions, s is 100,100 bytes. The third argument list
+			// counts ten references as over 100,000 memory units.
+			expression: `[self.text]` +
+				`.map(s, "%s%s%s%s%s%s%s%s%s%s".format([s,s,s,s,s,s,s,s,s,s]))` +
+				`.map(s, "%s%s%s%s%s%s%s%s%s%s".format([s,s,s,s,s,s,s,s,s,s]))` +
+				`.map(s, "%s%s%s%s%s%s%s%s%s%s".format([s,s,s,s,s,s,s,s,s,s]))[0]`,
+			text:         strings.Repeat("x", 1001),
+			memoryBudget: aggregateMemoryBudget,
+			errStr:       "memory limit exceeded",
+		},
+		{
+			name:         "aggregate budget exceeded before expression evaluation",
+			expression:   `"x"`,
+			memoryBudget: 0,
+			errStr:       "CEL aggregate memory budget exhausted",
+		},
+		{
+			name:         "aggregate budget exceeded after expression evaluation",
+			expression:   `self.text`,
+			text:         strings.Repeat("x", 21),
+			memoryBudget: 2,
+			errStr:       "CEL aggregate memory budget exceeded",
+		},
+	}
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+			evaluator, err := NewExpressionEvaluator()
+			g.Expect(err).ToNot(HaveOccurred())
+			budget := NewEvaluationBudget()
+			budget.remainingMemory = c.memoryBudget
+			result, err := evaluator.CompileAndRun(
+				t.Context(),
+				budget,
 				c.expression,
 				&ExecutionResource{Text: c.text},
 				nil,
@@ -135,11 +228,53 @@ func Test_ExpressionExecution_ChargesBudget(t *testing.T) {
 	evaluator, err := NewExpressionEvaluator()
 	g.Expect(err).ToNot(HaveOccurred())
 	self := &ExecutionResource{}
-	budget := &EvaluationBudget{remaining: 10}
+	budget := NewEvaluationBudget()
+	budget.remainingCPU = 10
 	result, err := evaluator.CompileAndRun(t.Context(), budget, `"a" + "b"`, self, nil)
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(result.Value).To(Equal("ab"))
-	g.Expect(budget.remaining).To(Equal(uint64(9)))
+	g.Expect(budget.remainingCPU).To(Equal(uint64(9)))
+	g.Expect(budget.remainingMemory).To(Equal(aggregateMemoryBudget - 1))
+}
+
+func Test_ExpressionExecution_ChargesResultMemory(t *testing.T) {
+	t.Parallel()
+	cases := []struct {
+		name       string
+		expression string
+		text       string
+		memory     uint32
+		remaining  uint32
+	}{
+		{
+			name:       "charges only result rather than intermediate peak",
+			expression: `self.text.substring(0, 1)`,
+			text:       strings.Repeat("x", 10_000),
+			memory:     2,
+			remaining:  1,
+		},
+		{
+			name:       "counts UTF-8 bytes with default CEL scaling",
+			expression: `self.text`,
+			text:       strings.Repeat("é", 6), // 12 UTF-8 bytes cost ceil(12/10) = 2 memory units, leaving 1 of the initial 3.
+			memory:     3,
+			remaining:  1,
+		},
+	}
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+			evaluator, err := NewExpressionEvaluator()
+			g.Expect(err).ToNot(HaveOccurred())
+			budget := NewEvaluationBudget()
+			budget.remainingMemory = c.memory
+			result, err := evaluator.CompileAndRun(t.Context(), budget, c.expression, &ExecutionResource{Text: c.text}, nil)
+			g.Expect(err).ToNot(HaveOccurred())
+			g.Expect(result).ToNot(BeNil())
+			g.Expect(budget.remainingMemory).To(Equal(c.remaining))
+		})
+	}
 }
 
 func Test_ExpressionExecution_CancelsComprehension(t *testing.T) {
@@ -176,7 +311,10 @@ func Test_ExpressionExecution_CancelsComprehension(t *testing.T) {
 func Test_ExpressionBudget_Overflow(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
-	budget := &EvaluationBudget{remaining: 10}
-	g.Expect(budget.charge(math.MaxUint64)).To(HaveOccurred())
+	budget := NewEvaluationBudget()
+	g.Expect(budget.chargeCPU(math.MaxUint64)).To(HaveOccurred())
 	g.Expect(budget.check()).To(HaveOccurred())
+	budget = NewEvaluationBudget()
+	g.Expect(budget.chargeMemory(math.MaxUint32)).To(HaveOccurred())
+	g.Expect(budget.check()).To(MatchError("CEL aggregate memory budget exhausted"))
 }

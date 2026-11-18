@@ -29,11 +29,11 @@ func Test_ExpressionExporters_ShareBudget(t *testing.T) {
 		ObjectMeta: metav1.ObjectMeta{
 			Namespace: "test",
 			Annotations: map[string]string{
-				"chunk": strings.Repeat("a", 32768), // Doubling costs ~69k units: 100 evaluations fit 10M, but another 100 exceed it.
+				"chunk": strings.Repeat("a", 830), // Searching costs ~69k CPU units, with small results so memory does not exhaust first.
 			},
 		},
 	}
-	expr := `self.metadata.annotations.chunk.replace("a", "aa")`
+	expr := `string(self.metadata.annotations.chunk.indexOf(self.metadata.annotations.chunk))`
 	metadataExpressions := make(map[string]string)
 	for i := 0; i < 100; i++ {
 		metadataExpressions[fmt.Sprintf("key%d", i)] = expr
@@ -69,5 +69,50 @@ func Test_ExpressionExporters_ShareBudget(t *testing.T) {
 			Value:       expr,
 			Annotations: metadataExpressions,
 		}}, obj, nil)
-	g.Expect(err).To(MatchError(ContainSubstring("aggregate cost budget exceeded")))
+	g.Expect(err).To(MatchError(ContainSubstring("aggregate CPU budget exceeded")))
+}
+
+func Test_ExpressionExporters_ShareMemoryBudget(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	evaluator, err := asocel.NewExpressionEvaluator()
+	g.Expect(err).ToNot(HaveOccurred())
+	budget := asocel.NewEvaluationBudget()
+	obj := &resources.ResourceGroup{
+		ObjectMeta: metav1.ObjectMeta{
+			Namespace: "test",
+			Annotations: map[string]string{
+				"chunk": strings.Repeat("a", 600_000),
+			},
+		},
+	}
+
+	// First process should succeed.
+	configExporter := &configMapExpressionExporter{
+		obj:                 obj,
+		versionedObj:        obj,
+		expressionEvaluator: evaluator,
+		budget:              budget,
+	}
+	_, err = configExporter.parseConfigMaps(t.Context(), []*core.DestinationExpression{{
+		Name:  "config",
+		Key:   "value",
+		Value: `self.metadata.annotations.chunk`,
+	}})
+	g.Expect(err).ToNot(HaveOccurred())
+
+	// Second process should fail due to shared memory budget.
+	secretExporter := &secretExpressionExporter{
+		expressionEvaluator: evaluator,
+		budget:              budget,
+	}
+	_, err = secretExporter.parseSecrets(t.Context(), []*core.DestinationExpression{{
+		Name:  "secret",
+		Key:   "value",
+		Value: `"value"`,
+		Annotations: map[string]string{
+			"large": `self.metadata.annotations.chunk`,
+		},
+	}}, obj, nil)
+	g.Expect(err).To(MatchError(ContainSubstring("aggregate memory budget exceeded")))
 }

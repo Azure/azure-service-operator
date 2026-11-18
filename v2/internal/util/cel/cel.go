@@ -148,7 +148,6 @@ func NewEnv(resource reflect.Type) (*cel.Env, error) {
 
 	// The typesList of supported env functions was taken from Kubernetes here:
 	// https://kubernetes.io/docs/reference/using-api/cel/#language-overview.
-
 	// Note: Adding to the below list of supported functions/features should be done with caution,
 	// and any updates should be propagated to docs/hugo/content/guide/expressions.md as well.
 	return cel.NewEnv(
@@ -193,7 +192,7 @@ type ExpressionResult struct {
 
 // CompileAndRun compiles the specified expression and returns the result of the compilation.
 // ctx supports caller cancellation.
-// budget is the aggregate cost budget for this evaluation.
+// budget is the aggregate CPU and result-memory budget for this evaluation.
 // expression is a CEL expression that must return either a string or map[string]string.
 // self is the resource being reconciled.
 // secret is the set of secrets associated with the resource (which may be empty).
@@ -232,7 +231,15 @@ func (e *expressionEvaluator) CompileAndRun(ctx context.Context, budget *Evaluat
 	if details == nil || details.ActualCost() == nil {
 		return nil, eris.New("CEL evaluation did not report runtime cost")
 	}
-	if err := budget.charge(*details.ActualCost()); err != nil {
+	if err := budget.chargeCPU(*details.ActualCost()); err != nil {
+		return nil, err
+	}
+	// Match MemoryLimit sizing, but charge only retained output.
+	size := newMemorySizeCalculator().ApproximateAggregateSize(out)
+	if size.LimitExceeded {
+		return nil, eris.New("CEL result memory size calculation limit exceeded")
+	}
+	if err := budget.chargeMemory(size.Size); err != nil {
 		return nil, err
 	}
 
