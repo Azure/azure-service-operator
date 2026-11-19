@@ -404,6 +404,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/security/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/security/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/servicebus/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/servicelinker/</loc>
@@ -803,6 +805,8 @@
     <loc>https://azure.github.io/azure-service-operator/reference/web/v20250501/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/cognitiveservices/v20250601/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/security/v20250601/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/storage/v20250601/</loc>
   </url><url>
