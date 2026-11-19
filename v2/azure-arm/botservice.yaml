@@ -1,0 +1,33 @@
+typeTransformers:
+  - name: BotProperties_STATUS
+    property: MigrationToken
+    remove: true
+    because: This read-only migration token must be retrieved through OperatorSpec.Secrets
+
+groupModelConfiguration:
+  2022-09-15:
+    BotService:
+      $exportAs: BotService
+      $supportedFrom: v2.23.0
+      $azureGeneratedSecrets:
+        - MigrationToken
+    BotProperties:
+      AppPasswordHint:
+        $importSecretMode: never
+        $referenceType: simple
+      DeveloperAppInsightKey:
+        $importSecretMode: required
+      DeveloperAppInsightsApiKey:
+        $importSecretMode: required
+      LuisKey:
+        $importSecretMode: required
+      MsaAppId:
+        $importConfigMapMode: optional
+      MsaAppMSIResourceId:
+        $referenceType: arm
+      MsaAppTenantId:
+        $importConfigMapMode: optional
+      PublishingCredentials:
+        $importSecretMode: required
+      StorageResourceId:
+        $referenceType: arm

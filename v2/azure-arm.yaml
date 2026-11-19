@@ -51,6 +51,7 @@ imports:
   appconfiguration: azure-arm/appconfiguration.yaml
   authorization: azure-arm/authorization.yaml
   batch: azure-arm/batch.yaml
+  botservice: azure-arm/botservice.yaml
   cache: azure-arm/cache.yaml
   cdn: azure-arm/cdn.yaml
   cognitiveservices: azure-arm/cognitiveservices.yaml
