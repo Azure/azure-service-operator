@@ -32,7 +32,11 @@ func ClearPollerResumeToken(obj genruntime.MetaObject) {
 }
 
 func SetLatestReconciledGeneration(obj genruntime.MetaObject) {
-	genruntime.AddAnnotation(obj, reconcilers.LatestReconciledGeneration, strconv.FormatInt(obj.GetGeneration(), 10))
+	setLatestReconciledGeneration(obj, obj.GetGeneration())
+}
+
+func setLatestReconciledGeneration(obj genruntime.MetaObject, generation int64) {
+	genruntime.AddAnnotation(obj, reconcilers.LatestReconciledGeneration, strconv.FormatInt(generation, 10))
 }
 
 func GetLatestReconciledGeneration(obj genruntime.MetaObject) (int64, bool) {
