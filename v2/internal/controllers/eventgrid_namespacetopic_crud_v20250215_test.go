@@ -31,7 +31,7 @@ func Test_EventGrid_NamespaceTopic_CRUD_20250215(t *testing.T) {
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &eventgrid.NamespaceSku{
 				Name:     to.Ptr(eventgrid.NamespaceSku_Name_Standard),
-				Capacity: to.Ptr(1),
+				Capacity: new(1),
 			},
 		},
 	}
@@ -41,7 +41,7 @@ func Test_EventGrid_NamespaceTopic_CRUD_20250215(t *testing.T) {
 		ObjectMeta: tc.MakeObjectMeta("namespacetopic"),
 		Spec: eventgrid.NamespaceTopic_Spec{
 			Owner:                testcommon.AsOwner(namespace),
-			EventRetentionInDays: to.Ptr(1),
+			EventRetentionInDays: new(1),
 			InputSchema:          to.Ptr(eventgrid.NamespaceTopicProperties_InputSchema_CloudEventSchemaV1_0),
 		},
 	}
@@ -54,7 +54,7 @@ func Test_EventGrid_NamespaceTopic_CRUD_20250215(t *testing.T) {
 
 	// Perform a simple patch.
 	old := namespaceTopic.DeepCopy()
-	namespaceTopic.Spec.EventRetentionInDays = to.Ptr(2)
+	namespaceTopic.Spec.EventRetentionInDays = new(2)
 	tc.PatchResourceAndWait(old, namespaceTopic)
 	tc.Expect(namespaceTopic.Status.EventRetentionInDays).To(HaveValue(Equal(2)))
 

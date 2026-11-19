@@ -156,7 +156,7 @@ func (r *EntraSecurityGroupReconciler) addOwner(
 	ownersRefBuilder := groupRequestBuilder.Owners().Ref()
 	return func(ctx context.Context, objectID uuid.UUID) error {
 		ref := msgraphmodels.NewReferenceCreate()
-		ref.SetOdataId(to.Ptr(asoentrav1.DirectoryObjectRefURI(objectID.String())))
+		ref.SetOdataId(new(asoentrav1.DirectoryObjectRefURI(objectID.String())))
 		err := ownersRefBuilder.Post(ctx, ref, nil)
 		if err != nil {
 			return eris.Wrapf(err, "failed adding owner %s to group", objectID)
@@ -198,7 +198,7 @@ func (r *EntraSecurityGroupReconciler) addMember(
 	membersRefBuilder := groupRequestBuilder.Members().Ref()
 	return func(ctx context.Context, objectID uuid.UUID) error {
 		ref := msgraphmodels.NewReferenceCreate()
-		ref.SetOdataId(to.Ptr(asoentrav1.DirectoryObjectRefURI(objectID.String())))
+		ref.SetOdataId(new(asoentrav1.DirectoryObjectRefURI(objectID.String())))
 		return membersRefBuilder.Post(ctx, ref, nil)
 	}
 }

@@ -24,7 +24,7 @@ func Test_DocumentDB_CassandraCluster_v20260315_CRUD(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
 
-	tc.AzureRegion = to.Ptr("eastus")
+	tc.AzureRegion = new("eastus")
 
 	// Create our resource group
 	rg := tc.CreateTestResourceGroupAndWait()
@@ -65,7 +65,7 @@ func Test_DocumentDB_CassandraCluster_v20260315_CRUD(t *testing.T) {
 			Owner:    testcommon.AsOwner(rg),
 			Properties: &documentdb.ClusterResourceProperties{
 				AutoReplicate:    to.Ptr(documentdb.AutoReplicate_SystemKeyspaces),
-				CassandraVersion: to.Ptr("4.0"),
+				CassandraVersion: new("4.0"),
 				DelegatedManagementSubnetReference: &genruntime.ResourceReference{
 					Group: network.GroupVersion.Group,
 					Kind:  "VirtualNetworksSubnet",
@@ -73,7 +73,7 @@ func Test_DocumentDB_CassandraCluster_v20260315_CRUD(t *testing.T) {
 				},
 				Extensions:                    []string{"cassandra-lucene-index"},
 				InitialCassandraAdminPassword: &adminPasswordSecretRef,
-				RepairEnabled:                 to.Ptr(true),
+				RepairEnabled:                 new(true),
 				ScheduledEventStrategy:        to.Ptr(documentdb.ScheduledEventStrategy_StopByRack),
 			},
 		},
@@ -117,7 +117,7 @@ func Test_DocumentDB_CassandraCluster_v20260315_CRUD(t *testing.T) {
 
 	// Update the data center to ensure that works
 	oldDataCenter := dataCenter.DeepCopy()
-	dataCenter.Spec.Properties.NodeCount = to.Ptr(5)
+	dataCenter.Spec.Properties.NodeCount = new(5)
 	tc.PatchResourceAndWait(oldDataCenter, dataCenter)
 
 	// Delete the cluster and make sure it goes away
@@ -140,13 +140,13 @@ func newCassandraDataCenterV20260315(tc *testcommon.KubePerTestContext, cassandr
 		Spec: documentdb.CassandraDataCenter_Spec{
 			Owner: testcommon.AsOwner(cassandraCluster),
 			Properties: &documentdb.DataCenterResourceProperties{
-				DataCenterLocation: to.Ptr("eastus"),
+				DataCenterLocation: new("eastus"),
 				DelegatedSubnetReference: &genruntime.ResourceReference{
 					Group: network.GroupVersion.Group,
 					Kind:  "VirtualNetworksSubnet",
 					Name:  dcSubnet.Name,
 				},
-				NodeCount: to.Ptr(3),
+				NodeCount: new(3),
 			},
 		},
 	}

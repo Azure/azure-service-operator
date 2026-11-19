@@ -21,14 +21,14 @@ func Test_ServiceLinker_Linker_CRUD_v20240401(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 
-	tc.AzureRegion = to.Ptr("westus3")
+	tc.AzureRegion = new("westus3")
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	serverFarm := newServerFarm(tc, rg, *tc.AzureRegion)
 	site := &web.Site{
 		ObjectMeta: tc.MakeObjectMeta("site"),
 		Spec: web.Site_Spec{
-			Enabled:             to.Ptr(true),
+			Enabled:             new(true),
 			Location:            tc.AzureRegion,
 			Owner:               testcommon.AsOwner(rg),
 			ServerFarmReference: tc.MakeReferenceFromResource(serverFarm),

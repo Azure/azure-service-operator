@@ -329,7 +329,7 @@ func Test_CELExportConfigMapPropertyOnDifferentVersion(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
 
-	tc.AzureRegion = to.Ptr("westus3") // TODO: the default test region of westus2 doesn't allow ds2_v2 at the moment
+	tc.AzureRegion = new("westus3") // TODO: the default test region of westus2 doesn't allow ds2_v2 at the moment
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
@@ -340,17 +340,17 @@ func Test_CELExportConfigMapPropertyOnDifferentVersion(t *testing.T) {
 		Spec: containerserviceold.ManagedCluster_Spec{
 			Location:  tc.AzureRegion,
 			Owner:     testcommon.AsOwner(rg),
-			DnsPrefix: to.Ptr("aso"),
+			DnsPrefix: new("aso"),
 			AgentPoolProfiles: []containerserviceold.ManagedClusterAgentPoolProfile{
 				{
-					Name:   to.Ptr("ap1"),
-					Count:  to.Ptr(1),
-					VmSize: to.Ptr("Standard_DS2_v2"),
+					Name:   new("ap1"),
+					Count:  new(1),
+					VmSize: new("Standard_DS2_v2"),
 					OsType: to.Ptr(containerserviceold.OSType_Linux),
 					Mode:   to.Ptr(containerserviceold.AgentPoolMode_System),
 				},
 			},
-			EnablePodSecurityPolicy: to.Ptr(false),
+			EnablePodSecurityPolicy: new(false),
 			Identity: &containerserviceold.ManagedClusterIdentity{
 				Type: to.Ptr(containerserviceold.ManagedClusterIdentity_Type_SystemAssigned),
 			},

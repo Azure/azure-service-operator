@@ -45,8 +45,11 @@ func InterleaveStrSlice(a []string, b []string) []string {
 	}
 
 	var result []string
+	if len(a)+len(b) > 0 {
+		result = make([]string, 0, len(a)+len(b))
+	}
 
-	for i := 0; i < smallestLen; i++ {
+	for i := range smallestLen {
 		result = append(result, a[i])
 		result = append(result, b[i])
 	}

@@ -23,7 +23,7 @@ type AzureBeDeletedMatcher struct {
 
 var _ types.GomegaMatcher = &AzureBeDeletedMatcher{}
 
-func (m *AzureBeDeletedMatcher) typedActual(actual interface{}) ([]string, error) {
+func (m *AzureBeDeletedMatcher) typedActual(actual any) ([]string, error) {
 	args, ok := actual.([]string)
 	if !ok {
 		return nil, eris.Errorf("Expected actual of type []string, instead %T", actual)
@@ -36,7 +36,7 @@ func (m *AzureBeDeletedMatcher) typedActual(actual interface{}) ([]string, error
 	return args, nil
 }
 
-func (m *AzureBeDeletedMatcher) Match(actual interface{}) (bool, error) {
+func (m *AzureBeDeletedMatcher) Match(actual any) (bool, error) {
 	if actual == nil {
 		return false, nil
 	}
@@ -54,7 +54,7 @@ func (m *AzureBeDeletedMatcher) Match(actual interface{}) (bool, error) {
 	return !exists, nil
 }
 
-func (m *AzureBeDeletedMatcher) message(actual interface{}, expectedMatch bool) string {
+func (m *AzureBeDeletedMatcher) message(actual any, expectedMatch bool) string {
 	args, err := m.typedActual(actual)
 	if err != nil {
 		// Gomegas contract is that it won't call one of the message functions
@@ -71,16 +71,16 @@ func (m *AzureBeDeletedMatcher) message(actual interface{}, expectedMatch bool) 
 	return gomegaformat.Message(args[0], fmt.Sprintf("%sto be deleted", notStr))
 }
 
-func (m *AzureBeDeletedMatcher) FailureMessage(actual interface{}) string {
+func (m *AzureBeDeletedMatcher) FailureMessage(actual any) string {
 	return m.message(actual, true)
 }
 
-func (m *AzureBeDeletedMatcher) NegatedFailureMessage(actual interface{}) string {
+func (m *AzureBeDeletedMatcher) NegatedFailureMessage(actual any) string {
 	return m.message(actual, false)
 }
 
 // MatchMayChangeInTheFuture implements OracleMatcher which of course isn't exported so we can't type-assert we implement it
-func (m *AzureBeDeletedMatcher) MatchMayChangeInTheFuture(actual interface{}) bool {
+func (m *AzureBeDeletedMatcher) MatchMayChangeInTheFuture(actual any) bool {
 	// TODO: Good way to generically check state of resource, look for deleting or something
 	// TODO: which is common across all Azure resources?
 	// For now, we assume things can always change unless actual == nil

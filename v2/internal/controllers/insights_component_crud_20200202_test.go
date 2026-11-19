@@ -32,15 +32,15 @@ func Test_Insights_Component_v20200202_CRUD(t *testing.T) {
 	tc.CreateResourceAndWait(component)
 
 	tc.Expect(component.Status.Location).To(Equal(tc.AzureRegion))
-	tc.Expect(component.Status.Kind).To(Equal(to.Ptr("web")))
+	tc.Expect(component.Status.Kind).To(Equal(new("web")))
 	tc.Expect(component.Status.Id).ToNot(BeNil())
 	armId := *component.Status.Id
 
 	// Perform a simple patch.
 	old := component.DeepCopy()
-	component.Spec.RetentionInDays = to.Ptr(60)
+	component.Spec.RetentionInDays = new(60)
 	tc.PatchResourceAndWait(old, component)
-	tc.Expect(component.Status.RetentionInDays).To(Equal(to.Ptr(60)))
+	tc.Expect(component.Status.RetentionInDays).To(Equal(new(60)))
 
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
@@ -93,23 +93,23 @@ func Insights_WebTest_20220615_CRUD(tc *testcommon.KubePerTestContext, rg *resou
 			Owner:              testcommon.AsOwner(rg),
 			SyntheticMonitorId: &om.Name,
 			Tags:               horribleTags,
-			Name:               to.Ptr("mywebtest"),
-			Enabled:            to.Ptr(true),
-			Frequency:          to.Ptr(300),
+			Name:               new("mywebtest"),
+			Enabled:            new(true),
+			Frequency:          new(300),
 			Kind:               &kind,
 			Locations: []insightswebtest20220615.WebTestGeolocation{
 				{
-					Id: to.Ptr("us-ca-sjc-azr"), // This is US west...
+					Id: new("us-ca-sjc-azr"), // This is US west...
 				},
 			},
 			Request: &insightswebtest20220615.WebTestPropertiesRequest{
-				HttpVerb:   to.Ptr("GET"),
-				RequestUrl: to.Ptr("https://github.com/Azure/azure-service-operator"),
+				HttpVerb:   new("GET"),
+				RequestUrl: new("https://github.com/Azure/azure-service-operator"),
 			},
 			ValidationRules: &insightswebtest20220615.WebTestPropertiesValidationRules{
-				ExpectedHttpStatusCode:        to.Ptr(200),
-				SSLCheck:                      to.Ptr(true),
-				SSLCertRemainingLifetimeCheck: to.Ptr(7),
+				ExpectedHttpStatusCode:        new(200),
+				SSLCheck:                      new(true),
+				SSLCertRemainingLifetimeCheck: new(7),
 			},
 		},
 	}
@@ -123,9 +123,9 @@ func Insights_WebTest_20220615_CRUD(tc *testcommon.KubePerTestContext, rg *resou
 
 	// Perform a simple patch.
 	old := webtest.DeepCopy()
-	webtest.Spec.Enabled = to.Ptr(false)
+	webtest.Spec.Enabled = new(false)
 	tc.PatchResourceAndWait(old, webtest)
-	tc.Expect(webtest.Status.Enabled).To(Equal(to.Ptr(false)))
+	tc.Expect(webtest.Status.Enabled).To(Equal(new(false)))
 
 	armId := *webtest.Status.Id
 	tc.DeleteResourceAndWait(webtest)
@@ -149,8 +149,8 @@ func Insights_PricingPlan_20171001_CRUD(
 		ObjectMeta: tc.MakeObjectMeta("plan"),
 		Spec: insights20171001.PricingPlan_Spec{
 			Owner:                          testcommon.AsOwner(component),
-			PlanType:                       to.Ptr("Basic"),
-			StopSendNotificationWhenHitCap: to.Ptr(true),
+			PlanType:                       new("Basic"),
+			StopSendNotificationWhenHitCap: new(true),
 		},
 	}
 
@@ -165,7 +165,7 @@ func Insights_PricingPlan_20171001_CRUD(
 
 	// Perform a simple patch.
 	old := plan.DeepCopy()
-	plan.Spec.StopSendNotificationWhenHitCap = to.Ptr(false)
+	plan.Spec.StopSendNotificationWhenHitCap = new(false)
 	tc.PatchResourceAndWait(old, plan)
 
 	tc.Expect(plan.Status.StopSendNotificationWhenHitCap).NotTo(BeNil())
@@ -190,23 +190,23 @@ func Insights_WebTest_20180501preview_CRUD(tc *testcommon.KubePerTestContext, rg
 			Owner:              testcommon.AsOwner(rg),
 			SyntheticMonitorId: &om.Name,
 			Tags:               horribleTags,
-			Name:               to.Ptr("mywebtest"),
-			Enabled:            to.Ptr(true),
-			Frequency:          to.Ptr(300),
+			Name:               new("mywebtest"),
+			Enabled:            new(true),
+			Frequency:          new(300),
 			Kind:               &kind,
 			Locations: []insightswebtest20180501preview.WebTestGeolocation{
 				{
-					Id: to.Ptr("us-ca-sjc-azr"), // This is US west...
+					Id: new("us-ca-sjc-azr"), // This is US west...
 				},
 			},
 			Request: &insightswebtest20180501preview.WebTestProperties_Request{
-				HttpVerb:   to.Ptr("GET"),
-				RequestUrl: to.Ptr("https://github.com/Azure/azure-service-operator"),
+				HttpVerb:   new("GET"),
+				RequestUrl: new("https://github.com/Azure/azure-service-operator"),
 			},
 			ValidationRules: &insightswebtest20180501preview.WebTestProperties_ValidationRules{
-				ExpectedHttpStatusCode:        to.Ptr(200),
-				SSLCheck:                      to.Ptr(true),
-				SSLCertRemainingLifetimeCheck: to.Ptr(7),
+				ExpectedHttpStatusCode:        new(200),
+				SSLCheck:                      new(true),
+				SSLCertRemainingLifetimeCheck: new(7),
 			},
 		},
 	}
@@ -221,9 +221,9 @@ func Insights_WebTest_20180501preview_CRUD(tc *testcommon.KubePerTestContext, rg
 
 	// Perform a simple patch.
 	old := webtest.DeepCopy()
-	webtest.Spec.Enabled = to.Ptr(false)
+	webtest.Spec.Enabled = new(false)
 	tc.PatchResourceAndWait(old, webtest)
-	tc.Expect(webtest.Status.Enabled).To(Equal(to.Ptr(false)))
+	tc.Expect(webtest.Status.Enabled).To(Equal(new(false)))
 
 	tc.DeleteResourceAndWait(webtest)
 
@@ -248,7 +248,7 @@ func Test_Insights_Component_ExportConfigMap(t *testing.T) {
 	tc.CreateResourceAndWait(component)
 
 	tc.Expect(component.Status.Location).To(Equal(tc.AzureRegion))
-	tc.Expect(component.Status.Kind).To(Equal(to.Ptr("web")))
+	tc.Expect(component.Status.Kind).To(Equal(new("web")))
 	tc.Expect(component.Status.Id).ToNot(BeNil())
 	armId := *component.Status.Id
 
@@ -325,7 +325,7 @@ func newAppInsightsComponent(tc *testcommon.KubePerTestContext, rg *resources.Re
 			Owner:    testcommon.AsOwner(rg),
 			// According to their documentation you can set anything here, it's ignored.
 			Application_Type: &applicationType,
-			Kind:             to.Ptr("web"),
+			Kind:             new("web"),
 		},
 	}
 	return component

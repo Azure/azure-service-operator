@@ -29,7 +29,7 @@ func Test_CfgToKey_HasAllConfigDotValuesKeys(t *testing.T) {
 	// then cfgToKey is updated to match.
 	key := cfgToKey(testConfig{})
 
-	testConfigType := reflect.TypeOf(testConfig{})
+	testConfigType := reflect.TypeFor[testConfig]()
 
 	for i, field := range reflect.VisibleFields(testConfigType) {
 		// Skip the embedded struct and TerminateWhenDone field

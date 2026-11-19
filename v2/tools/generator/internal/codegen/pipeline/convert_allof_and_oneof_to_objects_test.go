@@ -11,7 +11,6 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
@@ -843,7 +842,7 @@ func TestConversionOfAllOf_WhenContainingOneOf_ReturnsExpectedResult(t *testing.
 							astmodel.NewValidatedType(
 								astmodel.StringType,
 								astmodel.StringValidations{
-									MaxLength: to.Ptr(int64(96)),
+									MaxLength: new(int64(96)),
 								},
 							),
 						),

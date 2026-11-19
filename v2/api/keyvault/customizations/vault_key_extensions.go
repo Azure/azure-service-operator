@@ -30,7 +30,6 @@ import (
 	keys "github.com/Azure/azure-service-operator/v2/api/keyvault/v20230701/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -154,7 +153,7 @@ func (ex *VaultKeyExtension) Delete(
 			"", // latest version
 			azkeys.UpdateKeyParameters{
 				KeyAttributes: &azkeys.KeyAttributes{
-					Enabled: to.Ptr(false),
+					Enabled: new(false),
 				},
 			},
 			nil,
@@ -490,7 +489,7 @@ func keyUpdatesNeeded(key *keys.VaultKey, actual azkeys.KeyBundle) (azkeys.Updat
 	if props != nil && len(props.KeyOps) > 0 && !stringSetsEqual(props.KeyOps, actualKeyOps(actual.Key)) {
 		ops := make([]*azkeys.KeyOperation, 0, len(props.KeyOps))
 		for _, op := range props.KeyOps {
-			ops = append(ops, to.Ptr(azkeys.KeyOperation(op)))
+			ops = append(ops, new(azkeys.KeyOperation(op)))
 		}
 
 		params.KeyOps = ops
@@ -538,7 +537,7 @@ func keyUpdatesNeeded(key *keys.VaultKey, actual azkeys.KeyBundle) (azkeys.Updat
 	if len(key.Spec.Tags) > 0 && !tagsEqual(key.Spec.Tags, actual.Tags) {
 		tags := make(map[string]*string, len(key.Spec.Tags))
 		for k, v := range key.Spec.Tags {
-			tags[k] = to.Ptr(v)
+			tags[k] = new(v)
 		}
 
 		params.Tags = tags
@@ -677,7 +676,7 @@ func rotationPolicyUpdateNeeded(
 		desiredAction := &azkeys.LifetimeAction{}
 		if action.Action != nil && action.Action.Type != nil {
 			desiredAction.Action = &azkeys.LifetimeActionType{
-				Type: to.Ptr(canonicalRotationAction(*action.Action.Type)),
+				Type: new(canonicalRotationAction(*action.Action.Type)),
 			}
 		}
 

@@ -43,7 +43,7 @@ func Test_FlexibleServerModifyARMResource_GivenCreateModeAndAzureState_SendsExpe
 		expectedError      string
 	}{
 		"Replica not yet in Azure is created as a replica": {
-			specCreateMode:     to.Ptr("Replica"),
+			specCreateMode:     new("Replica"),
 			armSpec:            armSpec20250801(arm20250801.CreateMode_Replica),
 			azureStatus:        http.StatusNotFound,
 			expectedGets:       1,
@@ -51,7 +51,7 @@ func Test_FlexibleServerModifyARMResource_GivenCreateModeAndAzureState_SendsExpe
 			expectedCreateMode: "Replica",
 		},
 		"Replica already in Azure is updated": {
-			specCreateMode:     to.Ptr("Replica"),
+			specCreateMode:     new("Replica"),
 			armSpec:            armSpec20250801(arm20250801.CreateMode_Replica),
 			azureStatus:        http.StatusOK,
 			expectedGets:       1,
@@ -59,7 +59,7 @@ func Test_FlexibleServerModifyARMResource_GivenCreateModeAndAzureState_SendsExpe
 			expectedCreateMode: "Update",
 		},
 		"Replica already in Azure is updated on an older API version": {
-			specCreateMode:     to.Ptr("Replica"),
+			specCreateMode:     new("Replica"),
 			armSpec:            armSpec20221201(arm20221201.ServerProperties_CreateMode_Replica),
 			azureStatus:        http.StatusOK,
 			expectedGets:       1,
@@ -67,7 +67,7 @@ func Test_FlexibleServerModifyARMResource_GivenCreateModeAndAzureState_SendsExpe
 			expectedCreateMode: "Update",
 		},
 		"Other create modes are left alone": {
-			specCreateMode:     to.Ptr("Default"),
+			specCreateMode:     new("Default"),
 			armSpec:            armSpec20250801(arm20250801.CreateMode_Default),
 			azureStatus:        http.StatusOK,
 			expectedGets:       0,
@@ -79,7 +79,7 @@ func Test_FlexibleServerModifyARMResource_GivenCreateModeAndAzureState_SendsExpe
 			expectedGets: 0,
 		},
 		"Failure to read the replica is returned": {
-			specCreateMode:     to.Ptr("Replica"),
+			specCreateMode:     new("Replica"),
 			armSpec:            armSpec20250801(arm20250801.CreateMode_Replica),
 			azureStatus:        http.StatusForbidden,
 			expectedGets:       1,

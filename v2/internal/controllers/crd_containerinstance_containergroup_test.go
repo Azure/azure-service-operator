@@ -12,7 +12,6 @@ import (
 
 	containerinstance "github.com/Azure/azure-service-operator/v2/api/containerinstance/v20211001"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_ContainerInstance_ContainerGroup_CRUD(t *testing.T) {
@@ -38,17 +37,17 @@ func Test_ContainerInstance_ContainerGroup_CRUD(t *testing.T) {
 			Containers: []containerinstance.Container{
 				{
 					Name:  &name,
-					Image: to.Ptr("mcr.microsoft.com/azuredocs/aci-helloworld"),
+					Image: new("mcr.microsoft.com/azuredocs/aci-helloworld"),
 					Ports: []containerinstance.ContainerPort{
 						{
-							Port:     to.Ptr(80),
+							Port:     new(80),
 							Protocol: &protocol,
 						},
 					},
 					Resources: &containerinstance.ResourceRequirements{
 						Requests: &containerinstance.ResourceRequests{
-							Cpu:        to.Ptr(float64(1)),
-							MemoryInGB: to.Ptr(float64(2)),
+							Cpu:        new(float64(1)),
+							MemoryInGB: new(float64(2)),
 						},
 					},
 				},
@@ -59,7 +58,7 @@ func Test_ContainerInstance_ContainerGroup_CRUD(t *testing.T) {
 				Type: &ipAddressType,
 				Ports: []containerinstance.Port{
 					{
-						Port:     to.Ptr(80),
+						Port:     new(80),
 						Protocol: &portProtocol,
 					},
 				},

@@ -31,7 +31,7 @@ func Test_EventGrid_Domain_CRUD_20250215(t *testing.T) {
 			Location:            tc.AzureRegion,
 			Owner:               testcommon.AsOwner(rg),
 			PublicNetworkAccess: to.Ptr(eventgrid.DomainProperties_PublicNetworkAccess_Enabled),
-			DisableLocalAuth:    to.Ptr(true),
+			DisableLocalAuth:    new(true),
 		},
 	}
 

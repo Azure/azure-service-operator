@@ -55,7 +55,6 @@ func TestMultiMatcher_GivenDefinition_MatchesExpectedStrings(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
@@ -93,7 +92,6 @@ func TestMultiMatcher_DoesNotShortCircuit(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
@@ -126,7 +124,6 @@ func TestMultiMatcher_IsRestrictive_GivesExpectedResults(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		c := c
 		t.Run(
 			c.name,
 			func(t *testing.T) {

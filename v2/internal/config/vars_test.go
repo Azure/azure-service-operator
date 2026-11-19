@@ -25,7 +25,7 @@ func Test_String_HasAllKeys(t *testing.T) {
 	// then cfgToKey is updated to match.
 	s := config.Values{}.String()
 
-	testConfigType := reflect.TypeOf(config.Values{})
+	testConfigType := reflect.TypeFor[config.Values]()
 
 	for _, field := range reflect.VisibleFields(testConfigType) {
 		g.Expect(s).To(ContainSubstring(field.Name + ":"))

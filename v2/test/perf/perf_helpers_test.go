@@ -304,10 +304,7 @@ func runDynamicPattern(
 			}
 			mu.Unlock()
 
-			wg.Add(1)
-			go func() {
-				defer wg.Done()
-
+			wg.Go(func() {
 				// Delete the evicted set if needed
 				if toDelete != nil {
 					t.Logf("Max concurrent sets reached (%d). Deleting oldest set (index %d)",
@@ -336,7 +333,7 @@ func runDynamicPattern(
 				result.TotalSetsCreated++
 				sets = append(sets, set)
 				mu.Unlock()
-			}()
+			})
 		}
 	}
 

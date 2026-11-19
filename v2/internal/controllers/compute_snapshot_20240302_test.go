@@ -29,7 +29,7 @@ func Test_Compute_Snapshot_20240302_CRUD(t *testing.T) {
 			CreationData: &compute.CreationData{
 				CreateOption: to.Ptr(compute.DiskCreateOption_Empty),
 			},
-			DiskSizeGB: to.Ptr(32),
+			DiskSizeGB: new(32),
 			Location:   tc.AzureRegion,
 			Owner:      testcommon.AsOwner(rg),
 		},
@@ -44,7 +44,7 @@ func Test_Compute_Snapshot_20240302_CRUD(t *testing.T) {
 	// Perform a simple patch to resize the disk
 	tc.LogSectionf("Patch Snapshot")
 	old := snapshot.DeepCopy()
-	snapshot.Spec.DiskSizeGB = to.Ptr(64)
+	snapshot.Spec.DiskSizeGB = new(64)
 	tc.PatchResourceAndWait(old, snapshot)
 
 	tc.Expect(snapshot.Status.DiskSizeGB).ToNot(BeNil())

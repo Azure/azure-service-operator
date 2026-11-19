@@ -14,7 +14,6 @@ import (
 
 	documentdb "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_DocumentDB_MongoDatabase_v20231115_CRUD(t *testing.T) {
@@ -22,7 +21,7 @@ func Test_DocumentDB_MongoDatabase_v20231115_CRUD(t *testing.T) {
 	tc := globalTestContext.ForTest(t)
 
 	// The normal default region has capacity constraints, so we use australiaeast instead
-	tc.AzureRegion = to.Ptr("australiaeast")
+	tc.AzureRegion = new("australiaeast")
 
 	// Create our resource group
 	rg := tc.CreateTestResourceGroupAndWait()
@@ -38,7 +37,7 @@ func Test_DocumentDB_MongoDatabase_v20231115_CRUD(t *testing.T) {
 			Kind:     &kind,
 			Capabilities: []documentdb.Capability{
 				{
-					Name: to.Ptr("EnableMongo"),
+					Name: new("EnableMongo"),
 				},
 			},
 			DatabaseAccountOfferType: &offerType,
@@ -58,7 +57,7 @@ func Test_DocumentDB_MongoDatabase_v20231115_CRUD(t *testing.T) {
 			Location: tc.AzureRegion,
 			Options: &documentdb.CreateUpdateOptions{
 				AutoscaleSettings: &documentdb.AutoscaleSettings{
-					MaxThroughput: to.Ptr(4000),
+					MaxThroughput: new(4000),
 				},
 			},
 			Owner: testcommon.AsOwner(&acct),
@@ -133,7 +132,7 @@ func DocumentDB_MongoDB_Collection_v20231115_CRUD(tc *testcommon.KubePerTestCont
 		Spec: documentdb.MongodbDatabaseCollection_Spec{
 			Location: tc.AzureRegion,
 			Options: &documentdb.CreateUpdateOptions{
-				Throughput: to.Ptr(400),
+				Throughput: new(400),
 			},
 			Owner: testcommon.AsOwner(db),
 			Resource: &documentdb.MongoDBCollectionResource{
@@ -143,7 +142,7 @@ func DocumentDB_MongoDB_Collection_v20231115_CRUD(tc *testcommon.KubePerTestCont
 						Keys: []string{"_id"},
 					},
 					Options: &documentdb.MongoIndexOptions{
-						Unique: to.Ptr(true),
+						Unique: new(true),
 					},
 				}},
 			},
@@ -197,7 +196,7 @@ func DocumentDB_MongoDB_Database_ThroughputSettings_v20231115_CRUD(tc *testcommo
 				// We cannot change this to be a fixed throughput as we already created the database using
 				// autoscale and they do not allow switching back to fixed from that.
 				AutoscaleSettings: &documentdb.AutoscaleSettingsResource{
-					MaxThroughput: to.Ptr(5000),
+					MaxThroughput: new(5000),
 				},
 			},
 		},
@@ -213,15 +212,15 @@ func DocumentDB_MongoDB_Database_ThroughputSettings_v20231115_CRUD(tc *testcommo
 	// Ensure that the status is what we expect
 	tc.Expect(throughputSettings.Status.Id).ToNot(BeNil())
 	tc.Expect(throughputSettings.Status.Resource).ToNot(BeNil())
-	tc.Expect(throughputSettings.Status.Resource.AutoscaleSettings.MaxThroughput).To(Equal(to.Ptr(5000)))
+	tc.Expect(throughputSettings.Status.Resource.AutoscaleSettings.MaxThroughput).To(Equal(new(5000)))
 
 	tc.LogSubsectionf("Increase max throughput to 6000")
 	old := throughputSettings.DeepCopy()
-	throughputSettings.Spec.Resource.AutoscaleSettings.MaxThroughput = to.Ptr(6000)
+	throughputSettings.Spec.Resource.AutoscaleSettings.MaxThroughput = new(6000)
 	tc.PatchResourceAndWait(old, &throughputSettings)
 	tc.Expect(throughputSettings.Status.Resource).ToNot(BeNil())
 	tc.Expect(throughputSettings.Status.Resource.AutoscaleSettings).ToNot(BeNil())
-	tc.Expect(throughputSettings.Status.Resource.AutoscaleSettings.MaxThroughput).To(Equal(to.Ptr(6000)))
+	tc.Expect(throughputSettings.Status.Resource.AutoscaleSettings.MaxThroughput).To(Equal(new(6000)))
 }
 
 func DocumentDB_MongoDB_Database_Collections_ThroughputSettings_v20231515_CRUD(tc *testcommon.KubePerTestContext, collection client.Object) {
@@ -230,7 +229,7 @@ func DocumentDB_MongoDB_Database_Collections_ThroughputSettings_v20231515_CRUD(t
 		Spec: documentdb.MongodbDatabaseCollectionThroughputSetting_Spec{
 			Owner: testcommon.AsOwner(collection),
 			Resource: &documentdb.ThroughputSettingsResource{
-				Throughput: to.Ptr(500),
+				Throughput: new(500),
 			},
 		},
 	}
@@ -245,12 +244,12 @@ func DocumentDB_MongoDB_Database_Collections_ThroughputSettings_v20231515_CRUD(t
 	// Ensure that the status is what we expect
 	tc.Expect(throughputSettings.Status.Id).ToNot(BeNil())
 	tc.Expect(throughputSettings.Status.Resource).ToNot(BeNil())
-	tc.Expect(throughputSettings.Status.Resource.Throughput).To(Equal(to.Ptr(500)))
+	tc.Expect(throughputSettings.Status.Resource.Throughput).To(Equal(new(500)))
 
 	tc.T.Log("increase throughput to 600")
 	old := throughputSettings.DeepCopy()
-	throughputSettings.Spec.Resource.Throughput = to.Ptr(600)
+	throughputSettings.Spec.Resource.Throughput = new(600)
 	tc.PatchResourceAndWait(old, &throughputSettings)
 	tc.Expect(throughputSettings.Status.Resource).ToNot(BeNil())
-	tc.Expect(throughputSettings.Status.Resource.Throughput).To(Equal(to.Ptr(600)))
+	tc.Expect(throughputSettings.Status.Resource.Throughput).To(Equal(new(600)))
 }
