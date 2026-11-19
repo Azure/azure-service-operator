@@ -1,0 +1,22 @@
+apiVersion: authorization.azure.com/v20201001
+kind: RoleEligibilityScheduleRequest
+metadata:
+  name: aso-sample-eligible-reader
+  namespace: default
+  annotations:
+    serviceoperator.azure.com/reconcile-policy: detach-on-delete
+spec:
+  owner:
+    name: aso-sample-rg
+    group: resources.azure.com
+    kind: ResourceGroup
+  principalIdFromConfig:
+    name: identity-settings
+    key: principalId
+  roleDefinitionReference:
+    wellKnownName: Reader
+  requestType: AdminAssign
+  scheduleInfo:
+    expiration:
+      duration: P1D
+      type: AfterDuration
