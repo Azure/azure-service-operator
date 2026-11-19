@@ -98,13 +98,13 @@ func TestLoadByDisplayNamePagination(t *testing.T) {
 					var err error
 					if resource == "groups" {
 						var values []msgraphmodels.Groupable
-						values, err = (&EntraSecurityGroupReconciler{}).loadGroupsByDisplayName(t.Context(), displayName, graph)
+						values, err = (&SecurityGroupReconciler{}).loadGroupsByDisplayName(t.Context(), displayName, graph)
 						for _, value := range values {
 							ids = append(ids, *value.GetId())
 						}
 					} else {
 						var values []msgraphmodels.Applicationable
-						values, err = (&EntraApplicationReconciler{}).loadApplicationsByDisplayName(t.Context(), displayName, graph)
+						values, err = (&ApplicationReconciler{}).loadApplicationsByDisplayName(t.Context(), displayName, graph)
 						for _, value := range values {
 							ids = append(ids, *value.GetId())
 						}

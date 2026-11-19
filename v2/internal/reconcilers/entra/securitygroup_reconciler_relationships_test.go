@@ -24,7 +24,7 @@ func TestReconcileRelationshipSide_AddBeforeRemove_AndSkipRemoveWhenAddFails(t *
 		g := NewGomegaWithT(t)
 
 		var calls []string
-		reconciler := &EntraSecurityGroupReconciler{}
+		reconciler := &SecurityGroupReconciler{}
 		err := reconciler.reconcileRelationship(
 			context.Background(),
 			"owners",
@@ -55,7 +55,7 @@ func TestReconcileRelationshipSide_AddBeforeRemove_AndSkipRemoveWhenAddFails(t *
 		g := NewGomegaWithT(t)
 
 		var calls []string
-		reconciler := &EntraSecurityGroupReconciler{}
+		reconciler := &SecurityGroupReconciler{}
 		err := reconciler.reconcileRelationship(
 			context.Background(),
 			"members",

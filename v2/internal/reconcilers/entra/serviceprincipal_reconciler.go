@@ -5,7 +5,6 @@ package entra
 
 import (
 	"context"
-	"fmt"
 	"strings"
 
 	"github.com/go-logr/logr"
@@ -28,42 +27,44 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 )
 
-// EntraServicePrincipalReconciler reconciles tenant service principals by application ID.
-type EntraServicePrincipalReconciler struct {
-	reconcilers.ReconcilerCommon
+// ServicePrincipalReconciler reconciles tenant service principals by application ID.
+type ServicePrincipalReconciler struct {
+	reconcilerBase[*asoentra.ServicePrincipal, msgraphmodels.ServicePrincipalable]
 	ResourceResolver   *resolver.Resolver
 	Config             config.Values
 	EntraClientFactory EntraConnectionFactory
 }
 
-var _ genruntime.Reconciler = &EntraServicePrincipalReconciler{}
+var _ genruntime.Reconciler = &ServicePrincipalReconciler{}
 
-func NewEntraServicePrincipalReconciler(
+func NewServicePrincipalReconciler(
 	kubeClient kubeclient.Client,
 	entraClientFactory EntraConnectionFactory,
 	resourceResolver *resolver.Resolver,
 	positiveConditions *conditions.PositiveConditionBuilder,
 	cfg config.Values,
-) *EntraServicePrincipalReconciler {
-	return &EntraServicePrincipalReconciler{
+) *ServicePrincipalReconciler {
+	return &ServicePrincipalReconciler{
 		ResourceResolver:   resourceResolver,
 		Config:             cfg,
 		EntraClientFactory: entraClientFactory,
-		ReconcilerCommon: reconcilers.ReconcilerCommon{
-			KubeClient:         kubeClient,
-			PositiveConditions: positiveConditions,
+		reconcilerBase: reconcilerBase[*asoentra.ServicePrincipal, msgraphmodels.ServicePrincipalable]{
+			ReconcilerCommon: reconcilers.ReconcilerCommon{
+				KubeClient:         kubeClient,
+				PositiveConditions: positiveConditions,
+			},
 		},
 	}
 }
 
-func (r *EntraServicePrincipalReconciler) CreateOrUpdate(
+func (r *ServicePrincipalReconciler) CreateOrUpdate(
 	ctx context.Context,
 	log logr.Logger,
 	_ record.EventRecorder,
 	obj genruntime.MetaObject,
 	_ annotations.ResolvedReconcilePolicies,
 ) (ctrl.Result, error) {
-	sp, err := r.asServicePrincipal(obj)
+	sp, err := r.asResource(obj)
 	if err != nil {
 		return ctrl.Result{}, err
 	}
@@ -76,7 +77,7 @@ func (r *EntraServicePrincipalReconciler) CreateOrUpdate(
 		return r.update(ctx, id, sp, log)
 	}
 
-	if r.canAdopt(sp) {
+	if r.canAdopt(sp.Spec.OperatorSpec) {
 		id, err := r.tryAdopt(ctx, sp, log)
 		if err != nil {
 			return ctrl.Result{}, eris.Wrapf(err, "trying to adopt service principal %s", sp.Name)
@@ -89,7 +90,7 @@ func (r *EntraServicePrincipalReconciler) CreateOrUpdate(
 		}
 	}
 
-	if r.canCreate(sp) {
+	if r.canCreate(sp.Spec.OperatorSpec) {
 		if to.Value(sp.Spec.AppId) == "" {
 			return ctrl.Result{}, eris.Errorf("cannot create service principal %s without an appId; no principal with displayName %q was found", sp.Name, *sp.Spec.DisplayName)
 		}
@@ -100,18 +101,18 @@ func (r *EntraServicePrincipalReconciler) CreateOrUpdate(
 	return ctrl.Result{}, eris.Errorf("service principal %s not found for adoption", sp.Name)
 }
 
-func (r *EntraServicePrincipalReconciler) Delete(
+func (r *ServicePrincipalReconciler) Delete(
 	ctx context.Context,
 	_ logr.Logger,
 	_ record.EventRecorder,
 	obj genruntime.MetaObject,
 ) (ctrl.Result, error) {
-	sp, err := r.asServicePrincipal(obj)
+	sp, err := r.asResource(obj)
 	if err != nil {
 		return ctrl.Result{}, err
 	}
 
-	if !r.canCreate(sp) {
+	if !r.canCreate(sp.Spec.OperatorSpec) {
 		return ctrl.Result{}, nil
 	}
 
@@ -150,7 +151,7 @@ func (r *EntraServicePrincipalReconciler) Delete(
 	return ctrl.Result{}, nil
 }
 
-func (r *EntraServicePrincipalReconciler) Claim(
+func (r *ServicePrincipalReconciler) Claim(
 	_ context.Context,
 	_ logr.Logger,
 	_ record.EventRecorder,
@@ -159,7 +160,7 @@ func (r *EntraServicePrincipalReconciler) Claim(
 	return nil
 }
 
-func (r *EntraServicePrincipalReconciler) update(
+func (r *ServicePrincipalReconciler) update(
 	ctx context.Context,
 	id string,
 	sp *asoentra.ServicePrincipal,
@@ -193,7 +194,7 @@ func (r *EntraServicePrincipalReconciler) update(
 
 	if sp.Spec.DisplayName != nil &&
 		to.Value(sp.Spec.DisplayName) != to.Value(current.GetDisplayName()) &&
-		r.canCreate(sp) {
+		r.canCreate(sp.Spec.OperatorSpec) {
 		patch := msgraphmodels.NewServicePrincipal()
 		patch.SetDisplayName(sp.Spec.DisplayName)
 		updated, err := connection.Client().ServicePrincipals().ByServicePrincipalId(id).Patch(ctx, patch, nil)
@@ -224,7 +225,7 @@ func (r *EntraServicePrincipalReconciler) update(
 	return ctrl.Result{}, nil
 }
 
-func (r *EntraServicePrincipalReconciler) tryAdopt(
+func (r *ServicePrincipalReconciler) tryAdopt(
 	ctx context.Context,
 	sp *asoentra.ServicePrincipal,
 	_ logr.Logger,
@@ -279,37 +280,37 @@ func servicePrincipalID(principal msgraphmodels.ServicePrincipalable, field, val
 	return id, nil
 }
 
-func (r *EntraServicePrincipalReconciler) findServicePrincipals(
+func (r *ServicePrincipalReconciler) findServicePrincipals(
 	ctx context.Context,
 	field string,
 	value string,
 	graph *msgraphsdk.GraphServiceClient,
 ) ([]msgraphmodels.ServicePrincipalable, error) {
-	filter := fmt.Sprintf("%s eq '%s'", field, escapeODataString(value))
-	options := &serviceprincipals.ServicePrincipalsRequestBuilderGetRequestConfiguration{
-		QueryParameters: &serviceprincipals.ServicePrincipalsRequestBuilderGetQueryParameters{Filter: &filter},
+	fetchPage := func(
+		ctx context.Context,
+		filter string,
+		nextLink string,
+	) (msgraphmodels.ServicePrincipalCollectionResponseable, error) {
+		options := &serviceprincipals.ServicePrincipalsRequestBuilderGetRequestConfiguration{
+			QueryParameters: &serviceprincipals.ServicePrincipalsRequestBuilderGetQueryParameters{Filter: &filter},
+		}
+		builder := graph.ServicePrincipals()
+		if nextLink != "" {
+			builder = builder.WithUrl(nextLink)
+		}
+		return builder.Get(ctx, options)
 	}
-	builder := graph.ServicePrincipals()
-	var matches []msgraphmodels.ServicePrincipalable
-	for {
-		result, err := builder.Get(ctx, options)
-		if err != nil {
-			return nil, eris.Wrapf(err, "searching service principals by %s %q", field, value)
-		}
-		if result == nil {
-			return nil, eris.Errorf("searching service principals by %s %q returned no response", field, value)
-		}
-		matches = append(matches, result.GetValue()...)
-		next := to.Value(result.GetOdataNextLink())
-		if next == "" {
-			return matches, nil
-		}
 
-		builder = graph.ServicePrincipals().WithUrl(next)
+	readPage := func(
+		page msgraphmodels.ServicePrincipalCollectionResponseable,
+	) ([]msgraphmodels.ServicePrincipalable, *string) {
+		return page.GetValue(), page.GetOdataNextLink()
 	}
+
+	return r.query(ctx, field, value, fetchPage, readPage)
 }
 
-func (r *EntraServicePrincipalReconciler) create(
+func (r *ServicePrincipalReconciler) create(
 	ctx context.Context,
 	sp *asoentra.ServicePrincipal,
 	log logr.Logger,
@@ -339,14 +340,14 @@ func (r *EntraServicePrincipalReconciler) create(
 	return ctrl.Result{}, nil
 }
 
-func (r *EntraServicePrincipalReconciler) UpdateStatus(
+func (r *ServicePrincipalReconciler) UpdateStatus(
 	ctx context.Context,
 	log logr.Logger,
 	_ record.EventRecorder,
 	obj genruntime.MetaObject,
 	_ annotations.ResolvedReconcilePolicies,
 ) error {
-	sp, err := r.asServicePrincipal(obj)
+	sp, err := r.asResource(obj)
 	if err != nil {
 		return err
 	}
@@ -369,37 +370,22 @@ func (r *EntraServicePrincipalReconciler) UpdateStatus(
 	return r.saveAssociatedKubernetesResources(ctx, sp, log)
 }
 
-func (r *EntraServicePrincipalReconciler) loadServicePrincipalByID(
+func (r *ServicePrincipalReconciler) loadServicePrincipalByID(
 	ctx context.Context,
 	id string,
 	graph *msgraphsdk.GraphServiceClient,
 ) (msgraphmodels.ServicePrincipalable, error) {
-	result, err := graph.ServicePrincipals().ByServicePrincipalId(id).Get(ctx, nil)
-	if isNotFound(err) {
-		return nil, nil
+	fetch := func(
+		ctx context.Context,
+		id string,
+	) (msgraphmodels.ServicePrincipalable, error) {
+		return graph.ServicePrincipals().ByServicePrincipalId(id).Get(ctx, nil)
 	}
-	return result, err
+
+	return r.loadByID(ctx, id, fetch)
 }
 
-func (r *EntraServicePrincipalReconciler) asServicePrincipal(
-	obj genruntime.MetaObject,
-) (*asoentra.ServicePrincipal, error) {
-	sp, ok := obj.(*asoentra.ServicePrincipal)
-	if !ok {
-		return nil, eris.Errorf("cannot modify resource that is not of type *entra.ServicePrincipal. Type is %T", obj)
-	}
-	return sp, nil
-}
-
-func (r *EntraServicePrincipalReconciler) canAdopt(sp *asoentra.ServicePrincipal) bool {
-	return sp.Spec.OperatorSpec == nil || sp.Spec.OperatorSpec.AdoptionAllowed()
-}
-
-func (r *EntraServicePrincipalReconciler) canCreate(sp *asoentra.ServicePrincipal) bool {
-	return sp.Spec.OperatorSpec == nil || sp.Spec.OperatorSpec.CreationAllowed()
-}
-
-func (r *EntraServicePrincipalReconciler) saveAssociatedKubernetesResources(
+func (r *ServicePrincipalReconciler) saveAssociatedKubernetesResources(
 	ctx context.Context,
 	sp *asoentra.ServicePrincipal,
 	_ logr.Logger,
