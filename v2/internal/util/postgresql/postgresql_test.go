@@ -4,6 +4,7 @@
 package postgresql
 
 import (
+	"context"
 	"testing"
 	"time"
 
@@ -198,4 +199,17 @@ func TestEscapeIdentifier(t *testing.T) {
 			g.Expect(result).To(Equal(c.expected))
 		})
 	}
+}
+
+func TestConnectToDBReturnsNoHandleWhenServerIsUnreachable(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	// Nothing listens on port 1, so the ping fails and the pool must be closed rather than returned
+	db, err := ConnectToDB(ctx, "127.0.0.1", DefaultMaintanenceDatabase, 1, "admin", "password")
+	g.Expect(err).To(HaveOccurred())
+	g.Expect(db).To(BeNil())
 }

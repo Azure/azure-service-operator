@@ -11,6 +11,7 @@ import (
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
 	"k8s.io/client-go/tools/record"
@@ -20,6 +21,7 @@ import (
 	asopostgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1"
 	dbforpostgressql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
+	"github.com/Azure/azure-service-operator/v2/internal/identity"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
@@ -34,19 +36,22 @@ var _ genruntime.Reconciler = &PostgreSQLUserReconciler{}
 
 type PostgreSQLUserReconciler struct {
 	reconcilers.ARMOwnedResourceReconcilerCommon
-	ResourceResolver *resolver.Resolver
-	Config           config.Values
+	ResourceResolver   *resolver.Resolver
+	CredentialProvider identity.CredentialProvider
+	Config             config.Values
 }
 
 func NewPostgreSQLUserReconciler(
 	kubeClient kubeclient.Client,
 	resourceResolver *resolver.Resolver,
 	positiveConditions *conditions.PositiveConditionBuilder,
+	credentialProvider identity.CredentialProvider,
 	cfg config.Values,
 ) *PostgreSQLUserReconciler {
 	return &PostgreSQLUserReconciler{
-		ResourceResolver: resourceResolver,
-		Config:           cfg,
+		ResourceResolver:   resourceResolver,
+		CredentialProvider: credentialProvider,
+		Config:             cfg,
 		ARMOwnedResourceReconcilerCommon: reconcilers.ARMOwnedResourceReconcilerCommon{
 			ResourceResolver: resourceResolver,
 			ReconcilerCommon: reconcilers.ReconcilerCommon{
@@ -93,29 +98,52 @@ func (r *PostgreSQLUserReconciler) CreateOrUpdate(
 	}
 	defer db.Close()
 
-	log.V(Status).Info("Creating PostgreSql user")
-
-	password, err := secrets.LookupFromPtr(user.Spec.LocalUser.Password)
-	if err != nil {
-		return ctrl.Result{}, eris.Wrap(err, "failed to look up .spec.localUser.Password")
-	}
-
-	// Create or update the user. Note that this updates password if it has changed
 	username := user.Spec.AzureName
 
 	sqlUser, err := postgresqlutil.FindUserIfExist(ctx, db, username)
 	if err != nil {
 		return ctrl.Result{}, eris.Wrap(err, "failed to find user")
 	}
-	if sqlUser == nil {
-		sqlUser, err = postgresqlutil.CreateUser(ctx, db, username, password)
-		if err != nil {
-			return ctrl.Result{}, eris.Wrap(err, "failed to create user")
+
+	if user.Spec.AADUser != nil {
+		log.V(Status).Info("Creating PostgreSql AAD user")
+
+		if sqlUser == nil {
+			sqlUser, err = postgresqlutil.CreateAADUser(ctx, db, username, user.Spec.AADUser.ObjectId, user.Spec.AADUser.PrincipalType)
+			if err != nil {
+				return ctrl.Result{}, eris.Wrap(err, "failed to create user")
+			}
+		} else {
+			// An AAD user has no password to keep in sync, but an existing role must be bound to the expected
+			// principal before role options and roles are applied to it
+			principal, err := postgresqlutil.GetAADPrincipal(ctx, db, username)
+			if err != nil {
+				return ctrl.Result{}, eris.Wrap(err, "failed to look up Microsoft Entra principal")
+			}
+			err = postgresqlutil.VerifyAADPrincipal(username, principal, user.Spec.AADUser.ObjectId, user.Spec.AADUser.PrincipalType)
+			if err != nil {
+				return ctrl.Result{}, conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityError, conditions.ReasonFailed)
+			}
 		}
 	} else {
-		err = postgresqlutil.UpdateUser(ctx, db, *sqlUser, password)
+		log.V(Status).Info("Creating PostgreSql user")
+
+		password, err := secrets.LookupFromPtr(user.Spec.LocalUser.Password)
 		if err != nil {
-			return ctrl.Result{}, eris.Wrap(err, "failed to update user")
+			return ctrl.Result{}, eris.Wrap(err, "failed to look up .spec.localUser.Password")
+		}
+
+		// Create or update the user. Note that this updates password if it has changed
+		if sqlUser == nil {
+			sqlUser, err = postgresqlutil.CreateUser(ctx, db, username, password)
+			if err != nil {
+				return ctrl.Result{}, eris.Wrap(err, "failed to create user")
+			}
+		} else {
+			err = postgresqlutil.UpdateUser(ctx, db, *sqlUser, password)
+			if err != nil {
+				return ctrl.Result{}, eris.Wrap(err, "failed to update user")
+			}
 		}
 	}
 	// TODO integrate in create and update user?
@@ -236,7 +264,7 @@ func (r *PostgreSQLUserReconciler) UpdateStatus(
 	return nil
 }
 
-func (r *PostgreSQLUserReconciler) connectToDB(ctx context.Context, _ logr.Logger, user *asopostgresql.User, secrets genruntime.Resolved[genruntime.SecretReference, string]) (*sql.DB, error) {
+func (r *PostgreSQLUserReconciler) connectToDB(ctx context.Context, log logr.Logger, user *asopostgresql.User, secrets genruntime.Resolved[genruntime.SecretReference, string]) (*sql.DB, error) {
 	// Get the owner - at this point it must exist
 	ownerDetails, err := r.ResourceResolver.ResolveOwner(ctx, user)
 	if err != nil {
@@ -264,6 +292,14 @@ func (r *PostgreSQLUserReconciler) connectToDB(ctx context.Context, _ logr.Logge
 	}
 	serverFQDN := *flexibleServer.Status.FullyQualifiedDomainName
 
+	if user.Spec.AADUser != nil {
+		return r.connectToDBAAD(ctx, log, user, serverFQDN)
+	}
+
+	if user.Spec.LocalUser == nil {
+		return nil, eris.Errorf("exactly one of spec.localUser or spec.aadUser must be set")
+	}
+
 	adminPassword, err := secrets.LookupFromPtr(user.Spec.LocalUser.ServerAdminPassword)
 	if err != nil {
 		err = eris.Wrap(err, "failed to look up .spec.localUser.ServerAdminPassword")
@@ -281,6 +317,39 @@ func (r *PostgreSQLUserReconciler) connectToDB(ctx context.Context, _ logr.Logge
 			err,
 			"failed to connect database. Server: %s, Database: %s, Port: %d, AdminUser: %s",
 			serverFQDN,
+			postgresqlutil.DefaultMaintanenceDatabase,
+			postgresqlutil.PSqlServerPort,
+			adminUser,
+		)
+	}
+
+	return db, nil
+}
+
+// connectToDBAAD connects as the server's Microsoft Entra administrator, with a token from the credential the operator
+// uses for this resource, as the MySQL AAD user does.
+func (r *PostgreSQLUserReconciler) connectToDBAAD(ctx context.Context, log logr.Logger, user *asopostgresql.User, fqdn string) (*sql.DB, error) {
+	adminUser := user.Spec.AADUser.ServerAdminUsername
+	if len(adminUser) == 0 {
+		return nil, eris.Errorf("AAD User must specify $.spec.aadUser.serverAdminUsername")
+	}
+
+	credential, err := r.CredentialProvider.GetCredential(ctx, user)
+	if err != nil {
+		return nil, eris.Wrapf(err, "failed to get credential")
+	}
+	token, err := credential.TokenCredential().GetToken(ctx, policy.TokenRequestOptions{Scopes: []string{postgresqlutil.Scope}})
+	if err != nil {
+		return nil, eris.Wrap(err, "failed to get token from credential")
+	}
+	log.V(Verbose).Info("Retrieved token for PostgreSQL", "scope", postgresqlutil.Scope, "expires", token.ExpiresOn)
+
+	db, err := postgresqlutil.ConnectToDBAAD(ctx, fqdn, postgresqlutil.DefaultMaintanenceDatabase, postgresqlutil.PSqlServerPort, adminUser, token.Token)
+	if err != nil {
+		return nil, eris.Wrapf(
+			err,
+			"failed to connect database. Server: %s, Database: %s, Port: %d, AdminUser: %s",
+			fqdn,
 			postgresqlutil.DefaultMaintanenceDatabase,
 			postgresqlutil.PSqlServerPort,
 			adminUser,

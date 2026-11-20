@@ -36,10 +36,12 @@ func ConnectToDB(ctx context.Context, fullServerName string, database string, po
 	db := stdlib.OpenDB(*config)
 	err = db.PingContext(ctx)
 	if err != nil {
-		return db, err
+		// Close the pool here, since callers only close the handle after a successful connection
+		_ = db.Close()
+		return nil, err
 	}
 
-	return db, err
+	return db, nil
 }
 
 func newConfig(fullServerName string, database string, port int, user string, password string) (*pgx.ConnConfig, error) {
