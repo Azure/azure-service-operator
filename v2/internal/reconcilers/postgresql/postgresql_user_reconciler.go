@@ -81,6 +81,13 @@ func (r *PostgreSQLUserReconciler) CreateOrUpdate(
 	// Augment Log
 	log = log.WithValues("azureName", user.AzureName())
 
+	// Reject invalid database privileges before any SQL runs, so a bad spec never leaves a partially updated user
+	err = postgresqlutil.ValidateDatabasePrivileges(user.Spec.DatabasePrivileges)
+	if err != nil {
+		err = eris.Wrap(err, "invalid .spec.databasePrivileges")
+		return ctrl.Result{}, conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityError, conditions.ReasonFailed)
+	}
+
 	// Resolve the secrets
 	secrets, err := r.ResourceResolver.ResolveResourceSecretReferences(ctx, user)
 	if err != nil {
@@ -135,6 +142,15 @@ func (r *PostgreSQLUserReconciler) CreateOrUpdate(
 		return ctrl.Result{}, eris.Wrap(err, "ensuring server roles")
 	}
 
+	// Ensure that the database privileges are set. Users that don't specify databasePrivileges keep
+	// whatever database privileges they already have.
+	if user.Spec.DatabasePrivileges != nil {
+		err = postgresqlutil.ReconcileUserDatabasePrivileges(ctx, db, username, user.Spec.DatabasePrivileges)
+		if err != nil {
+			return ctrl.Result{}, eris.Wrap(err, "ensuring database privileges")
+		}
+	}
+
 	log.V(Status).Info("Successfully reconciled PostgreSqlUser")
 
 	return ctrl.Result{}, nil
@@ -177,6 +193,13 @@ func (r *PostgreSQLUserReconciler) Delete(ctx context.Context, log logr.Logger, 
 	// TODO: so might cause an error triggering the resource to get stuck).
 	// TODO: We check for owner not existing above, but cases where the server is in the process of being
 	// TODO: deleted (or all system tables have been wiped?) might also exist...
+
+	// PostgreSQL refuses to drop a role that still holds privileges on a database, so revoke them first.
+	err = postgresqlutil.RevokeAllDatabasePrivileges(ctx, db, user.Spec.AzureName)
+	if err != nil {
+		return ctrl.Result{}, eris.Wrap(err, "revoking database privileges")
+	}
+
 	err = postgresqlutil.DropUser(ctx, db, user.Spec.AzureName)
 	if err != nil {
 		return ctrl.Result{}, err
