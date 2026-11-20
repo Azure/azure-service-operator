@@ -32,6 +32,7 @@ type configMapExpressionExporter struct {
 	obj                 genruntime.ARMMetaObject
 	versionedObj        genruntime.ARMMetaObject
 	expressionEvaluator asocel.ExpressionEvaluator
+	budget              *asocel.EvaluationBudget
 }
 
 func (c *configMapExpressionExporter) Export(ctx context.Context) ([]client.Object, error) {
@@ -45,7 +46,7 @@ func (c *configMapExpressionExporter) Export(ctx context.Context) ([]client.Obje
 		return nil, nil
 	}
 
-	resources, err := c.parseConfigMaps(cmExpressions)
+	resources, err := c.parseConfigMaps(ctx, cmExpressions)
 	if err != nil {
 		err = eris.Wrap(err, "failed to parse configmap expressions for export")
 		return nil, conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityError, conditions.ReasonAdditionalKubernetesObjWriteFailure)
@@ -53,20 +54,20 @@ func (c *configMapExpressionExporter) Export(ctx context.Context) ([]client.Obje
 	return resources, err
 }
 
-func (c *configMapExpressionExporter) parseConfigMaps(expressions []*core.DestinationExpression) ([]client.Object, error) {
+func (c *configMapExpressionExporter) parseConfigMaps(ctx context.Context, expressions []*core.DestinationExpression) ([]client.Object, error) {
 	collector := configmaps.NewCollector(c.obj.GetNamespace())
 
 	for _, expression := range expressions {
-		value, err := c.expressionEvaluator.CompileAndRun(expression.Value, c.versionedObj, nil)
+		value, err := c.expressionEvaluator.CompileAndRun(ctx, c.budget, expression.Value, c.versionedObj, nil)
 		if err != nil {
-			return nil, err
+			return nil, eris.Wrapf(err, "evaluating value expression for configmap %q", expression.Name)
 		}
 
-		annotations, err := evaluateMapExpressions(c.expressionEvaluator, expression.Annotations, c.versionedObj, nil)
+		annotations, err := evaluateMapExpressions(ctx, c.budget, c.expressionEvaluator, expression.Annotations, c.versionedObj, nil)
 		if err != nil {
 			return nil, eris.Wrapf(err, "evaluating annotation expressions for configmap %q", expression.Name)
 		}
-		labels, err := evaluateMapExpressions(c.expressionEvaluator, expression.Labels, c.versionedObj, nil)
+		labels, err := evaluateMapExpressions(ctx, c.budget, c.expressionEvaluator, expression.Labels, c.versionedObj, nil)
 		if err != nil {
 			return nil, eris.Wrapf(err, "evaluating label expressions for configmap %q", expression.Name)
 		}
@@ -110,6 +111,7 @@ type secretExpressionExporter struct {
 	versionedObj        genruntime.ARMMetaObject
 	rawSecrets          map[string]string
 	expressionEvaluator asocel.ExpressionEvaluator
+	budget              *asocel.EvaluationBudget
 }
 
 func (s *secretExpressionExporter) Export(ctx context.Context) ([]client.Object, error) {
@@ -122,7 +124,7 @@ func (s *secretExpressionExporter) Export(ctx context.Context) ([]client.Object,
 	if len(secretExpressions) == 0 {
 		return nil, nil
 	}
-	resources, err := s.parseSecrets(secretExpressions, s.versionedObj, s.rawSecrets)
+	resources, err := s.parseSecrets(ctx, secretExpressions, s.versionedObj, s.rawSecrets)
 	if err != nil {
 		err = eris.Wrap(err, "failed to parse secret expressions for export")
 		return nil, conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityError, conditions.ReasonAdditionalKubernetesObjWriteFailure)
@@ -132,6 +134,7 @@ func (s *secretExpressionExporter) Export(ctx context.Context) ([]client.Object,
 }
 
 func (s *secretExpressionExporter) parseSecrets(
+	ctx context.Context,
 	expressions []*core.DestinationExpression,
 	versionedObj genruntime.ARMMetaObject,
 	rawSecrets map[string]string,
@@ -139,16 +142,16 @@ func (s *secretExpressionExporter) parseSecrets(
 	collector := secrets.NewCollector(versionedObj.GetNamespace())
 
 	for _, expression := range expressions {
-		value, err := s.expressionEvaluator.CompileAndRun(expression.Value, versionedObj, rawSecrets)
+		value, err := s.expressionEvaluator.CompileAndRun(ctx, s.budget, expression.Value, versionedObj, rawSecrets)
 		if err != nil {
-			return nil, err
+			return nil, eris.Wrapf(err, "evaluating value expression for secret %q", expression.Name)
 		}
 
-		annotations, err := evaluateMapExpressions(s.expressionEvaluator, expression.Annotations, versionedObj, rawSecrets)
+		annotations, err := evaluateMapExpressions(ctx, s.budget, s.expressionEvaluator, expression.Annotations, versionedObj, rawSecrets)
 		if err != nil {
 			return nil, eris.Wrapf(err, "evaluating annotation expressions for secret %q", expression.Name)
 		}
-		labels, err := evaluateMapExpressions(s.expressionEvaluator, expression.Labels, versionedObj, rawSecrets)
+		labels, err := evaluateMapExpressions(ctx, s.budget, s.expressionEvaluator, expression.Labels, versionedObj, rawSecrets)
 		if err != nil {
 			return nil, eris.Wrapf(err, "evaluating label expressions for secret %q", expression.Name)
 		}
@@ -188,6 +191,8 @@ func (s *secretExpressionExporter) parseSecrets(
 // evaluateMapExpressions evaluates each value in the map as a CEL expression that must return a string.
 // Returns nil if the input map is empty.
 func evaluateMapExpressions(
+	ctx context.Context,
+	budget *asocel.EvaluationBudget,
 	evaluator asocel.ExpressionEvaluator,
 	expressions map[string]string,
 	self any,
@@ -199,7 +204,7 @@ func evaluateMapExpressions(
 
 	result := make(map[string]string, len(expressions))
 	for key, expr := range expressions {
-		exprResult, err := evaluator.CompileAndRun(expr, self, secret)
+		exprResult, err := evaluator.CompileAndRun(ctx, budget, expr, self, secret)
 		if err != nil {
 			return nil, eris.Wrapf(err, "evaluating expression for key %q", key)
 		}

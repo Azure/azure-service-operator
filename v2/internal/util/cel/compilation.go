@@ -7,6 +7,7 @@ package cel
 
 import (
 	"cel.dev/cel-go/cel"
+	"cel.dev/cel-go/common/types"
 	"github.com/rotisserie/eris"
 )
 
@@ -42,7 +43,14 @@ func Compile(env *cel.Env, expression string) (*CompilationResult, error) {
 		return nil, err
 	}
 
-	program, err := env.Program(ast)
+	program, err := env.Program(
+		ast,
+		cel.CostTracking(stringCostEstimator{}),
+		cel.CostLimit(singleExpressionCPUBudget),
+		cel.MemoryLimit(singleExpressionMemoryBudget),
+		cel.MemoryTracking(types.MemoryTrackerSizeCalculator(newMemorySizeCalculator())),
+		cel.InterruptCheckFrequency(interruptFrequency),
+	)
 	if err != nil {
 		return nil, eris.Wrapf(err, "failed to generate program from CEL AST: %q", expression)
 	}
