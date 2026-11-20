@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_RedisAccessPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RedisAccessPolicy_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisAccessPolicy_Spec, RedisAccessPolicy_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRedisAccessPolicy_Spec)
 }
 
 // RunJSONSerializationTestForRedisAccessPolicy_Spec runs a test to see if a specific instance of RedisAccessPolicy_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisAccessPolicy_Spec(subject RedisAccessPolicy_Spec) string {
+func RunJSONSerializationTestForRedisAccessPolicy_Spec(t *rapid.T) {
+	subject := RedisAccessPolicy_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RedisAccessPolicy_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,46 +45,31 @@ func RunJSONSerializationTestForRedisAccessPolicy_Spec(subject RedisAccessPolicy
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RedisAccessPolicy_Spec instances for property testing - lazily instantiated by
 // RedisAccessPolicy_SpecGenerator()
-var redisAccessPolicy_SpecGenerator gopter.Gen
+var redisAccessPolicy_SpecGenerator *rapid.Generator[RedisAccessPolicy_Spec]
 
 // RedisAccessPolicy_SpecGenerator returns a generator of RedisAccessPolicy_Spec instances for property testing.
-// We first initialize redisAccessPolicy_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func RedisAccessPolicy_SpecGenerator() gopter.Gen {
+func RedisAccessPolicy_SpecGenerator() *rapid.Generator[RedisAccessPolicy_Spec] {
 	if redisAccessPolicy_SpecGenerator != nil {
 		return redisAccessPolicy_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisAccessPolicy_Spec(generators)
-	redisAccessPolicy_SpecGenerator = gen.Struct(reflect.TypeOf(RedisAccessPolicy_Spec{}), generators)
+	name := rapid.String()
+	properties := rapid.Ptr(RedisCacheAccessPolicyPropertiesGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisAccessPolicy_Spec(generators)
-	AddRelatedPropertyGeneratorsForRedisAccessPolicy_Spec(generators)
-	redisAccessPolicy_SpecGenerator = gen.Struct(reflect.TypeOf(RedisAccessPolicy_Spec{}), generators)
+	redisAccessPolicy_SpecGenerator = rapid.Custom(func(t *rapid.T) RedisAccessPolicy_Spec {
+		var result RedisAccessPolicy_Spec
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return redisAccessPolicy_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRedisAccessPolicy_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedisAccessPolicy_Spec(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForRedisAccessPolicy_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRedisAccessPolicy_Spec(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(RedisCacheAccessPolicyPropertiesGenerator())
 }
 
 func Test_RedisCacheAccessPolicyProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -104,29 +79,23 @@ func Test_RedisCacheAccessPolicyProperties_WhenSerializedToJson_DeserializesAsEq
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RedisCacheAccessPolicyProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisCacheAccessPolicyProperties, RedisCacheAccessPolicyPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRedisCacheAccessPolicyProperties)
 }
 
 // RunJSONSerializationTestForRedisCacheAccessPolicyProperties runs a test to see if a specific instance of RedisCacheAccessPolicyProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisCacheAccessPolicyProperties(subject RedisCacheAccessPolicyProperties) string {
+func RunJSONSerializationTestForRedisCacheAccessPolicyProperties(t *rapid.T) {
+	subject := RedisCacheAccessPolicyPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RedisCacheAccessPolicyProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -135,30 +104,27 @@ func RunJSONSerializationTestForRedisCacheAccessPolicyProperties(subject RedisCa
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RedisCacheAccessPolicyProperties instances for property testing - lazily instantiated by
 // RedisCacheAccessPolicyPropertiesGenerator()
-var redisCacheAccessPolicyPropertiesGenerator gopter.Gen
+var redisCacheAccessPolicyPropertiesGenerator *rapid.Generator[RedisCacheAccessPolicyProperties]
 
 // RedisCacheAccessPolicyPropertiesGenerator returns a generator of RedisCacheAccessPolicyProperties instances for property testing.
-func RedisCacheAccessPolicyPropertiesGenerator() gopter.Gen {
+func RedisCacheAccessPolicyPropertiesGenerator() *rapid.Generator[RedisCacheAccessPolicyProperties] {
 	if redisCacheAccessPolicyPropertiesGenerator != nil {
 		return redisCacheAccessPolicyPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisCacheAccessPolicyProperties(generators)
-	redisCacheAccessPolicyPropertiesGenerator = gen.Struct(reflect.TypeOf(RedisCacheAccessPolicyProperties{}), generators)
+	permissions := rapid.Ptr(rapid.String(), true)
+
+	redisCacheAccessPolicyPropertiesGenerator = rapid.Custom(func(t *rapid.T) RedisCacheAccessPolicyProperties {
+		var result RedisCacheAccessPolicyProperties
+		result.Permissions = permissions.Draw(t, "Permissions")
+		return result
+	})
 
 	return redisCacheAccessPolicyPropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRedisCacheAccessPolicyProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedisCacheAccessPolicyProperties(gens map[string]gopter.Gen) {
-	gens["Permissions"] = gen.PtrOf(gen.AlphaString())
 }

@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_ActivatedResourceReference_WhenSerializedToJson_DeserializesAsEqual(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ActivatedResourceReference via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForActivatedResourceReference, ActivatedResourceReferenceGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForActivatedResourceReference)
 }
 
 // RunJSONSerializationTestForActivatedResourceReference runs a test to see if a specific instance of ActivatedResourceReference round trips to JSON and back losslessly
-func RunJSONSerializationTestForActivatedResourceReference(subject ActivatedResourceReference) string {
+func RunJSONSerializationTestForActivatedResourceReference(t *rapid.T) {
+	subject := ActivatedResourceReferenceGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ActivatedResourceReference
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,32 +45,29 @@ func RunJSONSerializationTestForActivatedResourceReference(subject ActivatedReso
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ActivatedResourceReference instances for property testing - lazily instantiated by
 // ActivatedResourceReferenceGenerator()
-var activatedResourceReferenceGenerator gopter.Gen
+var activatedResourceReferenceGenerator *rapid.Generator[ActivatedResourceReference]
 
 // ActivatedResourceReferenceGenerator returns a generator of ActivatedResourceReference instances for property testing.
-func ActivatedResourceReferenceGenerator() gopter.Gen {
+func ActivatedResourceReferenceGenerator() *rapid.Generator[ActivatedResourceReference] {
 	if activatedResourceReferenceGenerator != nil {
 		return activatedResourceReferenceGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForActivatedResourceReference(generators)
-	activatedResourceReferenceGenerator = gen.Struct(reflect.TypeOf(ActivatedResourceReference{}), generators)
+	id := rapid.Ptr(rapid.String(), true)
+
+	activatedResourceReferenceGenerator = rapid.Custom(func(t *rapid.T) ActivatedResourceReference {
+		var result ActivatedResourceReference
+		result.Id = id.Draw(t, "Id")
+		return result
+	})
 
 	return activatedResourceReferenceGenerator
-}
-
-// AddIndependentPropertyGeneratorsForActivatedResourceReference is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForActivatedResourceReference(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_AfdRouteCacheConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -90,29 +77,23 @@ func Test_AfdRouteCacheConfiguration_WhenSerializedToJson_DeserializesAsEqual(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AfdRouteCacheConfiguration via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAfdRouteCacheConfiguration, AfdRouteCacheConfigurationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAfdRouteCacheConfiguration)
 }
 
 // RunJSONSerializationTestForAfdRouteCacheConfiguration runs a test to see if a specific instance of AfdRouteCacheConfiguration round trips to JSON and back losslessly
-func RunJSONSerializationTestForAfdRouteCacheConfiguration(subject AfdRouteCacheConfiguration) string {
+func RunJSONSerializationTestForAfdRouteCacheConfiguration(t *rapid.T) {
+	subject := AfdRouteCacheConfigurationGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AfdRouteCacheConfiguration
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -121,51 +102,33 @@ func RunJSONSerializationTestForAfdRouteCacheConfiguration(subject AfdRouteCache
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AfdRouteCacheConfiguration instances for property testing - lazily instantiated by
 // AfdRouteCacheConfigurationGenerator()
-var afdRouteCacheConfigurationGenerator gopter.Gen
+var afdRouteCacheConfigurationGenerator *rapid.Generator[AfdRouteCacheConfiguration]
 
 // AfdRouteCacheConfigurationGenerator returns a generator of AfdRouteCacheConfiguration instances for property testing.
-// We first initialize afdRouteCacheConfigurationGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func AfdRouteCacheConfigurationGenerator() gopter.Gen {
+func AfdRouteCacheConfigurationGenerator() *rapid.Generator[AfdRouteCacheConfiguration] {
 	if afdRouteCacheConfigurationGenerator != nil {
 		return afdRouteCacheConfigurationGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAfdRouteCacheConfiguration(generators)
-	afdRouteCacheConfigurationGenerator = gen.Struct(reflect.TypeOf(AfdRouteCacheConfiguration{}), generators)
+	compressionSettings := rapid.Ptr(CompressionSettingsGenerator(), true)
+	queryParameters := rapid.Ptr(rapid.String(), true)
+	queryStringCachingBehavior := rapid.Ptr(rapid.SampledFrom([]AfdRouteCacheConfiguration_QueryStringCachingBehavior{AfdRouteCacheConfiguration_QueryStringCachingBehavior_IgnoreQueryString, AfdRouteCacheConfiguration_QueryStringCachingBehavior_IgnoreSpecifiedQueryStrings, AfdRouteCacheConfiguration_QueryStringCachingBehavior_IncludeSpecifiedQueryStrings, AfdRouteCacheConfiguration_QueryStringCachingBehavior_UseQueryString}), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAfdRouteCacheConfiguration(generators)
-	AddRelatedPropertyGeneratorsForAfdRouteCacheConfiguration(generators)
-	afdRouteCacheConfigurationGenerator = gen.Struct(reflect.TypeOf(AfdRouteCacheConfiguration{}), generators)
+	afdRouteCacheConfigurationGenerator = rapid.Custom(func(t *rapid.T) AfdRouteCacheConfiguration {
+		var result AfdRouteCacheConfiguration
+		result.CompressionSettings = compressionSettings.Draw(t, "CompressionSettings")
+		result.QueryParameters = queryParameters.Draw(t, "QueryParameters")
+		result.QueryStringCachingBehavior = queryStringCachingBehavior.Draw(t, "QueryStringCachingBehavior")
+		return result
+	})
 
 	return afdRouteCacheConfigurationGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAfdRouteCacheConfiguration is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAfdRouteCacheConfiguration(gens map[string]gopter.Gen) {
-	gens["QueryParameters"] = gen.PtrOf(gen.AlphaString())
-	gens["QueryStringCachingBehavior"] = gen.PtrOf(gen.OneConstOf(
-		AfdRouteCacheConfiguration_QueryStringCachingBehavior_IgnoreQueryString,
-		AfdRouteCacheConfiguration_QueryStringCachingBehavior_IgnoreSpecifiedQueryStrings,
-		AfdRouteCacheConfiguration_QueryStringCachingBehavior_IncludeSpecifiedQueryStrings,
-		AfdRouteCacheConfiguration_QueryStringCachingBehavior_UseQueryString))
-}
-
-// AddRelatedPropertyGeneratorsForAfdRouteCacheConfiguration is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAfdRouteCacheConfiguration(gens map[string]gopter.Gen) {
-	gens["CompressionSettings"] = gen.PtrOf(CompressionSettingsGenerator())
 }
 
 func Test_CompressionSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -175,29 +138,23 @@ func Test_CompressionSettings_WhenSerializedToJson_DeserializesAsEqual(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CompressionSettings via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCompressionSettings, CompressionSettingsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForCompressionSettings)
 }
 
 // RunJSONSerializationTestForCompressionSettings runs a test to see if a specific instance of CompressionSettings round trips to JSON and back losslessly
-func RunJSONSerializationTestForCompressionSettings(subject CompressionSettings) string {
+func RunJSONSerializationTestForCompressionSettings(t *rapid.T) {
+	subject := CompressionSettingsGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual CompressionSettings
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -206,33 +163,31 @@ func RunJSONSerializationTestForCompressionSettings(subject CompressionSettings)
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of CompressionSettings instances for property testing - lazily instantiated by
 // CompressionSettingsGenerator()
-var compressionSettingsGenerator gopter.Gen
+var compressionSettingsGenerator *rapid.Generator[CompressionSettings]
 
 // CompressionSettingsGenerator returns a generator of CompressionSettings instances for property testing.
-func CompressionSettingsGenerator() gopter.Gen {
+func CompressionSettingsGenerator() *rapid.Generator[CompressionSettings] {
 	if compressionSettingsGenerator != nil {
 		return compressionSettingsGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCompressionSettings(generators)
-	compressionSettingsGenerator = gen.Struct(reflect.TypeOf(CompressionSettings{}), generators)
+	contentTypesToCompress := rapid.SliceOf(rapid.String())
+	isCompressionEnabled := rapid.Ptr(rapid.Bool(), true)
+
+	compressionSettingsGenerator = rapid.Custom(func(t *rapid.T) CompressionSettings {
+		var result CompressionSettings
+		result.ContentTypesToCompress = contentTypesToCompress.Draw(t, "ContentTypesToCompress")
+		result.IsCompressionEnabled = isCompressionEnabled.Draw(t, "IsCompressionEnabled")
+		return result
+	})
 
 	return compressionSettingsGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCompressionSettings is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCompressionSettings(gens map[string]gopter.Gen) {
-	gens["ContentTypesToCompress"] = gen.SliceOf(gen.AlphaString())
-	gens["IsCompressionEnabled"] = gen.PtrOf(gen.Bool())
 }
 
 func Test_RouteProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -242,29 +197,23 @@ func Test_RouteProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RouteProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRouteProperties, RoutePropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRouteProperties)
 }
 
 // RunJSONSerializationTestForRouteProperties runs a test to see if a specific instance of RouteProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForRouteProperties(subject RouteProperties) string {
+func RunJSONSerializationTestForRouteProperties(t *rapid.T) {
+	subject := RoutePropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RouteProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -273,54 +222,48 @@ func RunJSONSerializationTestForRouteProperties(subject RouteProperties) string 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RouteProperties instances for property testing - lazily instantiated by RoutePropertiesGenerator()
-var routePropertiesGenerator gopter.Gen
+var routePropertiesGenerator *rapid.Generator[RouteProperties]
 
 // RoutePropertiesGenerator returns a generator of RouteProperties instances for property testing.
-// We first initialize routePropertiesGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func RoutePropertiesGenerator() gopter.Gen {
+func RoutePropertiesGenerator() *rapid.Generator[RouteProperties] {
 	if routePropertiesGenerator != nil {
 		return routePropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRouteProperties(generators)
-	routePropertiesGenerator = gen.Struct(reflect.TypeOf(RouteProperties{}), generators)
+	cacheConfiguration := rapid.Ptr(AfdRouteCacheConfigurationGenerator(), true)
+	customDomains := rapid.SliceOf(ActivatedResourceReferenceGenerator())
+	enabledState := rapid.Ptr(rapid.SampledFrom([]RouteProperties_EnabledState{RouteProperties_EnabledState_Disabled, RouteProperties_EnabledState_Enabled}), true)
+	forwardingProtocol := rapid.Ptr(rapid.SampledFrom([]RouteProperties_ForwardingProtocol{RouteProperties_ForwardingProtocol_HttpOnly, RouteProperties_ForwardingProtocol_HttpsOnly, RouteProperties_ForwardingProtocol_MatchRequest}), true)
+	httpsRedirect := rapid.Ptr(rapid.SampledFrom([]RouteProperties_HttpsRedirect{RouteProperties_HttpsRedirect_Disabled, RouteProperties_HttpsRedirect_Enabled}), true)
+	linkToDefaultDomain := rapid.Ptr(rapid.SampledFrom([]RouteProperties_LinkToDefaultDomain{RouteProperties_LinkToDefaultDomain_Disabled, RouteProperties_LinkToDefaultDomain_Enabled}), true)
+	originGroup := rapid.Ptr(ResourceReferenceGenerator(), true)
+	originPath := rapid.Ptr(rapid.String(), true)
+	patternsToMatch := rapid.SliceOf(rapid.String())
+	ruleSets := rapid.SliceOf(ResourceReferenceGenerator())
+	supportedProtocols := rapid.SliceOf(rapid.SampledFrom([]AFDEndpointProtocols{AFDEndpointProtocols_Http, AFDEndpointProtocols_Https}))
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRouteProperties(generators)
-	AddRelatedPropertyGeneratorsForRouteProperties(generators)
-	routePropertiesGenerator = gen.Struct(reflect.TypeOf(RouteProperties{}), generators)
+	routePropertiesGenerator = rapid.Custom(func(t *rapid.T) RouteProperties {
+		var result RouteProperties
+		result.CacheConfiguration = cacheConfiguration.Draw(t, "CacheConfiguration")
+		result.CustomDomains = customDomains.Draw(t, "CustomDomains")
+		result.EnabledState = enabledState.Draw(t, "EnabledState")
+		result.ForwardingProtocol = forwardingProtocol.Draw(t, "ForwardingProtocol")
+		result.HttpsRedirect = httpsRedirect.Draw(t, "HttpsRedirect")
+		result.LinkToDefaultDomain = linkToDefaultDomain.Draw(t, "LinkToDefaultDomain")
+		result.OriginGroup = originGroup.Draw(t, "OriginGroup")
+		result.OriginPath = originPath.Draw(t, "OriginPath")
+		result.PatternsToMatch = patternsToMatch.Draw(t, "PatternsToMatch")
+		result.RuleSets = ruleSets.Draw(t, "RuleSets")
+		result.SupportedProtocols = supportedProtocols.Draw(t, "SupportedProtocols")
+		return result
+	})
 
 	return routePropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRouteProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRouteProperties(gens map[string]gopter.Gen) {
-	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(RouteProperties_EnabledState_Disabled, RouteProperties_EnabledState_Enabled))
-	gens["ForwardingProtocol"] = gen.PtrOf(gen.OneConstOf(RouteProperties_ForwardingProtocol_HttpOnly, RouteProperties_ForwardingProtocol_HttpsOnly, RouteProperties_ForwardingProtocol_MatchRequest))
-	gens["HttpsRedirect"] = gen.PtrOf(gen.OneConstOf(RouteProperties_HttpsRedirect_Disabled, RouteProperties_HttpsRedirect_Enabled))
-	gens["LinkToDefaultDomain"] = gen.PtrOf(gen.OneConstOf(RouteProperties_LinkToDefaultDomain_Disabled, RouteProperties_LinkToDefaultDomain_Enabled))
-	gens["OriginPath"] = gen.PtrOf(gen.AlphaString())
-	gens["PatternsToMatch"] = gen.SliceOf(gen.AlphaString())
-	gens["SupportedProtocols"] = gen.SliceOf(gen.OneConstOf(AFDEndpointProtocols_Http, AFDEndpointProtocols_Https))
-}
-
-// AddRelatedPropertyGeneratorsForRouteProperties is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRouteProperties(gens map[string]gopter.Gen) {
-	gens["CacheConfiguration"] = gen.PtrOf(AfdRouteCacheConfigurationGenerator())
-	gens["CustomDomains"] = gen.SliceOf(ActivatedResourceReferenceGenerator())
-	gens["OriginGroup"] = gen.PtrOf(ResourceReferenceGenerator())
-	gens["RuleSets"] = gen.SliceOf(ResourceReferenceGenerator())
 }
 
 func Test_Route_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -330,29 +273,23 @@ func Test_Route_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Route_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRoute_Spec, Route_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRoute_Spec)
 }
 
 // RunJSONSerializationTestForRoute_Spec runs a test to see if a specific instance of Route_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForRoute_Spec(subject Route_Spec) string {
+func RunJSONSerializationTestForRoute_Spec(t *rapid.T) {
+	subject := Route_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Route_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -361,43 +298,28 @@ func RunJSONSerializationTestForRoute_Spec(subject Route_Spec) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Route_Spec instances for property testing - lazily instantiated by Route_SpecGenerator()
-var route_SpecGenerator gopter.Gen
+var route_SpecGenerator *rapid.Generator[Route_Spec]
 
 // Route_SpecGenerator returns a generator of Route_Spec instances for property testing.
-// We first initialize route_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Route_SpecGenerator() gopter.Gen {
+func Route_SpecGenerator() *rapid.Generator[Route_Spec] {
 	if route_SpecGenerator != nil {
 		return route_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRoute_Spec(generators)
-	route_SpecGenerator = gen.Struct(reflect.TypeOf(Route_Spec{}), generators)
+	name := rapid.String()
+	properties := rapid.Ptr(RoutePropertiesGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRoute_Spec(generators)
-	AddRelatedPropertyGeneratorsForRoute_Spec(generators)
-	route_SpecGenerator = gen.Struct(reflect.TypeOf(Route_Spec{}), generators)
+	route_SpecGenerator = rapid.Custom(func(t *rapid.T) Route_Spec {
+		var result Route_Spec
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return route_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRoute_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRoute_Spec(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForRoute_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRoute_Spec(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(RoutePropertiesGenerator())
 }

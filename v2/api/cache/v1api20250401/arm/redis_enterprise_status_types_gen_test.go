@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptio
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS, ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS)
 }
 
 // RunJSONSerializationTestForClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS runs a test to see if a specific instance of ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS(subject ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS) string {
+func RunJSONSerializationTestForClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS(t *rapid.T) {
+	subject := ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,34 +45,32 @@ func RunJSONSerializationTestForClusterProperties_Encryption_CustomerManagedKeyE
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS instances for
 // property testing - lazily instantiated by
 // ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUSGenerator()
-var clusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUSGenerator gopter.Gen
+var clusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUSGenerator *rapid.Generator[ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS]
 
 // ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUSGenerator returns a generator of ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS instances for property testing.
-func ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUSGenerator() gopter.Gen {
+func ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUSGenerator() *rapid.Generator[ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS] {
 	if clusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUSGenerator != nil {
 		return clusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS(generators)
-	clusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUSGenerator = gen.Struct(reflect.TypeOf(ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS{}), generators)
+	identityType := rapid.Ptr(rapid.SampledFrom([]ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_IdentityType_STATUS{ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_IdentityType_STATUS_SystemAssignedIdentity, ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_IdentityType_STATUS_UserAssignedIdentity}), true)
+	userAssignedIdentityResourceId := rapid.Ptr(rapid.String(), true)
+
+	clusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUSGenerator = rapid.Custom(func(t *rapid.T) ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS {
+		var result ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS
+		result.IdentityType = identityType.Draw(t, "IdentityType")
+		result.UserAssignedIdentityResourceId = userAssignedIdentityResourceId.Draw(t, "UserAssignedIdentityResourceId")
+		return result
+	})
 
 	return clusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS(gens map[string]gopter.Gen) {
-	gens["IdentityType"] = gen.PtrOf(gen.OneConstOf(ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_IdentityType_STATUS_SystemAssignedIdentity, ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_IdentityType_STATUS_UserAssignedIdentity))
-	gens["UserAssignedIdentityResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -92,29 +80,23 @@ func Test_ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS_WhenS
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS, ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS)
 }
 
 // RunJSONSerializationTestForClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS runs a test to see if a specific instance of ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS(subject ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS) string {
+func RunJSONSerializationTestForClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS(t *rapid.T) {
+	subject := ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -123,46 +105,31 @@ func RunJSONSerializationTestForClusterProperties_Encryption_CustomerManagedKeyE
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS instances for property testing - lazily
 // instantiated by ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUSGenerator()
-var clusterProperties_Encryption_CustomerManagedKeyEncryption_STATUSGenerator gopter.Gen
+var clusterProperties_Encryption_CustomerManagedKeyEncryption_STATUSGenerator *rapid.Generator[ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS]
 
 // ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUSGenerator returns a generator of ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS instances for property testing.
-// We first initialize clusterProperties_Encryption_CustomerManagedKeyEncryption_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUSGenerator() gopter.Gen {
+func ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUSGenerator() *rapid.Generator[ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS] {
 	if clusterProperties_Encryption_CustomerManagedKeyEncryption_STATUSGenerator != nil {
 		return clusterProperties_Encryption_CustomerManagedKeyEncryption_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS(generators)
-	clusterProperties_Encryption_CustomerManagedKeyEncryption_STATUSGenerator = gen.Struct(reflect.TypeOf(ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS{}), generators)
+	keyEncryptionKeyIdentity := rapid.Ptr(ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUSGenerator(), true)
+	keyEncryptionKeyUrl := rapid.Ptr(rapid.String(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS(generators)
-	AddRelatedPropertyGeneratorsForClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS(generators)
-	clusterProperties_Encryption_CustomerManagedKeyEncryption_STATUSGenerator = gen.Struct(reflect.TypeOf(ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS{}), generators)
+	clusterProperties_Encryption_CustomerManagedKeyEncryption_STATUSGenerator = rapid.Custom(func(t *rapid.T) ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS {
+		var result ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS
+		result.KeyEncryptionKeyIdentity = keyEncryptionKeyIdentity.Draw(t, "KeyEncryptionKeyIdentity")
+		result.KeyEncryptionKeyUrl = keyEncryptionKeyUrl.Draw(t, "KeyEncryptionKeyUrl")
+		return result
+	})
 
 	return clusterProperties_Encryption_CustomerManagedKeyEncryption_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS(gens map[string]gopter.Gen) {
-	gens["KeyEncryptionKeyUrl"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS(gens map[string]gopter.Gen) {
-	gens["KeyEncryptionKeyIdentity"] = gen.PtrOf(ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUSGenerator())
 }
 
 func Test_ClusterProperties_Encryption_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -172,29 +139,23 @@ func Test_ClusterProperties_Encryption_STATUS_WhenSerializedToJson_DeserializesA
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ClusterProperties_Encryption_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForClusterProperties_Encryption_STATUS, ClusterProperties_Encryption_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForClusterProperties_Encryption_STATUS)
 }
 
 // RunJSONSerializationTestForClusterProperties_Encryption_STATUS runs a test to see if a specific instance of ClusterProperties_Encryption_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForClusterProperties_Encryption_STATUS(subject ClusterProperties_Encryption_STATUS) string {
+func RunJSONSerializationTestForClusterProperties_Encryption_STATUS(t *rapid.T) {
+	subject := ClusterProperties_Encryption_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ClusterProperties_Encryption_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -203,32 +164,29 @@ func RunJSONSerializationTestForClusterProperties_Encryption_STATUS(subject Clus
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ClusterProperties_Encryption_STATUS instances for property testing - lazily instantiated by
 // ClusterProperties_Encryption_STATUSGenerator()
-var clusterProperties_Encryption_STATUSGenerator gopter.Gen
+var clusterProperties_Encryption_STATUSGenerator *rapid.Generator[ClusterProperties_Encryption_STATUS]
 
 // ClusterProperties_Encryption_STATUSGenerator returns a generator of ClusterProperties_Encryption_STATUS instances for property testing.
-func ClusterProperties_Encryption_STATUSGenerator() gopter.Gen {
+func ClusterProperties_Encryption_STATUSGenerator() *rapid.Generator[ClusterProperties_Encryption_STATUS] {
 	if clusterProperties_Encryption_STATUSGenerator != nil {
 		return clusterProperties_Encryption_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForClusterProperties_Encryption_STATUS(generators)
-	clusterProperties_Encryption_STATUSGenerator = gen.Struct(reflect.TypeOf(ClusterProperties_Encryption_STATUS{}), generators)
+	customerManagedKeyEncryption := rapid.Ptr(ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUSGenerator(), true)
+
+	clusterProperties_Encryption_STATUSGenerator = rapid.Custom(func(t *rapid.T) ClusterProperties_Encryption_STATUS {
+		var result ClusterProperties_Encryption_STATUS
+		result.CustomerManagedKeyEncryption = customerManagedKeyEncryption.Draw(t, "CustomerManagedKeyEncryption")
+		return result
+	})
 
 	return clusterProperties_Encryption_STATUSGenerator
-}
-
-// AddRelatedPropertyGeneratorsForClusterProperties_Encryption_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForClusterProperties_Encryption_STATUS(gens map[string]gopter.Gen) {
-	gens["CustomerManagedKeyEncryption"] = gen.PtrOf(ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUSGenerator())
 }
 
 func Test_ClusterProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -238,29 +196,23 @@ func Test_ClusterProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ClusterProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForClusterProperties_STATUS, ClusterProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForClusterProperties_STATUS)
 }
 
 // RunJSONSerializationTestForClusterProperties_STATUS runs a test to see if a specific instance of ClusterProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForClusterProperties_STATUS(subject ClusterProperties_STATUS) string {
+func RunJSONSerializationTestForClusterProperties_STATUS(t *rapid.T) {
+	subject := ClusterProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ClusterProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -269,74 +221,44 @@ func RunJSONSerializationTestForClusterProperties_STATUS(subject ClusterProperti
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ClusterProperties_STATUS instances for property testing - lazily instantiated by
 // ClusterProperties_STATUSGenerator()
-var clusterProperties_STATUSGenerator gopter.Gen
+var clusterProperties_STATUSGenerator *rapid.Generator[ClusterProperties_STATUS]
 
 // ClusterProperties_STATUSGenerator returns a generator of ClusterProperties_STATUS instances for property testing.
-// We first initialize clusterProperties_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ClusterProperties_STATUSGenerator() gopter.Gen {
+func ClusterProperties_STATUSGenerator() *rapid.Generator[ClusterProperties_STATUS] {
 	if clusterProperties_STATUSGenerator != nil {
 		return clusterProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForClusterProperties_STATUS(generators)
-	clusterProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(ClusterProperties_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	encryption := rapid.Ptr(ClusterProperties_Encryption_STATUSGenerator(), true)
+	highAvailability := rapid.Ptr(rapid.SampledFrom([]ClusterProperties_HighAvailability_STATUS{ClusterProperties_HighAvailability_STATUS_Disabled, ClusterProperties_HighAvailability_STATUS_Enabled}), true)
+	minimumTlsVersion := rapid.Ptr(rapid.SampledFrom([]ClusterProperties_MinimumTlsVersion_STATUS{ClusterProperties_MinimumTlsVersion_STATUS_10, ClusterProperties_MinimumTlsVersion_STATUS_11, ClusterProperties_MinimumTlsVersion_STATUS_12}), true)
+	privateEndpointConnections := rapid.SliceOf(PrivateEndpointConnection_STATUSGenerator())
+	provisioningState := rapid.Ptr(rapid.SampledFrom([]ProvisioningState_STATUS{ProvisioningState_STATUS_Canceled, ProvisioningState_STATUS_Creating, ProvisioningState_STATUS_Deleting, ProvisioningState_STATUS_Failed, ProvisioningState_STATUS_Succeeded, ProvisioningState_STATUS_Updating}), true)
+	redundancyMode := rapid.Ptr(rapid.SampledFrom([]ClusterProperties_RedundancyMode_STATUS{ClusterProperties_RedundancyMode_STATUS_LR, ClusterProperties_RedundancyMode_STATUS_None, ClusterProperties_RedundancyMode_STATUS_ZR}), true)
+	resourceState := rapid.Ptr(rapid.SampledFrom([]ResourceState_STATUS{ResourceState_STATUS_CreateFailed, ResourceState_STATUS_Creating, ResourceState_STATUS_DeleteFailed, ResourceState_STATUS_Deleting, ResourceState_STATUS_DisableFailed, ResourceState_STATUS_Disabled, ResourceState_STATUS_Disabling, ResourceState_STATUS_EnableFailed, ResourceState_STATUS_Enabling, ResourceState_STATUS_Moving, ResourceState_STATUS_Running, ResourceState_STATUS_Scaling, ResourceState_STATUS_ScalingFailed, ResourceState_STATUS_UpdateFailed, ResourceState_STATUS_Updating}), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForClusterProperties_STATUS(generators)
-	AddRelatedPropertyGeneratorsForClusterProperties_STATUS(generators)
-	clusterProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(ClusterProperties_STATUS{}), generators)
+	clusterProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) ClusterProperties_STATUS {
+		var result ClusterProperties_STATUS
+		result.Encryption = encryption.Draw(t, "Encryption")
+		result.HighAvailability = highAvailability.Draw(t, "HighAvailability")
+		result.HostName = ptrString.Draw(t, "HostName")
+		result.MinimumTlsVersion = minimumTlsVersion.Draw(t, "MinimumTlsVersion")
+		result.PrivateEndpointConnections = privateEndpointConnections.Draw(t, "PrivateEndpointConnections")
+		result.ProvisioningState = provisioningState.Draw(t, "ProvisioningState")
+		result.RedisVersion = ptrString.Draw(t, "RedisVersion")
+		result.RedundancyMode = redundancyMode.Draw(t, "RedundancyMode")
+		result.ResourceState = resourceState.Draw(t, "ResourceState")
+		return result
+	})
 
 	return clusterProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForClusterProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForClusterProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["HighAvailability"] = gen.PtrOf(gen.OneConstOf(ClusterProperties_HighAvailability_STATUS_Disabled, ClusterProperties_HighAvailability_STATUS_Enabled))
-	gens["HostName"] = gen.PtrOf(gen.AlphaString())
-	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(ClusterProperties_MinimumTlsVersion_STATUS_10, ClusterProperties_MinimumTlsVersion_STATUS_11, ClusterProperties_MinimumTlsVersion_STATUS_12))
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUS_Canceled,
-		ProvisioningState_STATUS_Creating,
-		ProvisioningState_STATUS_Deleting,
-		ProvisioningState_STATUS_Failed,
-		ProvisioningState_STATUS_Succeeded,
-		ProvisioningState_STATUS_Updating))
-	gens["RedisVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["RedundancyMode"] = gen.PtrOf(gen.OneConstOf(ClusterProperties_RedundancyMode_STATUS_LR, ClusterProperties_RedundancyMode_STATUS_None, ClusterProperties_RedundancyMode_STATUS_ZR))
-	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
-		ResourceState_STATUS_CreateFailed,
-		ResourceState_STATUS_Creating,
-		ResourceState_STATUS_DeleteFailed,
-		ResourceState_STATUS_Deleting,
-		ResourceState_STATUS_DisableFailed,
-		ResourceState_STATUS_Disabled,
-		ResourceState_STATUS_Disabling,
-		ResourceState_STATUS_EnableFailed,
-		ResourceState_STATUS_Enabling,
-		ResourceState_STATUS_Moving,
-		ResourceState_STATUS_Running,
-		ResourceState_STATUS_Scaling,
-		ResourceState_STATUS_ScalingFailed,
-		ResourceState_STATUS_UpdateFailed,
-		ResourceState_STATUS_Updating))
-}
-
-// AddRelatedPropertyGeneratorsForClusterProperties_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForClusterProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["Encryption"] = gen.PtrOf(ClusterProperties_Encryption_STATUSGenerator())
-	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnection_STATUSGenerator())
 }
 
 func Test_ManagedServiceIdentity_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -346,29 +268,23 @@ func Test_ManagedServiceIdentity_STATUS_WhenSerializedToJson_DeserializesAsEqual
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedServiceIdentity_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedServiceIdentity_STATUS, ManagedServiceIdentity_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForManagedServiceIdentity_STATUS)
 }
 
 // RunJSONSerializationTestForManagedServiceIdentity_STATUS runs a test to see if a specific instance of ManagedServiceIdentity_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedServiceIdentity_STATUS(subject ManagedServiceIdentity_STATUS) string {
+func RunJSONSerializationTestForManagedServiceIdentity_STATUS(t *rapid.T) {
+	subject := ManagedServiceIdentity_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ManagedServiceIdentity_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -377,54 +293,36 @@ func RunJSONSerializationTestForManagedServiceIdentity_STATUS(subject ManagedSer
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ManagedServiceIdentity_STATUS instances for property testing - lazily instantiated by
 // ManagedServiceIdentity_STATUSGenerator()
-var managedServiceIdentity_STATUSGenerator gopter.Gen
+var managedServiceIdentity_STATUSGenerator *rapid.Generator[ManagedServiceIdentity_STATUS]
 
 // ManagedServiceIdentity_STATUSGenerator returns a generator of ManagedServiceIdentity_STATUS instances for property testing.
-// We first initialize managedServiceIdentity_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ManagedServiceIdentity_STATUSGenerator() gopter.Gen {
+func ManagedServiceIdentity_STATUSGenerator() *rapid.Generator[ManagedServiceIdentity_STATUS] {
 	if managedServiceIdentity_STATUSGenerator != nil {
 		return managedServiceIdentity_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedServiceIdentity_STATUS(generators)
-	managedServiceIdentity_STATUSGenerator = gen.Struct(reflect.TypeOf(ManagedServiceIdentity_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	typeVar := rapid.Ptr(rapid.SampledFrom([]ManagedServiceIdentityType_STATUS{ManagedServiceIdentityType_STATUS_None, ManagedServiceIdentityType_STATUS_SystemAssigned, ManagedServiceIdentityType_STATUS_SystemAssignedUserAssigned, ManagedServiceIdentityType_STATUS_UserAssigned}), true)
+	userAssignedIdentities := rapid.MapOf(
+		rapid.String(),
+		UserAssignedIdentity_STATUSGenerator())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedServiceIdentity_STATUS(generators)
-	AddRelatedPropertyGeneratorsForManagedServiceIdentity_STATUS(generators)
-	managedServiceIdentity_STATUSGenerator = gen.Struct(reflect.TypeOf(ManagedServiceIdentity_STATUS{}), generators)
+	managedServiceIdentity_STATUSGenerator = rapid.Custom(func(t *rapid.T) ManagedServiceIdentity_STATUS {
+		var result ManagedServiceIdentity_STATUS
+		result.PrincipalId = ptrString.Draw(t, "PrincipalId")
+		result.TenantId = ptrString.Draw(t, "TenantId")
+		result.Type = typeVar.Draw(t, "Type")
+		result.UserAssignedIdentities = userAssignedIdentities.Draw(t, "UserAssignedIdentities")
+		return result
+	})
 
 	return managedServiceIdentity_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedServiceIdentity_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedServiceIdentity_STATUS(gens map[string]gopter.Gen) {
-	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
-	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ManagedServiceIdentityType_STATUS_None,
-		ManagedServiceIdentityType_STATUS_SystemAssigned,
-		ManagedServiceIdentityType_STATUS_SystemAssignedUserAssigned,
-		ManagedServiceIdentityType_STATUS_UserAssigned))
-}
-
-// AddRelatedPropertyGeneratorsForManagedServiceIdentity_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedServiceIdentity_STATUS(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(
-		gen.AlphaString(),
-		UserAssignedIdentity_STATUSGenerator())
 }
 
 func Test_PrivateEndpointConnection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -434,29 +332,23 @@ func Test_PrivateEndpointConnection_STATUS_WhenSerializedToJson_DeserializesAsEq
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrivateEndpointConnection_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateEndpointConnection_STATUS, PrivateEndpointConnection_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForPrivateEndpointConnection_STATUS)
 }
 
 // RunJSONSerializationTestForPrivateEndpointConnection_STATUS runs a test to see if a specific instance of PrivateEndpointConnection_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateEndpointConnection_STATUS(subject PrivateEndpointConnection_STATUS) string {
+func RunJSONSerializationTestForPrivateEndpointConnection_STATUS(t *rapid.T) {
+	subject := PrivateEndpointConnection_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual PrivateEndpointConnection_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -465,32 +357,29 @@ func RunJSONSerializationTestForPrivateEndpointConnection_STATUS(subject Private
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of PrivateEndpointConnection_STATUS instances for property testing - lazily instantiated by
 // PrivateEndpointConnection_STATUSGenerator()
-var privateEndpointConnection_STATUSGenerator gopter.Gen
+var privateEndpointConnection_STATUSGenerator *rapid.Generator[PrivateEndpointConnection_STATUS]
 
 // PrivateEndpointConnection_STATUSGenerator returns a generator of PrivateEndpointConnection_STATUS instances for property testing.
-func PrivateEndpointConnection_STATUSGenerator() gopter.Gen {
+func PrivateEndpointConnection_STATUSGenerator() *rapid.Generator[PrivateEndpointConnection_STATUS] {
 	if privateEndpointConnection_STATUSGenerator != nil {
 		return privateEndpointConnection_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS(generators)
-	privateEndpointConnection_STATUSGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnection_STATUS{}), generators)
+	id := rapid.Ptr(rapid.String(), true)
+
+	privateEndpointConnection_STATUSGenerator = rapid.Custom(func(t *rapid.T) PrivateEndpointConnection_STATUS {
+		var result PrivateEndpointConnection_STATUS
+		result.Id = id.Draw(t, "Id")
+		return result
+	})
 
 	return privateEndpointConnection_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_RedisEnterprise_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -500,29 +389,23 @@ func Test_RedisEnterprise_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RedisEnterprise_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisEnterprise_STATUS, RedisEnterprise_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRedisEnterprise_STATUS)
 }
 
 // RunJSONSerializationTestForRedisEnterprise_STATUS runs a test to see if a specific instance of RedisEnterprise_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisEnterprise_STATUS(subject RedisEnterprise_STATUS) string {
+func RunJSONSerializationTestForRedisEnterprise_STATUS(t *rapid.T) {
+	subject := RedisEnterprise_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RedisEnterprise_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -531,56 +414,46 @@ func RunJSONSerializationTestForRedisEnterprise_STATUS(subject RedisEnterprise_S
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RedisEnterprise_STATUS instances for property testing - lazily instantiated by
 // RedisEnterprise_STATUSGenerator()
-var redisEnterprise_STATUSGenerator gopter.Gen
+var redisEnterprise_STATUSGenerator *rapid.Generator[RedisEnterprise_STATUS]
 
 // RedisEnterprise_STATUSGenerator returns a generator of RedisEnterprise_STATUS instances for property testing.
-// We first initialize redisEnterprise_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func RedisEnterprise_STATUSGenerator() gopter.Gen {
+func RedisEnterprise_STATUSGenerator() *rapid.Generator[RedisEnterprise_STATUS] {
 	if redisEnterprise_STATUSGenerator != nil {
 		return redisEnterprise_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisEnterprise_STATUS(generators)
-	redisEnterprise_STATUSGenerator = gen.Struct(reflect.TypeOf(RedisEnterprise_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	identity := rapid.Ptr(ManagedServiceIdentity_STATUSGenerator(), true)
+	kind := rapid.Ptr(rapid.SampledFrom([]Kind_STATUS{Kind_STATUS_V1, Kind_STATUS_V2}), true)
+	properties := rapid.Ptr(ClusterProperties_STATUSGenerator(), true)
+	sku := rapid.Ptr(Sku_STATUSGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
+	zones := rapid.SliceOf(rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisEnterprise_STATUS(generators)
-	AddRelatedPropertyGeneratorsForRedisEnterprise_STATUS(generators)
-	redisEnterprise_STATUSGenerator = gen.Struct(reflect.TypeOf(RedisEnterprise_STATUS{}), generators)
+	redisEnterprise_STATUSGenerator = rapid.Custom(func(t *rapid.T) RedisEnterprise_STATUS {
+		var result RedisEnterprise_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.Identity = identity.Draw(t, "Identity")
+		result.Kind = kind.Draw(t, "Kind")
+		result.Location = ptrString.Draw(t, "Location")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Sku = sku.Draw(t, "Sku")
+		result.Tags = tags.Draw(t, "Tags")
+		result.Type = ptrString.Draw(t, "Type")
+		result.Zones = zones.Draw(t, "Zones")
+		return result
+	})
 
 	return redisEnterprise_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRedisEnterprise_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedisEnterprise_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(Kind_STATUS_V1, Kind_STATUS_V2))
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["Zones"] = gen.SliceOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForRedisEnterprise_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRedisEnterprise_STATUS(gens map[string]gopter.Gen) {
-	gens["Identity"] = gen.PtrOf(ManagedServiceIdentity_STATUSGenerator())
-	gens["Properties"] = gen.PtrOf(ClusterProperties_STATUSGenerator())
-	gens["Sku"] = gen.PtrOf(Sku_STATUSGenerator())
 }
 
 func Test_Sku_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -590,29 +463,23 @@ func Test_Sku_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Sku_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSku_STATUS, Sku_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSku_STATUS)
 }
 
 // RunJSONSerializationTestForSku_STATUS runs a test to see if a specific instance of Sku_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSku_STATUS(subject Sku_STATUS) string {
+func RunJSONSerializationTestForSku_STATUS(t *rapid.T) {
+	subject := Sku_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Sku_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -621,87 +488,30 @@ func RunJSONSerializationTestForSku_STATUS(subject Sku_STATUS) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Sku_STATUS instances for property testing - lazily instantiated by Sku_STATUSGenerator()
-var sku_STATUSGenerator gopter.Gen
+var sku_STATUSGenerator *rapid.Generator[Sku_STATUS]
 
 // Sku_STATUSGenerator returns a generator of Sku_STATUS instances for property testing.
-func Sku_STATUSGenerator() gopter.Gen {
+func Sku_STATUSGenerator() *rapid.Generator[Sku_STATUS] {
 	if sku_STATUSGenerator != nil {
 		return sku_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSku_STATUS(generators)
-	sku_STATUSGenerator = gen.Struct(reflect.TypeOf(Sku_STATUS{}), generators)
+	capacity := rapid.Ptr(rapid.Int(), true)
+	name := rapid.Ptr(rapid.SampledFrom([]Sku_Name_STATUS{Sku_Name_STATUS_Balanced_B0, Sku_Name_STATUS_Balanced_B1, Sku_Name_STATUS_Balanced_B10, Sku_Name_STATUS_Balanced_B100, Sku_Name_STATUS_Balanced_B1000, Sku_Name_STATUS_Balanced_B150, Sku_Name_STATUS_Balanced_B20, Sku_Name_STATUS_Balanced_B250, Sku_Name_STATUS_Balanced_B3, Sku_Name_STATUS_Balanced_B350, Sku_Name_STATUS_Balanced_B5, Sku_Name_STATUS_Balanced_B50, Sku_Name_STATUS_Balanced_B500, Sku_Name_STATUS_Balanced_B700, Sku_Name_STATUS_ComputeOptimized_X10, Sku_Name_STATUS_ComputeOptimized_X100, Sku_Name_STATUS_ComputeOptimized_X150, Sku_Name_STATUS_ComputeOptimized_X20, Sku_Name_STATUS_ComputeOptimized_X250, Sku_Name_STATUS_ComputeOptimized_X3, Sku_Name_STATUS_ComputeOptimized_X350, Sku_Name_STATUS_ComputeOptimized_X5, Sku_Name_STATUS_ComputeOptimized_X50, Sku_Name_STATUS_ComputeOptimized_X500, Sku_Name_STATUS_ComputeOptimized_X700, Sku_Name_STATUS_EnterpriseFlash_F1500, Sku_Name_STATUS_EnterpriseFlash_F300, Sku_Name_STATUS_EnterpriseFlash_F700, Sku_Name_STATUS_Enterprise_E1, Sku_Name_STATUS_Enterprise_E10, Sku_Name_STATUS_Enterprise_E100, Sku_Name_STATUS_Enterprise_E20, Sku_Name_STATUS_Enterprise_E200, Sku_Name_STATUS_Enterprise_E400, Sku_Name_STATUS_Enterprise_E5, Sku_Name_STATUS_Enterprise_E50, Sku_Name_STATUS_FlashOptimized_A1000, Sku_Name_STATUS_FlashOptimized_A1500, Sku_Name_STATUS_FlashOptimized_A2000, Sku_Name_STATUS_FlashOptimized_A250, Sku_Name_STATUS_FlashOptimized_A4500, Sku_Name_STATUS_FlashOptimized_A500, Sku_Name_STATUS_FlashOptimized_A700, Sku_Name_STATUS_MemoryOptimized_M10, Sku_Name_STATUS_MemoryOptimized_M100, Sku_Name_STATUS_MemoryOptimized_M1000, Sku_Name_STATUS_MemoryOptimized_M150, Sku_Name_STATUS_MemoryOptimized_M1500, Sku_Name_STATUS_MemoryOptimized_M20, Sku_Name_STATUS_MemoryOptimized_M2000, Sku_Name_STATUS_MemoryOptimized_M250, Sku_Name_STATUS_MemoryOptimized_M350, Sku_Name_STATUS_MemoryOptimized_M50, Sku_Name_STATUS_MemoryOptimized_M500, Sku_Name_STATUS_MemoryOptimized_M700}), true)
+
+	sku_STATUSGenerator = rapid.Custom(func(t *rapid.T) Sku_STATUS {
+		var result Sku_STATUS
+		result.Capacity = capacity.Draw(t, "Capacity")
+		result.Name = name.Draw(t, "Name")
+		return result
+	})
 
 	return sku_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSku_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSku_STATUS(gens map[string]gopter.Gen) {
-	gens["Capacity"] = gen.PtrOf(gen.Int())
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		Sku_Name_STATUS_Balanced_B0,
-		Sku_Name_STATUS_Balanced_B1,
-		Sku_Name_STATUS_Balanced_B10,
-		Sku_Name_STATUS_Balanced_B100,
-		Sku_Name_STATUS_Balanced_B1000,
-		Sku_Name_STATUS_Balanced_B150,
-		Sku_Name_STATUS_Balanced_B20,
-		Sku_Name_STATUS_Balanced_B250,
-		Sku_Name_STATUS_Balanced_B3,
-		Sku_Name_STATUS_Balanced_B350,
-		Sku_Name_STATUS_Balanced_B5,
-		Sku_Name_STATUS_Balanced_B50,
-		Sku_Name_STATUS_Balanced_B500,
-		Sku_Name_STATUS_Balanced_B700,
-		Sku_Name_STATUS_ComputeOptimized_X10,
-		Sku_Name_STATUS_ComputeOptimized_X100,
-		Sku_Name_STATUS_ComputeOptimized_X150,
-		Sku_Name_STATUS_ComputeOptimized_X20,
-		Sku_Name_STATUS_ComputeOptimized_X250,
-		Sku_Name_STATUS_ComputeOptimized_X3,
-		Sku_Name_STATUS_ComputeOptimized_X350,
-		Sku_Name_STATUS_ComputeOptimized_X5,
-		Sku_Name_STATUS_ComputeOptimized_X50,
-		Sku_Name_STATUS_ComputeOptimized_X500,
-		Sku_Name_STATUS_ComputeOptimized_X700,
-		Sku_Name_STATUS_EnterpriseFlash_F1500,
-		Sku_Name_STATUS_EnterpriseFlash_F300,
-		Sku_Name_STATUS_EnterpriseFlash_F700,
-		Sku_Name_STATUS_Enterprise_E1,
-		Sku_Name_STATUS_Enterprise_E10,
-		Sku_Name_STATUS_Enterprise_E100,
-		Sku_Name_STATUS_Enterprise_E20,
-		Sku_Name_STATUS_Enterprise_E200,
-		Sku_Name_STATUS_Enterprise_E400,
-		Sku_Name_STATUS_Enterprise_E5,
-		Sku_Name_STATUS_Enterprise_E50,
-		Sku_Name_STATUS_FlashOptimized_A1000,
-		Sku_Name_STATUS_FlashOptimized_A1500,
-		Sku_Name_STATUS_FlashOptimized_A2000,
-		Sku_Name_STATUS_FlashOptimized_A250,
-		Sku_Name_STATUS_FlashOptimized_A4500,
-		Sku_Name_STATUS_FlashOptimized_A500,
-		Sku_Name_STATUS_FlashOptimized_A700,
-		Sku_Name_STATUS_MemoryOptimized_M10,
-		Sku_Name_STATUS_MemoryOptimized_M100,
-		Sku_Name_STATUS_MemoryOptimized_M1000,
-		Sku_Name_STATUS_MemoryOptimized_M150,
-		Sku_Name_STATUS_MemoryOptimized_M1500,
-		Sku_Name_STATUS_MemoryOptimized_M20,
-		Sku_Name_STATUS_MemoryOptimized_M2000,
-		Sku_Name_STATUS_MemoryOptimized_M250,
-		Sku_Name_STATUS_MemoryOptimized_M350,
-		Sku_Name_STATUS_MemoryOptimized_M50,
-		Sku_Name_STATUS_MemoryOptimized_M500,
-		Sku_Name_STATUS_MemoryOptimized_M700))
 }
 
 func Test_UserAssignedIdentity_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -711,29 +521,23 @@ func Test_UserAssignedIdentity_STATUS_WhenSerializedToJson_DeserializesAsEqual(t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UserAssignedIdentity_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUserAssignedIdentity_STATUS, UserAssignedIdentity_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForUserAssignedIdentity_STATUS)
 }
 
 // RunJSONSerializationTestForUserAssignedIdentity_STATUS runs a test to see if a specific instance of UserAssignedIdentity_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForUserAssignedIdentity_STATUS(subject UserAssignedIdentity_STATUS) string {
+func RunJSONSerializationTestForUserAssignedIdentity_STATUS(t *rapid.T) {
+	subject := UserAssignedIdentity_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual UserAssignedIdentity_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -742,31 +546,28 @@ func RunJSONSerializationTestForUserAssignedIdentity_STATUS(subject UserAssigned
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of UserAssignedIdentity_STATUS instances for property testing - lazily instantiated by
 // UserAssignedIdentity_STATUSGenerator()
-var userAssignedIdentity_STATUSGenerator gopter.Gen
+var userAssignedIdentity_STATUSGenerator *rapid.Generator[UserAssignedIdentity_STATUS]
 
 // UserAssignedIdentity_STATUSGenerator returns a generator of UserAssignedIdentity_STATUS instances for property testing.
-func UserAssignedIdentity_STATUSGenerator() gopter.Gen {
+func UserAssignedIdentity_STATUSGenerator() *rapid.Generator[UserAssignedIdentity_STATUS] {
 	if userAssignedIdentity_STATUSGenerator != nil {
 		return userAssignedIdentity_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUserAssignedIdentity_STATUS(generators)
-	userAssignedIdentity_STATUSGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentity_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	userAssignedIdentity_STATUSGenerator = rapid.Custom(func(t *rapid.T) UserAssignedIdentity_STATUS {
+		var result UserAssignedIdentity_STATUS
+		result.ClientId = ptrString.Draw(t, "ClientId")
+		result.PrincipalId = ptrString.Draw(t, "PrincipalId")
+		return result
+	})
 
 	return userAssignedIdentity_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForUserAssignedIdentity_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUserAssignedIdentity_STATUS(gens map[string]gopter.Gen) {
-	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 }

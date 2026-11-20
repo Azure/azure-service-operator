@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_AfdEndpoint_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AfdEndpoint via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAfdEndpoint, AfdEndpointGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAfdEndpoint)
 }
 
 // RunJSONSerializationTestForAfdEndpoint runs a test to see if a specific instance of AfdEndpoint round trips to JSON and back losslessly
-func RunJSONSerializationTestForAfdEndpoint(subject AfdEndpoint) string {
+func RunJSONSerializationTestForAfdEndpoint(t *rapid.T) {
+	subject := AfdEndpointGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AfdEndpoint
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,32 +45,30 @@ func RunJSONSerializationTestForAfdEndpoint(subject AfdEndpoint) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AfdEndpoint instances for property testing - lazily instantiated by AfdEndpointGenerator()
-var afdEndpointGenerator gopter.Gen
+var afdEndpointGenerator *rapid.Generator[AfdEndpoint]
 
 // AfdEndpointGenerator returns a generator of AfdEndpoint instances for property testing.
-func AfdEndpointGenerator() gopter.Gen {
+func AfdEndpointGenerator() *rapid.Generator[AfdEndpoint] {
 	if afdEndpointGenerator != nil {
 		return afdEndpointGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForAfdEndpoint(generators)
-	afdEndpointGenerator = gen.Struct(reflect.TypeOf(AfdEndpoint{}), generators)
+	spec := AfdEndpoint_SpecGenerator()
+	status := AfdEndpoint_STATUSGenerator()
+
+	afdEndpointGenerator = rapid.Custom(func(t *rapid.T) AfdEndpoint {
+		var result AfdEndpoint
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return afdEndpointGenerator
-}
-
-// AddRelatedPropertyGeneratorsForAfdEndpoint is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAfdEndpoint(gens map[string]gopter.Gen) {
-	gens["Spec"] = AfdEndpoint_SpecGenerator()
-	gens["Status"] = AfdEndpoint_STATUSGenerator()
 }
 
 func Test_AfdEndpointOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -90,29 +78,23 @@ func Test_AfdEndpointOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *te
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AfdEndpointOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAfdEndpointOperatorSpec, AfdEndpointOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAfdEndpointOperatorSpec)
 }
 
 // RunJSONSerializationTestForAfdEndpointOperatorSpec runs a test to see if a specific instance of AfdEndpointOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForAfdEndpointOperatorSpec(subject AfdEndpointOperatorSpec) string {
+func RunJSONSerializationTestForAfdEndpointOperatorSpec(t *rapid.T) {
+	subject := AfdEndpointOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AfdEndpointOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -121,24 +103,21 @@ func RunJSONSerializationTestForAfdEndpointOperatorSpec(subject AfdEndpointOpera
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AfdEndpointOperatorSpec instances for property testing - lazily instantiated by
 // AfdEndpointOperatorSpecGenerator()
-var afdEndpointOperatorSpecGenerator gopter.Gen
+var afdEndpointOperatorSpecGenerator *rapid.Generator[AfdEndpointOperatorSpec]
 
 // AfdEndpointOperatorSpecGenerator returns a generator of AfdEndpointOperatorSpec instances for property testing.
-func AfdEndpointOperatorSpecGenerator() gopter.Gen {
+func AfdEndpointOperatorSpecGenerator() *rapid.Generator[AfdEndpointOperatorSpec] {
 	if afdEndpointOperatorSpecGenerator != nil {
 		return afdEndpointOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	afdEndpointOperatorSpecGenerator = gen.Struct(reflect.TypeOf(AfdEndpointOperatorSpec{}), generators)
+	afdEndpointOperatorSpecGenerator = rapid.Just(AfdEndpointOperatorSpec{})
 
 	return afdEndpointOperatorSpecGenerator
 }
@@ -150,29 +129,23 @@ func Test_AfdEndpoint_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AfdEndpoint_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAfdEndpoint_STATUS, AfdEndpoint_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAfdEndpoint_STATUS)
 }
 
 // RunJSONSerializationTestForAfdEndpoint_STATUS runs a test to see if a specific instance of AfdEndpoint_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForAfdEndpoint_STATUS(subject AfdEndpoint_STATUS) string {
+func RunJSONSerializationTestForAfdEndpoint_STATUS(t *rapid.T) {
+	subject := AfdEndpoint_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AfdEndpoint_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -181,57 +154,43 @@ func RunJSONSerializationTestForAfdEndpoint_STATUS(subject AfdEndpoint_STATUS) s
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AfdEndpoint_STATUS instances for property testing - lazily instantiated by AfdEndpoint_STATUSGenerator()
-var afdEndpoint_STATUSGenerator gopter.Gen
+var afdEndpoint_STATUSGenerator *rapid.Generator[AfdEndpoint_STATUS]
 
 // AfdEndpoint_STATUSGenerator returns a generator of AfdEndpoint_STATUS instances for property testing.
-// We first initialize afdEndpoint_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func AfdEndpoint_STATUSGenerator() gopter.Gen {
+func AfdEndpoint_STATUSGenerator() *rapid.Generator[AfdEndpoint_STATUS] {
 	if afdEndpoint_STATUSGenerator != nil {
 		return afdEndpoint_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAfdEndpoint_STATUS(generators)
-	afdEndpoint_STATUSGenerator = gen.Struct(reflect.TypeOf(AfdEndpoint_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAfdEndpoint_STATUS(generators)
-	AddRelatedPropertyGeneratorsForAfdEndpoint_STATUS(generators)
-	afdEndpoint_STATUSGenerator = gen.Struct(reflect.TypeOf(AfdEndpoint_STATUS{}), generators)
+	afdEndpoint_STATUSGenerator = rapid.Custom(func(t *rapid.T) AfdEndpoint_STATUS {
+		var result AfdEndpoint_STATUS
+		result.AutoGeneratedDomainNameLabelScope = ptrString.Draw(t, "AutoGeneratedDomainNameLabelScope")
+		result.DeploymentStatus = ptrString.Draw(t, "DeploymentStatus")
+		result.EnabledState = ptrString.Draw(t, "EnabledState")
+		result.HostName = ptrString.Draw(t, "HostName")
+		result.Id = ptrString.Draw(t, "Id")
+		result.Location = ptrString.Draw(t, "Location")
+		result.Name = ptrString.Draw(t, "Name")
+		result.ProfileName = ptrString.Draw(t, "ProfileName")
+		result.ProvisioningState = ptrString.Draw(t, "ProvisioningState")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.Tags = tags.Draw(t, "Tags")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return afdEndpoint_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAfdEndpoint_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAfdEndpoint_STATUS(gens map[string]gopter.Gen) {
-	gens["AutoGeneratedDomainNameLabelScope"] = gen.PtrOf(gen.AlphaString())
-	gens["DeploymentStatus"] = gen.PtrOf(gen.AlphaString())
-	gens["EnabledState"] = gen.PtrOf(gen.AlphaString())
-	gens["HostName"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProfileName"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForAfdEndpoint_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAfdEndpoint_STATUS(gens map[string]gopter.Gen) {
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_AfdEndpoint_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -241,29 +200,23 @@ func Test_AfdEndpoint_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AfdEndpoint_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAfdEndpoint_Spec, AfdEndpoint_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAfdEndpoint_Spec)
 }
 
 // RunJSONSerializationTestForAfdEndpoint_Spec runs a test to see if a specific instance of AfdEndpoint_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForAfdEndpoint_Spec(subject AfdEndpoint_Spec) string {
+func RunJSONSerializationTestForAfdEndpoint_Spec(t *rapid.T) {
+	subject := AfdEndpoint_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AfdEndpoint_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -272,50 +225,37 @@ func RunJSONSerializationTestForAfdEndpoint_Spec(subject AfdEndpoint_Spec) strin
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AfdEndpoint_Spec instances for property testing - lazily instantiated by AfdEndpoint_SpecGenerator()
-var afdEndpoint_SpecGenerator gopter.Gen
+var afdEndpoint_SpecGenerator *rapid.Generator[AfdEndpoint_Spec]
 
 // AfdEndpoint_SpecGenerator returns a generator of AfdEndpoint_Spec instances for property testing.
-// We first initialize afdEndpoint_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func AfdEndpoint_SpecGenerator() gopter.Gen {
+func AfdEndpoint_SpecGenerator() *rapid.Generator[AfdEndpoint_Spec] {
 	if afdEndpoint_SpecGenerator != nil {
 		return afdEndpoint_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAfdEndpoint_Spec(generators)
-	afdEndpoint_SpecGenerator = gen.Struct(reflect.TypeOf(AfdEndpoint_Spec{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	genString := rapid.String()
+	operatorSpec := rapid.Ptr(AfdEndpointOperatorSpecGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAfdEndpoint_Spec(generators)
-	AddRelatedPropertyGeneratorsForAfdEndpoint_Spec(generators)
-	afdEndpoint_SpecGenerator = gen.Struct(reflect.TypeOf(AfdEndpoint_Spec{}), generators)
+	afdEndpoint_SpecGenerator = rapid.Custom(func(t *rapid.T) AfdEndpoint_Spec {
+		var result AfdEndpoint_Spec
+		result.AutoGeneratedDomainNameLabelScope = ptrString.Draw(t, "AutoGeneratedDomainNameLabelScope")
+		result.AzureName = genString.Draw(t, "AzureName")
+		result.EnabledState = ptrString.Draw(t, "EnabledState")
+		result.Location = ptrString.Draw(t, "Location")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		result.OriginalVersion = genString.Draw(t, "OriginalVersion")
+		result.Tags = tags.Draw(t, "Tags")
+		return result
+	})
 
 	return afdEndpoint_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAfdEndpoint_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAfdEndpoint_Spec(gens map[string]gopter.Gen) {
-	gens["AutoGeneratedDomainNameLabelScope"] = gen.PtrOf(gen.AlphaString())
-	gens["AzureName"] = gen.AlphaString()
-	gens["EnabledState"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForAfdEndpoint_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAfdEndpoint_Spec(gens map[string]gopter.Gen) {
-	gens["OperatorSpec"] = gen.PtrOf(AfdEndpointOperatorSpecGenerator())
 }
