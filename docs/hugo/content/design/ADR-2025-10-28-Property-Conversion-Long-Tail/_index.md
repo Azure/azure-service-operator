@@ -62,6 +62,10 @@ Proposed.
 
 ## Experience Report
 
+The implemented configuration uses `$conversionStrategy: manual` to delegate unsupported property assignments to the existing `augment*` interfaces. For inter-version property bag reads and writes, manual conversion also takes precedence when the generator can produce a conversion: the generated code may compile but fail at runtime when a skipped property returns with a different JSON shape. Direct property assignments and status-to-spec initialization continue to use automatic conversion where available.
+
+ContainerService's `ScaleProfile.Autoscale` uses handwritten augmentation hooks because the preview singleton becomes a list in a later API version, with an intermediate version that omits the property. The hooks accept both historical singleton and list property bag values. When converting a list to the preview, they expose the first entry and retain the remaining entries in the property bag. Edits to the first entry preserve the remainder; clearing the preview field clears the entire list.
+
 ## References
 
 * [Resource Versioning]({{< relref "design/versioning/_index.md" >}})
