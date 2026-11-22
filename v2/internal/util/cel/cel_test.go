@@ -465,7 +465,7 @@ func Test_CompileAndRunAndCheck(t *testing.T) {
 			g.Expect(err).ToNot(HaveOccurred())
 
 			// Test CompileAndRun
-			result, err := evaluator.CompileAndRun(c.expression, c.self, c.secret)
+			result, err := evaluator.CompileAndRun(t.Context(), asocel.NewEvaluationBudget(), c.expression, c.self, c.secret)
 			if c.expectedErr != "" {
 				g.Expect(err).To(MatchError(ContainSubstring(c.expectedErr)))
 				return // Nothing more to assert
