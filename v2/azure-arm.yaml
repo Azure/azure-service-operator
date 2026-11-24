@@ -561,12 +561,17 @@ status:
 #
 # $conversionStrategy: <string>
 #     Specifies a custom conversion strategy to use when converting between API versions.
-#     Only valid on properties which are complex types (i.e. objects) for which attempted automatic 
-#     conversion returns an error.
 #
 #     Valid values are:
 #     - auto - use automatic conversion (default)
 #     - manual - use manually implemented conversion functions
+#
+#     Manual conversion delegates unsupported property assignments to an augmentation hook.
+#     This should be extremely rare, but may be required for properties for which attempted automatic 
+#     conversion returns an error.
+#
+#     Inter-version property bag reads and writes are also delegated, because the stored JSON
+#     shape may differ from the current property type even when automatic conversion is available.
 #
 #     Note that manual implementation of the appropriate augment* interface(s) will be *required* 
 #     to make the generated conversion tests pass.

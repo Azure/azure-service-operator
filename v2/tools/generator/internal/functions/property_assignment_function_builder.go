@@ -235,6 +235,11 @@ func (builder *PropertyAssignmentFunctionBuilder) createWritingEndpoints() conve
 // destinationEndpoints is a set of endpoints that can be written to.
 // conversionContext is the context for the conversion.
 // conversions is a map of property names to conversions that will be populated by this function.
+//
+// Normally an error is returned if an impossible conversion is encountered, but this can be suppressed by specifying
+// a manual conversion strategy for either property in configuration.
+// Storage via PropertyBag still occurs for manual conversions; any implementation of the manual conversion must handle
+// this appropriately.
 func (builder *PropertyAssignmentFunctionBuilder) createConversions(
 	sourceEndpoints conversions.ReadableConversionEndpointSet,
 	destinationEndpoints conversions.WritableConversionEndpointSet,
@@ -249,30 +254,35 @@ func (builder *PropertyAssignmentFunctionBuilder) createConversions(
 		sourceEndpoint *conversions.ReadableConversionEndpoint,
 		destinationEndpoint *conversions.WritableConversionEndpoint,
 	) error {
+		dstName := builder.direction.SelectName(builder.receiverDefinition.Name(), builder.otherDefinition.Name())
+		dstStrategy := conversionContext.PropertyConversionStrategy(
+			dstName,
+			astmodel.PropertyName(destinationEndpoint.Name()),
+		)
+
+		srcName := builder.direction.SelectName(builder.otherDefinition.Name(), builder.receiverDefinition.Name())
+		srcStrategy := conversionContext.PropertyConversionStrategy(
+			srcName,
+			astmodel.PropertyName(sourceEndpoint.Name()),
+		)
+
+		manual := srcStrategy == config.ConversionStrategyManual || dstStrategy == config.ConversionStrategyManual
+		bagAccess := sourceEndpoint.Endpoint().IsBagItem() || destinationEndpoint.Endpoint().IsBagItem()
+		if manual && bagAccess && conversionContext.FunctionBaseName() == conversions.AssignPropertiesMethodPrefix {
+			// A property's stored JSON shape may differ from its current type. Leave
+			// explicitly manual property bag access to the augmentation hook.
+			usedSources.Add(sourceEndpoint.Name())
+			usedDestinations.Add(destinationEndpoint.Name())
+			return nil
+		}
+
 		// Generate a conversion from one endpoint to another
 		conv, err := builder.createConversion(sourceEndpoint, destinationEndpoint, conversionContext)
 		if err != nil {
-			// An error was returned, we can't create a conversion for this pair
-			// We return the error *unless* we have an excluded property
-
-			dstName := builder.direction.SelectName(builder.receiverDefinition.Name(), builder.otherDefinition.Name())
-			dstStrategy := conversionContext.PropertyConversionStrategy(
-				dstName,
-				astmodel.PropertyName(destinationEndpoint.Name()),
-			)
-
-			srcName := builder.direction.SelectName(builder.otherDefinition.Name(), builder.receiverDefinition.Name())
-			srcStrategy := conversionContext.PropertyConversionStrategy(
-				srcName,
-				astmodel.PropertyName(sourceEndpoint.Name()),
-			)
-
-			if srcStrategy == config.ConversionStrategyManual || dstStrategy == config.ConversionStrategyManual {
-				// One of the properties is marked as manual conversion, so we can skip this error
+			if manual {
 				return nil
 			}
 
-			// Otherwise, return the conversion error
 			return eris.Wrapf(
 				err,
 				"creating conversion to %s by %s",
