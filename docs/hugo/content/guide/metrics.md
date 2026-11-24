@@ -180,7 +180,7 @@ is an independent metric. Below are the labels used in ASOv2 metrics:
 ## Visualizing metrics with Grafana
 
 We provide a sample Grafana dashboard so you can monitor ASO without building one from scratch. The dashboard is available at
-[`v2/config/grafana/azure-service-operator.json`](https://github.com/Azure/azure-service-operator/blob/main/v2/config/grafana/azure-service-operator.json)
+[`v2/observability/grafana/dashboards/azure-service-operator.json`](https://github.com/Azure/azure-service-operator/blob/main/v2/observability/grafana/dashboards/azure-service-operator.json)
 and is organised into the following sections:
 
 | Section                         | What it shows                                                                                  |
@@ -204,7 +204,7 @@ and is organised into the following sections:
 1. **Download** the dashboard JSON:
 
     ```bash
-    $ curl --location --output azure-service-operator.json https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/config/grafana/azure-service-operator.json
+    $ curl --location --output azure-service-operator.json https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/observability/grafana/dashboards/azure-service-operator.json
     ```
 
 2. In Grafana, open **Dashboards** > **New** > **Import**, and upload `azure-service-operator.json`.
