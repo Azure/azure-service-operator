@@ -134,15 +134,15 @@ func (in *UserSpec) DeepCopyInto(out *UserSpec) {
 	}
 	if in.DatabasePrivileges != nil {
 		in, out := &in.DatabasePrivileges, &out.DatabasePrivileges
-		*out = make(map[string][]string, len(*in))
+		*out = make(map[string][]DatabasePrivilege, len(*in))
 		for key, val := range *in {
-			var outVal []string
+			var outVal []DatabasePrivilege
 			if val == nil {
 				(*out)[key] = nil
 			} else {
 				inVal := (*in)[key]
 				in, out := &inVal, &outVal
-				*out = make([]string, len(*in))
+				*out = make([]DatabasePrivilege, len(*in))
 				copy(*out, *in)
 			}
 			(*out)[key] = outVal

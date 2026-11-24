@@ -28,14 +28,17 @@ type SQLDatabasePrivilegeDelta struct {
 	DeletedPrivileges set.Set[string]
 }
 
-// NormalizeDatabasePrivileges upper-cases the given privileges, expands ALL (and ALL PRIVILEGES)
-// into the individual database privileges, maps TEMP to TEMPORARY, and returns an error for anything
-// that is not a database privilege. PostgreSQL reports the expanded form when reading privileges back,
+// maxIdentifierLength is PostgreSQL's default max_identifier_length in bytes. PostgreSQL silently truncates
+// longer identifiers, even quoted ones, so a longer database name could grant on a different database.
+const maxIdentifierLength = 63
+
+// NormalizeDatabasePrivileges expands ALL (and ALL PRIVILEGES) into the individual database privileges,
+// maps TEMP to TEMPORARY, and returns an error for anything that is not an upper case database privilege. PostgreSQL reports the expanded form when reading privileges back,
 // so comparing normalized sets avoids granting or revoking on every reconcile.
 func NormalizeDatabasePrivileges(privileges []string) (set.Set[string], error) {
 	result := set.Make[string]()
 	for _, p := range privileges {
-		switch upper := strings.ToUpper(strings.TrimSpace(p)); upper {
+		switch p {
 		case "ALL", "ALL PRIVILEGES":
 			for _, priv := range databasePrivileges {
 				result.Add(priv)
@@ -43,7 +46,7 @@ func NormalizeDatabasePrivileges(privileges []string) (set.Set[string], error) {
 		case "TEMP":
 			result.Add("TEMPORARY")
 		case "CONNECT", "CREATE", "TEMPORARY":
-			result.Add(upper)
+			result.Add(p)
 		default:
 			return nil, eris.Errorf("%q is not a database privilege (expected CONNECT, CREATE, TEMPORARY or ALL)", p)
 		}
@@ -77,7 +80,8 @@ func DiffCurrentAndExpectedDatabasePrivileges(currentPrivileges set.Set[string],
 	return result
 }
 
-// ValidateDatabasePrivileges returns an error if any of the given privileges is not a database privilege.
+// ValidateDatabasePrivileges returns an error if any of the given privileges is not a database privilege,
+// or any database name is longer than PostgreSQL's identifier limit.
 // It runs no SQL, so callers can reject a bad spec before changing anything on the server.
 func ValidateDatabasePrivileges(dbPrivs map[string][]string) error {
 	_, err := normalizeDatabasePrivilegeMap(dbPrivs)
@@ -88,6 +92,12 @@ func normalizeDatabasePrivilegeMap(dbPrivs map[string][]string) (map[string]set.
 	result := make(map[string]set.Set[string], len(dbPrivs))
 	var errs []error
 	for _, database := range slices.Sorted(maps.Keys(dbPrivs)) {
+		// Reject rather than truncate: PostgreSQL would silently target a different database.
+		// The limit is in bytes, not characters.
+		if len(database) > maxIdentifierLength {
+			errs = append(errs, eris.Errorf("database name %q is %d bytes, longer than the PostgreSQL limit of %d", database, len(database), maxIdentifierLength))
+			continue
+		}
 		normalized, err := NormalizeDatabasePrivileges(dbPrivs[database])
 		if err != nil {
 			errs = append(errs, eris.Wrapf(err, "database %s", database))
@@ -187,7 +197,7 @@ func PlanDatabasePrivileges(
 			continue
 		}
 
-		delta := DiffCurrentAndExpectedDatabasePrivileges(orEmpty(current[database]), orEmpty(desired[database]))
+		delta := DiffCurrentAndExpectedDatabasePrivileges(current[database], desired[database])
 		if len(delta.AddedPrivileges) > 0 || len(delta.DeletedPrivileges) > 0 {
 			result[database] = delta
 		}
@@ -291,14 +301,6 @@ func unionKeys[V any](maps ...map[string]V) set.Set[string] {
 	}
 
 	return result
-}
-
-func orEmpty(s set.Set[string]) set.Set[string] {
-	if s == nil {
-		return set.Make[string]()
-	}
-
-	return s
 }
 
 func grantDatabasePrivileges(ctx context.Context, db *sql.DB, database string, user string, privileges set.Set[string]) error {

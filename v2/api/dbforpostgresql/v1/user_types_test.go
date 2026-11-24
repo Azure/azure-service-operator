@@ -17,21 +17,25 @@ func TestUserSpec_DatabasePrivileges_Serialization(t *testing.T) {
 
 	cases := []struct {
 		name               string
-		databasePrivileges map[string][]string
+		databasePrivileges map[string][]DatabasePrivilege
 		expectField        bool
-	}{{
-		name:               "Omitted map is left out",
-		databasePrivileges: nil,
-		expectField:        false,
-	}, {
-		name:               "Empty map is kept",
-		databasePrivileges: map[string][]string{},
-		expectField:        true,
-	}, {
-		name:               "Populated map is kept",
-		databasePrivileges: map[string][]string{"app": {"CONNECT"}},
-		expectField:        true,
-	}}
+	}{
+		{
+			name:               "Omitted map is left out",
+			databasePrivileges: nil,
+			expectField:        false,
+		},
+		{
+			name:               "Empty map is kept",
+			databasePrivileges: map[string][]DatabasePrivilege{},
+			expectField:        true,
+		},
+		{
+			name:               "Populated map is kept",
+			databasePrivileges: map[string][]DatabasePrivilege{"app": {"CONNECT"}},
+			expectField:        true,
+		},
+	}
 
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {

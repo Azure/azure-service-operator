@@ -81,8 +81,10 @@ func (r *PostgreSQLUserReconciler) CreateOrUpdate(
 	// Augment Log
 	log = log.WithValues("azureName", user.AzureName())
 
+	databasePrivileges := toPrivilegeStrings(user.Spec.DatabasePrivileges)
+
 	// Reject invalid database privileges before any SQL runs, so a bad spec never leaves a partially updated user
-	err = postgresqlutil.ValidateDatabasePrivileges(user.Spec.DatabasePrivileges)
+	err = postgresqlutil.ValidateDatabasePrivileges(databasePrivileges)
 	if err != nil {
 		err = eris.Wrap(err, "invalid .spec.databasePrivileges")
 		return ctrl.Result{}, conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityError, conditions.ReasonFailed)
@@ -145,7 +147,7 @@ func (r *PostgreSQLUserReconciler) CreateOrUpdate(
 	// Ensure that the database privileges are set. Users that don't specify databasePrivileges keep
 	// whatever database privileges they already have.
 	if user.Spec.DatabasePrivileges != nil {
-		err = postgresqlutil.ReconcileUserDatabasePrivileges(ctx, db, username, user.Spec.DatabasePrivileges)
+		err = postgresqlutil.ReconcileUserDatabasePrivileges(ctx, db, username, databasePrivileges)
 		if err != nil {
 			return ctrl.Result{}, eris.Wrap(err, "ensuring database privileges")
 		}
@@ -311,4 +313,21 @@ func (r *PostgreSQLUserReconciler) connectToDB(ctx context.Context, _ logr.Logge
 	}
 
 	return db, nil
+}
+
+func toPrivilegeStrings(in map[string][]asopostgresql.DatabasePrivilege) map[string][]string {
+	if in == nil {
+		return nil
+	}
+
+	result := make(map[string][]string, len(in))
+	for database, privileges := range in {
+		strs := make([]string, len(privileges))
+		for i, p := range privileges {
+			strs[i] = string(p)
+		}
+		result[database] = strs
+	}
+
+	return result
 }

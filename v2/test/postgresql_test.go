@@ -207,7 +207,7 @@ func PostgreSQL_User_Helpers(tc *testcommon.KubePerTestContext, fqdn string, adm
 	tc.Expect(dbPrivileges).To(Equal(map[string]set.Set[string]{dbName: set.Make("CONNECT", "CREATE", "TEMPORARY")}))
 
 	// Narrow database privileges
-	tc.Expect(postgresqlutil.ReconcileUserDatabasePrivileges(ctx, db, username, map[string][]string{dbName: {"connect"}})).To(Succeed())
+	tc.Expect(postgresqlutil.ReconcileUserDatabasePrivileges(ctx, db, username, map[string][]string{dbName: {"CONNECT"}})).To(Succeed())
 	dbPrivileges, err = postgresqlutil.GetUserDatabasePrivileges(ctx, db, username)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(dbPrivileges).To(Equal(map[string]set.Set[string]{dbName: set.Make("CONNECT")}))
