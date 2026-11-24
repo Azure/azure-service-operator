@@ -14,12 +14,14 @@ import (
 	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20230131"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 func Test_BotService_BotService_20220915_CRUD(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
 	rg := tc.CreateTestResourceGroupAndWait()
+	configMapName := "botidentity-settings"
 
 	// Azure no longer allows creating multitenant bots, so the bot runs as a user assigned managed identity
 	mi := &managedidentity.UserAssignedIdentity{
@@ -27,11 +29,20 @@ func Test_BotService_BotService_20220915_CRUD(t *testing.T) {
 		Spec: managedidentity.UserAssignedIdentity_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
+			OperatorSpec: &managedidentity.UserAssignedIdentityOperatorSpec{
+				ConfigMaps: &managedidentity.UserAssignedIdentityOperatorConfigMaps{
+					ClientId: &genruntime.ConfigMapDestination{
+						Name: configMapName,
+						Key:  "clientId",
+					},
+					TenantId: &genruntime.ConfigMapDestination{
+						Name: configMapName,
+						Key:  "tenantId",
+					},
+				},
+			},
 		},
 	}
-	tc.CreateResourceAndWait(mi)
-	tc.Expect(mi.Status.ClientId).ToNot(BeNil())
-	tc.Expect(mi.Status.TenantId).ToNot(BeNil())
 
 	bot := &botservice.BotService{
 		ObjectMeta: tc.MakeObjectMeta("bot"),
@@ -43,18 +54,31 @@ func Test_BotService_BotService_20220915_CRUD(t *testing.T) {
 				Name: to.Ptr(botservice.SkuName_F0),
 			},
 			Properties: &botservice.BotProperties{
-				DisplayName:                to.Ptr("ASO Test Bot"),
-				Endpoint:                   to.Ptr("https://example.com/api/messages"),
-				MsaAppId:                   mi.Status.ClientId,
-				MsaAppType:                 to.Ptr(botservice.BotProperties_MsaAppType_UserAssignedMSI),
-				MsaAppTenantId:             mi.Status.TenantId,
+				DisplayName: to.Ptr("ASO Test Bot"),
+				Endpoint:    to.Ptr("https://example.com/api/messages"),
+				MsaAppIdFromConfig: &genruntime.ConfigMapReference{
+					Name: configMapName,
+					Key:  "clientId",
+				},
+				MsaAppType: to.Ptr(botservice.BotProperties_MsaAppType_UserAssignedMSI),
+				MsaAppTenantIdFromConfig: &genruntime.ConfigMapReference{
+					Name: configMapName,
+					Key:  "tenantId",
+				},
 				MsaAppMSIResourceReference: tc.MakeReferenceFromResource(mi),
 			},
 		},
 	}
 
-	tc.CreateResourcesAndWait(bot)
+	tc.CreateResourcesAndWait(mi, bot)
 
+	tc.Expect(mi.Status.ClientId).ToNot(BeNil())
+	tc.Expect(mi.Status.TenantId).ToNot(BeNil())
+	tc.ExpectConfigMapHasKeysAndValues(
+		configMapName,
+		"clientId", *mi.Status.ClientId,
+		"tenantId", *mi.Status.TenantId,
+	)
 	tc.Expect(bot.Status.Id).ToNot(BeNil())
 	tc.Expect(bot.Status.Properties).ToNot(BeNil())
 	tc.Expect(*bot.Status.Properties.DisplayName).To(Equal("ASO Test Bot"))
