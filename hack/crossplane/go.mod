@@ -5,7 +5,7 @@ go 1.26.0
 require (
 	github.com/crossplane/crossplane-runtime v1.20.12
 	k8s.io/apimachinery v0.37.2
-	sigs.k8s.io/controller-runtime v0.25.2
+	sigs.k8s.io/controller-runtime v0.25.3
 )
 
 require (
