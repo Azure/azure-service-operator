@@ -10,14 +10,11 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
+// Test_AfdOriginGroup_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of AfdOriginGroup round trips to the hub storage version and back losslessly
 func Test_AfdOriginGroup_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -25,47 +22,37 @@ func Test_AfdOriginGroup_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AfdOriginGroup to hub returns original",
-		prop.ForAll(RunResourceConversionTestForAfdOriginGroup, AfdOriginGroupGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+	rapid.Check(t, func(t *rapid.T) {
+		subject := AfdOriginGroupGenerator().Draw(t, "subject")
+		// Copy subject to make sure conversion doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Convert to our hub version
+		var hub storage.AfdOriginGroup
+		err := copied.ConvertTo(&hub)
+		if err != nil {
+			t.Fatal("ConvertTo: " + err.Error())
+		}
+
+		// Convert from our hub version
+		var actual AfdOriginGroup
+		err = actual.ConvertFrom(&hub)
+		if err != nil {
+			t.Fatal("ConvertFrom: " + err.Error())
+		}
+
+		// Compare actual with what we started with
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
-// RunResourceConversionTestForAfdOriginGroup tests if a specific instance of AfdOriginGroup round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForAfdOriginGroup(subject AfdOriginGroup) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub storage.AfdOriginGroup
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual AfdOriginGroup
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
+// Test_AfdOriginGroup_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of AfdOriginGroup can be assigned to storage and back losslessly
 func Test_AfdOriginGroup_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -73,44 +60,34 @@ func Test_AfdOriginGroup_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AfdOriginGroup to AfdOriginGroup via AssignProperties_To_AfdOriginGroup & AssignProperties_From_AfdOriginGroup returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAfdOriginGroup, AfdOriginGroupGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := AfdOriginGroupGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForAfdOriginGroup tests if a specific instance of AfdOriginGroup can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForAfdOriginGroup(subject AfdOriginGroup) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.AfdOriginGroup
+		err := copied.AssignProperties_To_AfdOriginGroup(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AfdOriginGroup
-	err := copied.AssignProperties_To_AfdOriginGroup(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual AfdOriginGroup
+		err = actual.AssignProperties_From_AfdOriginGroup(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AfdOriginGroup
-	err = actual.AssignProperties_From_AfdOriginGroup(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_AfdOriginGroup_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -120,29 +97,23 @@ func Test_AfdOriginGroup_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AfdOriginGroup via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAfdOriginGroup, AfdOriginGroupGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAfdOriginGroup)
 }
 
 // RunJSONSerializationTestForAfdOriginGroup runs a test to see if a specific instance of AfdOriginGroup round trips to JSON and back losslessly
-func RunJSONSerializationTestForAfdOriginGroup(subject AfdOriginGroup) string {
+func RunJSONSerializationTestForAfdOriginGroup(t *rapid.T) {
+	subject := AfdOriginGroupGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AfdOriginGroup
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -151,34 +122,33 @@ func RunJSONSerializationTestForAfdOriginGroup(subject AfdOriginGroup) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AfdOriginGroup instances for property testing - lazily instantiated by AfdOriginGroupGenerator()
-var afdOriginGroupGenerator gopter.Gen
+var afdOriginGroupGenerator *rapid.Generator[AfdOriginGroup]
 
 // AfdOriginGroupGenerator returns a generator of AfdOriginGroup instances for property testing.
-func AfdOriginGroupGenerator() gopter.Gen {
+func AfdOriginGroupGenerator() *rapid.Generator[AfdOriginGroup] {
 	if afdOriginGroupGenerator != nil {
 		return afdOriginGroupGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForAfdOriginGroup(generators)
-	afdOriginGroupGenerator = gen.Struct(reflect.TypeOf(AfdOriginGroup{}), generators)
+	spec := AfdOriginGroup_SpecGenerator()
+	status := AfdOriginGroup_STATUSGenerator()
+
+	afdOriginGroupGenerator = rapid.Custom(func(t *rapid.T) AfdOriginGroup {
+		var result AfdOriginGroup
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return afdOriginGroupGenerator
 }
 
-// AddRelatedPropertyGeneratorsForAfdOriginGroup is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAfdOriginGroup(gens map[string]gopter.Gen) {
-	gens["Spec"] = AfdOriginGroup_SpecGenerator()
-	gens["Status"] = AfdOriginGroup_STATUSGenerator()
-}
-
+// Test_AfdOriginGroupOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of AfdOriginGroupOperatorSpec can be assigned to storage and back losslessly
 func Test_AfdOriginGroupOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -186,44 +156,34 @@ func Test_AfdOriginGroupOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLo
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AfdOriginGroupOperatorSpec to AfdOriginGroupOperatorSpec via AssignProperties_To_AfdOriginGroupOperatorSpec & AssignProperties_From_AfdOriginGroupOperatorSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAfdOriginGroupOperatorSpec, AfdOriginGroupOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := AfdOriginGroupOperatorSpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForAfdOriginGroupOperatorSpec tests if a specific instance of AfdOriginGroupOperatorSpec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForAfdOriginGroupOperatorSpec(subject AfdOriginGroupOperatorSpec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.AfdOriginGroupOperatorSpec
+		err := copied.AssignProperties_To_AfdOriginGroupOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AfdOriginGroupOperatorSpec
-	err := copied.AssignProperties_To_AfdOriginGroupOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual AfdOriginGroupOperatorSpec
+		err = actual.AssignProperties_From_AfdOriginGroupOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AfdOriginGroupOperatorSpec
-	err = actual.AssignProperties_From_AfdOriginGroupOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_AfdOriginGroupOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -233,29 +193,23 @@ func Test_AfdOriginGroupOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AfdOriginGroupOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAfdOriginGroupOperatorSpec, AfdOriginGroupOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAfdOriginGroupOperatorSpec)
 }
 
 // RunJSONSerializationTestForAfdOriginGroupOperatorSpec runs a test to see if a specific instance of AfdOriginGroupOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForAfdOriginGroupOperatorSpec(subject AfdOriginGroupOperatorSpec) string {
+func RunJSONSerializationTestForAfdOriginGroupOperatorSpec(t *rapid.T) {
+	subject := AfdOriginGroupOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AfdOriginGroupOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -264,28 +218,26 @@ func RunJSONSerializationTestForAfdOriginGroupOperatorSpec(subject AfdOriginGrou
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AfdOriginGroupOperatorSpec instances for property testing - lazily instantiated by
 // AfdOriginGroupOperatorSpecGenerator()
-var afdOriginGroupOperatorSpecGenerator gopter.Gen
+var afdOriginGroupOperatorSpecGenerator *rapid.Generator[AfdOriginGroupOperatorSpec]
 
 // AfdOriginGroupOperatorSpecGenerator returns a generator of AfdOriginGroupOperatorSpec instances for property testing.
-func AfdOriginGroupOperatorSpecGenerator() gopter.Gen {
+func AfdOriginGroupOperatorSpecGenerator() *rapid.Generator[AfdOriginGroupOperatorSpec] {
 	if afdOriginGroupOperatorSpecGenerator != nil {
 		return afdOriginGroupOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	afdOriginGroupOperatorSpecGenerator = gen.Struct(reflect.TypeOf(AfdOriginGroupOperatorSpec{}), generators)
+	afdOriginGroupOperatorSpecGenerator = rapid.Just(AfdOriginGroupOperatorSpec{})
 
 	return afdOriginGroupOperatorSpecGenerator
 }
 
+// Test_AfdOriginGroup_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of AfdOriginGroup_STATUS can be assigned to storage and back losslessly
 func Test_AfdOriginGroup_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -293,44 +245,34 @@ func Test_AfdOriginGroup_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AfdOriginGroup_STATUS to AfdOriginGroup_STATUS via AssignProperties_To_AfdOriginGroup_STATUS & AssignProperties_From_AfdOriginGroup_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAfdOriginGroup_STATUS, AfdOriginGroup_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := AfdOriginGroup_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForAfdOriginGroup_STATUS tests if a specific instance of AfdOriginGroup_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForAfdOriginGroup_STATUS(subject AfdOriginGroup_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.AfdOriginGroup_STATUS
+		err := copied.AssignProperties_To_AfdOriginGroup_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AfdOriginGroup_STATUS
-	err := copied.AssignProperties_To_AfdOriginGroup_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual AfdOriginGroup_STATUS
+		err = actual.AssignProperties_From_AfdOriginGroup_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AfdOriginGroup_STATUS
-	err = actual.AssignProperties_From_AfdOriginGroup_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_AfdOriginGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -340,29 +282,23 @@ func Test_AfdOriginGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AfdOriginGroup_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAfdOriginGroup_STATUS, AfdOriginGroup_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAfdOriginGroup_STATUS)
 }
 
 // RunJSONSerializationTestForAfdOriginGroup_STATUS runs a test to see if a specific instance of AfdOriginGroup_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForAfdOriginGroup_STATUS(subject AfdOriginGroup_STATUS) string {
+func RunJSONSerializationTestForAfdOriginGroup_STATUS(t *rapid.T) {
+	subject := AfdOriginGroup_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AfdOriginGroup_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -371,57 +307,46 @@ func RunJSONSerializationTestForAfdOriginGroup_STATUS(subject AfdOriginGroup_STA
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AfdOriginGroup_STATUS instances for property testing - lazily instantiated by
 // AfdOriginGroup_STATUSGenerator()
-var afdOriginGroup_STATUSGenerator gopter.Gen
+var afdOriginGroup_STATUSGenerator *rapid.Generator[AfdOriginGroup_STATUS]
 
 // AfdOriginGroup_STATUSGenerator returns a generator of AfdOriginGroup_STATUS instances for property testing.
-// We first initialize afdOriginGroup_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func AfdOriginGroup_STATUSGenerator() gopter.Gen {
+func AfdOriginGroup_STATUSGenerator() *rapid.Generator[AfdOriginGroup_STATUS] {
 	if afdOriginGroup_STATUSGenerator != nil {
 		return afdOriginGroup_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAfdOriginGroup_STATUS(generators)
-	afdOriginGroup_STATUSGenerator = gen.Struct(reflect.TypeOf(AfdOriginGroup_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	healthProbeSettings := rapid.Ptr(HealthProbeParameters_STATUSGenerator(), true)
+	loadBalancingSettings := rapid.Ptr(LoadBalancingSettingsParameters_STATUSGenerator(), true)
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
+	trafficRestorationTimeToHealedOrNewEndpointsInMinutes := rapid.Ptr(rapid.Int(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAfdOriginGroup_STATUS(generators)
-	AddRelatedPropertyGeneratorsForAfdOriginGroup_STATUS(generators)
-	afdOriginGroup_STATUSGenerator = gen.Struct(reflect.TypeOf(AfdOriginGroup_STATUS{}), generators)
+	afdOriginGroup_STATUSGenerator = rapid.Custom(func(t *rapid.T) AfdOriginGroup_STATUS {
+		var result AfdOriginGroup_STATUS
+		result.DeploymentStatus = ptrString.Draw(t, "DeploymentStatus")
+		result.HealthProbeSettings = healthProbeSettings.Draw(t, "HealthProbeSettings")
+		result.Id = ptrString.Draw(t, "Id")
+		result.LoadBalancingSettings = loadBalancingSettings.Draw(t, "LoadBalancingSettings")
+		result.Name = ptrString.Draw(t, "Name")
+		result.ProfileName = ptrString.Draw(t, "ProfileName")
+		result.ProvisioningState = ptrString.Draw(t, "ProvisioningState")
+		result.SessionAffinityState = ptrString.Draw(t, "SessionAffinityState")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = trafficRestorationTimeToHealedOrNewEndpointsInMinutes.Draw(t, "TrafficRestorationTimeToHealedOrNewEndpointsInMinutes")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return afdOriginGroup_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAfdOriginGroup_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAfdOriginGroup_STATUS(gens map[string]gopter.Gen) {
-	gens["DeploymentStatus"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProfileName"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["SessionAffinityState"] = gen.PtrOf(gen.AlphaString())
-	gens["TrafficRestorationTimeToHealedOrNewEndpointsInMinutes"] = gen.PtrOf(gen.Int())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForAfdOriginGroup_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAfdOriginGroup_STATUS(gens map[string]gopter.Gen) {
-	gens["HealthProbeSettings"] = gen.PtrOf(HealthProbeParameters_STATUSGenerator())
-	gens["LoadBalancingSettings"] = gen.PtrOf(LoadBalancingSettingsParameters_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
-}
-
+// Test_AfdOriginGroup_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of AfdOriginGroup_Spec can be assigned to storage and back losslessly
 func Test_AfdOriginGroup_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -429,44 +354,34 @@ func Test_AfdOriginGroup_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AfdOriginGroup_Spec to AfdOriginGroup_Spec via AssignProperties_To_AfdOriginGroup_Spec & AssignProperties_From_AfdOriginGroup_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAfdOriginGroup_Spec, AfdOriginGroup_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := AfdOriginGroup_SpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForAfdOriginGroup_Spec tests if a specific instance of AfdOriginGroup_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForAfdOriginGroup_Spec(subject AfdOriginGroup_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.AfdOriginGroup_Spec
+		err := copied.AssignProperties_To_AfdOriginGroup_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AfdOriginGroup_Spec
-	err := copied.AssignProperties_To_AfdOriginGroup_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual AfdOriginGroup_Spec
+		err = actual.AssignProperties_From_AfdOriginGroup_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AfdOriginGroup_Spec
-	err = actual.AssignProperties_From_AfdOriginGroup_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_AfdOriginGroup_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -476,29 +391,23 @@ func Test_AfdOriginGroup_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AfdOriginGroup_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAfdOriginGroup_Spec, AfdOriginGroup_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAfdOriginGroup_Spec)
 }
 
 // RunJSONSerializationTestForAfdOriginGroup_Spec runs a test to see if a specific instance of AfdOriginGroup_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForAfdOriginGroup_Spec(subject AfdOriginGroup_Spec) string {
+func RunJSONSerializationTestForAfdOriginGroup_Spec(t *rapid.T) {
+	subject := AfdOriginGroup_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AfdOriginGroup_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -507,53 +416,43 @@ func RunJSONSerializationTestForAfdOriginGroup_Spec(subject AfdOriginGroup_Spec)
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AfdOriginGroup_Spec instances for property testing - lazily instantiated by
 // AfdOriginGroup_SpecGenerator()
-var afdOriginGroup_SpecGenerator gopter.Gen
+var afdOriginGroup_SpecGenerator *rapid.Generator[AfdOriginGroup_Spec]
 
 // AfdOriginGroup_SpecGenerator returns a generator of AfdOriginGroup_Spec instances for property testing.
-// We first initialize afdOriginGroup_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func AfdOriginGroup_SpecGenerator() gopter.Gen {
+func AfdOriginGroup_SpecGenerator() *rapid.Generator[AfdOriginGroup_Spec] {
 	if afdOriginGroup_SpecGenerator != nil {
 		return afdOriginGroup_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAfdOriginGroup_Spec(generators)
-	afdOriginGroup_SpecGenerator = gen.Struct(reflect.TypeOf(AfdOriginGroup_Spec{}), generators)
+	genString := rapid.String()
+	healthProbeSettings := rapid.Ptr(HealthProbeParametersGenerator(), true)
+	loadBalancingSettings := rapid.Ptr(LoadBalancingSettingsParametersGenerator(), true)
+	operatorSpec := rapid.Ptr(AfdOriginGroupOperatorSpecGenerator(), true)
+	sessionAffinityState := rapid.Ptr(rapid.String(), true)
+	trafficRestorationTimeToHealedOrNewEndpointsInMinutes := rapid.Ptr(rapid.Int(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAfdOriginGroup_Spec(generators)
-	AddRelatedPropertyGeneratorsForAfdOriginGroup_Spec(generators)
-	afdOriginGroup_SpecGenerator = gen.Struct(reflect.TypeOf(AfdOriginGroup_Spec{}), generators)
+	afdOriginGroup_SpecGenerator = rapid.Custom(func(t *rapid.T) AfdOriginGroup_Spec {
+		var result AfdOriginGroup_Spec
+		result.AzureName = genString.Draw(t, "AzureName")
+		result.HealthProbeSettings = healthProbeSettings.Draw(t, "HealthProbeSettings")
+		result.LoadBalancingSettings = loadBalancingSettings.Draw(t, "LoadBalancingSettings")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		result.OriginalVersion = genString.Draw(t, "OriginalVersion")
+		result.SessionAffinityState = sessionAffinityState.Draw(t, "SessionAffinityState")
+		result.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = trafficRestorationTimeToHealedOrNewEndpointsInMinutes.Draw(t, "TrafficRestorationTimeToHealedOrNewEndpointsInMinutes")
+		return result
+	})
 
 	return afdOriginGroup_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAfdOriginGroup_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAfdOriginGroup_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["SessionAffinityState"] = gen.PtrOf(gen.AlphaString())
-	gens["TrafficRestorationTimeToHealedOrNewEndpointsInMinutes"] = gen.PtrOf(gen.Int())
-}
-
-// AddRelatedPropertyGeneratorsForAfdOriginGroup_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAfdOriginGroup_Spec(gens map[string]gopter.Gen) {
-	gens["HealthProbeSettings"] = gen.PtrOf(HealthProbeParametersGenerator())
-	gens["LoadBalancingSettings"] = gen.PtrOf(LoadBalancingSettingsParametersGenerator())
-	gens["OperatorSpec"] = gen.PtrOf(AfdOriginGroupOperatorSpecGenerator())
-}
-
+// Test_HealthProbeParameters_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of HealthProbeParameters can be assigned to storage and back losslessly
 func Test_HealthProbeParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -561,44 +460,34 @@ func Test_HealthProbeParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from HealthProbeParameters to HealthProbeParameters via AssignProperties_To_HealthProbeParameters & AssignProperties_From_HealthProbeParameters returns original",
-		prop.ForAll(RunPropertyAssignmentTestForHealthProbeParameters, HealthProbeParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := HealthProbeParametersGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForHealthProbeParameters tests if a specific instance of HealthProbeParameters can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForHealthProbeParameters(subject HealthProbeParameters) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.HealthProbeParameters
+		err := copied.AssignProperties_To_HealthProbeParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.HealthProbeParameters
-	err := copied.AssignProperties_To_HealthProbeParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual HealthProbeParameters
+		err = actual.AssignProperties_From_HealthProbeParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual HealthProbeParameters
-	err = actual.AssignProperties_From_HealthProbeParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_HealthProbeParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -608,29 +497,23 @@ func Test_HealthProbeParameters_WhenSerializedToJson_DeserializesAsEqual(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of HealthProbeParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForHealthProbeParameters, HealthProbeParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForHealthProbeParameters)
 }
 
 // RunJSONSerializationTestForHealthProbeParameters runs a test to see if a specific instance of HealthProbeParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForHealthProbeParameters(subject HealthProbeParameters) string {
+func RunJSONSerializationTestForHealthProbeParameters(t *rapid.T) {
+	subject := HealthProbeParametersGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual HealthProbeParameters
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -639,37 +522,36 @@ func RunJSONSerializationTestForHealthProbeParameters(subject HealthProbeParamet
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of HealthProbeParameters instances for property testing - lazily instantiated by
 // HealthProbeParametersGenerator()
-var healthProbeParametersGenerator gopter.Gen
+var healthProbeParametersGenerator *rapid.Generator[HealthProbeParameters]
 
 // HealthProbeParametersGenerator returns a generator of HealthProbeParameters instances for property testing.
-func HealthProbeParametersGenerator() gopter.Gen {
+func HealthProbeParametersGenerator() *rapid.Generator[HealthProbeParameters] {
 	if healthProbeParametersGenerator != nil {
 		return healthProbeParametersGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForHealthProbeParameters(generators)
-	healthProbeParametersGenerator = gen.Struct(reflect.TypeOf(HealthProbeParameters{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	probeIntervalInSeconds := rapid.Ptr(rapid.Int(), true)
+
+	healthProbeParametersGenerator = rapid.Custom(func(t *rapid.T) HealthProbeParameters {
+		var result HealthProbeParameters
+		result.ProbeIntervalInSeconds = probeIntervalInSeconds.Draw(t, "ProbeIntervalInSeconds")
+		result.ProbePath = ptrString.Draw(t, "ProbePath")
+		result.ProbeProtocol = ptrString.Draw(t, "ProbeProtocol")
+		result.ProbeRequestType = ptrString.Draw(t, "ProbeRequestType")
+		return result
+	})
 
 	return healthProbeParametersGenerator
 }
 
-// AddIndependentPropertyGeneratorsForHealthProbeParameters is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForHealthProbeParameters(gens map[string]gopter.Gen) {
-	gens["ProbeIntervalInSeconds"] = gen.PtrOf(gen.Int())
-	gens["ProbePath"] = gen.PtrOf(gen.AlphaString())
-	gens["ProbeProtocol"] = gen.PtrOf(gen.AlphaString())
-	gens["ProbeRequestType"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_HealthProbeParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of HealthProbeParameters_STATUS can be assigned to storage and back losslessly
 func Test_HealthProbeParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -677,44 +559,34 @@ func Test_HealthProbeParameters_STATUS_WhenPropertiesConverted_RoundTripsWithout
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from HealthProbeParameters_STATUS to HealthProbeParameters_STATUS via AssignProperties_To_HealthProbeParameters_STATUS & AssignProperties_From_HealthProbeParameters_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForHealthProbeParameters_STATUS, HealthProbeParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := HealthProbeParameters_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForHealthProbeParameters_STATUS tests if a specific instance of HealthProbeParameters_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForHealthProbeParameters_STATUS(subject HealthProbeParameters_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.HealthProbeParameters_STATUS
+		err := copied.AssignProperties_To_HealthProbeParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.HealthProbeParameters_STATUS
-	err := copied.AssignProperties_To_HealthProbeParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual HealthProbeParameters_STATUS
+		err = actual.AssignProperties_From_HealthProbeParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual HealthProbeParameters_STATUS
-	err = actual.AssignProperties_From_HealthProbeParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_HealthProbeParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -724,29 +596,23 @@ func Test_HealthProbeParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of HealthProbeParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForHealthProbeParameters_STATUS, HealthProbeParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForHealthProbeParameters_STATUS)
 }
 
 // RunJSONSerializationTestForHealthProbeParameters_STATUS runs a test to see if a specific instance of HealthProbeParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForHealthProbeParameters_STATUS(subject HealthProbeParameters_STATUS) string {
+func RunJSONSerializationTestForHealthProbeParameters_STATUS(t *rapid.T) {
+	subject := HealthProbeParameters_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual HealthProbeParameters_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -755,37 +621,36 @@ func RunJSONSerializationTestForHealthProbeParameters_STATUS(subject HealthProbe
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of HealthProbeParameters_STATUS instances for property testing - lazily instantiated by
 // HealthProbeParameters_STATUSGenerator()
-var healthProbeParameters_STATUSGenerator gopter.Gen
+var healthProbeParameters_STATUSGenerator *rapid.Generator[HealthProbeParameters_STATUS]
 
 // HealthProbeParameters_STATUSGenerator returns a generator of HealthProbeParameters_STATUS instances for property testing.
-func HealthProbeParameters_STATUSGenerator() gopter.Gen {
+func HealthProbeParameters_STATUSGenerator() *rapid.Generator[HealthProbeParameters_STATUS] {
 	if healthProbeParameters_STATUSGenerator != nil {
 		return healthProbeParameters_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForHealthProbeParameters_STATUS(generators)
-	healthProbeParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(HealthProbeParameters_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	probeIntervalInSeconds := rapid.Ptr(rapid.Int(), true)
+
+	healthProbeParameters_STATUSGenerator = rapid.Custom(func(t *rapid.T) HealthProbeParameters_STATUS {
+		var result HealthProbeParameters_STATUS
+		result.ProbeIntervalInSeconds = probeIntervalInSeconds.Draw(t, "ProbeIntervalInSeconds")
+		result.ProbePath = ptrString.Draw(t, "ProbePath")
+		result.ProbeProtocol = ptrString.Draw(t, "ProbeProtocol")
+		result.ProbeRequestType = ptrString.Draw(t, "ProbeRequestType")
+		return result
+	})
 
 	return healthProbeParameters_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForHealthProbeParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForHealthProbeParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["ProbeIntervalInSeconds"] = gen.PtrOf(gen.Int())
-	gens["ProbePath"] = gen.PtrOf(gen.AlphaString())
-	gens["ProbeProtocol"] = gen.PtrOf(gen.AlphaString())
-	gens["ProbeRequestType"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_LoadBalancingSettingsParameters_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of LoadBalancingSettingsParameters can be assigned to storage and back losslessly
 func Test_LoadBalancingSettingsParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -793,44 +658,34 @@ func Test_LoadBalancingSettingsParameters_WhenPropertiesConverted_RoundTripsWith
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from LoadBalancingSettingsParameters to LoadBalancingSettingsParameters via AssignProperties_To_LoadBalancingSettingsParameters & AssignProperties_From_LoadBalancingSettingsParameters returns original",
-		prop.ForAll(RunPropertyAssignmentTestForLoadBalancingSettingsParameters, LoadBalancingSettingsParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := LoadBalancingSettingsParametersGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForLoadBalancingSettingsParameters tests if a specific instance of LoadBalancingSettingsParameters can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForLoadBalancingSettingsParameters(subject LoadBalancingSettingsParameters) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.LoadBalancingSettingsParameters
+		err := copied.AssignProperties_To_LoadBalancingSettingsParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.LoadBalancingSettingsParameters
-	err := copied.AssignProperties_To_LoadBalancingSettingsParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual LoadBalancingSettingsParameters
+		err = actual.AssignProperties_From_LoadBalancingSettingsParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual LoadBalancingSettingsParameters
-	err = actual.AssignProperties_From_LoadBalancingSettingsParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_LoadBalancingSettingsParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -840,29 +695,23 @@ func Test_LoadBalancingSettingsParameters_WhenSerializedToJson_DeserializesAsEqu
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of LoadBalancingSettingsParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLoadBalancingSettingsParameters, LoadBalancingSettingsParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForLoadBalancingSettingsParameters)
 }
 
 // RunJSONSerializationTestForLoadBalancingSettingsParameters runs a test to see if a specific instance of LoadBalancingSettingsParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForLoadBalancingSettingsParameters(subject LoadBalancingSettingsParameters) string {
+func RunJSONSerializationTestForLoadBalancingSettingsParameters(t *rapid.T) {
+	subject := LoadBalancingSettingsParametersGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual LoadBalancingSettingsParameters
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -871,36 +720,34 @@ func RunJSONSerializationTestForLoadBalancingSettingsParameters(subject LoadBala
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of LoadBalancingSettingsParameters instances for property testing - lazily instantiated by
 // LoadBalancingSettingsParametersGenerator()
-var loadBalancingSettingsParametersGenerator gopter.Gen
+var loadBalancingSettingsParametersGenerator *rapid.Generator[LoadBalancingSettingsParameters]
 
 // LoadBalancingSettingsParametersGenerator returns a generator of LoadBalancingSettingsParameters instances for property testing.
-func LoadBalancingSettingsParametersGenerator() gopter.Gen {
+func LoadBalancingSettingsParametersGenerator() *rapid.Generator[LoadBalancingSettingsParameters] {
 	if loadBalancingSettingsParametersGenerator != nil {
 		return loadBalancingSettingsParametersGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLoadBalancingSettingsParameters(generators)
-	loadBalancingSettingsParametersGenerator = gen.Struct(reflect.TypeOf(LoadBalancingSettingsParameters{}), generators)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+
+	loadBalancingSettingsParametersGenerator = rapid.Custom(func(t *rapid.T) LoadBalancingSettingsParameters {
+		var result LoadBalancingSettingsParameters
+		result.AdditionalLatencyInMilliseconds = ptrInt.Draw(t, "AdditionalLatencyInMilliseconds")
+		result.SampleSize = ptrInt.Draw(t, "SampleSize")
+		result.SuccessfulSamplesRequired = ptrInt.Draw(t, "SuccessfulSamplesRequired")
+		return result
+	})
 
 	return loadBalancingSettingsParametersGenerator
 }
 
-// AddIndependentPropertyGeneratorsForLoadBalancingSettingsParameters is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLoadBalancingSettingsParameters(gens map[string]gopter.Gen) {
-	gens["AdditionalLatencyInMilliseconds"] = gen.PtrOf(gen.Int())
-	gens["SampleSize"] = gen.PtrOf(gen.Int())
-	gens["SuccessfulSamplesRequired"] = gen.PtrOf(gen.Int())
-}
-
+// Test_LoadBalancingSettingsParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of LoadBalancingSettingsParameters_STATUS can be assigned to storage and back losslessly
 func Test_LoadBalancingSettingsParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -908,44 +755,34 @@ func Test_LoadBalancingSettingsParameters_STATUS_WhenPropertiesConverted_RoundTr
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from LoadBalancingSettingsParameters_STATUS to LoadBalancingSettingsParameters_STATUS via AssignProperties_To_LoadBalancingSettingsParameters_STATUS & AssignProperties_From_LoadBalancingSettingsParameters_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForLoadBalancingSettingsParameters_STATUS, LoadBalancingSettingsParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := LoadBalancingSettingsParameters_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForLoadBalancingSettingsParameters_STATUS tests if a specific instance of LoadBalancingSettingsParameters_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForLoadBalancingSettingsParameters_STATUS(subject LoadBalancingSettingsParameters_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.LoadBalancingSettingsParameters_STATUS
+		err := copied.AssignProperties_To_LoadBalancingSettingsParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.LoadBalancingSettingsParameters_STATUS
-	err := copied.AssignProperties_To_LoadBalancingSettingsParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual LoadBalancingSettingsParameters_STATUS
+		err = actual.AssignProperties_From_LoadBalancingSettingsParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual LoadBalancingSettingsParameters_STATUS
-	err = actual.AssignProperties_From_LoadBalancingSettingsParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_LoadBalancingSettingsParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -955,29 +792,23 @@ func Test_LoadBalancingSettingsParameters_STATUS_WhenSerializedToJson_Deserializ
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of LoadBalancingSettingsParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLoadBalancingSettingsParameters_STATUS, LoadBalancingSettingsParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForLoadBalancingSettingsParameters_STATUS)
 }
 
 // RunJSONSerializationTestForLoadBalancingSettingsParameters_STATUS runs a test to see if a specific instance of LoadBalancingSettingsParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForLoadBalancingSettingsParameters_STATUS(subject LoadBalancingSettingsParameters_STATUS) string {
+func RunJSONSerializationTestForLoadBalancingSettingsParameters_STATUS(t *rapid.T) {
+	subject := LoadBalancingSettingsParameters_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual LoadBalancingSettingsParameters_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -986,32 +817,29 @@ func RunJSONSerializationTestForLoadBalancingSettingsParameters_STATUS(subject L
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of LoadBalancingSettingsParameters_STATUS instances for property testing - lazily instantiated by
 // LoadBalancingSettingsParameters_STATUSGenerator()
-var loadBalancingSettingsParameters_STATUSGenerator gopter.Gen
+var loadBalancingSettingsParameters_STATUSGenerator *rapid.Generator[LoadBalancingSettingsParameters_STATUS]
 
 // LoadBalancingSettingsParameters_STATUSGenerator returns a generator of LoadBalancingSettingsParameters_STATUS instances for property testing.
-func LoadBalancingSettingsParameters_STATUSGenerator() gopter.Gen {
+func LoadBalancingSettingsParameters_STATUSGenerator() *rapid.Generator[LoadBalancingSettingsParameters_STATUS] {
 	if loadBalancingSettingsParameters_STATUSGenerator != nil {
 		return loadBalancingSettingsParameters_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLoadBalancingSettingsParameters_STATUS(generators)
-	loadBalancingSettingsParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(LoadBalancingSettingsParameters_STATUS{}), generators)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+
+	loadBalancingSettingsParameters_STATUSGenerator = rapid.Custom(func(t *rapid.T) LoadBalancingSettingsParameters_STATUS {
+		var result LoadBalancingSettingsParameters_STATUS
+		result.AdditionalLatencyInMilliseconds = ptrInt.Draw(t, "AdditionalLatencyInMilliseconds")
+		result.SampleSize = ptrInt.Draw(t, "SampleSize")
+		result.SuccessfulSamplesRequired = ptrInt.Draw(t, "SuccessfulSamplesRequired")
+		return result
+	})
 
 	return loadBalancingSettingsParameters_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForLoadBalancingSettingsParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLoadBalancingSettingsParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["AdditionalLatencyInMilliseconds"] = gen.PtrOf(gen.Int())
-	gens["SampleSize"] = gen.PtrOf(gen.Int())
-	gens["SuccessfulSamplesRequired"] = gen.PtrOf(gen.Int())
 }

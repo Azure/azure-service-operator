@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_Diagnostic_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Diagnostic_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDiagnostic_Spec, Diagnostic_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDiagnostic_Spec)
 }
 
 // RunJSONSerializationTestForDiagnostic_Spec runs a test to see if a specific instance of Diagnostic_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForDiagnostic_Spec(subject Diagnostic_Spec) string {
+func RunJSONSerializationTestForDiagnostic_Spec(t *rapid.T) {
+	subject := Diagnostic_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Diagnostic_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,43 +45,28 @@ func RunJSONSerializationTestForDiagnostic_Spec(subject Diagnostic_Spec) string 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Diagnostic_Spec instances for property testing - lazily instantiated by Diagnostic_SpecGenerator()
-var diagnostic_SpecGenerator gopter.Gen
+var diagnostic_SpecGenerator *rapid.Generator[Diagnostic_Spec]
 
 // Diagnostic_SpecGenerator returns a generator of Diagnostic_Spec instances for property testing.
-// We first initialize diagnostic_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Diagnostic_SpecGenerator() gopter.Gen {
+func Diagnostic_SpecGenerator() *rapid.Generator[Diagnostic_Spec] {
 	if diagnostic_SpecGenerator != nil {
 		return diagnostic_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDiagnostic_Spec(generators)
-	diagnostic_SpecGenerator = gen.Struct(reflect.TypeOf(Diagnostic_Spec{}), generators)
+	name := rapid.String()
+	properties := rapid.Ptr(DiagnosticContractPropertiesGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDiagnostic_Spec(generators)
-	AddRelatedPropertyGeneratorsForDiagnostic_Spec(generators)
-	diagnostic_SpecGenerator = gen.Struct(reflect.TypeOf(Diagnostic_Spec{}), generators)
+	diagnostic_SpecGenerator = rapid.Custom(func(t *rapid.T) Diagnostic_Spec {
+		var result Diagnostic_Spec
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return diagnostic_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDiagnostic_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDiagnostic_Spec(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForDiagnostic_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDiagnostic_Spec(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(DiagnosticContractPropertiesGenerator())
 }

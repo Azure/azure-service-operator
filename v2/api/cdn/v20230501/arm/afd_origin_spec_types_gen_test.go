@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_AFDOriginProperties_WhenSerializedToJson_DeserializesAsEqual(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AFDOriginProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAFDOriginProperties, AFDOriginPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAFDOriginProperties)
 }
 
 // RunJSONSerializationTestForAFDOriginProperties runs a test to see if a specific instance of AFDOriginProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForAFDOriginProperties(subject AFDOriginProperties) string {
+func RunJSONSerializationTestForAFDOriginProperties(t *rapid.T) {
+	subject := AFDOriginPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AFDOriginProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,54 +45,43 @@ func RunJSONSerializationTestForAFDOriginProperties(subject AFDOriginProperties)
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AFDOriginProperties instances for property testing - lazily instantiated by
 // AFDOriginPropertiesGenerator()
-var afdOriginPropertiesGenerator gopter.Gen
+var afdOriginPropertiesGenerator *rapid.Generator[AFDOriginProperties]
 
 // AFDOriginPropertiesGenerator returns a generator of AFDOriginProperties instances for property testing.
-// We first initialize afdOriginPropertiesGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func AFDOriginPropertiesGenerator() gopter.Gen {
+func AFDOriginPropertiesGenerator() *rapid.Generator[AFDOriginProperties] {
 	if afdOriginPropertiesGenerator != nil {
 		return afdOriginPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAFDOriginProperties(generators)
-	afdOriginPropertiesGenerator = gen.Struct(reflect.TypeOf(AFDOriginProperties{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+	azureOrigin := rapid.Ptr(ResourceReferenceGenerator(), true)
+	enabledState := rapid.Ptr(rapid.SampledFrom([]AFDOriginProperties_EnabledState{AFDOriginProperties_EnabledState_Disabled, AFDOriginProperties_EnabledState_Enabled}), true)
+	enforceCertificateNameCheck := rapid.Ptr(rapid.Bool(), true)
+	sharedPrivateLinkResource := rapid.Ptr(SharedPrivateLinkResourcePropertiesGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAFDOriginProperties(generators)
-	AddRelatedPropertyGeneratorsForAFDOriginProperties(generators)
-	afdOriginPropertiesGenerator = gen.Struct(reflect.TypeOf(AFDOriginProperties{}), generators)
+	afdOriginPropertiesGenerator = rapid.Custom(func(t *rapid.T) AFDOriginProperties {
+		var result AFDOriginProperties
+		result.AzureOrigin = azureOrigin.Draw(t, "AzureOrigin")
+		result.EnabledState = enabledState.Draw(t, "EnabledState")
+		result.EnforceCertificateNameCheck = enforceCertificateNameCheck.Draw(t, "EnforceCertificateNameCheck")
+		result.HostName = ptrString.Draw(t, "HostName")
+		result.HttpPort = ptrInt.Draw(t, "HttpPort")
+		result.HttpsPort = ptrInt.Draw(t, "HttpsPort")
+		result.OriginHostHeader = ptrString.Draw(t, "OriginHostHeader")
+		result.Priority = ptrInt.Draw(t, "Priority")
+		result.SharedPrivateLinkResource = sharedPrivateLinkResource.Draw(t, "SharedPrivateLinkResource")
+		result.Weight = ptrInt.Draw(t, "Weight")
+		return result
+	})
 
 	return afdOriginPropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAFDOriginProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAFDOriginProperties(gens map[string]gopter.Gen) {
-	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(AFDOriginProperties_EnabledState_Disabled, AFDOriginProperties_EnabledState_Enabled))
-	gens["EnforceCertificateNameCheck"] = gen.PtrOf(gen.Bool())
-	gens["HostName"] = gen.PtrOf(gen.AlphaString())
-	gens["HttpPort"] = gen.PtrOf(gen.Int())
-	gens["HttpsPort"] = gen.PtrOf(gen.Int())
-	gens["OriginHostHeader"] = gen.PtrOf(gen.AlphaString())
-	gens["Priority"] = gen.PtrOf(gen.Int())
-	gens["Weight"] = gen.PtrOf(gen.Int())
-}
-
-// AddRelatedPropertyGeneratorsForAFDOriginProperties is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAFDOriginProperties(gens map[string]gopter.Gen) {
-	gens["AzureOrigin"] = gen.PtrOf(ResourceReferenceGenerator())
-	gens["SharedPrivateLinkResource"] = gen.PtrOf(SharedPrivateLinkResourcePropertiesGenerator())
 }
 
 func Test_AfdOrigin_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -112,29 +91,23 @@ func Test_AfdOrigin_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AfdOrigin_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAfdOrigin_Spec, AfdOrigin_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAfdOrigin_Spec)
 }
 
 // RunJSONSerializationTestForAfdOrigin_Spec runs a test to see if a specific instance of AfdOrigin_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForAfdOrigin_Spec(subject AfdOrigin_Spec) string {
+func RunJSONSerializationTestForAfdOrigin_Spec(t *rapid.T) {
+	subject := AfdOrigin_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AfdOrigin_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -143,45 +116,30 @@ func RunJSONSerializationTestForAfdOrigin_Spec(subject AfdOrigin_Spec) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AfdOrigin_Spec instances for property testing - lazily instantiated by AfdOrigin_SpecGenerator()
-var afdOrigin_SpecGenerator gopter.Gen
+var afdOrigin_SpecGenerator *rapid.Generator[AfdOrigin_Spec]
 
 // AfdOrigin_SpecGenerator returns a generator of AfdOrigin_Spec instances for property testing.
-// We first initialize afdOrigin_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func AfdOrigin_SpecGenerator() gopter.Gen {
+func AfdOrigin_SpecGenerator() *rapid.Generator[AfdOrigin_Spec] {
 	if afdOrigin_SpecGenerator != nil {
 		return afdOrigin_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAfdOrigin_Spec(generators)
-	afdOrigin_SpecGenerator = gen.Struct(reflect.TypeOf(AfdOrigin_Spec{}), generators)
+	name := rapid.String()
+	properties := rapid.Ptr(AFDOriginPropertiesGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAfdOrigin_Spec(generators)
-	AddRelatedPropertyGeneratorsForAfdOrigin_Spec(generators)
-	afdOrigin_SpecGenerator = gen.Struct(reflect.TypeOf(AfdOrigin_Spec{}), generators)
+	afdOrigin_SpecGenerator = rapid.Custom(func(t *rapid.T) AfdOrigin_Spec {
+		var result AfdOrigin_Spec
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return afdOrigin_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAfdOrigin_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAfdOrigin_Spec(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForAfdOrigin_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAfdOrigin_Spec(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(AFDOriginPropertiesGenerator())
 }
 
 func Test_SharedPrivateLinkResourceProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -191,29 +149,23 @@ func Test_SharedPrivateLinkResourceProperties_WhenSerializedToJson_DeserializesA
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SharedPrivateLinkResourceProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSharedPrivateLinkResourceProperties, SharedPrivateLinkResourcePropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSharedPrivateLinkResourceProperties)
 }
 
 // RunJSONSerializationTestForSharedPrivateLinkResourceProperties runs a test to see if a specific instance of SharedPrivateLinkResourceProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForSharedPrivateLinkResourceProperties(subject SharedPrivateLinkResourceProperties) string {
+func RunJSONSerializationTestForSharedPrivateLinkResourceProperties(t *rapid.T) {
+	subject := SharedPrivateLinkResourcePropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SharedPrivateLinkResourceProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -222,52 +174,33 @@ func RunJSONSerializationTestForSharedPrivateLinkResourceProperties(subject Shar
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SharedPrivateLinkResourceProperties instances for property testing - lazily instantiated by
 // SharedPrivateLinkResourcePropertiesGenerator()
-var sharedPrivateLinkResourcePropertiesGenerator gopter.Gen
+var sharedPrivateLinkResourcePropertiesGenerator *rapid.Generator[SharedPrivateLinkResourceProperties]
 
 // SharedPrivateLinkResourcePropertiesGenerator returns a generator of SharedPrivateLinkResourceProperties instances for property testing.
-// We first initialize sharedPrivateLinkResourcePropertiesGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func SharedPrivateLinkResourcePropertiesGenerator() gopter.Gen {
+func SharedPrivateLinkResourcePropertiesGenerator() *rapid.Generator[SharedPrivateLinkResourceProperties] {
 	if sharedPrivateLinkResourcePropertiesGenerator != nil {
 		return sharedPrivateLinkResourcePropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSharedPrivateLinkResourceProperties(generators)
-	sharedPrivateLinkResourcePropertiesGenerator = gen.Struct(reflect.TypeOf(SharedPrivateLinkResourceProperties{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	privateLink := rapid.Ptr(ResourceReferenceGenerator(), true)
+	status := rapid.Ptr(rapid.SampledFrom([]SharedPrivateLinkResourceProperties_Status{SharedPrivateLinkResourceProperties_Status_Approved, SharedPrivateLinkResourceProperties_Status_Disconnected, SharedPrivateLinkResourceProperties_Status_Pending, SharedPrivateLinkResourceProperties_Status_Rejected, SharedPrivateLinkResourceProperties_Status_Timeout}), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSharedPrivateLinkResourceProperties(generators)
-	AddRelatedPropertyGeneratorsForSharedPrivateLinkResourceProperties(generators)
-	sharedPrivateLinkResourcePropertiesGenerator = gen.Struct(reflect.TypeOf(SharedPrivateLinkResourceProperties{}), generators)
+	sharedPrivateLinkResourcePropertiesGenerator = rapid.Custom(func(t *rapid.T) SharedPrivateLinkResourceProperties {
+		var result SharedPrivateLinkResourceProperties
+		result.GroupId = ptrString.Draw(t, "GroupId")
+		result.PrivateLink = privateLink.Draw(t, "PrivateLink")
+		result.PrivateLinkLocation = ptrString.Draw(t, "PrivateLinkLocation")
+		result.RequestMessage = ptrString.Draw(t, "RequestMessage")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return sharedPrivateLinkResourcePropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSharedPrivateLinkResourceProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSharedPrivateLinkResourceProperties(gens map[string]gopter.Gen) {
-	gens["GroupId"] = gen.PtrOf(gen.AlphaString())
-	gens["PrivateLinkLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["RequestMessage"] = gen.PtrOf(gen.AlphaString())
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		SharedPrivateLinkResourceProperties_Status_Approved,
-		SharedPrivateLinkResourceProperties_Status_Disconnected,
-		SharedPrivateLinkResourceProperties_Status_Pending,
-		SharedPrivateLinkResourceProperties_Status_Rejected,
-		SharedPrivateLinkResourceProperties_Status_Timeout))
-}
-
-// AddRelatedPropertyGeneratorsForSharedPrivateLinkResourceProperties is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSharedPrivateLinkResourceProperties(gens map[string]gopter.Gen) {
-	gens["PrivateLink"] = gen.PtrOf(ResourceReferenceGenerator())
 }

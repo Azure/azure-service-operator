@@ -11,14 +11,11 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
+// Test_ProductPolicy_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of ProductPolicy round trips to the hub storage version and back losslessly
 func Test_ProductPolicy_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -26,47 +23,37 @@ func Test_ProductPolicy_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ProductPolicy to hub returns original",
-		prop.ForAll(RunResourceConversionTestForProductPolicy, ProductPolicyGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ProductPolicyGenerator().Draw(t, "subject")
+		// Copy subject to make sure conversion doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Convert to our hub version
+		var hub v20240501s.ProductPolicy
+		err := copied.ConvertTo(&hub)
+		if err != nil {
+			t.Fatal("ConvertTo: " + err.Error())
+		}
+
+		// Convert from our hub version
+		var actual ProductPolicy
+		err = actual.ConvertFrom(&hub)
+		if err != nil {
+			t.Fatal("ConvertFrom: " + err.Error())
+		}
+
+		// Compare actual with what we started with
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
-// RunResourceConversionTestForProductPolicy tests if a specific instance of ProductPolicy round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForProductPolicy(subject ProductPolicy) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub v20240501s.ProductPolicy
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual ProductPolicy
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
+// Test_ProductPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ProductPolicy can be assigned to storage and back losslessly
 func Test_ProductPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -74,44 +61,34 @@ func Test_ProductPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ProductPolicy to ProductPolicy via AssignProperties_To_ProductPolicy & AssignProperties_From_ProductPolicy returns original",
-		prop.ForAll(RunPropertyAssignmentTestForProductPolicy, ProductPolicyGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ProductPolicyGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForProductPolicy tests if a specific instance of ProductPolicy can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForProductPolicy(subject ProductPolicy) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other v20230501ps.ProductPolicy
+		err := copied.AssignProperties_To_ProductPolicy(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501ps.ProductPolicy
-	err := copied.AssignProperties_To_ProductPolicy(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ProductPolicy
+		err = actual.AssignProperties_From_ProductPolicy(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ProductPolicy
-	err = actual.AssignProperties_From_ProductPolicy(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ProductPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -121,29 +98,23 @@ func Test_ProductPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ProductPolicy via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProductPolicy, ProductPolicyGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForProductPolicy)
 }
 
 // RunJSONSerializationTestForProductPolicy runs a test to see if a specific instance of ProductPolicy round trips to JSON and back losslessly
-func RunJSONSerializationTestForProductPolicy(subject ProductPolicy) string {
+func RunJSONSerializationTestForProductPolicy(t *rapid.T) {
+	subject := ProductPolicyGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ProductPolicy
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -152,34 +123,33 @@ func RunJSONSerializationTestForProductPolicy(subject ProductPolicy) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ProductPolicy instances for property testing - lazily instantiated by ProductPolicyGenerator()
-var productPolicyGenerator gopter.Gen
+var productPolicyGenerator *rapid.Generator[ProductPolicy]
 
 // ProductPolicyGenerator returns a generator of ProductPolicy instances for property testing.
-func ProductPolicyGenerator() gopter.Gen {
+func ProductPolicyGenerator() *rapid.Generator[ProductPolicy] {
 	if productPolicyGenerator != nil {
 		return productPolicyGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForProductPolicy(generators)
-	productPolicyGenerator = gen.Struct(reflect.TypeOf(ProductPolicy{}), generators)
+	spec := ProductPolicy_SpecGenerator()
+	status := ProductPolicy_STATUSGenerator()
+
+	productPolicyGenerator = rapid.Custom(func(t *rapid.T) ProductPolicy {
+		var result ProductPolicy
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return productPolicyGenerator
 }
 
-// AddRelatedPropertyGeneratorsForProductPolicy is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForProductPolicy(gens map[string]gopter.Gen) {
-	gens["Spec"] = ProductPolicy_SpecGenerator()
-	gens["Status"] = ProductPolicy_STATUSGenerator()
-}
-
+// Test_ProductPolicyOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ProductPolicyOperatorSpec can be assigned to storage and back losslessly
 func Test_ProductPolicyOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -187,44 +157,34 @@ func Test_ProductPolicyOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLos
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ProductPolicyOperatorSpec to ProductPolicyOperatorSpec via AssignProperties_To_ProductPolicyOperatorSpec & AssignProperties_From_ProductPolicyOperatorSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForProductPolicyOperatorSpec, ProductPolicyOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ProductPolicyOperatorSpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForProductPolicyOperatorSpec tests if a specific instance of ProductPolicyOperatorSpec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForProductPolicyOperatorSpec(subject ProductPolicyOperatorSpec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other v20230501ps.ProductPolicyOperatorSpec
+		err := copied.AssignProperties_To_ProductPolicyOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501ps.ProductPolicyOperatorSpec
-	err := copied.AssignProperties_To_ProductPolicyOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ProductPolicyOperatorSpec
+		err = actual.AssignProperties_From_ProductPolicyOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ProductPolicyOperatorSpec
-	err = actual.AssignProperties_From_ProductPolicyOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ProductPolicyOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -234,29 +194,23 @@ func Test_ProductPolicyOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ProductPolicyOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProductPolicyOperatorSpec, ProductPolicyOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForProductPolicyOperatorSpec)
 }
 
 // RunJSONSerializationTestForProductPolicyOperatorSpec runs a test to see if a specific instance of ProductPolicyOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForProductPolicyOperatorSpec(subject ProductPolicyOperatorSpec) string {
+func RunJSONSerializationTestForProductPolicyOperatorSpec(t *rapid.T) {
+	subject := ProductPolicyOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ProductPolicyOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -265,28 +219,26 @@ func RunJSONSerializationTestForProductPolicyOperatorSpec(subject ProductPolicyO
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ProductPolicyOperatorSpec instances for property testing - lazily instantiated by
 // ProductPolicyOperatorSpecGenerator()
-var productPolicyOperatorSpecGenerator gopter.Gen
+var productPolicyOperatorSpecGenerator *rapid.Generator[ProductPolicyOperatorSpec]
 
 // ProductPolicyOperatorSpecGenerator returns a generator of ProductPolicyOperatorSpec instances for property testing.
-func ProductPolicyOperatorSpecGenerator() gopter.Gen {
+func ProductPolicyOperatorSpecGenerator() *rapid.Generator[ProductPolicyOperatorSpec] {
 	if productPolicyOperatorSpecGenerator != nil {
 		return productPolicyOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	productPolicyOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ProductPolicyOperatorSpec{}), generators)
+	productPolicyOperatorSpecGenerator = rapid.Just(ProductPolicyOperatorSpec{})
 
 	return productPolicyOperatorSpecGenerator
 }
 
+// Test_ProductPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ProductPolicy_STATUS can be assigned to storage and back losslessly
 func Test_ProductPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -294,44 +246,34 @@ func Test_ProductPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ProductPolicy_STATUS to ProductPolicy_STATUS via AssignProperties_To_ProductPolicy_STATUS & AssignProperties_From_ProductPolicy_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForProductPolicy_STATUS, ProductPolicy_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ProductPolicy_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForProductPolicy_STATUS tests if a specific instance of ProductPolicy_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForProductPolicy_STATUS(subject ProductPolicy_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other v20230501ps.ProductPolicy_STATUS
+		err := copied.AssignProperties_To_ProductPolicy_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501ps.ProductPolicy_STATUS
-	err := copied.AssignProperties_To_ProductPolicy_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ProductPolicy_STATUS
+		err = actual.AssignProperties_From_ProductPolicy_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ProductPolicy_STATUS
-	err = actual.AssignProperties_From_ProductPolicy_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ProductPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -341,29 +283,23 @@ func Test_ProductPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ProductPolicy_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProductPolicy_STATUS, ProductPolicy_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForProductPolicy_STATUS)
 }
 
 // RunJSONSerializationTestForProductPolicy_STATUS runs a test to see if a specific instance of ProductPolicy_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForProductPolicy_STATUS(subject ProductPolicy_STATUS) string {
+func RunJSONSerializationTestForProductPolicy_STATUS(t *rapid.T) {
+	subject := ProductPolicy_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ProductPolicy_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -372,38 +308,36 @@ func RunJSONSerializationTestForProductPolicy_STATUS(subject ProductPolicy_STATU
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ProductPolicy_STATUS instances for property testing - lazily instantiated by
 // ProductPolicy_STATUSGenerator()
-var productPolicy_STATUSGenerator gopter.Gen
+var productPolicy_STATUSGenerator *rapid.Generator[ProductPolicy_STATUS]
 
 // ProductPolicy_STATUSGenerator returns a generator of ProductPolicy_STATUS instances for property testing.
-func ProductPolicy_STATUSGenerator() gopter.Gen {
+func ProductPolicy_STATUSGenerator() *rapid.Generator[ProductPolicy_STATUS] {
 	if productPolicy_STATUSGenerator != nil {
 		return productPolicy_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProductPolicy_STATUS(generators)
-	productPolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(ProductPolicy_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	productPolicy_STATUSGenerator = rapid.Custom(func(t *rapid.T) ProductPolicy_STATUS {
+		var result ProductPolicy_STATUS
+		result.Format = ptrString.Draw(t, "Format")
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Type = ptrString.Draw(t, "Type")
+		result.Value = ptrString.Draw(t, "Value")
+		return result
+	})
 
 	return productPolicy_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForProductPolicy_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProductPolicy_STATUS(gens map[string]gopter.Gen) {
-	gens["Format"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["Value"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_ProductPolicy_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ProductPolicy_Spec can be assigned to storage and back losslessly
 func Test_ProductPolicy_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -411,44 +345,34 @@ func Test_ProductPolicy_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ProductPolicy_Spec to ProductPolicy_Spec via AssignProperties_To_ProductPolicy_Spec & AssignProperties_From_ProductPolicy_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForProductPolicy_Spec, ProductPolicy_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ProductPolicy_SpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForProductPolicy_Spec tests if a specific instance of ProductPolicy_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForProductPolicy_Spec(subject ProductPolicy_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other v20230501ps.ProductPolicy_Spec
+		err := copied.AssignProperties_To_ProductPolicy_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501ps.ProductPolicy_Spec
-	err := copied.AssignProperties_To_ProductPolicy_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ProductPolicy_Spec
+		err = actual.AssignProperties_From_ProductPolicy_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ProductPolicy_Spec
-	err = actual.AssignProperties_From_ProductPolicy_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ProductPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -458,29 +382,23 @@ func Test_ProductPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ProductPolicy_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProductPolicy_Spec, ProductPolicy_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForProductPolicy_Spec)
 }
 
 // RunJSONSerializationTestForProductPolicy_Spec runs a test to see if a specific instance of ProductPolicy_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForProductPolicy_Spec(subject ProductPolicy_Spec) string {
+func RunJSONSerializationTestForProductPolicy_Spec(t *rapid.T) {
+	subject := ProductPolicy_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ProductPolicy_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -489,45 +407,31 @@ func RunJSONSerializationTestForProductPolicy_Spec(subject ProductPolicy_Spec) s
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ProductPolicy_Spec instances for property testing - lazily instantiated by ProductPolicy_SpecGenerator()
-var productPolicy_SpecGenerator gopter.Gen
+var productPolicy_SpecGenerator *rapid.Generator[ProductPolicy_Spec]
 
 // ProductPolicy_SpecGenerator returns a generator of ProductPolicy_Spec instances for property testing.
-// We first initialize productPolicy_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ProductPolicy_SpecGenerator() gopter.Gen {
+func ProductPolicy_SpecGenerator() *rapid.Generator[ProductPolicy_Spec] {
 	if productPolicy_SpecGenerator != nil {
 		return productPolicy_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProductPolicy_Spec(generators)
-	productPolicy_SpecGenerator = gen.Struct(reflect.TypeOf(ProductPolicy_Spec{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	operatorSpec := rapid.Ptr(ProductPolicyOperatorSpecGenerator(), true)
+	originalVersion := rapid.String()
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProductPolicy_Spec(generators)
-	AddRelatedPropertyGeneratorsForProductPolicy_Spec(generators)
-	productPolicy_SpecGenerator = gen.Struct(reflect.TypeOf(ProductPolicy_Spec{}), generators)
+	productPolicy_SpecGenerator = rapid.Custom(func(t *rapid.T) ProductPolicy_Spec {
+		var result ProductPolicy_Spec
+		result.Format = ptrString.Draw(t, "Format")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		result.OriginalVersion = originalVersion.Draw(t, "OriginalVersion")
+		result.Value = ptrString.Draw(t, "Value")
+		return result
+	})
 
 	return productPolicy_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForProductPolicy_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProductPolicy_Spec(gens map[string]gopter.Gen) {
-	gens["Format"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Value"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForProductPolicy_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForProductPolicy_Spec(gens map[string]gopter.Gen) {
-	gens["OperatorSpec"] = gen.PtrOf(ProductPolicyOperatorSpecGenerator())
 }

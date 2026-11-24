@@ -11,14 +11,11 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
+// Test_RedisAccessPolicyAssignment_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of RedisAccessPolicyAssignment round trips to the hub storage version and back losslessly
 func Test_RedisAccessPolicyAssignment_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -26,47 +23,37 @@ func Test_RedisAccessPolicyAssignment_WhenConvertedToHub_RoundTripsWithoutLoss(t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RedisAccessPolicyAssignment to hub returns original",
-		prop.ForAll(RunResourceConversionTestForRedisAccessPolicyAssignment, RedisAccessPolicyAssignmentGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RedisAccessPolicyAssignmentGenerator().Draw(t, "subject")
+		// Copy subject to make sure conversion doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Convert to our hub version
+		var hub cache_v20241101s.RedisAccessPolicyAssignment
+		err := copied.ConvertTo(&hub)
+		if err != nil {
+			t.Fatal("ConvertTo: " + err.Error())
+		}
+
+		// Convert from our hub version
+		var actual RedisAccessPolicyAssignment
+		err = actual.ConvertFrom(&hub)
+		if err != nil {
+			t.Fatal("ConvertFrom: " + err.Error())
+		}
+
+		// Compare actual with what we started with
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
-// RunResourceConversionTestForRedisAccessPolicyAssignment tests if a specific instance of RedisAccessPolicyAssignment round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForRedisAccessPolicyAssignment(subject RedisAccessPolicyAssignment) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub cache_v20241101s.RedisAccessPolicyAssignment
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual RedisAccessPolicyAssignment
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
+// Test_RedisAccessPolicyAssignment_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of RedisAccessPolicyAssignment can be assigned to storage and back losslessly
 func Test_RedisAccessPolicyAssignment_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -74,44 +61,34 @@ func Test_RedisAccessPolicyAssignment_WhenPropertiesConverted_RoundTripsWithoutL
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RedisAccessPolicyAssignment to RedisAccessPolicyAssignment via AssignProperties_To_RedisAccessPolicyAssignment & AssignProperties_From_RedisAccessPolicyAssignment returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRedisAccessPolicyAssignment, RedisAccessPolicyAssignmentGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RedisAccessPolicyAssignmentGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForRedisAccessPolicyAssignment tests if a specific instance of RedisAccessPolicyAssignment can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRedisAccessPolicyAssignment(subject RedisAccessPolicyAssignment) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other cache_v1api20241101s.RedisAccessPolicyAssignment
+		err := copied.AssignProperties_To_RedisAccessPolicyAssignment(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other cache_v1api20241101s.RedisAccessPolicyAssignment
-	err := copied.AssignProperties_To_RedisAccessPolicyAssignment(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual RedisAccessPolicyAssignment
+		err = actual.AssignProperties_From_RedisAccessPolicyAssignment(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RedisAccessPolicyAssignment
-	err = actual.AssignProperties_From_RedisAccessPolicyAssignment(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_RedisAccessPolicyAssignment_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -121,29 +98,23 @@ func Test_RedisAccessPolicyAssignment_WhenSerializedToJson_DeserializesAsEqual(t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RedisAccessPolicyAssignment via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisAccessPolicyAssignment, RedisAccessPolicyAssignmentGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRedisAccessPolicyAssignment)
 }
 
 // RunJSONSerializationTestForRedisAccessPolicyAssignment runs a test to see if a specific instance of RedisAccessPolicyAssignment round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisAccessPolicyAssignment(subject RedisAccessPolicyAssignment) string {
+func RunJSONSerializationTestForRedisAccessPolicyAssignment(t *rapid.T) {
+	subject := RedisAccessPolicyAssignmentGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RedisAccessPolicyAssignment
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -152,35 +123,34 @@ func RunJSONSerializationTestForRedisAccessPolicyAssignment(subject RedisAccessP
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RedisAccessPolicyAssignment instances for property testing - lazily instantiated by
 // RedisAccessPolicyAssignmentGenerator()
-var redisAccessPolicyAssignmentGenerator gopter.Gen
+var redisAccessPolicyAssignmentGenerator *rapid.Generator[RedisAccessPolicyAssignment]
 
 // RedisAccessPolicyAssignmentGenerator returns a generator of RedisAccessPolicyAssignment instances for property testing.
-func RedisAccessPolicyAssignmentGenerator() gopter.Gen {
+func RedisAccessPolicyAssignmentGenerator() *rapid.Generator[RedisAccessPolicyAssignment] {
 	if redisAccessPolicyAssignmentGenerator != nil {
 		return redisAccessPolicyAssignmentGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForRedisAccessPolicyAssignment(generators)
-	redisAccessPolicyAssignmentGenerator = gen.Struct(reflect.TypeOf(RedisAccessPolicyAssignment{}), generators)
+	spec := RedisAccessPolicyAssignment_SpecGenerator()
+	status := RedisAccessPolicyAssignment_STATUSGenerator()
+
+	redisAccessPolicyAssignmentGenerator = rapid.Custom(func(t *rapid.T) RedisAccessPolicyAssignment {
+		var result RedisAccessPolicyAssignment
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return redisAccessPolicyAssignmentGenerator
 }
 
-// AddRelatedPropertyGeneratorsForRedisAccessPolicyAssignment is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRedisAccessPolicyAssignment(gens map[string]gopter.Gen) {
-	gens["Spec"] = RedisAccessPolicyAssignment_SpecGenerator()
-	gens["Status"] = RedisAccessPolicyAssignment_STATUSGenerator()
-}
-
+// Test_RedisAccessPolicyAssignmentOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of RedisAccessPolicyAssignmentOperatorSpec can be assigned to storage and back losslessly
 func Test_RedisAccessPolicyAssignmentOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -188,44 +158,34 @@ func Test_RedisAccessPolicyAssignmentOperatorSpec_WhenPropertiesConverted_RoundT
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RedisAccessPolicyAssignmentOperatorSpec to RedisAccessPolicyAssignmentOperatorSpec via AssignProperties_To_RedisAccessPolicyAssignmentOperatorSpec & AssignProperties_From_RedisAccessPolicyAssignmentOperatorSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRedisAccessPolicyAssignmentOperatorSpec, RedisAccessPolicyAssignmentOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RedisAccessPolicyAssignmentOperatorSpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForRedisAccessPolicyAssignmentOperatorSpec tests if a specific instance of RedisAccessPolicyAssignmentOperatorSpec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRedisAccessPolicyAssignmentOperatorSpec(subject RedisAccessPolicyAssignmentOperatorSpec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other cache_v1api20241101s.RedisAccessPolicyAssignmentOperatorSpec
+		err := copied.AssignProperties_To_RedisAccessPolicyAssignmentOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other cache_v1api20241101s.RedisAccessPolicyAssignmentOperatorSpec
-	err := copied.AssignProperties_To_RedisAccessPolicyAssignmentOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual RedisAccessPolicyAssignmentOperatorSpec
+		err = actual.AssignProperties_From_RedisAccessPolicyAssignmentOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RedisAccessPolicyAssignmentOperatorSpec
-	err = actual.AssignProperties_From_RedisAccessPolicyAssignmentOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_RedisAccessPolicyAssignmentOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -235,29 +195,23 @@ func Test_RedisAccessPolicyAssignmentOperatorSpec_WhenSerializedToJson_Deseriali
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RedisAccessPolicyAssignmentOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisAccessPolicyAssignmentOperatorSpec, RedisAccessPolicyAssignmentOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRedisAccessPolicyAssignmentOperatorSpec)
 }
 
 // RunJSONSerializationTestForRedisAccessPolicyAssignmentOperatorSpec runs a test to see if a specific instance of RedisAccessPolicyAssignmentOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisAccessPolicyAssignmentOperatorSpec(subject RedisAccessPolicyAssignmentOperatorSpec) string {
+func RunJSONSerializationTestForRedisAccessPolicyAssignmentOperatorSpec(t *rapid.T) {
+	subject := RedisAccessPolicyAssignmentOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RedisAccessPolicyAssignmentOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -266,28 +220,26 @@ func RunJSONSerializationTestForRedisAccessPolicyAssignmentOperatorSpec(subject 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RedisAccessPolicyAssignmentOperatorSpec instances for property testing - lazily instantiated by
 // RedisAccessPolicyAssignmentOperatorSpecGenerator()
-var redisAccessPolicyAssignmentOperatorSpecGenerator gopter.Gen
+var redisAccessPolicyAssignmentOperatorSpecGenerator *rapid.Generator[RedisAccessPolicyAssignmentOperatorSpec]
 
 // RedisAccessPolicyAssignmentOperatorSpecGenerator returns a generator of RedisAccessPolicyAssignmentOperatorSpec instances for property testing.
-func RedisAccessPolicyAssignmentOperatorSpecGenerator() gopter.Gen {
+func RedisAccessPolicyAssignmentOperatorSpecGenerator() *rapid.Generator[RedisAccessPolicyAssignmentOperatorSpec] {
 	if redisAccessPolicyAssignmentOperatorSpecGenerator != nil {
 		return redisAccessPolicyAssignmentOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	redisAccessPolicyAssignmentOperatorSpecGenerator = gen.Struct(reflect.TypeOf(RedisAccessPolicyAssignmentOperatorSpec{}), generators)
+	redisAccessPolicyAssignmentOperatorSpecGenerator = rapid.Just(RedisAccessPolicyAssignmentOperatorSpec{})
 
 	return redisAccessPolicyAssignmentOperatorSpecGenerator
 }
 
+// Test_RedisAccessPolicyAssignment_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of RedisAccessPolicyAssignment_STATUS can be assigned to storage and back losslessly
 func Test_RedisAccessPolicyAssignment_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -295,44 +247,34 @@ func Test_RedisAccessPolicyAssignment_STATUS_WhenPropertiesConverted_RoundTripsW
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RedisAccessPolicyAssignment_STATUS to RedisAccessPolicyAssignment_STATUS via AssignProperties_To_RedisAccessPolicyAssignment_STATUS & AssignProperties_From_RedisAccessPolicyAssignment_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRedisAccessPolicyAssignment_STATUS, RedisAccessPolicyAssignment_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RedisAccessPolicyAssignment_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForRedisAccessPolicyAssignment_STATUS tests if a specific instance of RedisAccessPolicyAssignment_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRedisAccessPolicyAssignment_STATUS(subject RedisAccessPolicyAssignment_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other cache_v1api20241101s.RedisAccessPolicyAssignment_STATUS
+		err := copied.AssignProperties_To_RedisAccessPolicyAssignment_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other cache_v1api20241101s.RedisAccessPolicyAssignment_STATUS
-	err := copied.AssignProperties_To_RedisAccessPolicyAssignment_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual RedisAccessPolicyAssignment_STATUS
+		err = actual.AssignProperties_From_RedisAccessPolicyAssignment_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RedisAccessPolicyAssignment_STATUS
-	err = actual.AssignProperties_From_RedisAccessPolicyAssignment_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_RedisAccessPolicyAssignment_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -342,29 +284,23 @@ func Test_RedisAccessPolicyAssignment_STATUS_WhenSerializedToJson_DeserializesAs
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RedisAccessPolicyAssignment_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisAccessPolicyAssignment_STATUS, RedisAccessPolicyAssignment_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRedisAccessPolicyAssignment_STATUS)
 }
 
 // RunJSONSerializationTestForRedisAccessPolicyAssignment_STATUS runs a test to see if a specific instance of RedisAccessPolicyAssignment_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisAccessPolicyAssignment_STATUS(subject RedisAccessPolicyAssignment_STATUS) string {
+func RunJSONSerializationTestForRedisAccessPolicyAssignment_STATUS(t *rapid.T) {
+	subject := RedisAccessPolicyAssignment_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RedisAccessPolicyAssignment_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -373,60 +309,41 @@ func RunJSONSerializationTestForRedisAccessPolicyAssignment_STATUS(subject Redis
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RedisAccessPolicyAssignment_STATUS instances for property testing - lazily instantiated by
 // RedisAccessPolicyAssignment_STATUSGenerator()
-var redisAccessPolicyAssignment_STATUSGenerator gopter.Gen
+var redisAccessPolicyAssignment_STATUSGenerator *rapid.Generator[RedisAccessPolicyAssignment_STATUS]
 
 // RedisAccessPolicyAssignment_STATUSGenerator returns a generator of RedisAccessPolicyAssignment_STATUS instances for property testing.
-// We first initialize redisAccessPolicyAssignment_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func RedisAccessPolicyAssignment_STATUSGenerator() gopter.Gen {
+func RedisAccessPolicyAssignment_STATUSGenerator() *rapid.Generator[RedisAccessPolicyAssignment_STATUS] {
 	if redisAccessPolicyAssignment_STATUSGenerator != nil {
 		return redisAccessPolicyAssignment_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisAccessPolicyAssignment_STATUS(generators)
-	redisAccessPolicyAssignment_STATUSGenerator = gen.Struct(reflect.TypeOf(RedisAccessPolicyAssignment_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	provisioningState := rapid.Ptr(rapid.SampledFrom([]AccessPolicyAssignmentProvisioningState_STATUS{AccessPolicyAssignmentProvisioningState_STATUS_Canceled, AccessPolicyAssignmentProvisioningState_STATUS_Deleted, AccessPolicyAssignmentProvisioningState_STATUS_Deleting, AccessPolicyAssignmentProvisioningState_STATUS_Failed, AccessPolicyAssignmentProvisioningState_STATUS_Succeeded, AccessPolicyAssignmentProvisioningState_STATUS_Updating}), true)
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisAccessPolicyAssignment_STATUS(generators)
-	AddRelatedPropertyGeneratorsForRedisAccessPolicyAssignment_STATUS(generators)
-	redisAccessPolicyAssignment_STATUSGenerator = gen.Struct(reflect.TypeOf(RedisAccessPolicyAssignment_STATUS{}), generators)
+	redisAccessPolicyAssignment_STATUSGenerator = rapid.Custom(func(t *rapid.T) RedisAccessPolicyAssignment_STATUS {
+		var result RedisAccessPolicyAssignment_STATUS
+		result.AccessPolicyName = ptrString.Draw(t, "AccessPolicyName")
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.ObjectId = ptrString.Draw(t, "ObjectId")
+		result.ObjectIdAlias = ptrString.Draw(t, "ObjectIdAlias")
+		result.ProvisioningState = provisioningState.Draw(t, "ProvisioningState")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return redisAccessPolicyAssignment_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRedisAccessPolicyAssignment_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedisAccessPolicyAssignment_STATUS(gens map[string]gopter.Gen) {
-	gens["AccessPolicyName"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ObjectId"] = gen.PtrOf(gen.AlphaString())
-	gens["ObjectIdAlias"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		AccessPolicyAssignmentProvisioningState_STATUS_Canceled,
-		AccessPolicyAssignmentProvisioningState_STATUS_Deleted,
-		AccessPolicyAssignmentProvisioningState_STATUS_Deleting,
-		AccessPolicyAssignmentProvisioningState_STATUS_Failed,
-		AccessPolicyAssignmentProvisioningState_STATUS_Succeeded,
-		AccessPolicyAssignmentProvisioningState_STATUS_Updating))
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForRedisAccessPolicyAssignment_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRedisAccessPolicyAssignment_STATUS(gens map[string]gopter.Gen) {
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
-}
-
+// Test_RedisAccessPolicyAssignment_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of RedisAccessPolicyAssignment_Spec can be assigned to storage and back losslessly
 func Test_RedisAccessPolicyAssignment_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -434,44 +351,34 @@ func Test_RedisAccessPolicyAssignment_Spec_WhenPropertiesConverted_RoundTripsWit
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RedisAccessPolicyAssignment_Spec to RedisAccessPolicyAssignment_Spec via AssignProperties_To_RedisAccessPolicyAssignment_Spec & AssignProperties_From_RedisAccessPolicyAssignment_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRedisAccessPolicyAssignment_Spec, RedisAccessPolicyAssignment_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RedisAccessPolicyAssignment_SpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForRedisAccessPolicyAssignment_Spec tests if a specific instance of RedisAccessPolicyAssignment_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRedisAccessPolicyAssignment_Spec(subject RedisAccessPolicyAssignment_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other cache_v1api20241101s.RedisAccessPolicyAssignment_Spec
+		err := copied.AssignProperties_To_RedisAccessPolicyAssignment_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other cache_v1api20241101s.RedisAccessPolicyAssignment_Spec
-	err := copied.AssignProperties_To_RedisAccessPolicyAssignment_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual RedisAccessPolicyAssignment_Spec
+		err = actual.AssignProperties_From_RedisAccessPolicyAssignment_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RedisAccessPolicyAssignment_Spec
-	err = actual.AssignProperties_From_RedisAccessPolicyAssignment_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_RedisAccessPolicyAssignment_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -481,29 +388,23 @@ func Test_RedisAccessPolicyAssignment_Spec_WhenSerializedToJson_DeserializesAsEq
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RedisAccessPolicyAssignment_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisAccessPolicyAssignment_Spec, RedisAccessPolicyAssignment_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRedisAccessPolicyAssignment_Spec)
 }
 
 // RunJSONSerializationTestForRedisAccessPolicyAssignment_Spec runs a test to see if a specific instance of RedisAccessPolicyAssignment_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisAccessPolicyAssignment_Spec(subject RedisAccessPolicyAssignment_Spec) string {
+func RunJSONSerializationTestForRedisAccessPolicyAssignment_Spec(t *rapid.T) {
+	subject := RedisAccessPolicyAssignment_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RedisAccessPolicyAssignment_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -512,47 +413,34 @@ func RunJSONSerializationTestForRedisAccessPolicyAssignment_Spec(subject RedisAc
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RedisAccessPolicyAssignment_Spec instances for property testing - lazily instantiated by
 // RedisAccessPolicyAssignment_SpecGenerator()
-var redisAccessPolicyAssignment_SpecGenerator gopter.Gen
+var redisAccessPolicyAssignment_SpecGenerator *rapid.Generator[RedisAccessPolicyAssignment_Spec]
 
 // RedisAccessPolicyAssignment_SpecGenerator returns a generator of RedisAccessPolicyAssignment_Spec instances for property testing.
-// We first initialize redisAccessPolicyAssignment_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func RedisAccessPolicyAssignment_SpecGenerator() gopter.Gen {
+func RedisAccessPolicyAssignment_SpecGenerator() *rapid.Generator[RedisAccessPolicyAssignment_Spec] {
 	if redisAccessPolicyAssignment_SpecGenerator != nil {
 		return redisAccessPolicyAssignment_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisAccessPolicyAssignment_Spec(generators)
-	redisAccessPolicyAssignment_SpecGenerator = gen.Struct(reflect.TypeOf(RedisAccessPolicyAssignment_Spec{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	accessPolicyName := rapid.Ptr(rapid.String(), true)
+	azureName := rapid.String()
+	operatorSpec := rapid.Ptr(RedisAccessPolicyAssignmentOperatorSpecGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisAccessPolicyAssignment_Spec(generators)
-	AddRelatedPropertyGeneratorsForRedisAccessPolicyAssignment_Spec(generators)
-	redisAccessPolicyAssignment_SpecGenerator = gen.Struct(reflect.TypeOf(RedisAccessPolicyAssignment_Spec{}), generators)
+	redisAccessPolicyAssignment_SpecGenerator = rapid.Custom(func(t *rapid.T) RedisAccessPolicyAssignment_Spec {
+		var result RedisAccessPolicyAssignment_Spec
+		result.AccessPolicyName = accessPolicyName.Draw(t, "AccessPolicyName")
+		result.AzureName = azureName.Draw(t, "AzureName")
+		result.ObjectId = ptrString.Draw(t, "ObjectId")
+		result.ObjectIdAlias = ptrString.Draw(t, "ObjectIdAlias")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		return result
+	})
 
 	return redisAccessPolicyAssignment_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRedisAccessPolicyAssignment_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedisAccessPolicyAssignment_Spec(gens map[string]gopter.Gen) {
-	gens["AccessPolicyName"] = gen.PtrOf(gen.AlphaString())
-	gens["AzureName"] = gen.AlphaString()
-	gens["ObjectId"] = gen.PtrOf(gen.AlphaString())
-	gens["ObjectIdAlias"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForRedisAccessPolicyAssignment_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRedisAccessPolicyAssignment_Spec(gens map[string]gopter.Gen) {
-	gens["OperatorSpec"] = gen.PtrOf(RedisAccessPolicyAssignmentOperatorSpecGenerator())
 }

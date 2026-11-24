@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_Diagnostic_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Diagnostic_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDiagnostic_STATUS, Diagnostic_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDiagnostic_STATUS)
 }
 
 // RunJSONSerializationTestForDiagnostic_STATUS runs a test to see if a specific instance of Diagnostic_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDiagnostic_STATUS(subject Diagnostic_STATUS) string {
+func RunJSONSerializationTestForDiagnostic_STATUS(t *rapid.T) {
+	subject := Diagnostic_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Diagnostic_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,45 +45,30 @@ func RunJSONSerializationTestForDiagnostic_STATUS(subject Diagnostic_STATUS) str
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Diagnostic_STATUS instances for property testing - lazily instantiated by Diagnostic_STATUSGenerator()
-var diagnostic_STATUSGenerator gopter.Gen
+var diagnostic_STATUSGenerator *rapid.Generator[Diagnostic_STATUS]
 
 // Diagnostic_STATUSGenerator returns a generator of Diagnostic_STATUS instances for property testing.
-// We first initialize diagnostic_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Diagnostic_STATUSGenerator() gopter.Gen {
+func Diagnostic_STATUSGenerator() *rapid.Generator[Diagnostic_STATUS] {
 	if diagnostic_STATUSGenerator != nil {
 		return diagnostic_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDiagnostic_STATUS(generators)
-	diagnostic_STATUSGenerator = gen.Struct(reflect.TypeOf(Diagnostic_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	properties := rapid.Ptr(DiagnosticContractProperties_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDiagnostic_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDiagnostic_STATUS(generators)
-	diagnostic_STATUSGenerator = gen.Struct(reflect.TypeOf(Diagnostic_STATUS{}), generators)
+	diagnostic_STATUSGenerator = rapid.Custom(func(t *rapid.T) Diagnostic_STATUS {
+		var result Diagnostic_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return diagnostic_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDiagnostic_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDiagnostic_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDiagnostic_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDiagnostic_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(DiagnosticContractProperties_STATUSGenerator())
 }

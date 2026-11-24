@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_FlexibleServersDatabase_WhenSerializedToJson_DeserializesAsEqual(t *te
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FlexibleServersDatabase via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFlexibleServersDatabase, FlexibleServersDatabaseGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFlexibleServersDatabase)
 }
 
 // RunJSONSerializationTestForFlexibleServersDatabase runs a test to see if a specific instance of FlexibleServersDatabase round trips to JSON and back losslessly
-func RunJSONSerializationTestForFlexibleServersDatabase(subject FlexibleServersDatabase) string {
+func RunJSONSerializationTestForFlexibleServersDatabase(t *rapid.T) {
+	subject := FlexibleServersDatabaseGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FlexibleServersDatabase
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,33 +45,31 @@ func RunJSONSerializationTestForFlexibleServersDatabase(subject FlexibleServersD
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FlexibleServersDatabase instances for property testing - lazily instantiated by
 // FlexibleServersDatabaseGenerator()
-var flexibleServersDatabaseGenerator gopter.Gen
+var flexibleServersDatabaseGenerator *rapid.Generator[FlexibleServersDatabase]
 
 // FlexibleServersDatabaseGenerator returns a generator of FlexibleServersDatabase instances for property testing.
-func FlexibleServersDatabaseGenerator() gopter.Gen {
+func FlexibleServersDatabaseGenerator() *rapid.Generator[FlexibleServersDatabase] {
 	if flexibleServersDatabaseGenerator != nil {
 		return flexibleServersDatabaseGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForFlexibleServersDatabase(generators)
-	flexibleServersDatabaseGenerator = gen.Struct(reflect.TypeOf(FlexibleServersDatabase{}), generators)
+	spec := FlexibleServersDatabase_SpecGenerator()
+	status := FlexibleServersDatabase_STATUSGenerator()
+
+	flexibleServersDatabaseGenerator = rapid.Custom(func(t *rapid.T) FlexibleServersDatabase {
+		var result FlexibleServersDatabase
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return flexibleServersDatabaseGenerator
-}
-
-// AddRelatedPropertyGeneratorsForFlexibleServersDatabase is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFlexibleServersDatabase(gens map[string]gopter.Gen) {
-	gens["Spec"] = FlexibleServersDatabase_SpecGenerator()
-	gens["Status"] = FlexibleServersDatabase_STATUSGenerator()
 }
 
 func Test_FlexibleServersDatabaseOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -91,29 +79,23 @@ func Test_FlexibleServersDatabaseOperatorSpec_WhenSerializedToJson_DeserializesA
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FlexibleServersDatabaseOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFlexibleServersDatabaseOperatorSpec, FlexibleServersDatabaseOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFlexibleServersDatabaseOperatorSpec)
 }
 
 // RunJSONSerializationTestForFlexibleServersDatabaseOperatorSpec runs a test to see if a specific instance of FlexibleServersDatabaseOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForFlexibleServersDatabaseOperatorSpec(subject FlexibleServersDatabaseOperatorSpec) string {
+func RunJSONSerializationTestForFlexibleServersDatabaseOperatorSpec(t *rapid.T) {
+	subject := FlexibleServersDatabaseOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FlexibleServersDatabaseOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -122,24 +104,21 @@ func RunJSONSerializationTestForFlexibleServersDatabaseOperatorSpec(subject Flex
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FlexibleServersDatabaseOperatorSpec instances for property testing - lazily instantiated by
 // FlexibleServersDatabaseOperatorSpecGenerator()
-var flexibleServersDatabaseOperatorSpecGenerator gopter.Gen
+var flexibleServersDatabaseOperatorSpecGenerator *rapid.Generator[FlexibleServersDatabaseOperatorSpec]
 
 // FlexibleServersDatabaseOperatorSpecGenerator returns a generator of FlexibleServersDatabaseOperatorSpec instances for property testing.
-func FlexibleServersDatabaseOperatorSpecGenerator() gopter.Gen {
+func FlexibleServersDatabaseOperatorSpecGenerator() *rapid.Generator[FlexibleServersDatabaseOperatorSpec] {
 	if flexibleServersDatabaseOperatorSpecGenerator != nil {
 		return flexibleServersDatabaseOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	flexibleServersDatabaseOperatorSpecGenerator = gen.Struct(reflect.TypeOf(FlexibleServersDatabaseOperatorSpec{}), generators)
+	flexibleServersDatabaseOperatorSpecGenerator = rapid.Just(FlexibleServersDatabaseOperatorSpec{})
 
 	return flexibleServersDatabaseOperatorSpecGenerator
 }
@@ -151,29 +130,23 @@ func Test_FlexibleServersDatabase_STATUS_WhenSerializedToJson_DeserializesAsEqua
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FlexibleServersDatabase_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFlexibleServersDatabase_STATUS, FlexibleServersDatabase_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFlexibleServersDatabase_STATUS)
 }
 
 // RunJSONSerializationTestForFlexibleServersDatabase_STATUS runs a test to see if a specific instance of FlexibleServersDatabase_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForFlexibleServersDatabase_STATUS(subject FlexibleServersDatabase_STATUS) string {
+func RunJSONSerializationTestForFlexibleServersDatabase_STATUS(t *rapid.T) {
+	subject := FlexibleServersDatabase_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FlexibleServersDatabase_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -182,50 +155,35 @@ func RunJSONSerializationTestForFlexibleServersDatabase_STATUS(subject FlexibleS
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FlexibleServersDatabase_STATUS instances for property testing - lazily instantiated by
 // FlexibleServersDatabase_STATUSGenerator()
-var flexibleServersDatabase_STATUSGenerator gopter.Gen
+var flexibleServersDatabase_STATUSGenerator *rapid.Generator[FlexibleServersDatabase_STATUS]
 
 // FlexibleServersDatabase_STATUSGenerator returns a generator of FlexibleServersDatabase_STATUS instances for property testing.
-// We first initialize flexibleServersDatabase_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func FlexibleServersDatabase_STATUSGenerator() gopter.Gen {
+func FlexibleServersDatabase_STATUSGenerator() *rapid.Generator[FlexibleServersDatabase_STATUS] {
 	if flexibleServersDatabase_STATUSGenerator != nil {
 		return flexibleServersDatabase_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServersDatabase_STATUS(generators)
-	flexibleServersDatabase_STATUSGenerator = gen.Struct(reflect.TypeOf(FlexibleServersDatabase_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServersDatabase_STATUS(generators)
-	AddRelatedPropertyGeneratorsForFlexibleServersDatabase_STATUS(generators)
-	flexibleServersDatabase_STATUSGenerator = gen.Struct(reflect.TypeOf(FlexibleServersDatabase_STATUS{}), generators)
+	flexibleServersDatabase_STATUSGenerator = rapid.Custom(func(t *rapid.T) FlexibleServersDatabase_STATUS {
+		var result FlexibleServersDatabase_STATUS
+		result.Charset = ptrString.Draw(t, "Charset")
+		result.Collation = ptrString.Draw(t, "Collation")
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return flexibleServersDatabase_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForFlexibleServersDatabase_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFlexibleServersDatabase_STATUS(gens map[string]gopter.Gen) {
-	gens["Charset"] = gen.PtrOf(gen.AlphaString())
-	gens["Collation"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForFlexibleServersDatabase_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFlexibleServersDatabase_STATUS(gens map[string]gopter.Gen) {
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_FlexibleServersDatabase_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -235,29 +193,23 @@ func Test_FlexibleServersDatabase_Spec_WhenSerializedToJson_DeserializesAsEqual(
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FlexibleServersDatabase_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFlexibleServersDatabase_Spec, FlexibleServersDatabase_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFlexibleServersDatabase_Spec)
 }
 
 // RunJSONSerializationTestForFlexibleServersDatabase_Spec runs a test to see if a specific instance of FlexibleServersDatabase_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForFlexibleServersDatabase_Spec(subject FlexibleServersDatabase_Spec) string {
+func RunJSONSerializationTestForFlexibleServersDatabase_Spec(t *rapid.T) {
+	subject := FlexibleServersDatabase_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FlexibleServersDatabase_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -266,47 +218,33 @@ func RunJSONSerializationTestForFlexibleServersDatabase_Spec(subject FlexibleSer
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FlexibleServersDatabase_Spec instances for property testing - lazily instantiated by
 // FlexibleServersDatabase_SpecGenerator()
-var flexibleServersDatabase_SpecGenerator gopter.Gen
+var flexibleServersDatabase_SpecGenerator *rapid.Generator[FlexibleServersDatabase_Spec]
 
 // FlexibleServersDatabase_SpecGenerator returns a generator of FlexibleServersDatabase_Spec instances for property testing.
-// We first initialize flexibleServersDatabase_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func FlexibleServersDatabase_SpecGenerator() gopter.Gen {
+func FlexibleServersDatabase_SpecGenerator() *rapid.Generator[FlexibleServersDatabase_Spec] {
 	if flexibleServersDatabase_SpecGenerator != nil {
 		return flexibleServersDatabase_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServersDatabase_Spec(generators)
-	flexibleServersDatabase_SpecGenerator = gen.Struct(reflect.TypeOf(FlexibleServersDatabase_Spec{}), generators)
+	genString := rapid.String()
+	ptrString := rapid.Ptr(rapid.String(), true)
+	operatorSpec := rapid.Ptr(FlexibleServersDatabaseOperatorSpecGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServersDatabase_Spec(generators)
-	AddRelatedPropertyGeneratorsForFlexibleServersDatabase_Spec(generators)
-	flexibleServersDatabase_SpecGenerator = gen.Struct(reflect.TypeOf(FlexibleServersDatabase_Spec{}), generators)
+	flexibleServersDatabase_SpecGenerator = rapid.Custom(func(t *rapid.T) FlexibleServersDatabase_Spec {
+		var result FlexibleServersDatabase_Spec
+		result.AzureName = genString.Draw(t, "AzureName")
+		result.Charset = ptrString.Draw(t, "Charset")
+		result.Collation = ptrString.Draw(t, "Collation")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		result.OriginalVersion = genString.Draw(t, "OriginalVersion")
+		return result
+	})
 
 	return flexibleServersDatabase_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForFlexibleServersDatabase_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFlexibleServersDatabase_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["Charset"] = gen.PtrOf(gen.AlphaString())
-	gens["Collation"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForFlexibleServersDatabase_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFlexibleServersDatabase_Spec(gens map[string]gopter.Gen) {
-	gens["OperatorSpec"] = gen.PtrOf(FlexibleServersDatabaseOperatorSpecGenerator())
 }

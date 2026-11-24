@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_RuleSet_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RuleSet_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRuleSet_Spec, RuleSet_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRuleSet_Spec)
 }
 
 // RunJSONSerializationTestForRuleSet_Spec runs a test to see if a specific instance of RuleSet_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForRuleSet_Spec(subject RuleSet_Spec) string {
+func RunJSONSerializationTestForRuleSet_Spec(t *rapid.T) {
+	subject := RuleSet_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RuleSet_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,29 +45,26 @@ func RunJSONSerializationTestForRuleSet_Spec(subject RuleSet_Spec) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RuleSet_Spec instances for property testing - lazily instantiated by RuleSet_SpecGenerator()
-var ruleSet_SpecGenerator gopter.Gen
+var ruleSet_SpecGenerator *rapid.Generator[RuleSet_Spec]
 
 // RuleSet_SpecGenerator returns a generator of RuleSet_Spec instances for property testing.
-func RuleSet_SpecGenerator() gopter.Gen {
+func RuleSet_SpecGenerator() *rapid.Generator[RuleSet_Spec] {
 	if ruleSet_SpecGenerator != nil {
 		return ruleSet_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRuleSet_Spec(generators)
-	ruleSet_SpecGenerator = gen.Struct(reflect.TypeOf(RuleSet_Spec{}), generators)
+	name := rapid.String()
+
+	ruleSet_SpecGenerator = rapid.Custom(func(t *rapid.T) RuleSet_Spec {
+		var result RuleSet_Spec
+		result.Name = name.Draw(t, "Name")
+		return result
+	})
 
 	return ruleSet_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRuleSet_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRuleSet_Spec(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
 }

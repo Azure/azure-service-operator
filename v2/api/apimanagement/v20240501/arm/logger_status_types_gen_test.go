@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_LoggerContractProperties_STATUS_WhenSerializedToJson_DeserializesAsEqu
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of LoggerContractProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLoggerContractProperties_STATUS, LoggerContractProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForLoggerContractProperties_STATUS)
 }
 
 // RunJSONSerializationTestForLoggerContractProperties_STATUS runs a test to see if a specific instance of LoggerContractProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForLoggerContractProperties_STATUS(subject LoggerContractProperties_STATUS) string {
+func RunJSONSerializationTestForLoggerContractProperties_STATUS(t *rapid.T) {
+	subject := LoggerContractProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual LoggerContractProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,38 +45,38 @@ func RunJSONSerializationTestForLoggerContractProperties_STATUS(subject LoggerCo
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of LoggerContractProperties_STATUS instances for property testing - lazily instantiated by
 // LoggerContractProperties_STATUSGenerator()
-var loggerContractProperties_STATUSGenerator gopter.Gen
+var loggerContractProperties_STATUSGenerator *rapid.Generator[LoggerContractProperties_STATUS]
 
 // LoggerContractProperties_STATUSGenerator returns a generator of LoggerContractProperties_STATUS instances for property testing.
-func LoggerContractProperties_STATUSGenerator() gopter.Gen {
+func LoggerContractProperties_STATUSGenerator() *rapid.Generator[LoggerContractProperties_STATUS] {
 	if loggerContractProperties_STATUSGenerator != nil {
 		return loggerContractProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLoggerContractProperties_STATUS(generators)
-	loggerContractProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(LoggerContractProperties_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	credentials := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
+	isBuffered := rapid.Ptr(rapid.Bool(), true)
+	loggerType := rapid.Ptr(rapid.SampledFrom([]LoggerContractProperties_LoggerType_STATUS{LoggerContractProperties_LoggerType_STATUS_ApplicationInsights, LoggerContractProperties_LoggerType_STATUS_AzureEventHub, LoggerContractProperties_LoggerType_STATUS_AzureMonitor}), true)
+
+	loggerContractProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) LoggerContractProperties_STATUS {
+		var result LoggerContractProperties_STATUS
+		result.Credentials = credentials.Draw(t, "Credentials")
+		result.Description = ptrString.Draw(t, "Description")
+		result.IsBuffered = isBuffered.Draw(t, "IsBuffered")
+		result.LoggerType = loggerType.Draw(t, "LoggerType")
+		result.ResourceId = ptrString.Draw(t, "ResourceId")
+		return result
+	})
 
 	return loggerContractProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForLoggerContractProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLoggerContractProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["Credentials"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["IsBuffered"] = gen.PtrOf(gen.Bool())
-	gens["LoggerType"] = gen.PtrOf(gen.OneConstOf(LoggerContractProperties_LoggerType_STATUS_ApplicationInsights, LoggerContractProperties_LoggerType_STATUS_AzureEventHub, LoggerContractProperties_LoggerType_STATUS_AzureMonitor))
-	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_Logger_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -96,29 +86,23 @@ func Test_Logger_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Logger_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLogger_STATUS, Logger_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForLogger_STATUS)
 }
 
 // RunJSONSerializationTestForLogger_STATUS runs a test to see if a specific instance of Logger_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForLogger_STATUS(subject Logger_STATUS) string {
+func RunJSONSerializationTestForLogger_STATUS(t *rapid.T) {
+	subject := Logger_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Logger_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -127,45 +111,30 @@ func RunJSONSerializationTestForLogger_STATUS(subject Logger_STATUS) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Logger_STATUS instances for property testing - lazily instantiated by Logger_STATUSGenerator()
-var logger_STATUSGenerator gopter.Gen
+var logger_STATUSGenerator *rapid.Generator[Logger_STATUS]
 
 // Logger_STATUSGenerator returns a generator of Logger_STATUS instances for property testing.
-// We first initialize logger_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Logger_STATUSGenerator() gopter.Gen {
+func Logger_STATUSGenerator() *rapid.Generator[Logger_STATUS] {
 	if logger_STATUSGenerator != nil {
 		return logger_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLogger_STATUS(generators)
-	logger_STATUSGenerator = gen.Struct(reflect.TypeOf(Logger_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	properties := rapid.Ptr(LoggerContractProperties_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLogger_STATUS(generators)
-	AddRelatedPropertyGeneratorsForLogger_STATUS(generators)
-	logger_STATUSGenerator = gen.Struct(reflect.TypeOf(Logger_STATUS{}), generators)
+	logger_STATUSGenerator = rapid.Custom(func(t *rapid.T) Logger_STATUS {
+		var result Logger_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return logger_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForLogger_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLogger_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForLogger_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForLogger_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(LoggerContractProperties_STATUSGenerator())
 }

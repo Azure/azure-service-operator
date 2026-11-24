@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_AFDDomainHttpsParameters_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AFDDomainHttpsParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAFDDomainHttpsParameters, AFDDomainHttpsParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAFDDomainHttpsParameters)
 }
 
 // RunJSONSerializationTestForAFDDomainHttpsParameters runs a test to see if a specific instance of AFDDomainHttpsParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForAFDDomainHttpsParameters(subject AFDDomainHttpsParameters) string {
+func RunJSONSerializationTestForAFDDomainHttpsParameters(t *rapid.T) {
+	subject := AFDDomainHttpsParametersGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AFDDomainHttpsParameters
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,47 +45,33 @@ func RunJSONSerializationTestForAFDDomainHttpsParameters(subject AFDDomainHttpsP
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AFDDomainHttpsParameters instances for property testing - lazily instantiated by
 // AFDDomainHttpsParametersGenerator()
-var afdDomainHttpsParametersGenerator gopter.Gen
+var afdDomainHttpsParametersGenerator *rapid.Generator[AFDDomainHttpsParameters]
 
 // AFDDomainHttpsParametersGenerator returns a generator of AFDDomainHttpsParameters instances for property testing.
-// We first initialize afdDomainHttpsParametersGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func AFDDomainHttpsParametersGenerator() gopter.Gen {
+func AFDDomainHttpsParametersGenerator() *rapid.Generator[AFDDomainHttpsParameters] {
 	if afdDomainHttpsParametersGenerator != nil {
 		return afdDomainHttpsParametersGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAFDDomainHttpsParameters(generators)
-	afdDomainHttpsParametersGenerator = gen.Struct(reflect.TypeOf(AFDDomainHttpsParameters{}), generators)
+	certificateType := rapid.Ptr(rapid.SampledFrom([]AFDDomainHttpsParameters_CertificateType{AFDDomainHttpsParameters_CertificateType_AzureFirstPartyManagedCertificate, AFDDomainHttpsParameters_CertificateType_CustomerCertificate, AFDDomainHttpsParameters_CertificateType_ManagedCertificate}), true)
+	minimumTlsVersion := rapid.Ptr(rapid.SampledFrom([]AFDDomainHttpsParameters_MinimumTlsVersion{AFDDomainHttpsParameters_MinimumTlsVersion_TLS10, AFDDomainHttpsParameters_MinimumTlsVersion_TLS12}), true)
+	secret := rapid.Ptr(ResourceReferenceGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAFDDomainHttpsParameters(generators)
-	AddRelatedPropertyGeneratorsForAFDDomainHttpsParameters(generators)
-	afdDomainHttpsParametersGenerator = gen.Struct(reflect.TypeOf(AFDDomainHttpsParameters{}), generators)
+	afdDomainHttpsParametersGenerator = rapid.Custom(func(t *rapid.T) AFDDomainHttpsParameters {
+		var result AFDDomainHttpsParameters
+		result.CertificateType = certificateType.Draw(t, "CertificateType")
+		result.MinimumTlsVersion = minimumTlsVersion.Draw(t, "MinimumTlsVersion")
+		result.Secret = secret.Draw(t, "Secret")
+		return result
+	})
 
 	return afdDomainHttpsParametersGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAFDDomainHttpsParameters is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAFDDomainHttpsParameters(gens map[string]gopter.Gen) {
-	gens["CertificateType"] = gen.PtrOf(gen.OneConstOf(AFDDomainHttpsParameters_CertificateType_AzureFirstPartyManagedCertificate, AFDDomainHttpsParameters_CertificateType_CustomerCertificate, AFDDomainHttpsParameters_CertificateType_ManagedCertificate))
-	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(AFDDomainHttpsParameters_MinimumTlsVersion_TLS10, AFDDomainHttpsParameters_MinimumTlsVersion_TLS12))
-}
-
-// AddRelatedPropertyGeneratorsForAFDDomainHttpsParameters is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAFDDomainHttpsParameters(gens map[string]gopter.Gen) {
-	gens["Secret"] = gen.PtrOf(ResourceReferenceGenerator())
 }
 
 func Test_AFDDomainProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -105,29 +81,23 @@ func Test_AFDDomainProperties_WhenSerializedToJson_DeserializesAsEqual(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AFDDomainProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAFDDomainProperties, AFDDomainPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAFDDomainProperties)
 }
 
 // RunJSONSerializationTestForAFDDomainProperties runs a test to see if a specific instance of AFDDomainProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForAFDDomainProperties(subject AFDDomainProperties) string {
+func RunJSONSerializationTestForAFDDomainProperties(t *rapid.T) {
+	subject := AFDDomainPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AFDDomainProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -136,51 +106,38 @@ func RunJSONSerializationTestForAFDDomainProperties(subject AFDDomainProperties)
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AFDDomainProperties instances for property testing - lazily instantiated by
 // AFDDomainPropertiesGenerator()
-var afdDomainPropertiesGenerator gopter.Gen
+var afdDomainPropertiesGenerator *rapid.Generator[AFDDomainProperties]
 
 // AFDDomainPropertiesGenerator returns a generator of AFDDomainProperties instances for property testing.
-// We first initialize afdDomainPropertiesGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func AFDDomainPropertiesGenerator() gopter.Gen {
+func AFDDomainPropertiesGenerator() *rapid.Generator[AFDDomainProperties] {
 	if afdDomainPropertiesGenerator != nil {
 		return afdDomainPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAFDDomainProperties(generators)
-	afdDomainPropertiesGenerator = gen.Struct(reflect.TypeOf(AFDDomainProperties{}), generators)
+	ptrResourceReference := rapid.Ptr(ResourceReferenceGenerator(), true)
+	extendedProperties := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
+	hostName := rapid.Ptr(rapid.String(), true)
+	tlsSettings := rapid.Ptr(AFDDomainHttpsParametersGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAFDDomainProperties(generators)
-	AddRelatedPropertyGeneratorsForAFDDomainProperties(generators)
-	afdDomainPropertiesGenerator = gen.Struct(reflect.TypeOf(AFDDomainProperties{}), generators)
+	afdDomainPropertiesGenerator = rapid.Custom(func(t *rapid.T) AFDDomainProperties {
+		var result AFDDomainProperties
+		result.AzureDnsZone = ptrResourceReference.Draw(t, "AzureDnsZone")
+		result.ExtendedProperties = extendedProperties.Draw(t, "ExtendedProperties")
+		result.HostName = hostName.Draw(t, "HostName")
+		result.PreValidatedCustomDomainResourceId = ptrResourceReference.Draw(t, "PreValidatedCustomDomainResourceId")
+		result.TlsSettings = tlsSettings.Draw(t, "TlsSettings")
+		return result
+	})
 
 	return afdDomainPropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAFDDomainProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAFDDomainProperties(gens map[string]gopter.Gen) {
-	gens["ExtendedProperties"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["HostName"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForAFDDomainProperties is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAFDDomainProperties(gens map[string]gopter.Gen) {
-	gens["AzureDnsZone"] = gen.PtrOf(ResourceReferenceGenerator())
-	gens["PreValidatedCustomDomainResourceId"] = gen.PtrOf(ResourceReferenceGenerator())
-	gens["TlsSettings"] = gen.PtrOf(AFDDomainHttpsParametersGenerator())
 }
 
 func Test_AfdCustomDomain_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -190,29 +147,23 @@ func Test_AfdCustomDomain_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AfdCustomDomain_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAfdCustomDomain_Spec, AfdCustomDomain_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAfdCustomDomain_Spec)
 }
 
 // RunJSONSerializationTestForAfdCustomDomain_Spec runs a test to see if a specific instance of AfdCustomDomain_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForAfdCustomDomain_Spec(subject AfdCustomDomain_Spec) string {
+func RunJSONSerializationTestForAfdCustomDomain_Spec(t *rapid.T) {
+	subject := AfdCustomDomain_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AfdCustomDomain_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -221,46 +172,31 @@ func RunJSONSerializationTestForAfdCustomDomain_Spec(subject AfdCustomDomain_Spe
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AfdCustomDomain_Spec instances for property testing - lazily instantiated by
 // AfdCustomDomain_SpecGenerator()
-var afdCustomDomain_SpecGenerator gopter.Gen
+var afdCustomDomain_SpecGenerator *rapid.Generator[AfdCustomDomain_Spec]
 
 // AfdCustomDomain_SpecGenerator returns a generator of AfdCustomDomain_Spec instances for property testing.
-// We first initialize afdCustomDomain_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func AfdCustomDomain_SpecGenerator() gopter.Gen {
+func AfdCustomDomain_SpecGenerator() *rapid.Generator[AfdCustomDomain_Spec] {
 	if afdCustomDomain_SpecGenerator != nil {
 		return afdCustomDomain_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAfdCustomDomain_Spec(generators)
-	afdCustomDomain_SpecGenerator = gen.Struct(reflect.TypeOf(AfdCustomDomain_Spec{}), generators)
+	name := rapid.String()
+	properties := rapid.Ptr(AFDDomainPropertiesGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAfdCustomDomain_Spec(generators)
-	AddRelatedPropertyGeneratorsForAfdCustomDomain_Spec(generators)
-	afdCustomDomain_SpecGenerator = gen.Struct(reflect.TypeOf(AfdCustomDomain_Spec{}), generators)
+	afdCustomDomain_SpecGenerator = rapid.Custom(func(t *rapid.T) AfdCustomDomain_Spec {
+		var result AfdCustomDomain_Spec
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return afdCustomDomain_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAfdCustomDomain_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAfdCustomDomain_Spec(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForAfdCustomDomain_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAfdCustomDomain_Spec(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(AFDDomainPropertiesGenerator())
 }
 
 func Test_ResourceReference_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -270,29 +206,23 @@ func Test_ResourceReference_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ResourceReference via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForResourceReference, ResourceReferenceGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForResourceReference)
 }
 
 // RunJSONSerializationTestForResourceReference runs a test to see if a specific instance of ResourceReference round trips to JSON and back losslessly
-func RunJSONSerializationTestForResourceReference(subject ResourceReference) string {
+func RunJSONSerializationTestForResourceReference(t *rapid.T) {
+	subject := ResourceReferenceGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ResourceReference
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -301,29 +231,26 @@ func RunJSONSerializationTestForResourceReference(subject ResourceReference) str
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ResourceReference instances for property testing - lazily instantiated by ResourceReferenceGenerator()
-var resourceReferenceGenerator gopter.Gen
+var resourceReferenceGenerator *rapid.Generator[ResourceReference]
 
 // ResourceReferenceGenerator returns a generator of ResourceReference instances for property testing.
-func ResourceReferenceGenerator() gopter.Gen {
+func ResourceReferenceGenerator() *rapid.Generator[ResourceReference] {
 	if resourceReferenceGenerator != nil {
 		return resourceReferenceGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForResourceReference(generators)
-	resourceReferenceGenerator = gen.Struct(reflect.TypeOf(ResourceReference{}), generators)
+	id := rapid.Ptr(rapid.String(), true)
+
+	resourceReferenceGenerator = rapid.Custom(func(t *rapid.T) ResourceReference {
+		var result ResourceReference
+		result.Id = id.Draw(t, "Id")
+		return result
+	})
 
 	return resourceReferenceGenerator
-}
-
-// AddIndependentPropertyGeneratorsForResourceReference is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForResourceReference(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }

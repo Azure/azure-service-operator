@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_FirewallRuleProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FirewallRuleProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFirewallRuleProperties_STATUS, FirewallRuleProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFirewallRuleProperties_STATUS)
 }
 
 // RunJSONSerializationTestForFirewallRuleProperties_STATUS runs a test to see if a specific instance of FirewallRuleProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForFirewallRuleProperties_STATUS(subject FirewallRuleProperties_STATUS) string {
+func RunJSONSerializationTestForFirewallRuleProperties_STATUS(t *rapid.T) {
+	subject := FirewallRuleProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FirewallRuleProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,33 +45,30 @@ func RunJSONSerializationTestForFirewallRuleProperties_STATUS(subject FirewallRu
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FirewallRuleProperties_STATUS instances for property testing - lazily instantiated by
 // FirewallRuleProperties_STATUSGenerator()
-var firewallRuleProperties_STATUSGenerator gopter.Gen
+var firewallRuleProperties_STATUSGenerator *rapid.Generator[FirewallRuleProperties_STATUS]
 
 // FirewallRuleProperties_STATUSGenerator returns a generator of FirewallRuleProperties_STATUS instances for property testing.
-func FirewallRuleProperties_STATUSGenerator() gopter.Gen {
+func FirewallRuleProperties_STATUSGenerator() *rapid.Generator[FirewallRuleProperties_STATUS] {
 	if firewallRuleProperties_STATUSGenerator != nil {
 		return firewallRuleProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFirewallRuleProperties_STATUS(generators)
-	firewallRuleProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(FirewallRuleProperties_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	firewallRuleProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) FirewallRuleProperties_STATUS {
+		var result FirewallRuleProperties_STATUS
+		result.EndIpAddress = ptrString.Draw(t, "EndIpAddress")
+		result.StartIpAddress = ptrString.Draw(t, "StartIpAddress")
+		return result
+	})
 
 	return firewallRuleProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForFirewallRuleProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFirewallRuleProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["EndIpAddress"] = gen.PtrOf(gen.AlphaString())
-	gens["StartIpAddress"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_FlexibleServersFirewallRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -91,29 +78,23 @@ func Test_FlexibleServersFirewallRule_STATUS_WhenSerializedToJson_DeserializesAs
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FlexibleServersFirewallRule_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFlexibleServersFirewallRule_STATUS, FlexibleServersFirewallRule_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFlexibleServersFirewallRule_STATUS)
 }
 
 // RunJSONSerializationTestForFlexibleServersFirewallRule_STATUS runs a test to see if a specific instance of FlexibleServersFirewallRule_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForFlexibleServersFirewallRule_STATUS(subject FlexibleServersFirewallRule_STATUS) string {
+func RunJSONSerializationTestForFlexibleServersFirewallRule_STATUS(t *rapid.T) {
+	subject := FlexibleServersFirewallRule_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FlexibleServersFirewallRule_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -122,47 +103,33 @@ func RunJSONSerializationTestForFlexibleServersFirewallRule_STATUS(subject Flexi
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FlexibleServersFirewallRule_STATUS instances for property testing - lazily instantiated by
 // FlexibleServersFirewallRule_STATUSGenerator()
-var flexibleServersFirewallRule_STATUSGenerator gopter.Gen
+var flexibleServersFirewallRule_STATUSGenerator *rapid.Generator[FlexibleServersFirewallRule_STATUS]
 
 // FlexibleServersFirewallRule_STATUSGenerator returns a generator of FlexibleServersFirewallRule_STATUS instances for property testing.
-// We first initialize flexibleServersFirewallRule_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func FlexibleServersFirewallRule_STATUSGenerator() gopter.Gen {
+func FlexibleServersFirewallRule_STATUSGenerator() *rapid.Generator[FlexibleServersFirewallRule_STATUS] {
 	if flexibleServersFirewallRule_STATUSGenerator != nil {
 		return flexibleServersFirewallRule_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServersFirewallRule_STATUS(generators)
-	flexibleServersFirewallRule_STATUSGenerator = gen.Struct(reflect.TypeOf(FlexibleServersFirewallRule_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	properties := rapid.Ptr(FirewallRuleProperties_STATUSGenerator(), true)
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServersFirewallRule_STATUS(generators)
-	AddRelatedPropertyGeneratorsForFlexibleServersFirewallRule_STATUS(generators)
-	flexibleServersFirewallRule_STATUSGenerator = gen.Struct(reflect.TypeOf(FlexibleServersFirewallRule_STATUS{}), generators)
+	flexibleServersFirewallRule_STATUSGenerator = rapid.Custom(func(t *rapid.T) FlexibleServersFirewallRule_STATUS {
+		var result FlexibleServersFirewallRule_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return flexibleServersFirewallRule_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForFlexibleServersFirewallRule_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFlexibleServersFirewallRule_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForFlexibleServersFirewallRule_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFlexibleServersFirewallRule_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(FirewallRuleProperties_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }

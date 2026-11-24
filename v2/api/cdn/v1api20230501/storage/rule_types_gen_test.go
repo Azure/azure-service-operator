@@ -10,14 +10,11 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
+// Test_CacheConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of CacheConfiguration can be assigned to storage and back losslessly
 func Test_CacheConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -25,44 +22,34 @@ func Test_CacheConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from CacheConfiguration to CacheConfiguration via AssignProperties_To_CacheConfiguration & AssignProperties_From_CacheConfiguration returns original",
-		prop.ForAll(RunPropertyAssignmentTestForCacheConfiguration, CacheConfigurationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := CacheConfigurationGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForCacheConfiguration tests if a specific instance of CacheConfiguration can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForCacheConfiguration(subject CacheConfiguration) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.CacheConfiguration
+		err := copied.AssignProperties_To_CacheConfiguration(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CacheConfiguration
-	err := copied.AssignProperties_To_CacheConfiguration(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual CacheConfiguration
+		err = actual.AssignProperties_From_CacheConfiguration(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual CacheConfiguration
-	err = actual.AssignProperties_From_CacheConfiguration(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_CacheConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -72,29 +59,23 @@ func Test_CacheConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CacheConfiguration via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCacheConfiguration, CacheConfigurationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForCacheConfiguration)
 }
 
 // RunJSONSerializationTestForCacheConfiguration runs a test to see if a specific instance of CacheConfiguration round trips to JSON and back losslessly
-func RunJSONSerializationTestForCacheConfiguration(subject CacheConfiguration) string {
+func RunJSONSerializationTestForCacheConfiguration(t *rapid.T) {
+	subject := CacheConfigurationGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual CacheConfiguration
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -103,37 +84,35 @@ func RunJSONSerializationTestForCacheConfiguration(subject CacheConfiguration) s
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of CacheConfiguration instances for property testing - lazily instantiated by CacheConfigurationGenerator()
-var cacheConfigurationGenerator gopter.Gen
+var cacheConfigurationGenerator *rapid.Generator[CacheConfiguration]
 
 // CacheConfigurationGenerator returns a generator of CacheConfiguration instances for property testing.
-func CacheConfigurationGenerator() gopter.Gen {
+func CacheConfigurationGenerator() *rapid.Generator[CacheConfiguration] {
 	if cacheConfigurationGenerator != nil {
 		return cacheConfigurationGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCacheConfiguration(generators)
-	cacheConfigurationGenerator = gen.Struct(reflect.TypeOf(CacheConfiguration{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	cacheConfigurationGenerator = rapid.Custom(func(t *rapid.T) CacheConfiguration {
+		var result CacheConfiguration
+		result.CacheBehavior = ptrString.Draw(t, "CacheBehavior")
+		result.CacheDuration = ptrString.Draw(t, "CacheDuration")
+		result.IsCompressionEnabled = ptrString.Draw(t, "IsCompressionEnabled")
+		result.QueryParameters = ptrString.Draw(t, "QueryParameters")
+		result.QueryStringCachingBehavior = ptrString.Draw(t, "QueryStringCachingBehavior")
+		return result
+	})
 
 	return cacheConfigurationGenerator
 }
 
-// AddIndependentPropertyGeneratorsForCacheConfiguration is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCacheConfiguration(gens map[string]gopter.Gen) {
-	gens["CacheBehavior"] = gen.PtrOf(gen.AlphaString())
-	gens["CacheDuration"] = gen.PtrOf(gen.AlphaString())
-	gens["IsCompressionEnabled"] = gen.PtrOf(gen.AlphaString())
-	gens["QueryParameters"] = gen.PtrOf(gen.AlphaString())
-	gens["QueryStringCachingBehavior"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_CacheConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of CacheConfiguration_STATUS can be assigned to storage and back losslessly
 func Test_CacheConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -141,44 +120,34 @@ func Test_CacheConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from CacheConfiguration_STATUS to CacheConfiguration_STATUS via AssignProperties_To_CacheConfiguration_STATUS & AssignProperties_From_CacheConfiguration_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForCacheConfiguration_STATUS, CacheConfiguration_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := CacheConfiguration_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForCacheConfiguration_STATUS tests if a specific instance of CacheConfiguration_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForCacheConfiguration_STATUS(subject CacheConfiguration_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.CacheConfiguration_STATUS
+		err := copied.AssignProperties_To_CacheConfiguration_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CacheConfiguration_STATUS
-	err := copied.AssignProperties_To_CacheConfiguration_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual CacheConfiguration_STATUS
+		err = actual.AssignProperties_From_CacheConfiguration_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual CacheConfiguration_STATUS
-	err = actual.AssignProperties_From_CacheConfiguration_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_CacheConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -188,29 +157,23 @@ func Test_CacheConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CacheConfiguration_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCacheConfiguration_STATUS, CacheConfiguration_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForCacheConfiguration_STATUS)
 }
 
 // RunJSONSerializationTestForCacheConfiguration_STATUS runs a test to see if a specific instance of CacheConfiguration_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForCacheConfiguration_STATUS(subject CacheConfiguration_STATUS) string {
+func RunJSONSerializationTestForCacheConfiguration_STATUS(t *rapid.T) {
+	subject := CacheConfiguration_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual CacheConfiguration_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -219,38 +182,36 @@ func RunJSONSerializationTestForCacheConfiguration_STATUS(subject CacheConfigura
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of CacheConfiguration_STATUS instances for property testing - lazily instantiated by
 // CacheConfiguration_STATUSGenerator()
-var cacheConfiguration_STATUSGenerator gopter.Gen
+var cacheConfiguration_STATUSGenerator *rapid.Generator[CacheConfiguration_STATUS]
 
 // CacheConfiguration_STATUSGenerator returns a generator of CacheConfiguration_STATUS instances for property testing.
-func CacheConfiguration_STATUSGenerator() gopter.Gen {
+func CacheConfiguration_STATUSGenerator() *rapid.Generator[CacheConfiguration_STATUS] {
 	if cacheConfiguration_STATUSGenerator != nil {
 		return cacheConfiguration_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCacheConfiguration_STATUS(generators)
-	cacheConfiguration_STATUSGenerator = gen.Struct(reflect.TypeOf(CacheConfiguration_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	cacheConfiguration_STATUSGenerator = rapid.Custom(func(t *rapid.T) CacheConfiguration_STATUS {
+		var result CacheConfiguration_STATUS
+		result.CacheBehavior = ptrString.Draw(t, "CacheBehavior")
+		result.CacheDuration = ptrString.Draw(t, "CacheDuration")
+		result.IsCompressionEnabled = ptrString.Draw(t, "IsCompressionEnabled")
+		result.QueryParameters = ptrString.Draw(t, "QueryParameters")
+		result.QueryStringCachingBehavior = ptrString.Draw(t, "QueryStringCachingBehavior")
+		return result
+	})
 
 	return cacheConfiguration_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForCacheConfiguration_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCacheConfiguration_STATUS(gens map[string]gopter.Gen) {
-	gens["CacheBehavior"] = gen.PtrOf(gen.AlphaString())
-	gens["CacheDuration"] = gen.PtrOf(gen.AlphaString())
-	gens["IsCompressionEnabled"] = gen.PtrOf(gen.AlphaString())
-	gens["QueryParameters"] = gen.PtrOf(gen.AlphaString())
-	gens["QueryStringCachingBehavior"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_CacheExpirationActionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of CacheExpirationActionParameters can be assigned to storage and back losslessly
 func Test_CacheExpirationActionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -258,44 +219,34 @@ func Test_CacheExpirationActionParameters_WhenPropertiesConverted_RoundTripsWith
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from CacheExpirationActionParameters to CacheExpirationActionParameters via AssignProperties_To_CacheExpirationActionParameters & AssignProperties_From_CacheExpirationActionParameters returns original",
-		prop.ForAll(RunPropertyAssignmentTestForCacheExpirationActionParameters, CacheExpirationActionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := CacheExpirationActionParametersGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForCacheExpirationActionParameters tests if a specific instance of CacheExpirationActionParameters can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForCacheExpirationActionParameters(subject CacheExpirationActionParameters) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.CacheExpirationActionParameters
+		err := copied.AssignProperties_To_CacheExpirationActionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CacheExpirationActionParameters
-	err := copied.AssignProperties_To_CacheExpirationActionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual CacheExpirationActionParameters
+		err = actual.AssignProperties_From_CacheExpirationActionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual CacheExpirationActionParameters
-	err = actual.AssignProperties_From_CacheExpirationActionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_CacheExpirationActionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -305,29 +256,23 @@ func Test_CacheExpirationActionParameters_WhenSerializedToJson_DeserializesAsEqu
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CacheExpirationActionParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCacheExpirationActionParameters, CacheExpirationActionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForCacheExpirationActionParameters)
 }
 
 // RunJSONSerializationTestForCacheExpirationActionParameters runs a test to see if a specific instance of CacheExpirationActionParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForCacheExpirationActionParameters(subject CacheExpirationActionParameters) string {
+func RunJSONSerializationTestForCacheExpirationActionParameters(t *rapid.T) {
+	subject := CacheExpirationActionParametersGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual CacheExpirationActionParameters
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -336,37 +281,35 @@ func RunJSONSerializationTestForCacheExpirationActionParameters(subject CacheExp
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of CacheExpirationActionParameters instances for property testing - lazily instantiated by
 // CacheExpirationActionParametersGenerator()
-var cacheExpirationActionParametersGenerator gopter.Gen
+var cacheExpirationActionParametersGenerator *rapid.Generator[CacheExpirationActionParameters]
 
 // CacheExpirationActionParametersGenerator returns a generator of CacheExpirationActionParameters instances for property testing.
-func CacheExpirationActionParametersGenerator() gopter.Gen {
+func CacheExpirationActionParametersGenerator() *rapid.Generator[CacheExpirationActionParameters] {
 	if cacheExpirationActionParametersGenerator != nil {
 		return cacheExpirationActionParametersGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCacheExpirationActionParameters(generators)
-	cacheExpirationActionParametersGenerator = gen.Struct(reflect.TypeOf(CacheExpirationActionParameters{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	cacheExpirationActionParametersGenerator = rapid.Custom(func(t *rapid.T) CacheExpirationActionParameters {
+		var result CacheExpirationActionParameters
+		result.CacheBehavior = ptrString.Draw(t, "CacheBehavior")
+		result.CacheDuration = ptrString.Draw(t, "CacheDuration")
+		result.CacheType = ptrString.Draw(t, "CacheType")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return cacheExpirationActionParametersGenerator
 }
 
-// AddIndependentPropertyGeneratorsForCacheExpirationActionParameters is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCacheExpirationActionParameters(gens map[string]gopter.Gen) {
-	gens["CacheBehavior"] = gen.PtrOf(gen.AlphaString())
-	gens["CacheDuration"] = gen.PtrOf(gen.AlphaString())
-	gens["CacheType"] = gen.PtrOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_CacheExpirationActionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of CacheExpirationActionParameters_STATUS can be assigned to storage and back losslessly
 func Test_CacheExpirationActionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -374,44 +317,34 @@ func Test_CacheExpirationActionParameters_STATUS_WhenPropertiesConverted_RoundTr
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from CacheExpirationActionParameters_STATUS to CacheExpirationActionParameters_STATUS via AssignProperties_To_CacheExpirationActionParameters_STATUS & AssignProperties_From_CacheExpirationActionParameters_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForCacheExpirationActionParameters_STATUS, CacheExpirationActionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := CacheExpirationActionParameters_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForCacheExpirationActionParameters_STATUS tests if a specific instance of CacheExpirationActionParameters_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForCacheExpirationActionParameters_STATUS(subject CacheExpirationActionParameters_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.CacheExpirationActionParameters_STATUS
+		err := copied.AssignProperties_To_CacheExpirationActionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CacheExpirationActionParameters_STATUS
-	err := copied.AssignProperties_To_CacheExpirationActionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual CacheExpirationActionParameters_STATUS
+		err = actual.AssignProperties_From_CacheExpirationActionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual CacheExpirationActionParameters_STATUS
-	err = actual.AssignProperties_From_CacheExpirationActionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_CacheExpirationActionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -421,29 +354,23 @@ func Test_CacheExpirationActionParameters_STATUS_WhenSerializedToJson_Deserializ
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CacheExpirationActionParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCacheExpirationActionParameters_STATUS, CacheExpirationActionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForCacheExpirationActionParameters_STATUS)
 }
 
 // RunJSONSerializationTestForCacheExpirationActionParameters_STATUS runs a test to see if a specific instance of CacheExpirationActionParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForCacheExpirationActionParameters_STATUS(subject CacheExpirationActionParameters_STATUS) string {
+func RunJSONSerializationTestForCacheExpirationActionParameters_STATUS(t *rapid.T) {
+	subject := CacheExpirationActionParameters_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual CacheExpirationActionParameters_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -452,37 +379,35 @@ func RunJSONSerializationTestForCacheExpirationActionParameters_STATUS(subject C
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of CacheExpirationActionParameters_STATUS instances for property testing - lazily instantiated by
 // CacheExpirationActionParameters_STATUSGenerator()
-var cacheExpirationActionParameters_STATUSGenerator gopter.Gen
+var cacheExpirationActionParameters_STATUSGenerator *rapid.Generator[CacheExpirationActionParameters_STATUS]
 
 // CacheExpirationActionParameters_STATUSGenerator returns a generator of CacheExpirationActionParameters_STATUS instances for property testing.
-func CacheExpirationActionParameters_STATUSGenerator() gopter.Gen {
+func CacheExpirationActionParameters_STATUSGenerator() *rapid.Generator[CacheExpirationActionParameters_STATUS] {
 	if cacheExpirationActionParameters_STATUSGenerator != nil {
 		return cacheExpirationActionParameters_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCacheExpirationActionParameters_STATUS(generators)
-	cacheExpirationActionParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(CacheExpirationActionParameters_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	cacheExpirationActionParameters_STATUSGenerator = rapid.Custom(func(t *rapid.T) CacheExpirationActionParameters_STATUS {
+		var result CacheExpirationActionParameters_STATUS
+		result.CacheBehavior = ptrString.Draw(t, "CacheBehavior")
+		result.CacheDuration = ptrString.Draw(t, "CacheDuration")
+		result.CacheType = ptrString.Draw(t, "CacheType")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return cacheExpirationActionParameters_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForCacheExpirationActionParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCacheExpirationActionParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["CacheBehavior"] = gen.PtrOf(gen.AlphaString())
-	gens["CacheDuration"] = gen.PtrOf(gen.AlphaString())
-	gens["CacheType"] = gen.PtrOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_CacheKeyQueryStringActionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of CacheKeyQueryStringActionParameters can be assigned to storage and back losslessly
 func Test_CacheKeyQueryStringActionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -490,44 +415,34 @@ func Test_CacheKeyQueryStringActionParameters_WhenPropertiesConverted_RoundTrips
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from CacheKeyQueryStringActionParameters to CacheKeyQueryStringActionParameters via AssignProperties_To_CacheKeyQueryStringActionParameters & AssignProperties_From_CacheKeyQueryStringActionParameters returns original",
-		prop.ForAll(RunPropertyAssignmentTestForCacheKeyQueryStringActionParameters, CacheKeyQueryStringActionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := CacheKeyQueryStringActionParametersGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForCacheKeyQueryStringActionParameters tests if a specific instance of CacheKeyQueryStringActionParameters can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForCacheKeyQueryStringActionParameters(subject CacheKeyQueryStringActionParameters) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.CacheKeyQueryStringActionParameters
+		err := copied.AssignProperties_To_CacheKeyQueryStringActionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CacheKeyQueryStringActionParameters
-	err := copied.AssignProperties_To_CacheKeyQueryStringActionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual CacheKeyQueryStringActionParameters
+		err = actual.AssignProperties_From_CacheKeyQueryStringActionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual CacheKeyQueryStringActionParameters
-	err = actual.AssignProperties_From_CacheKeyQueryStringActionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_CacheKeyQueryStringActionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -537,29 +452,23 @@ func Test_CacheKeyQueryStringActionParameters_WhenSerializedToJson_DeserializesA
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CacheKeyQueryStringActionParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCacheKeyQueryStringActionParameters, CacheKeyQueryStringActionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForCacheKeyQueryStringActionParameters)
 }
 
 // RunJSONSerializationTestForCacheKeyQueryStringActionParameters runs a test to see if a specific instance of CacheKeyQueryStringActionParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForCacheKeyQueryStringActionParameters(subject CacheKeyQueryStringActionParameters) string {
+func RunJSONSerializationTestForCacheKeyQueryStringActionParameters(t *rapid.T) {
+	subject := CacheKeyQueryStringActionParametersGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual CacheKeyQueryStringActionParameters
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -568,36 +477,34 @@ func RunJSONSerializationTestForCacheKeyQueryStringActionParameters(subject Cach
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of CacheKeyQueryStringActionParameters instances for property testing - lazily instantiated by
 // CacheKeyQueryStringActionParametersGenerator()
-var cacheKeyQueryStringActionParametersGenerator gopter.Gen
+var cacheKeyQueryStringActionParametersGenerator *rapid.Generator[CacheKeyQueryStringActionParameters]
 
 // CacheKeyQueryStringActionParametersGenerator returns a generator of CacheKeyQueryStringActionParameters instances for property testing.
-func CacheKeyQueryStringActionParametersGenerator() gopter.Gen {
+func CacheKeyQueryStringActionParametersGenerator() *rapid.Generator[CacheKeyQueryStringActionParameters] {
 	if cacheKeyQueryStringActionParametersGenerator != nil {
 		return cacheKeyQueryStringActionParametersGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCacheKeyQueryStringActionParameters(generators)
-	cacheKeyQueryStringActionParametersGenerator = gen.Struct(reflect.TypeOf(CacheKeyQueryStringActionParameters{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	cacheKeyQueryStringActionParametersGenerator = rapid.Custom(func(t *rapid.T) CacheKeyQueryStringActionParameters {
+		var result CacheKeyQueryStringActionParameters
+		result.QueryParameters = ptrString.Draw(t, "QueryParameters")
+		result.QueryStringBehavior = ptrString.Draw(t, "QueryStringBehavior")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return cacheKeyQueryStringActionParametersGenerator
 }
 
-// AddIndependentPropertyGeneratorsForCacheKeyQueryStringActionParameters is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCacheKeyQueryStringActionParameters(gens map[string]gopter.Gen) {
-	gens["QueryParameters"] = gen.PtrOf(gen.AlphaString())
-	gens["QueryStringBehavior"] = gen.PtrOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_CacheKeyQueryStringActionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of CacheKeyQueryStringActionParameters_STATUS can be assigned to storage and back losslessly
 func Test_CacheKeyQueryStringActionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -605,44 +512,34 @@ func Test_CacheKeyQueryStringActionParameters_STATUS_WhenPropertiesConverted_Rou
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from CacheKeyQueryStringActionParameters_STATUS to CacheKeyQueryStringActionParameters_STATUS via AssignProperties_To_CacheKeyQueryStringActionParameters_STATUS & AssignProperties_From_CacheKeyQueryStringActionParameters_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForCacheKeyQueryStringActionParameters_STATUS, CacheKeyQueryStringActionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := CacheKeyQueryStringActionParameters_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForCacheKeyQueryStringActionParameters_STATUS tests if a specific instance of CacheKeyQueryStringActionParameters_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForCacheKeyQueryStringActionParameters_STATUS(subject CacheKeyQueryStringActionParameters_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.CacheKeyQueryStringActionParameters_STATUS
+		err := copied.AssignProperties_To_CacheKeyQueryStringActionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CacheKeyQueryStringActionParameters_STATUS
-	err := copied.AssignProperties_To_CacheKeyQueryStringActionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual CacheKeyQueryStringActionParameters_STATUS
+		err = actual.AssignProperties_From_CacheKeyQueryStringActionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual CacheKeyQueryStringActionParameters_STATUS
-	err = actual.AssignProperties_From_CacheKeyQueryStringActionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_CacheKeyQueryStringActionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -652,29 +549,23 @@ func Test_CacheKeyQueryStringActionParameters_STATUS_WhenSerializedToJson_Deseri
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CacheKeyQueryStringActionParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCacheKeyQueryStringActionParameters_STATUS, CacheKeyQueryStringActionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForCacheKeyQueryStringActionParameters_STATUS)
 }
 
 // RunJSONSerializationTestForCacheKeyQueryStringActionParameters_STATUS runs a test to see if a specific instance of CacheKeyQueryStringActionParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForCacheKeyQueryStringActionParameters_STATUS(subject CacheKeyQueryStringActionParameters_STATUS) string {
+func RunJSONSerializationTestForCacheKeyQueryStringActionParameters_STATUS(t *rapid.T) {
+	subject := CacheKeyQueryStringActionParameters_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual CacheKeyQueryStringActionParameters_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -683,36 +574,34 @@ func RunJSONSerializationTestForCacheKeyQueryStringActionParameters_STATUS(subje
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of CacheKeyQueryStringActionParameters_STATUS instances for property testing - lazily instantiated by
 // CacheKeyQueryStringActionParameters_STATUSGenerator()
-var cacheKeyQueryStringActionParameters_STATUSGenerator gopter.Gen
+var cacheKeyQueryStringActionParameters_STATUSGenerator *rapid.Generator[CacheKeyQueryStringActionParameters_STATUS]
 
 // CacheKeyQueryStringActionParameters_STATUSGenerator returns a generator of CacheKeyQueryStringActionParameters_STATUS instances for property testing.
-func CacheKeyQueryStringActionParameters_STATUSGenerator() gopter.Gen {
+func CacheKeyQueryStringActionParameters_STATUSGenerator() *rapid.Generator[CacheKeyQueryStringActionParameters_STATUS] {
 	if cacheKeyQueryStringActionParameters_STATUSGenerator != nil {
 		return cacheKeyQueryStringActionParameters_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCacheKeyQueryStringActionParameters_STATUS(generators)
-	cacheKeyQueryStringActionParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(CacheKeyQueryStringActionParameters_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	cacheKeyQueryStringActionParameters_STATUSGenerator = rapid.Custom(func(t *rapid.T) CacheKeyQueryStringActionParameters_STATUS {
+		var result CacheKeyQueryStringActionParameters_STATUS
+		result.QueryParameters = ptrString.Draw(t, "QueryParameters")
+		result.QueryStringBehavior = ptrString.Draw(t, "QueryStringBehavior")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return cacheKeyQueryStringActionParameters_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForCacheKeyQueryStringActionParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCacheKeyQueryStringActionParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["QueryParameters"] = gen.PtrOf(gen.AlphaString())
-	gens["QueryStringBehavior"] = gen.PtrOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_ClientPortMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ClientPortMatchConditionParameters can be assigned to storage and back losslessly
 func Test_ClientPortMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -720,44 +609,34 @@ func Test_ClientPortMatchConditionParameters_WhenPropertiesConverted_RoundTripsW
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ClientPortMatchConditionParameters to ClientPortMatchConditionParameters via AssignProperties_To_ClientPortMatchConditionParameters & AssignProperties_From_ClientPortMatchConditionParameters returns original",
-		prop.ForAll(RunPropertyAssignmentTestForClientPortMatchConditionParameters, ClientPortMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ClientPortMatchConditionParametersGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForClientPortMatchConditionParameters tests if a specific instance of ClientPortMatchConditionParameters can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForClientPortMatchConditionParameters(subject ClientPortMatchConditionParameters) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ClientPortMatchConditionParameters
+		err := copied.AssignProperties_To_ClientPortMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ClientPortMatchConditionParameters
-	err := copied.AssignProperties_To_ClientPortMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ClientPortMatchConditionParameters
+		err = actual.AssignProperties_From_ClientPortMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ClientPortMatchConditionParameters
-	err = actual.AssignProperties_From_ClientPortMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ClientPortMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -767,29 +646,23 @@ func Test_ClientPortMatchConditionParameters_WhenSerializedToJson_DeserializesAs
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ClientPortMatchConditionParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForClientPortMatchConditionParameters, ClientPortMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForClientPortMatchConditionParameters)
 }
 
 // RunJSONSerializationTestForClientPortMatchConditionParameters runs a test to see if a specific instance of ClientPortMatchConditionParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForClientPortMatchConditionParameters(subject ClientPortMatchConditionParameters) string {
+func RunJSONSerializationTestForClientPortMatchConditionParameters(t *rapid.T) {
+	subject := ClientPortMatchConditionParametersGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ClientPortMatchConditionParameters
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -798,38 +671,38 @@ func RunJSONSerializationTestForClientPortMatchConditionParameters(subject Clien
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ClientPortMatchConditionParameters instances for property testing - lazily instantiated by
 // ClientPortMatchConditionParametersGenerator()
-var clientPortMatchConditionParametersGenerator gopter.Gen
+var clientPortMatchConditionParametersGenerator *rapid.Generator[ClientPortMatchConditionParameters]
 
 // ClientPortMatchConditionParametersGenerator returns a generator of ClientPortMatchConditionParameters instances for property testing.
-func ClientPortMatchConditionParametersGenerator() gopter.Gen {
+func ClientPortMatchConditionParametersGenerator() *rapid.Generator[ClientPortMatchConditionParameters] {
 	if clientPortMatchConditionParametersGenerator != nil {
 		return clientPortMatchConditionParametersGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForClientPortMatchConditionParameters(generators)
-	clientPortMatchConditionParametersGenerator = gen.Struct(reflect.TypeOf(ClientPortMatchConditionParameters{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	clientPortMatchConditionParametersGenerator = rapid.Custom(func(t *rapid.T) ClientPortMatchConditionParameters {
+		var result ClientPortMatchConditionParameters
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return clientPortMatchConditionParametersGenerator
 }
 
-// AddIndependentPropertyGeneratorsForClientPortMatchConditionParameters is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForClientPortMatchConditionParameters(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_ClientPortMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ClientPortMatchConditionParameters_STATUS can be assigned to storage and back losslessly
 func Test_ClientPortMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -837,44 +710,34 @@ func Test_ClientPortMatchConditionParameters_STATUS_WhenPropertiesConverted_Roun
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ClientPortMatchConditionParameters_STATUS to ClientPortMatchConditionParameters_STATUS via AssignProperties_To_ClientPortMatchConditionParameters_STATUS & AssignProperties_From_ClientPortMatchConditionParameters_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForClientPortMatchConditionParameters_STATUS, ClientPortMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ClientPortMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForClientPortMatchConditionParameters_STATUS tests if a specific instance of ClientPortMatchConditionParameters_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForClientPortMatchConditionParameters_STATUS(subject ClientPortMatchConditionParameters_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ClientPortMatchConditionParameters_STATUS
+		err := copied.AssignProperties_To_ClientPortMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ClientPortMatchConditionParameters_STATUS
-	err := copied.AssignProperties_To_ClientPortMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ClientPortMatchConditionParameters_STATUS
+		err = actual.AssignProperties_From_ClientPortMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ClientPortMatchConditionParameters_STATUS
-	err = actual.AssignProperties_From_ClientPortMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ClientPortMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -884,29 +747,23 @@ func Test_ClientPortMatchConditionParameters_STATUS_WhenSerializedToJson_Deseria
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ClientPortMatchConditionParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForClientPortMatchConditionParameters_STATUS, ClientPortMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForClientPortMatchConditionParameters_STATUS)
 }
 
 // RunJSONSerializationTestForClientPortMatchConditionParameters_STATUS runs a test to see if a specific instance of ClientPortMatchConditionParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForClientPortMatchConditionParameters_STATUS(subject ClientPortMatchConditionParameters_STATUS) string {
+func RunJSONSerializationTestForClientPortMatchConditionParameters_STATUS(t *rapid.T) {
+	subject := ClientPortMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ClientPortMatchConditionParameters_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -915,38 +772,38 @@ func RunJSONSerializationTestForClientPortMatchConditionParameters_STATUS(subjec
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ClientPortMatchConditionParameters_STATUS instances for property testing - lazily instantiated by
 // ClientPortMatchConditionParameters_STATUSGenerator()
-var clientPortMatchConditionParameters_STATUSGenerator gopter.Gen
+var clientPortMatchConditionParameters_STATUSGenerator *rapid.Generator[ClientPortMatchConditionParameters_STATUS]
 
 // ClientPortMatchConditionParameters_STATUSGenerator returns a generator of ClientPortMatchConditionParameters_STATUS instances for property testing.
-func ClientPortMatchConditionParameters_STATUSGenerator() gopter.Gen {
+func ClientPortMatchConditionParameters_STATUSGenerator() *rapid.Generator[ClientPortMatchConditionParameters_STATUS] {
 	if clientPortMatchConditionParameters_STATUSGenerator != nil {
 		return clientPortMatchConditionParameters_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForClientPortMatchConditionParameters_STATUS(generators)
-	clientPortMatchConditionParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(ClientPortMatchConditionParameters_STATUS{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	clientPortMatchConditionParameters_STATUSGenerator = rapid.Custom(func(t *rapid.T) ClientPortMatchConditionParameters_STATUS {
+		var result ClientPortMatchConditionParameters_STATUS
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return clientPortMatchConditionParameters_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForClientPortMatchConditionParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForClientPortMatchConditionParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_CookiesMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of CookiesMatchConditionParameters can be assigned to storage and back losslessly
 func Test_CookiesMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -954,44 +811,34 @@ func Test_CookiesMatchConditionParameters_WhenPropertiesConverted_RoundTripsWith
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from CookiesMatchConditionParameters to CookiesMatchConditionParameters via AssignProperties_To_CookiesMatchConditionParameters & AssignProperties_From_CookiesMatchConditionParameters returns original",
-		prop.ForAll(RunPropertyAssignmentTestForCookiesMatchConditionParameters, CookiesMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := CookiesMatchConditionParametersGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForCookiesMatchConditionParameters tests if a specific instance of CookiesMatchConditionParameters can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForCookiesMatchConditionParameters(subject CookiesMatchConditionParameters) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.CookiesMatchConditionParameters
+		err := copied.AssignProperties_To_CookiesMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CookiesMatchConditionParameters
-	err := copied.AssignProperties_To_CookiesMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual CookiesMatchConditionParameters
+		err = actual.AssignProperties_From_CookiesMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual CookiesMatchConditionParameters
-	err = actual.AssignProperties_From_CookiesMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_CookiesMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1001,29 +848,23 @@ func Test_CookiesMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqu
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CookiesMatchConditionParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCookiesMatchConditionParameters, CookiesMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForCookiesMatchConditionParameters)
 }
 
 // RunJSONSerializationTestForCookiesMatchConditionParameters runs a test to see if a specific instance of CookiesMatchConditionParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForCookiesMatchConditionParameters(subject CookiesMatchConditionParameters) string {
+func RunJSONSerializationTestForCookiesMatchConditionParameters(t *rapid.T) {
+	subject := CookiesMatchConditionParametersGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual CookiesMatchConditionParameters
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1032,39 +873,39 @@ func RunJSONSerializationTestForCookiesMatchConditionParameters(subject CookiesM
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of CookiesMatchConditionParameters instances for property testing - lazily instantiated by
 // CookiesMatchConditionParametersGenerator()
-var cookiesMatchConditionParametersGenerator gopter.Gen
+var cookiesMatchConditionParametersGenerator *rapid.Generator[CookiesMatchConditionParameters]
 
 // CookiesMatchConditionParametersGenerator returns a generator of CookiesMatchConditionParameters instances for property testing.
-func CookiesMatchConditionParametersGenerator() gopter.Gen {
+func CookiesMatchConditionParametersGenerator() *rapid.Generator[CookiesMatchConditionParameters] {
 	if cookiesMatchConditionParametersGenerator != nil {
 		return cookiesMatchConditionParametersGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCookiesMatchConditionParameters(generators)
-	cookiesMatchConditionParametersGenerator = gen.Struct(reflect.TypeOf(CookiesMatchConditionParameters{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	cookiesMatchConditionParametersGenerator = rapid.Custom(func(t *rapid.T) CookiesMatchConditionParameters {
+		var result CookiesMatchConditionParameters
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Selector = ptrString.Draw(t, "Selector")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return cookiesMatchConditionParametersGenerator
 }
 
-// AddIndependentPropertyGeneratorsForCookiesMatchConditionParameters is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCookiesMatchConditionParameters(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Selector"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_CookiesMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of CookiesMatchConditionParameters_STATUS can be assigned to storage and back losslessly
 func Test_CookiesMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1072,44 +913,34 @@ func Test_CookiesMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTr
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from CookiesMatchConditionParameters_STATUS to CookiesMatchConditionParameters_STATUS via AssignProperties_To_CookiesMatchConditionParameters_STATUS & AssignProperties_From_CookiesMatchConditionParameters_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForCookiesMatchConditionParameters_STATUS, CookiesMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := CookiesMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForCookiesMatchConditionParameters_STATUS tests if a specific instance of CookiesMatchConditionParameters_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForCookiesMatchConditionParameters_STATUS(subject CookiesMatchConditionParameters_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.CookiesMatchConditionParameters_STATUS
+		err := copied.AssignProperties_To_CookiesMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CookiesMatchConditionParameters_STATUS
-	err := copied.AssignProperties_To_CookiesMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual CookiesMatchConditionParameters_STATUS
+		err = actual.AssignProperties_From_CookiesMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual CookiesMatchConditionParameters_STATUS
-	err = actual.AssignProperties_From_CookiesMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_CookiesMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1119,29 +950,23 @@ func Test_CookiesMatchConditionParameters_STATUS_WhenSerializedToJson_Deserializ
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CookiesMatchConditionParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCookiesMatchConditionParameters_STATUS, CookiesMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForCookiesMatchConditionParameters_STATUS)
 }
 
 // RunJSONSerializationTestForCookiesMatchConditionParameters_STATUS runs a test to see if a specific instance of CookiesMatchConditionParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForCookiesMatchConditionParameters_STATUS(subject CookiesMatchConditionParameters_STATUS) string {
+func RunJSONSerializationTestForCookiesMatchConditionParameters_STATUS(t *rapid.T) {
+	subject := CookiesMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual CookiesMatchConditionParameters_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1150,39 +975,39 @@ func RunJSONSerializationTestForCookiesMatchConditionParameters_STATUS(subject C
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of CookiesMatchConditionParameters_STATUS instances for property testing - lazily instantiated by
 // CookiesMatchConditionParameters_STATUSGenerator()
-var cookiesMatchConditionParameters_STATUSGenerator gopter.Gen
+var cookiesMatchConditionParameters_STATUSGenerator *rapid.Generator[CookiesMatchConditionParameters_STATUS]
 
 // CookiesMatchConditionParameters_STATUSGenerator returns a generator of CookiesMatchConditionParameters_STATUS instances for property testing.
-func CookiesMatchConditionParameters_STATUSGenerator() gopter.Gen {
+func CookiesMatchConditionParameters_STATUSGenerator() *rapid.Generator[CookiesMatchConditionParameters_STATUS] {
 	if cookiesMatchConditionParameters_STATUSGenerator != nil {
 		return cookiesMatchConditionParameters_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCookiesMatchConditionParameters_STATUS(generators)
-	cookiesMatchConditionParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(CookiesMatchConditionParameters_STATUS{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	cookiesMatchConditionParameters_STATUSGenerator = rapid.Custom(func(t *rapid.T) CookiesMatchConditionParameters_STATUS {
+		var result CookiesMatchConditionParameters_STATUS
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Selector = ptrString.Draw(t, "Selector")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return cookiesMatchConditionParameters_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForCookiesMatchConditionParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCookiesMatchConditionParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Selector"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_DeliveryRuleAction_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleAction can be assigned to storage and back losslessly
 func Test_DeliveryRuleAction_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1190,44 +1015,34 @@ func Test_DeliveryRuleAction_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleAction to DeliveryRuleAction via AssignProperties_To_DeliveryRuleAction & AssignProperties_From_DeliveryRuleAction returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleAction, DeliveryRuleActionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleActionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleAction tests if a specific instance of DeliveryRuleAction can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleAction(subject DeliveryRuleAction) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleAction
+		err := copied.AssignProperties_To_DeliveryRuleAction(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleAction
-	err := copied.AssignProperties_To_DeliveryRuleAction(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleAction
+		err = actual.AssignProperties_From_DeliveryRuleAction(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleAction
-	err = actual.AssignProperties_From_DeliveryRuleAction(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleAction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1237,29 +1052,23 @@ func Test_DeliveryRuleAction_WhenSerializedToJson_DeserializesAsEqual(t *testing
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleAction via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleAction, DeliveryRuleActionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleAction)
 }
 
 // RunJSONSerializationTestForDeliveryRuleAction runs a test to see if a specific instance of DeliveryRuleAction round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleAction(subject DeliveryRuleAction) string {
+func RunJSONSerializationTestForDeliveryRuleAction(t *rapid.T) {
+	subject := DeliveryRuleActionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleAction
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1268,66 +1077,99 @@ func RunJSONSerializationTestForDeliveryRuleAction(subject DeliveryRuleAction) s
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleAction instances for property testing - lazily instantiated by DeliveryRuleActionGenerator()
-var deliveryRuleActionGenerator gopter.Gen
+var deliveryRuleActionGenerator *rapid.Generator[DeliveryRuleAction]
 
 // DeliveryRuleActionGenerator returns a generator of DeliveryRuleAction instances for property testing.
-func DeliveryRuleActionGenerator() gopter.Gen {
+func DeliveryRuleActionGenerator() *rapid.Generator[DeliveryRuleAction] {
 	if deliveryRuleActionGenerator != nil {
 		return deliveryRuleActionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForDeliveryRuleAction(generators)
-
 	// handle OneOf by choosing only one field to instantiate
-	var gens []gopter.Gen
-	for propName, propGen := range generators {
-		props := map[string]gopter.Gen{propName: propGen}
-		gens = append(gens, gen.Struct(reflect.TypeOf(DeliveryRuleAction{}), props))
-	}
-	deliveryRuleActionGenerator = gen.OneGenOf(gens...)
+	var gens []*rapid.Generator[DeliveryRuleAction]
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleAction {
+		var result DeliveryRuleAction
+		result.CacheExpiration = rapid.Map(DeliveryRuleCacheExpirationActionGenerator(), func(it DeliveryRuleCacheExpirationAction) *DeliveryRuleCacheExpirationAction {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "CacheExpiration")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleAction {
+		var result DeliveryRuleAction
+		result.CacheKeyQueryString = rapid.Map(DeliveryRuleCacheKeyQueryStringActionGenerator(), func(it DeliveryRuleCacheKeyQueryStringAction) *DeliveryRuleCacheKeyQueryStringAction {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "CacheKeyQueryString")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleAction {
+		var result DeliveryRuleAction
+		result.ModifyRequestHeader = rapid.Map(DeliveryRuleRequestHeaderActionGenerator(), func(it DeliveryRuleRequestHeaderAction) *DeliveryRuleRequestHeaderAction {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "ModifyRequestHeader")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleAction {
+		var result DeliveryRuleAction
+		result.ModifyResponseHeader = rapid.Map(DeliveryRuleResponseHeaderActionGenerator(), func(it DeliveryRuleResponseHeaderAction) *DeliveryRuleResponseHeaderAction {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "ModifyResponseHeader")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleAction {
+		var result DeliveryRuleAction
+		result.OriginGroupOverride = rapid.Map(OriginGroupOverrideActionGenerator(), func(it OriginGroupOverrideAction) *OriginGroupOverrideAction {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "OriginGroupOverride")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleAction {
+		var result DeliveryRuleAction
+		result.RouteConfigurationOverride = rapid.Map(DeliveryRuleRouteConfigurationOverrideActionGenerator(), func(it DeliveryRuleRouteConfigurationOverrideAction) *DeliveryRuleRouteConfigurationOverrideAction {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "RouteConfigurationOverride")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleAction {
+		var result DeliveryRuleAction
+		result.UrlRedirect = rapid.Map(UrlRedirectActionGenerator(), func(it UrlRedirectAction) *UrlRedirectAction {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "UrlRedirect")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleAction {
+		var result DeliveryRuleAction
+		result.UrlRewrite = rapid.Map(UrlRewriteActionGenerator(), func(it UrlRewriteAction) *UrlRewriteAction {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "UrlRewrite")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleAction {
+		var result DeliveryRuleAction
+		result.UrlSigning = rapid.Map(UrlSigningActionGenerator(), func(it UrlSigningAction) *UrlSigningAction {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "UrlSigning")
+		return result
+	}))
+	deliveryRuleActionGenerator = rapid.OneOf(gens...)
 
 	return deliveryRuleActionGenerator
 }
 
-// AddRelatedPropertyGeneratorsForDeliveryRuleAction is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleAction(gens map[string]gopter.Gen) {
-	gens["CacheExpiration"] = DeliveryRuleCacheExpirationActionGenerator().Map(func(it DeliveryRuleCacheExpirationAction) *DeliveryRuleCacheExpirationAction {
-		return &it
-	}) // generate one case for OneOf type
-	gens["CacheKeyQueryString"] = DeliveryRuleCacheKeyQueryStringActionGenerator().Map(func(it DeliveryRuleCacheKeyQueryStringAction) *DeliveryRuleCacheKeyQueryStringAction {
-		return &it
-	}) // generate one case for OneOf type
-	gens["ModifyRequestHeader"] = DeliveryRuleRequestHeaderActionGenerator().Map(func(it DeliveryRuleRequestHeaderAction) *DeliveryRuleRequestHeaderAction {
-		return &it
-	}) // generate one case for OneOf type
-	gens["ModifyResponseHeader"] = DeliveryRuleResponseHeaderActionGenerator().Map(func(it DeliveryRuleResponseHeaderAction) *DeliveryRuleResponseHeaderAction {
-		return &it
-	}) // generate one case for OneOf type
-	gens["OriginGroupOverride"] = OriginGroupOverrideActionGenerator().Map(func(it OriginGroupOverrideAction) *OriginGroupOverrideAction {
-		return &it
-	}) // generate one case for OneOf type
-	gens["RouteConfigurationOverride"] = DeliveryRuleRouteConfigurationOverrideActionGenerator().Map(func(it DeliveryRuleRouteConfigurationOverrideAction) *DeliveryRuleRouteConfigurationOverrideAction {
-		return &it
-	}) // generate one case for OneOf type
-	gens["UrlRedirect"] = UrlRedirectActionGenerator().Map(func(it UrlRedirectAction) *UrlRedirectAction {
-		return &it
-	}) // generate one case for OneOf type
-	gens["UrlRewrite"] = UrlRewriteActionGenerator().Map(func(it UrlRewriteAction) *UrlRewriteAction {
-		return &it
-	}) // generate one case for OneOf type
-	gens["UrlSigning"] = UrlSigningActionGenerator().Map(func(it UrlSigningAction) *UrlSigningAction {
-		return &it
-	}) // generate one case for OneOf type
-}
-
+// Test_DeliveryRuleAction_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleAction_STATUS can be assigned to storage and back losslessly
 func Test_DeliveryRuleAction_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1335,44 +1177,34 @@ func Test_DeliveryRuleAction_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleAction_STATUS to DeliveryRuleAction_STATUS via AssignProperties_To_DeliveryRuleAction_STATUS & AssignProperties_From_DeliveryRuleAction_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleAction_STATUS, DeliveryRuleAction_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleAction_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleAction_STATUS tests if a specific instance of DeliveryRuleAction_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleAction_STATUS(subject DeliveryRuleAction_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleAction_STATUS
+		err := copied.AssignProperties_To_DeliveryRuleAction_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleAction_STATUS
-	err := copied.AssignProperties_To_DeliveryRuleAction_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleAction_STATUS
+		err = actual.AssignProperties_From_DeliveryRuleAction_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleAction_STATUS
-	err = actual.AssignProperties_From_DeliveryRuleAction_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleAction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1382,29 +1214,23 @@ func Test_DeliveryRuleAction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleAction_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleAction_STATUS, DeliveryRuleAction_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleAction_STATUS)
 }
 
 // RunJSONSerializationTestForDeliveryRuleAction_STATUS runs a test to see if a specific instance of DeliveryRuleAction_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleAction_STATUS(subject DeliveryRuleAction_STATUS) string {
+func RunJSONSerializationTestForDeliveryRuleAction_STATUS(t *rapid.T) {
+	subject := DeliveryRuleAction_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleAction_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1413,67 +1239,100 @@ func RunJSONSerializationTestForDeliveryRuleAction_STATUS(subject DeliveryRuleAc
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleAction_STATUS instances for property testing - lazily instantiated by
 // DeliveryRuleAction_STATUSGenerator()
-var deliveryRuleAction_STATUSGenerator gopter.Gen
+var deliveryRuleAction_STATUSGenerator *rapid.Generator[DeliveryRuleAction_STATUS]
 
 // DeliveryRuleAction_STATUSGenerator returns a generator of DeliveryRuleAction_STATUS instances for property testing.
-func DeliveryRuleAction_STATUSGenerator() gopter.Gen {
+func DeliveryRuleAction_STATUSGenerator() *rapid.Generator[DeliveryRuleAction_STATUS] {
 	if deliveryRuleAction_STATUSGenerator != nil {
 		return deliveryRuleAction_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForDeliveryRuleAction_STATUS(generators)
-
 	// handle OneOf by choosing only one field to instantiate
-	var gens []gopter.Gen
-	for propName, propGen := range generators {
-		props := map[string]gopter.Gen{propName: propGen}
-		gens = append(gens, gen.Struct(reflect.TypeOf(DeliveryRuleAction_STATUS{}), props))
-	}
-	deliveryRuleAction_STATUSGenerator = gen.OneGenOf(gens...)
+	var gens []*rapid.Generator[DeliveryRuleAction_STATUS]
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleAction_STATUS {
+		var result DeliveryRuleAction_STATUS
+		result.CacheExpiration = rapid.Map(DeliveryRuleCacheExpirationAction_STATUSGenerator(), func(it DeliveryRuleCacheExpirationAction_STATUS) *DeliveryRuleCacheExpirationAction_STATUS {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "CacheExpiration")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleAction_STATUS {
+		var result DeliveryRuleAction_STATUS
+		result.CacheKeyQueryString = rapid.Map(DeliveryRuleCacheKeyQueryStringAction_STATUSGenerator(), func(it DeliveryRuleCacheKeyQueryStringAction_STATUS) *DeliveryRuleCacheKeyQueryStringAction_STATUS {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "CacheKeyQueryString")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleAction_STATUS {
+		var result DeliveryRuleAction_STATUS
+		result.ModifyRequestHeader = rapid.Map(DeliveryRuleRequestHeaderAction_STATUSGenerator(), func(it DeliveryRuleRequestHeaderAction_STATUS) *DeliveryRuleRequestHeaderAction_STATUS {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "ModifyRequestHeader")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleAction_STATUS {
+		var result DeliveryRuleAction_STATUS
+		result.ModifyResponseHeader = rapid.Map(DeliveryRuleResponseHeaderAction_STATUSGenerator(), func(it DeliveryRuleResponseHeaderAction_STATUS) *DeliveryRuleResponseHeaderAction_STATUS {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "ModifyResponseHeader")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleAction_STATUS {
+		var result DeliveryRuleAction_STATUS
+		result.OriginGroupOverride = rapid.Map(OriginGroupOverrideAction_STATUSGenerator(), func(it OriginGroupOverrideAction_STATUS) *OriginGroupOverrideAction_STATUS {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "OriginGroupOverride")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleAction_STATUS {
+		var result DeliveryRuleAction_STATUS
+		result.RouteConfigurationOverride = rapid.Map(DeliveryRuleRouteConfigurationOverrideAction_STATUSGenerator(), func(it DeliveryRuleRouteConfigurationOverrideAction_STATUS) *DeliveryRuleRouteConfigurationOverrideAction_STATUS {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "RouteConfigurationOverride")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleAction_STATUS {
+		var result DeliveryRuleAction_STATUS
+		result.UrlRedirect = rapid.Map(UrlRedirectAction_STATUSGenerator(), func(it UrlRedirectAction_STATUS) *UrlRedirectAction_STATUS {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "UrlRedirect")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleAction_STATUS {
+		var result DeliveryRuleAction_STATUS
+		result.UrlRewrite = rapid.Map(UrlRewriteAction_STATUSGenerator(), func(it UrlRewriteAction_STATUS) *UrlRewriteAction_STATUS {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "UrlRewrite")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleAction_STATUS {
+		var result DeliveryRuleAction_STATUS
+		result.UrlSigning = rapid.Map(UrlSigningAction_STATUSGenerator(), func(it UrlSigningAction_STATUS) *UrlSigningAction_STATUS {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "UrlSigning")
+		return result
+	}))
+	deliveryRuleAction_STATUSGenerator = rapid.OneOf(gens...)
 
 	return deliveryRuleAction_STATUSGenerator
 }
 
-// AddRelatedPropertyGeneratorsForDeliveryRuleAction_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleAction_STATUS(gens map[string]gopter.Gen) {
-	gens["CacheExpiration"] = DeliveryRuleCacheExpirationAction_STATUSGenerator().Map(func(it DeliveryRuleCacheExpirationAction_STATUS) *DeliveryRuleCacheExpirationAction_STATUS {
-		return &it
-	}) // generate one case for OneOf type
-	gens["CacheKeyQueryString"] = DeliveryRuleCacheKeyQueryStringAction_STATUSGenerator().Map(func(it DeliveryRuleCacheKeyQueryStringAction_STATUS) *DeliveryRuleCacheKeyQueryStringAction_STATUS {
-		return &it
-	}) // generate one case for OneOf type
-	gens["ModifyRequestHeader"] = DeliveryRuleRequestHeaderAction_STATUSGenerator().Map(func(it DeliveryRuleRequestHeaderAction_STATUS) *DeliveryRuleRequestHeaderAction_STATUS {
-		return &it
-	}) // generate one case for OneOf type
-	gens["ModifyResponseHeader"] = DeliveryRuleResponseHeaderAction_STATUSGenerator().Map(func(it DeliveryRuleResponseHeaderAction_STATUS) *DeliveryRuleResponseHeaderAction_STATUS {
-		return &it
-	}) // generate one case for OneOf type
-	gens["OriginGroupOverride"] = OriginGroupOverrideAction_STATUSGenerator().Map(func(it OriginGroupOverrideAction_STATUS) *OriginGroupOverrideAction_STATUS {
-		return &it
-	}) // generate one case for OneOf type
-	gens["RouteConfigurationOverride"] = DeliveryRuleRouteConfigurationOverrideAction_STATUSGenerator().Map(func(it DeliveryRuleRouteConfigurationOverrideAction_STATUS) *DeliveryRuleRouteConfigurationOverrideAction_STATUS {
-		return &it
-	}) // generate one case for OneOf type
-	gens["UrlRedirect"] = UrlRedirectAction_STATUSGenerator().Map(func(it UrlRedirectAction_STATUS) *UrlRedirectAction_STATUS {
-		return &it
-	}) // generate one case for OneOf type
-	gens["UrlRewrite"] = UrlRewriteAction_STATUSGenerator().Map(func(it UrlRewriteAction_STATUS) *UrlRewriteAction_STATUS {
-		return &it
-	}) // generate one case for OneOf type
-	gens["UrlSigning"] = UrlSigningAction_STATUSGenerator().Map(func(it UrlSigningAction_STATUS) *UrlSigningAction_STATUS {
-		return &it
-	}) // generate one case for OneOf type
-}
-
+// Test_DeliveryRuleCacheExpirationAction_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleCacheExpirationAction can be assigned to storage and back losslessly
 func Test_DeliveryRuleCacheExpirationAction_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1481,44 +1340,34 @@ func Test_DeliveryRuleCacheExpirationAction_WhenPropertiesConverted_RoundTripsWi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleCacheExpirationAction to DeliveryRuleCacheExpirationAction via AssignProperties_To_DeliveryRuleCacheExpirationAction & AssignProperties_From_DeliveryRuleCacheExpirationAction returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleCacheExpirationAction, DeliveryRuleCacheExpirationActionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleCacheExpirationActionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleCacheExpirationAction tests if a specific instance of DeliveryRuleCacheExpirationAction can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleCacheExpirationAction(subject DeliveryRuleCacheExpirationAction) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleCacheExpirationAction
+		err := copied.AssignProperties_To_DeliveryRuleCacheExpirationAction(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleCacheExpirationAction
-	err := copied.AssignProperties_To_DeliveryRuleCacheExpirationAction(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleCacheExpirationAction
+		err = actual.AssignProperties_From_DeliveryRuleCacheExpirationAction(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleCacheExpirationAction
-	err = actual.AssignProperties_From_DeliveryRuleCacheExpirationAction(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleCacheExpirationAction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1528,29 +1377,23 @@ func Test_DeliveryRuleCacheExpirationAction_WhenSerializedToJson_DeserializesAsE
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleCacheExpirationAction via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleCacheExpirationAction, DeliveryRuleCacheExpirationActionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleCacheExpirationAction)
 }
 
 // RunJSONSerializationTestForDeliveryRuleCacheExpirationAction runs a test to see if a specific instance of DeliveryRuleCacheExpirationAction round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleCacheExpirationAction(subject DeliveryRuleCacheExpirationAction) string {
+func RunJSONSerializationTestForDeliveryRuleCacheExpirationAction(t *rapid.T) {
+	subject := DeliveryRuleCacheExpirationActionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleCacheExpirationAction
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1559,48 +1402,34 @@ func RunJSONSerializationTestForDeliveryRuleCacheExpirationAction(subject Delive
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleCacheExpirationAction instances for property testing - lazily instantiated by
 // DeliveryRuleCacheExpirationActionGenerator()
-var deliveryRuleCacheExpirationActionGenerator gopter.Gen
+var deliveryRuleCacheExpirationActionGenerator *rapid.Generator[DeliveryRuleCacheExpirationAction]
 
 // DeliveryRuleCacheExpirationActionGenerator returns a generator of DeliveryRuleCacheExpirationAction instances for property testing.
-// We first initialize deliveryRuleCacheExpirationActionGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleCacheExpirationActionGenerator() gopter.Gen {
+func DeliveryRuleCacheExpirationActionGenerator() *rapid.Generator[DeliveryRuleCacheExpirationAction] {
 	if deliveryRuleCacheExpirationActionGenerator != nil {
 		return deliveryRuleCacheExpirationActionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleCacheExpirationAction(generators)
-	deliveryRuleCacheExpirationActionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleCacheExpirationAction{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(CacheExpirationActionParametersGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleCacheExpirationAction(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleCacheExpirationAction(generators)
-	deliveryRuleCacheExpirationActionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleCacheExpirationAction{}), generators)
+	deliveryRuleCacheExpirationActionGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleCacheExpirationAction {
+		var result DeliveryRuleCacheExpirationAction
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleCacheExpirationActionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleCacheExpirationAction is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleCacheExpirationAction(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleCacheExpirationAction is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleCacheExpirationAction(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(CacheExpirationActionParametersGenerator())
-}
-
+// Test_DeliveryRuleCacheExpirationAction_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleCacheExpirationAction_STATUS can be assigned to storage and back losslessly
 func Test_DeliveryRuleCacheExpirationAction_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1608,44 +1437,34 @@ func Test_DeliveryRuleCacheExpirationAction_STATUS_WhenPropertiesConverted_Round
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleCacheExpirationAction_STATUS to DeliveryRuleCacheExpirationAction_STATUS via AssignProperties_To_DeliveryRuleCacheExpirationAction_STATUS & AssignProperties_From_DeliveryRuleCacheExpirationAction_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleCacheExpirationAction_STATUS, DeliveryRuleCacheExpirationAction_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleCacheExpirationAction_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleCacheExpirationAction_STATUS tests if a specific instance of DeliveryRuleCacheExpirationAction_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleCacheExpirationAction_STATUS(subject DeliveryRuleCacheExpirationAction_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleCacheExpirationAction_STATUS
+		err := copied.AssignProperties_To_DeliveryRuleCacheExpirationAction_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleCacheExpirationAction_STATUS
-	err := copied.AssignProperties_To_DeliveryRuleCacheExpirationAction_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleCacheExpirationAction_STATUS
+		err = actual.AssignProperties_From_DeliveryRuleCacheExpirationAction_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleCacheExpirationAction_STATUS
-	err = actual.AssignProperties_From_DeliveryRuleCacheExpirationAction_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleCacheExpirationAction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1655,29 +1474,23 @@ func Test_DeliveryRuleCacheExpirationAction_STATUS_WhenSerializedToJson_Deserial
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleCacheExpirationAction_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleCacheExpirationAction_STATUS, DeliveryRuleCacheExpirationAction_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleCacheExpirationAction_STATUS)
 }
 
 // RunJSONSerializationTestForDeliveryRuleCacheExpirationAction_STATUS runs a test to see if a specific instance of DeliveryRuleCacheExpirationAction_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleCacheExpirationAction_STATUS(subject DeliveryRuleCacheExpirationAction_STATUS) string {
+func RunJSONSerializationTestForDeliveryRuleCacheExpirationAction_STATUS(t *rapid.T) {
+	subject := DeliveryRuleCacheExpirationAction_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleCacheExpirationAction_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1686,48 +1499,34 @@ func RunJSONSerializationTestForDeliveryRuleCacheExpirationAction_STATUS(subject
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleCacheExpirationAction_STATUS instances for property testing - lazily instantiated by
 // DeliveryRuleCacheExpirationAction_STATUSGenerator()
-var deliveryRuleCacheExpirationAction_STATUSGenerator gopter.Gen
+var deliveryRuleCacheExpirationAction_STATUSGenerator *rapid.Generator[DeliveryRuleCacheExpirationAction_STATUS]
 
 // DeliveryRuleCacheExpirationAction_STATUSGenerator returns a generator of DeliveryRuleCacheExpirationAction_STATUS instances for property testing.
-// We first initialize deliveryRuleCacheExpirationAction_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleCacheExpirationAction_STATUSGenerator() gopter.Gen {
+func DeliveryRuleCacheExpirationAction_STATUSGenerator() *rapid.Generator[DeliveryRuleCacheExpirationAction_STATUS] {
 	if deliveryRuleCacheExpirationAction_STATUSGenerator != nil {
 		return deliveryRuleCacheExpirationAction_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleCacheExpirationAction_STATUS(generators)
-	deliveryRuleCacheExpirationAction_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleCacheExpirationAction_STATUS{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(CacheExpirationActionParameters_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleCacheExpirationAction_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleCacheExpirationAction_STATUS(generators)
-	deliveryRuleCacheExpirationAction_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleCacheExpirationAction_STATUS{}), generators)
+	deliveryRuleCacheExpirationAction_STATUSGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleCacheExpirationAction_STATUS {
+		var result DeliveryRuleCacheExpirationAction_STATUS
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleCacheExpirationAction_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleCacheExpirationAction_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleCacheExpirationAction_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleCacheExpirationAction_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleCacheExpirationAction_STATUS(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(CacheExpirationActionParameters_STATUSGenerator())
-}
-
+// Test_DeliveryRuleCacheKeyQueryStringAction_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleCacheKeyQueryStringAction can be assigned to storage and back losslessly
 func Test_DeliveryRuleCacheKeyQueryStringAction_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1735,44 +1534,34 @@ func Test_DeliveryRuleCacheKeyQueryStringAction_WhenPropertiesConverted_RoundTri
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleCacheKeyQueryStringAction to DeliveryRuleCacheKeyQueryStringAction via AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction & AssignProperties_From_DeliveryRuleCacheKeyQueryStringAction returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleCacheKeyQueryStringAction, DeliveryRuleCacheKeyQueryStringActionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleCacheKeyQueryStringActionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleCacheKeyQueryStringAction tests if a specific instance of DeliveryRuleCacheKeyQueryStringAction can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleCacheKeyQueryStringAction(subject DeliveryRuleCacheKeyQueryStringAction) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleCacheKeyQueryStringAction
+		err := copied.AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleCacheKeyQueryStringAction
-	err := copied.AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleCacheKeyQueryStringAction
+		err = actual.AssignProperties_From_DeliveryRuleCacheKeyQueryStringAction(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleCacheKeyQueryStringAction
-	err = actual.AssignProperties_From_DeliveryRuleCacheKeyQueryStringAction(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleCacheKeyQueryStringAction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1782,29 +1571,23 @@ func Test_DeliveryRuleCacheKeyQueryStringAction_WhenSerializedToJson_Deserialize
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleCacheKeyQueryStringAction via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleCacheKeyQueryStringAction, DeliveryRuleCacheKeyQueryStringActionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleCacheKeyQueryStringAction)
 }
 
 // RunJSONSerializationTestForDeliveryRuleCacheKeyQueryStringAction runs a test to see if a specific instance of DeliveryRuleCacheKeyQueryStringAction round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleCacheKeyQueryStringAction(subject DeliveryRuleCacheKeyQueryStringAction) string {
+func RunJSONSerializationTestForDeliveryRuleCacheKeyQueryStringAction(t *rapid.T) {
+	subject := DeliveryRuleCacheKeyQueryStringActionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleCacheKeyQueryStringAction
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1813,48 +1596,34 @@ func RunJSONSerializationTestForDeliveryRuleCacheKeyQueryStringAction(subject De
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleCacheKeyQueryStringAction instances for property testing - lazily instantiated by
 // DeliveryRuleCacheKeyQueryStringActionGenerator()
-var deliveryRuleCacheKeyQueryStringActionGenerator gopter.Gen
+var deliveryRuleCacheKeyQueryStringActionGenerator *rapid.Generator[DeliveryRuleCacheKeyQueryStringAction]
 
 // DeliveryRuleCacheKeyQueryStringActionGenerator returns a generator of DeliveryRuleCacheKeyQueryStringAction instances for property testing.
-// We first initialize deliveryRuleCacheKeyQueryStringActionGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleCacheKeyQueryStringActionGenerator() gopter.Gen {
+func DeliveryRuleCacheKeyQueryStringActionGenerator() *rapid.Generator[DeliveryRuleCacheKeyQueryStringAction] {
 	if deliveryRuleCacheKeyQueryStringActionGenerator != nil {
 		return deliveryRuleCacheKeyQueryStringActionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleCacheKeyQueryStringAction(generators)
-	deliveryRuleCacheKeyQueryStringActionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleCacheKeyQueryStringAction{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(CacheKeyQueryStringActionParametersGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleCacheKeyQueryStringAction(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleCacheKeyQueryStringAction(generators)
-	deliveryRuleCacheKeyQueryStringActionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleCacheKeyQueryStringAction{}), generators)
+	deliveryRuleCacheKeyQueryStringActionGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleCacheKeyQueryStringAction {
+		var result DeliveryRuleCacheKeyQueryStringAction
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleCacheKeyQueryStringActionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleCacheKeyQueryStringAction is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleCacheKeyQueryStringAction(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleCacheKeyQueryStringAction is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleCacheKeyQueryStringAction(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(CacheKeyQueryStringActionParametersGenerator())
-}
-
+// Test_DeliveryRuleCacheKeyQueryStringAction_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleCacheKeyQueryStringAction_STATUS can be assigned to storage and back losslessly
 func Test_DeliveryRuleCacheKeyQueryStringAction_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1862,44 +1631,34 @@ func Test_DeliveryRuleCacheKeyQueryStringAction_STATUS_WhenPropertiesConverted_R
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleCacheKeyQueryStringAction_STATUS to DeliveryRuleCacheKeyQueryStringAction_STATUS via AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction_STATUS & AssignProperties_From_DeliveryRuleCacheKeyQueryStringAction_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleCacheKeyQueryStringAction_STATUS, DeliveryRuleCacheKeyQueryStringAction_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleCacheKeyQueryStringAction_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleCacheKeyQueryStringAction_STATUS tests if a specific instance of DeliveryRuleCacheKeyQueryStringAction_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleCacheKeyQueryStringAction_STATUS(subject DeliveryRuleCacheKeyQueryStringAction_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleCacheKeyQueryStringAction_STATUS
+		err := copied.AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleCacheKeyQueryStringAction_STATUS
-	err := copied.AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleCacheKeyQueryStringAction_STATUS
+		err = actual.AssignProperties_From_DeliveryRuleCacheKeyQueryStringAction_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleCacheKeyQueryStringAction_STATUS
-	err = actual.AssignProperties_From_DeliveryRuleCacheKeyQueryStringAction_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleCacheKeyQueryStringAction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1909,29 +1668,23 @@ func Test_DeliveryRuleCacheKeyQueryStringAction_STATUS_WhenSerializedToJson_Dese
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleCacheKeyQueryStringAction_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleCacheKeyQueryStringAction_STATUS, DeliveryRuleCacheKeyQueryStringAction_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleCacheKeyQueryStringAction_STATUS)
 }
 
 // RunJSONSerializationTestForDeliveryRuleCacheKeyQueryStringAction_STATUS runs a test to see if a specific instance of DeliveryRuleCacheKeyQueryStringAction_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleCacheKeyQueryStringAction_STATUS(subject DeliveryRuleCacheKeyQueryStringAction_STATUS) string {
+func RunJSONSerializationTestForDeliveryRuleCacheKeyQueryStringAction_STATUS(t *rapid.T) {
+	subject := DeliveryRuleCacheKeyQueryStringAction_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleCacheKeyQueryStringAction_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1940,48 +1693,34 @@ func RunJSONSerializationTestForDeliveryRuleCacheKeyQueryStringAction_STATUS(sub
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleCacheKeyQueryStringAction_STATUS instances for property testing - lazily instantiated by
 // DeliveryRuleCacheKeyQueryStringAction_STATUSGenerator()
-var deliveryRuleCacheKeyQueryStringAction_STATUSGenerator gopter.Gen
+var deliveryRuleCacheKeyQueryStringAction_STATUSGenerator *rapid.Generator[DeliveryRuleCacheKeyQueryStringAction_STATUS]
 
 // DeliveryRuleCacheKeyQueryStringAction_STATUSGenerator returns a generator of DeliveryRuleCacheKeyQueryStringAction_STATUS instances for property testing.
-// We first initialize deliveryRuleCacheKeyQueryStringAction_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleCacheKeyQueryStringAction_STATUSGenerator() gopter.Gen {
+func DeliveryRuleCacheKeyQueryStringAction_STATUSGenerator() *rapid.Generator[DeliveryRuleCacheKeyQueryStringAction_STATUS] {
 	if deliveryRuleCacheKeyQueryStringAction_STATUSGenerator != nil {
 		return deliveryRuleCacheKeyQueryStringAction_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleCacheKeyQueryStringAction_STATUS(generators)
-	deliveryRuleCacheKeyQueryStringAction_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleCacheKeyQueryStringAction_STATUS{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(CacheKeyQueryStringActionParameters_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleCacheKeyQueryStringAction_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleCacheKeyQueryStringAction_STATUS(generators)
-	deliveryRuleCacheKeyQueryStringAction_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleCacheKeyQueryStringAction_STATUS{}), generators)
+	deliveryRuleCacheKeyQueryStringAction_STATUSGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleCacheKeyQueryStringAction_STATUS {
+		var result DeliveryRuleCacheKeyQueryStringAction_STATUS
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleCacheKeyQueryStringAction_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleCacheKeyQueryStringAction_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleCacheKeyQueryStringAction_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleCacheKeyQueryStringAction_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleCacheKeyQueryStringAction_STATUS(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(CacheKeyQueryStringActionParameters_STATUSGenerator())
-}
-
+// Test_DeliveryRuleClientPortCondition_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleClientPortCondition can be assigned to storage and back losslessly
 func Test_DeliveryRuleClientPortCondition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1989,44 +1728,34 @@ func Test_DeliveryRuleClientPortCondition_WhenPropertiesConverted_RoundTripsWith
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleClientPortCondition to DeliveryRuleClientPortCondition via AssignProperties_To_DeliveryRuleClientPortCondition & AssignProperties_From_DeliveryRuleClientPortCondition returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleClientPortCondition, DeliveryRuleClientPortConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleClientPortConditionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleClientPortCondition tests if a specific instance of DeliveryRuleClientPortCondition can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleClientPortCondition(subject DeliveryRuleClientPortCondition) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleClientPortCondition
+		err := copied.AssignProperties_To_DeliveryRuleClientPortCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleClientPortCondition
-	err := copied.AssignProperties_To_DeliveryRuleClientPortCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleClientPortCondition
+		err = actual.AssignProperties_From_DeliveryRuleClientPortCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleClientPortCondition
-	err = actual.AssignProperties_From_DeliveryRuleClientPortCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleClientPortCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2036,29 +1765,23 @@ func Test_DeliveryRuleClientPortCondition_WhenSerializedToJson_DeserializesAsEqu
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleClientPortCondition via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleClientPortCondition, DeliveryRuleClientPortConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleClientPortCondition)
 }
 
 // RunJSONSerializationTestForDeliveryRuleClientPortCondition runs a test to see if a specific instance of DeliveryRuleClientPortCondition round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleClientPortCondition(subject DeliveryRuleClientPortCondition) string {
+func RunJSONSerializationTestForDeliveryRuleClientPortCondition(t *rapid.T) {
+	subject := DeliveryRuleClientPortConditionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleClientPortCondition
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -2067,48 +1790,34 @@ func RunJSONSerializationTestForDeliveryRuleClientPortCondition(subject Delivery
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleClientPortCondition instances for property testing - lazily instantiated by
 // DeliveryRuleClientPortConditionGenerator()
-var deliveryRuleClientPortConditionGenerator gopter.Gen
+var deliveryRuleClientPortConditionGenerator *rapid.Generator[DeliveryRuleClientPortCondition]
 
 // DeliveryRuleClientPortConditionGenerator returns a generator of DeliveryRuleClientPortCondition instances for property testing.
-// We first initialize deliveryRuleClientPortConditionGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleClientPortConditionGenerator() gopter.Gen {
+func DeliveryRuleClientPortConditionGenerator() *rapid.Generator[DeliveryRuleClientPortCondition] {
 	if deliveryRuleClientPortConditionGenerator != nil {
 		return deliveryRuleClientPortConditionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleClientPortCondition(generators)
-	deliveryRuleClientPortConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleClientPortCondition{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(ClientPortMatchConditionParametersGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleClientPortCondition(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleClientPortCondition(generators)
-	deliveryRuleClientPortConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleClientPortCondition{}), generators)
+	deliveryRuleClientPortConditionGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleClientPortCondition {
+		var result DeliveryRuleClientPortCondition
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleClientPortConditionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleClientPortCondition is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleClientPortCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleClientPortCondition is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleClientPortCondition(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(ClientPortMatchConditionParametersGenerator())
-}
-
+// Test_DeliveryRuleClientPortCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleClientPortCondition_STATUS can be assigned to storage and back losslessly
 func Test_DeliveryRuleClientPortCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -2116,44 +1825,34 @@ func Test_DeliveryRuleClientPortCondition_STATUS_WhenPropertiesConverted_RoundTr
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleClientPortCondition_STATUS to DeliveryRuleClientPortCondition_STATUS via AssignProperties_To_DeliveryRuleClientPortCondition_STATUS & AssignProperties_From_DeliveryRuleClientPortCondition_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleClientPortCondition_STATUS, DeliveryRuleClientPortCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleClientPortCondition_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleClientPortCondition_STATUS tests if a specific instance of DeliveryRuleClientPortCondition_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleClientPortCondition_STATUS(subject DeliveryRuleClientPortCondition_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleClientPortCondition_STATUS
+		err := copied.AssignProperties_To_DeliveryRuleClientPortCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleClientPortCondition_STATUS
-	err := copied.AssignProperties_To_DeliveryRuleClientPortCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleClientPortCondition_STATUS
+		err = actual.AssignProperties_From_DeliveryRuleClientPortCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleClientPortCondition_STATUS
-	err = actual.AssignProperties_From_DeliveryRuleClientPortCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleClientPortCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2163,29 +1862,23 @@ func Test_DeliveryRuleClientPortCondition_STATUS_WhenSerializedToJson_Deserializ
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleClientPortCondition_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleClientPortCondition_STATUS, DeliveryRuleClientPortCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleClientPortCondition_STATUS)
 }
 
 // RunJSONSerializationTestForDeliveryRuleClientPortCondition_STATUS runs a test to see if a specific instance of DeliveryRuleClientPortCondition_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleClientPortCondition_STATUS(subject DeliveryRuleClientPortCondition_STATUS) string {
+func RunJSONSerializationTestForDeliveryRuleClientPortCondition_STATUS(t *rapid.T) {
+	subject := DeliveryRuleClientPortCondition_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleClientPortCondition_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -2194,48 +1887,34 @@ func RunJSONSerializationTestForDeliveryRuleClientPortCondition_STATUS(subject D
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleClientPortCondition_STATUS instances for property testing - lazily instantiated by
 // DeliveryRuleClientPortCondition_STATUSGenerator()
-var deliveryRuleClientPortCondition_STATUSGenerator gopter.Gen
+var deliveryRuleClientPortCondition_STATUSGenerator *rapid.Generator[DeliveryRuleClientPortCondition_STATUS]
 
 // DeliveryRuleClientPortCondition_STATUSGenerator returns a generator of DeliveryRuleClientPortCondition_STATUS instances for property testing.
-// We first initialize deliveryRuleClientPortCondition_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleClientPortCondition_STATUSGenerator() gopter.Gen {
+func DeliveryRuleClientPortCondition_STATUSGenerator() *rapid.Generator[DeliveryRuleClientPortCondition_STATUS] {
 	if deliveryRuleClientPortCondition_STATUSGenerator != nil {
 		return deliveryRuleClientPortCondition_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleClientPortCondition_STATUS(generators)
-	deliveryRuleClientPortCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleClientPortCondition_STATUS{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(ClientPortMatchConditionParameters_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleClientPortCondition_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleClientPortCondition_STATUS(generators)
-	deliveryRuleClientPortCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleClientPortCondition_STATUS{}), generators)
+	deliveryRuleClientPortCondition_STATUSGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleClientPortCondition_STATUS {
+		var result DeliveryRuleClientPortCondition_STATUS
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleClientPortCondition_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleClientPortCondition_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleClientPortCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleClientPortCondition_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleClientPortCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(ClientPortMatchConditionParameters_STATUSGenerator())
-}
-
+// Test_DeliveryRuleCondition_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleCondition can be assigned to storage and back losslessly
 func Test_DeliveryRuleCondition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -2243,44 +1922,34 @@ func Test_DeliveryRuleCondition_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleCondition to DeliveryRuleCondition via AssignProperties_To_DeliveryRuleCondition & AssignProperties_From_DeliveryRuleCondition returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleCondition, DeliveryRuleConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleConditionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleCondition tests if a specific instance of DeliveryRuleCondition can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleCondition(subject DeliveryRuleCondition) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleCondition
+		err := copied.AssignProperties_To_DeliveryRuleCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleCondition
-	err := copied.AssignProperties_To_DeliveryRuleCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleCondition
+		err = actual.AssignProperties_From_DeliveryRuleCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleCondition
-	err = actual.AssignProperties_From_DeliveryRuleCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2290,29 +1959,23 @@ func Test_DeliveryRuleCondition_WhenSerializedToJson_DeserializesAsEqual(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleCondition via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleCondition, DeliveryRuleConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleCondition)
 }
 
 // RunJSONSerializationTestForDeliveryRuleCondition runs a test to see if a specific instance of DeliveryRuleCondition round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleCondition(subject DeliveryRuleCondition) string {
+func RunJSONSerializationTestForDeliveryRuleCondition(t *rapid.T) {
+	subject := DeliveryRuleConditionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleCondition
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -2321,97 +1984,180 @@ func RunJSONSerializationTestForDeliveryRuleCondition(subject DeliveryRuleCondit
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleCondition instances for property testing - lazily instantiated by
 // DeliveryRuleConditionGenerator()
-var deliveryRuleConditionGenerator gopter.Gen
+var deliveryRuleConditionGenerator *rapid.Generator[DeliveryRuleCondition]
 
 // DeliveryRuleConditionGenerator returns a generator of DeliveryRuleCondition instances for property testing.
-func DeliveryRuleConditionGenerator() gopter.Gen {
+func DeliveryRuleConditionGenerator() *rapid.Generator[DeliveryRuleCondition] {
 	if deliveryRuleConditionGenerator != nil {
 		return deliveryRuleConditionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForDeliveryRuleCondition(generators)
-
 	// handle OneOf by choosing only one field to instantiate
-	var gens []gopter.Gen
-	for propName, propGen := range generators {
-		props := map[string]gopter.Gen{propName: propGen}
-		gens = append(gens, gen.Struct(reflect.TypeOf(DeliveryRuleCondition{}), props))
-	}
-	deliveryRuleConditionGenerator = gen.OneGenOf(gens...)
+	var gens []*rapid.Generator[DeliveryRuleCondition]
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition {
+		var result DeliveryRuleCondition
+		result.ClientPort = rapid.Map(DeliveryRuleClientPortConditionGenerator(), func(it DeliveryRuleClientPortCondition) *DeliveryRuleClientPortCondition {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "ClientPort")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition {
+		var result DeliveryRuleCondition
+		result.Cookies = rapid.Map(DeliveryRuleCookiesConditionGenerator(), func(it DeliveryRuleCookiesCondition) *DeliveryRuleCookiesCondition {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "Cookies")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition {
+		var result DeliveryRuleCondition
+		result.HostName = rapid.Map(DeliveryRuleHostNameConditionGenerator(), func(it DeliveryRuleHostNameCondition) *DeliveryRuleHostNameCondition {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "HostName")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition {
+		var result DeliveryRuleCondition
+		result.HttpVersion = rapid.Map(DeliveryRuleHttpVersionConditionGenerator(), func(it DeliveryRuleHttpVersionCondition) *DeliveryRuleHttpVersionCondition {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "HttpVersion")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition {
+		var result DeliveryRuleCondition
+		result.IsDevice = rapid.Map(DeliveryRuleIsDeviceConditionGenerator(), func(it DeliveryRuleIsDeviceCondition) *DeliveryRuleIsDeviceCondition {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "IsDevice")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition {
+		var result DeliveryRuleCondition
+		result.PostArgs = rapid.Map(DeliveryRulePostArgsConditionGenerator(), func(it DeliveryRulePostArgsCondition) *DeliveryRulePostArgsCondition {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "PostArgs")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition {
+		var result DeliveryRuleCondition
+		result.QueryString = rapid.Map(DeliveryRuleQueryStringConditionGenerator(), func(it DeliveryRuleQueryStringCondition) *DeliveryRuleQueryStringCondition {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "QueryString")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition {
+		var result DeliveryRuleCondition
+		result.RemoteAddress = rapid.Map(DeliveryRuleRemoteAddressConditionGenerator(), func(it DeliveryRuleRemoteAddressCondition) *DeliveryRuleRemoteAddressCondition {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "RemoteAddress")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition {
+		var result DeliveryRuleCondition
+		result.RequestBody = rapid.Map(DeliveryRuleRequestBodyConditionGenerator(), func(it DeliveryRuleRequestBodyCondition) *DeliveryRuleRequestBodyCondition {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "RequestBody")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition {
+		var result DeliveryRuleCondition
+		result.RequestHeader = rapid.Map(DeliveryRuleRequestHeaderConditionGenerator(), func(it DeliveryRuleRequestHeaderCondition) *DeliveryRuleRequestHeaderCondition {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "RequestHeader")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition {
+		var result DeliveryRuleCondition
+		result.RequestMethod = rapid.Map(DeliveryRuleRequestMethodConditionGenerator(), func(it DeliveryRuleRequestMethodCondition) *DeliveryRuleRequestMethodCondition {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "RequestMethod")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition {
+		var result DeliveryRuleCondition
+		result.RequestScheme = rapid.Map(DeliveryRuleRequestSchemeConditionGenerator(), func(it DeliveryRuleRequestSchemeCondition) *DeliveryRuleRequestSchemeCondition {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "RequestScheme")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition {
+		var result DeliveryRuleCondition
+		result.RequestUri = rapid.Map(DeliveryRuleRequestUriConditionGenerator(), func(it DeliveryRuleRequestUriCondition) *DeliveryRuleRequestUriCondition {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "RequestUri")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition {
+		var result DeliveryRuleCondition
+		result.ServerPort = rapid.Map(DeliveryRuleServerPortConditionGenerator(), func(it DeliveryRuleServerPortCondition) *DeliveryRuleServerPortCondition {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "ServerPort")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition {
+		var result DeliveryRuleCondition
+		result.SocketAddr = rapid.Map(DeliveryRuleSocketAddrConditionGenerator(), func(it DeliveryRuleSocketAddrCondition) *DeliveryRuleSocketAddrCondition {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "SocketAddr")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition {
+		var result DeliveryRuleCondition
+		result.SslProtocol = rapid.Map(DeliveryRuleSslProtocolConditionGenerator(), func(it DeliveryRuleSslProtocolCondition) *DeliveryRuleSslProtocolCondition {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "SslProtocol")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition {
+		var result DeliveryRuleCondition
+		result.UrlFileExtension = rapid.Map(DeliveryRuleUrlFileExtensionConditionGenerator(), func(it DeliveryRuleUrlFileExtensionCondition) *DeliveryRuleUrlFileExtensionCondition {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "UrlFileExtension")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition {
+		var result DeliveryRuleCondition
+		result.UrlFileName = rapid.Map(DeliveryRuleUrlFileNameConditionGenerator(), func(it DeliveryRuleUrlFileNameCondition) *DeliveryRuleUrlFileNameCondition {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "UrlFileName")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition {
+		var result DeliveryRuleCondition
+		result.UrlPath = rapid.Map(DeliveryRuleUrlPathConditionGenerator(), func(it DeliveryRuleUrlPathCondition) *DeliveryRuleUrlPathCondition {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "UrlPath")
+		return result
+	}))
+	deliveryRuleConditionGenerator = rapid.OneOf(gens...)
 
 	return deliveryRuleConditionGenerator
 }
 
-// AddRelatedPropertyGeneratorsForDeliveryRuleCondition is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleCondition(gens map[string]gopter.Gen) {
-	gens["ClientPort"] = DeliveryRuleClientPortConditionGenerator().Map(func(it DeliveryRuleClientPortCondition) *DeliveryRuleClientPortCondition {
-		return &it
-	}) // generate one case for OneOf type
-	gens["Cookies"] = DeliveryRuleCookiesConditionGenerator().Map(func(it DeliveryRuleCookiesCondition) *DeliveryRuleCookiesCondition {
-		return &it
-	}) // generate one case for OneOf type
-	gens["HostName"] = DeliveryRuleHostNameConditionGenerator().Map(func(it DeliveryRuleHostNameCondition) *DeliveryRuleHostNameCondition {
-		return &it
-	}) // generate one case for OneOf type
-	gens["HttpVersion"] = DeliveryRuleHttpVersionConditionGenerator().Map(func(it DeliveryRuleHttpVersionCondition) *DeliveryRuleHttpVersionCondition {
-		return &it
-	}) // generate one case for OneOf type
-	gens["IsDevice"] = DeliveryRuleIsDeviceConditionGenerator().Map(func(it DeliveryRuleIsDeviceCondition) *DeliveryRuleIsDeviceCondition {
-		return &it
-	}) // generate one case for OneOf type
-	gens["PostArgs"] = DeliveryRulePostArgsConditionGenerator().Map(func(it DeliveryRulePostArgsCondition) *DeliveryRulePostArgsCondition {
-		return &it
-	}) // generate one case for OneOf type
-	gens["QueryString"] = DeliveryRuleQueryStringConditionGenerator().Map(func(it DeliveryRuleQueryStringCondition) *DeliveryRuleQueryStringCondition {
-		return &it
-	}) // generate one case for OneOf type
-	gens["RemoteAddress"] = DeliveryRuleRemoteAddressConditionGenerator().Map(func(it DeliveryRuleRemoteAddressCondition) *DeliveryRuleRemoteAddressCondition {
-		return &it
-	}) // generate one case for OneOf type
-	gens["RequestBody"] = DeliveryRuleRequestBodyConditionGenerator().Map(func(it DeliveryRuleRequestBodyCondition) *DeliveryRuleRequestBodyCondition {
-		return &it
-	}) // generate one case for OneOf type
-	gens["RequestHeader"] = DeliveryRuleRequestHeaderConditionGenerator().Map(func(it DeliveryRuleRequestHeaderCondition) *DeliveryRuleRequestHeaderCondition {
-		return &it
-	}) // generate one case for OneOf type
-	gens["RequestMethod"] = DeliveryRuleRequestMethodConditionGenerator().Map(func(it DeliveryRuleRequestMethodCondition) *DeliveryRuleRequestMethodCondition {
-		return &it
-	}) // generate one case for OneOf type
-	gens["RequestScheme"] = DeliveryRuleRequestSchemeConditionGenerator().Map(func(it DeliveryRuleRequestSchemeCondition) *DeliveryRuleRequestSchemeCondition {
-		return &it
-	}) // generate one case for OneOf type
-	gens["RequestUri"] = DeliveryRuleRequestUriConditionGenerator().Map(func(it DeliveryRuleRequestUriCondition) *DeliveryRuleRequestUriCondition {
-		return &it
-	}) // generate one case for OneOf type
-	gens["ServerPort"] = DeliveryRuleServerPortConditionGenerator().Map(func(it DeliveryRuleServerPortCondition) *DeliveryRuleServerPortCondition {
-		return &it
-	}) // generate one case for OneOf type
-	gens["SocketAddr"] = DeliveryRuleSocketAddrConditionGenerator().Map(func(it DeliveryRuleSocketAddrCondition) *DeliveryRuleSocketAddrCondition {
-		return &it
-	}) // generate one case for OneOf type
-	gens["SslProtocol"] = DeliveryRuleSslProtocolConditionGenerator().Map(func(it DeliveryRuleSslProtocolCondition) *DeliveryRuleSslProtocolCondition {
-		return &it
-	}) // generate one case for OneOf type
-	gens["UrlFileExtension"] = DeliveryRuleUrlFileExtensionConditionGenerator().Map(func(it DeliveryRuleUrlFileExtensionCondition) *DeliveryRuleUrlFileExtensionCondition {
-		return &it
-	}) // generate one case for OneOf type
-	gens["UrlFileName"] = DeliveryRuleUrlFileNameConditionGenerator().Map(func(it DeliveryRuleUrlFileNameCondition) *DeliveryRuleUrlFileNameCondition {
-		return &it
-	}) // generate one case for OneOf type
-	gens["UrlPath"] = DeliveryRuleUrlPathConditionGenerator().Map(func(it DeliveryRuleUrlPathCondition) *DeliveryRuleUrlPathCondition {
-		return &it
-	}) // generate one case for OneOf type
-}
-
+// Test_DeliveryRuleCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleCondition_STATUS can be assigned to storage and back losslessly
 func Test_DeliveryRuleCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -2419,44 +2165,34 @@ func Test_DeliveryRuleCondition_STATUS_WhenPropertiesConverted_RoundTripsWithout
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleCondition_STATUS to DeliveryRuleCondition_STATUS via AssignProperties_To_DeliveryRuleCondition_STATUS & AssignProperties_From_DeliveryRuleCondition_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleCondition_STATUS, DeliveryRuleCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleCondition_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleCondition_STATUS tests if a specific instance of DeliveryRuleCondition_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleCondition_STATUS(subject DeliveryRuleCondition_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleCondition_STATUS
+		err := copied.AssignProperties_To_DeliveryRuleCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleCondition_STATUS
-	err := copied.AssignProperties_To_DeliveryRuleCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleCondition_STATUS
+		err = actual.AssignProperties_From_DeliveryRuleCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleCondition_STATUS
-	err = actual.AssignProperties_From_DeliveryRuleCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2466,29 +2202,23 @@ func Test_DeliveryRuleCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleCondition_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleCondition_STATUS, DeliveryRuleCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleCondition_STATUS)
 }
 
 // RunJSONSerializationTestForDeliveryRuleCondition_STATUS runs a test to see if a specific instance of DeliveryRuleCondition_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleCondition_STATUS(subject DeliveryRuleCondition_STATUS) string {
+func RunJSONSerializationTestForDeliveryRuleCondition_STATUS(t *rapid.T) {
+	subject := DeliveryRuleCondition_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleCondition_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -2497,97 +2227,180 @@ func RunJSONSerializationTestForDeliveryRuleCondition_STATUS(subject DeliveryRul
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleCondition_STATUS instances for property testing - lazily instantiated by
 // DeliveryRuleCondition_STATUSGenerator()
-var deliveryRuleCondition_STATUSGenerator gopter.Gen
+var deliveryRuleCondition_STATUSGenerator *rapid.Generator[DeliveryRuleCondition_STATUS]
 
 // DeliveryRuleCondition_STATUSGenerator returns a generator of DeliveryRuleCondition_STATUS instances for property testing.
-func DeliveryRuleCondition_STATUSGenerator() gopter.Gen {
+func DeliveryRuleCondition_STATUSGenerator() *rapid.Generator[DeliveryRuleCondition_STATUS] {
 	if deliveryRuleCondition_STATUSGenerator != nil {
 		return deliveryRuleCondition_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForDeliveryRuleCondition_STATUS(generators)
-
 	// handle OneOf by choosing only one field to instantiate
-	var gens []gopter.Gen
-	for propName, propGen := range generators {
-		props := map[string]gopter.Gen{propName: propGen}
-		gens = append(gens, gen.Struct(reflect.TypeOf(DeliveryRuleCondition_STATUS{}), props))
-	}
-	deliveryRuleCondition_STATUSGenerator = gen.OneGenOf(gens...)
+	var gens []*rapid.Generator[DeliveryRuleCondition_STATUS]
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition_STATUS {
+		var result DeliveryRuleCondition_STATUS
+		result.ClientPort = rapid.Map(DeliveryRuleClientPortCondition_STATUSGenerator(), func(it DeliveryRuleClientPortCondition_STATUS) *DeliveryRuleClientPortCondition_STATUS {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "ClientPort")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition_STATUS {
+		var result DeliveryRuleCondition_STATUS
+		result.Cookies = rapid.Map(DeliveryRuleCookiesCondition_STATUSGenerator(), func(it DeliveryRuleCookiesCondition_STATUS) *DeliveryRuleCookiesCondition_STATUS {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "Cookies")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition_STATUS {
+		var result DeliveryRuleCondition_STATUS
+		result.HostName = rapid.Map(DeliveryRuleHostNameCondition_STATUSGenerator(), func(it DeliveryRuleHostNameCondition_STATUS) *DeliveryRuleHostNameCondition_STATUS {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "HostName")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition_STATUS {
+		var result DeliveryRuleCondition_STATUS
+		result.HttpVersion = rapid.Map(DeliveryRuleHttpVersionCondition_STATUSGenerator(), func(it DeliveryRuleHttpVersionCondition_STATUS) *DeliveryRuleHttpVersionCondition_STATUS {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "HttpVersion")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition_STATUS {
+		var result DeliveryRuleCondition_STATUS
+		result.IsDevice = rapid.Map(DeliveryRuleIsDeviceCondition_STATUSGenerator(), func(it DeliveryRuleIsDeviceCondition_STATUS) *DeliveryRuleIsDeviceCondition_STATUS {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "IsDevice")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition_STATUS {
+		var result DeliveryRuleCondition_STATUS
+		result.PostArgs = rapid.Map(DeliveryRulePostArgsCondition_STATUSGenerator(), func(it DeliveryRulePostArgsCondition_STATUS) *DeliveryRulePostArgsCondition_STATUS {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "PostArgs")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition_STATUS {
+		var result DeliveryRuleCondition_STATUS
+		result.QueryString = rapid.Map(DeliveryRuleQueryStringCondition_STATUSGenerator(), func(it DeliveryRuleQueryStringCondition_STATUS) *DeliveryRuleQueryStringCondition_STATUS {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "QueryString")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition_STATUS {
+		var result DeliveryRuleCondition_STATUS
+		result.RemoteAddress = rapid.Map(DeliveryRuleRemoteAddressCondition_STATUSGenerator(), func(it DeliveryRuleRemoteAddressCondition_STATUS) *DeliveryRuleRemoteAddressCondition_STATUS {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "RemoteAddress")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition_STATUS {
+		var result DeliveryRuleCondition_STATUS
+		result.RequestBody = rapid.Map(DeliveryRuleRequestBodyCondition_STATUSGenerator(), func(it DeliveryRuleRequestBodyCondition_STATUS) *DeliveryRuleRequestBodyCondition_STATUS {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "RequestBody")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition_STATUS {
+		var result DeliveryRuleCondition_STATUS
+		result.RequestHeader = rapid.Map(DeliveryRuleRequestHeaderCondition_STATUSGenerator(), func(it DeliveryRuleRequestHeaderCondition_STATUS) *DeliveryRuleRequestHeaderCondition_STATUS {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "RequestHeader")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition_STATUS {
+		var result DeliveryRuleCondition_STATUS
+		result.RequestMethod = rapid.Map(DeliveryRuleRequestMethodCondition_STATUSGenerator(), func(it DeliveryRuleRequestMethodCondition_STATUS) *DeliveryRuleRequestMethodCondition_STATUS {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "RequestMethod")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition_STATUS {
+		var result DeliveryRuleCondition_STATUS
+		result.RequestScheme = rapid.Map(DeliveryRuleRequestSchemeCondition_STATUSGenerator(), func(it DeliveryRuleRequestSchemeCondition_STATUS) *DeliveryRuleRequestSchemeCondition_STATUS {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "RequestScheme")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition_STATUS {
+		var result DeliveryRuleCondition_STATUS
+		result.RequestUri = rapid.Map(DeliveryRuleRequestUriCondition_STATUSGenerator(), func(it DeliveryRuleRequestUriCondition_STATUS) *DeliveryRuleRequestUriCondition_STATUS {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "RequestUri")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition_STATUS {
+		var result DeliveryRuleCondition_STATUS
+		result.ServerPort = rapid.Map(DeliveryRuleServerPortCondition_STATUSGenerator(), func(it DeliveryRuleServerPortCondition_STATUS) *DeliveryRuleServerPortCondition_STATUS {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "ServerPort")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition_STATUS {
+		var result DeliveryRuleCondition_STATUS
+		result.SocketAddr = rapid.Map(DeliveryRuleSocketAddrCondition_STATUSGenerator(), func(it DeliveryRuleSocketAddrCondition_STATUS) *DeliveryRuleSocketAddrCondition_STATUS {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "SocketAddr")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition_STATUS {
+		var result DeliveryRuleCondition_STATUS
+		result.SslProtocol = rapid.Map(DeliveryRuleSslProtocolCondition_STATUSGenerator(), func(it DeliveryRuleSslProtocolCondition_STATUS) *DeliveryRuleSslProtocolCondition_STATUS {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "SslProtocol")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition_STATUS {
+		var result DeliveryRuleCondition_STATUS
+		result.UrlFileExtension = rapid.Map(DeliveryRuleUrlFileExtensionCondition_STATUSGenerator(), func(it DeliveryRuleUrlFileExtensionCondition_STATUS) *DeliveryRuleUrlFileExtensionCondition_STATUS {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "UrlFileExtension")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition_STATUS {
+		var result DeliveryRuleCondition_STATUS
+		result.UrlFileName = rapid.Map(DeliveryRuleUrlFileNameCondition_STATUSGenerator(), func(it DeliveryRuleUrlFileNameCondition_STATUS) *DeliveryRuleUrlFileNameCondition_STATUS {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "UrlFileName")
+		return result
+	}))
+	gens = append(gens, rapid.Custom(func(t *rapid.T) DeliveryRuleCondition_STATUS {
+		var result DeliveryRuleCondition_STATUS
+		result.UrlPath = rapid.Map(DeliveryRuleUrlPathCondition_STATUSGenerator(), func(it DeliveryRuleUrlPathCondition_STATUS) *DeliveryRuleUrlPathCondition_STATUS {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "UrlPath")
+		return result
+	}))
+	deliveryRuleCondition_STATUSGenerator = rapid.OneOf(gens...)
 
 	return deliveryRuleCondition_STATUSGenerator
 }
 
-// AddRelatedPropertyGeneratorsForDeliveryRuleCondition_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["ClientPort"] = DeliveryRuleClientPortCondition_STATUSGenerator().Map(func(it DeliveryRuleClientPortCondition_STATUS) *DeliveryRuleClientPortCondition_STATUS {
-		return &it
-	}) // generate one case for OneOf type
-	gens["Cookies"] = DeliveryRuleCookiesCondition_STATUSGenerator().Map(func(it DeliveryRuleCookiesCondition_STATUS) *DeliveryRuleCookiesCondition_STATUS {
-		return &it
-	}) // generate one case for OneOf type
-	gens["HostName"] = DeliveryRuleHostNameCondition_STATUSGenerator().Map(func(it DeliveryRuleHostNameCondition_STATUS) *DeliveryRuleHostNameCondition_STATUS {
-		return &it
-	}) // generate one case for OneOf type
-	gens["HttpVersion"] = DeliveryRuleHttpVersionCondition_STATUSGenerator().Map(func(it DeliveryRuleHttpVersionCondition_STATUS) *DeliveryRuleHttpVersionCondition_STATUS {
-		return &it
-	}) // generate one case for OneOf type
-	gens["IsDevice"] = DeliveryRuleIsDeviceCondition_STATUSGenerator().Map(func(it DeliveryRuleIsDeviceCondition_STATUS) *DeliveryRuleIsDeviceCondition_STATUS {
-		return &it
-	}) // generate one case for OneOf type
-	gens["PostArgs"] = DeliveryRulePostArgsCondition_STATUSGenerator().Map(func(it DeliveryRulePostArgsCondition_STATUS) *DeliveryRulePostArgsCondition_STATUS {
-		return &it
-	}) // generate one case for OneOf type
-	gens["QueryString"] = DeliveryRuleQueryStringCondition_STATUSGenerator().Map(func(it DeliveryRuleQueryStringCondition_STATUS) *DeliveryRuleQueryStringCondition_STATUS {
-		return &it
-	}) // generate one case for OneOf type
-	gens["RemoteAddress"] = DeliveryRuleRemoteAddressCondition_STATUSGenerator().Map(func(it DeliveryRuleRemoteAddressCondition_STATUS) *DeliveryRuleRemoteAddressCondition_STATUS {
-		return &it
-	}) // generate one case for OneOf type
-	gens["RequestBody"] = DeliveryRuleRequestBodyCondition_STATUSGenerator().Map(func(it DeliveryRuleRequestBodyCondition_STATUS) *DeliveryRuleRequestBodyCondition_STATUS {
-		return &it
-	}) // generate one case for OneOf type
-	gens["RequestHeader"] = DeliveryRuleRequestHeaderCondition_STATUSGenerator().Map(func(it DeliveryRuleRequestHeaderCondition_STATUS) *DeliveryRuleRequestHeaderCondition_STATUS {
-		return &it
-	}) // generate one case for OneOf type
-	gens["RequestMethod"] = DeliveryRuleRequestMethodCondition_STATUSGenerator().Map(func(it DeliveryRuleRequestMethodCondition_STATUS) *DeliveryRuleRequestMethodCondition_STATUS {
-		return &it
-	}) // generate one case for OneOf type
-	gens["RequestScheme"] = DeliveryRuleRequestSchemeCondition_STATUSGenerator().Map(func(it DeliveryRuleRequestSchemeCondition_STATUS) *DeliveryRuleRequestSchemeCondition_STATUS {
-		return &it
-	}) // generate one case for OneOf type
-	gens["RequestUri"] = DeliveryRuleRequestUriCondition_STATUSGenerator().Map(func(it DeliveryRuleRequestUriCondition_STATUS) *DeliveryRuleRequestUriCondition_STATUS {
-		return &it
-	}) // generate one case for OneOf type
-	gens["ServerPort"] = DeliveryRuleServerPortCondition_STATUSGenerator().Map(func(it DeliveryRuleServerPortCondition_STATUS) *DeliveryRuleServerPortCondition_STATUS {
-		return &it
-	}) // generate one case for OneOf type
-	gens["SocketAddr"] = DeliveryRuleSocketAddrCondition_STATUSGenerator().Map(func(it DeliveryRuleSocketAddrCondition_STATUS) *DeliveryRuleSocketAddrCondition_STATUS {
-		return &it
-	}) // generate one case for OneOf type
-	gens["SslProtocol"] = DeliveryRuleSslProtocolCondition_STATUSGenerator().Map(func(it DeliveryRuleSslProtocolCondition_STATUS) *DeliveryRuleSslProtocolCondition_STATUS {
-		return &it
-	}) // generate one case for OneOf type
-	gens["UrlFileExtension"] = DeliveryRuleUrlFileExtensionCondition_STATUSGenerator().Map(func(it DeliveryRuleUrlFileExtensionCondition_STATUS) *DeliveryRuleUrlFileExtensionCondition_STATUS {
-		return &it
-	}) // generate one case for OneOf type
-	gens["UrlFileName"] = DeliveryRuleUrlFileNameCondition_STATUSGenerator().Map(func(it DeliveryRuleUrlFileNameCondition_STATUS) *DeliveryRuleUrlFileNameCondition_STATUS {
-		return &it
-	}) // generate one case for OneOf type
-	gens["UrlPath"] = DeliveryRuleUrlPathCondition_STATUSGenerator().Map(func(it DeliveryRuleUrlPathCondition_STATUS) *DeliveryRuleUrlPathCondition_STATUS {
-		return &it
-	}) // generate one case for OneOf type
-}
-
+// Test_DeliveryRuleCookiesCondition_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleCookiesCondition can be assigned to storage and back losslessly
 func Test_DeliveryRuleCookiesCondition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -2595,44 +2408,34 @@ func Test_DeliveryRuleCookiesCondition_WhenPropertiesConverted_RoundTripsWithout
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleCookiesCondition to DeliveryRuleCookiesCondition via AssignProperties_To_DeliveryRuleCookiesCondition & AssignProperties_From_DeliveryRuleCookiesCondition returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleCookiesCondition, DeliveryRuleCookiesConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleCookiesConditionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleCookiesCondition tests if a specific instance of DeliveryRuleCookiesCondition can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleCookiesCondition(subject DeliveryRuleCookiesCondition) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleCookiesCondition
+		err := copied.AssignProperties_To_DeliveryRuleCookiesCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleCookiesCondition
-	err := copied.AssignProperties_To_DeliveryRuleCookiesCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleCookiesCondition
+		err = actual.AssignProperties_From_DeliveryRuleCookiesCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleCookiesCondition
-	err = actual.AssignProperties_From_DeliveryRuleCookiesCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleCookiesCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2642,29 +2445,23 @@ func Test_DeliveryRuleCookiesCondition_WhenSerializedToJson_DeserializesAsEqual(
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleCookiesCondition via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleCookiesCondition, DeliveryRuleCookiesConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleCookiesCondition)
 }
 
 // RunJSONSerializationTestForDeliveryRuleCookiesCondition runs a test to see if a specific instance of DeliveryRuleCookiesCondition round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleCookiesCondition(subject DeliveryRuleCookiesCondition) string {
+func RunJSONSerializationTestForDeliveryRuleCookiesCondition(t *rapid.T) {
+	subject := DeliveryRuleCookiesConditionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleCookiesCondition
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -2673,48 +2470,34 @@ func RunJSONSerializationTestForDeliveryRuleCookiesCondition(subject DeliveryRul
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleCookiesCondition instances for property testing - lazily instantiated by
 // DeliveryRuleCookiesConditionGenerator()
-var deliveryRuleCookiesConditionGenerator gopter.Gen
+var deliveryRuleCookiesConditionGenerator *rapid.Generator[DeliveryRuleCookiesCondition]
 
 // DeliveryRuleCookiesConditionGenerator returns a generator of DeliveryRuleCookiesCondition instances for property testing.
-// We first initialize deliveryRuleCookiesConditionGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleCookiesConditionGenerator() gopter.Gen {
+func DeliveryRuleCookiesConditionGenerator() *rapid.Generator[DeliveryRuleCookiesCondition] {
 	if deliveryRuleCookiesConditionGenerator != nil {
 		return deliveryRuleCookiesConditionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleCookiesCondition(generators)
-	deliveryRuleCookiesConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleCookiesCondition{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(CookiesMatchConditionParametersGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleCookiesCondition(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleCookiesCondition(generators)
-	deliveryRuleCookiesConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleCookiesCondition{}), generators)
+	deliveryRuleCookiesConditionGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleCookiesCondition {
+		var result DeliveryRuleCookiesCondition
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleCookiesConditionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleCookiesCondition is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleCookiesCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleCookiesCondition is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleCookiesCondition(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(CookiesMatchConditionParametersGenerator())
-}
-
+// Test_DeliveryRuleCookiesCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleCookiesCondition_STATUS can be assigned to storage and back losslessly
 func Test_DeliveryRuleCookiesCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -2722,44 +2505,34 @@ func Test_DeliveryRuleCookiesCondition_STATUS_WhenPropertiesConverted_RoundTrips
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleCookiesCondition_STATUS to DeliveryRuleCookiesCondition_STATUS via AssignProperties_To_DeliveryRuleCookiesCondition_STATUS & AssignProperties_From_DeliveryRuleCookiesCondition_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleCookiesCondition_STATUS, DeliveryRuleCookiesCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleCookiesCondition_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleCookiesCondition_STATUS tests if a specific instance of DeliveryRuleCookiesCondition_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleCookiesCondition_STATUS(subject DeliveryRuleCookiesCondition_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleCookiesCondition_STATUS
+		err := copied.AssignProperties_To_DeliveryRuleCookiesCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleCookiesCondition_STATUS
-	err := copied.AssignProperties_To_DeliveryRuleCookiesCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleCookiesCondition_STATUS
+		err = actual.AssignProperties_From_DeliveryRuleCookiesCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleCookiesCondition_STATUS
-	err = actual.AssignProperties_From_DeliveryRuleCookiesCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleCookiesCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2769,29 +2542,23 @@ func Test_DeliveryRuleCookiesCondition_STATUS_WhenSerializedToJson_DeserializesA
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleCookiesCondition_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleCookiesCondition_STATUS, DeliveryRuleCookiesCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleCookiesCondition_STATUS)
 }
 
 // RunJSONSerializationTestForDeliveryRuleCookiesCondition_STATUS runs a test to see if a specific instance of DeliveryRuleCookiesCondition_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleCookiesCondition_STATUS(subject DeliveryRuleCookiesCondition_STATUS) string {
+func RunJSONSerializationTestForDeliveryRuleCookiesCondition_STATUS(t *rapid.T) {
+	subject := DeliveryRuleCookiesCondition_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleCookiesCondition_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -2800,48 +2567,34 @@ func RunJSONSerializationTestForDeliveryRuleCookiesCondition_STATUS(subject Deli
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleCookiesCondition_STATUS instances for property testing - lazily instantiated by
 // DeliveryRuleCookiesCondition_STATUSGenerator()
-var deliveryRuleCookiesCondition_STATUSGenerator gopter.Gen
+var deliveryRuleCookiesCondition_STATUSGenerator *rapid.Generator[DeliveryRuleCookiesCondition_STATUS]
 
 // DeliveryRuleCookiesCondition_STATUSGenerator returns a generator of DeliveryRuleCookiesCondition_STATUS instances for property testing.
-// We first initialize deliveryRuleCookiesCondition_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleCookiesCondition_STATUSGenerator() gopter.Gen {
+func DeliveryRuleCookiesCondition_STATUSGenerator() *rapid.Generator[DeliveryRuleCookiesCondition_STATUS] {
 	if deliveryRuleCookiesCondition_STATUSGenerator != nil {
 		return deliveryRuleCookiesCondition_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleCookiesCondition_STATUS(generators)
-	deliveryRuleCookiesCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleCookiesCondition_STATUS{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(CookiesMatchConditionParameters_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleCookiesCondition_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleCookiesCondition_STATUS(generators)
-	deliveryRuleCookiesCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleCookiesCondition_STATUS{}), generators)
+	deliveryRuleCookiesCondition_STATUSGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleCookiesCondition_STATUS {
+		var result DeliveryRuleCookiesCondition_STATUS
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleCookiesCondition_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleCookiesCondition_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleCookiesCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleCookiesCondition_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleCookiesCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(CookiesMatchConditionParameters_STATUSGenerator())
-}
-
+// Test_DeliveryRuleHostNameCondition_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleHostNameCondition can be assigned to storage and back losslessly
 func Test_DeliveryRuleHostNameCondition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -2849,44 +2602,34 @@ func Test_DeliveryRuleHostNameCondition_WhenPropertiesConverted_RoundTripsWithou
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleHostNameCondition to DeliveryRuleHostNameCondition via AssignProperties_To_DeliveryRuleHostNameCondition & AssignProperties_From_DeliveryRuleHostNameCondition returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleHostNameCondition, DeliveryRuleHostNameConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleHostNameConditionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleHostNameCondition tests if a specific instance of DeliveryRuleHostNameCondition can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleHostNameCondition(subject DeliveryRuleHostNameCondition) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleHostNameCondition
+		err := copied.AssignProperties_To_DeliveryRuleHostNameCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleHostNameCondition
-	err := copied.AssignProperties_To_DeliveryRuleHostNameCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleHostNameCondition
+		err = actual.AssignProperties_From_DeliveryRuleHostNameCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleHostNameCondition
-	err = actual.AssignProperties_From_DeliveryRuleHostNameCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleHostNameCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2896,29 +2639,23 @@ func Test_DeliveryRuleHostNameCondition_WhenSerializedToJson_DeserializesAsEqual
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleHostNameCondition via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleHostNameCondition, DeliveryRuleHostNameConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleHostNameCondition)
 }
 
 // RunJSONSerializationTestForDeliveryRuleHostNameCondition runs a test to see if a specific instance of DeliveryRuleHostNameCondition round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleHostNameCondition(subject DeliveryRuleHostNameCondition) string {
+func RunJSONSerializationTestForDeliveryRuleHostNameCondition(t *rapid.T) {
+	subject := DeliveryRuleHostNameConditionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleHostNameCondition
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -2927,48 +2664,34 @@ func RunJSONSerializationTestForDeliveryRuleHostNameCondition(subject DeliveryRu
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleHostNameCondition instances for property testing - lazily instantiated by
 // DeliveryRuleHostNameConditionGenerator()
-var deliveryRuleHostNameConditionGenerator gopter.Gen
+var deliveryRuleHostNameConditionGenerator *rapid.Generator[DeliveryRuleHostNameCondition]
 
 // DeliveryRuleHostNameConditionGenerator returns a generator of DeliveryRuleHostNameCondition instances for property testing.
-// We first initialize deliveryRuleHostNameConditionGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleHostNameConditionGenerator() gopter.Gen {
+func DeliveryRuleHostNameConditionGenerator() *rapid.Generator[DeliveryRuleHostNameCondition] {
 	if deliveryRuleHostNameConditionGenerator != nil {
 		return deliveryRuleHostNameConditionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleHostNameCondition(generators)
-	deliveryRuleHostNameConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleHostNameCondition{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(HostNameMatchConditionParametersGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleHostNameCondition(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleHostNameCondition(generators)
-	deliveryRuleHostNameConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleHostNameCondition{}), generators)
+	deliveryRuleHostNameConditionGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleHostNameCondition {
+		var result DeliveryRuleHostNameCondition
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleHostNameConditionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleHostNameCondition is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleHostNameCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleHostNameCondition is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleHostNameCondition(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(HostNameMatchConditionParametersGenerator())
-}
-
+// Test_DeliveryRuleHostNameCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleHostNameCondition_STATUS can be assigned to storage and back losslessly
 func Test_DeliveryRuleHostNameCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -2976,44 +2699,34 @@ func Test_DeliveryRuleHostNameCondition_STATUS_WhenPropertiesConverted_RoundTrip
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleHostNameCondition_STATUS to DeliveryRuleHostNameCondition_STATUS via AssignProperties_To_DeliveryRuleHostNameCondition_STATUS & AssignProperties_From_DeliveryRuleHostNameCondition_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleHostNameCondition_STATUS, DeliveryRuleHostNameCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleHostNameCondition_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleHostNameCondition_STATUS tests if a specific instance of DeliveryRuleHostNameCondition_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleHostNameCondition_STATUS(subject DeliveryRuleHostNameCondition_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleHostNameCondition_STATUS
+		err := copied.AssignProperties_To_DeliveryRuleHostNameCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleHostNameCondition_STATUS
-	err := copied.AssignProperties_To_DeliveryRuleHostNameCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleHostNameCondition_STATUS
+		err = actual.AssignProperties_From_DeliveryRuleHostNameCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleHostNameCondition_STATUS
-	err = actual.AssignProperties_From_DeliveryRuleHostNameCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleHostNameCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3023,29 +2736,23 @@ func Test_DeliveryRuleHostNameCondition_STATUS_WhenSerializedToJson_Deserializes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleHostNameCondition_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleHostNameCondition_STATUS, DeliveryRuleHostNameCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleHostNameCondition_STATUS)
 }
 
 // RunJSONSerializationTestForDeliveryRuleHostNameCondition_STATUS runs a test to see if a specific instance of DeliveryRuleHostNameCondition_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleHostNameCondition_STATUS(subject DeliveryRuleHostNameCondition_STATUS) string {
+func RunJSONSerializationTestForDeliveryRuleHostNameCondition_STATUS(t *rapid.T) {
+	subject := DeliveryRuleHostNameCondition_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleHostNameCondition_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -3054,48 +2761,34 @@ func RunJSONSerializationTestForDeliveryRuleHostNameCondition_STATUS(subject Del
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleHostNameCondition_STATUS instances for property testing - lazily instantiated by
 // DeliveryRuleHostNameCondition_STATUSGenerator()
-var deliveryRuleHostNameCondition_STATUSGenerator gopter.Gen
+var deliveryRuleHostNameCondition_STATUSGenerator *rapid.Generator[DeliveryRuleHostNameCondition_STATUS]
 
 // DeliveryRuleHostNameCondition_STATUSGenerator returns a generator of DeliveryRuleHostNameCondition_STATUS instances for property testing.
-// We first initialize deliveryRuleHostNameCondition_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleHostNameCondition_STATUSGenerator() gopter.Gen {
+func DeliveryRuleHostNameCondition_STATUSGenerator() *rapid.Generator[DeliveryRuleHostNameCondition_STATUS] {
 	if deliveryRuleHostNameCondition_STATUSGenerator != nil {
 		return deliveryRuleHostNameCondition_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleHostNameCondition_STATUS(generators)
-	deliveryRuleHostNameCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleHostNameCondition_STATUS{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(HostNameMatchConditionParameters_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleHostNameCondition_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleHostNameCondition_STATUS(generators)
-	deliveryRuleHostNameCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleHostNameCondition_STATUS{}), generators)
+	deliveryRuleHostNameCondition_STATUSGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleHostNameCondition_STATUS {
+		var result DeliveryRuleHostNameCondition_STATUS
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleHostNameCondition_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleHostNameCondition_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleHostNameCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleHostNameCondition_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleHostNameCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(HostNameMatchConditionParameters_STATUSGenerator())
-}
-
+// Test_DeliveryRuleHttpVersionCondition_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleHttpVersionCondition can be assigned to storage and back losslessly
 func Test_DeliveryRuleHttpVersionCondition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -3103,44 +2796,34 @@ func Test_DeliveryRuleHttpVersionCondition_WhenPropertiesConverted_RoundTripsWit
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleHttpVersionCondition to DeliveryRuleHttpVersionCondition via AssignProperties_To_DeliveryRuleHttpVersionCondition & AssignProperties_From_DeliveryRuleHttpVersionCondition returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleHttpVersionCondition, DeliveryRuleHttpVersionConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleHttpVersionConditionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleHttpVersionCondition tests if a specific instance of DeliveryRuleHttpVersionCondition can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleHttpVersionCondition(subject DeliveryRuleHttpVersionCondition) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleHttpVersionCondition
+		err := copied.AssignProperties_To_DeliveryRuleHttpVersionCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleHttpVersionCondition
-	err := copied.AssignProperties_To_DeliveryRuleHttpVersionCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleHttpVersionCondition
+		err = actual.AssignProperties_From_DeliveryRuleHttpVersionCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleHttpVersionCondition
-	err = actual.AssignProperties_From_DeliveryRuleHttpVersionCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleHttpVersionCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3150,29 +2833,23 @@ func Test_DeliveryRuleHttpVersionCondition_WhenSerializedToJson_DeserializesAsEq
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleHttpVersionCondition via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleHttpVersionCondition, DeliveryRuleHttpVersionConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleHttpVersionCondition)
 }
 
 // RunJSONSerializationTestForDeliveryRuleHttpVersionCondition runs a test to see if a specific instance of DeliveryRuleHttpVersionCondition round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleHttpVersionCondition(subject DeliveryRuleHttpVersionCondition) string {
+func RunJSONSerializationTestForDeliveryRuleHttpVersionCondition(t *rapid.T) {
+	subject := DeliveryRuleHttpVersionConditionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleHttpVersionCondition
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -3181,48 +2858,34 @@ func RunJSONSerializationTestForDeliveryRuleHttpVersionCondition(subject Deliver
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleHttpVersionCondition instances for property testing - lazily instantiated by
 // DeliveryRuleHttpVersionConditionGenerator()
-var deliveryRuleHttpVersionConditionGenerator gopter.Gen
+var deliveryRuleHttpVersionConditionGenerator *rapid.Generator[DeliveryRuleHttpVersionCondition]
 
 // DeliveryRuleHttpVersionConditionGenerator returns a generator of DeliveryRuleHttpVersionCondition instances for property testing.
-// We first initialize deliveryRuleHttpVersionConditionGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleHttpVersionConditionGenerator() gopter.Gen {
+func DeliveryRuleHttpVersionConditionGenerator() *rapid.Generator[DeliveryRuleHttpVersionCondition] {
 	if deliveryRuleHttpVersionConditionGenerator != nil {
 		return deliveryRuleHttpVersionConditionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleHttpVersionCondition(generators)
-	deliveryRuleHttpVersionConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleHttpVersionCondition{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(HttpVersionMatchConditionParametersGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleHttpVersionCondition(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleHttpVersionCondition(generators)
-	deliveryRuleHttpVersionConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleHttpVersionCondition{}), generators)
+	deliveryRuleHttpVersionConditionGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleHttpVersionCondition {
+		var result DeliveryRuleHttpVersionCondition
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleHttpVersionConditionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleHttpVersionCondition is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleHttpVersionCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleHttpVersionCondition is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleHttpVersionCondition(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(HttpVersionMatchConditionParametersGenerator())
-}
-
+// Test_DeliveryRuleHttpVersionCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleHttpVersionCondition_STATUS can be assigned to storage and back losslessly
 func Test_DeliveryRuleHttpVersionCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -3230,44 +2893,34 @@ func Test_DeliveryRuleHttpVersionCondition_STATUS_WhenPropertiesConverted_RoundT
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleHttpVersionCondition_STATUS to DeliveryRuleHttpVersionCondition_STATUS via AssignProperties_To_DeliveryRuleHttpVersionCondition_STATUS & AssignProperties_From_DeliveryRuleHttpVersionCondition_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleHttpVersionCondition_STATUS, DeliveryRuleHttpVersionCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleHttpVersionCondition_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleHttpVersionCondition_STATUS tests if a specific instance of DeliveryRuleHttpVersionCondition_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleHttpVersionCondition_STATUS(subject DeliveryRuleHttpVersionCondition_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleHttpVersionCondition_STATUS
+		err := copied.AssignProperties_To_DeliveryRuleHttpVersionCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleHttpVersionCondition_STATUS
-	err := copied.AssignProperties_To_DeliveryRuleHttpVersionCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleHttpVersionCondition_STATUS
+		err = actual.AssignProperties_From_DeliveryRuleHttpVersionCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleHttpVersionCondition_STATUS
-	err = actual.AssignProperties_From_DeliveryRuleHttpVersionCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleHttpVersionCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3277,29 +2930,23 @@ func Test_DeliveryRuleHttpVersionCondition_STATUS_WhenSerializedToJson_Deseriali
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleHttpVersionCondition_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleHttpVersionCondition_STATUS, DeliveryRuleHttpVersionCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleHttpVersionCondition_STATUS)
 }
 
 // RunJSONSerializationTestForDeliveryRuleHttpVersionCondition_STATUS runs a test to see if a specific instance of DeliveryRuleHttpVersionCondition_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleHttpVersionCondition_STATUS(subject DeliveryRuleHttpVersionCondition_STATUS) string {
+func RunJSONSerializationTestForDeliveryRuleHttpVersionCondition_STATUS(t *rapid.T) {
+	subject := DeliveryRuleHttpVersionCondition_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleHttpVersionCondition_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -3308,48 +2955,34 @@ func RunJSONSerializationTestForDeliveryRuleHttpVersionCondition_STATUS(subject 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleHttpVersionCondition_STATUS instances for property testing - lazily instantiated by
 // DeliveryRuleHttpVersionCondition_STATUSGenerator()
-var deliveryRuleHttpVersionCondition_STATUSGenerator gopter.Gen
+var deliveryRuleHttpVersionCondition_STATUSGenerator *rapid.Generator[DeliveryRuleHttpVersionCondition_STATUS]
 
 // DeliveryRuleHttpVersionCondition_STATUSGenerator returns a generator of DeliveryRuleHttpVersionCondition_STATUS instances for property testing.
-// We first initialize deliveryRuleHttpVersionCondition_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleHttpVersionCondition_STATUSGenerator() gopter.Gen {
+func DeliveryRuleHttpVersionCondition_STATUSGenerator() *rapid.Generator[DeliveryRuleHttpVersionCondition_STATUS] {
 	if deliveryRuleHttpVersionCondition_STATUSGenerator != nil {
 		return deliveryRuleHttpVersionCondition_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleHttpVersionCondition_STATUS(generators)
-	deliveryRuleHttpVersionCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleHttpVersionCondition_STATUS{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(HttpVersionMatchConditionParameters_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleHttpVersionCondition_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleHttpVersionCondition_STATUS(generators)
-	deliveryRuleHttpVersionCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleHttpVersionCondition_STATUS{}), generators)
+	deliveryRuleHttpVersionCondition_STATUSGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleHttpVersionCondition_STATUS {
+		var result DeliveryRuleHttpVersionCondition_STATUS
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleHttpVersionCondition_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleHttpVersionCondition_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleHttpVersionCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleHttpVersionCondition_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleHttpVersionCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(HttpVersionMatchConditionParameters_STATUSGenerator())
-}
-
+// Test_DeliveryRuleIsDeviceCondition_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleIsDeviceCondition can be assigned to storage and back losslessly
 func Test_DeliveryRuleIsDeviceCondition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -3357,44 +2990,34 @@ func Test_DeliveryRuleIsDeviceCondition_WhenPropertiesConverted_RoundTripsWithou
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleIsDeviceCondition to DeliveryRuleIsDeviceCondition via AssignProperties_To_DeliveryRuleIsDeviceCondition & AssignProperties_From_DeliveryRuleIsDeviceCondition returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleIsDeviceCondition, DeliveryRuleIsDeviceConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleIsDeviceConditionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleIsDeviceCondition tests if a specific instance of DeliveryRuleIsDeviceCondition can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleIsDeviceCondition(subject DeliveryRuleIsDeviceCondition) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleIsDeviceCondition
+		err := copied.AssignProperties_To_DeliveryRuleIsDeviceCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleIsDeviceCondition
-	err := copied.AssignProperties_To_DeliveryRuleIsDeviceCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleIsDeviceCondition
+		err = actual.AssignProperties_From_DeliveryRuleIsDeviceCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleIsDeviceCondition
-	err = actual.AssignProperties_From_DeliveryRuleIsDeviceCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleIsDeviceCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3404,29 +3027,23 @@ func Test_DeliveryRuleIsDeviceCondition_WhenSerializedToJson_DeserializesAsEqual
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleIsDeviceCondition via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleIsDeviceCondition, DeliveryRuleIsDeviceConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleIsDeviceCondition)
 }
 
 // RunJSONSerializationTestForDeliveryRuleIsDeviceCondition runs a test to see if a specific instance of DeliveryRuleIsDeviceCondition round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleIsDeviceCondition(subject DeliveryRuleIsDeviceCondition) string {
+func RunJSONSerializationTestForDeliveryRuleIsDeviceCondition(t *rapid.T) {
+	subject := DeliveryRuleIsDeviceConditionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleIsDeviceCondition
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -3435,48 +3052,34 @@ func RunJSONSerializationTestForDeliveryRuleIsDeviceCondition(subject DeliveryRu
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleIsDeviceCondition instances for property testing - lazily instantiated by
 // DeliveryRuleIsDeviceConditionGenerator()
-var deliveryRuleIsDeviceConditionGenerator gopter.Gen
+var deliveryRuleIsDeviceConditionGenerator *rapid.Generator[DeliveryRuleIsDeviceCondition]
 
 // DeliveryRuleIsDeviceConditionGenerator returns a generator of DeliveryRuleIsDeviceCondition instances for property testing.
-// We first initialize deliveryRuleIsDeviceConditionGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleIsDeviceConditionGenerator() gopter.Gen {
+func DeliveryRuleIsDeviceConditionGenerator() *rapid.Generator[DeliveryRuleIsDeviceCondition] {
 	if deliveryRuleIsDeviceConditionGenerator != nil {
 		return deliveryRuleIsDeviceConditionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleIsDeviceCondition(generators)
-	deliveryRuleIsDeviceConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleIsDeviceCondition{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(IsDeviceMatchConditionParametersGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleIsDeviceCondition(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleIsDeviceCondition(generators)
-	deliveryRuleIsDeviceConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleIsDeviceCondition{}), generators)
+	deliveryRuleIsDeviceConditionGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleIsDeviceCondition {
+		var result DeliveryRuleIsDeviceCondition
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleIsDeviceConditionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleIsDeviceCondition is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleIsDeviceCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleIsDeviceCondition is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleIsDeviceCondition(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(IsDeviceMatchConditionParametersGenerator())
-}
-
+// Test_DeliveryRuleIsDeviceCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleIsDeviceCondition_STATUS can be assigned to storage and back losslessly
 func Test_DeliveryRuleIsDeviceCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -3484,44 +3087,34 @@ func Test_DeliveryRuleIsDeviceCondition_STATUS_WhenPropertiesConverted_RoundTrip
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleIsDeviceCondition_STATUS to DeliveryRuleIsDeviceCondition_STATUS via AssignProperties_To_DeliveryRuleIsDeviceCondition_STATUS & AssignProperties_From_DeliveryRuleIsDeviceCondition_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleIsDeviceCondition_STATUS, DeliveryRuleIsDeviceCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleIsDeviceCondition_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleIsDeviceCondition_STATUS tests if a specific instance of DeliveryRuleIsDeviceCondition_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleIsDeviceCondition_STATUS(subject DeliveryRuleIsDeviceCondition_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleIsDeviceCondition_STATUS
+		err := copied.AssignProperties_To_DeliveryRuleIsDeviceCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleIsDeviceCondition_STATUS
-	err := copied.AssignProperties_To_DeliveryRuleIsDeviceCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleIsDeviceCondition_STATUS
+		err = actual.AssignProperties_From_DeliveryRuleIsDeviceCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleIsDeviceCondition_STATUS
-	err = actual.AssignProperties_From_DeliveryRuleIsDeviceCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleIsDeviceCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3531,29 +3124,23 @@ func Test_DeliveryRuleIsDeviceCondition_STATUS_WhenSerializedToJson_Deserializes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleIsDeviceCondition_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleIsDeviceCondition_STATUS, DeliveryRuleIsDeviceCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleIsDeviceCondition_STATUS)
 }
 
 // RunJSONSerializationTestForDeliveryRuleIsDeviceCondition_STATUS runs a test to see if a specific instance of DeliveryRuleIsDeviceCondition_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleIsDeviceCondition_STATUS(subject DeliveryRuleIsDeviceCondition_STATUS) string {
+func RunJSONSerializationTestForDeliveryRuleIsDeviceCondition_STATUS(t *rapid.T) {
+	subject := DeliveryRuleIsDeviceCondition_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleIsDeviceCondition_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -3562,48 +3149,34 @@ func RunJSONSerializationTestForDeliveryRuleIsDeviceCondition_STATUS(subject Del
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleIsDeviceCondition_STATUS instances for property testing - lazily instantiated by
 // DeliveryRuleIsDeviceCondition_STATUSGenerator()
-var deliveryRuleIsDeviceCondition_STATUSGenerator gopter.Gen
+var deliveryRuleIsDeviceCondition_STATUSGenerator *rapid.Generator[DeliveryRuleIsDeviceCondition_STATUS]
 
 // DeliveryRuleIsDeviceCondition_STATUSGenerator returns a generator of DeliveryRuleIsDeviceCondition_STATUS instances for property testing.
-// We first initialize deliveryRuleIsDeviceCondition_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleIsDeviceCondition_STATUSGenerator() gopter.Gen {
+func DeliveryRuleIsDeviceCondition_STATUSGenerator() *rapid.Generator[DeliveryRuleIsDeviceCondition_STATUS] {
 	if deliveryRuleIsDeviceCondition_STATUSGenerator != nil {
 		return deliveryRuleIsDeviceCondition_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleIsDeviceCondition_STATUS(generators)
-	deliveryRuleIsDeviceCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleIsDeviceCondition_STATUS{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(IsDeviceMatchConditionParameters_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleIsDeviceCondition_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleIsDeviceCondition_STATUS(generators)
-	deliveryRuleIsDeviceCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleIsDeviceCondition_STATUS{}), generators)
+	deliveryRuleIsDeviceCondition_STATUSGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleIsDeviceCondition_STATUS {
+		var result DeliveryRuleIsDeviceCondition_STATUS
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleIsDeviceCondition_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleIsDeviceCondition_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleIsDeviceCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleIsDeviceCondition_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleIsDeviceCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(IsDeviceMatchConditionParameters_STATUSGenerator())
-}
-
+// Test_DeliveryRulePostArgsCondition_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRulePostArgsCondition can be assigned to storage and back losslessly
 func Test_DeliveryRulePostArgsCondition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -3611,44 +3184,34 @@ func Test_DeliveryRulePostArgsCondition_WhenPropertiesConverted_RoundTripsWithou
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRulePostArgsCondition to DeliveryRulePostArgsCondition via AssignProperties_To_DeliveryRulePostArgsCondition & AssignProperties_From_DeliveryRulePostArgsCondition returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRulePostArgsCondition, DeliveryRulePostArgsConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRulePostArgsConditionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRulePostArgsCondition tests if a specific instance of DeliveryRulePostArgsCondition can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRulePostArgsCondition(subject DeliveryRulePostArgsCondition) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRulePostArgsCondition
+		err := copied.AssignProperties_To_DeliveryRulePostArgsCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRulePostArgsCondition
-	err := copied.AssignProperties_To_DeliveryRulePostArgsCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRulePostArgsCondition
+		err = actual.AssignProperties_From_DeliveryRulePostArgsCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRulePostArgsCondition
-	err = actual.AssignProperties_From_DeliveryRulePostArgsCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRulePostArgsCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3658,29 +3221,23 @@ func Test_DeliveryRulePostArgsCondition_WhenSerializedToJson_DeserializesAsEqual
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRulePostArgsCondition via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRulePostArgsCondition, DeliveryRulePostArgsConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRulePostArgsCondition)
 }
 
 // RunJSONSerializationTestForDeliveryRulePostArgsCondition runs a test to see if a specific instance of DeliveryRulePostArgsCondition round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRulePostArgsCondition(subject DeliveryRulePostArgsCondition) string {
+func RunJSONSerializationTestForDeliveryRulePostArgsCondition(t *rapid.T) {
+	subject := DeliveryRulePostArgsConditionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRulePostArgsCondition
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -3689,48 +3246,34 @@ func RunJSONSerializationTestForDeliveryRulePostArgsCondition(subject DeliveryRu
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRulePostArgsCondition instances for property testing - lazily instantiated by
 // DeliveryRulePostArgsConditionGenerator()
-var deliveryRulePostArgsConditionGenerator gopter.Gen
+var deliveryRulePostArgsConditionGenerator *rapid.Generator[DeliveryRulePostArgsCondition]
 
 // DeliveryRulePostArgsConditionGenerator returns a generator of DeliveryRulePostArgsCondition instances for property testing.
-// We first initialize deliveryRulePostArgsConditionGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRulePostArgsConditionGenerator() gopter.Gen {
+func DeliveryRulePostArgsConditionGenerator() *rapid.Generator[DeliveryRulePostArgsCondition] {
 	if deliveryRulePostArgsConditionGenerator != nil {
 		return deliveryRulePostArgsConditionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRulePostArgsCondition(generators)
-	deliveryRulePostArgsConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRulePostArgsCondition{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(PostArgsMatchConditionParametersGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRulePostArgsCondition(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRulePostArgsCondition(generators)
-	deliveryRulePostArgsConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRulePostArgsCondition{}), generators)
+	deliveryRulePostArgsConditionGenerator = rapid.Custom(func(t *rapid.T) DeliveryRulePostArgsCondition {
+		var result DeliveryRulePostArgsCondition
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRulePostArgsConditionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRulePostArgsCondition is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRulePostArgsCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRulePostArgsCondition is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRulePostArgsCondition(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(PostArgsMatchConditionParametersGenerator())
-}
-
+// Test_DeliveryRulePostArgsCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRulePostArgsCondition_STATUS can be assigned to storage and back losslessly
 func Test_DeliveryRulePostArgsCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -3738,44 +3281,34 @@ func Test_DeliveryRulePostArgsCondition_STATUS_WhenPropertiesConverted_RoundTrip
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRulePostArgsCondition_STATUS to DeliveryRulePostArgsCondition_STATUS via AssignProperties_To_DeliveryRulePostArgsCondition_STATUS & AssignProperties_From_DeliveryRulePostArgsCondition_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRulePostArgsCondition_STATUS, DeliveryRulePostArgsCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRulePostArgsCondition_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRulePostArgsCondition_STATUS tests if a specific instance of DeliveryRulePostArgsCondition_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRulePostArgsCondition_STATUS(subject DeliveryRulePostArgsCondition_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRulePostArgsCondition_STATUS
+		err := copied.AssignProperties_To_DeliveryRulePostArgsCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRulePostArgsCondition_STATUS
-	err := copied.AssignProperties_To_DeliveryRulePostArgsCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRulePostArgsCondition_STATUS
+		err = actual.AssignProperties_From_DeliveryRulePostArgsCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRulePostArgsCondition_STATUS
-	err = actual.AssignProperties_From_DeliveryRulePostArgsCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRulePostArgsCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3785,29 +3318,23 @@ func Test_DeliveryRulePostArgsCondition_STATUS_WhenSerializedToJson_Deserializes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRulePostArgsCondition_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRulePostArgsCondition_STATUS, DeliveryRulePostArgsCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRulePostArgsCondition_STATUS)
 }
 
 // RunJSONSerializationTestForDeliveryRulePostArgsCondition_STATUS runs a test to see if a specific instance of DeliveryRulePostArgsCondition_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRulePostArgsCondition_STATUS(subject DeliveryRulePostArgsCondition_STATUS) string {
+func RunJSONSerializationTestForDeliveryRulePostArgsCondition_STATUS(t *rapid.T) {
+	subject := DeliveryRulePostArgsCondition_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRulePostArgsCondition_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -3816,48 +3343,34 @@ func RunJSONSerializationTestForDeliveryRulePostArgsCondition_STATUS(subject Del
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRulePostArgsCondition_STATUS instances for property testing - lazily instantiated by
 // DeliveryRulePostArgsCondition_STATUSGenerator()
-var deliveryRulePostArgsCondition_STATUSGenerator gopter.Gen
+var deliveryRulePostArgsCondition_STATUSGenerator *rapid.Generator[DeliveryRulePostArgsCondition_STATUS]
 
 // DeliveryRulePostArgsCondition_STATUSGenerator returns a generator of DeliveryRulePostArgsCondition_STATUS instances for property testing.
-// We first initialize deliveryRulePostArgsCondition_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRulePostArgsCondition_STATUSGenerator() gopter.Gen {
+func DeliveryRulePostArgsCondition_STATUSGenerator() *rapid.Generator[DeliveryRulePostArgsCondition_STATUS] {
 	if deliveryRulePostArgsCondition_STATUSGenerator != nil {
 		return deliveryRulePostArgsCondition_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRulePostArgsCondition_STATUS(generators)
-	deliveryRulePostArgsCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRulePostArgsCondition_STATUS{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(PostArgsMatchConditionParameters_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRulePostArgsCondition_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRulePostArgsCondition_STATUS(generators)
-	deliveryRulePostArgsCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRulePostArgsCondition_STATUS{}), generators)
+	deliveryRulePostArgsCondition_STATUSGenerator = rapid.Custom(func(t *rapid.T) DeliveryRulePostArgsCondition_STATUS {
+		var result DeliveryRulePostArgsCondition_STATUS
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRulePostArgsCondition_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRulePostArgsCondition_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRulePostArgsCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRulePostArgsCondition_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRulePostArgsCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(PostArgsMatchConditionParameters_STATUSGenerator())
-}
-
+// Test_DeliveryRuleQueryStringCondition_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleQueryStringCondition can be assigned to storage and back losslessly
 func Test_DeliveryRuleQueryStringCondition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -3865,44 +3378,34 @@ func Test_DeliveryRuleQueryStringCondition_WhenPropertiesConverted_RoundTripsWit
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleQueryStringCondition to DeliveryRuleQueryStringCondition via AssignProperties_To_DeliveryRuleQueryStringCondition & AssignProperties_From_DeliveryRuleQueryStringCondition returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleQueryStringCondition, DeliveryRuleQueryStringConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleQueryStringConditionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleQueryStringCondition tests if a specific instance of DeliveryRuleQueryStringCondition can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleQueryStringCondition(subject DeliveryRuleQueryStringCondition) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleQueryStringCondition
+		err := copied.AssignProperties_To_DeliveryRuleQueryStringCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleQueryStringCondition
-	err := copied.AssignProperties_To_DeliveryRuleQueryStringCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleQueryStringCondition
+		err = actual.AssignProperties_From_DeliveryRuleQueryStringCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleQueryStringCondition
-	err = actual.AssignProperties_From_DeliveryRuleQueryStringCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleQueryStringCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3912,29 +3415,23 @@ func Test_DeliveryRuleQueryStringCondition_WhenSerializedToJson_DeserializesAsEq
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleQueryStringCondition via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleQueryStringCondition, DeliveryRuleQueryStringConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleQueryStringCondition)
 }
 
 // RunJSONSerializationTestForDeliveryRuleQueryStringCondition runs a test to see if a specific instance of DeliveryRuleQueryStringCondition round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleQueryStringCondition(subject DeliveryRuleQueryStringCondition) string {
+func RunJSONSerializationTestForDeliveryRuleQueryStringCondition(t *rapid.T) {
+	subject := DeliveryRuleQueryStringConditionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleQueryStringCondition
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -3943,48 +3440,34 @@ func RunJSONSerializationTestForDeliveryRuleQueryStringCondition(subject Deliver
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleQueryStringCondition instances for property testing - lazily instantiated by
 // DeliveryRuleQueryStringConditionGenerator()
-var deliveryRuleQueryStringConditionGenerator gopter.Gen
+var deliveryRuleQueryStringConditionGenerator *rapid.Generator[DeliveryRuleQueryStringCondition]
 
 // DeliveryRuleQueryStringConditionGenerator returns a generator of DeliveryRuleQueryStringCondition instances for property testing.
-// We first initialize deliveryRuleQueryStringConditionGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleQueryStringConditionGenerator() gopter.Gen {
+func DeliveryRuleQueryStringConditionGenerator() *rapid.Generator[DeliveryRuleQueryStringCondition] {
 	if deliveryRuleQueryStringConditionGenerator != nil {
 		return deliveryRuleQueryStringConditionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleQueryStringCondition(generators)
-	deliveryRuleQueryStringConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleQueryStringCondition{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(QueryStringMatchConditionParametersGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleQueryStringCondition(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleQueryStringCondition(generators)
-	deliveryRuleQueryStringConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleQueryStringCondition{}), generators)
+	deliveryRuleQueryStringConditionGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleQueryStringCondition {
+		var result DeliveryRuleQueryStringCondition
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleQueryStringConditionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleQueryStringCondition is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleQueryStringCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleQueryStringCondition is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleQueryStringCondition(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(QueryStringMatchConditionParametersGenerator())
-}
-
+// Test_DeliveryRuleQueryStringCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleQueryStringCondition_STATUS can be assigned to storage and back losslessly
 func Test_DeliveryRuleQueryStringCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -3992,44 +3475,34 @@ func Test_DeliveryRuleQueryStringCondition_STATUS_WhenPropertiesConverted_RoundT
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleQueryStringCondition_STATUS to DeliveryRuleQueryStringCondition_STATUS via AssignProperties_To_DeliveryRuleQueryStringCondition_STATUS & AssignProperties_From_DeliveryRuleQueryStringCondition_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleQueryStringCondition_STATUS, DeliveryRuleQueryStringCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleQueryStringCondition_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleQueryStringCondition_STATUS tests if a specific instance of DeliveryRuleQueryStringCondition_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleQueryStringCondition_STATUS(subject DeliveryRuleQueryStringCondition_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleQueryStringCondition_STATUS
+		err := copied.AssignProperties_To_DeliveryRuleQueryStringCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleQueryStringCondition_STATUS
-	err := copied.AssignProperties_To_DeliveryRuleQueryStringCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleQueryStringCondition_STATUS
+		err = actual.AssignProperties_From_DeliveryRuleQueryStringCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleQueryStringCondition_STATUS
-	err = actual.AssignProperties_From_DeliveryRuleQueryStringCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleQueryStringCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -4039,29 +3512,23 @@ func Test_DeliveryRuleQueryStringCondition_STATUS_WhenSerializedToJson_Deseriali
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleQueryStringCondition_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleQueryStringCondition_STATUS, DeliveryRuleQueryStringCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleQueryStringCondition_STATUS)
 }
 
 // RunJSONSerializationTestForDeliveryRuleQueryStringCondition_STATUS runs a test to see if a specific instance of DeliveryRuleQueryStringCondition_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleQueryStringCondition_STATUS(subject DeliveryRuleQueryStringCondition_STATUS) string {
+func RunJSONSerializationTestForDeliveryRuleQueryStringCondition_STATUS(t *rapid.T) {
+	subject := DeliveryRuleQueryStringCondition_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleQueryStringCondition_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -4070,48 +3537,34 @@ func RunJSONSerializationTestForDeliveryRuleQueryStringCondition_STATUS(subject 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleQueryStringCondition_STATUS instances for property testing - lazily instantiated by
 // DeliveryRuleQueryStringCondition_STATUSGenerator()
-var deliveryRuleQueryStringCondition_STATUSGenerator gopter.Gen
+var deliveryRuleQueryStringCondition_STATUSGenerator *rapid.Generator[DeliveryRuleQueryStringCondition_STATUS]
 
 // DeliveryRuleQueryStringCondition_STATUSGenerator returns a generator of DeliveryRuleQueryStringCondition_STATUS instances for property testing.
-// We first initialize deliveryRuleQueryStringCondition_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleQueryStringCondition_STATUSGenerator() gopter.Gen {
+func DeliveryRuleQueryStringCondition_STATUSGenerator() *rapid.Generator[DeliveryRuleQueryStringCondition_STATUS] {
 	if deliveryRuleQueryStringCondition_STATUSGenerator != nil {
 		return deliveryRuleQueryStringCondition_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleQueryStringCondition_STATUS(generators)
-	deliveryRuleQueryStringCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleQueryStringCondition_STATUS{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(QueryStringMatchConditionParameters_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleQueryStringCondition_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleQueryStringCondition_STATUS(generators)
-	deliveryRuleQueryStringCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleQueryStringCondition_STATUS{}), generators)
+	deliveryRuleQueryStringCondition_STATUSGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleQueryStringCondition_STATUS {
+		var result DeliveryRuleQueryStringCondition_STATUS
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleQueryStringCondition_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleQueryStringCondition_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleQueryStringCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleQueryStringCondition_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleQueryStringCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(QueryStringMatchConditionParameters_STATUSGenerator())
-}
-
+// Test_DeliveryRuleRemoteAddressCondition_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleRemoteAddressCondition can be assigned to storage and back losslessly
 func Test_DeliveryRuleRemoteAddressCondition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -4119,44 +3572,34 @@ func Test_DeliveryRuleRemoteAddressCondition_WhenPropertiesConverted_RoundTripsW
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleRemoteAddressCondition to DeliveryRuleRemoteAddressCondition via AssignProperties_To_DeliveryRuleRemoteAddressCondition & AssignProperties_From_DeliveryRuleRemoteAddressCondition returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleRemoteAddressCondition, DeliveryRuleRemoteAddressConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleRemoteAddressConditionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleRemoteAddressCondition tests if a specific instance of DeliveryRuleRemoteAddressCondition can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleRemoteAddressCondition(subject DeliveryRuleRemoteAddressCondition) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleRemoteAddressCondition
+		err := copied.AssignProperties_To_DeliveryRuleRemoteAddressCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleRemoteAddressCondition
-	err := copied.AssignProperties_To_DeliveryRuleRemoteAddressCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleRemoteAddressCondition
+		err = actual.AssignProperties_From_DeliveryRuleRemoteAddressCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleRemoteAddressCondition
-	err = actual.AssignProperties_From_DeliveryRuleRemoteAddressCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleRemoteAddressCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -4166,29 +3609,23 @@ func Test_DeliveryRuleRemoteAddressCondition_WhenSerializedToJson_DeserializesAs
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleRemoteAddressCondition via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleRemoteAddressCondition, DeliveryRuleRemoteAddressConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleRemoteAddressCondition)
 }
 
 // RunJSONSerializationTestForDeliveryRuleRemoteAddressCondition runs a test to see if a specific instance of DeliveryRuleRemoteAddressCondition round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleRemoteAddressCondition(subject DeliveryRuleRemoteAddressCondition) string {
+func RunJSONSerializationTestForDeliveryRuleRemoteAddressCondition(t *rapid.T) {
+	subject := DeliveryRuleRemoteAddressConditionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleRemoteAddressCondition
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -4197,48 +3634,34 @@ func RunJSONSerializationTestForDeliveryRuleRemoteAddressCondition(subject Deliv
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleRemoteAddressCondition instances for property testing - lazily instantiated by
 // DeliveryRuleRemoteAddressConditionGenerator()
-var deliveryRuleRemoteAddressConditionGenerator gopter.Gen
+var deliveryRuleRemoteAddressConditionGenerator *rapid.Generator[DeliveryRuleRemoteAddressCondition]
 
 // DeliveryRuleRemoteAddressConditionGenerator returns a generator of DeliveryRuleRemoteAddressCondition instances for property testing.
-// We first initialize deliveryRuleRemoteAddressConditionGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleRemoteAddressConditionGenerator() gopter.Gen {
+func DeliveryRuleRemoteAddressConditionGenerator() *rapid.Generator[DeliveryRuleRemoteAddressCondition] {
 	if deliveryRuleRemoteAddressConditionGenerator != nil {
 		return deliveryRuleRemoteAddressConditionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleRemoteAddressCondition(generators)
-	deliveryRuleRemoteAddressConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleRemoteAddressCondition{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(RemoteAddressMatchConditionParametersGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleRemoteAddressCondition(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleRemoteAddressCondition(generators)
-	deliveryRuleRemoteAddressConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleRemoteAddressCondition{}), generators)
+	deliveryRuleRemoteAddressConditionGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleRemoteAddressCondition {
+		var result DeliveryRuleRemoteAddressCondition
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleRemoteAddressConditionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleRemoteAddressCondition is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleRemoteAddressCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleRemoteAddressCondition is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleRemoteAddressCondition(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(RemoteAddressMatchConditionParametersGenerator())
-}
-
+// Test_DeliveryRuleRemoteAddressCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleRemoteAddressCondition_STATUS can be assigned to storage and back losslessly
 func Test_DeliveryRuleRemoteAddressCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -4246,44 +3669,34 @@ func Test_DeliveryRuleRemoteAddressCondition_STATUS_WhenPropertiesConverted_Roun
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleRemoteAddressCondition_STATUS to DeliveryRuleRemoteAddressCondition_STATUS via AssignProperties_To_DeliveryRuleRemoteAddressCondition_STATUS & AssignProperties_From_DeliveryRuleRemoteAddressCondition_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleRemoteAddressCondition_STATUS, DeliveryRuleRemoteAddressCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleRemoteAddressCondition_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleRemoteAddressCondition_STATUS tests if a specific instance of DeliveryRuleRemoteAddressCondition_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleRemoteAddressCondition_STATUS(subject DeliveryRuleRemoteAddressCondition_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleRemoteAddressCondition_STATUS
+		err := copied.AssignProperties_To_DeliveryRuleRemoteAddressCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleRemoteAddressCondition_STATUS
-	err := copied.AssignProperties_To_DeliveryRuleRemoteAddressCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleRemoteAddressCondition_STATUS
+		err = actual.AssignProperties_From_DeliveryRuleRemoteAddressCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleRemoteAddressCondition_STATUS
-	err = actual.AssignProperties_From_DeliveryRuleRemoteAddressCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleRemoteAddressCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -4293,29 +3706,23 @@ func Test_DeliveryRuleRemoteAddressCondition_STATUS_WhenSerializedToJson_Deseria
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleRemoteAddressCondition_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleRemoteAddressCondition_STATUS, DeliveryRuleRemoteAddressCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleRemoteAddressCondition_STATUS)
 }
 
 // RunJSONSerializationTestForDeliveryRuleRemoteAddressCondition_STATUS runs a test to see if a specific instance of DeliveryRuleRemoteAddressCondition_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleRemoteAddressCondition_STATUS(subject DeliveryRuleRemoteAddressCondition_STATUS) string {
+func RunJSONSerializationTestForDeliveryRuleRemoteAddressCondition_STATUS(t *rapid.T) {
+	subject := DeliveryRuleRemoteAddressCondition_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleRemoteAddressCondition_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -4324,48 +3731,34 @@ func RunJSONSerializationTestForDeliveryRuleRemoteAddressCondition_STATUS(subjec
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleRemoteAddressCondition_STATUS instances for property testing - lazily instantiated by
 // DeliveryRuleRemoteAddressCondition_STATUSGenerator()
-var deliveryRuleRemoteAddressCondition_STATUSGenerator gopter.Gen
+var deliveryRuleRemoteAddressCondition_STATUSGenerator *rapid.Generator[DeliveryRuleRemoteAddressCondition_STATUS]
 
 // DeliveryRuleRemoteAddressCondition_STATUSGenerator returns a generator of DeliveryRuleRemoteAddressCondition_STATUS instances for property testing.
-// We first initialize deliveryRuleRemoteAddressCondition_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleRemoteAddressCondition_STATUSGenerator() gopter.Gen {
+func DeliveryRuleRemoteAddressCondition_STATUSGenerator() *rapid.Generator[DeliveryRuleRemoteAddressCondition_STATUS] {
 	if deliveryRuleRemoteAddressCondition_STATUSGenerator != nil {
 		return deliveryRuleRemoteAddressCondition_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleRemoteAddressCondition_STATUS(generators)
-	deliveryRuleRemoteAddressCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleRemoteAddressCondition_STATUS{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(RemoteAddressMatchConditionParameters_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleRemoteAddressCondition_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleRemoteAddressCondition_STATUS(generators)
-	deliveryRuleRemoteAddressCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleRemoteAddressCondition_STATUS{}), generators)
+	deliveryRuleRemoteAddressCondition_STATUSGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleRemoteAddressCondition_STATUS {
+		var result DeliveryRuleRemoteAddressCondition_STATUS
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleRemoteAddressCondition_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleRemoteAddressCondition_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleRemoteAddressCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleRemoteAddressCondition_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleRemoteAddressCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(RemoteAddressMatchConditionParameters_STATUSGenerator())
-}
-
+// Test_DeliveryRuleRequestBodyCondition_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleRequestBodyCondition can be assigned to storage and back losslessly
 func Test_DeliveryRuleRequestBodyCondition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -4373,44 +3766,34 @@ func Test_DeliveryRuleRequestBodyCondition_WhenPropertiesConverted_RoundTripsWit
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleRequestBodyCondition to DeliveryRuleRequestBodyCondition via AssignProperties_To_DeliveryRuleRequestBodyCondition & AssignProperties_From_DeliveryRuleRequestBodyCondition returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleRequestBodyCondition, DeliveryRuleRequestBodyConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleRequestBodyConditionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleRequestBodyCondition tests if a specific instance of DeliveryRuleRequestBodyCondition can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleRequestBodyCondition(subject DeliveryRuleRequestBodyCondition) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleRequestBodyCondition
+		err := copied.AssignProperties_To_DeliveryRuleRequestBodyCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleRequestBodyCondition
-	err := copied.AssignProperties_To_DeliveryRuleRequestBodyCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleRequestBodyCondition
+		err = actual.AssignProperties_From_DeliveryRuleRequestBodyCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleRequestBodyCondition
-	err = actual.AssignProperties_From_DeliveryRuleRequestBodyCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleRequestBodyCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -4420,29 +3803,23 @@ func Test_DeliveryRuleRequestBodyCondition_WhenSerializedToJson_DeserializesAsEq
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleRequestBodyCondition via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleRequestBodyCondition, DeliveryRuleRequestBodyConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleRequestBodyCondition)
 }
 
 // RunJSONSerializationTestForDeliveryRuleRequestBodyCondition runs a test to see if a specific instance of DeliveryRuleRequestBodyCondition round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleRequestBodyCondition(subject DeliveryRuleRequestBodyCondition) string {
+func RunJSONSerializationTestForDeliveryRuleRequestBodyCondition(t *rapid.T) {
+	subject := DeliveryRuleRequestBodyConditionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleRequestBodyCondition
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -4451,48 +3828,34 @@ func RunJSONSerializationTestForDeliveryRuleRequestBodyCondition(subject Deliver
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleRequestBodyCondition instances for property testing - lazily instantiated by
 // DeliveryRuleRequestBodyConditionGenerator()
-var deliveryRuleRequestBodyConditionGenerator gopter.Gen
+var deliveryRuleRequestBodyConditionGenerator *rapid.Generator[DeliveryRuleRequestBodyCondition]
 
 // DeliveryRuleRequestBodyConditionGenerator returns a generator of DeliveryRuleRequestBodyCondition instances for property testing.
-// We first initialize deliveryRuleRequestBodyConditionGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleRequestBodyConditionGenerator() gopter.Gen {
+func DeliveryRuleRequestBodyConditionGenerator() *rapid.Generator[DeliveryRuleRequestBodyCondition] {
 	if deliveryRuleRequestBodyConditionGenerator != nil {
 		return deliveryRuleRequestBodyConditionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleRequestBodyCondition(generators)
-	deliveryRuleRequestBodyConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleRequestBodyCondition{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(RequestBodyMatchConditionParametersGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleRequestBodyCondition(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleRequestBodyCondition(generators)
-	deliveryRuleRequestBodyConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleRequestBodyCondition{}), generators)
+	deliveryRuleRequestBodyConditionGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleRequestBodyCondition {
+		var result DeliveryRuleRequestBodyCondition
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleRequestBodyConditionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleRequestBodyCondition is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleRequestBodyCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleRequestBodyCondition is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleRequestBodyCondition(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(RequestBodyMatchConditionParametersGenerator())
-}
-
+// Test_DeliveryRuleRequestBodyCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleRequestBodyCondition_STATUS can be assigned to storage and back losslessly
 func Test_DeliveryRuleRequestBodyCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -4500,44 +3863,34 @@ func Test_DeliveryRuleRequestBodyCondition_STATUS_WhenPropertiesConverted_RoundT
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleRequestBodyCondition_STATUS to DeliveryRuleRequestBodyCondition_STATUS via AssignProperties_To_DeliveryRuleRequestBodyCondition_STATUS & AssignProperties_From_DeliveryRuleRequestBodyCondition_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleRequestBodyCondition_STATUS, DeliveryRuleRequestBodyCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleRequestBodyCondition_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleRequestBodyCondition_STATUS tests if a specific instance of DeliveryRuleRequestBodyCondition_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleRequestBodyCondition_STATUS(subject DeliveryRuleRequestBodyCondition_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleRequestBodyCondition_STATUS
+		err := copied.AssignProperties_To_DeliveryRuleRequestBodyCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleRequestBodyCondition_STATUS
-	err := copied.AssignProperties_To_DeliveryRuleRequestBodyCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleRequestBodyCondition_STATUS
+		err = actual.AssignProperties_From_DeliveryRuleRequestBodyCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleRequestBodyCondition_STATUS
-	err = actual.AssignProperties_From_DeliveryRuleRequestBodyCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleRequestBodyCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -4547,29 +3900,23 @@ func Test_DeliveryRuleRequestBodyCondition_STATUS_WhenSerializedToJson_Deseriali
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleRequestBodyCondition_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleRequestBodyCondition_STATUS, DeliveryRuleRequestBodyCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleRequestBodyCondition_STATUS)
 }
 
 // RunJSONSerializationTestForDeliveryRuleRequestBodyCondition_STATUS runs a test to see if a specific instance of DeliveryRuleRequestBodyCondition_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleRequestBodyCondition_STATUS(subject DeliveryRuleRequestBodyCondition_STATUS) string {
+func RunJSONSerializationTestForDeliveryRuleRequestBodyCondition_STATUS(t *rapid.T) {
+	subject := DeliveryRuleRequestBodyCondition_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleRequestBodyCondition_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -4578,48 +3925,34 @@ func RunJSONSerializationTestForDeliveryRuleRequestBodyCondition_STATUS(subject 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleRequestBodyCondition_STATUS instances for property testing - lazily instantiated by
 // DeliveryRuleRequestBodyCondition_STATUSGenerator()
-var deliveryRuleRequestBodyCondition_STATUSGenerator gopter.Gen
+var deliveryRuleRequestBodyCondition_STATUSGenerator *rapid.Generator[DeliveryRuleRequestBodyCondition_STATUS]
 
 // DeliveryRuleRequestBodyCondition_STATUSGenerator returns a generator of DeliveryRuleRequestBodyCondition_STATUS instances for property testing.
-// We first initialize deliveryRuleRequestBodyCondition_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleRequestBodyCondition_STATUSGenerator() gopter.Gen {
+func DeliveryRuleRequestBodyCondition_STATUSGenerator() *rapid.Generator[DeliveryRuleRequestBodyCondition_STATUS] {
 	if deliveryRuleRequestBodyCondition_STATUSGenerator != nil {
 		return deliveryRuleRequestBodyCondition_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleRequestBodyCondition_STATUS(generators)
-	deliveryRuleRequestBodyCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleRequestBodyCondition_STATUS{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(RequestBodyMatchConditionParameters_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleRequestBodyCondition_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleRequestBodyCondition_STATUS(generators)
-	deliveryRuleRequestBodyCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleRequestBodyCondition_STATUS{}), generators)
+	deliveryRuleRequestBodyCondition_STATUSGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleRequestBodyCondition_STATUS {
+		var result DeliveryRuleRequestBodyCondition_STATUS
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleRequestBodyCondition_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleRequestBodyCondition_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleRequestBodyCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleRequestBodyCondition_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleRequestBodyCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(RequestBodyMatchConditionParameters_STATUSGenerator())
-}
-
+// Test_DeliveryRuleRequestHeaderAction_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleRequestHeaderAction can be assigned to storage and back losslessly
 func Test_DeliveryRuleRequestHeaderAction_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -4627,44 +3960,34 @@ func Test_DeliveryRuleRequestHeaderAction_WhenPropertiesConverted_RoundTripsWith
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleRequestHeaderAction to DeliveryRuleRequestHeaderAction via AssignProperties_To_DeliveryRuleRequestHeaderAction & AssignProperties_From_DeliveryRuleRequestHeaderAction returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleRequestHeaderAction, DeliveryRuleRequestHeaderActionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleRequestHeaderActionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleRequestHeaderAction tests if a specific instance of DeliveryRuleRequestHeaderAction can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleRequestHeaderAction(subject DeliveryRuleRequestHeaderAction) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleRequestHeaderAction
+		err := copied.AssignProperties_To_DeliveryRuleRequestHeaderAction(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleRequestHeaderAction
-	err := copied.AssignProperties_To_DeliveryRuleRequestHeaderAction(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleRequestHeaderAction
+		err = actual.AssignProperties_From_DeliveryRuleRequestHeaderAction(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleRequestHeaderAction
-	err = actual.AssignProperties_From_DeliveryRuleRequestHeaderAction(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleRequestHeaderAction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -4674,29 +3997,23 @@ func Test_DeliveryRuleRequestHeaderAction_WhenSerializedToJson_DeserializesAsEqu
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleRequestHeaderAction via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleRequestHeaderAction, DeliveryRuleRequestHeaderActionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleRequestHeaderAction)
 }
 
 // RunJSONSerializationTestForDeliveryRuleRequestHeaderAction runs a test to see if a specific instance of DeliveryRuleRequestHeaderAction round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleRequestHeaderAction(subject DeliveryRuleRequestHeaderAction) string {
+func RunJSONSerializationTestForDeliveryRuleRequestHeaderAction(t *rapid.T) {
+	subject := DeliveryRuleRequestHeaderActionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleRequestHeaderAction
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -4705,48 +4022,34 @@ func RunJSONSerializationTestForDeliveryRuleRequestHeaderAction(subject Delivery
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleRequestHeaderAction instances for property testing - lazily instantiated by
 // DeliveryRuleRequestHeaderActionGenerator()
-var deliveryRuleRequestHeaderActionGenerator gopter.Gen
+var deliveryRuleRequestHeaderActionGenerator *rapid.Generator[DeliveryRuleRequestHeaderAction]
 
 // DeliveryRuleRequestHeaderActionGenerator returns a generator of DeliveryRuleRequestHeaderAction instances for property testing.
-// We first initialize deliveryRuleRequestHeaderActionGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleRequestHeaderActionGenerator() gopter.Gen {
+func DeliveryRuleRequestHeaderActionGenerator() *rapid.Generator[DeliveryRuleRequestHeaderAction] {
 	if deliveryRuleRequestHeaderActionGenerator != nil {
 		return deliveryRuleRequestHeaderActionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleRequestHeaderAction(generators)
-	deliveryRuleRequestHeaderActionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleRequestHeaderAction{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(HeaderActionParametersGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleRequestHeaderAction(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleRequestHeaderAction(generators)
-	deliveryRuleRequestHeaderActionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleRequestHeaderAction{}), generators)
+	deliveryRuleRequestHeaderActionGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleRequestHeaderAction {
+		var result DeliveryRuleRequestHeaderAction
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleRequestHeaderActionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleRequestHeaderAction is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleRequestHeaderAction(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleRequestHeaderAction is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleRequestHeaderAction(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(HeaderActionParametersGenerator())
-}
-
+// Test_DeliveryRuleRequestHeaderAction_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleRequestHeaderAction_STATUS can be assigned to storage and back losslessly
 func Test_DeliveryRuleRequestHeaderAction_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -4754,44 +4057,34 @@ func Test_DeliveryRuleRequestHeaderAction_STATUS_WhenPropertiesConverted_RoundTr
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleRequestHeaderAction_STATUS to DeliveryRuleRequestHeaderAction_STATUS via AssignProperties_To_DeliveryRuleRequestHeaderAction_STATUS & AssignProperties_From_DeliveryRuleRequestHeaderAction_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleRequestHeaderAction_STATUS, DeliveryRuleRequestHeaderAction_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleRequestHeaderAction_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleRequestHeaderAction_STATUS tests if a specific instance of DeliveryRuleRequestHeaderAction_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleRequestHeaderAction_STATUS(subject DeliveryRuleRequestHeaderAction_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleRequestHeaderAction_STATUS
+		err := copied.AssignProperties_To_DeliveryRuleRequestHeaderAction_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleRequestHeaderAction_STATUS
-	err := copied.AssignProperties_To_DeliveryRuleRequestHeaderAction_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleRequestHeaderAction_STATUS
+		err = actual.AssignProperties_From_DeliveryRuleRequestHeaderAction_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleRequestHeaderAction_STATUS
-	err = actual.AssignProperties_From_DeliveryRuleRequestHeaderAction_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleRequestHeaderAction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -4801,29 +4094,23 @@ func Test_DeliveryRuleRequestHeaderAction_STATUS_WhenSerializedToJson_Deserializ
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleRequestHeaderAction_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleRequestHeaderAction_STATUS, DeliveryRuleRequestHeaderAction_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleRequestHeaderAction_STATUS)
 }
 
 // RunJSONSerializationTestForDeliveryRuleRequestHeaderAction_STATUS runs a test to see if a specific instance of DeliveryRuleRequestHeaderAction_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleRequestHeaderAction_STATUS(subject DeliveryRuleRequestHeaderAction_STATUS) string {
+func RunJSONSerializationTestForDeliveryRuleRequestHeaderAction_STATUS(t *rapid.T) {
+	subject := DeliveryRuleRequestHeaderAction_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleRequestHeaderAction_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -4832,48 +4119,34 @@ func RunJSONSerializationTestForDeliveryRuleRequestHeaderAction_STATUS(subject D
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleRequestHeaderAction_STATUS instances for property testing - lazily instantiated by
 // DeliveryRuleRequestHeaderAction_STATUSGenerator()
-var deliveryRuleRequestHeaderAction_STATUSGenerator gopter.Gen
+var deliveryRuleRequestHeaderAction_STATUSGenerator *rapid.Generator[DeliveryRuleRequestHeaderAction_STATUS]
 
 // DeliveryRuleRequestHeaderAction_STATUSGenerator returns a generator of DeliveryRuleRequestHeaderAction_STATUS instances for property testing.
-// We first initialize deliveryRuleRequestHeaderAction_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleRequestHeaderAction_STATUSGenerator() gopter.Gen {
+func DeliveryRuleRequestHeaderAction_STATUSGenerator() *rapid.Generator[DeliveryRuleRequestHeaderAction_STATUS] {
 	if deliveryRuleRequestHeaderAction_STATUSGenerator != nil {
 		return deliveryRuleRequestHeaderAction_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleRequestHeaderAction_STATUS(generators)
-	deliveryRuleRequestHeaderAction_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleRequestHeaderAction_STATUS{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(HeaderActionParameters_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleRequestHeaderAction_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleRequestHeaderAction_STATUS(generators)
-	deliveryRuleRequestHeaderAction_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleRequestHeaderAction_STATUS{}), generators)
+	deliveryRuleRequestHeaderAction_STATUSGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleRequestHeaderAction_STATUS {
+		var result DeliveryRuleRequestHeaderAction_STATUS
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleRequestHeaderAction_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleRequestHeaderAction_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleRequestHeaderAction_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleRequestHeaderAction_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleRequestHeaderAction_STATUS(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(HeaderActionParameters_STATUSGenerator())
-}
-
+// Test_DeliveryRuleRequestHeaderCondition_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleRequestHeaderCondition can be assigned to storage and back losslessly
 func Test_DeliveryRuleRequestHeaderCondition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -4881,44 +4154,34 @@ func Test_DeliveryRuleRequestHeaderCondition_WhenPropertiesConverted_RoundTripsW
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleRequestHeaderCondition to DeliveryRuleRequestHeaderCondition via AssignProperties_To_DeliveryRuleRequestHeaderCondition & AssignProperties_From_DeliveryRuleRequestHeaderCondition returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleRequestHeaderCondition, DeliveryRuleRequestHeaderConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleRequestHeaderConditionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleRequestHeaderCondition tests if a specific instance of DeliveryRuleRequestHeaderCondition can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleRequestHeaderCondition(subject DeliveryRuleRequestHeaderCondition) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleRequestHeaderCondition
+		err := copied.AssignProperties_To_DeliveryRuleRequestHeaderCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleRequestHeaderCondition
-	err := copied.AssignProperties_To_DeliveryRuleRequestHeaderCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleRequestHeaderCondition
+		err = actual.AssignProperties_From_DeliveryRuleRequestHeaderCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleRequestHeaderCondition
-	err = actual.AssignProperties_From_DeliveryRuleRequestHeaderCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleRequestHeaderCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -4928,29 +4191,23 @@ func Test_DeliveryRuleRequestHeaderCondition_WhenSerializedToJson_DeserializesAs
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleRequestHeaderCondition via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleRequestHeaderCondition, DeliveryRuleRequestHeaderConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleRequestHeaderCondition)
 }
 
 // RunJSONSerializationTestForDeliveryRuleRequestHeaderCondition runs a test to see if a specific instance of DeliveryRuleRequestHeaderCondition round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleRequestHeaderCondition(subject DeliveryRuleRequestHeaderCondition) string {
+func RunJSONSerializationTestForDeliveryRuleRequestHeaderCondition(t *rapid.T) {
+	subject := DeliveryRuleRequestHeaderConditionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleRequestHeaderCondition
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -4959,48 +4216,34 @@ func RunJSONSerializationTestForDeliveryRuleRequestHeaderCondition(subject Deliv
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleRequestHeaderCondition instances for property testing - lazily instantiated by
 // DeliveryRuleRequestHeaderConditionGenerator()
-var deliveryRuleRequestHeaderConditionGenerator gopter.Gen
+var deliveryRuleRequestHeaderConditionGenerator *rapid.Generator[DeliveryRuleRequestHeaderCondition]
 
 // DeliveryRuleRequestHeaderConditionGenerator returns a generator of DeliveryRuleRequestHeaderCondition instances for property testing.
-// We first initialize deliveryRuleRequestHeaderConditionGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleRequestHeaderConditionGenerator() gopter.Gen {
+func DeliveryRuleRequestHeaderConditionGenerator() *rapid.Generator[DeliveryRuleRequestHeaderCondition] {
 	if deliveryRuleRequestHeaderConditionGenerator != nil {
 		return deliveryRuleRequestHeaderConditionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleRequestHeaderCondition(generators)
-	deliveryRuleRequestHeaderConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleRequestHeaderCondition{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(RequestHeaderMatchConditionParametersGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleRequestHeaderCondition(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleRequestHeaderCondition(generators)
-	deliveryRuleRequestHeaderConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleRequestHeaderCondition{}), generators)
+	deliveryRuleRequestHeaderConditionGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleRequestHeaderCondition {
+		var result DeliveryRuleRequestHeaderCondition
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleRequestHeaderConditionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleRequestHeaderCondition is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleRequestHeaderCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleRequestHeaderCondition is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleRequestHeaderCondition(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(RequestHeaderMatchConditionParametersGenerator())
-}
-
+// Test_DeliveryRuleRequestHeaderCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleRequestHeaderCondition_STATUS can be assigned to storage and back losslessly
 func Test_DeliveryRuleRequestHeaderCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -5008,44 +4251,34 @@ func Test_DeliveryRuleRequestHeaderCondition_STATUS_WhenPropertiesConverted_Roun
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleRequestHeaderCondition_STATUS to DeliveryRuleRequestHeaderCondition_STATUS via AssignProperties_To_DeliveryRuleRequestHeaderCondition_STATUS & AssignProperties_From_DeliveryRuleRequestHeaderCondition_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleRequestHeaderCondition_STATUS, DeliveryRuleRequestHeaderCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleRequestHeaderCondition_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleRequestHeaderCondition_STATUS tests if a specific instance of DeliveryRuleRequestHeaderCondition_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleRequestHeaderCondition_STATUS(subject DeliveryRuleRequestHeaderCondition_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleRequestHeaderCondition_STATUS
+		err := copied.AssignProperties_To_DeliveryRuleRequestHeaderCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleRequestHeaderCondition_STATUS
-	err := copied.AssignProperties_To_DeliveryRuleRequestHeaderCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleRequestHeaderCondition_STATUS
+		err = actual.AssignProperties_From_DeliveryRuleRequestHeaderCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleRequestHeaderCondition_STATUS
-	err = actual.AssignProperties_From_DeliveryRuleRequestHeaderCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleRequestHeaderCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -5055,29 +4288,23 @@ func Test_DeliveryRuleRequestHeaderCondition_STATUS_WhenSerializedToJson_Deseria
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleRequestHeaderCondition_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleRequestHeaderCondition_STATUS, DeliveryRuleRequestHeaderCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleRequestHeaderCondition_STATUS)
 }
 
 // RunJSONSerializationTestForDeliveryRuleRequestHeaderCondition_STATUS runs a test to see if a specific instance of DeliveryRuleRequestHeaderCondition_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleRequestHeaderCondition_STATUS(subject DeliveryRuleRequestHeaderCondition_STATUS) string {
+func RunJSONSerializationTestForDeliveryRuleRequestHeaderCondition_STATUS(t *rapid.T) {
+	subject := DeliveryRuleRequestHeaderCondition_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleRequestHeaderCondition_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -5086,48 +4313,34 @@ func RunJSONSerializationTestForDeliveryRuleRequestHeaderCondition_STATUS(subjec
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleRequestHeaderCondition_STATUS instances for property testing - lazily instantiated by
 // DeliveryRuleRequestHeaderCondition_STATUSGenerator()
-var deliveryRuleRequestHeaderCondition_STATUSGenerator gopter.Gen
+var deliveryRuleRequestHeaderCondition_STATUSGenerator *rapid.Generator[DeliveryRuleRequestHeaderCondition_STATUS]
 
 // DeliveryRuleRequestHeaderCondition_STATUSGenerator returns a generator of DeliveryRuleRequestHeaderCondition_STATUS instances for property testing.
-// We first initialize deliveryRuleRequestHeaderCondition_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleRequestHeaderCondition_STATUSGenerator() gopter.Gen {
+func DeliveryRuleRequestHeaderCondition_STATUSGenerator() *rapid.Generator[DeliveryRuleRequestHeaderCondition_STATUS] {
 	if deliveryRuleRequestHeaderCondition_STATUSGenerator != nil {
 		return deliveryRuleRequestHeaderCondition_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleRequestHeaderCondition_STATUS(generators)
-	deliveryRuleRequestHeaderCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleRequestHeaderCondition_STATUS{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(RequestHeaderMatchConditionParameters_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleRequestHeaderCondition_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleRequestHeaderCondition_STATUS(generators)
-	deliveryRuleRequestHeaderCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleRequestHeaderCondition_STATUS{}), generators)
+	deliveryRuleRequestHeaderCondition_STATUSGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleRequestHeaderCondition_STATUS {
+		var result DeliveryRuleRequestHeaderCondition_STATUS
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleRequestHeaderCondition_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleRequestHeaderCondition_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleRequestHeaderCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleRequestHeaderCondition_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleRequestHeaderCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(RequestHeaderMatchConditionParameters_STATUSGenerator())
-}
-
+// Test_DeliveryRuleRequestMethodCondition_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleRequestMethodCondition can be assigned to storage and back losslessly
 func Test_DeliveryRuleRequestMethodCondition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -5135,44 +4348,34 @@ func Test_DeliveryRuleRequestMethodCondition_WhenPropertiesConverted_RoundTripsW
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleRequestMethodCondition to DeliveryRuleRequestMethodCondition via AssignProperties_To_DeliveryRuleRequestMethodCondition & AssignProperties_From_DeliveryRuleRequestMethodCondition returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleRequestMethodCondition, DeliveryRuleRequestMethodConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleRequestMethodConditionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleRequestMethodCondition tests if a specific instance of DeliveryRuleRequestMethodCondition can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleRequestMethodCondition(subject DeliveryRuleRequestMethodCondition) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleRequestMethodCondition
+		err := copied.AssignProperties_To_DeliveryRuleRequestMethodCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleRequestMethodCondition
-	err := copied.AssignProperties_To_DeliveryRuleRequestMethodCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleRequestMethodCondition
+		err = actual.AssignProperties_From_DeliveryRuleRequestMethodCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleRequestMethodCondition
-	err = actual.AssignProperties_From_DeliveryRuleRequestMethodCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleRequestMethodCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -5182,29 +4385,23 @@ func Test_DeliveryRuleRequestMethodCondition_WhenSerializedToJson_DeserializesAs
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleRequestMethodCondition via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleRequestMethodCondition, DeliveryRuleRequestMethodConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleRequestMethodCondition)
 }
 
 // RunJSONSerializationTestForDeliveryRuleRequestMethodCondition runs a test to see if a specific instance of DeliveryRuleRequestMethodCondition round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleRequestMethodCondition(subject DeliveryRuleRequestMethodCondition) string {
+func RunJSONSerializationTestForDeliveryRuleRequestMethodCondition(t *rapid.T) {
+	subject := DeliveryRuleRequestMethodConditionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleRequestMethodCondition
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -5213,48 +4410,34 @@ func RunJSONSerializationTestForDeliveryRuleRequestMethodCondition(subject Deliv
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleRequestMethodCondition instances for property testing - lazily instantiated by
 // DeliveryRuleRequestMethodConditionGenerator()
-var deliveryRuleRequestMethodConditionGenerator gopter.Gen
+var deliveryRuleRequestMethodConditionGenerator *rapid.Generator[DeliveryRuleRequestMethodCondition]
 
 // DeliveryRuleRequestMethodConditionGenerator returns a generator of DeliveryRuleRequestMethodCondition instances for property testing.
-// We first initialize deliveryRuleRequestMethodConditionGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleRequestMethodConditionGenerator() gopter.Gen {
+func DeliveryRuleRequestMethodConditionGenerator() *rapid.Generator[DeliveryRuleRequestMethodCondition] {
 	if deliveryRuleRequestMethodConditionGenerator != nil {
 		return deliveryRuleRequestMethodConditionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleRequestMethodCondition(generators)
-	deliveryRuleRequestMethodConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleRequestMethodCondition{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(RequestMethodMatchConditionParametersGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleRequestMethodCondition(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleRequestMethodCondition(generators)
-	deliveryRuleRequestMethodConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleRequestMethodCondition{}), generators)
+	deliveryRuleRequestMethodConditionGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleRequestMethodCondition {
+		var result DeliveryRuleRequestMethodCondition
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleRequestMethodConditionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleRequestMethodCondition is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleRequestMethodCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleRequestMethodCondition is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleRequestMethodCondition(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(RequestMethodMatchConditionParametersGenerator())
-}
-
+// Test_DeliveryRuleRequestMethodCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleRequestMethodCondition_STATUS can be assigned to storage and back losslessly
 func Test_DeliveryRuleRequestMethodCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -5262,44 +4445,34 @@ func Test_DeliveryRuleRequestMethodCondition_STATUS_WhenPropertiesConverted_Roun
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleRequestMethodCondition_STATUS to DeliveryRuleRequestMethodCondition_STATUS via AssignProperties_To_DeliveryRuleRequestMethodCondition_STATUS & AssignProperties_From_DeliveryRuleRequestMethodCondition_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleRequestMethodCondition_STATUS, DeliveryRuleRequestMethodCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleRequestMethodCondition_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleRequestMethodCondition_STATUS tests if a specific instance of DeliveryRuleRequestMethodCondition_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleRequestMethodCondition_STATUS(subject DeliveryRuleRequestMethodCondition_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleRequestMethodCondition_STATUS
+		err := copied.AssignProperties_To_DeliveryRuleRequestMethodCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleRequestMethodCondition_STATUS
-	err := copied.AssignProperties_To_DeliveryRuleRequestMethodCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleRequestMethodCondition_STATUS
+		err = actual.AssignProperties_From_DeliveryRuleRequestMethodCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleRequestMethodCondition_STATUS
-	err = actual.AssignProperties_From_DeliveryRuleRequestMethodCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleRequestMethodCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -5309,29 +4482,23 @@ func Test_DeliveryRuleRequestMethodCondition_STATUS_WhenSerializedToJson_Deseria
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleRequestMethodCondition_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleRequestMethodCondition_STATUS, DeliveryRuleRequestMethodCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleRequestMethodCondition_STATUS)
 }
 
 // RunJSONSerializationTestForDeliveryRuleRequestMethodCondition_STATUS runs a test to see if a specific instance of DeliveryRuleRequestMethodCondition_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleRequestMethodCondition_STATUS(subject DeliveryRuleRequestMethodCondition_STATUS) string {
+func RunJSONSerializationTestForDeliveryRuleRequestMethodCondition_STATUS(t *rapid.T) {
+	subject := DeliveryRuleRequestMethodCondition_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleRequestMethodCondition_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -5340,48 +4507,34 @@ func RunJSONSerializationTestForDeliveryRuleRequestMethodCondition_STATUS(subjec
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleRequestMethodCondition_STATUS instances for property testing - lazily instantiated by
 // DeliveryRuleRequestMethodCondition_STATUSGenerator()
-var deliveryRuleRequestMethodCondition_STATUSGenerator gopter.Gen
+var deliveryRuleRequestMethodCondition_STATUSGenerator *rapid.Generator[DeliveryRuleRequestMethodCondition_STATUS]
 
 // DeliveryRuleRequestMethodCondition_STATUSGenerator returns a generator of DeliveryRuleRequestMethodCondition_STATUS instances for property testing.
-// We first initialize deliveryRuleRequestMethodCondition_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleRequestMethodCondition_STATUSGenerator() gopter.Gen {
+func DeliveryRuleRequestMethodCondition_STATUSGenerator() *rapid.Generator[DeliveryRuleRequestMethodCondition_STATUS] {
 	if deliveryRuleRequestMethodCondition_STATUSGenerator != nil {
 		return deliveryRuleRequestMethodCondition_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleRequestMethodCondition_STATUS(generators)
-	deliveryRuleRequestMethodCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleRequestMethodCondition_STATUS{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(RequestMethodMatchConditionParameters_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleRequestMethodCondition_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleRequestMethodCondition_STATUS(generators)
-	deliveryRuleRequestMethodCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleRequestMethodCondition_STATUS{}), generators)
+	deliveryRuleRequestMethodCondition_STATUSGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleRequestMethodCondition_STATUS {
+		var result DeliveryRuleRequestMethodCondition_STATUS
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleRequestMethodCondition_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleRequestMethodCondition_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleRequestMethodCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleRequestMethodCondition_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleRequestMethodCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(RequestMethodMatchConditionParameters_STATUSGenerator())
-}
-
+// Test_DeliveryRuleRequestSchemeCondition_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleRequestSchemeCondition can be assigned to storage and back losslessly
 func Test_DeliveryRuleRequestSchemeCondition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -5389,44 +4542,34 @@ func Test_DeliveryRuleRequestSchemeCondition_WhenPropertiesConverted_RoundTripsW
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleRequestSchemeCondition to DeliveryRuleRequestSchemeCondition via AssignProperties_To_DeliveryRuleRequestSchemeCondition & AssignProperties_From_DeliveryRuleRequestSchemeCondition returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleRequestSchemeCondition, DeliveryRuleRequestSchemeConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleRequestSchemeConditionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleRequestSchemeCondition tests if a specific instance of DeliveryRuleRequestSchemeCondition can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleRequestSchemeCondition(subject DeliveryRuleRequestSchemeCondition) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleRequestSchemeCondition
+		err := copied.AssignProperties_To_DeliveryRuleRequestSchemeCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleRequestSchemeCondition
-	err := copied.AssignProperties_To_DeliveryRuleRequestSchemeCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleRequestSchemeCondition
+		err = actual.AssignProperties_From_DeliveryRuleRequestSchemeCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleRequestSchemeCondition
-	err = actual.AssignProperties_From_DeliveryRuleRequestSchemeCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleRequestSchemeCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -5436,29 +4579,23 @@ func Test_DeliveryRuleRequestSchemeCondition_WhenSerializedToJson_DeserializesAs
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleRequestSchemeCondition via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleRequestSchemeCondition, DeliveryRuleRequestSchemeConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleRequestSchemeCondition)
 }
 
 // RunJSONSerializationTestForDeliveryRuleRequestSchemeCondition runs a test to see if a specific instance of DeliveryRuleRequestSchemeCondition round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleRequestSchemeCondition(subject DeliveryRuleRequestSchemeCondition) string {
+func RunJSONSerializationTestForDeliveryRuleRequestSchemeCondition(t *rapid.T) {
+	subject := DeliveryRuleRequestSchemeConditionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleRequestSchemeCondition
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -5467,48 +4604,34 @@ func RunJSONSerializationTestForDeliveryRuleRequestSchemeCondition(subject Deliv
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleRequestSchemeCondition instances for property testing - lazily instantiated by
 // DeliveryRuleRequestSchemeConditionGenerator()
-var deliveryRuleRequestSchemeConditionGenerator gopter.Gen
+var deliveryRuleRequestSchemeConditionGenerator *rapid.Generator[DeliveryRuleRequestSchemeCondition]
 
 // DeliveryRuleRequestSchemeConditionGenerator returns a generator of DeliveryRuleRequestSchemeCondition instances for property testing.
-// We first initialize deliveryRuleRequestSchemeConditionGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleRequestSchemeConditionGenerator() gopter.Gen {
+func DeliveryRuleRequestSchemeConditionGenerator() *rapid.Generator[DeliveryRuleRequestSchemeCondition] {
 	if deliveryRuleRequestSchemeConditionGenerator != nil {
 		return deliveryRuleRequestSchemeConditionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleRequestSchemeCondition(generators)
-	deliveryRuleRequestSchemeConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleRequestSchemeCondition{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(RequestSchemeMatchConditionParametersGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleRequestSchemeCondition(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleRequestSchemeCondition(generators)
-	deliveryRuleRequestSchemeConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleRequestSchemeCondition{}), generators)
+	deliveryRuleRequestSchemeConditionGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleRequestSchemeCondition {
+		var result DeliveryRuleRequestSchemeCondition
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleRequestSchemeConditionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleRequestSchemeCondition is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleRequestSchemeCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleRequestSchemeCondition is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleRequestSchemeCondition(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(RequestSchemeMatchConditionParametersGenerator())
-}
-
+// Test_DeliveryRuleRequestSchemeCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleRequestSchemeCondition_STATUS can be assigned to storage and back losslessly
 func Test_DeliveryRuleRequestSchemeCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -5516,44 +4639,34 @@ func Test_DeliveryRuleRequestSchemeCondition_STATUS_WhenPropertiesConverted_Roun
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleRequestSchemeCondition_STATUS to DeliveryRuleRequestSchemeCondition_STATUS via AssignProperties_To_DeliveryRuleRequestSchemeCondition_STATUS & AssignProperties_From_DeliveryRuleRequestSchemeCondition_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleRequestSchemeCondition_STATUS, DeliveryRuleRequestSchemeCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleRequestSchemeCondition_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleRequestSchemeCondition_STATUS tests if a specific instance of DeliveryRuleRequestSchemeCondition_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleRequestSchemeCondition_STATUS(subject DeliveryRuleRequestSchemeCondition_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleRequestSchemeCondition_STATUS
+		err := copied.AssignProperties_To_DeliveryRuleRequestSchemeCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleRequestSchemeCondition_STATUS
-	err := copied.AssignProperties_To_DeliveryRuleRequestSchemeCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleRequestSchemeCondition_STATUS
+		err = actual.AssignProperties_From_DeliveryRuleRequestSchemeCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleRequestSchemeCondition_STATUS
-	err = actual.AssignProperties_From_DeliveryRuleRequestSchemeCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleRequestSchemeCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -5563,29 +4676,23 @@ func Test_DeliveryRuleRequestSchemeCondition_STATUS_WhenSerializedToJson_Deseria
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleRequestSchemeCondition_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleRequestSchemeCondition_STATUS, DeliveryRuleRequestSchemeCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleRequestSchemeCondition_STATUS)
 }
 
 // RunJSONSerializationTestForDeliveryRuleRequestSchemeCondition_STATUS runs a test to see if a specific instance of DeliveryRuleRequestSchemeCondition_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleRequestSchemeCondition_STATUS(subject DeliveryRuleRequestSchemeCondition_STATUS) string {
+func RunJSONSerializationTestForDeliveryRuleRequestSchemeCondition_STATUS(t *rapid.T) {
+	subject := DeliveryRuleRequestSchemeCondition_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleRequestSchemeCondition_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -5594,48 +4701,34 @@ func RunJSONSerializationTestForDeliveryRuleRequestSchemeCondition_STATUS(subjec
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleRequestSchemeCondition_STATUS instances for property testing - lazily instantiated by
 // DeliveryRuleRequestSchemeCondition_STATUSGenerator()
-var deliveryRuleRequestSchemeCondition_STATUSGenerator gopter.Gen
+var deliveryRuleRequestSchemeCondition_STATUSGenerator *rapid.Generator[DeliveryRuleRequestSchemeCondition_STATUS]
 
 // DeliveryRuleRequestSchemeCondition_STATUSGenerator returns a generator of DeliveryRuleRequestSchemeCondition_STATUS instances for property testing.
-// We first initialize deliveryRuleRequestSchemeCondition_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleRequestSchemeCondition_STATUSGenerator() gopter.Gen {
+func DeliveryRuleRequestSchemeCondition_STATUSGenerator() *rapid.Generator[DeliveryRuleRequestSchemeCondition_STATUS] {
 	if deliveryRuleRequestSchemeCondition_STATUSGenerator != nil {
 		return deliveryRuleRequestSchemeCondition_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleRequestSchemeCondition_STATUS(generators)
-	deliveryRuleRequestSchemeCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleRequestSchemeCondition_STATUS{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(RequestSchemeMatchConditionParameters_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleRequestSchemeCondition_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleRequestSchemeCondition_STATUS(generators)
-	deliveryRuleRequestSchemeCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleRequestSchemeCondition_STATUS{}), generators)
+	deliveryRuleRequestSchemeCondition_STATUSGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleRequestSchemeCondition_STATUS {
+		var result DeliveryRuleRequestSchemeCondition_STATUS
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleRequestSchemeCondition_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleRequestSchemeCondition_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleRequestSchemeCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleRequestSchemeCondition_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleRequestSchemeCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(RequestSchemeMatchConditionParameters_STATUSGenerator())
-}
-
+// Test_DeliveryRuleRequestUriCondition_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleRequestUriCondition can be assigned to storage and back losslessly
 func Test_DeliveryRuleRequestUriCondition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -5643,44 +4736,34 @@ func Test_DeliveryRuleRequestUriCondition_WhenPropertiesConverted_RoundTripsWith
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleRequestUriCondition to DeliveryRuleRequestUriCondition via AssignProperties_To_DeliveryRuleRequestUriCondition & AssignProperties_From_DeliveryRuleRequestUriCondition returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleRequestUriCondition, DeliveryRuleRequestUriConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleRequestUriConditionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleRequestUriCondition tests if a specific instance of DeliveryRuleRequestUriCondition can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleRequestUriCondition(subject DeliveryRuleRequestUriCondition) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleRequestUriCondition
+		err := copied.AssignProperties_To_DeliveryRuleRequestUriCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleRequestUriCondition
-	err := copied.AssignProperties_To_DeliveryRuleRequestUriCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleRequestUriCondition
+		err = actual.AssignProperties_From_DeliveryRuleRequestUriCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleRequestUriCondition
-	err = actual.AssignProperties_From_DeliveryRuleRequestUriCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleRequestUriCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -5690,29 +4773,23 @@ func Test_DeliveryRuleRequestUriCondition_WhenSerializedToJson_DeserializesAsEqu
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleRequestUriCondition via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleRequestUriCondition, DeliveryRuleRequestUriConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleRequestUriCondition)
 }
 
 // RunJSONSerializationTestForDeliveryRuleRequestUriCondition runs a test to see if a specific instance of DeliveryRuleRequestUriCondition round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleRequestUriCondition(subject DeliveryRuleRequestUriCondition) string {
+func RunJSONSerializationTestForDeliveryRuleRequestUriCondition(t *rapid.T) {
+	subject := DeliveryRuleRequestUriConditionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleRequestUriCondition
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -5721,48 +4798,34 @@ func RunJSONSerializationTestForDeliveryRuleRequestUriCondition(subject Delivery
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleRequestUriCondition instances for property testing - lazily instantiated by
 // DeliveryRuleRequestUriConditionGenerator()
-var deliveryRuleRequestUriConditionGenerator gopter.Gen
+var deliveryRuleRequestUriConditionGenerator *rapid.Generator[DeliveryRuleRequestUriCondition]
 
 // DeliveryRuleRequestUriConditionGenerator returns a generator of DeliveryRuleRequestUriCondition instances for property testing.
-// We first initialize deliveryRuleRequestUriConditionGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleRequestUriConditionGenerator() gopter.Gen {
+func DeliveryRuleRequestUriConditionGenerator() *rapid.Generator[DeliveryRuleRequestUriCondition] {
 	if deliveryRuleRequestUriConditionGenerator != nil {
 		return deliveryRuleRequestUriConditionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleRequestUriCondition(generators)
-	deliveryRuleRequestUriConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleRequestUriCondition{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(RequestUriMatchConditionParametersGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleRequestUriCondition(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleRequestUriCondition(generators)
-	deliveryRuleRequestUriConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleRequestUriCondition{}), generators)
+	deliveryRuleRequestUriConditionGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleRequestUriCondition {
+		var result DeliveryRuleRequestUriCondition
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleRequestUriConditionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleRequestUriCondition is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleRequestUriCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleRequestUriCondition is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleRequestUriCondition(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(RequestUriMatchConditionParametersGenerator())
-}
-
+// Test_DeliveryRuleRequestUriCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleRequestUriCondition_STATUS can be assigned to storage and back losslessly
 func Test_DeliveryRuleRequestUriCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -5770,44 +4833,34 @@ func Test_DeliveryRuleRequestUriCondition_STATUS_WhenPropertiesConverted_RoundTr
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleRequestUriCondition_STATUS to DeliveryRuleRequestUriCondition_STATUS via AssignProperties_To_DeliveryRuleRequestUriCondition_STATUS & AssignProperties_From_DeliveryRuleRequestUriCondition_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleRequestUriCondition_STATUS, DeliveryRuleRequestUriCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleRequestUriCondition_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleRequestUriCondition_STATUS tests if a specific instance of DeliveryRuleRequestUriCondition_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleRequestUriCondition_STATUS(subject DeliveryRuleRequestUriCondition_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleRequestUriCondition_STATUS
+		err := copied.AssignProperties_To_DeliveryRuleRequestUriCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleRequestUriCondition_STATUS
-	err := copied.AssignProperties_To_DeliveryRuleRequestUriCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleRequestUriCondition_STATUS
+		err = actual.AssignProperties_From_DeliveryRuleRequestUriCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleRequestUriCondition_STATUS
-	err = actual.AssignProperties_From_DeliveryRuleRequestUriCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleRequestUriCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -5817,29 +4870,23 @@ func Test_DeliveryRuleRequestUriCondition_STATUS_WhenSerializedToJson_Deserializ
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleRequestUriCondition_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleRequestUriCondition_STATUS, DeliveryRuleRequestUriCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleRequestUriCondition_STATUS)
 }
 
 // RunJSONSerializationTestForDeliveryRuleRequestUriCondition_STATUS runs a test to see if a specific instance of DeliveryRuleRequestUriCondition_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleRequestUriCondition_STATUS(subject DeliveryRuleRequestUriCondition_STATUS) string {
+func RunJSONSerializationTestForDeliveryRuleRequestUriCondition_STATUS(t *rapid.T) {
+	subject := DeliveryRuleRequestUriCondition_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleRequestUriCondition_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -5848,48 +4895,34 @@ func RunJSONSerializationTestForDeliveryRuleRequestUriCondition_STATUS(subject D
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleRequestUriCondition_STATUS instances for property testing - lazily instantiated by
 // DeliveryRuleRequestUriCondition_STATUSGenerator()
-var deliveryRuleRequestUriCondition_STATUSGenerator gopter.Gen
+var deliveryRuleRequestUriCondition_STATUSGenerator *rapid.Generator[DeliveryRuleRequestUriCondition_STATUS]
 
 // DeliveryRuleRequestUriCondition_STATUSGenerator returns a generator of DeliveryRuleRequestUriCondition_STATUS instances for property testing.
-// We first initialize deliveryRuleRequestUriCondition_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleRequestUriCondition_STATUSGenerator() gopter.Gen {
+func DeliveryRuleRequestUriCondition_STATUSGenerator() *rapid.Generator[DeliveryRuleRequestUriCondition_STATUS] {
 	if deliveryRuleRequestUriCondition_STATUSGenerator != nil {
 		return deliveryRuleRequestUriCondition_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleRequestUriCondition_STATUS(generators)
-	deliveryRuleRequestUriCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleRequestUriCondition_STATUS{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(RequestUriMatchConditionParameters_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleRequestUriCondition_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleRequestUriCondition_STATUS(generators)
-	deliveryRuleRequestUriCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleRequestUriCondition_STATUS{}), generators)
+	deliveryRuleRequestUriCondition_STATUSGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleRequestUriCondition_STATUS {
+		var result DeliveryRuleRequestUriCondition_STATUS
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleRequestUriCondition_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleRequestUriCondition_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleRequestUriCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleRequestUriCondition_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleRequestUriCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(RequestUriMatchConditionParameters_STATUSGenerator())
-}
-
+// Test_DeliveryRuleResponseHeaderAction_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleResponseHeaderAction can be assigned to storage and back losslessly
 func Test_DeliveryRuleResponseHeaderAction_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -5897,44 +4930,34 @@ func Test_DeliveryRuleResponseHeaderAction_WhenPropertiesConverted_RoundTripsWit
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleResponseHeaderAction to DeliveryRuleResponseHeaderAction via AssignProperties_To_DeliveryRuleResponseHeaderAction & AssignProperties_From_DeliveryRuleResponseHeaderAction returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleResponseHeaderAction, DeliveryRuleResponseHeaderActionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleResponseHeaderActionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleResponseHeaderAction tests if a specific instance of DeliveryRuleResponseHeaderAction can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleResponseHeaderAction(subject DeliveryRuleResponseHeaderAction) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleResponseHeaderAction
+		err := copied.AssignProperties_To_DeliveryRuleResponseHeaderAction(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleResponseHeaderAction
-	err := copied.AssignProperties_To_DeliveryRuleResponseHeaderAction(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleResponseHeaderAction
+		err = actual.AssignProperties_From_DeliveryRuleResponseHeaderAction(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleResponseHeaderAction
-	err = actual.AssignProperties_From_DeliveryRuleResponseHeaderAction(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleResponseHeaderAction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -5944,29 +4967,23 @@ func Test_DeliveryRuleResponseHeaderAction_WhenSerializedToJson_DeserializesAsEq
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleResponseHeaderAction via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleResponseHeaderAction, DeliveryRuleResponseHeaderActionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleResponseHeaderAction)
 }
 
 // RunJSONSerializationTestForDeliveryRuleResponseHeaderAction runs a test to see if a specific instance of DeliveryRuleResponseHeaderAction round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleResponseHeaderAction(subject DeliveryRuleResponseHeaderAction) string {
+func RunJSONSerializationTestForDeliveryRuleResponseHeaderAction(t *rapid.T) {
+	subject := DeliveryRuleResponseHeaderActionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleResponseHeaderAction
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -5975,48 +4992,34 @@ func RunJSONSerializationTestForDeliveryRuleResponseHeaderAction(subject Deliver
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleResponseHeaderAction instances for property testing - lazily instantiated by
 // DeliveryRuleResponseHeaderActionGenerator()
-var deliveryRuleResponseHeaderActionGenerator gopter.Gen
+var deliveryRuleResponseHeaderActionGenerator *rapid.Generator[DeliveryRuleResponseHeaderAction]
 
 // DeliveryRuleResponseHeaderActionGenerator returns a generator of DeliveryRuleResponseHeaderAction instances for property testing.
-// We first initialize deliveryRuleResponseHeaderActionGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleResponseHeaderActionGenerator() gopter.Gen {
+func DeliveryRuleResponseHeaderActionGenerator() *rapid.Generator[DeliveryRuleResponseHeaderAction] {
 	if deliveryRuleResponseHeaderActionGenerator != nil {
 		return deliveryRuleResponseHeaderActionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleResponseHeaderAction(generators)
-	deliveryRuleResponseHeaderActionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleResponseHeaderAction{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(HeaderActionParametersGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleResponseHeaderAction(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleResponseHeaderAction(generators)
-	deliveryRuleResponseHeaderActionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleResponseHeaderAction{}), generators)
+	deliveryRuleResponseHeaderActionGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleResponseHeaderAction {
+		var result DeliveryRuleResponseHeaderAction
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleResponseHeaderActionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleResponseHeaderAction is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleResponseHeaderAction(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleResponseHeaderAction is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleResponseHeaderAction(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(HeaderActionParametersGenerator())
-}
-
+// Test_DeliveryRuleResponseHeaderAction_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleResponseHeaderAction_STATUS can be assigned to storage and back losslessly
 func Test_DeliveryRuleResponseHeaderAction_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -6024,44 +5027,34 @@ func Test_DeliveryRuleResponseHeaderAction_STATUS_WhenPropertiesConverted_RoundT
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleResponseHeaderAction_STATUS to DeliveryRuleResponseHeaderAction_STATUS via AssignProperties_To_DeliveryRuleResponseHeaderAction_STATUS & AssignProperties_From_DeliveryRuleResponseHeaderAction_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleResponseHeaderAction_STATUS, DeliveryRuleResponseHeaderAction_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleResponseHeaderAction_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleResponseHeaderAction_STATUS tests if a specific instance of DeliveryRuleResponseHeaderAction_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleResponseHeaderAction_STATUS(subject DeliveryRuleResponseHeaderAction_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleResponseHeaderAction_STATUS
+		err := copied.AssignProperties_To_DeliveryRuleResponseHeaderAction_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleResponseHeaderAction_STATUS
-	err := copied.AssignProperties_To_DeliveryRuleResponseHeaderAction_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleResponseHeaderAction_STATUS
+		err = actual.AssignProperties_From_DeliveryRuleResponseHeaderAction_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleResponseHeaderAction_STATUS
-	err = actual.AssignProperties_From_DeliveryRuleResponseHeaderAction_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleResponseHeaderAction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -6071,29 +5064,23 @@ func Test_DeliveryRuleResponseHeaderAction_STATUS_WhenSerializedToJson_Deseriali
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleResponseHeaderAction_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleResponseHeaderAction_STATUS, DeliveryRuleResponseHeaderAction_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleResponseHeaderAction_STATUS)
 }
 
 // RunJSONSerializationTestForDeliveryRuleResponseHeaderAction_STATUS runs a test to see if a specific instance of DeliveryRuleResponseHeaderAction_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleResponseHeaderAction_STATUS(subject DeliveryRuleResponseHeaderAction_STATUS) string {
+func RunJSONSerializationTestForDeliveryRuleResponseHeaderAction_STATUS(t *rapid.T) {
+	subject := DeliveryRuleResponseHeaderAction_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleResponseHeaderAction_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -6102,48 +5089,34 @@ func RunJSONSerializationTestForDeliveryRuleResponseHeaderAction_STATUS(subject 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleResponseHeaderAction_STATUS instances for property testing - lazily instantiated by
 // DeliveryRuleResponseHeaderAction_STATUSGenerator()
-var deliveryRuleResponseHeaderAction_STATUSGenerator gopter.Gen
+var deliveryRuleResponseHeaderAction_STATUSGenerator *rapid.Generator[DeliveryRuleResponseHeaderAction_STATUS]
 
 // DeliveryRuleResponseHeaderAction_STATUSGenerator returns a generator of DeliveryRuleResponseHeaderAction_STATUS instances for property testing.
-// We first initialize deliveryRuleResponseHeaderAction_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleResponseHeaderAction_STATUSGenerator() gopter.Gen {
+func DeliveryRuleResponseHeaderAction_STATUSGenerator() *rapid.Generator[DeliveryRuleResponseHeaderAction_STATUS] {
 	if deliveryRuleResponseHeaderAction_STATUSGenerator != nil {
 		return deliveryRuleResponseHeaderAction_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleResponseHeaderAction_STATUS(generators)
-	deliveryRuleResponseHeaderAction_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleResponseHeaderAction_STATUS{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(HeaderActionParameters_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleResponseHeaderAction_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleResponseHeaderAction_STATUS(generators)
-	deliveryRuleResponseHeaderAction_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleResponseHeaderAction_STATUS{}), generators)
+	deliveryRuleResponseHeaderAction_STATUSGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleResponseHeaderAction_STATUS {
+		var result DeliveryRuleResponseHeaderAction_STATUS
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleResponseHeaderAction_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleResponseHeaderAction_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleResponseHeaderAction_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleResponseHeaderAction_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleResponseHeaderAction_STATUS(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(HeaderActionParameters_STATUSGenerator())
-}
-
+// Test_DeliveryRuleRouteConfigurationOverrideAction_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleRouteConfigurationOverrideAction can be assigned to storage and back losslessly
 func Test_DeliveryRuleRouteConfigurationOverrideAction_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -6151,44 +5124,34 @@ func Test_DeliveryRuleRouteConfigurationOverrideAction_WhenPropertiesConverted_R
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleRouteConfigurationOverrideAction to DeliveryRuleRouteConfigurationOverrideAction via AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction & AssignProperties_From_DeliveryRuleRouteConfigurationOverrideAction returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleRouteConfigurationOverrideAction, DeliveryRuleRouteConfigurationOverrideActionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleRouteConfigurationOverrideActionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleRouteConfigurationOverrideAction tests if a specific instance of DeliveryRuleRouteConfigurationOverrideAction can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleRouteConfigurationOverrideAction(subject DeliveryRuleRouteConfigurationOverrideAction) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleRouteConfigurationOverrideAction
+		err := copied.AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleRouteConfigurationOverrideAction
-	err := copied.AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleRouteConfigurationOverrideAction
+		err = actual.AssignProperties_From_DeliveryRuleRouteConfigurationOverrideAction(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleRouteConfigurationOverrideAction
-	err = actual.AssignProperties_From_DeliveryRuleRouteConfigurationOverrideAction(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleRouteConfigurationOverrideAction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -6198,29 +5161,23 @@ func Test_DeliveryRuleRouteConfigurationOverrideAction_WhenSerializedToJson_Dese
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleRouteConfigurationOverrideAction via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleRouteConfigurationOverrideAction, DeliveryRuleRouteConfigurationOverrideActionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleRouteConfigurationOverrideAction)
 }
 
 // RunJSONSerializationTestForDeliveryRuleRouteConfigurationOverrideAction runs a test to see if a specific instance of DeliveryRuleRouteConfigurationOverrideAction round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleRouteConfigurationOverrideAction(subject DeliveryRuleRouteConfigurationOverrideAction) string {
+func RunJSONSerializationTestForDeliveryRuleRouteConfigurationOverrideAction(t *rapid.T) {
+	subject := DeliveryRuleRouteConfigurationOverrideActionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleRouteConfigurationOverrideAction
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -6229,48 +5186,34 @@ func RunJSONSerializationTestForDeliveryRuleRouteConfigurationOverrideAction(sub
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleRouteConfigurationOverrideAction instances for property testing - lazily instantiated by
 // DeliveryRuleRouteConfigurationOverrideActionGenerator()
-var deliveryRuleRouteConfigurationOverrideActionGenerator gopter.Gen
+var deliveryRuleRouteConfigurationOverrideActionGenerator *rapid.Generator[DeliveryRuleRouteConfigurationOverrideAction]
 
 // DeliveryRuleRouteConfigurationOverrideActionGenerator returns a generator of DeliveryRuleRouteConfigurationOverrideAction instances for property testing.
-// We first initialize deliveryRuleRouteConfigurationOverrideActionGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleRouteConfigurationOverrideActionGenerator() gopter.Gen {
+func DeliveryRuleRouteConfigurationOverrideActionGenerator() *rapid.Generator[DeliveryRuleRouteConfigurationOverrideAction] {
 	if deliveryRuleRouteConfigurationOverrideActionGenerator != nil {
 		return deliveryRuleRouteConfigurationOverrideActionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleRouteConfigurationOverrideAction(generators)
-	deliveryRuleRouteConfigurationOverrideActionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleRouteConfigurationOverrideAction{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(RouteConfigurationOverrideActionParametersGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleRouteConfigurationOverrideAction(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleRouteConfigurationOverrideAction(generators)
-	deliveryRuleRouteConfigurationOverrideActionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleRouteConfigurationOverrideAction{}), generators)
+	deliveryRuleRouteConfigurationOverrideActionGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleRouteConfigurationOverrideAction {
+		var result DeliveryRuleRouteConfigurationOverrideAction
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleRouteConfigurationOverrideActionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleRouteConfigurationOverrideAction is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleRouteConfigurationOverrideAction(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleRouteConfigurationOverrideAction is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleRouteConfigurationOverrideAction(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(RouteConfigurationOverrideActionParametersGenerator())
-}
-
+// Test_DeliveryRuleRouteConfigurationOverrideAction_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleRouteConfigurationOverrideAction_STATUS can be assigned to storage and back losslessly
 func Test_DeliveryRuleRouteConfigurationOverrideAction_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -6278,44 +5221,34 @@ func Test_DeliveryRuleRouteConfigurationOverrideAction_STATUS_WhenPropertiesConv
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleRouteConfigurationOverrideAction_STATUS to DeliveryRuleRouteConfigurationOverrideAction_STATUS via AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction_STATUS & AssignProperties_From_DeliveryRuleRouteConfigurationOverrideAction_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleRouteConfigurationOverrideAction_STATUS, DeliveryRuleRouteConfigurationOverrideAction_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleRouteConfigurationOverrideAction_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleRouteConfigurationOverrideAction_STATUS tests if a specific instance of DeliveryRuleRouteConfigurationOverrideAction_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleRouteConfigurationOverrideAction_STATUS(subject DeliveryRuleRouteConfigurationOverrideAction_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleRouteConfigurationOverrideAction_STATUS
+		err := copied.AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleRouteConfigurationOverrideAction_STATUS
-	err := copied.AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleRouteConfigurationOverrideAction_STATUS
+		err = actual.AssignProperties_From_DeliveryRuleRouteConfigurationOverrideAction_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleRouteConfigurationOverrideAction_STATUS
-	err = actual.AssignProperties_From_DeliveryRuleRouteConfigurationOverrideAction_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleRouteConfigurationOverrideAction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -6325,29 +5258,23 @@ func Test_DeliveryRuleRouteConfigurationOverrideAction_STATUS_WhenSerializedToJs
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleRouteConfigurationOverrideAction_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleRouteConfigurationOverrideAction_STATUS, DeliveryRuleRouteConfigurationOverrideAction_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleRouteConfigurationOverrideAction_STATUS)
 }
 
 // RunJSONSerializationTestForDeliveryRuleRouteConfigurationOverrideAction_STATUS runs a test to see if a specific instance of DeliveryRuleRouteConfigurationOverrideAction_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleRouteConfigurationOverrideAction_STATUS(subject DeliveryRuleRouteConfigurationOverrideAction_STATUS) string {
+func RunJSONSerializationTestForDeliveryRuleRouteConfigurationOverrideAction_STATUS(t *rapid.T) {
+	subject := DeliveryRuleRouteConfigurationOverrideAction_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleRouteConfigurationOverrideAction_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -6356,48 +5283,34 @@ func RunJSONSerializationTestForDeliveryRuleRouteConfigurationOverrideAction_STA
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleRouteConfigurationOverrideAction_STATUS instances for property testing - lazily instantiated
 // by DeliveryRuleRouteConfigurationOverrideAction_STATUSGenerator()
-var deliveryRuleRouteConfigurationOverrideAction_STATUSGenerator gopter.Gen
+var deliveryRuleRouteConfigurationOverrideAction_STATUSGenerator *rapid.Generator[DeliveryRuleRouteConfigurationOverrideAction_STATUS]
 
 // DeliveryRuleRouteConfigurationOverrideAction_STATUSGenerator returns a generator of DeliveryRuleRouteConfigurationOverrideAction_STATUS instances for property testing.
-// We first initialize deliveryRuleRouteConfigurationOverrideAction_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleRouteConfigurationOverrideAction_STATUSGenerator() gopter.Gen {
+func DeliveryRuleRouteConfigurationOverrideAction_STATUSGenerator() *rapid.Generator[DeliveryRuleRouteConfigurationOverrideAction_STATUS] {
 	if deliveryRuleRouteConfigurationOverrideAction_STATUSGenerator != nil {
 		return deliveryRuleRouteConfigurationOverrideAction_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleRouteConfigurationOverrideAction_STATUS(generators)
-	deliveryRuleRouteConfigurationOverrideAction_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleRouteConfigurationOverrideAction_STATUS{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(RouteConfigurationOverrideActionParameters_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleRouteConfigurationOverrideAction_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleRouteConfigurationOverrideAction_STATUS(generators)
-	deliveryRuleRouteConfigurationOverrideAction_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleRouteConfigurationOverrideAction_STATUS{}), generators)
+	deliveryRuleRouteConfigurationOverrideAction_STATUSGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleRouteConfigurationOverrideAction_STATUS {
+		var result DeliveryRuleRouteConfigurationOverrideAction_STATUS
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleRouteConfigurationOverrideAction_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleRouteConfigurationOverrideAction_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleRouteConfigurationOverrideAction_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleRouteConfigurationOverrideAction_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleRouteConfigurationOverrideAction_STATUS(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(RouteConfigurationOverrideActionParameters_STATUSGenerator())
-}
-
+// Test_DeliveryRuleServerPortCondition_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleServerPortCondition can be assigned to storage and back losslessly
 func Test_DeliveryRuleServerPortCondition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -6405,44 +5318,34 @@ func Test_DeliveryRuleServerPortCondition_WhenPropertiesConverted_RoundTripsWith
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleServerPortCondition to DeliveryRuleServerPortCondition via AssignProperties_To_DeliveryRuleServerPortCondition & AssignProperties_From_DeliveryRuleServerPortCondition returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleServerPortCondition, DeliveryRuleServerPortConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleServerPortConditionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleServerPortCondition tests if a specific instance of DeliveryRuleServerPortCondition can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleServerPortCondition(subject DeliveryRuleServerPortCondition) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleServerPortCondition
+		err := copied.AssignProperties_To_DeliveryRuleServerPortCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleServerPortCondition
-	err := copied.AssignProperties_To_DeliveryRuleServerPortCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleServerPortCondition
+		err = actual.AssignProperties_From_DeliveryRuleServerPortCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleServerPortCondition
-	err = actual.AssignProperties_From_DeliveryRuleServerPortCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleServerPortCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -6452,29 +5355,23 @@ func Test_DeliveryRuleServerPortCondition_WhenSerializedToJson_DeserializesAsEqu
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleServerPortCondition via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleServerPortCondition, DeliveryRuleServerPortConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleServerPortCondition)
 }
 
 // RunJSONSerializationTestForDeliveryRuleServerPortCondition runs a test to see if a specific instance of DeliveryRuleServerPortCondition round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleServerPortCondition(subject DeliveryRuleServerPortCondition) string {
+func RunJSONSerializationTestForDeliveryRuleServerPortCondition(t *rapid.T) {
+	subject := DeliveryRuleServerPortConditionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleServerPortCondition
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -6483,48 +5380,34 @@ func RunJSONSerializationTestForDeliveryRuleServerPortCondition(subject Delivery
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleServerPortCondition instances for property testing - lazily instantiated by
 // DeliveryRuleServerPortConditionGenerator()
-var deliveryRuleServerPortConditionGenerator gopter.Gen
+var deliveryRuleServerPortConditionGenerator *rapid.Generator[DeliveryRuleServerPortCondition]
 
 // DeliveryRuleServerPortConditionGenerator returns a generator of DeliveryRuleServerPortCondition instances for property testing.
-// We first initialize deliveryRuleServerPortConditionGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleServerPortConditionGenerator() gopter.Gen {
+func DeliveryRuleServerPortConditionGenerator() *rapid.Generator[DeliveryRuleServerPortCondition] {
 	if deliveryRuleServerPortConditionGenerator != nil {
 		return deliveryRuleServerPortConditionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleServerPortCondition(generators)
-	deliveryRuleServerPortConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleServerPortCondition{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(ServerPortMatchConditionParametersGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleServerPortCondition(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleServerPortCondition(generators)
-	deliveryRuleServerPortConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleServerPortCondition{}), generators)
+	deliveryRuleServerPortConditionGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleServerPortCondition {
+		var result DeliveryRuleServerPortCondition
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleServerPortConditionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleServerPortCondition is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleServerPortCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleServerPortCondition is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleServerPortCondition(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(ServerPortMatchConditionParametersGenerator())
-}
-
+// Test_DeliveryRuleServerPortCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleServerPortCondition_STATUS can be assigned to storage and back losslessly
 func Test_DeliveryRuleServerPortCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -6532,44 +5415,34 @@ func Test_DeliveryRuleServerPortCondition_STATUS_WhenPropertiesConverted_RoundTr
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleServerPortCondition_STATUS to DeliveryRuleServerPortCondition_STATUS via AssignProperties_To_DeliveryRuleServerPortCondition_STATUS & AssignProperties_From_DeliveryRuleServerPortCondition_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleServerPortCondition_STATUS, DeliveryRuleServerPortCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleServerPortCondition_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleServerPortCondition_STATUS tests if a specific instance of DeliveryRuleServerPortCondition_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleServerPortCondition_STATUS(subject DeliveryRuleServerPortCondition_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleServerPortCondition_STATUS
+		err := copied.AssignProperties_To_DeliveryRuleServerPortCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleServerPortCondition_STATUS
-	err := copied.AssignProperties_To_DeliveryRuleServerPortCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleServerPortCondition_STATUS
+		err = actual.AssignProperties_From_DeliveryRuleServerPortCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleServerPortCondition_STATUS
-	err = actual.AssignProperties_From_DeliveryRuleServerPortCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleServerPortCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -6579,29 +5452,23 @@ func Test_DeliveryRuleServerPortCondition_STATUS_WhenSerializedToJson_Deserializ
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleServerPortCondition_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleServerPortCondition_STATUS, DeliveryRuleServerPortCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleServerPortCondition_STATUS)
 }
 
 // RunJSONSerializationTestForDeliveryRuleServerPortCondition_STATUS runs a test to see if a specific instance of DeliveryRuleServerPortCondition_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleServerPortCondition_STATUS(subject DeliveryRuleServerPortCondition_STATUS) string {
+func RunJSONSerializationTestForDeliveryRuleServerPortCondition_STATUS(t *rapid.T) {
+	subject := DeliveryRuleServerPortCondition_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleServerPortCondition_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -6610,48 +5477,34 @@ func RunJSONSerializationTestForDeliveryRuleServerPortCondition_STATUS(subject D
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleServerPortCondition_STATUS instances for property testing - lazily instantiated by
 // DeliveryRuleServerPortCondition_STATUSGenerator()
-var deliveryRuleServerPortCondition_STATUSGenerator gopter.Gen
+var deliveryRuleServerPortCondition_STATUSGenerator *rapid.Generator[DeliveryRuleServerPortCondition_STATUS]
 
 // DeliveryRuleServerPortCondition_STATUSGenerator returns a generator of DeliveryRuleServerPortCondition_STATUS instances for property testing.
-// We first initialize deliveryRuleServerPortCondition_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleServerPortCondition_STATUSGenerator() gopter.Gen {
+func DeliveryRuleServerPortCondition_STATUSGenerator() *rapid.Generator[DeliveryRuleServerPortCondition_STATUS] {
 	if deliveryRuleServerPortCondition_STATUSGenerator != nil {
 		return deliveryRuleServerPortCondition_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleServerPortCondition_STATUS(generators)
-	deliveryRuleServerPortCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleServerPortCondition_STATUS{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(ServerPortMatchConditionParameters_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleServerPortCondition_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleServerPortCondition_STATUS(generators)
-	deliveryRuleServerPortCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleServerPortCondition_STATUS{}), generators)
+	deliveryRuleServerPortCondition_STATUSGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleServerPortCondition_STATUS {
+		var result DeliveryRuleServerPortCondition_STATUS
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleServerPortCondition_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleServerPortCondition_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleServerPortCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleServerPortCondition_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleServerPortCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(ServerPortMatchConditionParameters_STATUSGenerator())
-}
-
+// Test_DeliveryRuleSocketAddrCondition_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleSocketAddrCondition can be assigned to storage and back losslessly
 func Test_DeliveryRuleSocketAddrCondition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -6659,44 +5512,34 @@ func Test_DeliveryRuleSocketAddrCondition_WhenPropertiesConverted_RoundTripsWith
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleSocketAddrCondition to DeliveryRuleSocketAddrCondition via AssignProperties_To_DeliveryRuleSocketAddrCondition & AssignProperties_From_DeliveryRuleSocketAddrCondition returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleSocketAddrCondition, DeliveryRuleSocketAddrConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleSocketAddrConditionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleSocketAddrCondition tests if a specific instance of DeliveryRuleSocketAddrCondition can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleSocketAddrCondition(subject DeliveryRuleSocketAddrCondition) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleSocketAddrCondition
+		err := copied.AssignProperties_To_DeliveryRuleSocketAddrCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleSocketAddrCondition
-	err := copied.AssignProperties_To_DeliveryRuleSocketAddrCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleSocketAddrCondition
+		err = actual.AssignProperties_From_DeliveryRuleSocketAddrCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleSocketAddrCondition
-	err = actual.AssignProperties_From_DeliveryRuleSocketAddrCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleSocketAddrCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -6706,29 +5549,23 @@ func Test_DeliveryRuleSocketAddrCondition_WhenSerializedToJson_DeserializesAsEqu
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleSocketAddrCondition via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleSocketAddrCondition, DeliveryRuleSocketAddrConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleSocketAddrCondition)
 }
 
 // RunJSONSerializationTestForDeliveryRuleSocketAddrCondition runs a test to see if a specific instance of DeliveryRuleSocketAddrCondition round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleSocketAddrCondition(subject DeliveryRuleSocketAddrCondition) string {
+func RunJSONSerializationTestForDeliveryRuleSocketAddrCondition(t *rapid.T) {
+	subject := DeliveryRuleSocketAddrConditionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleSocketAddrCondition
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -6737,48 +5574,34 @@ func RunJSONSerializationTestForDeliveryRuleSocketAddrCondition(subject Delivery
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleSocketAddrCondition instances for property testing - lazily instantiated by
 // DeliveryRuleSocketAddrConditionGenerator()
-var deliveryRuleSocketAddrConditionGenerator gopter.Gen
+var deliveryRuleSocketAddrConditionGenerator *rapid.Generator[DeliveryRuleSocketAddrCondition]
 
 // DeliveryRuleSocketAddrConditionGenerator returns a generator of DeliveryRuleSocketAddrCondition instances for property testing.
-// We first initialize deliveryRuleSocketAddrConditionGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleSocketAddrConditionGenerator() gopter.Gen {
+func DeliveryRuleSocketAddrConditionGenerator() *rapid.Generator[DeliveryRuleSocketAddrCondition] {
 	if deliveryRuleSocketAddrConditionGenerator != nil {
 		return deliveryRuleSocketAddrConditionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleSocketAddrCondition(generators)
-	deliveryRuleSocketAddrConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleSocketAddrCondition{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(SocketAddrMatchConditionParametersGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleSocketAddrCondition(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleSocketAddrCondition(generators)
-	deliveryRuleSocketAddrConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleSocketAddrCondition{}), generators)
+	deliveryRuleSocketAddrConditionGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleSocketAddrCondition {
+		var result DeliveryRuleSocketAddrCondition
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleSocketAddrConditionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleSocketAddrCondition is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleSocketAddrCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleSocketAddrCondition is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleSocketAddrCondition(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(SocketAddrMatchConditionParametersGenerator())
-}
-
+// Test_DeliveryRuleSocketAddrCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleSocketAddrCondition_STATUS can be assigned to storage and back losslessly
 func Test_DeliveryRuleSocketAddrCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -6786,44 +5609,34 @@ func Test_DeliveryRuleSocketAddrCondition_STATUS_WhenPropertiesConverted_RoundTr
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleSocketAddrCondition_STATUS to DeliveryRuleSocketAddrCondition_STATUS via AssignProperties_To_DeliveryRuleSocketAddrCondition_STATUS & AssignProperties_From_DeliveryRuleSocketAddrCondition_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleSocketAddrCondition_STATUS, DeliveryRuleSocketAddrCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleSocketAddrCondition_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleSocketAddrCondition_STATUS tests if a specific instance of DeliveryRuleSocketAddrCondition_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleSocketAddrCondition_STATUS(subject DeliveryRuleSocketAddrCondition_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleSocketAddrCondition_STATUS
+		err := copied.AssignProperties_To_DeliveryRuleSocketAddrCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleSocketAddrCondition_STATUS
-	err := copied.AssignProperties_To_DeliveryRuleSocketAddrCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleSocketAddrCondition_STATUS
+		err = actual.AssignProperties_From_DeliveryRuleSocketAddrCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleSocketAddrCondition_STATUS
-	err = actual.AssignProperties_From_DeliveryRuleSocketAddrCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleSocketAddrCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -6833,29 +5646,23 @@ func Test_DeliveryRuleSocketAddrCondition_STATUS_WhenSerializedToJson_Deserializ
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleSocketAddrCondition_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleSocketAddrCondition_STATUS, DeliveryRuleSocketAddrCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleSocketAddrCondition_STATUS)
 }
 
 // RunJSONSerializationTestForDeliveryRuleSocketAddrCondition_STATUS runs a test to see if a specific instance of DeliveryRuleSocketAddrCondition_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleSocketAddrCondition_STATUS(subject DeliveryRuleSocketAddrCondition_STATUS) string {
+func RunJSONSerializationTestForDeliveryRuleSocketAddrCondition_STATUS(t *rapid.T) {
+	subject := DeliveryRuleSocketAddrCondition_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleSocketAddrCondition_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -6864,48 +5671,34 @@ func RunJSONSerializationTestForDeliveryRuleSocketAddrCondition_STATUS(subject D
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleSocketAddrCondition_STATUS instances for property testing - lazily instantiated by
 // DeliveryRuleSocketAddrCondition_STATUSGenerator()
-var deliveryRuleSocketAddrCondition_STATUSGenerator gopter.Gen
+var deliveryRuleSocketAddrCondition_STATUSGenerator *rapid.Generator[DeliveryRuleSocketAddrCondition_STATUS]
 
 // DeliveryRuleSocketAddrCondition_STATUSGenerator returns a generator of DeliveryRuleSocketAddrCondition_STATUS instances for property testing.
-// We first initialize deliveryRuleSocketAddrCondition_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleSocketAddrCondition_STATUSGenerator() gopter.Gen {
+func DeliveryRuleSocketAddrCondition_STATUSGenerator() *rapid.Generator[DeliveryRuleSocketAddrCondition_STATUS] {
 	if deliveryRuleSocketAddrCondition_STATUSGenerator != nil {
 		return deliveryRuleSocketAddrCondition_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleSocketAddrCondition_STATUS(generators)
-	deliveryRuleSocketAddrCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleSocketAddrCondition_STATUS{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(SocketAddrMatchConditionParameters_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleSocketAddrCondition_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleSocketAddrCondition_STATUS(generators)
-	deliveryRuleSocketAddrCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleSocketAddrCondition_STATUS{}), generators)
+	deliveryRuleSocketAddrCondition_STATUSGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleSocketAddrCondition_STATUS {
+		var result DeliveryRuleSocketAddrCondition_STATUS
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleSocketAddrCondition_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleSocketAddrCondition_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleSocketAddrCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleSocketAddrCondition_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleSocketAddrCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(SocketAddrMatchConditionParameters_STATUSGenerator())
-}
-
+// Test_DeliveryRuleSslProtocolCondition_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleSslProtocolCondition can be assigned to storage and back losslessly
 func Test_DeliveryRuleSslProtocolCondition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -6913,44 +5706,34 @@ func Test_DeliveryRuleSslProtocolCondition_WhenPropertiesConverted_RoundTripsWit
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleSslProtocolCondition to DeliveryRuleSslProtocolCondition via AssignProperties_To_DeliveryRuleSslProtocolCondition & AssignProperties_From_DeliveryRuleSslProtocolCondition returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleSslProtocolCondition, DeliveryRuleSslProtocolConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleSslProtocolConditionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleSslProtocolCondition tests if a specific instance of DeliveryRuleSslProtocolCondition can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleSslProtocolCondition(subject DeliveryRuleSslProtocolCondition) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleSslProtocolCondition
+		err := copied.AssignProperties_To_DeliveryRuleSslProtocolCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleSslProtocolCondition
-	err := copied.AssignProperties_To_DeliveryRuleSslProtocolCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleSslProtocolCondition
+		err = actual.AssignProperties_From_DeliveryRuleSslProtocolCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleSslProtocolCondition
-	err = actual.AssignProperties_From_DeliveryRuleSslProtocolCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleSslProtocolCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -6960,29 +5743,23 @@ func Test_DeliveryRuleSslProtocolCondition_WhenSerializedToJson_DeserializesAsEq
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleSslProtocolCondition via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleSslProtocolCondition, DeliveryRuleSslProtocolConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleSslProtocolCondition)
 }
 
 // RunJSONSerializationTestForDeliveryRuleSslProtocolCondition runs a test to see if a specific instance of DeliveryRuleSslProtocolCondition round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleSslProtocolCondition(subject DeliveryRuleSslProtocolCondition) string {
+func RunJSONSerializationTestForDeliveryRuleSslProtocolCondition(t *rapid.T) {
+	subject := DeliveryRuleSslProtocolConditionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleSslProtocolCondition
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -6991,48 +5768,34 @@ func RunJSONSerializationTestForDeliveryRuleSslProtocolCondition(subject Deliver
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleSslProtocolCondition instances for property testing - lazily instantiated by
 // DeliveryRuleSslProtocolConditionGenerator()
-var deliveryRuleSslProtocolConditionGenerator gopter.Gen
+var deliveryRuleSslProtocolConditionGenerator *rapid.Generator[DeliveryRuleSslProtocolCondition]
 
 // DeliveryRuleSslProtocolConditionGenerator returns a generator of DeliveryRuleSslProtocolCondition instances for property testing.
-// We first initialize deliveryRuleSslProtocolConditionGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleSslProtocolConditionGenerator() gopter.Gen {
+func DeliveryRuleSslProtocolConditionGenerator() *rapid.Generator[DeliveryRuleSslProtocolCondition] {
 	if deliveryRuleSslProtocolConditionGenerator != nil {
 		return deliveryRuleSslProtocolConditionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleSslProtocolCondition(generators)
-	deliveryRuleSslProtocolConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleSslProtocolCondition{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(SslProtocolMatchConditionParametersGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleSslProtocolCondition(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleSslProtocolCondition(generators)
-	deliveryRuleSslProtocolConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleSslProtocolCondition{}), generators)
+	deliveryRuleSslProtocolConditionGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleSslProtocolCondition {
+		var result DeliveryRuleSslProtocolCondition
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleSslProtocolConditionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleSslProtocolCondition is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleSslProtocolCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleSslProtocolCondition is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleSslProtocolCondition(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(SslProtocolMatchConditionParametersGenerator())
-}
-
+// Test_DeliveryRuleSslProtocolCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleSslProtocolCondition_STATUS can be assigned to storage and back losslessly
 func Test_DeliveryRuleSslProtocolCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -7040,44 +5803,34 @@ func Test_DeliveryRuleSslProtocolCondition_STATUS_WhenPropertiesConverted_RoundT
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleSslProtocolCondition_STATUS to DeliveryRuleSslProtocolCondition_STATUS via AssignProperties_To_DeliveryRuleSslProtocolCondition_STATUS & AssignProperties_From_DeliveryRuleSslProtocolCondition_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleSslProtocolCondition_STATUS, DeliveryRuleSslProtocolCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleSslProtocolCondition_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleSslProtocolCondition_STATUS tests if a specific instance of DeliveryRuleSslProtocolCondition_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleSslProtocolCondition_STATUS(subject DeliveryRuleSslProtocolCondition_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleSslProtocolCondition_STATUS
+		err := copied.AssignProperties_To_DeliveryRuleSslProtocolCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleSslProtocolCondition_STATUS
-	err := copied.AssignProperties_To_DeliveryRuleSslProtocolCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleSslProtocolCondition_STATUS
+		err = actual.AssignProperties_From_DeliveryRuleSslProtocolCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleSslProtocolCondition_STATUS
-	err = actual.AssignProperties_From_DeliveryRuleSslProtocolCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleSslProtocolCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -7087,29 +5840,23 @@ func Test_DeliveryRuleSslProtocolCondition_STATUS_WhenSerializedToJson_Deseriali
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleSslProtocolCondition_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleSslProtocolCondition_STATUS, DeliveryRuleSslProtocolCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleSslProtocolCondition_STATUS)
 }
 
 // RunJSONSerializationTestForDeliveryRuleSslProtocolCondition_STATUS runs a test to see if a specific instance of DeliveryRuleSslProtocolCondition_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleSslProtocolCondition_STATUS(subject DeliveryRuleSslProtocolCondition_STATUS) string {
+func RunJSONSerializationTestForDeliveryRuleSslProtocolCondition_STATUS(t *rapid.T) {
+	subject := DeliveryRuleSslProtocolCondition_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleSslProtocolCondition_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -7118,48 +5865,34 @@ func RunJSONSerializationTestForDeliveryRuleSslProtocolCondition_STATUS(subject 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleSslProtocolCondition_STATUS instances for property testing - lazily instantiated by
 // DeliveryRuleSslProtocolCondition_STATUSGenerator()
-var deliveryRuleSslProtocolCondition_STATUSGenerator gopter.Gen
+var deliveryRuleSslProtocolCondition_STATUSGenerator *rapid.Generator[DeliveryRuleSslProtocolCondition_STATUS]
 
 // DeliveryRuleSslProtocolCondition_STATUSGenerator returns a generator of DeliveryRuleSslProtocolCondition_STATUS instances for property testing.
-// We first initialize deliveryRuleSslProtocolCondition_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleSslProtocolCondition_STATUSGenerator() gopter.Gen {
+func DeliveryRuleSslProtocolCondition_STATUSGenerator() *rapid.Generator[DeliveryRuleSslProtocolCondition_STATUS] {
 	if deliveryRuleSslProtocolCondition_STATUSGenerator != nil {
 		return deliveryRuleSslProtocolCondition_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleSslProtocolCondition_STATUS(generators)
-	deliveryRuleSslProtocolCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleSslProtocolCondition_STATUS{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(SslProtocolMatchConditionParameters_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleSslProtocolCondition_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleSslProtocolCondition_STATUS(generators)
-	deliveryRuleSslProtocolCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleSslProtocolCondition_STATUS{}), generators)
+	deliveryRuleSslProtocolCondition_STATUSGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleSslProtocolCondition_STATUS {
+		var result DeliveryRuleSslProtocolCondition_STATUS
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleSslProtocolCondition_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleSslProtocolCondition_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleSslProtocolCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleSslProtocolCondition_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleSslProtocolCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(SslProtocolMatchConditionParameters_STATUSGenerator())
-}
-
+// Test_DeliveryRuleUrlFileExtensionCondition_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleUrlFileExtensionCondition can be assigned to storage and back losslessly
 func Test_DeliveryRuleUrlFileExtensionCondition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -7167,44 +5900,34 @@ func Test_DeliveryRuleUrlFileExtensionCondition_WhenPropertiesConverted_RoundTri
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleUrlFileExtensionCondition to DeliveryRuleUrlFileExtensionCondition via AssignProperties_To_DeliveryRuleUrlFileExtensionCondition & AssignProperties_From_DeliveryRuleUrlFileExtensionCondition returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleUrlFileExtensionCondition, DeliveryRuleUrlFileExtensionConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleUrlFileExtensionConditionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleUrlFileExtensionCondition tests if a specific instance of DeliveryRuleUrlFileExtensionCondition can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleUrlFileExtensionCondition(subject DeliveryRuleUrlFileExtensionCondition) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleUrlFileExtensionCondition
+		err := copied.AssignProperties_To_DeliveryRuleUrlFileExtensionCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleUrlFileExtensionCondition
-	err := copied.AssignProperties_To_DeliveryRuleUrlFileExtensionCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleUrlFileExtensionCondition
+		err = actual.AssignProperties_From_DeliveryRuleUrlFileExtensionCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleUrlFileExtensionCondition
-	err = actual.AssignProperties_From_DeliveryRuleUrlFileExtensionCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleUrlFileExtensionCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -7214,29 +5937,23 @@ func Test_DeliveryRuleUrlFileExtensionCondition_WhenSerializedToJson_Deserialize
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleUrlFileExtensionCondition via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleUrlFileExtensionCondition, DeliveryRuleUrlFileExtensionConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleUrlFileExtensionCondition)
 }
 
 // RunJSONSerializationTestForDeliveryRuleUrlFileExtensionCondition runs a test to see if a specific instance of DeliveryRuleUrlFileExtensionCondition round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleUrlFileExtensionCondition(subject DeliveryRuleUrlFileExtensionCondition) string {
+func RunJSONSerializationTestForDeliveryRuleUrlFileExtensionCondition(t *rapid.T) {
+	subject := DeliveryRuleUrlFileExtensionConditionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleUrlFileExtensionCondition
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -7245,48 +5962,34 @@ func RunJSONSerializationTestForDeliveryRuleUrlFileExtensionCondition(subject De
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleUrlFileExtensionCondition instances for property testing - lazily instantiated by
 // DeliveryRuleUrlFileExtensionConditionGenerator()
-var deliveryRuleUrlFileExtensionConditionGenerator gopter.Gen
+var deliveryRuleUrlFileExtensionConditionGenerator *rapid.Generator[DeliveryRuleUrlFileExtensionCondition]
 
 // DeliveryRuleUrlFileExtensionConditionGenerator returns a generator of DeliveryRuleUrlFileExtensionCondition instances for property testing.
-// We first initialize deliveryRuleUrlFileExtensionConditionGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleUrlFileExtensionConditionGenerator() gopter.Gen {
+func DeliveryRuleUrlFileExtensionConditionGenerator() *rapid.Generator[DeliveryRuleUrlFileExtensionCondition] {
 	if deliveryRuleUrlFileExtensionConditionGenerator != nil {
 		return deliveryRuleUrlFileExtensionConditionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleUrlFileExtensionCondition(generators)
-	deliveryRuleUrlFileExtensionConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleUrlFileExtensionCondition{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(UrlFileExtensionMatchConditionParametersGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleUrlFileExtensionCondition(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleUrlFileExtensionCondition(generators)
-	deliveryRuleUrlFileExtensionConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleUrlFileExtensionCondition{}), generators)
+	deliveryRuleUrlFileExtensionConditionGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleUrlFileExtensionCondition {
+		var result DeliveryRuleUrlFileExtensionCondition
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleUrlFileExtensionConditionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleUrlFileExtensionCondition is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleUrlFileExtensionCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleUrlFileExtensionCondition is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleUrlFileExtensionCondition(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(UrlFileExtensionMatchConditionParametersGenerator())
-}
-
+// Test_DeliveryRuleUrlFileExtensionCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleUrlFileExtensionCondition_STATUS can be assigned to storage and back losslessly
 func Test_DeliveryRuleUrlFileExtensionCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -7294,44 +5997,34 @@ func Test_DeliveryRuleUrlFileExtensionCondition_STATUS_WhenPropertiesConverted_R
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleUrlFileExtensionCondition_STATUS to DeliveryRuleUrlFileExtensionCondition_STATUS via AssignProperties_To_DeliveryRuleUrlFileExtensionCondition_STATUS & AssignProperties_From_DeliveryRuleUrlFileExtensionCondition_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleUrlFileExtensionCondition_STATUS, DeliveryRuleUrlFileExtensionCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleUrlFileExtensionCondition_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleUrlFileExtensionCondition_STATUS tests if a specific instance of DeliveryRuleUrlFileExtensionCondition_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleUrlFileExtensionCondition_STATUS(subject DeliveryRuleUrlFileExtensionCondition_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleUrlFileExtensionCondition_STATUS
+		err := copied.AssignProperties_To_DeliveryRuleUrlFileExtensionCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleUrlFileExtensionCondition_STATUS
-	err := copied.AssignProperties_To_DeliveryRuleUrlFileExtensionCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleUrlFileExtensionCondition_STATUS
+		err = actual.AssignProperties_From_DeliveryRuleUrlFileExtensionCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleUrlFileExtensionCondition_STATUS
-	err = actual.AssignProperties_From_DeliveryRuleUrlFileExtensionCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleUrlFileExtensionCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -7341,29 +6034,23 @@ func Test_DeliveryRuleUrlFileExtensionCondition_STATUS_WhenSerializedToJson_Dese
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleUrlFileExtensionCondition_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleUrlFileExtensionCondition_STATUS, DeliveryRuleUrlFileExtensionCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleUrlFileExtensionCondition_STATUS)
 }
 
 // RunJSONSerializationTestForDeliveryRuleUrlFileExtensionCondition_STATUS runs a test to see if a specific instance of DeliveryRuleUrlFileExtensionCondition_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleUrlFileExtensionCondition_STATUS(subject DeliveryRuleUrlFileExtensionCondition_STATUS) string {
+func RunJSONSerializationTestForDeliveryRuleUrlFileExtensionCondition_STATUS(t *rapid.T) {
+	subject := DeliveryRuleUrlFileExtensionCondition_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleUrlFileExtensionCondition_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -7372,48 +6059,34 @@ func RunJSONSerializationTestForDeliveryRuleUrlFileExtensionCondition_STATUS(sub
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleUrlFileExtensionCondition_STATUS instances for property testing - lazily instantiated by
 // DeliveryRuleUrlFileExtensionCondition_STATUSGenerator()
-var deliveryRuleUrlFileExtensionCondition_STATUSGenerator gopter.Gen
+var deliveryRuleUrlFileExtensionCondition_STATUSGenerator *rapid.Generator[DeliveryRuleUrlFileExtensionCondition_STATUS]
 
 // DeliveryRuleUrlFileExtensionCondition_STATUSGenerator returns a generator of DeliveryRuleUrlFileExtensionCondition_STATUS instances for property testing.
-// We first initialize deliveryRuleUrlFileExtensionCondition_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleUrlFileExtensionCondition_STATUSGenerator() gopter.Gen {
+func DeliveryRuleUrlFileExtensionCondition_STATUSGenerator() *rapid.Generator[DeliveryRuleUrlFileExtensionCondition_STATUS] {
 	if deliveryRuleUrlFileExtensionCondition_STATUSGenerator != nil {
 		return deliveryRuleUrlFileExtensionCondition_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleUrlFileExtensionCondition_STATUS(generators)
-	deliveryRuleUrlFileExtensionCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleUrlFileExtensionCondition_STATUS{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(UrlFileExtensionMatchConditionParameters_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleUrlFileExtensionCondition_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleUrlFileExtensionCondition_STATUS(generators)
-	deliveryRuleUrlFileExtensionCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleUrlFileExtensionCondition_STATUS{}), generators)
+	deliveryRuleUrlFileExtensionCondition_STATUSGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleUrlFileExtensionCondition_STATUS {
+		var result DeliveryRuleUrlFileExtensionCondition_STATUS
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleUrlFileExtensionCondition_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleUrlFileExtensionCondition_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleUrlFileExtensionCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleUrlFileExtensionCondition_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleUrlFileExtensionCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(UrlFileExtensionMatchConditionParameters_STATUSGenerator())
-}
-
+// Test_DeliveryRuleUrlFileNameCondition_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleUrlFileNameCondition can be assigned to storage and back losslessly
 func Test_DeliveryRuleUrlFileNameCondition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -7421,44 +6094,34 @@ func Test_DeliveryRuleUrlFileNameCondition_WhenPropertiesConverted_RoundTripsWit
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleUrlFileNameCondition to DeliveryRuleUrlFileNameCondition via AssignProperties_To_DeliveryRuleUrlFileNameCondition & AssignProperties_From_DeliveryRuleUrlFileNameCondition returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleUrlFileNameCondition, DeliveryRuleUrlFileNameConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleUrlFileNameConditionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleUrlFileNameCondition tests if a specific instance of DeliveryRuleUrlFileNameCondition can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleUrlFileNameCondition(subject DeliveryRuleUrlFileNameCondition) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleUrlFileNameCondition
+		err := copied.AssignProperties_To_DeliveryRuleUrlFileNameCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleUrlFileNameCondition
-	err := copied.AssignProperties_To_DeliveryRuleUrlFileNameCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleUrlFileNameCondition
+		err = actual.AssignProperties_From_DeliveryRuleUrlFileNameCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleUrlFileNameCondition
-	err = actual.AssignProperties_From_DeliveryRuleUrlFileNameCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleUrlFileNameCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -7468,29 +6131,23 @@ func Test_DeliveryRuleUrlFileNameCondition_WhenSerializedToJson_DeserializesAsEq
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleUrlFileNameCondition via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleUrlFileNameCondition, DeliveryRuleUrlFileNameConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleUrlFileNameCondition)
 }
 
 // RunJSONSerializationTestForDeliveryRuleUrlFileNameCondition runs a test to see if a specific instance of DeliveryRuleUrlFileNameCondition round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleUrlFileNameCondition(subject DeliveryRuleUrlFileNameCondition) string {
+func RunJSONSerializationTestForDeliveryRuleUrlFileNameCondition(t *rapid.T) {
+	subject := DeliveryRuleUrlFileNameConditionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleUrlFileNameCondition
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -7499,48 +6156,34 @@ func RunJSONSerializationTestForDeliveryRuleUrlFileNameCondition(subject Deliver
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleUrlFileNameCondition instances for property testing - lazily instantiated by
 // DeliveryRuleUrlFileNameConditionGenerator()
-var deliveryRuleUrlFileNameConditionGenerator gopter.Gen
+var deliveryRuleUrlFileNameConditionGenerator *rapid.Generator[DeliveryRuleUrlFileNameCondition]
 
 // DeliveryRuleUrlFileNameConditionGenerator returns a generator of DeliveryRuleUrlFileNameCondition instances for property testing.
-// We first initialize deliveryRuleUrlFileNameConditionGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleUrlFileNameConditionGenerator() gopter.Gen {
+func DeliveryRuleUrlFileNameConditionGenerator() *rapid.Generator[DeliveryRuleUrlFileNameCondition] {
 	if deliveryRuleUrlFileNameConditionGenerator != nil {
 		return deliveryRuleUrlFileNameConditionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleUrlFileNameCondition(generators)
-	deliveryRuleUrlFileNameConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleUrlFileNameCondition{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(UrlFileNameMatchConditionParametersGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleUrlFileNameCondition(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleUrlFileNameCondition(generators)
-	deliveryRuleUrlFileNameConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleUrlFileNameCondition{}), generators)
+	deliveryRuleUrlFileNameConditionGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleUrlFileNameCondition {
+		var result DeliveryRuleUrlFileNameCondition
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleUrlFileNameConditionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleUrlFileNameCondition is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleUrlFileNameCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleUrlFileNameCondition is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleUrlFileNameCondition(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(UrlFileNameMatchConditionParametersGenerator())
-}
-
+// Test_DeliveryRuleUrlFileNameCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleUrlFileNameCondition_STATUS can be assigned to storage and back losslessly
 func Test_DeliveryRuleUrlFileNameCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -7548,44 +6191,34 @@ func Test_DeliveryRuleUrlFileNameCondition_STATUS_WhenPropertiesConverted_RoundT
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleUrlFileNameCondition_STATUS to DeliveryRuleUrlFileNameCondition_STATUS via AssignProperties_To_DeliveryRuleUrlFileNameCondition_STATUS & AssignProperties_From_DeliveryRuleUrlFileNameCondition_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleUrlFileNameCondition_STATUS, DeliveryRuleUrlFileNameCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleUrlFileNameCondition_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleUrlFileNameCondition_STATUS tests if a specific instance of DeliveryRuleUrlFileNameCondition_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleUrlFileNameCondition_STATUS(subject DeliveryRuleUrlFileNameCondition_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleUrlFileNameCondition_STATUS
+		err := copied.AssignProperties_To_DeliveryRuleUrlFileNameCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleUrlFileNameCondition_STATUS
-	err := copied.AssignProperties_To_DeliveryRuleUrlFileNameCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleUrlFileNameCondition_STATUS
+		err = actual.AssignProperties_From_DeliveryRuleUrlFileNameCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleUrlFileNameCondition_STATUS
-	err = actual.AssignProperties_From_DeliveryRuleUrlFileNameCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleUrlFileNameCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -7595,29 +6228,23 @@ func Test_DeliveryRuleUrlFileNameCondition_STATUS_WhenSerializedToJson_Deseriali
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleUrlFileNameCondition_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleUrlFileNameCondition_STATUS, DeliveryRuleUrlFileNameCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleUrlFileNameCondition_STATUS)
 }
 
 // RunJSONSerializationTestForDeliveryRuleUrlFileNameCondition_STATUS runs a test to see if a specific instance of DeliveryRuleUrlFileNameCondition_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleUrlFileNameCondition_STATUS(subject DeliveryRuleUrlFileNameCondition_STATUS) string {
+func RunJSONSerializationTestForDeliveryRuleUrlFileNameCondition_STATUS(t *rapid.T) {
+	subject := DeliveryRuleUrlFileNameCondition_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleUrlFileNameCondition_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -7626,48 +6253,34 @@ func RunJSONSerializationTestForDeliveryRuleUrlFileNameCondition_STATUS(subject 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleUrlFileNameCondition_STATUS instances for property testing - lazily instantiated by
 // DeliveryRuleUrlFileNameCondition_STATUSGenerator()
-var deliveryRuleUrlFileNameCondition_STATUSGenerator gopter.Gen
+var deliveryRuleUrlFileNameCondition_STATUSGenerator *rapid.Generator[DeliveryRuleUrlFileNameCondition_STATUS]
 
 // DeliveryRuleUrlFileNameCondition_STATUSGenerator returns a generator of DeliveryRuleUrlFileNameCondition_STATUS instances for property testing.
-// We first initialize deliveryRuleUrlFileNameCondition_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleUrlFileNameCondition_STATUSGenerator() gopter.Gen {
+func DeliveryRuleUrlFileNameCondition_STATUSGenerator() *rapid.Generator[DeliveryRuleUrlFileNameCondition_STATUS] {
 	if deliveryRuleUrlFileNameCondition_STATUSGenerator != nil {
 		return deliveryRuleUrlFileNameCondition_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleUrlFileNameCondition_STATUS(generators)
-	deliveryRuleUrlFileNameCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleUrlFileNameCondition_STATUS{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(UrlFileNameMatchConditionParameters_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleUrlFileNameCondition_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleUrlFileNameCondition_STATUS(generators)
-	deliveryRuleUrlFileNameCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleUrlFileNameCondition_STATUS{}), generators)
+	deliveryRuleUrlFileNameCondition_STATUSGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleUrlFileNameCondition_STATUS {
+		var result DeliveryRuleUrlFileNameCondition_STATUS
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleUrlFileNameCondition_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleUrlFileNameCondition_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleUrlFileNameCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleUrlFileNameCondition_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleUrlFileNameCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(UrlFileNameMatchConditionParameters_STATUSGenerator())
-}
-
+// Test_DeliveryRuleUrlPathCondition_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleUrlPathCondition can be assigned to storage and back losslessly
 func Test_DeliveryRuleUrlPathCondition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -7675,44 +6288,34 @@ func Test_DeliveryRuleUrlPathCondition_WhenPropertiesConverted_RoundTripsWithout
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleUrlPathCondition to DeliveryRuleUrlPathCondition via AssignProperties_To_DeliveryRuleUrlPathCondition & AssignProperties_From_DeliveryRuleUrlPathCondition returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleUrlPathCondition, DeliveryRuleUrlPathConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleUrlPathConditionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleUrlPathCondition tests if a specific instance of DeliveryRuleUrlPathCondition can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleUrlPathCondition(subject DeliveryRuleUrlPathCondition) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleUrlPathCondition
+		err := copied.AssignProperties_To_DeliveryRuleUrlPathCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleUrlPathCondition
-	err := copied.AssignProperties_To_DeliveryRuleUrlPathCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleUrlPathCondition
+		err = actual.AssignProperties_From_DeliveryRuleUrlPathCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleUrlPathCondition
-	err = actual.AssignProperties_From_DeliveryRuleUrlPathCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleUrlPathCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -7722,29 +6325,23 @@ func Test_DeliveryRuleUrlPathCondition_WhenSerializedToJson_DeserializesAsEqual(
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleUrlPathCondition via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleUrlPathCondition, DeliveryRuleUrlPathConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleUrlPathCondition)
 }
 
 // RunJSONSerializationTestForDeliveryRuleUrlPathCondition runs a test to see if a specific instance of DeliveryRuleUrlPathCondition round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleUrlPathCondition(subject DeliveryRuleUrlPathCondition) string {
+func RunJSONSerializationTestForDeliveryRuleUrlPathCondition(t *rapid.T) {
+	subject := DeliveryRuleUrlPathConditionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleUrlPathCondition
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -7753,48 +6350,34 @@ func RunJSONSerializationTestForDeliveryRuleUrlPathCondition(subject DeliveryRul
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleUrlPathCondition instances for property testing - lazily instantiated by
 // DeliveryRuleUrlPathConditionGenerator()
-var deliveryRuleUrlPathConditionGenerator gopter.Gen
+var deliveryRuleUrlPathConditionGenerator *rapid.Generator[DeliveryRuleUrlPathCondition]
 
 // DeliveryRuleUrlPathConditionGenerator returns a generator of DeliveryRuleUrlPathCondition instances for property testing.
-// We first initialize deliveryRuleUrlPathConditionGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleUrlPathConditionGenerator() gopter.Gen {
+func DeliveryRuleUrlPathConditionGenerator() *rapid.Generator[DeliveryRuleUrlPathCondition] {
 	if deliveryRuleUrlPathConditionGenerator != nil {
 		return deliveryRuleUrlPathConditionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleUrlPathCondition(generators)
-	deliveryRuleUrlPathConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleUrlPathCondition{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(UrlPathMatchConditionParametersGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleUrlPathCondition(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleUrlPathCondition(generators)
-	deliveryRuleUrlPathConditionGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleUrlPathCondition{}), generators)
+	deliveryRuleUrlPathConditionGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleUrlPathCondition {
+		var result DeliveryRuleUrlPathCondition
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleUrlPathConditionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleUrlPathCondition is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleUrlPathCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleUrlPathCondition is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleUrlPathCondition(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(UrlPathMatchConditionParametersGenerator())
-}
-
+// Test_DeliveryRuleUrlPathCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DeliveryRuleUrlPathCondition_STATUS can be assigned to storage and back losslessly
 func Test_DeliveryRuleUrlPathCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -7802,44 +6385,34 @@ func Test_DeliveryRuleUrlPathCondition_STATUS_WhenPropertiesConverted_RoundTrips
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeliveryRuleUrlPathCondition_STATUS to DeliveryRuleUrlPathCondition_STATUS via AssignProperties_To_DeliveryRuleUrlPathCondition_STATUS & AssignProperties_From_DeliveryRuleUrlPathCondition_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeliveryRuleUrlPathCondition_STATUS, DeliveryRuleUrlPathCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DeliveryRuleUrlPathCondition_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDeliveryRuleUrlPathCondition_STATUS tests if a specific instance of DeliveryRuleUrlPathCondition_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeliveryRuleUrlPathCondition_STATUS(subject DeliveryRuleUrlPathCondition_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DeliveryRuleUrlPathCondition_STATUS
+		err := copied.AssignProperties_To_DeliveryRuleUrlPathCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeliveryRuleUrlPathCondition_STATUS
-	err := copied.AssignProperties_To_DeliveryRuleUrlPathCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DeliveryRuleUrlPathCondition_STATUS
+		err = actual.AssignProperties_From_DeliveryRuleUrlPathCondition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeliveryRuleUrlPathCondition_STATUS
-	err = actual.AssignProperties_From_DeliveryRuleUrlPathCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DeliveryRuleUrlPathCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -7849,29 +6422,23 @@ func Test_DeliveryRuleUrlPathCondition_STATUS_WhenSerializedToJson_DeserializesA
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DeliveryRuleUrlPathCondition_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDeliveryRuleUrlPathCondition_STATUS, DeliveryRuleUrlPathCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDeliveryRuleUrlPathCondition_STATUS)
 }
 
 // RunJSONSerializationTestForDeliveryRuleUrlPathCondition_STATUS runs a test to see if a specific instance of DeliveryRuleUrlPathCondition_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDeliveryRuleUrlPathCondition_STATUS(subject DeliveryRuleUrlPathCondition_STATUS) string {
+func RunJSONSerializationTestForDeliveryRuleUrlPathCondition_STATUS(t *rapid.T) {
+	subject := DeliveryRuleUrlPathCondition_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DeliveryRuleUrlPathCondition_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -7880,48 +6447,34 @@ func RunJSONSerializationTestForDeliveryRuleUrlPathCondition_STATUS(subject Deli
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DeliveryRuleUrlPathCondition_STATUS instances for property testing - lazily instantiated by
 // DeliveryRuleUrlPathCondition_STATUSGenerator()
-var deliveryRuleUrlPathCondition_STATUSGenerator gopter.Gen
+var deliveryRuleUrlPathCondition_STATUSGenerator *rapid.Generator[DeliveryRuleUrlPathCondition_STATUS]
 
 // DeliveryRuleUrlPathCondition_STATUSGenerator returns a generator of DeliveryRuleUrlPathCondition_STATUS instances for property testing.
-// We first initialize deliveryRuleUrlPathCondition_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DeliveryRuleUrlPathCondition_STATUSGenerator() gopter.Gen {
+func DeliveryRuleUrlPathCondition_STATUSGenerator() *rapid.Generator[DeliveryRuleUrlPathCondition_STATUS] {
 	if deliveryRuleUrlPathCondition_STATUSGenerator != nil {
 		return deliveryRuleUrlPathCondition_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleUrlPathCondition_STATUS(generators)
-	deliveryRuleUrlPathCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleUrlPathCondition_STATUS{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(UrlPathMatchConditionParameters_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeliveryRuleUrlPathCondition_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDeliveryRuleUrlPathCondition_STATUS(generators)
-	deliveryRuleUrlPathCondition_STATUSGenerator = gen.Struct(reflect.TypeOf(DeliveryRuleUrlPathCondition_STATUS{}), generators)
+	deliveryRuleUrlPathCondition_STATUSGenerator = rapid.Custom(func(t *rapid.T) DeliveryRuleUrlPathCondition_STATUS {
+		var result DeliveryRuleUrlPathCondition_STATUS
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return deliveryRuleUrlPathCondition_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeliveryRuleUrlPathCondition_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeliveryRuleUrlPathCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDeliveryRuleUrlPathCondition_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDeliveryRuleUrlPathCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(UrlPathMatchConditionParameters_STATUSGenerator())
-}
-
+// Test_HeaderActionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of HeaderActionParameters can be assigned to storage and back losslessly
 func Test_HeaderActionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -7929,44 +6482,34 @@ func Test_HeaderActionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from HeaderActionParameters to HeaderActionParameters via AssignProperties_To_HeaderActionParameters & AssignProperties_From_HeaderActionParameters returns original",
-		prop.ForAll(RunPropertyAssignmentTestForHeaderActionParameters, HeaderActionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := HeaderActionParametersGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForHeaderActionParameters tests if a specific instance of HeaderActionParameters can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForHeaderActionParameters(subject HeaderActionParameters) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.HeaderActionParameters
+		err := copied.AssignProperties_To_HeaderActionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.HeaderActionParameters
-	err := copied.AssignProperties_To_HeaderActionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual HeaderActionParameters
+		err = actual.AssignProperties_From_HeaderActionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual HeaderActionParameters
-	err = actual.AssignProperties_From_HeaderActionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_HeaderActionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -7976,29 +6519,23 @@ func Test_HeaderActionParameters_WhenSerializedToJson_DeserializesAsEqual(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of HeaderActionParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForHeaderActionParameters, HeaderActionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForHeaderActionParameters)
 }
 
 // RunJSONSerializationTestForHeaderActionParameters runs a test to see if a specific instance of HeaderActionParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForHeaderActionParameters(subject HeaderActionParameters) string {
+func RunJSONSerializationTestForHeaderActionParameters(t *rapid.T) {
+	subject := HeaderActionParametersGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual HeaderActionParameters
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -8007,37 +6544,35 @@ func RunJSONSerializationTestForHeaderActionParameters(subject HeaderActionParam
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of HeaderActionParameters instances for property testing - lazily instantiated by
 // HeaderActionParametersGenerator()
-var headerActionParametersGenerator gopter.Gen
+var headerActionParametersGenerator *rapid.Generator[HeaderActionParameters]
 
 // HeaderActionParametersGenerator returns a generator of HeaderActionParameters instances for property testing.
-func HeaderActionParametersGenerator() gopter.Gen {
+func HeaderActionParametersGenerator() *rapid.Generator[HeaderActionParameters] {
 	if headerActionParametersGenerator != nil {
 		return headerActionParametersGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForHeaderActionParameters(generators)
-	headerActionParametersGenerator = gen.Struct(reflect.TypeOf(HeaderActionParameters{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	headerActionParametersGenerator = rapid.Custom(func(t *rapid.T) HeaderActionParameters {
+		var result HeaderActionParameters
+		result.HeaderAction = ptrString.Draw(t, "HeaderAction")
+		result.HeaderName = ptrString.Draw(t, "HeaderName")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		result.Value = ptrString.Draw(t, "Value")
+		return result
+	})
 
 	return headerActionParametersGenerator
 }
 
-// AddIndependentPropertyGeneratorsForHeaderActionParameters is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForHeaderActionParameters(gens map[string]gopter.Gen) {
-	gens["HeaderAction"] = gen.PtrOf(gen.AlphaString())
-	gens["HeaderName"] = gen.PtrOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-	gens["Value"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_HeaderActionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of HeaderActionParameters_STATUS can be assigned to storage and back losslessly
 func Test_HeaderActionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -8045,44 +6580,34 @@ func Test_HeaderActionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithou
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from HeaderActionParameters_STATUS to HeaderActionParameters_STATUS via AssignProperties_To_HeaderActionParameters_STATUS & AssignProperties_From_HeaderActionParameters_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForHeaderActionParameters_STATUS, HeaderActionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := HeaderActionParameters_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForHeaderActionParameters_STATUS tests if a specific instance of HeaderActionParameters_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForHeaderActionParameters_STATUS(subject HeaderActionParameters_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.HeaderActionParameters_STATUS
+		err := copied.AssignProperties_To_HeaderActionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.HeaderActionParameters_STATUS
-	err := copied.AssignProperties_To_HeaderActionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual HeaderActionParameters_STATUS
+		err = actual.AssignProperties_From_HeaderActionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual HeaderActionParameters_STATUS
-	err = actual.AssignProperties_From_HeaderActionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_HeaderActionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -8092,29 +6617,23 @@ func Test_HeaderActionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of HeaderActionParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForHeaderActionParameters_STATUS, HeaderActionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForHeaderActionParameters_STATUS)
 }
 
 // RunJSONSerializationTestForHeaderActionParameters_STATUS runs a test to see if a specific instance of HeaderActionParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForHeaderActionParameters_STATUS(subject HeaderActionParameters_STATUS) string {
+func RunJSONSerializationTestForHeaderActionParameters_STATUS(t *rapid.T) {
+	subject := HeaderActionParameters_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual HeaderActionParameters_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -8123,37 +6642,35 @@ func RunJSONSerializationTestForHeaderActionParameters_STATUS(subject HeaderActi
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of HeaderActionParameters_STATUS instances for property testing - lazily instantiated by
 // HeaderActionParameters_STATUSGenerator()
-var headerActionParameters_STATUSGenerator gopter.Gen
+var headerActionParameters_STATUSGenerator *rapid.Generator[HeaderActionParameters_STATUS]
 
 // HeaderActionParameters_STATUSGenerator returns a generator of HeaderActionParameters_STATUS instances for property testing.
-func HeaderActionParameters_STATUSGenerator() gopter.Gen {
+func HeaderActionParameters_STATUSGenerator() *rapid.Generator[HeaderActionParameters_STATUS] {
 	if headerActionParameters_STATUSGenerator != nil {
 		return headerActionParameters_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForHeaderActionParameters_STATUS(generators)
-	headerActionParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(HeaderActionParameters_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	headerActionParameters_STATUSGenerator = rapid.Custom(func(t *rapid.T) HeaderActionParameters_STATUS {
+		var result HeaderActionParameters_STATUS
+		result.HeaderAction = ptrString.Draw(t, "HeaderAction")
+		result.HeaderName = ptrString.Draw(t, "HeaderName")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		result.Value = ptrString.Draw(t, "Value")
+		return result
+	})
 
 	return headerActionParameters_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForHeaderActionParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForHeaderActionParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["HeaderAction"] = gen.PtrOf(gen.AlphaString())
-	gens["HeaderName"] = gen.PtrOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-	gens["Value"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_HostNameMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of HostNameMatchConditionParameters can be assigned to storage and back losslessly
 func Test_HostNameMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -8161,44 +6678,34 @@ func Test_HostNameMatchConditionParameters_WhenPropertiesConverted_RoundTripsWit
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from HostNameMatchConditionParameters to HostNameMatchConditionParameters via AssignProperties_To_HostNameMatchConditionParameters & AssignProperties_From_HostNameMatchConditionParameters returns original",
-		prop.ForAll(RunPropertyAssignmentTestForHostNameMatchConditionParameters, HostNameMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := HostNameMatchConditionParametersGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForHostNameMatchConditionParameters tests if a specific instance of HostNameMatchConditionParameters can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForHostNameMatchConditionParameters(subject HostNameMatchConditionParameters) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.HostNameMatchConditionParameters
+		err := copied.AssignProperties_To_HostNameMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.HostNameMatchConditionParameters
-	err := copied.AssignProperties_To_HostNameMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual HostNameMatchConditionParameters
+		err = actual.AssignProperties_From_HostNameMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual HostNameMatchConditionParameters
-	err = actual.AssignProperties_From_HostNameMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_HostNameMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -8208,29 +6715,23 @@ func Test_HostNameMatchConditionParameters_WhenSerializedToJson_DeserializesAsEq
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of HostNameMatchConditionParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForHostNameMatchConditionParameters, HostNameMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForHostNameMatchConditionParameters)
 }
 
 // RunJSONSerializationTestForHostNameMatchConditionParameters runs a test to see if a specific instance of HostNameMatchConditionParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForHostNameMatchConditionParameters(subject HostNameMatchConditionParameters) string {
+func RunJSONSerializationTestForHostNameMatchConditionParameters(t *rapid.T) {
+	subject := HostNameMatchConditionParametersGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual HostNameMatchConditionParameters
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -8239,38 +6740,38 @@ func RunJSONSerializationTestForHostNameMatchConditionParameters(subject HostNam
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of HostNameMatchConditionParameters instances for property testing - lazily instantiated by
 // HostNameMatchConditionParametersGenerator()
-var hostNameMatchConditionParametersGenerator gopter.Gen
+var hostNameMatchConditionParametersGenerator *rapid.Generator[HostNameMatchConditionParameters]
 
 // HostNameMatchConditionParametersGenerator returns a generator of HostNameMatchConditionParameters instances for property testing.
-func HostNameMatchConditionParametersGenerator() gopter.Gen {
+func HostNameMatchConditionParametersGenerator() *rapid.Generator[HostNameMatchConditionParameters] {
 	if hostNameMatchConditionParametersGenerator != nil {
 		return hostNameMatchConditionParametersGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForHostNameMatchConditionParameters(generators)
-	hostNameMatchConditionParametersGenerator = gen.Struct(reflect.TypeOf(HostNameMatchConditionParameters{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	hostNameMatchConditionParametersGenerator = rapid.Custom(func(t *rapid.T) HostNameMatchConditionParameters {
+		var result HostNameMatchConditionParameters
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return hostNameMatchConditionParametersGenerator
 }
 
-// AddIndependentPropertyGeneratorsForHostNameMatchConditionParameters is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForHostNameMatchConditionParameters(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_HostNameMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of HostNameMatchConditionParameters_STATUS can be assigned to storage and back losslessly
 func Test_HostNameMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -8278,44 +6779,34 @@ func Test_HostNameMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundT
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from HostNameMatchConditionParameters_STATUS to HostNameMatchConditionParameters_STATUS via AssignProperties_To_HostNameMatchConditionParameters_STATUS & AssignProperties_From_HostNameMatchConditionParameters_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForHostNameMatchConditionParameters_STATUS, HostNameMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := HostNameMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForHostNameMatchConditionParameters_STATUS tests if a specific instance of HostNameMatchConditionParameters_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForHostNameMatchConditionParameters_STATUS(subject HostNameMatchConditionParameters_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.HostNameMatchConditionParameters_STATUS
+		err := copied.AssignProperties_To_HostNameMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.HostNameMatchConditionParameters_STATUS
-	err := copied.AssignProperties_To_HostNameMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual HostNameMatchConditionParameters_STATUS
+		err = actual.AssignProperties_From_HostNameMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual HostNameMatchConditionParameters_STATUS
-	err = actual.AssignProperties_From_HostNameMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_HostNameMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -8325,29 +6816,23 @@ func Test_HostNameMatchConditionParameters_STATUS_WhenSerializedToJson_Deseriali
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of HostNameMatchConditionParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForHostNameMatchConditionParameters_STATUS, HostNameMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForHostNameMatchConditionParameters_STATUS)
 }
 
 // RunJSONSerializationTestForHostNameMatchConditionParameters_STATUS runs a test to see if a specific instance of HostNameMatchConditionParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForHostNameMatchConditionParameters_STATUS(subject HostNameMatchConditionParameters_STATUS) string {
+func RunJSONSerializationTestForHostNameMatchConditionParameters_STATUS(t *rapid.T) {
+	subject := HostNameMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual HostNameMatchConditionParameters_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -8356,38 +6841,38 @@ func RunJSONSerializationTestForHostNameMatchConditionParameters_STATUS(subject 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of HostNameMatchConditionParameters_STATUS instances for property testing - lazily instantiated by
 // HostNameMatchConditionParameters_STATUSGenerator()
-var hostNameMatchConditionParameters_STATUSGenerator gopter.Gen
+var hostNameMatchConditionParameters_STATUSGenerator *rapid.Generator[HostNameMatchConditionParameters_STATUS]
 
 // HostNameMatchConditionParameters_STATUSGenerator returns a generator of HostNameMatchConditionParameters_STATUS instances for property testing.
-func HostNameMatchConditionParameters_STATUSGenerator() gopter.Gen {
+func HostNameMatchConditionParameters_STATUSGenerator() *rapid.Generator[HostNameMatchConditionParameters_STATUS] {
 	if hostNameMatchConditionParameters_STATUSGenerator != nil {
 		return hostNameMatchConditionParameters_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForHostNameMatchConditionParameters_STATUS(generators)
-	hostNameMatchConditionParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(HostNameMatchConditionParameters_STATUS{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	hostNameMatchConditionParameters_STATUSGenerator = rapid.Custom(func(t *rapid.T) HostNameMatchConditionParameters_STATUS {
+		var result HostNameMatchConditionParameters_STATUS
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return hostNameMatchConditionParameters_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForHostNameMatchConditionParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForHostNameMatchConditionParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_HttpVersionMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of HttpVersionMatchConditionParameters can be assigned to storage and back losslessly
 func Test_HttpVersionMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -8395,44 +6880,34 @@ func Test_HttpVersionMatchConditionParameters_WhenPropertiesConverted_RoundTrips
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from HttpVersionMatchConditionParameters to HttpVersionMatchConditionParameters via AssignProperties_To_HttpVersionMatchConditionParameters & AssignProperties_From_HttpVersionMatchConditionParameters returns original",
-		prop.ForAll(RunPropertyAssignmentTestForHttpVersionMatchConditionParameters, HttpVersionMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := HttpVersionMatchConditionParametersGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForHttpVersionMatchConditionParameters tests if a specific instance of HttpVersionMatchConditionParameters can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForHttpVersionMatchConditionParameters(subject HttpVersionMatchConditionParameters) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.HttpVersionMatchConditionParameters
+		err := copied.AssignProperties_To_HttpVersionMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.HttpVersionMatchConditionParameters
-	err := copied.AssignProperties_To_HttpVersionMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual HttpVersionMatchConditionParameters
+		err = actual.AssignProperties_From_HttpVersionMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual HttpVersionMatchConditionParameters
-	err = actual.AssignProperties_From_HttpVersionMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_HttpVersionMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -8442,29 +6917,23 @@ func Test_HttpVersionMatchConditionParameters_WhenSerializedToJson_DeserializesA
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of HttpVersionMatchConditionParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForHttpVersionMatchConditionParameters, HttpVersionMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForHttpVersionMatchConditionParameters)
 }
 
 // RunJSONSerializationTestForHttpVersionMatchConditionParameters runs a test to see if a specific instance of HttpVersionMatchConditionParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForHttpVersionMatchConditionParameters(subject HttpVersionMatchConditionParameters) string {
+func RunJSONSerializationTestForHttpVersionMatchConditionParameters(t *rapid.T) {
+	subject := HttpVersionMatchConditionParametersGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual HttpVersionMatchConditionParameters
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -8473,38 +6942,38 @@ func RunJSONSerializationTestForHttpVersionMatchConditionParameters(subject Http
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of HttpVersionMatchConditionParameters instances for property testing - lazily instantiated by
 // HttpVersionMatchConditionParametersGenerator()
-var httpVersionMatchConditionParametersGenerator gopter.Gen
+var httpVersionMatchConditionParametersGenerator *rapid.Generator[HttpVersionMatchConditionParameters]
 
 // HttpVersionMatchConditionParametersGenerator returns a generator of HttpVersionMatchConditionParameters instances for property testing.
-func HttpVersionMatchConditionParametersGenerator() gopter.Gen {
+func HttpVersionMatchConditionParametersGenerator() *rapid.Generator[HttpVersionMatchConditionParameters] {
 	if httpVersionMatchConditionParametersGenerator != nil {
 		return httpVersionMatchConditionParametersGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForHttpVersionMatchConditionParameters(generators)
-	httpVersionMatchConditionParametersGenerator = gen.Struct(reflect.TypeOf(HttpVersionMatchConditionParameters{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	httpVersionMatchConditionParametersGenerator = rapid.Custom(func(t *rapid.T) HttpVersionMatchConditionParameters {
+		var result HttpVersionMatchConditionParameters
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return httpVersionMatchConditionParametersGenerator
 }
 
-// AddIndependentPropertyGeneratorsForHttpVersionMatchConditionParameters is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForHttpVersionMatchConditionParameters(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_HttpVersionMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of HttpVersionMatchConditionParameters_STATUS can be assigned to storage and back losslessly
 func Test_HttpVersionMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -8512,44 +6981,34 @@ func Test_HttpVersionMatchConditionParameters_STATUS_WhenPropertiesConverted_Rou
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from HttpVersionMatchConditionParameters_STATUS to HttpVersionMatchConditionParameters_STATUS via AssignProperties_To_HttpVersionMatchConditionParameters_STATUS & AssignProperties_From_HttpVersionMatchConditionParameters_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForHttpVersionMatchConditionParameters_STATUS, HttpVersionMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := HttpVersionMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForHttpVersionMatchConditionParameters_STATUS tests if a specific instance of HttpVersionMatchConditionParameters_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForHttpVersionMatchConditionParameters_STATUS(subject HttpVersionMatchConditionParameters_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.HttpVersionMatchConditionParameters_STATUS
+		err := copied.AssignProperties_To_HttpVersionMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.HttpVersionMatchConditionParameters_STATUS
-	err := copied.AssignProperties_To_HttpVersionMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual HttpVersionMatchConditionParameters_STATUS
+		err = actual.AssignProperties_From_HttpVersionMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual HttpVersionMatchConditionParameters_STATUS
-	err = actual.AssignProperties_From_HttpVersionMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_HttpVersionMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -8559,29 +7018,23 @@ func Test_HttpVersionMatchConditionParameters_STATUS_WhenSerializedToJson_Deseri
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of HttpVersionMatchConditionParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForHttpVersionMatchConditionParameters_STATUS, HttpVersionMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForHttpVersionMatchConditionParameters_STATUS)
 }
 
 // RunJSONSerializationTestForHttpVersionMatchConditionParameters_STATUS runs a test to see if a specific instance of HttpVersionMatchConditionParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForHttpVersionMatchConditionParameters_STATUS(subject HttpVersionMatchConditionParameters_STATUS) string {
+func RunJSONSerializationTestForHttpVersionMatchConditionParameters_STATUS(t *rapid.T) {
+	subject := HttpVersionMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual HttpVersionMatchConditionParameters_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -8590,38 +7043,38 @@ func RunJSONSerializationTestForHttpVersionMatchConditionParameters_STATUS(subje
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of HttpVersionMatchConditionParameters_STATUS instances for property testing - lazily instantiated by
 // HttpVersionMatchConditionParameters_STATUSGenerator()
-var httpVersionMatchConditionParameters_STATUSGenerator gopter.Gen
+var httpVersionMatchConditionParameters_STATUSGenerator *rapid.Generator[HttpVersionMatchConditionParameters_STATUS]
 
 // HttpVersionMatchConditionParameters_STATUSGenerator returns a generator of HttpVersionMatchConditionParameters_STATUS instances for property testing.
-func HttpVersionMatchConditionParameters_STATUSGenerator() gopter.Gen {
+func HttpVersionMatchConditionParameters_STATUSGenerator() *rapid.Generator[HttpVersionMatchConditionParameters_STATUS] {
 	if httpVersionMatchConditionParameters_STATUSGenerator != nil {
 		return httpVersionMatchConditionParameters_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForHttpVersionMatchConditionParameters_STATUS(generators)
-	httpVersionMatchConditionParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(HttpVersionMatchConditionParameters_STATUS{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	httpVersionMatchConditionParameters_STATUSGenerator = rapid.Custom(func(t *rapid.T) HttpVersionMatchConditionParameters_STATUS {
+		var result HttpVersionMatchConditionParameters_STATUS
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return httpVersionMatchConditionParameters_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForHttpVersionMatchConditionParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForHttpVersionMatchConditionParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_IsDeviceMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of IsDeviceMatchConditionParameters can be assigned to storage and back losslessly
 func Test_IsDeviceMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -8629,44 +7082,34 @@ func Test_IsDeviceMatchConditionParameters_WhenPropertiesConverted_RoundTripsWit
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from IsDeviceMatchConditionParameters to IsDeviceMatchConditionParameters via AssignProperties_To_IsDeviceMatchConditionParameters & AssignProperties_From_IsDeviceMatchConditionParameters returns original",
-		prop.ForAll(RunPropertyAssignmentTestForIsDeviceMatchConditionParameters, IsDeviceMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := IsDeviceMatchConditionParametersGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForIsDeviceMatchConditionParameters tests if a specific instance of IsDeviceMatchConditionParameters can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForIsDeviceMatchConditionParameters(subject IsDeviceMatchConditionParameters) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.IsDeviceMatchConditionParameters
+		err := copied.AssignProperties_To_IsDeviceMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.IsDeviceMatchConditionParameters
-	err := copied.AssignProperties_To_IsDeviceMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual IsDeviceMatchConditionParameters
+		err = actual.AssignProperties_From_IsDeviceMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual IsDeviceMatchConditionParameters
-	err = actual.AssignProperties_From_IsDeviceMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_IsDeviceMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -8676,29 +7119,23 @@ func Test_IsDeviceMatchConditionParameters_WhenSerializedToJson_DeserializesAsEq
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of IsDeviceMatchConditionParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForIsDeviceMatchConditionParameters, IsDeviceMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForIsDeviceMatchConditionParameters)
 }
 
 // RunJSONSerializationTestForIsDeviceMatchConditionParameters runs a test to see if a specific instance of IsDeviceMatchConditionParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForIsDeviceMatchConditionParameters(subject IsDeviceMatchConditionParameters) string {
+func RunJSONSerializationTestForIsDeviceMatchConditionParameters(t *rapid.T) {
+	subject := IsDeviceMatchConditionParametersGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual IsDeviceMatchConditionParameters
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -8707,38 +7144,38 @@ func RunJSONSerializationTestForIsDeviceMatchConditionParameters(subject IsDevic
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of IsDeviceMatchConditionParameters instances for property testing - lazily instantiated by
 // IsDeviceMatchConditionParametersGenerator()
-var isDeviceMatchConditionParametersGenerator gopter.Gen
+var isDeviceMatchConditionParametersGenerator *rapid.Generator[IsDeviceMatchConditionParameters]
 
 // IsDeviceMatchConditionParametersGenerator returns a generator of IsDeviceMatchConditionParameters instances for property testing.
-func IsDeviceMatchConditionParametersGenerator() gopter.Gen {
+func IsDeviceMatchConditionParametersGenerator() *rapid.Generator[IsDeviceMatchConditionParameters] {
 	if isDeviceMatchConditionParametersGenerator != nil {
 		return isDeviceMatchConditionParametersGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIsDeviceMatchConditionParameters(generators)
-	isDeviceMatchConditionParametersGenerator = gen.Struct(reflect.TypeOf(IsDeviceMatchConditionParameters{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	isDeviceMatchConditionParametersGenerator = rapid.Custom(func(t *rapid.T) IsDeviceMatchConditionParameters {
+		var result IsDeviceMatchConditionParameters
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return isDeviceMatchConditionParametersGenerator
 }
 
-// AddIndependentPropertyGeneratorsForIsDeviceMatchConditionParameters is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForIsDeviceMatchConditionParameters(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_IsDeviceMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of IsDeviceMatchConditionParameters_STATUS can be assigned to storage and back losslessly
 func Test_IsDeviceMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -8746,44 +7183,34 @@ func Test_IsDeviceMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundT
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from IsDeviceMatchConditionParameters_STATUS to IsDeviceMatchConditionParameters_STATUS via AssignProperties_To_IsDeviceMatchConditionParameters_STATUS & AssignProperties_From_IsDeviceMatchConditionParameters_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForIsDeviceMatchConditionParameters_STATUS, IsDeviceMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := IsDeviceMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForIsDeviceMatchConditionParameters_STATUS tests if a specific instance of IsDeviceMatchConditionParameters_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForIsDeviceMatchConditionParameters_STATUS(subject IsDeviceMatchConditionParameters_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.IsDeviceMatchConditionParameters_STATUS
+		err := copied.AssignProperties_To_IsDeviceMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.IsDeviceMatchConditionParameters_STATUS
-	err := copied.AssignProperties_To_IsDeviceMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual IsDeviceMatchConditionParameters_STATUS
+		err = actual.AssignProperties_From_IsDeviceMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual IsDeviceMatchConditionParameters_STATUS
-	err = actual.AssignProperties_From_IsDeviceMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_IsDeviceMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -8793,29 +7220,23 @@ func Test_IsDeviceMatchConditionParameters_STATUS_WhenSerializedToJson_Deseriali
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of IsDeviceMatchConditionParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForIsDeviceMatchConditionParameters_STATUS, IsDeviceMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForIsDeviceMatchConditionParameters_STATUS)
 }
 
 // RunJSONSerializationTestForIsDeviceMatchConditionParameters_STATUS runs a test to see if a specific instance of IsDeviceMatchConditionParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForIsDeviceMatchConditionParameters_STATUS(subject IsDeviceMatchConditionParameters_STATUS) string {
+func RunJSONSerializationTestForIsDeviceMatchConditionParameters_STATUS(t *rapid.T) {
+	subject := IsDeviceMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual IsDeviceMatchConditionParameters_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -8824,38 +7245,38 @@ func RunJSONSerializationTestForIsDeviceMatchConditionParameters_STATUS(subject 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of IsDeviceMatchConditionParameters_STATUS instances for property testing - lazily instantiated by
 // IsDeviceMatchConditionParameters_STATUSGenerator()
-var isDeviceMatchConditionParameters_STATUSGenerator gopter.Gen
+var isDeviceMatchConditionParameters_STATUSGenerator *rapid.Generator[IsDeviceMatchConditionParameters_STATUS]
 
 // IsDeviceMatchConditionParameters_STATUSGenerator returns a generator of IsDeviceMatchConditionParameters_STATUS instances for property testing.
-func IsDeviceMatchConditionParameters_STATUSGenerator() gopter.Gen {
+func IsDeviceMatchConditionParameters_STATUSGenerator() *rapid.Generator[IsDeviceMatchConditionParameters_STATUS] {
 	if isDeviceMatchConditionParameters_STATUSGenerator != nil {
 		return isDeviceMatchConditionParameters_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIsDeviceMatchConditionParameters_STATUS(generators)
-	isDeviceMatchConditionParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(IsDeviceMatchConditionParameters_STATUS{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	isDeviceMatchConditionParameters_STATUSGenerator = rapid.Custom(func(t *rapid.T) IsDeviceMatchConditionParameters_STATUS {
+		var result IsDeviceMatchConditionParameters_STATUS
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return isDeviceMatchConditionParameters_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForIsDeviceMatchConditionParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForIsDeviceMatchConditionParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_OriginGroupOverride_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of OriginGroupOverride can be assigned to storage and back losslessly
 func Test_OriginGroupOverride_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -8863,44 +7284,34 @@ func Test_OriginGroupOverride_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from OriginGroupOverride to OriginGroupOverride via AssignProperties_To_OriginGroupOverride & AssignProperties_From_OriginGroupOverride returns original",
-		prop.ForAll(RunPropertyAssignmentTestForOriginGroupOverride, OriginGroupOverrideGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := OriginGroupOverrideGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForOriginGroupOverride tests if a specific instance of OriginGroupOverride can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForOriginGroupOverride(subject OriginGroupOverride) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.OriginGroupOverride
+		err := copied.AssignProperties_To_OriginGroupOverride(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.OriginGroupOverride
-	err := copied.AssignProperties_To_OriginGroupOverride(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual OriginGroupOverride
+		err = actual.AssignProperties_From_OriginGroupOverride(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual OriginGroupOverride
-	err = actual.AssignProperties_From_OriginGroupOverride(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_OriginGroupOverride_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -8910,29 +7321,23 @@ func Test_OriginGroupOverride_WhenSerializedToJson_DeserializesAsEqual(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of OriginGroupOverride via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForOriginGroupOverride, OriginGroupOverrideGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForOriginGroupOverride)
 }
 
 // RunJSONSerializationTestForOriginGroupOverride runs a test to see if a specific instance of OriginGroupOverride round trips to JSON and back losslessly
-func RunJSONSerializationTestForOriginGroupOverride(subject OriginGroupOverride) string {
+func RunJSONSerializationTestForOriginGroupOverride(t *rapid.T) {
+	subject := OriginGroupOverrideGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual OriginGroupOverride
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -8941,48 +7346,34 @@ func RunJSONSerializationTestForOriginGroupOverride(subject OriginGroupOverride)
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of OriginGroupOverride instances for property testing - lazily instantiated by
 // OriginGroupOverrideGenerator()
-var originGroupOverrideGenerator gopter.Gen
+var originGroupOverrideGenerator *rapid.Generator[OriginGroupOverride]
 
 // OriginGroupOverrideGenerator returns a generator of OriginGroupOverride instances for property testing.
-// We first initialize originGroupOverrideGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func OriginGroupOverrideGenerator() gopter.Gen {
+func OriginGroupOverrideGenerator() *rapid.Generator[OriginGroupOverride] {
 	if originGroupOverrideGenerator != nil {
 		return originGroupOverrideGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOriginGroupOverride(generators)
-	originGroupOverrideGenerator = gen.Struct(reflect.TypeOf(OriginGroupOverride{}), generators)
+	forwardingProtocol := rapid.Ptr(rapid.String(), true)
+	originGroup := rapid.Ptr(ResourceReferenceGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOriginGroupOverride(generators)
-	AddRelatedPropertyGeneratorsForOriginGroupOverride(generators)
-	originGroupOverrideGenerator = gen.Struct(reflect.TypeOf(OriginGroupOverride{}), generators)
+	originGroupOverrideGenerator = rapid.Custom(func(t *rapid.T) OriginGroupOverride {
+		var result OriginGroupOverride
+		result.ForwardingProtocol = forwardingProtocol.Draw(t, "ForwardingProtocol")
+		result.OriginGroup = originGroup.Draw(t, "OriginGroup")
+		return result
+	})
 
 	return originGroupOverrideGenerator
 }
 
-// AddIndependentPropertyGeneratorsForOriginGroupOverride is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForOriginGroupOverride(gens map[string]gopter.Gen) {
-	gens["ForwardingProtocol"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForOriginGroupOverride is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForOriginGroupOverride(gens map[string]gopter.Gen) {
-	gens["OriginGroup"] = gen.PtrOf(ResourceReferenceGenerator())
-}
-
+// Test_OriginGroupOverrideAction_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of OriginGroupOverrideAction can be assigned to storage and back losslessly
 func Test_OriginGroupOverrideAction_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -8990,44 +7381,34 @@ func Test_OriginGroupOverrideAction_WhenPropertiesConverted_RoundTripsWithoutLos
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from OriginGroupOverrideAction to OriginGroupOverrideAction via AssignProperties_To_OriginGroupOverrideAction & AssignProperties_From_OriginGroupOverrideAction returns original",
-		prop.ForAll(RunPropertyAssignmentTestForOriginGroupOverrideAction, OriginGroupOverrideActionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := OriginGroupOverrideActionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForOriginGroupOverrideAction tests if a specific instance of OriginGroupOverrideAction can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForOriginGroupOverrideAction(subject OriginGroupOverrideAction) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.OriginGroupOverrideAction
+		err := copied.AssignProperties_To_OriginGroupOverrideAction(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.OriginGroupOverrideAction
-	err := copied.AssignProperties_To_OriginGroupOverrideAction(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual OriginGroupOverrideAction
+		err = actual.AssignProperties_From_OriginGroupOverrideAction(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual OriginGroupOverrideAction
-	err = actual.AssignProperties_From_OriginGroupOverrideAction(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_OriginGroupOverrideAction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -9037,29 +7418,23 @@ func Test_OriginGroupOverrideAction_WhenSerializedToJson_DeserializesAsEqual(t *
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of OriginGroupOverrideAction via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForOriginGroupOverrideAction, OriginGroupOverrideActionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForOriginGroupOverrideAction)
 }
 
 // RunJSONSerializationTestForOriginGroupOverrideAction runs a test to see if a specific instance of OriginGroupOverrideAction round trips to JSON and back losslessly
-func RunJSONSerializationTestForOriginGroupOverrideAction(subject OriginGroupOverrideAction) string {
+func RunJSONSerializationTestForOriginGroupOverrideAction(t *rapid.T) {
+	subject := OriginGroupOverrideActionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual OriginGroupOverrideAction
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -9068,48 +7443,34 @@ func RunJSONSerializationTestForOriginGroupOverrideAction(subject OriginGroupOve
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of OriginGroupOverrideAction instances for property testing - lazily instantiated by
 // OriginGroupOverrideActionGenerator()
-var originGroupOverrideActionGenerator gopter.Gen
+var originGroupOverrideActionGenerator *rapid.Generator[OriginGroupOverrideAction]
 
 // OriginGroupOverrideActionGenerator returns a generator of OriginGroupOverrideAction instances for property testing.
-// We first initialize originGroupOverrideActionGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func OriginGroupOverrideActionGenerator() gopter.Gen {
+func OriginGroupOverrideActionGenerator() *rapid.Generator[OriginGroupOverrideAction] {
 	if originGroupOverrideActionGenerator != nil {
 		return originGroupOverrideActionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOriginGroupOverrideAction(generators)
-	originGroupOverrideActionGenerator = gen.Struct(reflect.TypeOf(OriginGroupOverrideAction{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(OriginGroupOverrideActionParametersGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOriginGroupOverrideAction(generators)
-	AddRelatedPropertyGeneratorsForOriginGroupOverrideAction(generators)
-	originGroupOverrideActionGenerator = gen.Struct(reflect.TypeOf(OriginGroupOverrideAction{}), generators)
+	originGroupOverrideActionGenerator = rapid.Custom(func(t *rapid.T) OriginGroupOverrideAction {
+		var result OriginGroupOverrideAction
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return originGroupOverrideActionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForOriginGroupOverrideAction is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForOriginGroupOverrideAction(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForOriginGroupOverrideAction is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForOriginGroupOverrideAction(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(OriginGroupOverrideActionParametersGenerator())
-}
-
+// Test_OriginGroupOverrideActionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of OriginGroupOverrideActionParameters can be assigned to storage and back losslessly
 func Test_OriginGroupOverrideActionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -9117,44 +7478,34 @@ func Test_OriginGroupOverrideActionParameters_WhenPropertiesConverted_RoundTrips
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from OriginGroupOverrideActionParameters to OriginGroupOverrideActionParameters via AssignProperties_To_OriginGroupOverrideActionParameters & AssignProperties_From_OriginGroupOverrideActionParameters returns original",
-		prop.ForAll(RunPropertyAssignmentTestForOriginGroupOverrideActionParameters, OriginGroupOverrideActionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := OriginGroupOverrideActionParametersGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForOriginGroupOverrideActionParameters tests if a specific instance of OriginGroupOverrideActionParameters can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForOriginGroupOverrideActionParameters(subject OriginGroupOverrideActionParameters) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.OriginGroupOverrideActionParameters
+		err := copied.AssignProperties_To_OriginGroupOverrideActionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.OriginGroupOverrideActionParameters
-	err := copied.AssignProperties_To_OriginGroupOverrideActionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual OriginGroupOverrideActionParameters
+		err = actual.AssignProperties_From_OriginGroupOverrideActionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual OriginGroupOverrideActionParameters
-	err = actual.AssignProperties_From_OriginGroupOverrideActionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_OriginGroupOverrideActionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -9164,29 +7515,23 @@ func Test_OriginGroupOverrideActionParameters_WhenSerializedToJson_DeserializesA
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of OriginGroupOverrideActionParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForOriginGroupOverrideActionParameters, OriginGroupOverrideActionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForOriginGroupOverrideActionParameters)
 }
 
 // RunJSONSerializationTestForOriginGroupOverrideActionParameters runs a test to see if a specific instance of OriginGroupOverrideActionParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForOriginGroupOverrideActionParameters(subject OriginGroupOverrideActionParameters) string {
+func RunJSONSerializationTestForOriginGroupOverrideActionParameters(t *rapid.T) {
+	subject := OriginGroupOverrideActionParametersGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual OriginGroupOverrideActionParameters
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -9195,48 +7540,34 @@ func RunJSONSerializationTestForOriginGroupOverrideActionParameters(subject Orig
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of OriginGroupOverrideActionParameters instances for property testing - lazily instantiated by
 // OriginGroupOverrideActionParametersGenerator()
-var originGroupOverrideActionParametersGenerator gopter.Gen
+var originGroupOverrideActionParametersGenerator *rapid.Generator[OriginGroupOverrideActionParameters]
 
 // OriginGroupOverrideActionParametersGenerator returns a generator of OriginGroupOverrideActionParameters instances for property testing.
-// We first initialize originGroupOverrideActionParametersGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func OriginGroupOverrideActionParametersGenerator() gopter.Gen {
+func OriginGroupOverrideActionParametersGenerator() *rapid.Generator[OriginGroupOverrideActionParameters] {
 	if originGroupOverrideActionParametersGenerator != nil {
 		return originGroupOverrideActionParametersGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOriginGroupOverrideActionParameters(generators)
-	originGroupOverrideActionParametersGenerator = gen.Struct(reflect.TypeOf(OriginGroupOverrideActionParameters{}), generators)
+	originGroup := rapid.Ptr(ResourceReferenceGenerator(), true)
+	typeName := rapid.Ptr(rapid.String(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOriginGroupOverrideActionParameters(generators)
-	AddRelatedPropertyGeneratorsForOriginGroupOverrideActionParameters(generators)
-	originGroupOverrideActionParametersGenerator = gen.Struct(reflect.TypeOf(OriginGroupOverrideActionParameters{}), generators)
+	originGroupOverrideActionParametersGenerator = rapid.Custom(func(t *rapid.T) OriginGroupOverrideActionParameters {
+		var result OriginGroupOverrideActionParameters
+		result.OriginGroup = originGroup.Draw(t, "OriginGroup")
+		result.TypeName = typeName.Draw(t, "TypeName")
+		return result
+	})
 
 	return originGroupOverrideActionParametersGenerator
 }
 
-// AddIndependentPropertyGeneratorsForOriginGroupOverrideActionParameters is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForOriginGroupOverrideActionParameters(gens map[string]gopter.Gen) {
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForOriginGroupOverrideActionParameters is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForOriginGroupOverrideActionParameters(gens map[string]gopter.Gen) {
-	gens["OriginGroup"] = gen.PtrOf(ResourceReferenceGenerator())
-}
-
+// Test_OriginGroupOverrideActionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of OriginGroupOverrideActionParameters_STATUS can be assigned to storage and back losslessly
 func Test_OriginGroupOverrideActionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -9244,44 +7575,34 @@ func Test_OriginGroupOverrideActionParameters_STATUS_WhenPropertiesConverted_Rou
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from OriginGroupOverrideActionParameters_STATUS to OriginGroupOverrideActionParameters_STATUS via AssignProperties_To_OriginGroupOverrideActionParameters_STATUS & AssignProperties_From_OriginGroupOverrideActionParameters_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForOriginGroupOverrideActionParameters_STATUS, OriginGroupOverrideActionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := OriginGroupOverrideActionParameters_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForOriginGroupOverrideActionParameters_STATUS tests if a specific instance of OriginGroupOverrideActionParameters_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForOriginGroupOverrideActionParameters_STATUS(subject OriginGroupOverrideActionParameters_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.OriginGroupOverrideActionParameters_STATUS
+		err := copied.AssignProperties_To_OriginGroupOverrideActionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.OriginGroupOverrideActionParameters_STATUS
-	err := copied.AssignProperties_To_OriginGroupOverrideActionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual OriginGroupOverrideActionParameters_STATUS
+		err = actual.AssignProperties_From_OriginGroupOverrideActionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual OriginGroupOverrideActionParameters_STATUS
-	err = actual.AssignProperties_From_OriginGroupOverrideActionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_OriginGroupOverrideActionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -9291,29 +7612,23 @@ func Test_OriginGroupOverrideActionParameters_STATUS_WhenSerializedToJson_Deseri
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of OriginGroupOverrideActionParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForOriginGroupOverrideActionParameters_STATUS, OriginGroupOverrideActionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForOriginGroupOverrideActionParameters_STATUS)
 }
 
 // RunJSONSerializationTestForOriginGroupOverrideActionParameters_STATUS runs a test to see if a specific instance of OriginGroupOverrideActionParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForOriginGroupOverrideActionParameters_STATUS(subject OriginGroupOverrideActionParameters_STATUS) string {
+func RunJSONSerializationTestForOriginGroupOverrideActionParameters_STATUS(t *rapid.T) {
+	subject := OriginGroupOverrideActionParameters_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual OriginGroupOverrideActionParameters_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -9322,48 +7637,34 @@ func RunJSONSerializationTestForOriginGroupOverrideActionParameters_STATUS(subje
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of OriginGroupOverrideActionParameters_STATUS instances for property testing - lazily instantiated by
 // OriginGroupOverrideActionParameters_STATUSGenerator()
-var originGroupOverrideActionParameters_STATUSGenerator gopter.Gen
+var originGroupOverrideActionParameters_STATUSGenerator *rapid.Generator[OriginGroupOverrideActionParameters_STATUS]
 
 // OriginGroupOverrideActionParameters_STATUSGenerator returns a generator of OriginGroupOverrideActionParameters_STATUS instances for property testing.
-// We first initialize originGroupOverrideActionParameters_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func OriginGroupOverrideActionParameters_STATUSGenerator() gopter.Gen {
+func OriginGroupOverrideActionParameters_STATUSGenerator() *rapid.Generator[OriginGroupOverrideActionParameters_STATUS] {
 	if originGroupOverrideActionParameters_STATUSGenerator != nil {
 		return originGroupOverrideActionParameters_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOriginGroupOverrideActionParameters_STATUS(generators)
-	originGroupOverrideActionParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(OriginGroupOverrideActionParameters_STATUS{}), generators)
+	originGroup := rapid.Ptr(ResourceReference_STATUSGenerator(), true)
+	typeName := rapid.Ptr(rapid.String(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOriginGroupOverrideActionParameters_STATUS(generators)
-	AddRelatedPropertyGeneratorsForOriginGroupOverrideActionParameters_STATUS(generators)
-	originGroupOverrideActionParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(OriginGroupOverrideActionParameters_STATUS{}), generators)
+	originGroupOverrideActionParameters_STATUSGenerator = rapid.Custom(func(t *rapid.T) OriginGroupOverrideActionParameters_STATUS {
+		var result OriginGroupOverrideActionParameters_STATUS
+		result.OriginGroup = originGroup.Draw(t, "OriginGroup")
+		result.TypeName = typeName.Draw(t, "TypeName")
+		return result
+	})
 
 	return originGroupOverrideActionParameters_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForOriginGroupOverrideActionParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForOriginGroupOverrideActionParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForOriginGroupOverrideActionParameters_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForOriginGroupOverrideActionParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["OriginGroup"] = gen.PtrOf(ResourceReference_STATUSGenerator())
-}
-
+// Test_OriginGroupOverrideAction_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of OriginGroupOverrideAction_STATUS can be assigned to storage and back losslessly
 func Test_OriginGroupOverrideAction_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -9371,44 +7672,34 @@ func Test_OriginGroupOverrideAction_STATUS_WhenPropertiesConverted_RoundTripsWit
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from OriginGroupOverrideAction_STATUS to OriginGroupOverrideAction_STATUS via AssignProperties_To_OriginGroupOverrideAction_STATUS & AssignProperties_From_OriginGroupOverrideAction_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForOriginGroupOverrideAction_STATUS, OriginGroupOverrideAction_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := OriginGroupOverrideAction_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForOriginGroupOverrideAction_STATUS tests if a specific instance of OriginGroupOverrideAction_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForOriginGroupOverrideAction_STATUS(subject OriginGroupOverrideAction_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.OriginGroupOverrideAction_STATUS
+		err := copied.AssignProperties_To_OriginGroupOverrideAction_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.OriginGroupOverrideAction_STATUS
-	err := copied.AssignProperties_To_OriginGroupOverrideAction_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual OriginGroupOverrideAction_STATUS
+		err = actual.AssignProperties_From_OriginGroupOverrideAction_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual OriginGroupOverrideAction_STATUS
-	err = actual.AssignProperties_From_OriginGroupOverrideAction_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_OriginGroupOverrideAction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -9418,29 +7709,23 @@ func Test_OriginGroupOverrideAction_STATUS_WhenSerializedToJson_DeserializesAsEq
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of OriginGroupOverrideAction_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForOriginGroupOverrideAction_STATUS, OriginGroupOverrideAction_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForOriginGroupOverrideAction_STATUS)
 }
 
 // RunJSONSerializationTestForOriginGroupOverrideAction_STATUS runs a test to see if a specific instance of OriginGroupOverrideAction_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForOriginGroupOverrideAction_STATUS(subject OriginGroupOverrideAction_STATUS) string {
+func RunJSONSerializationTestForOriginGroupOverrideAction_STATUS(t *rapid.T) {
+	subject := OriginGroupOverrideAction_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual OriginGroupOverrideAction_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -9449,48 +7734,34 @@ func RunJSONSerializationTestForOriginGroupOverrideAction_STATUS(subject OriginG
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of OriginGroupOverrideAction_STATUS instances for property testing - lazily instantiated by
 // OriginGroupOverrideAction_STATUSGenerator()
-var originGroupOverrideAction_STATUSGenerator gopter.Gen
+var originGroupOverrideAction_STATUSGenerator *rapid.Generator[OriginGroupOverrideAction_STATUS]
 
 // OriginGroupOverrideAction_STATUSGenerator returns a generator of OriginGroupOverrideAction_STATUS instances for property testing.
-// We first initialize originGroupOverrideAction_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func OriginGroupOverrideAction_STATUSGenerator() gopter.Gen {
+func OriginGroupOverrideAction_STATUSGenerator() *rapid.Generator[OriginGroupOverrideAction_STATUS] {
 	if originGroupOverrideAction_STATUSGenerator != nil {
 		return originGroupOverrideAction_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOriginGroupOverrideAction_STATUS(generators)
-	originGroupOverrideAction_STATUSGenerator = gen.Struct(reflect.TypeOf(OriginGroupOverrideAction_STATUS{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(OriginGroupOverrideActionParameters_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOriginGroupOverrideAction_STATUS(generators)
-	AddRelatedPropertyGeneratorsForOriginGroupOverrideAction_STATUS(generators)
-	originGroupOverrideAction_STATUSGenerator = gen.Struct(reflect.TypeOf(OriginGroupOverrideAction_STATUS{}), generators)
+	originGroupOverrideAction_STATUSGenerator = rapid.Custom(func(t *rapid.T) OriginGroupOverrideAction_STATUS {
+		var result OriginGroupOverrideAction_STATUS
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return originGroupOverrideAction_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForOriginGroupOverrideAction_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForOriginGroupOverrideAction_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForOriginGroupOverrideAction_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForOriginGroupOverrideAction_STATUS(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(OriginGroupOverrideActionParameters_STATUSGenerator())
-}
-
+// Test_OriginGroupOverride_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of OriginGroupOverride_STATUS can be assigned to storage and back losslessly
 func Test_OriginGroupOverride_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -9498,44 +7769,34 @@ func Test_OriginGroupOverride_STATUS_WhenPropertiesConverted_RoundTripsWithoutLo
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from OriginGroupOverride_STATUS to OriginGroupOverride_STATUS via AssignProperties_To_OriginGroupOverride_STATUS & AssignProperties_From_OriginGroupOverride_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForOriginGroupOverride_STATUS, OriginGroupOverride_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := OriginGroupOverride_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForOriginGroupOverride_STATUS tests if a specific instance of OriginGroupOverride_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForOriginGroupOverride_STATUS(subject OriginGroupOverride_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.OriginGroupOverride_STATUS
+		err := copied.AssignProperties_To_OriginGroupOverride_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.OriginGroupOverride_STATUS
-	err := copied.AssignProperties_To_OriginGroupOverride_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual OriginGroupOverride_STATUS
+		err = actual.AssignProperties_From_OriginGroupOverride_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual OriginGroupOverride_STATUS
-	err = actual.AssignProperties_From_OriginGroupOverride_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_OriginGroupOverride_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -9545,29 +7806,23 @@ func Test_OriginGroupOverride_STATUS_WhenSerializedToJson_DeserializesAsEqual(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of OriginGroupOverride_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForOriginGroupOverride_STATUS, OriginGroupOverride_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForOriginGroupOverride_STATUS)
 }
 
 // RunJSONSerializationTestForOriginGroupOverride_STATUS runs a test to see if a specific instance of OriginGroupOverride_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForOriginGroupOverride_STATUS(subject OriginGroupOverride_STATUS) string {
+func RunJSONSerializationTestForOriginGroupOverride_STATUS(t *rapid.T) {
+	subject := OriginGroupOverride_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual OriginGroupOverride_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -9576,48 +7831,34 @@ func RunJSONSerializationTestForOriginGroupOverride_STATUS(subject OriginGroupOv
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of OriginGroupOverride_STATUS instances for property testing - lazily instantiated by
 // OriginGroupOverride_STATUSGenerator()
-var originGroupOverride_STATUSGenerator gopter.Gen
+var originGroupOverride_STATUSGenerator *rapid.Generator[OriginGroupOverride_STATUS]
 
 // OriginGroupOverride_STATUSGenerator returns a generator of OriginGroupOverride_STATUS instances for property testing.
-// We first initialize originGroupOverride_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func OriginGroupOverride_STATUSGenerator() gopter.Gen {
+func OriginGroupOverride_STATUSGenerator() *rapid.Generator[OriginGroupOverride_STATUS] {
 	if originGroupOverride_STATUSGenerator != nil {
 		return originGroupOverride_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOriginGroupOverride_STATUS(generators)
-	originGroupOverride_STATUSGenerator = gen.Struct(reflect.TypeOf(OriginGroupOverride_STATUS{}), generators)
+	forwardingProtocol := rapid.Ptr(rapid.String(), true)
+	originGroup := rapid.Ptr(ResourceReference_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOriginGroupOverride_STATUS(generators)
-	AddRelatedPropertyGeneratorsForOriginGroupOverride_STATUS(generators)
-	originGroupOverride_STATUSGenerator = gen.Struct(reflect.TypeOf(OriginGroupOverride_STATUS{}), generators)
+	originGroupOverride_STATUSGenerator = rapid.Custom(func(t *rapid.T) OriginGroupOverride_STATUS {
+		var result OriginGroupOverride_STATUS
+		result.ForwardingProtocol = forwardingProtocol.Draw(t, "ForwardingProtocol")
+		result.OriginGroup = originGroup.Draw(t, "OriginGroup")
+		return result
+	})
 
 	return originGroupOverride_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForOriginGroupOverride_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForOriginGroupOverride_STATUS(gens map[string]gopter.Gen) {
-	gens["ForwardingProtocol"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForOriginGroupOverride_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForOriginGroupOverride_STATUS(gens map[string]gopter.Gen) {
-	gens["OriginGroup"] = gen.PtrOf(ResourceReference_STATUSGenerator())
-}
-
+// Test_PostArgsMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of PostArgsMatchConditionParameters can be assigned to storage and back losslessly
 func Test_PostArgsMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -9625,44 +7866,34 @@ func Test_PostArgsMatchConditionParameters_WhenPropertiesConverted_RoundTripsWit
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from PostArgsMatchConditionParameters to PostArgsMatchConditionParameters via AssignProperties_To_PostArgsMatchConditionParameters & AssignProperties_From_PostArgsMatchConditionParameters returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPostArgsMatchConditionParameters, PostArgsMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := PostArgsMatchConditionParametersGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForPostArgsMatchConditionParameters tests if a specific instance of PostArgsMatchConditionParameters can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForPostArgsMatchConditionParameters(subject PostArgsMatchConditionParameters) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.PostArgsMatchConditionParameters
+		err := copied.AssignProperties_To_PostArgsMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PostArgsMatchConditionParameters
-	err := copied.AssignProperties_To_PostArgsMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual PostArgsMatchConditionParameters
+		err = actual.AssignProperties_From_PostArgsMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual PostArgsMatchConditionParameters
-	err = actual.AssignProperties_From_PostArgsMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_PostArgsMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -9672,29 +7903,23 @@ func Test_PostArgsMatchConditionParameters_WhenSerializedToJson_DeserializesAsEq
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PostArgsMatchConditionParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPostArgsMatchConditionParameters, PostArgsMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForPostArgsMatchConditionParameters)
 }
 
 // RunJSONSerializationTestForPostArgsMatchConditionParameters runs a test to see if a specific instance of PostArgsMatchConditionParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForPostArgsMatchConditionParameters(subject PostArgsMatchConditionParameters) string {
+func RunJSONSerializationTestForPostArgsMatchConditionParameters(t *rapid.T) {
+	subject := PostArgsMatchConditionParametersGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual PostArgsMatchConditionParameters
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -9703,39 +7928,39 @@ func RunJSONSerializationTestForPostArgsMatchConditionParameters(subject PostArg
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of PostArgsMatchConditionParameters instances for property testing - lazily instantiated by
 // PostArgsMatchConditionParametersGenerator()
-var postArgsMatchConditionParametersGenerator gopter.Gen
+var postArgsMatchConditionParametersGenerator *rapid.Generator[PostArgsMatchConditionParameters]
 
 // PostArgsMatchConditionParametersGenerator returns a generator of PostArgsMatchConditionParameters instances for property testing.
-func PostArgsMatchConditionParametersGenerator() gopter.Gen {
+func PostArgsMatchConditionParametersGenerator() *rapid.Generator[PostArgsMatchConditionParameters] {
 	if postArgsMatchConditionParametersGenerator != nil {
 		return postArgsMatchConditionParametersGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPostArgsMatchConditionParameters(generators)
-	postArgsMatchConditionParametersGenerator = gen.Struct(reflect.TypeOf(PostArgsMatchConditionParameters{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	postArgsMatchConditionParametersGenerator = rapid.Custom(func(t *rapid.T) PostArgsMatchConditionParameters {
+		var result PostArgsMatchConditionParameters
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Selector = ptrString.Draw(t, "Selector")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return postArgsMatchConditionParametersGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPostArgsMatchConditionParameters is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPostArgsMatchConditionParameters(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Selector"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_PostArgsMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of PostArgsMatchConditionParameters_STATUS can be assigned to storage and back losslessly
 func Test_PostArgsMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -9743,44 +7968,34 @@ func Test_PostArgsMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundT
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from PostArgsMatchConditionParameters_STATUS to PostArgsMatchConditionParameters_STATUS via AssignProperties_To_PostArgsMatchConditionParameters_STATUS & AssignProperties_From_PostArgsMatchConditionParameters_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPostArgsMatchConditionParameters_STATUS, PostArgsMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := PostArgsMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForPostArgsMatchConditionParameters_STATUS tests if a specific instance of PostArgsMatchConditionParameters_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForPostArgsMatchConditionParameters_STATUS(subject PostArgsMatchConditionParameters_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.PostArgsMatchConditionParameters_STATUS
+		err := copied.AssignProperties_To_PostArgsMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PostArgsMatchConditionParameters_STATUS
-	err := copied.AssignProperties_To_PostArgsMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual PostArgsMatchConditionParameters_STATUS
+		err = actual.AssignProperties_From_PostArgsMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual PostArgsMatchConditionParameters_STATUS
-	err = actual.AssignProperties_From_PostArgsMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_PostArgsMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -9790,29 +8005,23 @@ func Test_PostArgsMatchConditionParameters_STATUS_WhenSerializedToJson_Deseriali
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PostArgsMatchConditionParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPostArgsMatchConditionParameters_STATUS, PostArgsMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForPostArgsMatchConditionParameters_STATUS)
 }
 
 // RunJSONSerializationTestForPostArgsMatchConditionParameters_STATUS runs a test to see if a specific instance of PostArgsMatchConditionParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForPostArgsMatchConditionParameters_STATUS(subject PostArgsMatchConditionParameters_STATUS) string {
+func RunJSONSerializationTestForPostArgsMatchConditionParameters_STATUS(t *rapid.T) {
+	subject := PostArgsMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual PostArgsMatchConditionParameters_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -9821,39 +8030,39 @@ func RunJSONSerializationTestForPostArgsMatchConditionParameters_STATUS(subject 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of PostArgsMatchConditionParameters_STATUS instances for property testing - lazily instantiated by
 // PostArgsMatchConditionParameters_STATUSGenerator()
-var postArgsMatchConditionParameters_STATUSGenerator gopter.Gen
+var postArgsMatchConditionParameters_STATUSGenerator *rapid.Generator[PostArgsMatchConditionParameters_STATUS]
 
 // PostArgsMatchConditionParameters_STATUSGenerator returns a generator of PostArgsMatchConditionParameters_STATUS instances for property testing.
-func PostArgsMatchConditionParameters_STATUSGenerator() gopter.Gen {
+func PostArgsMatchConditionParameters_STATUSGenerator() *rapid.Generator[PostArgsMatchConditionParameters_STATUS] {
 	if postArgsMatchConditionParameters_STATUSGenerator != nil {
 		return postArgsMatchConditionParameters_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPostArgsMatchConditionParameters_STATUS(generators)
-	postArgsMatchConditionParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(PostArgsMatchConditionParameters_STATUS{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	postArgsMatchConditionParameters_STATUSGenerator = rapid.Custom(func(t *rapid.T) PostArgsMatchConditionParameters_STATUS {
+		var result PostArgsMatchConditionParameters_STATUS
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Selector = ptrString.Draw(t, "Selector")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return postArgsMatchConditionParameters_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPostArgsMatchConditionParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPostArgsMatchConditionParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Selector"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_QueryStringMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of QueryStringMatchConditionParameters can be assigned to storage and back losslessly
 func Test_QueryStringMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -9861,44 +8070,34 @@ func Test_QueryStringMatchConditionParameters_WhenPropertiesConverted_RoundTrips
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from QueryStringMatchConditionParameters to QueryStringMatchConditionParameters via AssignProperties_To_QueryStringMatchConditionParameters & AssignProperties_From_QueryStringMatchConditionParameters returns original",
-		prop.ForAll(RunPropertyAssignmentTestForQueryStringMatchConditionParameters, QueryStringMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := QueryStringMatchConditionParametersGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForQueryStringMatchConditionParameters tests if a specific instance of QueryStringMatchConditionParameters can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForQueryStringMatchConditionParameters(subject QueryStringMatchConditionParameters) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.QueryStringMatchConditionParameters
+		err := copied.AssignProperties_To_QueryStringMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.QueryStringMatchConditionParameters
-	err := copied.AssignProperties_To_QueryStringMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual QueryStringMatchConditionParameters
+		err = actual.AssignProperties_From_QueryStringMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual QueryStringMatchConditionParameters
-	err = actual.AssignProperties_From_QueryStringMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_QueryStringMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -9908,29 +8107,23 @@ func Test_QueryStringMatchConditionParameters_WhenSerializedToJson_DeserializesA
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of QueryStringMatchConditionParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForQueryStringMatchConditionParameters, QueryStringMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForQueryStringMatchConditionParameters)
 }
 
 // RunJSONSerializationTestForQueryStringMatchConditionParameters runs a test to see if a specific instance of QueryStringMatchConditionParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForQueryStringMatchConditionParameters(subject QueryStringMatchConditionParameters) string {
+func RunJSONSerializationTestForQueryStringMatchConditionParameters(t *rapid.T) {
+	subject := QueryStringMatchConditionParametersGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual QueryStringMatchConditionParameters
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -9939,38 +8132,38 @@ func RunJSONSerializationTestForQueryStringMatchConditionParameters(subject Quer
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of QueryStringMatchConditionParameters instances for property testing - lazily instantiated by
 // QueryStringMatchConditionParametersGenerator()
-var queryStringMatchConditionParametersGenerator gopter.Gen
+var queryStringMatchConditionParametersGenerator *rapid.Generator[QueryStringMatchConditionParameters]
 
 // QueryStringMatchConditionParametersGenerator returns a generator of QueryStringMatchConditionParameters instances for property testing.
-func QueryStringMatchConditionParametersGenerator() gopter.Gen {
+func QueryStringMatchConditionParametersGenerator() *rapid.Generator[QueryStringMatchConditionParameters] {
 	if queryStringMatchConditionParametersGenerator != nil {
 		return queryStringMatchConditionParametersGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForQueryStringMatchConditionParameters(generators)
-	queryStringMatchConditionParametersGenerator = gen.Struct(reflect.TypeOf(QueryStringMatchConditionParameters{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	queryStringMatchConditionParametersGenerator = rapid.Custom(func(t *rapid.T) QueryStringMatchConditionParameters {
+		var result QueryStringMatchConditionParameters
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return queryStringMatchConditionParametersGenerator
 }
 
-// AddIndependentPropertyGeneratorsForQueryStringMatchConditionParameters is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForQueryStringMatchConditionParameters(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_QueryStringMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of QueryStringMatchConditionParameters_STATUS can be assigned to storage and back losslessly
 func Test_QueryStringMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -9978,44 +8171,34 @@ func Test_QueryStringMatchConditionParameters_STATUS_WhenPropertiesConverted_Rou
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from QueryStringMatchConditionParameters_STATUS to QueryStringMatchConditionParameters_STATUS via AssignProperties_To_QueryStringMatchConditionParameters_STATUS & AssignProperties_From_QueryStringMatchConditionParameters_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForQueryStringMatchConditionParameters_STATUS, QueryStringMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := QueryStringMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForQueryStringMatchConditionParameters_STATUS tests if a specific instance of QueryStringMatchConditionParameters_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForQueryStringMatchConditionParameters_STATUS(subject QueryStringMatchConditionParameters_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.QueryStringMatchConditionParameters_STATUS
+		err := copied.AssignProperties_To_QueryStringMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.QueryStringMatchConditionParameters_STATUS
-	err := copied.AssignProperties_To_QueryStringMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual QueryStringMatchConditionParameters_STATUS
+		err = actual.AssignProperties_From_QueryStringMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual QueryStringMatchConditionParameters_STATUS
-	err = actual.AssignProperties_From_QueryStringMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_QueryStringMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -10025,29 +8208,23 @@ func Test_QueryStringMatchConditionParameters_STATUS_WhenSerializedToJson_Deseri
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of QueryStringMatchConditionParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForQueryStringMatchConditionParameters_STATUS, QueryStringMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForQueryStringMatchConditionParameters_STATUS)
 }
 
 // RunJSONSerializationTestForQueryStringMatchConditionParameters_STATUS runs a test to see if a specific instance of QueryStringMatchConditionParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForQueryStringMatchConditionParameters_STATUS(subject QueryStringMatchConditionParameters_STATUS) string {
+func RunJSONSerializationTestForQueryStringMatchConditionParameters_STATUS(t *rapid.T) {
+	subject := QueryStringMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual QueryStringMatchConditionParameters_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -10056,38 +8233,38 @@ func RunJSONSerializationTestForQueryStringMatchConditionParameters_STATUS(subje
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of QueryStringMatchConditionParameters_STATUS instances for property testing - lazily instantiated by
 // QueryStringMatchConditionParameters_STATUSGenerator()
-var queryStringMatchConditionParameters_STATUSGenerator gopter.Gen
+var queryStringMatchConditionParameters_STATUSGenerator *rapid.Generator[QueryStringMatchConditionParameters_STATUS]
 
 // QueryStringMatchConditionParameters_STATUSGenerator returns a generator of QueryStringMatchConditionParameters_STATUS instances for property testing.
-func QueryStringMatchConditionParameters_STATUSGenerator() gopter.Gen {
+func QueryStringMatchConditionParameters_STATUSGenerator() *rapid.Generator[QueryStringMatchConditionParameters_STATUS] {
 	if queryStringMatchConditionParameters_STATUSGenerator != nil {
 		return queryStringMatchConditionParameters_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForQueryStringMatchConditionParameters_STATUS(generators)
-	queryStringMatchConditionParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(QueryStringMatchConditionParameters_STATUS{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	queryStringMatchConditionParameters_STATUSGenerator = rapid.Custom(func(t *rapid.T) QueryStringMatchConditionParameters_STATUS {
+		var result QueryStringMatchConditionParameters_STATUS
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return queryStringMatchConditionParameters_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForQueryStringMatchConditionParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForQueryStringMatchConditionParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_RemoteAddressMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of RemoteAddressMatchConditionParameters can be assigned to storage and back losslessly
 func Test_RemoteAddressMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -10095,44 +8272,34 @@ func Test_RemoteAddressMatchConditionParameters_WhenPropertiesConverted_RoundTri
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RemoteAddressMatchConditionParameters to RemoteAddressMatchConditionParameters via AssignProperties_To_RemoteAddressMatchConditionParameters & AssignProperties_From_RemoteAddressMatchConditionParameters returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRemoteAddressMatchConditionParameters, RemoteAddressMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RemoteAddressMatchConditionParametersGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForRemoteAddressMatchConditionParameters tests if a specific instance of RemoteAddressMatchConditionParameters can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRemoteAddressMatchConditionParameters(subject RemoteAddressMatchConditionParameters) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.RemoteAddressMatchConditionParameters
+		err := copied.AssignProperties_To_RemoteAddressMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RemoteAddressMatchConditionParameters
-	err := copied.AssignProperties_To_RemoteAddressMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual RemoteAddressMatchConditionParameters
+		err = actual.AssignProperties_From_RemoteAddressMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RemoteAddressMatchConditionParameters
-	err = actual.AssignProperties_From_RemoteAddressMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_RemoteAddressMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -10142,29 +8309,23 @@ func Test_RemoteAddressMatchConditionParameters_WhenSerializedToJson_Deserialize
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RemoteAddressMatchConditionParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRemoteAddressMatchConditionParameters, RemoteAddressMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRemoteAddressMatchConditionParameters)
 }
 
 // RunJSONSerializationTestForRemoteAddressMatchConditionParameters runs a test to see if a specific instance of RemoteAddressMatchConditionParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForRemoteAddressMatchConditionParameters(subject RemoteAddressMatchConditionParameters) string {
+func RunJSONSerializationTestForRemoteAddressMatchConditionParameters(t *rapid.T) {
+	subject := RemoteAddressMatchConditionParametersGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RemoteAddressMatchConditionParameters
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -10173,38 +8334,38 @@ func RunJSONSerializationTestForRemoteAddressMatchConditionParameters(subject Re
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RemoteAddressMatchConditionParameters instances for property testing - lazily instantiated by
 // RemoteAddressMatchConditionParametersGenerator()
-var remoteAddressMatchConditionParametersGenerator gopter.Gen
+var remoteAddressMatchConditionParametersGenerator *rapid.Generator[RemoteAddressMatchConditionParameters]
 
 // RemoteAddressMatchConditionParametersGenerator returns a generator of RemoteAddressMatchConditionParameters instances for property testing.
-func RemoteAddressMatchConditionParametersGenerator() gopter.Gen {
+func RemoteAddressMatchConditionParametersGenerator() *rapid.Generator[RemoteAddressMatchConditionParameters] {
 	if remoteAddressMatchConditionParametersGenerator != nil {
 		return remoteAddressMatchConditionParametersGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRemoteAddressMatchConditionParameters(generators)
-	remoteAddressMatchConditionParametersGenerator = gen.Struct(reflect.TypeOf(RemoteAddressMatchConditionParameters{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	remoteAddressMatchConditionParametersGenerator = rapid.Custom(func(t *rapid.T) RemoteAddressMatchConditionParameters {
+		var result RemoteAddressMatchConditionParameters
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return remoteAddressMatchConditionParametersGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRemoteAddressMatchConditionParameters is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRemoteAddressMatchConditionParameters(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_RemoteAddressMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of RemoteAddressMatchConditionParameters_STATUS can be assigned to storage and back losslessly
 func Test_RemoteAddressMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -10212,44 +8373,34 @@ func Test_RemoteAddressMatchConditionParameters_STATUS_WhenPropertiesConverted_R
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RemoteAddressMatchConditionParameters_STATUS to RemoteAddressMatchConditionParameters_STATUS via AssignProperties_To_RemoteAddressMatchConditionParameters_STATUS & AssignProperties_From_RemoteAddressMatchConditionParameters_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRemoteAddressMatchConditionParameters_STATUS, RemoteAddressMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RemoteAddressMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForRemoteAddressMatchConditionParameters_STATUS tests if a specific instance of RemoteAddressMatchConditionParameters_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRemoteAddressMatchConditionParameters_STATUS(subject RemoteAddressMatchConditionParameters_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.RemoteAddressMatchConditionParameters_STATUS
+		err := copied.AssignProperties_To_RemoteAddressMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RemoteAddressMatchConditionParameters_STATUS
-	err := copied.AssignProperties_To_RemoteAddressMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual RemoteAddressMatchConditionParameters_STATUS
+		err = actual.AssignProperties_From_RemoteAddressMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RemoteAddressMatchConditionParameters_STATUS
-	err = actual.AssignProperties_From_RemoteAddressMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_RemoteAddressMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -10259,29 +8410,23 @@ func Test_RemoteAddressMatchConditionParameters_STATUS_WhenSerializedToJson_Dese
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RemoteAddressMatchConditionParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRemoteAddressMatchConditionParameters_STATUS, RemoteAddressMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRemoteAddressMatchConditionParameters_STATUS)
 }
 
 // RunJSONSerializationTestForRemoteAddressMatchConditionParameters_STATUS runs a test to see if a specific instance of RemoteAddressMatchConditionParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForRemoteAddressMatchConditionParameters_STATUS(subject RemoteAddressMatchConditionParameters_STATUS) string {
+func RunJSONSerializationTestForRemoteAddressMatchConditionParameters_STATUS(t *rapid.T) {
+	subject := RemoteAddressMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RemoteAddressMatchConditionParameters_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -10290,38 +8435,38 @@ func RunJSONSerializationTestForRemoteAddressMatchConditionParameters_STATUS(sub
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RemoteAddressMatchConditionParameters_STATUS instances for property testing - lazily instantiated by
 // RemoteAddressMatchConditionParameters_STATUSGenerator()
-var remoteAddressMatchConditionParameters_STATUSGenerator gopter.Gen
+var remoteAddressMatchConditionParameters_STATUSGenerator *rapid.Generator[RemoteAddressMatchConditionParameters_STATUS]
 
 // RemoteAddressMatchConditionParameters_STATUSGenerator returns a generator of RemoteAddressMatchConditionParameters_STATUS instances for property testing.
-func RemoteAddressMatchConditionParameters_STATUSGenerator() gopter.Gen {
+func RemoteAddressMatchConditionParameters_STATUSGenerator() *rapid.Generator[RemoteAddressMatchConditionParameters_STATUS] {
 	if remoteAddressMatchConditionParameters_STATUSGenerator != nil {
 		return remoteAddressMatchConditionParameters_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRemoteAddressMatchConditionParameters_STATUS(generators)
-	remoteAddressMatchConditionParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(RemoteAddressMatchConditionParameters_STATUS{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	remoteAddressMatchConditionParameters_STATUSGenerator = rapid.Custom(func(t *rapid.T) RemoteAddressMatchConditionParameters_STATUS {
+		var result RemoteAddressMatchConditionParameters_STATUS
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return remoteAddressMatchConditionParameters_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRemoteAddressMatchConditionParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRemoteAddressMatchConditionParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_RequestBodyMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of RequestBodyMatchConditionParameters can be assigned to storage and back losslessly
 func Test_RequestBodyMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -10329,44 +8474,34 @@ func Test_RequestBodyMatchConditionParameters_WhenPropertiesConverted_RoundTrips
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RequestBodyMatchConditionParameters to RequestBodyMatchConditionParameters via AssignProperties_To_RequestBodyMatchConditionParameters & AssignProperties_From_RequestBodyMatchConditionParameters returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRequestBodyMatchConditionParameters, RequestBodyMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RequestBodyMatchConditionParametersGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForRequestBodyMatchConditionParameters tests if a specific instance of RequestBodyMatchConditionParameters can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRequestBodyMatchConditionParameters(subject RequestBodyMatchConditionParameters) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.RequestBodyMatchConditionParameters
+		err := copied.AssignProperties_To_RequestBodyMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RequestBodyMatchConditionParameters
-	err := copied.AssignProperties_To_RequestBodyMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual RequestBodyMatchConditionParameters
+		err = actual.AssignProperties_From_RequestBodyMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RequestBodyMatchConditionParameters
-	err = actual.AssignProperties_From_RequestBodyMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_RequestBodyMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -10376,29 +8511,23 @@ func Test_RequestBodyMatchConditionParameters_WhenSerializedToJson_DeserializesA
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RequestBodyMatchConditionParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRequestBodyMatchConditionParameters, RequestBodyMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRequestBodyMatchConditionParameters)
 }
 
 // RunJSONSerializationTestForRequestBodyMatchConditionParameters runs a test to see if a specific instance of RequestBodyMatchConditionParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForRequestBodyMatchConditionParameters(subject RequestBodyMatchConditionParameters) string {
+func RunJSONSerializationTestForRequestBodyMatchConditionParameters(t *rapid.T) {
+	subject := RequestBodyMatchConditionParametersGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RequestBodyMatchConditionParameters
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -10407,38 +8536,38 @@ func RunJSONSerializationTestForRequestBodyMatchConditionParameters(subject Requ
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RequestBodyMatchConditionParameters instances for property testing - lazily instantiated by
 // RequestBodyMatchConditionParametersGenerator()
-var requestBodyMatchConditionParametersGenerator gopter.Gen
+var requestBodyMatchConditionParametersGenerator *rapid.Generator[RequestBodyMatchConditionParameters]
 
 // RequestBodyMatchConditionParametersGenerator returns a generator of RequestBodyMatchConditionParameters instances for property testing.
-func RequestBodyMatchConditionParametersGenerator() gopter.Gen {
+func RequestBodyMatchConditionParametersGenerator() *rapid.Generator[RequestBodyMatchConditionParameters] {
 	if requestBodyMatchConditionParametersGenerator != nil {
 		return requestBodyMatchConditionParametersGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRequestBodyMatchConditionParameters(generators)
-	requestBodyMatchConditionParametersGenerator = gen.Struct(reflect.TypeOf(RequestBodyMatchConditionParameters{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	requestBodyMatchConditionParametersGenerator = rapid.Custom(func(t *rapid.T) RequestBodyMatchConditionParameters {
+		var result RequestBodyMatchConditionParameters
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return requestBodyMatchConditionParametersGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRequestBodyMatchConditionParameters is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRequestBodyMatchConditionParameters(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_RequestBodyMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of RequestBodyMatchConditionParameters_STATUS can be assigned to storage and back losslessly
 func Test_RequestBodyMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -10446,44 +8575,34 @@ func Test_RequestBodyMatchConditionParameters_STATUS_WhenPropertiesConverted_Rou
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RequestBodyMatchConditionParameters_STATUS to RequestBodyMatchConditionParameters_STATUS via AssignProperties_To_RequestBodyMatchConditionParameters_STATUS & AssignProperties_From_RequestBodyMatchConditionParameters_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRequestBodyMatchConditionParameters_STATUS, RequestBodyMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RequestBodyMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForRequestBodyMatchConditionParameters_STATUS tests if a specific instance of RequestBodyMatchConditionParameters_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRequestBodyMatchConditionParameters_STATUS(subject RequestBodyMatchConditionParameters_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.RequestBodyMatchConditionParameters_STATUS
+		err := copied.AssignProperties_To_RequestBodyMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RequestBodyMatchConditionParameters_STATUS
-	err := copied.AssignProperties_To_RequestBodyMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual RequestBodyMatchConditionParameters_STATUS
+		err = actual.AssignProperties_From_RequestBodyMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RequestBodyMatchConditionParameters_STATUS
-	err = actual.AssignProperties_From_RequestBodyMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_RequestBodyMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -10493,29 +8612,23 @@ func Test_RequestBodyMatchConditionParameters_STATUS_WhenSerializedToJson_Deseri
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RequestBodyMatchConditionParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRequestBodyMatchConditionParameters_STATUS, RequestBodyMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRequestBodyMatchConditionParameters_STATUS)
 }
 
 // RunJSONSerializationTestForRequestBodyMatchConditionParameters_STATUS runs a test to see if a specific instance of RequestBodyMatchConditionParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForRequestBodyMatchConditionParameters_STATUS(subject RequestBodyMatchConditionParameters_STATUS) string {
+func RunJSONSerializationTestForRequestBodyMatchConditionParameters_STATUS(t *rapid.T) {
+	subject := RequestBodyMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RequestBodyMatchConditionParameters_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -10524,38 +8637,38 @@ func RunJSONSerializationTestForRequestBodyMatchConditionParameters_STATUS(subje
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RequestBodyMatchConditionParameters_STATUS instances for property testing - lazily instantiated by
 // RequestBodyMatchConditionParameters_STATUSGenerator()
-var requestBodyMatchConditionParameters_STATUSGenerator gopter.Gen
+var requestBodyMatchConditionParameters_STATUSGenerator *rapid.Generator[RequestBodyMatchConditionParameters_STATUS]
 
 // RequestBodyMatchConditionParameters_STATUSGenerator returns a generator of RequestBodyMatchConditionParameters_STATUS instances for property testing.
-func RequestBodyMatchConditionParameters_STATUSGenerator() gopter.Gen {
+func RequestBodyMatchConditionParameters_STATUSGenerator() *rapid.Generator[RequestBodyMatchConditionParameters_STATUS] {
 	if requestBodyMatchConditionParameters_STATUSGenerator != nil {
 		return requestBodyMatchConditionParameters_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRequestBodyMatchConditionParameters_STATUS(generators)
-	requestBodyMatchConditionParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(RequestBodyMatchConditionParameters_STATUS{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	requestBodyMatchConditionParameters_STATUSGenerator = rapid.Custom(func(t *rapid.T) RequestBodyMatchConditionParameters_STATUS {
+		var result RequestBodyMatchConditionParameters_STATUS
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return requestBodyMatchConditionParameters_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRequestBodyMatchConditionParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRequestBodyMatchConditionParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_RequestHeaderMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of RequestHeaderMatchConditionParameters can be assigned to storage and back losslessly
 func Test_RequestHeaderMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -10563,44 +8676,34 @@ func Test_RequestHeaderMatchConditionParameters_WhenPropertiesConverted_RoundTri
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RequestHeaderMatchConditionParameters to RequestHeaderMatchConditionParameters via AssignProperties_To_RequestHeaderMatchConditionParameters & AssignProperties_From_RequestHeaderMatchConditionParameters returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRequestHeaderMatchConditionParameters, RequestHeaderMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RequestHeaderMatchConditionParametersGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForRequestHeaderMatchConditionParameters tests if a specific instance of RequestHeaderMatchConditionParameters can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRequestHeaderMatchConditionParameters(subject RequestHeaderMatchConditionParameters) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.RequestHeaderMatchConditionParameters
+		err := copied.AssignProperties_To_RequestHeaderMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RequestHeaderMatchConditionParameters
-	err := copied.AssignProperties_To_RequestHeaderMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual RequestHeaderMatchConditionParameters
+		err = actual.AssignProperties_From_RequestHeaderMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RequestHeaderMatchConditionParameters
-	err = actual.AssignProperties_From_RequestHeaderMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_RequestHeaderMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -10610,29 +8713,23 @@ func Test_RequestHeaderMatchConditionParameters_WhenSerializedToJson_Deserialize
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RequestHeaderMatchConditionParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRequestHeaderMatchConditionParameters, RequestHeaderMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRequestHeaderMatchConditionParameters)
 }
 
 // RunJSONSerializationTestForRequestHeaderMatchConditionParameters runs a test to see if a specific instance of RequestHeaderMatchConditionParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForRequestHeaderMatchConditionParameters(subject RequestHeaderMatchConditionParameters) string {
+func RunJSONSerializationTestForRequestHeaderMatchConditionParameters(t *rapid.T) {
+	subject := RequestHeaderMatchConditionParametersGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RequestHeaderMatchConditionParameters
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -10641,39 +8738,39 @@ func RunJSONSerializationTestForRequestHeaderMatchConditionParameters(subject Re
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RequestHeaderMatchConditionParameters instances for property testing - lazily instantiated by
 // RequestHeaderMatchConditionParametersGenerator()
-var requestHeaderMatchConditionParametersGenerator gopter.Gen
+var requestHeaderMatchConditionParametersGenerator *rapid.Generator[RequestHeaderMatchConditionParameters]
 
 // RequestHeaderMatchConditionParametersGenerator returns a generator of RequestHeaderMatchConditionParameters instances for property testing.
-func RequestHeaderMatchConditionParametersGenerator() gopter.Gen {
+func RequestHeaderMatchConditionParametersGenerator() *rapid.Generator[RequestHeaderMatchConditionParameters] {
 	if requestHeaderMatchConditionParametersGenerator != nil {
 		return requestHeaderMatchConditionParametersGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRequestHeaderMatchConditionParameters(generators)
-	requestHeaderMatchConditionParametersGenerator = gen.Struct(reflect.TypeOf(RequestHeaderMatchConditionParameters{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	requestHeaderMatchConditionParametersGenerator = rapid.Custom(func(t *rapid.T) RequestHeaderMatchConditionParameters {
+		var result RequestHeaderMatchConditionParameters
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Selector = ptrString.Draw(t, "Selector")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return requestHeaderMatchConditionParametersGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRequestHeaderMatchConditionParameters is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRequestHeaderMatchConditionParameters(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Selector"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_RequestHeaderMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of RequestHeaderMatchConditionParameters_STATUS can be assigned to storage and back losslessly
 func Test_RequestHeaderMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -10681,44 +8778,34 @@ func Test_RequestHeaderMatchConditionParameters_STATUS_WhenPropertiesConverted_R
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RequestHeaderMatchConditionParameters_STATUS to RequestHeaderMatchConditionParameters_STATUS via AssignProperties_To_RequestHeaderMatchConditionParameters_STATUS & AssignProperties_From_RequestHeaderMatchConditionParameters_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRequestHeaderMatchConditionParameters_STATUS, RequestHeaderMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RequestHeaderMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForRequestHeaderMatchConditionParameters_STATUS tests if a specific instance of RequestHeaderMatchConditionParameters_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRequestHeaderMatchConditionParameters_STATUS(subject RequestHeaderMatchConditionParameters_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.RequestHeaderMatchConditionParameters_STATUS
+		err := copied.AssignProperties_To_RequestHeaderMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RequestHeaderMatchConditionParameters_STATUS
-	err := copied.AssignProperties_To_RequestHeaderMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual RequestHeaderMatchConditionParameters_STATUS
+		err = actual.AssignProperties_From_RequestHeaderMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RequestHeaderMatchConditionParameters_STATUS
-	err = actual.AssignProperties_From_RequestHeaderMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_RequestHeaderMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -10728,29 +8815,23 @@ func Test_RequestHeaderMatchConditionParameters_STATUS_WhenSerializedToJson_Dese
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RequestHeaderMatchConditionParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRequestHeaderMatchConditionParameters_STATUS, RequestHeaderMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRequestHeaderMatchConditionParameters_STATUS)
 }
 
 // RunJSONSerializationTestForRequestHeaderMatchConditionParameters_STATUS runs a test to see if a specific instance of RequestHeaderMatchConditionParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForRequestHeaderMatchConditionParameters_STATUS(subject RequestHeaderMatchConditionParameters_STATUS) string {
+func RunJSONSerializationTestForRequestHeaderMatchConditionParameters_STATUS(t *rapid.T) {
+	subject := RequestHeaderMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RequestHeaderMatchConditionParameters_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -10759,39 +8840,39 @@ func RunJSONSerializationTestForRequestHeaderMatchConditionParameters_STATUS(sub
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RequestHeaderMatchConditionParameters_STATUS instances for property testing - lazily instantiated by
 // RequestHeaderMatchConditionParameters_STATUSGenerator()
-var requestHeaderMatchConditionParameters_STATUSGenerator gopter.Gen
+var requestHeaderMatchConditionParameters_STATUSGenerator *rapid.Generator[RequestHeaderMatchConditionParameters_STATUS]
 
 // RequestHeaderMatchConditionParameters_STATUSGenerator returns a generator of RequestHeaderMatchConditionParameters_STATUS instances for property testing.
-func RequestHeaderMatchConditionParameters_STATUSGenerator() gopter.Gen {
+func RequestHeaderMatchConditionParameters_STATUSGenerator() *rapid.Generator[RequestHeaderMatchConditionParameters_STATUS] {
 	if requestHeaderMatchConditionParameters_STATUSGenerator != nil {
 		return requestHeaderMatchConditionParameters_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRequestHeaderMatchConditionParameters_STATUS(generators)
-	requestHeaderMatchConditionParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(RequestHeaderMatchConditionParameters_STATUS{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	requestHeaderMatchConditionParameters_STATUSGenerator = rapid.Custom(func(t *rapid.T) RequestHeaderMatchConditionParameters_STATUS {
+		var result RequestHeaderMatchConditionParameters_STATUS
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Selector = ptrString.Draw(t, "Selector")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return requestHeaderMatchConditionParameters_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRequestHeaderMatchConditionParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRequestHeaderMatchConditionParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Selector"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_RequestMethodMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of RequestMethodMatchConditionParameters can be assigned to storage and back losslessly
 func Test_RequestMethodMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -10799,44 +8880,34 @@ func Test_RequestMethodMatchConditionParameters_WhenPropertiesConverted_RoundTri
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RequestMethodMatchConditionParameters to RequestMethodMatchConditionParameters via AssignProperties_To_RequestMethodMatchConditionParameters & AssignProperties_From_RequestMethodMatchConditionParameters returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRequestMethodMatchConditionParameters, RequestMethodMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RequestMethodMatchConditionParametersGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForRequestMethodMatchConditionParameters tests if a specific instance of RequestMethodMatchConditionParameters can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRequestMethodMatchConditionParameters(subject RequestMethodMatchConditionParameters) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.RequestMethodMatchConditionParameters
+		err := copied.AssignProperties_To_RequestMethodMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RequestMethodMatchConditionParameters
-	err := copied.AssignProperties_To_RequestMethodMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual RequestMethodMatchConditionParameters
+		err = actual.AssignProperties_From_RequestMethodMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RequestMethodMatchConditionParameters
-	err = actual.AssignProperties_From_RequestMethodMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_RequestMethodMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -10846,29 +8917,23 @@ func Test_RequestMethodMatchConditionParameters_WhenSerializedToJson_Deserialize
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RequestMethodMatchConditionParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRequestMethodMatchConditionParameters, RequestMethodMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRequestMethodMatchConditionParameters)
 }
 
 // RunJSONSerializationTestForRequestMethodMatchConditionParameters runs a test to see if a specific instance of RequestMethodMatchConditionParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForRequestMethodMatchConditionParameters(subject RequestMethodMatchConditionParameters) string {
+func RunJSONSerializationTestForRequestMethodMatchConditionParameters(t *rapid.T) {
+	subject := RequestMethodMatchConditionParametersGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RequestMethodMatchConditionParameters
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -10877,38 +8942,38 @@ func RunJSONSerializationTestForRequestMethodMatchConditionParameters(subject Re
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RequestMethodMatchConditionParameters instances for property testing - lazily instantiated by
 // RequestMethodMatchConditionParametersGenerator()
-var requestMethodMatchConditionParametersGenerator gopter.Gen
+var requestMethodMatchConditionParametersGenerator *rapid.Generator[RequestMethodMatchConditionParameters]
 
 // RequestMethodMatchConditionParametersGenerator returns a generator of RequestMethodMatchConditionParameters instances for property testing.
-func RequestMethodMatchConditionParametersGenerator() gopter.Gen {
+func RequestMethodMatchConditionParametersGenerator() *rapid.Generator[RequestMethodMatchConditionParameters] {
 	if requestMethodMatchConditionParametersGenerator != nil {
 		return requestMethodMatchConditionParametersGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRequestMethodMatchConditionParameters(generators)
-	requestMethodMatchConditionParametersGenerator = gen.Struct(reflect.TypeOf(RequestMethodMatchConditionParameters{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	requestMethodMatchConditionParametersGenerator = rapid.Custom(func(t *rapid.T) RequestMethodMatchConditionParameters {
+		var result RequestMethodMatchConditionParameters
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return requestMethodMatchConditionParametersGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRequestMethodMatchConditionParameters is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRequestMethodMatchConditionParameters(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_RequestMethodMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of RequestMethodMatchConditionParameters_STATUS can be assigned to storage and back losslessly
 func Test_RequestMethodMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -10916,44 +8981,34 @@ func Test_RequestMethodMatchConditionParameters_STATUS_WhenPropertiesConverted_R
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RequestMethodMatchConditionParameters_STATUS to RequestMethodMatchConditionParameters_STATUS via AssignProperties_To_RequestMethodMatchConditionParameters_STATUS & AssignProperties_From_RequestMethodMatchConditionParameters_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRequestMethodMatchConditionParameters_STATUS, RequestMethodMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RequestMethodMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForRequestMethodMatchConditionParameters_STATUS tests if a specific instance of RequestMethodMatchConditionParameters_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRequestMethodMatchConditionParameters_STATUS(subject RequestMethodMatchConditionParameters_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.RequestMethodMatchConditionParameters_STATUS
+		err := copied.AssignProperties_To_RequestMethodMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RequestMethodMatchConditionParameters_STATUS
-	err := copied.AssignProperties_To_RequestMethodMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual RequestMethodMatchConditionParameters_STATUS
+		err = actual.AssignProperties_From_RequestMethodMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RequestMethodMatchConditionParameters_STATUS
-	err = actual.AssignProperties_From_RequestMethodMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_RequestMethodMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -10963,29 +9018,23 @@ func Test_RequestMethodMatchConditionParameters_STATUS_WhenSerializedToJson_Dese
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RequestMethodMatchConditionParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRequestMethodMatchConditionParameters_STATUS, RequestMethodMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRequestMethodMatchConditionParameters_STATUS)
 }
 
 // RunJSONSerializationTestForRequestMethodMatchConditionParameters_STATUS runs a test to see if a specific instance of RequestMethodMatchConditionParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForRequestMethodMatchConditionParameters_STATUS(subject RequestMethodMatchConditionParameters_STATUS) string {
+func RunJSONSerializationTestForRequestMethodMatchConditionParameters_STATUS(t *rapid.T) {
+	subject := RequestMethodMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RequestMethodMatchConditionParameters_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -10994,38 +9043,38 @@ func RunJSONSerializationTestForRequestMethodMatchConditionParameters_STATUS(sub
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RequestMethodMatchConditionParameters_STATUS instances for property testing - lazily instantiated by
 // RequestMethodMatchConditionParameters_STATUSGenerator()
-var requestMethodMatchConditionParameters_STATUSGenerator gopter.Gen
+var requestMethodMatchConditionParameters_STATUSGenerator *rapid.Generator[RequestMethodMatchConditionParameters_STATUS]
 
 // RequestMethodMatchConditionParameters_STATUSGenerator returns a generator of RequestMethodMatchConditionParameters_STATUS instances for property testing.
-func RequestMethodMatchConditionParameters_STATUSGenerator() gopter.Gen {
+func RequestMethodMatchConditionParameters_STATUSGenerator() *rapid.Generator[RequestMethodMatchConditionParameters_STATUS] {
 	if requestMethodMatchConditionParameters_STATUSGenerator != nil {
 		return requestMethodMatchConditionParameters_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRequestMethodMatchConditionParameters_STATUS(generators)
-	requestMethodMatchConditionParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(RequestMethodMatchConditionParameters_STATUS{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	requestMethodMatchConditionParameters_STATUSGenerator = rapid.Custom(func(t *rapid.T) RequestMethodMatchConditionParameters_STATUS {
+		var result RequestMethodMatchConditionParameters_STATUS
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return requestMethodMatchConditionParameters_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRequestMethodMatchConditionParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRequestMethodMatchConditionParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_RequestSchemeMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of RequestSchemeMatchConditionParameters can be assigned to storage and back losslessly
 func Test_RequestSchemeMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -11033,44 +9082,34 @@ func Test_RequestSchemeMatchConditionParameters_WhenPropertiesConverted_RoundTri
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RequestSchemeMatchConditionParameters to RequestSchemeMatchConditionParameters via AssignProperties_To_RequestSchemeMatchConditionParameters & AssignProperties_From_RequestSchemeMatchConditionParameters returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRequestSchemeMatchConditionParameters, RequestSchemeMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RequestSchemeMatchConditionParametersGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForRequestSchemeMatchConditionParameters tests if a specific instance of RequestSchemeMatchConditionParameters can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRequestSchemeMatchConditionParameters(subject RequestSchemeMatchConditionParameters) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.RequestSchemeMatchConditionParameters
+		err := copied.AssignProperties_To_RequestSchemeMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RequestSchemeMatchConditionParameters
-	err := copied.AssignProperties_To_RequestSchemeMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual RequestSchemeMatchConditionParameters
+		err = actual.AssignProperties_From_RequestSchemeMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RequestSchemeMatchConditionParameters
-	err = actual.AssignProperties_From_RequestSchemeMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_RequestSchemeMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -11080,29 +9119,23 @@ func Test_RequestSchemeMatchConditionParameters_WhenSerializedToJson_Deserialize
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RequestSchemeMatchConditionParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRequestSchemeMatchConditionParameters, RequestSchemeMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRequestSchemeMatchConditionParameters)
 }
 
 // RunJSONSerializationTestForRequestSchemeMatchConditionParameters runs a test to see if a specific instance of RequestSchemeMatchConditionParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForRequestSchemeMatchConditionParameters(subject RequestSchemeMatchConditionParameters) string {
+func RunJSONSerializationTestForRequestSchemeMatchConditionParameters(t *rapid.T) {
+	subject := RequestSchemeMatchConditionParametersGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RequestSchemeMatchConditionParameters
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -11111,38 +9144,38 @@ func RunJSONSerializationTestForRequestSchemeMatchConditionParameters(subject Re
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RequestSchemeMatchConditionParameters instances for property testing - lazily instantiated by
 // RequestSchemeMatchConditionParametersGenerator()
-var requestSchemeMatchConditionParametersGenerator gopter.Gen
+var requestSchemeMatchConditionParametersGenerator *rapid.Generator[RequestSchemeMatchConditionParameters]
 
 // RequestSchemeMatchConditionParametersGenerator returns a generator of RequestSchemeMatchConditionParameters instances for property testing.
-func RequestSchemeMatchConditionParametersGenerator() gopter.Gen {
+func RequestSchemeMatchConditionParametersGenerator() *rapid.Generator[RequestSchemeMatchConditionParameters] {
 	if requestSchemeMatchConditionParametersGenerator != nil {
 		return requestSchemeMatchConditionParametersGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRequestSchemeMatchConditionParameters(generators)
-	requestSchemeMatchConditionParametersGenerator = gen.Struct(reflect.TypeOf(RequestSchemeMatchConditionParameters{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	requestSchemeMatchConditionParametersGenerator = rapid.Custom(func(t *rapid.T) RequestSchemeMatchConditionParameters {
+		var result RequestSchemeMatchConditionParameters
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return requestSchemeMatchConditionParametersGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRequestSchemeMatchConditionParameters is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRequestSchemeMatchConditionParameters(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_RequestSchemeMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of RequestSchemeMatchConditionParameters_STATUS can be assigned to storage and back losslessly
 func Test_RequestSchemeMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -11150,44 +9183,34 @@ func Test_RequestSchemeMatchConditionParameters_STATUS_WhenPropertiesConverted_R
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RequestSchemeMatchConditionParameters_STATUS to RequestSchemeMatchConditionParameters_STATUS via AssignProperties_To_RequestSchemeMatchConditionParameters_STATUS & AssignProperties_From_RequestSchemeMatchConditionParameters_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRequestSchemeMatchConditionParameters_STATUS, RequestSchemeMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RequestSchemeMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForRequestSchemeMatchConditionParameters_STATUS tests if a specific instance of RequestSchemeMatchConditionParameters_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRequestSchemeMatchConditionParameters_STATUS(subject RequestSchemeMatchConditionParameters_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.RequestSchemeMatchConditionParameters_STATUS
+		err := copied.AssignProperties_To_RequestSchemeMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RequestSchemeMatchConditionParameters_STATUS
-	err := copied.AssignProperties_To_RequestSchemeMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual RequestSchemeMatchConditionParameters_STATUS
+		err = actual.AssignProperties_From_RequestSchemeMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RequestSchemeMatchConditionParameters_STATUS
-	err = actual.AssignProperties_From_RequestSchemeMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_RequestSchemeMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -11197,29 +9220,23 @@ func Test_RequestSchemeMatchConditionParameters_STATUS_WhenSerializedToJson_Dese
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RequestSchemeMatchConditionParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRequestSchemeMatchConditionParameters_STATUS, RequestSchemeMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRequestSchemeMatchConditionParameters_STATUS)
 }
 
 // RunJSONSerializationTestForRequestSchemeMatchConditionParameters_STATUS runs a test to see if a specific instance of RequestSchemeMatchConditionParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForRequestSchemeMatchConditionParameters_STATUS(subject RequestSchemeMatchConditionParameters_STATUS) string {
+func RunJSONSerializationTestForRequestSchemeMatchConditionParameters_STATUS(t *rapid.T) {
+	subject := RequestSchemeMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RequestSchemeMatchConditionParameters_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -11228,38 +9245,38 @@ func RunJSONSerializationTestForRequestSchemeMatchConditionParameters_STATUS(sub
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RequestSchemeMatchConditionParameters_STATUS instances for property testing - lazily instantiated by
 // RequestSchemeMatchConditionParameters_STATUSGenerator()
-var requestSchemeMatchConditionParameters_STATUSGenerator gopter.Gen
+var requestSchemeMatchConditionParameters_STATUSGenerator *rapid.Generator[RequestSchemeMatchConditionParameters_STATUS]
 
 // RequestSchemeMatchConditionParameters_STATUSGenerator returns a generator of RequestSchemeMatchConditionParameters_STATUS instances for property testing.
-func RequestSchemeMatchConditionParameters_STATUSGenerator() gopter.Gen {
+func RequestSchemeMatchConditionParameters_STATUSGenerator() *rapid.Generator[RequestSchemeMatchConditionParameters_STATUS] {
 	if requestSchemeMatchConditionParameters_STATUSGenerator != nil {
 		return requestSchemeMatchConditionParameters_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRequestSchemeMatchConditionParameters_STATUS(generators)
-	requestSchemeMatchConditionParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(RequestSchemeMatchConditionParameters_STATUS{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	requestSchemeMatchConditionParameters_STATUSGenerator = rapid.Custom(func(t *rapid.T) RequestSchemeMatchConditionParameters_STATUS {
+		var result RequestSchemeMatchConditionParameters_STATUS
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return requestSchemeMatchConditionParameters_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRequestSchemeMatchConditionParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRequestSchemeMatchConditionParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_RequestUriMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of RequestUriMatchConditionParameters can be assigned to storage and back losslessly
 func Test_RequestUriMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -11267,44 +9284,34 @@ func Test_RequestUriMatchConditionParameters_WhenPropertiesConverted_RoundTripsW
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RequestUriMatchConditionParameters to RequestUriMatchConditionParameters via AssignProperties_To_RequestUriMatchConditionParameters & AssignProperties_From_RequestUriMatchConditionParameters returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRequestUriMatchConditionParameters, RequestUriMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RequestUriMatchConditionParametersGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForRequestUriMatchConditionParameters tests if a specific instance of RequestUriMatchConditionParameters can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRequestUriMatchConditionParameters(subject RequestUriMatchConditionParameters) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.RequestUriMatchConditionParameters
+		err := copied.AssignProperties_To_RequestUriMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RequestUriMatchConditionParameters
-	err := copied.AssignProperties_To_RequestUriMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual RequestUriMatchConditionParameters
+		err = actual.AssignProperties_From_RequestUriMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RequestUriMatchConditionParameters
-	err = actual.AssignProperties_From_RequestUriMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_RequestUriMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -11314,29 +9321,23 @@ func Test_RequestUriMatchConditionParameters_WhenSerializedToJson_DeserializesAs
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RequestUriMatchConditionParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRequestUriMatchConditionParameters, RequestUriMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRequestUriMatchConditionParameters)
 }
 
 // RunJSONSerializationTestForRequestUriMatchConditionParameters runs a test to see if a specific instance of RequestUriMatchConditionParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForRequestUriMatchConditionParameters(subject RequestUriMatchConditionParameters) string {
+func RunJSONSerializationTestForRequestUriMatchConditionParameters(t *rapid.T) {
+	subject := RequestUriMatchConditionParametersGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RequestUriMatchConditionParameters
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -11345,38 +9346,38 @@ func RunJSONSerializationTestForRequestUriMatchConditionParameters(subject Reque
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RequestUriMatchConditionParameters instances for property testing - lazily instantiated by
 // RequestUriMatchConditionParametersGenerator()
-var requestUriMatchConditionParametersGenerator gopter.Gen
+var requestUriMatchConditionParametersGenerator *rapid.Generator[RequestUriMatchConditionParameters]
 
 // RequestUriMatchConditionParametersGenerator returns a generator of RequestUriMatchConditionParameters instances for property testing.
-func RequestUriMatchConditionParametersGenerator() gopter.Gen {
+func RequestUriMatchConditionParametersGenerator() *rapid.Generator[RequestUriMatchConditionParameters] {
 	if requestUriMatchConditionParametersGenerator != nil {
 		return requestUriMatchConditionParametersGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRequestUriMatchConditionParameters(generators)
-	requestUriMatchConditionParametersGenerator = gen.Struct(reflect.TypeOf(RequestUriMatchConditionParameters{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	requestUriMatchConditionParametersGenerator = rapid.Custom(func(t *rapid.T) RequestUriMatchConditionParameters {
+		var result RequestUriMatchConditionParameters
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return requestUriMatchConditionParametersGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRequestUriMatchConditionParameters is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRequestUriMatchConditionParameters(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_RequestUriMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of RequestUriMatchConditionParameters_STATUS can be assigned to storage and back losslessly
 func Test_RequestUriMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -11384,44 +9385,34 @@ func Test_RequestUriMatchConditionParameters_STATUS_WhenPropertiesConverted_Roun
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RequestUriMatchConditionParameters_STATUS to RequestUriMatchConditionParameters_STATUS via AssignProperties_To_RequestUriMatchConditionParameters_STATUS & AssignProperties_From_RequestUriMatchConditionParameters_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRequestUriMatchConditionParameters_STATUS, RequestUriMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RequestUriMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForRequestUriMatchConditionParameters_STATUS tests if a specific instance of RequestUriMatchConditionParameters_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRequestUriMatchConditionParameters_STATUS(subject RequestUriMatchConditionParameters_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.RequestUriMatchConditionParameters_STATUS
+		err := copied.AssignProperties_To_RequestUriMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RequestUriMatchConditionParameters_STATUS
-	err := copied.AssignProperties_To_RequestUriMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual RequestUriMatchConditionParameters_STATUS
+		err = actual.AssignProperties_From_RequestUriMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RequestUriMatchConditionParameters_STATUS
-	err = actual.AssignProperties_From_RequestUriMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_RequestUriMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -11431,29 +9422,23 @@ func Test_RequestUriMatchConditionParameters_STATUS_WhenSerializedToJson_Deseria
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RequestUriMatchConditionParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRequestUriMatchConditionParameters_STATUS, RequestUriMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRequestUriMatchConditionParameters_STATUS)
 }
 
 // RunJSONSerializationTestForRequestUriMatchConditionParameters_STATUS runs a test to see if a specific instance of RequestUriMatchConditionParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForRequestUriMatchConditionParameters_STATUS(subject RequestUriMatchConditionParameters_STATUS) string {
+func RunJSONSerializationTestForRequestUriMatchConditionParameters_STATUS(t *rapid.T) {
+	subject := RequestUriMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RequestUriMatchConditionParameters_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -11462,38 +9447,38 @@ func RunJSONSerializationTestForRequestUriMatchConditionParameters_STATUS(subjec
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RequestUriMatchConditionParameters_STATUS instances for property testing - lazily instantiated by
 // RequestUriMatchConditionParameters_STATUSGenerator()
-var requestUriMatchConditionParameters_STATUSGenerator gopter.Gen
+var requestUriMatchConditionParameters_STATUSGenerator *rapid.Generator[RequestUriMatchConditionParameters_STATUS]
 
 // RequestUriMatchConditionParameters_STATUSGenerator returns a generator of RequestUriMatchConditionParameters_STATUS instances for property testing.
-func RequestUriMatchConditionParameters_STATUSGenerator() gopter.Gen {
+func RequestUriMatchConditionParameters_STATUSGenerator() *rapid.Generator[RequestUriMatchConditionParameters_STATUS] {
 	if requestUriMatchConditionParameters_STATUSGenerator != nil {
 		return requestUriMatchConditionParameters_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRequestUriMatchConditionParameters_STATUS(generators)
-	requestUriMatchConditionParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(RequestUriMatchConditionParameters_STATUS{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	requestUriMatchConditionParameters_STATUSGenerator = rapid.Custom(func(t *rapid.T) RequestUriMatchConditionParameters_STATUS {
+		var result RequestUriMatchConditionParameters_STATUS
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return requestUriMatchConditionParameters_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRequestUriMatchConditionParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRequestUriMatchConditionParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_RouteConfigurationOverrideActionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of RouteConfigurationOverrideActionParameters can be assigned to storage and back losslessly
 func Test_RouteConfigurationOverrideActionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -11501,44 +9486,34 @@ func Test_RouteConfigurationOverrideActionParameters_WhenPropertiesConverted_Rou
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RouteConfigurationOverrideActionParameters to RouteConfigurationOverrideActionParameters via AssignProperties_To_RouteConfigurationOverrideActionParameters & AssignProperties_From_RouteConfigurationOverrideActionParameters returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRouteConfigurationOverrideActionParameters, RouteConfigurationOverrideActionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RouteConfigurationOverrideActionParametersGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForRouteConfigurationOverrideActionParameters tests if a specific instance of RouteConfigurationOverrideActionParameters can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRouteConfigurationOverrideActionParameters(subject RouteConfigurationOverrideActionParameters) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.RouteConfigurationOverrideActionParameters
+		err := copied.AssignProperties_To_RouteConfigurationOverrideActionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RouteConfigurationOverrideActionParameters
-	err := copied.AssignProperties_To_RouteConfigurationOverrideActionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual RouteConfigurationOverrideActionParameters
+		err = actual.AssignProperties_From_RouteConfigurationOverrideActionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RouteConfigurationOverrideActionParameters
-	err = actual.AssignProperties_From_RouteConfigurationOverrideActionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_RouteConfigurationOverrideActionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -11548,29 +9523,23 @@ func Test_RouteConfigurationOverrideActionParameters_WhenSerializedToJson_Deseri
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RouteConfigurationOverrideActionParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRouteConfigurationOverrideActionParameters, RouteConfigurationOverrideActionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRouteConfigurationOverrideActionParameters)
 }
 
 // RunJSONSerializationTestForRouteConfigurationOverrideActionParameters runs a test to see if a specific instance of RouteConfigurationOverrideActionParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForRouteConfigurationOverrideActionParameters(subject RouteConfigurationOverrideActionParameters) string {
+func RunJSONSerializationTestForRouteConfigurationOverrideActionParameters(t *rapid.T) {
+	subject := RouteConfigurationOverrideActionParametersGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RouteConfigurationOverrideActionParameters
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -11579,49 +9548,36 @@ func RunJSONSerializationTestForRouteConfigurationOverrideActionParameters(subje
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RouteConfigurationOverrideActionParameters instances for property testing - lazily instantiated by
 // RouteConfigurationOverrideActionParametersGenerator()
-var routeConfigurationOverrideActionParametersGenerator gopter.Gen
+var routeConfigurationOverrideActionParametersGenerator *rapid.Generator[RouteConfigurationOverrideActionParameters]
 
 // RouteConfigurationOverrideActionParametersGenerator returns a generator of RouteConfigurationOverrideActionParameters instances for property testing.
-// We first initialize routeConfigurationOverrideActionParametersGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func RouteConfigurationOverrideActionParametersGenerator() gopter.Gen {
+func RouteConfigurationOverrideActionParametersGenerator() *rapid.Generator[RouteConfigurationOverrideActionParameters] {
 	if routeConfigurationOverrideActionParametersGenerator != nil {
 		return routeConfigurationOverrideActionParametersGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRouteConfigurationOverrideActionParameters(generators)
-	routeConfigurationOverrideActionParametersGenerator = gen.Struct(reflect.TypeOf(RouteConfigurationOverrideActionParameters{}), generators)
+	cacheConfiguration := rapid.Ptr(CacheConfigurationGenerator(), true)
+	originGroupOverride := rapid.Ptr(OriginGroupOverrideGenerator(), true)
+	typeName := rapid.Ptr(rapid.String(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRouteConfigurationOverrideActionParameters(generators)
-	AddRelatedPropertyGeneratorsForRouteConfigurationOverrideActionParameters(generators)
-	routeConfigurationOverrideActionParametersGenerator = gen.Struct(reflect.TypeOf(RouteConfigurationOverrideActionParameters{}), generators)
+	routeConfigurationOverrideActionParametersGenerator = rapid.Custom(func(t *rapid.T) RouteConfigurationOverrideActionParameters {
+		var result RouteConfigurationOverrideActionParameters
+		result.CacheConfiguration = cacheConfiguration.Draw(t, "CacheConfiguration")
+		result.OriginGroupOverride = originGroupOverride.Draw(t, "OriginGroupOverride")
+		result.TypeName = typeName.Draw(t, "TypeName")
+		return result
+	})
 
 	return routeConfigurationOverrideActionParametersGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRouteConfigurationOverrideActionParameters is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRouteConfigurationOverrideActionParameters(gens map[string]gopter.Gen) {
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForRouteConfigurationOverrideActionParameters is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRouteConfigurationOverrideActionParameters(gens map[string]gopter.Gen) {
-	gens["CacheConfiguration"] = gen.PtrOf(CacheConfigurationGenerator())
-	gens["OriginGroupOverride"] = gen.PtrOf(OriginGroupOverrideGenerator())
-}
-
+// Test_RouteConfigurationOverrideActionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of RouteConfigurationOverrideActionParameters_STATUS can be assigned to storage and back losslessly
 func Test_RouteConfigurationOverrideActionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -11629,44 +9585,34 @@ func Test_RouteConfigurationOverrideActionParameters_STATUS_WhenPropertiesConver
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RouteConfigurationOverrideActionParameters_STATUS to RouteConfigurationOverrideActionParameters_STATUS via AssignProperties_To_RouteConfigurationOverrideActionParameters_STATUS & AssignProperties_From_RouteConfigurationOverrideActionParameters_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRouteConfigurationOverrideActionParameters_STATUS, RouteConfigurationOverrideActionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RouteConfigurationOverrideActionParameters_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForRouteConfigurationOverrideActionParameters_STATUS tests if a specific instance of RouteConfigurationOverrideActionParameters_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRouteConfigurationOverrideActionParameters_STATUS(subject RouteConfigurationOverrideActionParameters_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.RouteConfigurationOverrideActionParameters_STATUS
+		err := copied.AssignProperties_To_RouteConfigurationOverrideActionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RouteConfigurationOverrideActionParameters_STATUS
-	err := copied.AssignProperties_To_RouteConfigurationOverrideActionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual RouteConfigurationOverrideActionParameters_STATUS
+		err = actual.AssignProperties_From_RouteConfigurationOverrideActionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RouteConfigurationOverrideActionParameters_STATUS
-	err = actual.AssignProperties_From_RouteConfigurationOverrideActionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_RouteConfigurationOverrideActionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -11676,29 +9622,23 @@ func Test_RouteConfigurationOverrideActionParameters_STATUS_WhenSerializedToJson
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RouteConfigurationOverrideActionParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRouteConfigurationOverrideActionParameters_STATUS, RouteConfigurationOverrideActionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRouteConfigurationOverrideActionParameters_STATUS)
 }
 
 // RunJSONSerializationTestForRouteConfigurationOverrideActionParameters_STATUS runs a test to see if a specific instance of RouteConfigurationOverrideActionParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForRouteConfigurationOverrideActionParameters_STATUS(subject RouteConfigurationOverrideActionParameters_STATUS) string {
+func RunJSONSerializationTestForRouteConfigurationOverrideActionParameters_STATUS(t *rapid.T) {
+	subject := RouteConfigurationOverrideActionParameters_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RouteConfigurationOverrideActionParameters_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -11707,49 +9647,36 @@ func RunJSONSerializationTestForRouteConfigurationOverrideActionParameters_STATU
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RouteConfigurationOverrideActionParameters_STATUS instances for property testing - lazily instantiated
 // by RouteConfigurationOverrideActionParameters_STATUSGenerator()
-var routeConfigurationOverrideActionParameters_STATUSGenerator gopter.Gen
+var routeConfigurationOverrideActionParameters_STATUSGenerator *rapid.Generator[RouteConfigurationOverrideActionParameters_STATUS]
 
 // RouteConfigurationOverrideActionParameters_STATUSGenerator returns a generator of RouteConfigurationOverrideActionParameters_STATUS instances for property testing.
-// We first initialize routeConfigurationOverrideActionParameters_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func RouteConfigurationOverrideActionParameters_STATUSGenerator() gopter.Gen {
+func RouteConfigurationOverrideActionParameters_STATUSGenerator() *rapid.Generator[RouteConfigurationOverrideActionParameters_STATUS] {
 	if routeConfigurationOverrideActionParameters_STATUSGenerator != nil {
 		return routeConfigurationOverrideActionParameters_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRouteConfigurationOverrideActionParameters_STATUS(generators)
-	routeConfigurationOverrideActionParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(RouteConfigurationOverrideActionParameters_STATUS{}), generators)
+	cacheConfiguration := rapid.Ptr(CacheConfiguration_STATUSGenerator(), true)
+	originGroupOverride := rapid.Ptr(OriginGroupOverride_STATUSGenerator(), true)
+	typeName := rapid.Ptr(rapid.String(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRouteConfigurationOverrideActionParameters_STATUS(generators)
-	AddRelatedPropertyGeneratorsForRouteConfigurationOverrideActionParameters_STATUS(generators)
-	routeConfigurationOverrideActionParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(RouteConfigurationOverrideActionParameters_STATUS{}), generators)
+	routeConfigurationOverrideActionParameters_STATUSGenerator = rapid.Custom(func(t *rapid.T) RouteConfigurationOverrideActionParameters_STATUS {
+		var result RouteConfigurationOverrideActionParameters_STATUS
+		result.CacheConfiguration = cacheConfiguration.Draw(t, "CacheConfiguration")
+		result.OriginGroupOverride = originGroupOverride.Draw(t, "OriginGroupOverride")
+		result.TypeName = typeName.Draw(t, "TypeName")
+		return result
+	})
 
 	return routeConfigurationOverrideActionParameters_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRouteConfigurationOverrideActionParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRouteConfigurationOverrideActionParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForRouteConfigurationOverrideActionParameters_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRouteConfigurationOverrideActionParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["CacheConfiguration"] = gen.PtrOf(CacheConfiguration_STATUSGenerator())
-	gens["OriginGroupOverride"] = gen.PtrOf(OriginGroupOverride_STATUSGenerator())
-}
-
+// Test_Rule_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of Rule round trips to the hub storage version and back losslessly
 func Test_Rule_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -11757,47 +9684,37 @@ func Test_Rule_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Rule to hub returns original",
-		prop.ForAll(RunResourceConversionTestForRule, RuleGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RuleGenerator().Draw(t, "subject")
+		// Copy subject to make sure conversion doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Convert to our hub version
+		var hub storage.Rule
+		err := copied.ConvertTo(&hub)
+		if err != nil {
+			t.Fatal("ConvertTo: " + err.Error())
+		}
+
+		// Convert from our hub version
+		var actual Rule
+		err = actual.ConvertFrom(&hub)
+		if err != nil {
+			t.Fatal("ConvertFrom: " + err.Error())
+		}
+
+		// Compare actual with what we started with
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
-// RunResourceConversionTestForRule tests if a specific instance of Rule round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForRule(subject Rule) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub storage.Rule
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual Rule
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
+// Test_Rule_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Rule can be assigned to storage and back losslessly
 func Test_Rule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -11805,44 +9722,34 @@ func Test_Rule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Rule to Rule via AssignProperties_To_Rule & AssignProperties_From_Rule returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRule, RuleGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RuleGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForRule tests if a specific instance of Rule can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRule(subject Rule) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.Rule
+		err := copied.AssignProperties_To_Rule(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Rule
-	err := copied.AssignProperties_To_Rule(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual Rule
+		err = actual.AssignProperties_From_Rule(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Rule
-	err = actual.AssignProperties_From_Rule(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_Rule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -11852,29 +9759,23 @@ func Test_Rule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Rule via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRule, RuleGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRule)
 }
 
 // RunJSONSerializationTestForRule runs a test to see if a specific instance of Rule round trips to JSON and back losslessly
-func RunJSONSerializationTestForRule(subject Rule) string {
+func RunJSONSerializationTestForRule(t *rapid.T) {
+	subject := RuleGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Rule
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -11883,34 +9784,33 @@ func RunJSONSerializationTestForRule(subject Rule) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Rule instances for property testing - lazily instantiated by RuleGenerator()
-var ruleGenerator gopter.Gen
+var ruleGenerator *rapid.Generator[Rule]
 
 // RuleGenerator returns a generator of Rule instances for property testing.
-func RuleGenerator() gopter.Gen {
+func RuleGenerator() *rapid.Generator[Rule] {
 	if ruleGenerator != nil {
 		return ruleGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForRule(generators)
-	ruleGenerator = gen.Struct(reflect.TypeOf(Rule{}), generators)
+	spec := Rule_SpecGenerator()
+	status := Rule_STATUSGenerator()
+
+	ruleGenerator = rapid.Custom(func(t *rapid.T) Rule {
+		var result Rule
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return ruleGenerator
 }
 
-// AddRelatedPropertyGeneratorsForRule is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRule(gens map[string]gopter.Gen) {
-	gens["Spec"] = Rule_SpecGenerator()
-	gens["Status"] = Rule_STATUSGenerator()
-}
-
+// Test_RuleOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of RuleOperatorSpec can be assigned to storage and back losslessly
 func Test_RuleOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -11918,44 +9818,34 @@ func Test_RuleOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RuleOperatorSpec to RuleOperatorSpec via AssignProperties_To_RuleOperatorSpec & AssignProperties_From_RuleOperatorSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRuleOperatorSpec, RuleOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := RuleOperatorSpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForRuleOperatorSpec tests if a specific instance of RuleOperatorSpec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRuleOperatorSpec(subject RuleOperatorSpec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.RuleOperatorSpec
+		err := copied.AssignProperties_To_RuleOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RuleOperatorSpec
-	err := copied.AssignProperties_To_RuleOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual RuleOperatorSpec
+		err = actual.AssignProperties_From_RuleOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RuleOperatorSpec
-	err = actual.AssignProperties_From_RuleOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_RuleOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -11965,29 +9855,23 @@ func Test_RuleOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RuleOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRuleOperatorSpec, RuleOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRuleOperatorSpec)
 }
 
 // RunJSONSerializationTestForRuleOperatorSpec runs a test to see if a specific instance of RuleOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForRuleOperatorSpec(subject RuleOperatorSpec) string {
+func RunJSONSerializationTestForRuleOperatorSpec(t *rapid.T) {
+	subject := RuleOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RuleOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -11996,27 +9880,25 @@ func RunJSONSerializationTestForRuleOperatorSpec(subject RuleOperatorSpec) strin
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RuleOperatorSpec instances for property testing - lazily instantiated by RuleOperatorSpecGenerator()
-var ruleOperatorSpecGenerator gopter.Gen
+var ruleOperatorSpecGenerator *rapid.Generator[RuleOperatorSpec]
 
 // RuleOperatorSpecGenerator returns a generator of RuleOperatorSpec instances for property testing.
-func RuleOperatorSpecGenerator() gopter.Gen {
+func RuleOperatorSpecGenerator() *rapid.Generator[RuleOperatorSpec] {
 	if ruleOperatorSpecGenerator != nil {
 		return ruleOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	ruleOperatorSpecGenerator = gen.Struct(reflect.TypeOf(RuleOperatorSpec{}), generators)
+	ruleOperatorSpecGenerator = rapid.Just(RuleOperatorSpec{})
 
 	return ruleOperatorSpecGenerator
 }
 
+// Test_Rule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Rule_STATUS can be assigned to storage and back losslessly
 func Test_Rule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -12024,44 +9906,34 @@ func Test_Rule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Rule_STATUS to Rule_STATUS via AssignProperties_To_Rule_STATUS & AssignProperties_From_Rule_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRule_STATUS, Rule_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := Rule_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForRule_STATUS tests if a specific instance of Rule_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRule_STATUS(subject Rule_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.Rule_STATUS
+		err := copied.AssignProperties_To_Rule_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Rule_STATUS
-	err := copied.AssignProperties_To_Rule_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual Rule_STATUS
+		err = actual.AssignProperties_From_Rule_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Rule_STATUS
-	err = actual.AssignProperties_From_Rule_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_Rule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -12071,29 +9943,23 @@ func Test_Rule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Rule_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRule_STATUS, Rule_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRule_STATUS)
 }
 
 // RunJSONSerializationTestForRule_STATUS runs a test to see if a specific instance of Rule_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForRule_STATUS(subject Rule_STATUS) string {
+func RunJSONSerializationTestForRule_STATUS(t *rapid.T) {
+	subject := Rule_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Rule_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -12102,56 +9968,45 @@ func RunJSONSerializationTestForRule_STATUS(subject Rule_STATUS) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Rule_STATUS instances for property testing - lazily instantiated by Rule_STATUSGenerator()
-var rule_STATUSGenerator gopter.Gen
+var rule_STATUSGenerator *rapid.Generator[Rule_STATUS]
 
 // Rule_STATUSGenerator returns a generator of Rule_STATUS instances for property testing.
-// We first initialize rule_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Rule_STATUSGenerator() gopter.Gen {
+func Rule_STATUSGenerator() *rapid.Generator[Rule_STATUS] {
 	if rule_STATUSGenerator != nil {
 		return rule_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRule_STATUS(generators)
-	rule_STATUSGenerator = gen.Struct(reflect.TypeOf(Rule_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	actions := rapid.SliceOf(DeliveryRuleAction_STATUSGenerator())
+	order := rapid.Ptr(rapid.Int(), true)
+	ruleConditions := rapid.SliceOf(DeliveryRuleCondition_STATUSGenerator())
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRule_STATUS(generators)
-	AddRelatedPropertyGeneratorsForRule_STATUS(generators)
-	rule_STATUSGenerator = gen.Struct(reflect.TypeOf(Rule_STATUS{}), generators)
+	rule_STATUSGenerator = rapid.Custom(func(t *rapid.T) Rule_STATUS {
+		var result Rule_STATUS
+		result.Actions = actions.Draw(t, "Actions")
+		result.DeploymentStatus = ptrString.Draw(t, "DeploymentStatus")
+		result.Id = ptrString.Draw(t, "Id")
+		result.MatchProcessingBehavior = ptrString.Draw(t, "MatchProcessingBehavior")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Order = order.Draw(t, "Order")
+		result.ProvisioningState = ptrString.Draw(t, "ProvisioningState")
+		result.RuleConditions = ruleConditions.Draw(t, "RuleConditions")
+		result.RuleSetName = ptrString.Draw(t, "RuleSetName")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return rule_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRule_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRule_STATUS(gens map[string]gopter.Gen) {
-	gens["DeploymentStatus"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["MatchProcessingBehavior"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Order"] = gen.PtrOf(gen.Int())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["RuleSetName"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForRule_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRule_STATUS(gens map[string]gopter.Gen) {
-	gens["Actions"] = gen.SliceOf(DeliveryRuleAction_STATUSGenerator())
-	gens["RuleConditions"] = gen.SliceOf(DeliveryRuleCondition_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
-}
-
+// Test_Rule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Rule_Spec can be assigned to storage and back losslessly
 func Test_Rule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -12159,44 +10014,34 @@ func Test_Rule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Rule_Spec to Rule_Spec via AssignProperties_To_Rule_Spec & AssignProperties_From_Rule_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRule_Spec, Rule_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := Rule_SpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForRule_Spec tests if a specific instance of Rule_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRule_Spec(subject Rule_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.Rule_Spec
+		err := copied.AssignProperties_To_Rule_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Rule_Spec
-	err := copied.AssignProperties_To_Rule_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual Rule_Spec
+		err = actual.AssignProperties_From_Rule_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Rule_Spec
-	err = actual.AssignProperties_From_Rule_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_Rule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -12206,29 +10051,23 @@ func Test_Rule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Rule_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRule_Spec, Rule_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRule_Spec)
 }
 
 // RunJSONSerializationTestForRule_Spec runs a test to see if a specific instance of Rule_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForRule_Spec(subject Rule_Spec) string {
+func RunJSONSerializationTestForRule_Spec(t *rapid.T) {
+	subject := Rule_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Rule_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -12237,52 +10076,42 @@ func RunJSONSerializationTestForRule_Spec(subject Rule_Spec) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Rule_Spec instances for property testing - lazily instantiated by Rule_SpecGenerator()
-var rule_SpecGenerator gopter.Gen
+var rule_SpecGenerator *rapid.Generator[Rule_Spec]
 
 // Rule_SpecGenerator returns a generator of Rule_Spec instances for property testing.
-// We first initialize rule_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Rule_SpecGenerator() gopter.Gen {
+func Rule_SpecGenerator() *rapid.Generator[Rule_Spec] {
 	if rule_SpecGenerator != nil {
 		return rule_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRule_Spec(generators)
-	rule_SpecGenerator = gen.Struct(reflect.TypeOf(Rule_Spec{}), generators)
+	genString := rapid.String()
+	actions := rapid.SliceOf(DeliveryRuleActionGenerator())
+	matchProcessingBehavior := rapid.Ptr(rapid.String(), true)
+	operatorSpec := rapid.Ptr(RuleOperatorSpecGenerator(), true)
+	order := rapid.Ptr(rapid.Int(), true)
+	ruleConditions := rapid.SliceOf(DeliveryRuleConditionGenerator())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRule_Spec(generators)
-	AddRelatedPropertyGeneratorsForRule_Spec(generators)
-	rule_SpecGenerator = gen.Struct(reflect.TypeOf(Rule_Spec{}), generators)
+	rule_SpecGenerator = rapid.Custom(func(t *rapid.T) Rule_Spec {
+		var result Rule_Spec
+		result.Actions = actions.Draw(t, "Actions")
+		result.AzureName = genString.Draw(t, "AzureName")
+		result.MatchProcessingBehavior = matchProcessingBehavior.Draw(t, "MatchProcessingBehavior")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		result.Order = order.Draw(t, "Order")
+		result.OriginalVersion = genString.Draw(t, "OriginalVersion")
+		result.RuleConditions = ruleConditions.Draw(t, "RuleConditions")
+		return result
+	})
 
 	return rule_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRule_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRule_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["MatchProcessingBehavior"] = gen.PtrOf(gen.AlphaString())
-	gens["Order"] = gen.PtrOf(gen.Int())
-	gens["OriginalVersion"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForRule_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRule_Spec(gens map[string]gopter.Gen) {
-	gens["Actions"] = gen.SliceOf(DeliveryRuleActionGenerator())
-	gens["OperatorSpec"] = gen.PtrOf(RuleOperatorSpecGenerator())
-	gens["RuleConditions"] = gen.SliceOf(DeliveryRuleConditionGenerator())
-}
-
+// Test_ServerPortMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ServerPortMatchConditionParameters can be assigned to storage and back losslessly
 func Test_ServerPortMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -12290,44 +10119,34 @@ func Test_ServerPortMatchConditionParameters_WhenPropertiesConverted_RoundTripsW
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ServerPortMatchConditionParameters to ServerPortMatchConditionParameters via AssignProperties_To_ServerPortMatchConditionParameters & AssignProperties_From_ServerPortMatchConditionParameters returns original",
-		prop.ForAll(RunPropertyAssignmentTestForServerPortMatchConditionParameters, ServerPortMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ServerPortMatchConditionParametersGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForServerPortMatchConditionParameters tests if a specific instance of ServerPortMatchConditionParameters can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForServerPortMatchConditionParameters(subject ServerPortMatchConditionParameters) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ServerPortMatchConditionParameters
+		err := copied.AssignProperties_To_ServerPortMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServerPortMatchConditionParameters
-	err := copied.AssignProperties_To_ServerPortMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ServerPortMatchConditionParameters
+		err = actual.AssignProperties_From_ServerPortMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ServerPortMatchConditionParameters
-	err = actual.AssignProperties_From_ServerPortMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ServerPortMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -12337,29 +10156,23 @@ func Test_ServerPortMatchConditionParameters_WhenSerializedToJson_DeserializesAs
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ServerPortMatchConditionParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServerPortMatchConditionParameters, ServerPortMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForServerPortMatchConditionParameters)
 }
 
 // RunJSONSerializationTestForServerPortMatchConditionParameters runs a test to see if a specific instance of ServerPortMatchConditionParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForServerPortMatchConditionParameters(subject ServerPortMatchConditionParameters) string {
+func RunJSONSerializationTestForServerPortMatchConditionParameters(t *rapid.T) {
+	subject := ServerPortMatchConditionParametersGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ServerPortMatchConditionParameters
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -12368,38 +10181,38 @@ func RunJSONSerializationTestForServerPortMatchConditionParameters(subject Serve
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ServerPortMatchConditionParameters instances for property testing - lazily instantiated by
 // ServerPortMatchConditionParametersGenerator()
-var serverPortMatchConditionParametersGenerator gopter.Gen
+var serverPortMatchConditionParametersGenerator *rapid.Generator[ServerPortMatchConditionParameters]
 
 // ServerPortMatchConditionParametersGenerator returns a generator of ServerPortMatchConditionParameters instances for property testing.
-func ServerPortMatchConditionParametersGenerator() gopter.Gen {
+func ServerPortMatchConditionParametersGenerator() *rapid.Generator[ServerPortMatchConditionParameters] {
 	if serverPortMatchConditionParametersGenerator != nil {
 		return serverPortMatchConditionParametersGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServerPortMatchConditionParameters(generators)
-	serverPortMatchConditionParametersGenerator = gen.Struct(reflect.TypeOf(ServerPortMatchConditionParameters{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	serverPortMatchConditionParametersGenerator = rapid.Custom(func(t *rapid.T) ServerPortMatchConditionParameters {
+		var result ServerPortMatchConditionParameters
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return serverPortMatchConditionParametersGenerator
 }
 
-// AddIndependentPropertyGeneratorsForServerPortMatchConditionParameters is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServerPortMatchConditionParameters(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_ServerPortMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ServerPortMatchConditionParameters_STATUS can be assigned to storage and back losslessly
 func Test_ServerPortMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -12407,44 +10220,34 @@ func Test_ServerPortMatchConditionParameters_STATUS_WhenPropertiesConverted_Roun
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ServerPortMatchConditionParameters_STATUS to ServerPortMatchConditionParameters_STATUS via AssignProperties_To_ServerPortMatchConditionParameters_STATUS & AssignProperties_From_ServerPortMatchConditionParameters_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForServerPortMatchConditionParameters_STATUS, ServerPortMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ServerPortMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForServerPortMatchConditionParameters_STATUS tests if a specific instance of ServerPortMatchConditionParameters_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForServerPortMatchConditionParameters_STATUS(subject ServerPortMatchConditionParameters_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ServerPortMatchConditionParameters_STATUS
+		err := copied.AssignProperties_To_ServerPortMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServerPortMatchConditionParameters_STATUS
-	err := copied.AssignProperties_To_ServerPortMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ServerPortMatchConditionParameters_STATUS
+		err = actual.AssignProperties_From_ServerPortMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ServerPortMatchConditionParameters_STATUS
-	err = actual.AssignProperties_From_ServerPortMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ServerPortMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -12454,29 +10257,23 @@ func Test_ServerPortMatchConditionParameters_STATUS_WhenSerializedToJson_Deseria
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ServerPortMatchConditionParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServerPortMatchConditionParameters_STATUS, ServerPortMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForServerPortMatchConditionParameters_STATUS)
 }
 
 // RunJSONSerializationTestForServerPortMatchConditionParameters_STATUS runs a test to see if a specific instance of ServerPortMatchConditionParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForServerPortMatchConditionParameters_STATUS(subject ServerPortMatchConditionParameters_STATUS) string {
+func RunJSONSerializationTestForServerPortMatchConditionParameters_STATUS(t *rapid.T) {
+	subject := ServerPortMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ServerPortMatchConditionParameters_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -12485,38 +10282,38 @@ func RunJSONSerializationTestForServerPortMatchConditionParameters_STATUS(subjec
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ServerPortMatchConditionParameters_STATUS instances for property testing - lazily instantiated by
 // ServerPortMatchConditionParameters_STATUSGenerator()
-var serverPortMatchConditionParameters_STATUSGenerator gopter.Gen
+var serverPortMatchConditionParameters_STATUSGenerator *rapid.Generator[ServerPortMatchConditionParameters_STATUS]
 
 // ServerPortMatchConditionParameters_STATUSGenerator returns a generator of ServerPortMatchConditionParameters_STATUS instances for property testing.
-func ServerPortMatchConditionParameters_STATUSGenerator() gopter.Gen {
+func ServerPortMatchConditionParameters_STATUSGenerator() *rapid.Generator[ServerPortMatchConditionParameters_STATUS] {
 	if serverPortMatchConditionParameters_STATUSGenerator != nil {
 		return serverPortMatchConditionParameters_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServerPortMatchConditionParameters_STATUS(generators)
-	serverPortMatchConditionParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(ServerPortMatchConditionParameters_STATUS{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	serverPortMatchConditionParameters_STATUSGenerator = rapid.Custom(func(t *rapid.T) ServerPortMatchConditionParameters_STATUS {
+		var result ServerPortMatchConditionParameters_STATUS
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return serverPortMatchConditionParameters_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForServerPortMatchConditionParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServerPortMatchConditionParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_SocketAddrMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of SocketAddrMatchConditionParameters can be assigned to storage and back losslessly
 func Test_SocketAddrMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -12524,44 +10321,34 @@ func Test_SocketAddrMatchConditionParameters_WhenPropertiesConverted_RoundTripsW
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from SocketAddrMatchConditionParameters to SocketAddrMatchConditionParameters via AssignProperties_To_SocketAddrMatchConditionParameters & AssignProperties_From_SocketAddrMatchConditionParameters returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSocketAddrMatchConditionParameters, SocketAddrMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := SocketAddrMatchConditionParametersGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForSocketAddrMatchConditionParameters tests if a specific instance of SocketAddrMatchConditionParameters can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForSocketAddrMatchConditionParameters(subject SocketAddrMatchConditionParameters) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.SocketAddrMatchConditionParameters
+		err := copied.AssignProperties_To_SocketAddrMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SocketAddrMatchConditionParameters
-	err := copied.AssignProperties_To_SocketAddrMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual SocketAddrMatchConditionParameters
+		err = actual.AssignProperties_From_SocketAddrMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SocketAddrMatchConditionParameters
-	err = actual.AssignProperties_From_SocketAddrMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_SocketAddrMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -12571,29 +10358,23 @@ func Test_SocketAddrMatchConditionParameters_WhenSerializedToJson_DeserializesAs
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SocketAddrMatchConditionParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSocketAddrMatchConditionParameters, SocketAddrMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSocketAddrMatchConditionParameters)
 }
 
 // RunJSONSerializationTestForSocketAddrMatchConditionParameters runs a test to see if a specific instance of SocketAddrMatchConditionParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForSocketAddrMatchConditionParameters(subject SocketAddrMatchConditionParameters) string {
+func RunJSONSerializationTestForSocketAddrMatchConditionParameters(t *rapid.T) {
+	subject := SocketAddrMatchConditionParametersGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SocketAddrMatchConditionParameters
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -12602,38 +10383,38 @@ func RunJSONSerializationTestForSocketAddrMatchConditionParameters(subject Socke
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SocketAddrMatchConditionParameters instances for property testing - lazily instantiated by
 // SocketAddrMatchConditionParametersGenerator()
-var socketAddrMatchConditionParametersGenerator gopter.Gen
+var socketAddrMatchConditionParametersGenerator *rapid.Generator[SocketAddrMatchConditionParameters]
 
 // SocketAddrMatchConditionParametersGenerator returns a generator of SocketAddrMatchConditionParameters instances for property testing.
-func SocketAddrMatchConditionParametersGenerator() gopter.Gen {
+func SocketAddrMatchConditionParametersGenerator() *rapid.Generator[SocketAddrMatchConditionParameters] {
 	if socketAddrMatchConditionParametersGenerator != nil {
 		return socketAddrMatchConditionParametersGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSocketAddrMatchConditionParameters(generators)
-	socketAddrMatchConditionParametersGenerator = gen.Struct(reflect.TypeOf(SocketAddrMatchConditionParameters{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	socketAddrMatchConditionParametersGenerator = rapid.Custom(func(t *rapid.T) SocketAddrMatchConditionParameters {
+		var result SocketAddrMatchConditionParameters
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return socketAddrMatchConditionParametersGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSocketAddrMatchConditionParameters is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSocketAddrMatchConditionParameters(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_SocketAddrMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of SocketAddrMatchConditionParameters_STATUS can be assigned to storage and back losslessly
 func Test_SocketAddrMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -12641,44 +10422,34 @@ func Test_SocketAddrMatchConditionParameters_STATUS_WhenPropertiesConverted_Roun
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from SocketAddrMatchConditionParameters_STATUS to SocketAddrMatchConditionParameters_STATUS via AssignProperties_To_SocketAddrMatchConditionParameters_STATUS & AssignProperties_From_SocketAddrMatchConditionParameters_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSocketAddrMatchConditionParameters_STATUS, SocketAddrMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := SocketAddrMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForSocketAddrMatchConditionParameters_STATUS tests if a specific instance of SocketAddrMatchConditionParameters_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForSocketAddrMatchConditionParameters_STATUS(subject SocketAddrMatchConditionParameters_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.SocketAddrMatchConditionParameters_STATUS
+		err := copied.AssignProperties_To_SocketAddrMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SocketAddrMatchConditionParameters_STATUS
-	err := copied.AssignProperties_To_SocketAddrMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual SocketAddrMatchConditionParameters_STATUS
+		err = actual.AssignProperties_From_SocketAddrMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SocketAddrMatchConditionParameters_STATUS
-	err = actual.AssignProperties_From_SocketAddrMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_SocketAddrMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -12688,29 +10459,23 @@ func Test_SocketAddrMatchConditionParameters_STATUS_WhenSerializedToJson_Deseria
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SocketAddrMatchConditionParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSocketAddrMatchConditionParameters_STATUS, SocketAddrMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSocketAddrMatchConditionParameters_STATUS)
 }
 
 // RunJSONSerializationTestForSocketAddrMatchConditionParameters_STATUS runs a test to see if a specific instance of SocketAddrMatchConditionParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSocketAddrMatchConditionParameters_STATUS(subject SocketAddrMatchConditionParameters_STATUS) string {
+func RunJSONSerializationTestForSocketAddrMatchConditionParameters_STATUS(t *rapid.T) {
+	subject := SocketAddrMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SocketAddrMatchConditionParameters_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -12719,38 +10484,38 @@ func RunJSONSerializationTestForSocketAddrMatchConditionParameters_STATUS(subjec
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SocketAddrMatchConditionParameters_STATUS instances for property testing - lazily instantiated by
 // SocketAddrMatchConditionParameters_STATUSGenerator()
-var socketAddrMatchConditionParameters_STATUSGenerator gopter.Gen
+var socketAddrMatchConditionParameters_STATUSGenerator *rapid.Generator[SocketAddrMatchConditionParameters_STATUS]
 
 // SocketAddrMatchConditionParameters_STATUSGenerator returns a generator of SocketAddrMatchConditionParameters_STATUS instances for property testing.
-func SocketAddrMatchConditionParameters_STATUSGenerator() gopter.Gen {
+func SocketAddrMatchConditionParameters_STATUSGenerator() *rapid.Generator[SocketAddrMatchConditionParameters_STATUS] {
 	if socketAddrMatchConditionParameters_STATUSGenerator != nil {
 		return socketAddrMatchConditionParameters_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSocketAddrMatchConditionParameters_STATUS(generators)
-	socketAddrMatchConditionParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(SocketAddrMatchConditionParameters_STATUS{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	socketAddrMatchConditionParameters_STATUSGenerator = rapid.Custom(func(t *rapid.T) SocketAddrMatchConditionParameters_STATUS {
+		var result SocketAddrMatchConditionParameters_STATUS
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return socketAddrMatchConditionParameters_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSocketAddrMatchConditionParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSocketAddrMatchConditionParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_SslProtocolMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of SslProtocolMatchConditionParameters can be assigned to storage and back losslessly
 func Test_SslProtocolMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -12758,44 +10523,34 @@ func Test_SslProtocolMatchConditionParameters_WhenPropertiesConverted_RoundTrips
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from SslProtocolMatchConditionParameters to SslProtocolMatchConditionParameters via AssignProperties_To_SslProtocolMatchConditionParameters & AssignProperties_From_SslProtocolMatchConditionParameters returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSslProtocolMatchConditionParameters, SslProtocolMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := SslProtocolMatchConditionParametersGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForSslProtocolMatchConditionParameters tests if a specific instance of SslProtocolMatchConditionParameters can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForSslProtocolMatchConditionParameters(subject SslProtocolMatchConditionParameters) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.SslProtocolMatchConditionParameters
+		err := copied.AssignProperties_To_SslProtocolMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SslProtocolMatchConditionParameters
-	err := copied.AssignProperties_To_SslProtocolMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual SslProtocolMatchConditionParameters
+		err = actual.AssignProperties_From_SslProtocolMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SslProtocolMatchConditionParameters
-	err = actual.AssignProperties_From_SslProtocolMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_SslProtocolMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -12805,29 +10560,23 @@ func Test_SslProtocolMatchConditionParameters_WhenSerializedToJson_DeserializesA
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SslProtocolMatchConditionParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSslProtocolMatchConditionParameters, SslProtocolMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSslProtocolMatchConditionParameters)
 }
 
 // RunJSONSerializationTestForSslProtocolMatchConditionParameters runs a test to see if a specific instance of SslProtocolMatchConditionParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForSslProtocolMatchConditionParameters(subject SslProtocolMatchConditionParameters) string {
+func RunJSONSerializationTestForSslProtocolMatchConditionParameters(t *rapid.T) {
+	subject := SslProtocolMatchConditionParametersGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SslProtocolMatchConditionParameters
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -12836,38 +10585,38 @@ func RunJSONSerializationTestForSslProtocolMatchConditionParameters(subject SslP
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SslProtocolMatchConditionParameters instances for property testing - lazily instantiated by
 // SslProtocolMatchConditionParametersGenerator()
-var sslProtocolMatchConditionParametersGenerator gopter.Gen
+var sslProtocolMatchConditionParametersGenerator *rapid.Generator[SslProtocolMatchConditionParameters]
 
 // SslProtocolMatchConditionParametersGenerator returns a generator of SslProtocolMatchConditionParameters instances for property testing.
-func SslProtocolMatchConditionParametersGenerator() gopter.Gen {
+func SslProtocolMatchConditionParametersGenerator() *rapid.Generator[SslProtocolMatchConditionParameters] {
 	if sslProtocolMatchConditionParametersGenerator != nil {
 		return sslProtocolMatchConditionParametersGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSslProtocolMatchConditionParameters(generators)
-	sslProtocolMatchConditionParametersGenerator = gen.Struct(reflect.TypeOf(SslProtocolMatchConditionParameters{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	sslProtocolMatchConditionParametersGenerator = rapid.Custom(func(t *rapid.T) SslProtocolMatchConditionParameters {
+		var result SslProtocolMatchConditionParameters
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return sslProtocolMatchConditionParametersGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSslProtocolMatchConditionParameters is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSslProtocolMatchConditionParameters(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_SslProtocolMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of SslProtocolMatchConditionParameters_STATUS can be assigned to storage and back losslessly
 func Test_SslProtocolMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -12875,44 +10624,34 @@ func Test_SslProtocolMatchConditionParameters_STATUS_WhenPropertiesConverted_Rou
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from SslProtocolMatchConditionParameters_STATUS to SslProtocolMatchConditionParameters_STATUS via AssignProperties_To_SslProtocolMatchConditionParameters_STATUS & AssignProperties_From_SslProtocolMatchConditionParameters_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSslProtocolMatchConditionParameters_STATUS, SslProtocolMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := SslProtocolMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForSslProtocolMatchConditionParameters_STATUS tests if a specific instance of SslProtocolMatchConditionParameters_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForSslProtocolMatchConditionParameters_STATUS(subject SslProtocolMatchConditionParameters_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.SslProtocolMatchConditionParameters_STATUS
+		err := copied.AssignProperties_To_SslProtocolMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SslProtocolMatchConditionParameters_STATUS
-	err := copied.AssignProperties_To_SslProtocolMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual SslProtocolMatchConditionParameters_STATUS
+		err = actual.AssignProperties_From_SslProtocolMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SslProtocolMatchConditionParameters_STATUS
-	err = actual.AssignProperties_From_SslProtocolMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_SslProtocolMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -12922,29 +10661,23 @@ func Test_SslProtocolMatchConditionParameters_STATUS_WhenSerializedToJson_Deseri
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SslProtocolMatchConditionParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSslProtocolMatchConditionParameters_STATUS, SslProtocolMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSslProtocolMatchConditionParameters_STATUS)
 }
 
 // RunJSONSerializationTestForSslProtocolMatchConditionParameters_STATUS runs a test to see if a specific instance of SslProtocolMatchConditionParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSslProtocolMatchConditionParameters_STATUS(subject SslProtocolMatchConditionParameters_STATUS) string {
+func RunJSONSerializationTestForSslProtocolMatchConditionParameters_STATUS(t *rapid.T) {
+	subject := SslProtocolMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SslProtocolMatchConditionParameters_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -12953,38 +10686,38 @@ func RunJSONSerializationTestForSslProtocolMatchConditionParameters_STATUS(subje
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SslProtocolMatchConditionParameters_STATUS instances for property testing - lazily instantiated by
 // SslProtocolMatchConditionParameters_STATUSGenerator()
-var sslProtocolMatchConditionParameters_STATUSGenerator gopter.Gen
+var sslProtocolMatchConditionParameters_STATUSGenerator *rapid.Generator[SslProtocolMatchConditionParameters_STATUS]
 
 // SslProtocolMatchConditionParameters_STATUSGenerator returns a generator of SslProtocolMatchConditionParameters_STATUS instances for property testing.
-func SslProtocolMatchConditionParameters_STATUSGenerator() gopter.Gen {
+func SslProtocolMatchConditionParameters_STATUSGenerator() *rapid.Generator[SslProtocolMatchConditionParameters_STATUS] {
 	if sslProtocolMatchConditionParameters_STATUSGenerator != nil {
 		return sslProtocolMatchConditionParameters_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSslProtocolMatchConditionParameters_STATUS(generators)
-	sslProtocolMatchConditionParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(SslProtocolMatchConditionParameters_STATUS{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	sslProtocolMatchConditionParameters_STATUSGenerator = rapid.Custom(func(t *rapid.T) SslProtocolMatchConditionParameters_STATUS {
+		var result SslProtocolMatchConditionParameters_STATUS
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return sslProtocolMatchConditionParameters_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSslProtocolMatchConditionParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSslProtocolMatchConditionParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_UrlFileExtensionMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of UrlFileExtensionMatchConditionParameters can be assigned to storage and back losslessly
 func Test_UrlFileExtensionMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -12992,44 +10725,34 @@ func Test_UrlFileExtensionMatchConditionParameters_WhenPropertiesConverted_Round
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from UrlFileExtensionMatchConditionParameters to UrlFileExtensionMatchConditionParameters via AssignProperties_To_UrlFileExtensionMatchConditionParameters & AssignProperties_From_UrlFileExtensionMatchConditionParameters returns original",
-		prop.ForAll(RunPropertyAssignmentTestForUrlFileExtensionMatchConditionParameters, UrlFileExtensionMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := UrlFileExtensionMatchConditionParametersGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForUrlFileExtensionMatchConditionParameters tests if a specific instance of UrlFileExtensionMatchConditionParameters can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForUrlFileExtensionMatchConditionParameters(subject UrlFileExtensionMatchConditionParameters) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.UrlFileExtensionMatchConditionParameters
+		err := copied.AssignProperties_To_UrlFileExtensionMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UrlFileExtensionMatchConditionParameters
-	err := copied.AssignProperties_To_UrlFileExtensionMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual UrlFileExtensionMatchConditionParameters
+		err = actual.AssignProperties_From_UrlFileExtensionMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual UrlFileExtensionMatchConditionParameters
-	err = actual.AssignProperties_From_UrlFileExtensionMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_UrlFileExtensionMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -13039,29 +10762,23 @@ func Test_UrlFileExtensionMatchConditionParameters_WhenSerializedToJson_Deserial
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UrlFileExtensionMatchConditionParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUrlFileExtensionMatchConditionParameters, UrlFileExtensionMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForUrlFileExtensionMatchConditionParameters)
 }
 
 // RunJSONSerializationTestForUrlFileExtensionMatchConditionParameters runs a test to see if a specific instance of UrlFileExtensionMatchConditionParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForUrlFileExtensionMatchConditionParameters(subject UrlFileExtensionMatchConditionParameters) string {
+func RunJSONSerializationTestForUrlFileExtensionMatchConditionParameters(t *rapid.T) {
+	subject := UrlFileExtensionMatchConditionParametersGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual UrlFileExtensionMatchConditionParameters
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -13070,38 +10787,38 @@ func RunJSONSerializationTestForUrlFileExtensionMatchConditionParameters(subject
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of UrlFileExtensionMatchConditionParameters instances for property testing - lazily instantiated by
 // UrlFileExtensionMatchConditionParametersGenerator()
-var urlFileExtensionMatchConditionParametersGenerator gopter.Gen
+var urlFileExtensionMatchConditionParametersGenerator *rapid.Generator[UrlFileExtensionMatchConditionParameters]
 
 // UrlFileExtensionMatchConditionParametersGenerator returns a generator of UrlFileExtensionMatchConditionParameters instances for property testing.
-func UrlFileExtensionMatchConditionParametersGenerator() gopter.Gen {
+func UrlFileExtensionMatchConditionParametersGenerator() *rapid.Generator[UrlFileExtensionMatchConditionParameters] {
 	if urlFileExtensionMatchConditionParametersGenerator != nil {
 		return urlFileExtensionMatchConditionParametersGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlFileExtensionMatchConditionParameters(generators)
-	urlFileExtensionMatchConditionParametersGenerator = gen.Struct(reflect.TypeOf(UrlFileExtensionMatchConditionParameters{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	urlFileExtensionMatchConditionParametersGenerator = rapid.Custom(func(t *rapid.T) UrlFileExtensionMatchConditionParameters {
+		var result UrlFileExtensionMatchConditionParameters
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return urlFileExtensionMatchConditionParametersGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUrlFileExtensionMatchConditionParameters is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUrlFileExtensionMatchConditionParameters(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_UrlFileExtensionMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of UrlFileExtensionMatchConditionParameters_STATUS can be assigned to storage and back losslessly
 func Test_UrlFileExtensionMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -13109,44 +10826,34 @@ func Test_UrlFileExtensionMatchConditionParameters_STATUS_WhenPropertiesConverte
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from UrlFileExtensionMatchConditionParameters_STATUS to UrlFileExtensionMatchConditionParameters_STATUS via AssignProperties_To_UrlFileExtensionMatchConditionParameters_STATUS & AssignProperties_From_UrlFileExtensionMatchConditionParameters_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForUrlFileExtensionMatchConditionParameters_STATUS, UrlFileExtensionMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := UrlFileExtensionMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForUrlFileExtensionMatchConditionParameters_STATUS tests if a specific instance of UrlFileExtensionMatchConditionParameters_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForUrlFileExtensionMatchConditionParameters_STATUS(subject UrlFileExtensionMatchConditionParameters_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.UrlFileExtensionMatchConditionParameters_STATUS
+		err := copied.AssignProperties_To_UrlFileExtensionMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UrlFileExtensionMatchConditionParameters_STATUS
-	err := copied.AssignProperties_To_UrlFileExtensionMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual UrlFileExtensionMatchConditionParameters_STATUS
+		err = actual.AssignProperties_From_UrlFileExtensionMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual UrlFileExtensionMatchConditionParameters_STATUS
-	err = actual.AssignProperties_From_UrlFileExtensionMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_UrlFileExtensionMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -13156,29 +10863,23 @@ func Test_UrlFileExtensionMatchConditionParameters_STATUS_WhenSerializedToJson_D
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UrlFileExtensionMatchConditionParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUrlFileExtensionMatchConditionParameters_STATUS, UrlFileExtensionMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForUrlFileExtensionMatchConditionParameters_STATUS)
 }
 
 // RunJSONSerializationTestForUrlFileExtensionMatchConditionParameters_STATUS runs a test to see if a specific instance of UrlFileExtensionMatchConditionParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForUrlFileExtensionMatchConditionParameters_STATUS(subject UrlFileExtensionMatchConditionParameters_STATUS) string {
+func RunJSONSerializationTestForUrlFileExtensionMatchConditionParameters_STATUS(t *rapid.T) {
+	subject := UrlFileExtensionMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual UrlFileExtensionMatchConditionParameters_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -13187,38 +10888,38 @@ func RunJSONSerializationTestForUrlFileExtensionMatchConditionParameters_STATUS(
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of UrlFileExtensionMatchConditionParameters_STATUS instances for property testing - lazily instantiated by
 // UrlFileExtensionMatchConditionParameters_STATUSGenerator()
-var urlFileExtensionMatchConditionParameters_STATUSGenerator gopter.Gen
+var urlFileExtensionMatchConditionParameters_STATUSGenerator *rapid.Generator[UrlFileExtensionMatchConditionParameters_STATUS]
 
 // UrlFileExtensionMatchConditionParameters_STATUSGenerator returns a generator of UrlFileExtensionMatchConditionParameters_STATUS instances for property testing.
-func UrlFileExtensionMatchConditionParameters_STATUSGenerator() gopter.Gen {
+func UrlFileExtensionMatchConditionParameters_STATUSGenerator() *rapid.Generator[UrlFileExtensionMatchConditionParameters_STATUS] {
 	if urlFileExtensionMatchConditionParameters_STATUSGenerator != nil {
 		return urlFileExtensionMatchConditionParameters_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlFileExtensionMatchConditionParameters_STATUS(generators)
-	urlFileExtensionMatchConditionParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(UrlFileExtensionMatchConditionParameters_STATUS{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	urlFileExtensionMatchConditionParameters_STATUSGenerator = rapid.Custom(func(t *rapid.T) UrlFileExtensionMatchConditionParameters_STATUS {
+		var result UrlFileExtensionMatchConditionParameters_STATUS
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return urlFileExtensionMatchConditionParameters_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUrlFileExtensionMatchConditionParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUrlFileExtensionMatchConditionParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_UrlFileNameMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of UrlFileNameMatchConditionParameters can be assigned to storage and back losslessly
 func Test_UrlFileNameMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -13226,44 +10927,34 @@ func Test_UrlFileNameMatchConditionParameters_WhenPropertiesConverted_RoundTrips
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from UrlFileNameMatchConditionParameters to UrlFileNameMatchConditionParameters via AssignProperties_To_UrlFileNameMatchConditionParameters & AssignProperties_From_UrlFileNameMatchConditionParameters returns original",
-		prop.ForAll(RunPropertyAssignmentTestForUrlFileNameMatchConditionParameters, UrlFileNameMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := UrlFileNameMatchConditionParametersGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForUrlFileNameMatchConditionParameters tests if a specific instance of UrlFileNameMatchConditionParameters can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForUrlFileNameMatchConditionParameters(subject UrlFileNameMatchConditionParameters) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.UrlFileNameMatchConditionParameters
+		err := copied.AssignProperties_To_UrlFileNameMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UrlFileNameMatchConditionParameters
-	err := copied.AssignProperties_To_UrlFileNameMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual UrlFileNameMatchConditionParameters
+		err = actual.AssignProperties_From_UrlFileNameMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual UrlFileNameMatchConditionParameters
-	err = actual.AssignProperties_From_UrlFileNameMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_UrlFileNameMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -13273,29 +10964,23 @@ func Test_UrlFileNameMatchConditionParameters_WhenSerializedToJson_DeserializesA
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UrlFileNameMatchConditionParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUrlFileNameMatchConditionParameters, UrlFileNameMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForUrlFileNameMatchConditionParameters)
 }
 
 // RunJSONSerializationTestForUrlFileNameMatchConditionParameters runs a test to see if a specific instance of UrlFileNameMatchConditionParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForUrlFileNameMatchConditionParameters(subject UrlFileNameMatchConditionParameters) string {
+func RunJSONSerializationTestForUrlFileNameMatchConditionParameters(t *rapid.T) {
+	subject := UrlFileNameMatchConditionParametersGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual UrlFileNameMatchConditionParameters
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -13304,38 +10989,38 @@ func RunJSONSerializationTestForUrlFileNameMatchConditionParameters(subject UrlF
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of UrlFileNameMatchConditionParameters instances for property testing - lazily instantiated by
 // UrlFileNameMatchConditionParametersGenerator()
-var urlFileNameMatchConditionParametersGenerator gopter.Gen
+var urlFileNameMatchConditionParametersGenerator *rapid.Generator[UrlFileNameMatchConditionParameters]
 
 // UrlFileNameMatchConditionParametersGenerator returns a generator of UrlFileNameMatchConditionParameters instances for property testing.
-func UrlFileNameMatchConditionParametersGenerator() gopter.Gen {
+func UrlFileNameMatchConditionParametersGenerator() *rapid.Generator[UrlFileNameMatchConditionParameters] {
 	if urlFileNameMatchConditionParametersGenerator != nil {
 		return urlFileNameMatchConditionParametersGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlFileNameMatchConditionParameters(generators)
-	urlFileNameMatchConditionParametersGenerator = gen.Struct(reflect.TypeOf(UrlFileNameMatchConditionParameters{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	urlFileNameMatchConditionParametersGenerator = rapid.Custom(func(t *rapid.T) UrlFileNameMatchConditionParameters {
+		var result UrlFileNameMatchConditionParameters
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return urlFileNameMatchConditionParametersGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUrlFileNameMatchConditionParameters is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUrlFileNameMatchConditionParameters(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_UrlFileNameMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of UrlFileNameMatchConditionParameters_STATUS can be assigned to storage and back losslessly
 func Test_UrlFileNameMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -13343,44 +11028,34 @@ func Test_UrlFileNameMatchConditionParameters_STATUS_WhenPropertiesConverted_Rou
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from UrlFileNameMatchConditionParameters_STATUS to UrlFileNameMatchConditionParameters_STATUS via AssignProperties_To_UrlFileNameMatchConditionParameters_STATUS & AssignProperties_From_UrlFileNameMatchConditionParameters_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForUrlFileNameMatchConditionParameters_STATUS, UrlFileNameMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := UrlFileNameMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForUrlFileNameMatchConditionParameters_STATUS tests if a specific instance of UrlFileNameMatchConditionParameters_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForUrlFileNameMatchConditionParameters_STATUS(subject UrlFileNameMatchConditionParameters_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.UrlFileNameMatchConditionParameters_STATUS
+		err := copied.AssignProperties_To_UrlFileNameMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UrlFileNameMatchConditionParameters_STATUS
-	err := copied.AssignProperties_To_UrlFileNameMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual UrlFileNameMatchConditionParameters_STATUS
+		err = actual.AssignProperties_From_UrlFileNameMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual UrlFileNameMatchConditionParameters_STATUS
-	err = actual.AssignProperties_From_UrlFileNameMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_UrlFileNameMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -13390,29 +11065,23 @@ func Test_UrlFileNameMatchConditionParameters_STATUS_WhenSerializedToJson_Deseri
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UrlFileNameMatchConditionParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUrlFileNameMatchConditionParameters_STATUS, UrlFileNameMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForUrlFileNameMatchConditionParameters_STATUS)
 }
 
 // RunJSONSerializationTestForUrlFileNameMatchConditionParameters_STATUS runs a test to see if a specific instance of UrlFileNameMatchConditionParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForUrlFileNameMatchConditionParameters_STATUS(subject UrlFileNameMatchConditionParameters_STATUS) string {
+func RunJSONSerializationTestForUrlFileNameMatchConditionParameters_STATUS(t *rapid.T) {
+	subject := UrlFileNameMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual UrlFileNameMatchConditionParameters_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -13421,38 +11090,38 @@ func RunJSONSerializationTestForUrlFileNameMatchConditionParameters_STATUS(subje
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of UrlFileNameMatchConditionParameters_STATUS instances for property testing - lazily instantiated by
 // UrlFileNameMatchConditionParameters_STATUSGenerator()
-var urlFileNameMatchConditionParameters_STATUSGenerator gopter.Gen
+var urlFileNameMatchConditionParameters_STATUSGenerator *rapid.Generator[UrlFileNameMatchConditionParameters_STATUS]
 
 // UrlFileNameMatchConditionParameters_STATUSGenerator returns a generator of UrlFileNameMatchConditionParameters_STATUS instances for property testing.
-func UrlFileNameMatchConditionParameters_STATUSGenerator() gopter.Gen {
+func UrlFileNameMatchConditionParameters_STATUSGenerator() *rapid.Generator[UrlFileNameMatchConditionParameters_STATUS] {
 	if urlFileNameMatchConditionParameters_STATUSGenerator != nil {
 		return urlFileNameMatchConditionParameters_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlFileNameMatchConditionParameters_STATUS(generators)
-	urlFileNameMatchConditionParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(UrlFileNameMatchConditionParameters_STATUS{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	urlFileNameMatchConditionParameters_STATUSGenerator = rapid.Custom(func(t *rapid.T) UrlFileNameMatchConditionParameters_STATUS {
+		var result UrlFileNameMatchConditionParameters_STATUS
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return urlFileNameMatchConditionParameters_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUrlFileNameMatchConditionParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUrlFileNameMatchConditionParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_UrlPathMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of UrlPathMatchConditionParameters can be assigned to storage and back losslessly
 func Test_UrlPathMatchConditionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -13460,44 +11129,34 @@ func Test_UrlPathMatchConditionParameters_WhenPropertiesConverted_RoundTripsWith
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from UrlPathMatchConditionParameters to UrlPathMatchConditionParameters via AssignProperties_To_UrlPathMatchConditionParameters & AssignProperties_From_UrlPathMatchConditionParameters returns original",
-		prop.ForAll(RunPropertyAssignmentTestForUrlPathMatchConditionParameters, UrlPathMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := UrlPathMatchConditionParametersGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForUrlPathMatchConditionParameters tests if a specific instance of UrlPathMatchConditionParameters can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForUrlPathMatchConditionParameters(subject UrlPathMatchConditionParameters) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.UrlPathMatchConditionParameters
+		err := copied.AssignProperties_To_UrlPathMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UrlPathMatchConditionParameters
-	err := copied.AssignProperties_To_UrlPathMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual UrlPathMatchConditionParameters
+		err = actual.AssignProperties_From_UrlPathMatchConditionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual UrlPathMatchConditionParameters
-	err = actual.AssignProperties_From_UrlPathMatchConditionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_UrlPathMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -13507,29 +11166,23 @@ func Test_UrlPathMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqu
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UrlPathMatchConditionParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUrlPathMatchConditionParameters, UrlPathMatchConditionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForUrlPathMatchConditionParameters)
 }
 
 // RunJSONSerializationTestForUrlPathMatchConditionParameters runs a test to see if a specific instance of UrlPathMatchConditionParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForUrlPathMatchConditionParameters(subject UrlPathMatchConditionParameters) string {
+func RunJSONSerializationTestForUrlPathMatchConditionParameters(t *rapid.T) {
+	subject := UrlPathMatchConditionParametersGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual UrlPathMatchConditionParameters
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -13538,38 +11191,38 @@ func RunJSONSerializationTestForUrlPathMatchConditionParameters(subject UrlPathM
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of UrlPathMatchConditionParameters instances for property testing - lazily instantiated by
 // UrlPathMatchConditionParametersGenerator()
-var urlPathMatchConditionParametersGenerator gopter.Gen
+var urlPathMatchConditionParametersGenerator *rapid.Generator[UrlPathMatchConditionParameters]
 
 // UrlPathMatchConditionParametersGenerator returns a generator of UrlPathMatchConditionParameters instances for property testing.
-func UrlPathMatchConditionParametersGenerator() gopter.Gen {
+func UrlPathMatchConditionParametersGenerator() *rapid.Generator[UrlPathMatchConditionParameters] {
 	if urlPathMatchConditionParametersGenerator != nil {
 		return urlPathMatchConditionParametersGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlPathMatchConditionParameters(generators)
-	urlPathMatchConditionParametersGenerator = gen.Struct(reflect.TypeOf(UrlPathMatchConditionParameters{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	urlPathMatchConditionParametersGenerator = rapid.Custom(func(t *rapid.T) UrlPathMatchConditionParameters {
+		var result UrlPathMatchConditionParameters
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return urlPathMatchConditionParametersGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUrlPathMatchConditionParameters is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUrlPathMatchConditionParameters(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_UrlPathMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of UrlPathMatchConditionParameters_STATUS can be assigned to storage and back losslessly
 func Test_UrlPathMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -13577,44 +11230,34 @@ func Test_UrlPathMatchConditionParameters_STATUS_WhenPropertiesConverted_RoundTr
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from UrlPathMatchConditionParameters_STATUS to UrlPathMatchConditionParameters_STATUS via AssignProperties_To_UrlPathMatchConditionParameters_STATUS & AssignProperties_From_UrlPathMatchConditionParameters_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForUrlPathMatchConditionParameters_STATUS, UrlPathMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := UrlPathMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForUrlPathMatchConditionParameters_STATUS tests if a specific instance of UrlPathMatchConditionParameters_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForUrlPathMatchConditionParameters_STATUS(subject UrlPathMatchConditionParameters_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.UrlPathMatchConditionParameters_STATUS
+		err := copied.AssignProperties_To_UrlPathMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UrlPathMatchConditionParameters_STATUS
-	err := copied.AssignProperties_To_UrlPathMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual UrlPathMatchConditionParameters_STATUS
+		err = actual.AssignProperties_From_UrlPathMatchConditionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual UrlPathMatchConditionParameters_STATUS
-	err = actual.AssignProperties_From_UrlPathMatchConditionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_UrlPathMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -13624,29 +11267,23 @@ func Test_UrlPathMatchConditionParameters_STATUS_WhenSerializedToJson_Deserializ
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UrlPathMatchConditionParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUrlPathMatchConditionParameters_STATUS, UrlPathMatchConditionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForUrlPathMatchConditionParameters_STATUS)
 }
 
 // RunJSONSerializationTestForUrlPathMatchConditionParameters_STATUS runs a test to see if a specific instance of UrlPathMatchConditionParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForUrlPathMatchConditionParameters_STATUS(subject UrlPathMatchConditionParameters_STATUS) string {
+func RunJSONSerializationTestForUrlPathMatchConditionParameters_STATUS(t *rapid.T) {
+	subject := UrlPathMatchConditionParameters_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual UrlPathMatchConditionParameters_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -13655,38 +11292,38 @@ func RunJSONSerializationTestForUrlPathMatchConditionParameters_STATUS(subject U
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of UrlPathMatchConditionParameters_STATUS instances for property testing - lazily instantiated by
 // UrlPathMatchConditionParameters_STATUSGenerator()
-var urlPathMatchConditionParameters_STATUSGenerator gopter.Gen
+var urlPathMatchConditionParameters_STATUSGenerator *rapid.Generator[UrlPathMatchConditionParameters_STATUS]
 
 // UrlPathMatchConditionParameters_STATUSGenerator returns a generator of UrlPathMatchConditionParameters_STATUS instances for property testing.
-func UrlPathMatchConditionParameters_STATUSGenerator() gopter.Gen {
+func UrlPathMatchConditionParameters_STATUSGenerator() *rapid.Generator[UrlPathMatchConditionParameters_STATUS] {
 	if urlPathMatchConditionParameters_STATUSGenerator != nil {
 		return urlPathMatchConditionParameters_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlPathMatchConditionParameters_STATUS(generators)
-	urlPathMatchConditionParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(UrlPathMatchConditionParameters_STATUS{}), generators)
+	sliceOfString := rapid.SliceOf(rapid.String())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	negateCondition := rapid.Ptr(rapid.Bool(), true)
+
+	urlPathMatchConditionParameters_STATUSGenerator = rapid.Custom(func(t *rapid.T) UrlPathMatchConditionParameters_STATUS {
+		var result UrlPathMatchConditionParameters_STATUS
+		result.MatchValues = sliceOfString.Draw(t, "MatchValues")
+		result.NegateCondition = negateCondition.Draw(t, "NegateCondition")
+		result.Operator = ptrString.Draw(t, "Operator")
+		result.Transforms = sliceOfString.Draw(t, "Transforms")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return urlPathMatchConditionParameters_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUrlPathMatchConditionParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUrlPathMatchConditionParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["MatchValues"] = gen.SliceOf(gen.AlphaString())
-	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
-	gens["Operator"] = gen.PtrOf(gen.AlphaString())
-	gens["Transforms"] = gen.SliceOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_UrlRedirectAction_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of UrlRedirectAction can be assigned to storage and back losslessly
 func Test_UrlRedirectAction_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -13694,44 +11331,34 @@ func Test_UrlRedirectAction_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from UrlRedirectAction to UrlRedirectAction via AssignProperties_To_UrlRedirectAction & AssignProperties_From_UrlRedirectAction returns original",
-		prop.ForAll(RunPropertyAssignmentTestForUrlRedirectAction, UrlRedirectActionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := UrlRedirectActionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForUrlRedirectAction tests if a specific instance of UrlRedirectAction can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForUrlRedirectAction(subject UrlRedirectAction) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.UrlRedirectAction
+		err := copied.AssignProperties_To_UrlRedirectAction(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UrlRedirectAction
-	err := copied.AssignProperties_To_UrlRedirectAction(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual UrlRedirectAction
+		err = actual.AssignProperties_From_UrlRedirectAction(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual UrlRedirectAction
-	err = actual.AssignProperties_From_UrlRedirectAction(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_UrlRedirectAction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -13741,29 +11368,23 @@ func Test_UrlRedirectAction_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UrlRedirectAction via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUrlRedirectAction, UrlRedirectActionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForUrlRedirectAction)
 }
 
 // RunJSONSerializationTestForUrlRedirectAction runs a test to see if a specific instance of UrlRedirectAction round trips to JSON and back losslessly
-func RunJSONSerializationTestForUrlRedirectAction(subject UrlRedirectAction) string {
+func RunJSONSerializationTestForUrlRedirectAction(t *rapid.T) {
+	subject := UrlRedirectActionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual UrlRedirectAction
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -13772,47 +11393,33 @@ func RunJSONSerializationTestForUrlRedirectAction(subject UrlRedirectAction) str
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of UrlRedirectAction instances for property testing - lazily instantiated by UrlRedirectActionGenerator()
-var urlRedirectActionGenerator gopter.Gen
+var urlRedirectActionGenerator *rapid.Generator[UrlRedirectAction]
 
 // UrlRedirectActionGenerator returns a generator of UrlRedirectAction instances for property testing.
-// We first initialize urlRedirectActionGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func UrlRedirectActionGenerator() gopter.Gen {
+func UrlRedirectActionGenerator() *rapid.Generator[UrlRedirectAction] {
 	if urlRedirectActionGenerator != nil {
 		return urlRedirectActionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlRedirectAction(generators)
-	urlRedirectActionGenerator = gen.Struct(reflect.TypeOf(UrlRedirectAction{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(UrlRedirectActionParametersGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlRedirectAction(generators)
-	AddRelatedPropertyGeneratorsForUrlRedirectAction(generators)
-	urlRedirectActionGenerator = gen.Struct(reflect.TypeOf(UrlRedirectAction{}), generators)
+	urlRedirectActionGenerator = rapid.Custom(func(t *rapid.T) UrlRedirectAction {
+		var result UrlRedirectAction
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return urlRedirectActionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUrlRedirectAction is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUrlRedirectAction(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForUrlRedirectAction is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForUrlRedirectAction(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(UrlRedirectActionParametersGenerator())
-}
-
+// Test_UrlRedirectActionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of UrlRedirectActionParameters can be assigned to storage and back losslessly
 func Test_UrlRedirectActionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -13820,44 +11427,34 @@ func Test_UrlRedirectActionParameters_WhenPropertiesConverted_RoundTripsWithoutL
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from UrlRedirectActionParameters to UrlRedirectActionParameters via AssignProperties_To_UrlRedirectActionParameters & AssignProperties_From_UrlRedirectActionParameters returns original",
-		prop.ForAll(RunPropertyAssignmentTestForUrlRedirectActionParameters, UrlRedirectActionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := UrlRedirectActionParametersGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForUrlRedirectActionParameters tests if a specific instance of UrlRedirectActionParameters can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForUrlRedirectActionParameters(subject UrlRedirectActionParameters) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.UrlRedirectActionParameters
+		err := copied.AssignProperties_To_UrlRedirectActionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UrlRedirectActionParameters
-	err := copied.AssignProperties_To_UrlRedirectActionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual UrlRedirectActionParameters
+		err = actual.AssignProperties_From_UrlRedirectActionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual UrlRedirectActionParameters
-	err = actual.AssignProperties_From_UrlRedirectActionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_UrlRedirectActionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -13867,29 +11464,23 @@ func Test_UrlRedirectActionParameters_WhenSerializedToJson_DeserializesAsEqual(t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UrlRedirectActionParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUrlRedirectActionParameters, UrlRedirectActionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForUrlRedirectActionParameters)
 }
 
 // RunJSONSerializationTestForUrlRedirectActionParameters runs a test to see if a specific instance of UrlRedirectActionParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForUrlRedirectActionParameters(subject UrlRedirectActionParameters) string {
+func RunJSONSerializationTestForUrlRedirectActionParameters(t *rapid.T) {
+	subject := UrlRedirectActionParametersGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual UrlRedirectActionParameters
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -13898,40 +11489,38 @@ func RunJSONSerializationTestForUrlRedirectActionParameters(subject UrlRedirectA
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of UrlRedirectActionParameters instances for property testing - lazily instantiated by
 // UrlRedirectActionParametersGenerator()
-var urlRedirectActionParametersGenerator gopter.Gen
+var urlRedirectActionParametersGenerator *rapid.Generator[UrlRedirectActionParameters]
 
 // UrlRedirectActionParametersGenerator returns a generator of UrlRedirectActionParameters instances for property testing.
-func UrlRedirectActionParametersGenerator() gopter.Gen {
+func UrlRedirectActionParametersGenerator() *rapid.Generator[UrlRedirectActionParameters] {
 	if urlRedirectActionParametersGenerator != nil {
 		return urlRedirectActionParametersGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlRedirectActionParameters(generators)
-	urlRedirectActionParametersGenerator = gen.Struct(reflect.TypeOf(UrlRedirectActionParameters{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	urlRedirectActionParametersGenerator = rapid.Custom(func(t *rapid.T) UrlRedirectActionParameters {
+		var result UrlRedirectActionParameters
+		result.CustomFragment = ptrString.Draw(t, "CustomFragment")
+		result.CustomHostname = ptrString.Draw(t, "CustomHostname")
+		result.CustomPath = ptrString.Draw(t, "CustomPath")
+		result.CustomQueryString = ptrString.Draw(t, "CustomQueryString")
+		result.DestinationProtocol = ptrString.Draw(t, "DestinationProtocol")
+		result.RedirectType = ptrString.Draw(t, "RedirectType")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return urlRedirectActionParametersGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUrlRedirectActionParameters is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUrlRedirectActionParameters(gens map[string]gopter.Gen) {
-	gens["CustomFragment"] = gen.PtrOf(gen.AlphaString())
-	gens["CustomHostname"] = gen.PtrOf(gen.AlphaString())
-	gens["CustomPath"] = gen.PtrOf(gen.AlphaString())
-	gens["CustomQueryString"] = gen.PtrOf(gen.AlphaString())
-	gens["DestinationProtocol"] = gen.PtrOf(gen.AlphaString())
-	gens["RedirectType"] = gen.PtrOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_UrlRedirectActionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of UrlRedirectActionParameters_STATUS can be assigned to storage and back losslessly
 func Test_UrlRedirectActionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -13939,44 +11528,34 @@ func Test_UrlRedirectActionParameters_STATUS_WhenPropertiesConverted_RoundTripsW
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from UrlRedirectActionParameters_STATUS to UrlRedirectActionParameters_STATUS via AssignProperties_To_UrlRedirectActionParameters_STATUS & AssignProperties_From_UrlRedirectActionParameters_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForUrlRedirectActionParameters_STATUS, UrlRedirectActionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := UrlRedirectActionParameters_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForUrlRedirectActionParameters_STATUS tests if a specific instance of UrlRedirectActionParameters_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForUrlRedirectActionParameters_STATUS(subject UrlRedirectActionParameters_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.UrlRedirectActionParameters_STATUS
+		err := copied.AssignProperties_To_UrlRedirectActionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UrlRedirectActionParameters_STATUS
-	err := copied.AssignProperties_To_UrlRedirectActionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual UrlRedirectActionParameters_STATUS
+		err = actual.AssignProperties_From_UrlRedirectActionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual UrlRedirectActionParameters_STATUS
-	err = actual.AssignProperties_From_UrlRedirectActionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_UrlRedirectActionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -13986,29 +11565,23 @@ func Test_UrlRedirectActionParameters_STATUS_WhenSerializedToJson_DeserializesAs
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UrlRedirectActionParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUrlRedirectActionParameters_STATUS, UrlRedirectActionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForUrlRedirectActionParameters_STATUS)
 }
 
 // RunJSONSerializationTestForUrlRedirectActionParameters_STATUS runs a test to see if a specific instance of UrlRedirectActionParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForUrlRedirectActionParameters_STATUS(subject UrlRedirectActionParameters_STATUS) string {
+func RunJSONSerializationTestForUrlRedirectActionParameters_STATUS(t *rapid.T) {
+	subject := UrlRedirectActionParameters_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual UrlRedirectActionParameters_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -14017,40 +11590,38 @@ func RunJSONSerializationTestForUrlRedirectActionParameters_STATUS(subject UrlRe
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of UrlRedirectActionParameters_STATUS instances for property testing - lazily instantiated by
 // UrlRedirectActionParameters_STATUSGenerator()
-var urlRedirectActionParameters_STATUSGenerator gopter.Gen
+var urlRedirectActionParameters_STATUSGenerator *rapid.Generator[UrlRedirectActionParameters_STATUS]
 
 // UrlRedirectActionParameters_STATUSGenerator returns a generator of UrlRedirectActionParameters_STATUS instances for property testing.
-func UrlRedirectActionParameters_STATUSGenerator() gopter.Gen {
+func UrlRedirectActionParameters_STATUSGenerator() *rapid.Generator[UrlRedirectActionParameters_STATUS] {
 	if urlRedirectActionParameters_STATUSGenerator != nil {
 		return urlRedirectActionParameters_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlRedirectActionParameters_STATUS(generators)
-	urlRedirectActionParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(UrlRedirectActionParameters_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	urlRedirectActionParameters_STATUSGenerator = rapid.Custom(func(t *rapid.T) UrlRedirectActionParameters_STATUS {
+		var result UrlRedirectActionParameters_STATUS
+		result.CustomFragment = ptrString.Draw(t, "CustomFragment")
+		result.CustomHostname = ptrString.Draw(t, "CustomHostname")
+		result.CustomPath = ptrString.Draw(t, "CustomPath")
+		result.CustomQueryString = ptrString.Draw(t, "CustomQueryString")
+		result.DestinationProtocol = ptrString.Draw(t, "DestinationProtocol")
+		result.RedirectType = ptrString.Draw(t, "RedirectType")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return urlRedirectActionParameters_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUrlRedirectActionParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUrlRedirectActionParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["CustomFragment"] = gen.PtrOf(gen.AlphaString())
-	gens["CustomHostname"] = gen.PtrOf(gen.AlphaString())
-	gens["CustomPath"] = gen.PtrOf(gen.AlphaString())
-	gens["CustomQueryString"] = gen.PtrOf(gen.AlphaString())
-	gens["DestinationProtocol"] = gen.PtrOf(gen.AlphaString())
-	gens["RedirectType"] = gen.PtrOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_UrlRedirectAction_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of UrlRedirectAction_STATUS can be assigned to storage and back losslessly
 func Test_UrlRedirectAction_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -14058,44 +11629,34 @@ func Test_UrlRedirectAction_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from UrlRedirectAction_STATUS to UrlRedirectAction_STATUS via AssignProperties_To_UrlRedirectAction_STATUS & AssignProperties_From_UrlRedirectAction_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForUrlRedirectAction_STATUS, UrlRedirectAction_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := UrlRedirectAction_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForUrlRedirectAction_STATUS tests if a specific instance of UrlRedirectAction_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForUrlRedirectAction_STATUS(subject UrlRedirectAction_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.UrlRedirectAction_STATUS
+		err := copied.AssignProperties_To_UrlRedirectAction_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UrlRedirectAction_STATUS
-	err := copied.AssignProperties_To_UrlRedirectAction_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual UrlRedirectAction_STATUS
+		err = actual.AssignProperties_From_UrlRedirectAction_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual UrlRedirectAction_STATUS
-	err = actual.AssignProperties_From_UrlRedirectAction_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_UrlRedirectAction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -14105,29 +11666,23 @@ func Test_UrlRedirectAction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UrlRedirectAction_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUrlRedirectAction_STATUS, UrlRedirectAction_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForUrlRedirectAction_STATUS)
 }
 
 // RunJSONSerializationTestForUrlRedirectAction_STATUS runs a test to see if a specific instance of UrlRedirectAction_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForUrlRedirectAction_STATUS(subject UrlRedirectAction_STATUS) string {
+func RunJSONSerializationTestForUrlRedirectAction_STATUS(t *rapid.T) {
+	subject := UrlRedirectAction_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual UrlRedirectAction_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -14136,48 +11691,34 @@ func RunJSONSerializationTestForUrlRedirectAction_STATUS(subject UrlRedirectActi
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of UrlRedirectAction_STATUS instances for property testing - lazily instantiated by
 // UrlRedirectAction_STATUSGenerator()
-var urlRedirectAction_STATUSGenerator gopter.Gen
+var urlRedirectAction_STATUSGenerator *rapid.Generator[UrlRedirectAction_STATUS]
 
 // UrlRedirectAction_STATUSGenerator returns a generator of UrlRedirectAction_STATUS instances for property testing.
-// We first initialize urlRedirectAction_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func UrlRedirectAction_STATUSGenerator() gopter.Gen {
+func UrlRedirectAction_STATUSGenerator() *rapid.Generator[UrlRedirectAction_STATUS] {
 	if urlRedirectAction_STATUSGenerator != nil {
 		return urlRedirectAction_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlRedirectAction_STATUS(generators)
-	urlRedirectAction_STATUSGenerator = gen.Struct(reflect.TypeOf(UrlRedirectAction_STATUS{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(UrlRedirectActionParameters_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlRedirectAction_STATUS(generators)
-	AddRelatedPropertyGeneratorsForUrlRedirectAction_STATUS(generators)
-	urlRedirectAction_STATUSGenerator = gen.Struct(reflect.TypeOf(UrlRedirectAction_STATUS{}), generators)
+	urlRedirectAction_STATUSGenerator = rapid.Custom(func(t *rapid.T) UrlRedirectAction_STATUS {
+		var result UrlRedirectAction_STATUS
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return urlRedirectAction_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUrlRedirectAction_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUrlRedirectAction_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForUrlRedirectAction_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForUrlRedirectAction_STATUS(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(UrlRedirectActionParameters_STATUSGenerator())
-}
-
+// Test_UrlRewriteAction_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of UrlRewriteAction can be assigned to storage and back losslessly
 func Test_UrlRewriteAction_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -14185,44 +11726,34 @@ func Test_UrlRewriteAction_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from UrlRewriteAction to UrlRewriteAction via AssignProperties_To_UrlRewriteAction & AssignProperties_From_UrlRewriteAction returns original",
-		prop.ForAll(RunPropertyAssignmentTestForUrlRewriteAction, UrlRewriteActionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := UrlRewriteActionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForUrlRewriteAction tests if a specific instance of UrlRewriteAction can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForUrlRewriteAction(subject UrlRewriteAction) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.UrlRewriteAction
+		err := copied.AssignProperties_To_UrlRewriteAction(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UrlRewriteAction
-	err := copied.AssignProperties_To_UrlRewriteAction(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual UrlRewriteAction
+		err = actual.AssignProperties_From_UrlRewriteAction(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual UrlRewriteAction
-	err = actual.AssignProperties_From_UrlRewriteAction(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_UrlRewriteAction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -14232,29 +11763,23 @@ func Test_UrlRewriteAction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UrlRewriteAction via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUrlRewriteAction, UrlRewriteActionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForUrlRewriteAction)
 }
 
 // RunJSONSerializationTestForUrlRewriteAction runs a test to see if a specific instance of UrlRewriteAction round trips to JSON and back losslessly
-func RunJSONSerializationTestForUrlRewriteAction(subject UrlRewriteAction) string {
+func RunJSONSerializationTestForUrlRewriteAction(t *rapid.T) {
+	subject := UrlRewriteActionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual UrlRewriteAction
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -14263,47 +11788,33 @@ func RunJSONSerializationTestForUrlRewriteAction(subject UrlRewriteAction) strin
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of UrlRewriteAction instances for property testing - lazily instantiated by UrlRewriteActionGenerator()
-var urlRewriteActionGenerator gopter.Gen
+var urlRewriteActionGenerator *rapid.Generator[UrlRewriteAction]
 
 // UrlRewriteActionGenerator returns a generator of UrlRewriteAction instances for property testing.
-// We first initialize urlRewriteActionGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func UrlRewriteActionGenerator() gopter.Gen {
+func UrlRewriteActionGenerator() *rapid.Generator[UrlRewriteAction] {
 	if urlRewriteActionGenerator != nil {
 		return urlRewriteActionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlRewriteAction(generators)
-	urlRewriteActionGenerator = gen.Struct(reflect.TypeOf(UrlRewriteAction{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(UrlRewriteActionParametersGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlRewriteAction(generators)
-	AddRelatedPropertyGeneratorsForUrlRewriteAction(generators)
-	urlRewriteActionGenerator = gen.Struct(reflect.TypeOf(UrlRewriteAction{}), generators)
+	urlRewriteActionGenerator = rapid.Custom(func(t *rapid.T) UrlRewriteAction {
+		var result UrlRewriteAction
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return urlRewriteActionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUrlRewriteAction is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUrlRewriteAction(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForUrlRewriteAction is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForUrlRewriteAction(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(UrlRewriteActionParametersGenerator())
-}
-
+// Test_UrlRewriteActionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of UrlRewriteActionParameters can be assigned to storage and back losslessly
 func Test_UrlRewriteActionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -14311,44 +11822,34 @@ func Test_UrlRewriteActionParameters_WhenPropertiesConverted_RoundTripsWithoutLo
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from UrlRewriteActionParameters to UrlRewriteActionParameters via AssignProperties_To_UrlRewriteActionParameters & AssignProperties_From_UrlRewriteActionParameters returns original",
-		prop.ForAll(RunPropertyAssignmentTestForUrlRewriteActionParameters, UrlRewriteActionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := UrlRewriteActionParametersGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForUrlRewriteActionParameters tests if a specific instance of UrlRewriteActionParameters can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForUrlRewriteActionParameters(subject UrlRewriteActionParameters) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.UrlRewriteActionParameters
+		err := copied.AssignProperties_To_UrlRewriteActionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UrlRewriteActionParameters
-	err := copied.AssignProperties_To_UrlRewriteActionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual UrlRewriteActionParameters
+		err = actual.AssignProperties_From_UrlRewriteActionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual UrlRewriteActionParameters
-	err = actual.AssignProperties_From_UrlRewriteActionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_UrlRewriteActionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -14358,29 +11859,23 @@ func Test_UrlRewriteActionParameters_WhenSerializedToJson_DeserializesAsEqual(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UrlRewriteActionParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUrlRewriteActionParameters, UrlRewriteActionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForUrlRewriteActionParameters)
 }
 
 // RunJSONSerializationTestForUrlRewriteActionParameters runs a test to see if a specific instance of UrlRewriteActionParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForUrlRewriteActionParameters(subject UrlRewriteActionParameters) string {
+func RunJSONSerializationTestForUrlRewriteActionParameters(t *rapid.T) {
+	subject := UrlRewriteActionParametersGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual UrlRewriteActionParameters
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -14389,37 +11884,36 @@ func RunJSONSerializationTestForUrlRewriteActionParameters(subject UrlRewriteAct
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of UrlRewriteActionParameters instances for property testing - lazily instantiated by
 // UrlRewriteActionParametersGenerator()
-var urlRewriteActionParametersGenerator gopter.Gen
+var urlRewriteActionParametersGenerator *rapid.Generator[UrlRewriteActionParameters]
 
 // UrlRewriteActionParametersGenerator returns a generator of UrlRewriteActionParameters instances for property testing.
-func UrlRewriteActionParametersGenerator() gopter.Gen {
+func UrlRewriteActionParametersGenerator() *rapid.Generator[UrlRewriteActionParameters] {
 	if urlRewriteActionParametersGenerator != nil {
 		return urlRewriteActionParametersGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlRewriteActionParameters(generators)
-	urlRewriteActionParametersGenerator = gen.Struct(reflect.TypeOf(UrlRewriteActionParameters{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	preserveUnmatchedPath := rapid.Ptr(rapid.Bool(), true)
+
+	urlRewriteActionParametersGenerator = rapid.Custom(func(t *rapid.T) UrlRewriteActionParameters {
+		var result UrlRewriteActionParameters
+		result.Destination = ptrString.Draw(t, "Destination")
+		result.PreserveUnmatchedPath = preserveUnmatchedPath.Draw(t, "PreserveUnmatchedPath")
+		result.SourcePattern = ptrString.Draw(t, "SourcePattern")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return urlRewriteActionParametersGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUrlRewriteActionParameters is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUrlRewriteActionParameters(gens map[string]gopter.Gen) {
-	gens["Destination"] = gen.PtrOf(gen.AlphaString())
-	gens["PreserveUnmatchedPath"] = gen.PtrOf(gen.Bool())
-	gens["SourcePattern"] = gen.PtrOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_UrlRewriteActionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of UrlRewriteActionParameters_STATUS can be assigned to storage and back losslessly
 func Test_UrlRewriteActionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -14427,44 +11921,34 @@ func Test_UrlRewriteActionParameters_STATUS_WhenPropertiesConverted_RoundTripsWi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from UrlRewriteActionParameters_STATUS to UrlRewriteActionParameters_STATUS via AssignProperties_To_UrlRewriteActionParameters_STATUS & AssignProperties_From_UrlRewriteActionParameters_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForUrlRewriteActionParameters_STATUS, UrlRewriteActionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := UrlRewriteActionParameters_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForUrlRewriteActionParameters_STATUS tests if a specific instance of UrlRewriteActionParameters_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForUrlRewriteActionParameters_STATUS(subject UrlRewriteActionParameters_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.UrlRewriteActionParameters_STATUS
+		err := copied.AssignProperties_To_UrlRewriteActionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UrlRewriteActionParameters_STATUS
-	err := copied.AssignProperties_To_UrlRewriteActionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual UrlRewriteActionParameters_STATUS
+		err = actual.AssignProperties_From_UrlRewriteActionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual UrlRewriteActionParameters_STATUS
-	err = actual.AssignProperties_From_UrlRewriteActionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_UrlRewriteActionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -14474,29 +11958,23 @@ func Test_UrlRewriteActionParameters_STATUS_WhenSerializedToJson_DeserializesAsE
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UrlRewriteActionParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUrlRewriteActionParameters_STATUS, UrlRewriteActionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForUrlRewriteActionParameters_STATUS)
 }
 
 // RunJSONSerializationTestForUrlRewriteActionParameters_STATUS runs a test to see if a specific instance of UrlRewriteActionParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForUrlRewriteActionParameters_STATUS(subject UrlRewriteActionParameters_STATUS) string {
+func RunJSONSerializationTestForUrlRewriteActionParameters_STATUS(t *rapid.T) {
+	subject := UrlRewriteActionParameters_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual UrlRewriteActionParameters_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -14505,37 +11983,36 @@ func RunJSONSerializationTestForUrlRewriteActionParameters_STATUS(subject UrlRew
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of UrlRewriteActionParameters_STATUS instances for property testing - lazily instantiated by
 // UrlRewriteActionParameters_STATUSGenerator()
-var urlRewriteActionParameters_STATUSGenerator gopter.Gen
+var urlRewriteActionParameters_STATUSGenerator *rapid.Generator[UrlRewriteActionParameters_STATUS]
 
 // UrlRewriteActionParameters_STATUSGenerator returns a generator of UrlRewriteActionParameters_STATUS instances for property testing.
-func UrlRewriteActionParameters_STATUSGenerator() gopter.Gen {
+func UrlRewriteActionParameters_STATUSGenerator() *rapid.Generator[UrlRewriteActionParameters_STATUS] {
 	if urlRewriteActionParameters_STATUSGenerator != nil {
 		return urlRewriteActionParameters_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlRewriteActionParameters_STATUS(generators)
-	urlRewriteActionParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(UrlRewriteActionParameters_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	preserveUnmatchedPath := rapid.Ptr(rapid.Bool(), true)
+
+	urlRewriteActionParameters_STATUSGenerator = rapid.Custom(func(t *rapid.T) UrlRewriteActionParameters_STATUS {
+		var result UrlRewriteActionParameters_STATUS
+		result.Destination = ptrString.Draw(t, "Destination")
+		result.PreserveUnmatchedPath = preserveUnmatchedPath.Draw(t, "PreserveUnmatchedPath")
+		result.SourcePattern = ptrString.Draw(t, "SourcePattern")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return urlRewriteActionParameters_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUrlRewriteActionParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUrlRewriteActionParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["Destination"] = gen.PtrOf(gen.AlphaString())
-	gens["PreserveUnmatchedPath"] = gen.PtrOf(gen.Bool())
-	gens["SourcePattern"] = gen.PtrOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_UrlRewriteAction_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of UrlRewriteAction_STATUS can be assigned to storage and back losslessly
 func Test_UrlRewriteAction_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -14543,44 +12020,34 @@ func Test_UrlRewriteAction_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from UrlRewriteAction_STATUS to UrlRewriteAction_STATUS via AssignProperties_To_UrlRewriteAction_STATUS & AssignProperties_From_UrlRewriteAction_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForUrlRewriteAction_STATUS, UrlRewriteAction_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := UrlRewriteAction_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForUrlRewriteAction_STATUS tests if a specific instance of UrlRewriteAction_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForUrlRewriteAction_STATUS(subject UrlRewriteAction_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.UrlRewriteAction_STATUS
+		err := copied.AssignProperties_To_UrlRewriteAction_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UrlRewriteAction_STATUS
-	err := copied.AssignProperties_To_UrlRewriteAction_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual UrlRewriteAction_STATUS
+		err = actual.AssignProperties_From_UrlRewriteAction_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual UrlRewriteAction_STATUS
-	err = actual.AssignProperties_From_UrlRewriteAction_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_UrlRewriteAction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -14590,29 +12057,23 @@ func Test_UrlRewriteAction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *te
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UrlRewriteAction_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUrlRewriteAction_STATUS, UrlRewriteAction_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForUrlRewriteAction_STATUS)
 }
 
 // RunJSONSerializationTestForUrlRewriteAction_STATUS runs a test to see if a specific instance of UrlRewriteAction_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForUrlRewriteAction_STATUS(subject UrlRewriteAction_STATUS) string {
+func RunJSONSerializationTestForUrlRewriteAction_STATUS(t *rapid.T) {
+	subject := UrlRewriteAction_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual UrlRewriteAction_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -14621,48 +12082,34 @@ func RunJSONSerializationTestForUrlRewriteAction_STATUS(subject UrlRewriteAction
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of UrlRewriteAction_STATUS instances for property testing - lazily instantiated by
 // UrlRewriteAction_STATUSGenerator()
-var urlRewriteAction_STATUSGenerator gopter.Gen
+var urlRewriteAction_STATUSGenerator *rapid.Generator[UrlRewriteAction_STATUS]
 
 // UrlRewriteAction_STATUSGenerator returns a generator of UrlRewriteAction_STATUS instances for property testing.
-// We first initialize urlRewriteAction_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func UrlRewriteAction_STATUSGenerator() gopter.Gen {
+func UrlRewriteAction_STATUSGenerator() *rapid.Generator[UrlRewriteAction_STATUS] {
 	if urlRewriteAction_STATUSGenerator != nil {
 		return urlRewriteAction_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlRewriteAction_STATUS(generators)
-	urlRewriteAction_STATUSGenerator = gen.Struct(reflect.TypeOf(UrlRewriteAction_STATUS{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(UrlRewriteActionParameters_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlRewriteAction_STATUS(generators)
-	AddRelatedPropertyGeneratorsForUrlRewriteAction_STATUS(generators)
-	urlRewriteAction_STATUSGenerator = gen.Struct(reflect.TypeOf(UrlRewriteAction_STATUS{}), generators)
+	urlRewriteAction_STATUSGenerator = rapid.Custom(func(t *rapid.T) UrlRewriteAction_STATUS {
+		var result UrlRewriteAction_STATUS
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return urlRewriteAction_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUrlRewriteAction_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUrlRewriteAction_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForUrlRewriteAction_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForUrlRewriteAction_STATUS(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(UrlRewriteActionParameters_STATUSGenerator())
-}
-
+// Test_UrlSigningAction_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of UrlSigningAction can be assigned to storage and back losslessly
 func Test_UrlSigningAction_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -14670,44 +12117,34 @@ func Test_UrlSigningAction_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from UrlSigningAction to UrlSigningAction via AssignProperties_To_UrlSigningAction & AssignProperties_From_UrlSigningAction returns original",
-		prop.ForAll(RunPropertyAssignmentTestForUrlSigningAction, UrlSigningActionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := UrlSigningActionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForUrlSigningAction tests if a specific instance of UrlSigningAction can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForUrlSigningAction(subject UrlSigningAction) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.UrlSigningAction
+		err := copied.AssignProperties_To_UrlSigningAction(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UrlSigningAction
-	err := copied.AssignProperties_To_UrlSigningAction(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual UrlSigningAction
+		err = actual.AssignProperties_From_UrlSigningAction(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual UrlSigningAction
-	err = actual.AssignProperties_From_UrlSigningAction(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_UrlSigningAction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -14717,29 +12154,23 @@ func Test_UrlSigningAction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UrlSigningAction via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUrlSigningAction, UrlSigningActionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForUrlSigningAction)
 }
 
 // RunJSONSerializationTestForUrlSigningAction runs a test to see if a specific instance of UrlSigningAction round trips to JSON and back losslessly
-func RunJSONSerializationTestForUrlSigningAction(subject UrlSigningAction) string {
+func RunJSONSerializationTestForUrlSigningAction(t *rapid.T) {
+	subject := UrlSigningActionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual UrlSigningAction
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -14748,47 +12179,33 @@ func RunJSONSerializationTestForUrlSigningAction(subject UrlSigningAction) strin
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of UrlSigningAction instances for property testing - lazily instantiated by UrlSigningActionGenerator()
-var urlSigningActionGenerator gopter.Gen
+var urlSigningActionGenerator *rapid.Generator[UrlSigningAction]
 
 // UrlSigningActionGenerator returns a generator of UrlSigningAction instances for property testing.
-// We first initialize urlSigningActionGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func UrlSigningActionGenerator() gopter.Gen {
+func UrlSigningActionGenerator() *rapid.Generator[UrlSigningAction] {
 	if urlSigningActionGenerator != nil {
 		return urlSigningActionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlSigningAction(generators)
-	urlSigningActionGenerator = gen.Struct(reflect.TypeOf(UrlSigningAction{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(UrlSigningActionParametersGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlSigningAction(generators)
-	AddRelatedPropertyGeneratorsForUrlSigningAction(generators)
-	urlSigningActionGenerator = gen.Struct(reflect.TypeOf(UrlSigningAction{}), generators)
+	urlSigningActionGenerator = rapid.Custom(func(t *rapid.T) UrlSigningAction {
+		var result UrlSigningAction
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return urlSigningActionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUrlSigningAction is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUrlSigningAction(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForUrlSigningAction is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForUrlSigningAction(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(UrlSigningActionParametersGenerator())
-}
-
+// Test_UrlSigningActionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of UrlSigningActionParameters can be assigned to storage and back losslessly
 func Test_UrlSigningActionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -14796,44 +12213,34 @@ func Test_UrlSigningActionParameters_WhenPropertiesConverted_RoundTripsWithoutLo
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from UrlSigningActionParameters to UrlSigningActionParameters via AssignProperties_To_UrlSigningActionParameters & AssignProperties_From_UrlSigningActionParameters returns original",
-		prop.ForAll(RunPropertyAssignmentTestForUrlSigningActionParameters, UrlSigningActionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := UrlSigningActionParametersGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForUrlSigningActionParameters tests if a specific instance of UrlSigningActionParameters can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForUrlSigningActionParameters(subject UrlSigningActionParameters) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.UrlSigningActionParameters
+		err := copied.AssignProperties_To_UrlSigningActionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UrlSigningActionParameters
-	err := copied.AssignProperties_To_UrlSigningActionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual UrlSigningActionParameters
+		err = actual.AssignProperties_From_UrlSigningActionParameters(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual UrlSigningActionParameters
-	err = actual.AssignProperties_From_UrlSigningActionParameters(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_UrlSigningActionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -14843,29 +12250,23 @@ func Test_UrlSigningActionParameters_WhenSerializedToJson_DeserializesAsEqual(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UrlSigningActionParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUrlSigningActionParameters, UrlSigningActionParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForUrlSigningActionParameters)
 }
 
 // RunJSONSerializationTestForUrlSigningActionParameters runs a test to see if a specific instance of UrlSigningActionParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForUrlSigningActionParameters(subject UrlSigningActionParameters) string {
+func RunJSONSerializationTestForUrlSigningActionParameters(t *rapid.T) {
+	subject := UrlSigningActionParametersGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual UrlSigningActionParameters
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -14874,49 +12275,35 @@ func RunJSONSerializationTestForUrlSigningActionParameters(subject UrlSigningAct
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of UrlSigningActionParameters instances for property testing - lazily instantiated by
 // UrlSigningActionParametersGenerator()
-var urlSigningActionParametersGenerator gopter.Gen
+var urlSigningActionParametersGenerator *rapid.Generator[UrlSigningActionParameters]
 
 // UrlSigningActionParametersGenerator returns a generator of UrlSigningActionParameters instances for property testing.
-// We first initialize urlSigningActionParametersGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func UrlSigningActionParametersGenerator() gopter.Gen {
+func UrlSigningActionParametersGenerator() *rapid.Generator[UrlSigningActionParameters] {
 	if urlSigningActionParametersGenerator != nil {
 		return urlSigningActionParametersGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlSigningActionParameters(generators)
-	urlSigningActionParametersGenerator = gen.Struct(reflect.TypeOf(UrlSigningActionParameters{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	parameterNameOverride := rapid.SliceOf(UrlSigningParamIdentifierGenerator())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlSigningActionParameters(generators)
-	AddRelatedPropertyGeneratorsForUrlSigningActionParameters(generators)
-	urlSigningActionParametersGenerator = gen.Struct(reflect.TypeOf(UrlSigningActionParameters{}), generators)
+	urlSigningActionParametersGenerator = rapid.Custom(func(t *rapid.T) UrlSigningActionParameters {
+		var result UrlSigningActionParameters
+		result.Algorithm = ptrString.Draw(t, "Algorithm")
+		result.ParameterNameOverride = parameterNameOverride.Draw(t, "ParameterNameOverride")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return urlSigningActionParametersGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUrlSigningActionParameters is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUrlSigningActionParameters(gens map[string]gopter.Gen) {
-	gens["Algorithm"] = gen.PtrOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForUrlSigningActionParameters is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForUrlSigningActionParameters(gens map[string]gopter.Gen) {
-	gens["ParameterNameOverride"] = gen.SliceOf(UrlSigningParamIdentifierGenerator())
-}
-
+// Test_UrlSigningActionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of UrlSigningActionParameters_STATUS can be assigned to storage and back losslessly
 func Test_UrlSigningActionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -14924,44 +12311,34 @@ func Test_UrlSigningActionParameters_STATUS_WhenPropertiesConverted_RoundTripsWi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from UrlSigningActionParameters_STATUS to UrlSigningActionParameters_STATUS via AssignProperties_To_UrlSigningActionParameters_STATUS & AssignProperties_From_UrlSigningActionParameters_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForUrlSigningActionParameters_STATUS, UrlSigningActionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := UrlSigningActionParameters_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForUrlSigningActionParameters_STATUS tests if a specific instance of UrlSigningActionParameters_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForUrlSigningActionParameters_STATUS(subject UrlSigningActionParameters_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.UrlSigningActionParameters_STATUS
+		err := copied.AssignProperties_To_UrlSigningActionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UrlSigningActionParameters_STATUS
-	err := copied.AssignProperties_To_UrlSigningActionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual UrlSigningActionParameters_STATUS
+		err = actual.AssignProperties_From_UrlSigningActionParameters_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual UrlSigningActionParameters_STATUS
-	err = actual.AssignProperties_From_UrlSigningActionParameters_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_UrlSigningActionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -14971,29 +12348,23 @@ func Test_UrlSigningActionParameters_STATUS_WhenSerializedToJson_DeserializesAsE
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UrlSigningActionParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUrlSigningActionParameters_STATUS, UrlSigningActionParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForUrlSigningActionParameters_STATUS)
 }
 
 // RunJSONSerializationTestForUrlSigningActionParameters_STATUS runs a test to see if a specific instance of UrlSigningActionParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForUrlSigningActionParameters_STATUS(subject UrlSigningActionParameters_STATUS) string {
+func RunJSONSerializationTestForUrlSigningActionParameters_STATUS(t *rapid.T) {
+	subject := UrlSigningActionParameters_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual UrlSigningActionParameters_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -15002,49 +12373,35 @@ func RunJSONSerializationTestForUrlSigningActionParameters_STATUS(subject UrlSig
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of UrlSigningActionParameters_STATUS instances for property testing - lazily instantiated by
 // UrlSigningActionParameters_STATUSGenerator()
-var urlSigningActionParameters_STATUSGenerator gopter.Gen
+var urlSigningActionParameters_STATUSGenerator *rapid.Generator[UrlSigningActionParameters_STATUS]
 
 // UrlSigningActionParameters_STATUSGenerator returns a generator of UrlSigningActionParameters_STATUS instances for property testing.
-// We first initialize urlSigningActionParameters_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func UrlSigningActionParameters_STATUSGenerator() gopter.Gen {
+func UrlSigningActionParameters_STATUSGenerator() *rapid.Generator[UrlSigningActionParameters_STATUS] {
 	if urlSigningActionParameters_STATUSGenerator != nil {
 		return urlSigningActionParameters_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlSigningActionParameters_STATUS(generators)
-	urlSigningActionParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(UrlSigningActionParameters_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	parameterNameOverride := rapid.SliceOf(UrlSigningParamIdentifier_STATUSGenerator())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlSigningActionParameters_STATUS(generators)
-	AddRelatedPropertyGeneratorsForUrlSigningActionParameters_STATUS(generators)
-	urlSigningActionParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(UrlSigningActionParameters_STATUS{}), generators)
+	urlSigningActionParameters_STATUSGenerator = rapid.Custom(func(t *rapid.T) UrlSigningActionParameters_STATUS {
+		var result UrlSigningActionParameters_STATUS
+		result.Algorithm = ptrString.Draw(t, "Algorithm")
+		result.ParameterNameOverride = parameterNameOverride.Draw(t, "ParameterNameOverride")
+		result.TypeName = ptrString.Draw(t, "TypeName")
+		return result
+	})
 
 	return urlSigningActionParameters_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUrlSigningActionParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUrlSigningActionParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["Algorithm"] = gen.PtrOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForUrlSigningActionParameters_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForUrlSigningActionParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["ParameterNameOverride"] = gen.SliceOf(UrlSigningParamIdentifier_STATUSGenerator())
-}
-
+// Test_UrlSigningAction_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of UrlSigningAction_STATUS can be assigned to storage and back losslessly
 func Test_UrlSigningAction_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -15052,44 +12409,34 @@ func Test_UrlSigningAction_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from UrlSigningAction_STATUS to UrlSigningAction_STATUS via AssignProperties_To_UrlSigningAction_STATUS & AssignProperties_From_UrlSigningAction_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForUrlSigningAction_STATUS, UrlSigningAction_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := UrlSigningAction_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForUrlSigningAction_STATUS tests if a specific instance of UrlSigningAction_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForUrlSigningAction_STATUS(subject UrlSigningAction_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.UrlSigningAction_STATUS
+		err := copied.AssignProperties_To_UrlSigningAction_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UrlSigningAction_STATUS
-	err := copied.AssignProperties_To_UrlSigningAction_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual UrlSigningAction_STATUS
+		err = actual.AssignProperties_From_UrlSigningAction_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual UrlSigningAction_STATUS
-	err = actual.AssignProperties_From_UrlSigningAction_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_UrlSigningAction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -15099,29 +12446,23 @@ func Test_UrlSigningAction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *te
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UrlSigningAction_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUrlSigningAction_STATUS, UrlSigningAction_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForUrlSigningAction_STATUS)
 }
 
 // RunJSONSerializationTestForUrlSigningAction_STATUS runs a test to see if a specific instance of UrlSigningAction_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForUrlSigningAction_STATUS(subject UrlSigningAction_STATUS) string {
+func RunJSONSerializationTestForUrlSigningAction_STATUS(t *rapid.T) {
+	subject := UrlSigningAction_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual UrlSigningAction_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -15130,48 +12471,34 @@ func RunJSONSerializationTestForUrlSigningAction_STATUS(subject UrlSigningAction
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of UrlSigningAction_STATUS instances for property testing - lazily instantiated by
 // UrlSigningAction_STATUSGenerator()
-var urlSigningAction_STATUSGenerator gopter.Gen
+var urlSigningAction_STATUSGenerator *rapid.Generator[UrlSigningAction_STATUS]
 
 // UrlSigningAction_STATUSGenerator returns a generator of UrlSigningAction_STATUS instances for property testing.
-// We first initialize urlSigningAction_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func UrlSigningAction_STATUSGenerator() gopter.Gen {
+func UrlSigningAction_STATUSGenerator() *rapid.Generator[UrlSigningAction_STATUS] {
 	if urlSigningAction_STATUSGenerator != nil {
 		return urlSigningAction_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlSigningAction_STATUS(generators)
-	urlSigningAction_STATUSGenerator = gen.Struct(reflect.TypeOf(UrlSigningAction_STATUS{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	parameters := rapid.Ptr(UrlSigningActionParameters_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlSigningAction_STATUS(generators)
-	AddRelatedPropertyGeneratorsForUrlSigningAction_STATUS(generators)
-	urlSigningAction_STATUSGenerator = gen.Struct(reflect.TypeOf(UrlSigningAction_STATUS{}), generators)
+	urlSigningAction_STATUSGenerator = rapid.Custom(func(t *rapid.T) UrlSigningAction_STATUS {
+		var result UrlSigningAction_STATUS
+		result.Name = name.Draw(t, "Name")
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return urlSigningAction_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUrlSigningAction_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUrlSigningAction_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForUrlSigningAction_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForUrlSigningAction_STATUS(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(UrlSigningActionParameters_STATUSGenerator())
-}
-
+// Test_UrlSigningParamIdentifier_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of UrlSigningParamIdentifier can be assigned to storage and back losslessly
 func Test_UrlSigningParamIdentifier_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -15179,44 +12506,34 @@ func Test_UrlSigningParamIdentifier_WhenPropertiesConverted_RoundTripsWithoutLos
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from UrlSigningParamIdentifier to UrlSigningParamIdentifier via AssignProperties_To_UrlSigningParamIdentifier & AssignProperties_From_UrlSigningParamIdentifier returns original",
-		prop.ForAll(RunPropertyAssignmentTestForUrlSigningParamIdentifier, UrlSigningParamIdentifierGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := UrlSigningParamIdentifierGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForUrlSigningParamIdentifier tests if a specific instance of UrlSigningParamIdentifier can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForUrlSigningParamIdentifier(subject UrlSigningParamIdentifier) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.UrlSigningParamIdentifier
+		err := copied.AssignProperties_To_UrlSigningParamIdentifier(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UrlSigningParamIdentifier
-	err := copied.AssignProperties_To_UrlSigningParamIdentifier(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual UrlSigningParamIdentifier
+		err = actual.AssignProperties_From_UrlSigningParamIdentifier(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual UrlSigningParamIdentifier
-	err = actual.AssignProperties_From_UrlSigningParamIdentifier(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_UrlSigningParamIdentifier_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -15226,29 +12543,23 @@ func Test_UrlSigningParamIdentifier_WhenSerializedToJson_DeserializesAsEqual(t *
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UrlSigningParamIdentifier via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUrlSigningParamIdentifier, UrlSigningParamIdentifierGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForUrlSigningParamIdentifier)
 }
 
 // RunJSONSerializationTestForUrlSigningParamIdentifier runs a test to see if a specific instance of UrlSigningParamIdentifier round trips to JSON and back losslessly
-func RunJSONSerializationTestForUrlSigningParamIdentifier(subject UrlSigningParamIdentifier) string {
+func RunJSONSerializationTestForUrlSigningParamIdentifier(t *rapid.T) {
+	subject := UrlSigningParamIdentifierGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual UrlSigningParamIdentifier
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -15257,35 +12568,33 @@ func RunJSONSerializationTestForUrlSigningParamIdentifier(subject UrlSigningPara
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of UrlSigningParamIdentifier instances for property testing - lazily instantiated by
 // UrlSigningParamIdentifierGenerator()
-var urlSigningParamIdentifierGenerator gopter.Gen
+var urlSigningParamIdentifierGenerator *rapid.Generator[UrlSigningParamIdentifier]
 
 // UrlSigningParamIdentifierGenerator returns a generator of UrlSigningParamIdentifier instances for property testing.
-func UrlSigningParamIdentifierGenerator() gopter.Gen {
+func UrlSigningParamIdentifierGenerator() *rapid.Generator[UrlSigningParamIdentifier] {
 	if urlSigningParamIdentifierGenerator != nil {
 		return urlSigningParamIdentifierGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlSigningParamIdentifier(generators)
-	urlSigningParamIdentifierGenerator = gen.Struct(reflect.TypeOf(UrlSigningParamIdentifier{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	urlSigningParamIdentifierGenerator = rapid.Custom(func(t *rapid.T) UrlSigningParamIdentifier {
+		var result UrlSigningParamIdentifier
+		result.ParamIndicator = ptrString.Draw(t, "ParamIndicator")
+		result.ParamName = ptrString.Draw(t, "ParamName")
+		return result
+	})
 
 	return urlSigningParamIdentifierGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUrlSigningParamIdentifier is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUrlSigningParamIdentifier(gens map[string]gopter.Gen) {
-	gens["ParamIndicator"] = gen.PtrOf(gen.AlphaString())
-	gens["ParamName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_UrlSigningParamIdentifier_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of UrlSigningParamIdentifier_STATUS can be assigned to storage and back losslessly
 func Test_UrlSigningParamIdentifier_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -15293,44 +12602,34 @@ func Test_UrlSigningParamIdentifier_STATUS_WhenPropertiesConverted_RoundTripsWit
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from UrlSigningParamIdentifier_STATUS to UrlSigningParamIdentifier_STATUS via AssignProperties_To_UrlSigningParamIdentifier_STATUS & AssignProperties_From_UrlSigningParamIdentifier_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForUrlSigningParamIdentifier_STATUS, UrlSigningParamIdentifier_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := UrlSigningParamIdentifier_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForUrlSigningParamIdentifier_STATUS tests if a specific instance of UrlSigningParamIdentifier_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForUrlSigningParamIdentifier_STATUS(subject UrlSigningParamIdentifier_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.UrlSigningParamIdentifier_STATUS
+		err := copied.AssignProperties_To_UrlSigningParamIdentifier_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UrlSigningParamIdentifier_STATUS
-	err := copied.AssignProperties_To_UrlSigningParamIdentifier_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual UrlSigningParamIdentifier_STATUS
+		err = actual.AssignProperties_From_UrlSigningParamIdentifier_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual UrlSigningParamIdentifier_STATUS
-	err = actual.AssignProperties_From_UrlSigningParamIdentifier_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_UrlSigningParamIdentifier_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -15340,29 +12639,23 @@ func Test_UrlSigningParamIdentifier_STATUS_WhenSerializedToJson_DeserializesAsEq
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UrlSigningParamIdentifier_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUrlSigningParamIdentifier_STATUS, UrlSigningParamIdentifier_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForUrlSigningParamIdentifier_STATUS)
 }
 
 // RunJSONSerializationTestForUrlSigningParamIdentifier_STATUS runs a test to see if a specific instance of UrlSigningParamIdentifier_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForUrlSigningParamIdentifier_STATUS(subject UrlSigningParamIdentifier_STATUS) string {
+func RunJSONSerializationTestForUrlSigningParamIdentifier_STATUS(t *rapid.T) {
+	subject := UrlSigningParamIdentifier_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual UrlSigningParamIdentifier_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -15371,31 +12664,28 @@ func RunJSONSerializationTestForUrlSigningParamIdentifier_STATUS(subject UrlSign
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of UrlSigningParamIdentifier_STATUS instances for property testing - lazily instantiated by
 // UrlSigningParamIdentifier_STATUSGenerator()
-var urlSigningParamIdentifier_STATUSGenerator gopter.Gen
+var urlSigningParamIdentifier_STATUSGenerator *rapid.Generator[UrlSigningParamIdentifier_STATUS]
 
 // UrlSigningParamIdentifier_STATUSGenerator returns a generator of UrlSigningParamIdentifier_STATUS instances for property testing.
-func UrlSigningParamIdentifier_STATUSGenerator() gopter.Gen {
+func UrlSigningParamIdentifier_STATUSGenerator() *rapid.Generator[UrlSigningParamIdentifier_STATUS] {
 	if urlSigningParamIdentifier_STATUSGenerator != nil {
 		return urlSigningParamIdentifier_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUrlSigningParamIdentifier_STATUS(generators)
-	urlSigningParamIdentifier_STATUSGenerator = gen.Struct(reflect.TypeOf(UrlSigningParamIdentifier_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	urlSigningParamIdentifier_STATUSGenerator = rapid.Custom(func(t *rapid.T) UrlSigningParamIdentifier_STATUS {
+		var result UrlSigningParamIdentifier_STATUS
+		result.ParamIndicator = ptrString.Draw(t, "ParamIndicator")
+		result.ParamName = ptrString.Draw(t, "ParamName")
+		return result
+	})
 
 	return urlSigningParamIdentifier_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForUrlSigningParamIdentifier_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUrlSigningParamIdentifier_STATUS(gens map[string]gopter.Gen) {
-	gens["ParamIndicator"] = gen.PtrOf(gen.AlphaString())
-	gens["ParamName"] = gen.PtrOf(gen.AlphaString())
 }

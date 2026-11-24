@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_ProductPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ProductPolicy via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProductPolicy, ProductPolicyGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForProductPolicy)
 }
 
 // RunJSONSerializationTestForProductPolicy runs a test to see if a specific instance of ProductPolicy round trips to JSON and back losslessly
-func RunJSONSerializationTestForProductPolicy(subject ProductPolicy) string {
+func RunJSONSerializationTestForProductPolicy(t *rapid.T) {
+	subject := ProductPolicyGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ProductPolicy
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,32 +45,30 @@ func RunJSONSerializationTestForProductPolicy(subject ProductPolicy) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ProductPolicy instances for property testing - lazily instantiated by ProductPolicyGenerator()
-var productPolicyGenerator gopter.Gen
+var productPolicyGenerator *rapid.Generator[ProductPolicy]
 
 // ProductPolicyGenerator returns a generator of ProductPolicy instances for property testing.
-func ProductPolicyGenerator() gopter.Gen {
+func ProductPolicyGenerator() *rapid.Generator[ProductPolicy] {
 	if productPolicyGenerator != nil {
 		return productPolicyGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForProductPolicy(generators)
-	productPolicyGenerator = gen.Struct(reflect.TypeOf(ProductPolicy{}), generators)
+	spec := ProductPolicy_SpecGenerator()
+	status := ProductPolicy_STATUSGenerator()
+
+	productPolicyGenerator = rapid.Custom(func(t *rapid.T) ProductPolicy {
+		var result ProductPolicy
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return productPolicyGenerator
-}
-
-// AddRelatedPropertyGeneratorsForProductPolicy is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForProductPolicy(gens map[string]gopter.Gen) {
-	gens["Spec"] = ProductPolicy_SpecGenerator()
-	gens["Status"] = ProductPolicy_STATUSGenerator()
 }
 
 func Test_ProductPolicyOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -90,29 +78,23 @@ func Test_ProductPolicyOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ProductPolicyOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProductPolicyOperatorSpec, ProductPolicyOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForProductPolicyOperatorSpec)
 }
 
 // RunJSONSerializationTestForProductPolicyOperatorSpec runs a test to see if a specific instance of ProductPolicyOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForProductPolicyOperatorSpec(subject ProductPolicyOperatorSpec) string {
+func RunJSONSerializationTestForProductPolicyOperatorSpec(t *rapid.T) {
+	subject := ProductPolicyOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ProductPolicyOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -121,24 +103,21 @@ func RunJSONSerializationTestForProductPolicyOperatorSpec(subject ProductPolicyO
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ProductPolicyOperatorSpec instances for property testing - lazily instantiated by
 // ProductPolicyOperatorSpecGenerator()
-var productPolicyOperatorSpecGenerator gopter.Gen
+var productPolicyOperatorSpecGenerator *rapid.Generator[ProductPolicyOperatorSpec]
 
 // ProductPolicyOperatorSpecGenerator returns a generator of ProductPolicyOperatorSpec instances for property testing.
-func ProductPolicyOperatorSpecGenerator() gopter.Gen {
+func ProductPolicyOperatorSpecGenerator() *rapid.Generator[ProductPolicyOperatorSpec] {
 	if productPolicyOperatorSpecGenerator != nil {
 		return productPolicyOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	productPolicyOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ProductPolicyOperatorSpec{}), generators)
+	productPolicyOperatorSpecGenerator = rapid.Just(ProductPolicyOperatorSpec{})
 
 	return productPolicyOperatorSpecGenerator
 }
@@ -150,29 +129,23 @@ func Test_ProductPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ProductPolicy_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProductPolicy_STATUS, ProductPolicy_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForProductPolicy_STATUS)
 }
 
 // RunJSONSerializationTestForProductPolicy_STATUS runs a test to see if a specific instance of ProductPolicy_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForProductPolicy_STATUS(subject ProductPolicy_STATUS) string {
+func RunJSONSerializationTestForProductPolicy_STATUS(t *rapid.T) {
+	subject := ProductPolicy_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ProductPolicy_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -181,36 +154,33 @@ func RunJSONSerializationTestForProductPolicy_STATUS(subject ProductPolicy_STATU
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ProductPolicy_STATUS instances for property testing - lazily instantiated by
 // ProductPolicy_STATUSGenerator()
-var productPolicy_STATUSGenerator gopter.Gen
+var productPolicy_STATUSGenerator *rapid.Generator[ProductPolicy_STATUS]
 
 // ProductPolicy_STATUSGenerator returns a generator of ProductPolicy_STATUS instances for property testing.
-func ProductPolicy_STATUSGenerator() gopter.Gen {
+func ProductPolicy_STATUSGenerator() *rapid.Generator[ProductPolicy_STATUS] {
 	if productPolicy_STATUSGenerator != nil {
 		return productPolicy_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProductPolicy_STATUS(generators)
-	productPolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(ProductPolicy_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	productPolicy_STATUSGenerator = rapid.Custom(func(t *rapid.T) ProductPolicy_STATUS {
+		var result ProductPolicy_STATUS
+		result.Format = ptrString.Draw(t, "Format")
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Type = ptrString.Draw(t, "Type")
+		result.Value = ptrString.Draw(t, "Value")
+		return result
+	})
 
 	return productPolicy_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForProductPolicy_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProductPolicy_STATUS(gens map[string]gopter.Gen) {
-	gens["Format"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ProductPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -220,29 +190,23 @@ func Test_ProductPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ProductPolicy_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProductPolicy_Spec, ProductPolicy_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForProductPolicy_Spec)
 }
 
 // RunJSONSerializationTestForProductPolicy_Spec runs a test to see if a specific instance of ProductPolicy_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForProductPolicy_Spec(subject ProductPolicy_Spec) string {
+func RunJSONSerializationTestForProductPolicy_Spec(t *rapid.T) {
+	subject := ProductPolicy_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ProductPolicy_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -251,45 +215,31 @@ func RunJSONSerializationTestForProductPolicy_Spec(subject ProductPolicy_Spec) s
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ProductPolicy_Spec instances for property testing - lazily instantiated by ProductPolicy_SpecGenerator()
-var productPolicy_SpecGenerator gopter.Gen
+var productPolicy_SpecGenerator *rapid.Generator[ProductPolicy_Spec]
 
 // ProductPolicy_SpecGenerator returns a generator of ProductPolicy_Spec instances for property testing.
-// We first initialize productPolicy_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ProductPolicy_SpecGenerator() gopter.Gen {
+func ProductPolicy_SpecGenerator() *rapid.Generator[ProductPolicy_Spec] {
 	if productPolicy_SpecGenerator != nil {
 		return productPolicy_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProductPolicy_Spec(generators)
-	productPolicy_SpecGenerator = gen.Struct(reflect.TypeOf(ProductPolicy_Spec{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	operatorSpec := rapid.Ptr(ProductPolicyOperatorSpecGenerator(), true)
+	originalVersion := rapid.String()
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProductPolicy_Spec(generators)
-	AddRelatedPropertyGeneratorsForProductPolicy_Spec(generators)
-	productPolicy_SpecGenerator = gen.Struct(reflect.TypeOf(ProductPolicy_Spec{}), generators)
+	productPolicy_SpecGenerator = rapid.Custom(func(t *rapid.T) ProductPolicy_Spec {
+		var result ProductPolicy_Spec
+		result.Format = ptrString.Draw(t, "Format")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		result.OriginalVersion = originalVersion.Draw(t, "OriginalVersion")
+		result.Value = ptrString.Draw(t, "Value")
+		return result
+	})
 
 	return productPolicy_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForProductPolicy_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProductPolicy_Spec(gens map[string]gopter.Gen) {
-	gens["Format"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Value"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForProductPolicy_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForProductPolicy_Spec(gens map[string]gopter.Gen) {
-	gens["OperatorSpec"] = gen.PtrOf(ProductPolicyOperatorSpecGenerator())
 }

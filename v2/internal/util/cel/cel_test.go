@@ -11,7 +11,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	"github.com/google/cel-go/cel"
+	"cel.dev/cel-go/cel"
 	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
@@ -442,6 +442,18 @@ func Test_CompileAndRunAndCheck(t *testing.T) {
 			expression:  `aso.parseResourceId("not-a-valid-id").name`,
 			expectedErr: "aso.parseResourceId: invalid resource ID",
 		},
+		{
+			name:        "optional value comparison",
+			self:        newSimpleResource(),
+			expression:  `string(optional.of(42).hasValue(42))`,
+			expectedStr: "true",
+		},
+		{
+			name:        "optional mapping of complex target",
+			self:        newSimpleResource(),
+			expression:  `optional.of(self.spec.location + "-region").optMap(s, s.upperAscii()).value()`,
+			expectedStr: "EASTUS-REGION",
+		},
 	}
 
 	for _, c := range cases {
@@ -453,7 +465,7 @@ func Test_CompileAndRunAndCheck(t *testing.T) {
 			g.Expect(err).ToNot(HaveOccurred())
 
 			// Test CompileAndRun
-			result, err := evaluator.CompileAndRun(c.expression, c.self, c.secret)
+			result, err := evaluator.CompileAndRun(t.Context(), asocel.NewEvaluationBudget(), c.expression, c.self, c.secret)
 			if c.expectedErr != "" {
 				g.Expect(err).To(MatchError(ContainSubstring(c.expectedErr)))
 				return // Nothing more to assert

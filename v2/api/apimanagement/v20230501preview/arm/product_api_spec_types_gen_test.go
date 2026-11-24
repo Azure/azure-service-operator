@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_ProductApi_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ProductApi_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProductApi_Spec, ProductApi_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForProductApi_Spec)
 }
 
 // RunJSONSerializationTestForProductApi_Spec runs a test to see if a specific instance of ProductApi_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForProductApi_Spec(subject ProductApi_Spec) string {
+func RunJSONSerializationTestForProductApi_Spec(t *rapid.T) {
+	subject := ProductApi_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ProductApi_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,29 +45,26 @@ func RunJSONSerializationTestForProductApi_Spec(subject ProductApi_Spec) string 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ProductApi_Spec instances for property testing - lazily instantiated by ProductApi_SpecGenerator()
-var productApi_SpecGenerator gopter.Gen
+var productApi_SpecGenerator *rapid.Generator[ProductApi_Spec]
 
 // ProductApi_SpecGenerator returns a generator of ProductApi_Spec instances for property testing.
-func ProductApi_SpecGenerator() gopter.Gen {
+func ProductApi_SpecGenerator() *rapid.Generator[ProductApi_Spec] {
 	if productApi_SpecGenerator != nil {
 		return productApi_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProductApi_Spec(generators)
-	productApi_SpecGenerator = gen.Struct(reflect.TypeOf(ProductApi_Spec{}), generators)
+	name := rapid.String()
+
+	productApi_SpecGenerator = rapid.Custom(func(t *rapid.T) ProductApi_Spec {
+		var result ProductApi_Spec
+		result.Name = name.Draw(t, "Name")
+		return result
+	})
 
 	return productApi_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForProductApi_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProductApi_Spec(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
 }

@@ -10,14 +10,11 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
+// Test_Diagnostic_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of Diagnostic round trips to the hub storage version and back losslessly
 func Test_Diagnostic_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -25,47 +22,37 @@ func Test_Diagnostic_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Diagnostic to hub returns original",
-		prop.ForAll(RunResourceConversionTestForDiagnostic, DiagnosticGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DiagnosticGenerator().Draw(t, "subject")
+		// Copy subject to make sure conversion doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Convert to our hub version
+		var hub storage.Diagnostic
+		err := copied.ConvertTo(&hub)
+		if err != nil {
+			t.Fatal("ConvertTo: " + err.Error())
+		}
+
+		// Convert from our hub version
+		var actual Diagnostic
+		err = actual.ConvertFrom(&hub)
+		if err != nil {
+			t.Fatal("ConvertFrom: " + err.Error())
+		}
+
+		// Compare actual with what we started with
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
-// RunResourceConversionTestForDiagnostic tests if a specific instance of Diagnostic round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForDiagnostic(subject Diagnostic) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub storage.Diagnostic
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual Diagnostic
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
+// Test_Diagnostic_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Diagnostic can be assigned to storage and back losslessly
 func Test_Diagnostic_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -73,44 +60,34 @@ func Test_Diagnostic_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Diagnostic to Diagnostic via AssignProperties_To_Diagnostic & AssignProperties_From_Diagnostic returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDiagnostic, DiagnosticGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DiagnosticGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDiagnostic tests if a specific instance of Diagnostic can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDiagnostic(subject Diagnostic) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.Diagnostic
+		err := copied.AssignProperties_To_Diagnostic(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Diagnostic
-	err := copied.AssignProperties_To_Diagnostic(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual Diagnostic
+		err = actual.AssignProperties_From_Diagnostic(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Diagnostic
-	err = actual.AssignProperties_From_Diagnostic(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_Diagnostic_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -120,29 +97,23 @@ func Test_Diagnostic_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Diagnostic via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDiagnostic, DiagnosticGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDiagnostic)
 }
 
 // RunJSONSerializationTestForDiagnostic runs a test to see if a specific instance of Diagnostic round trips to JSON and back losslessly
-func RunJSONSerializationTestForDiagnostic(subject Diagnostic) string {
+func RunJSONSerializationTestForDiagnostic(t *rapid.T) {
+	subject := DiagnosticGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Diagnostic
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -151,34 +122,33 @@ func RunJSONSerializationTestForDiagnostic(subject Diagnostic) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Diagnostic instances for property testing - lazily instantiated by DiagnosticGenerator()
-var diagnosticGenerator gopter.Gen
+var diagnosticGenerator *rapid.Generator[Diagnostic]
 
 // DiagnosticGenerator returns a generator of Diagnostic instances for property testing.
-func DiagnosticGenerator() gopter.Gen {
+func DiagnosticGenerator() *rapid.Generator[Diagnostic] {
 	if diagnosticGenerator != nil {
 		return diagnosticGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForDiagnostic(generators)
-	diagnosticGenerator = gen.Struct(reflect.TypeOf(Diagnostic{}), generators)
+	spec := Diagnostic_SpecGenerator()
+	status := Diagnostic_STATUSGenerator()
+
+	diagnosticGenerator = rapid.Custom(func(t *rapid.T) Diagnostic {
+		var result Diagnostic
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return diagnosticGenerator
 }
 
-// AddRelatedPropertyGeneratorsForDiagnostic is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDiagnostic(gens map[string]gopter.Gen) {
-	gens["Spec"] = Diagnostic_SpecGenerator()
-	gens["Status"] = Diagnostic_STATUSGenerator()
-}
-
+// Test_DiagnosticOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DiagnosticOperatorSpec can be assigned to storage and back losslessly
 func Test_DiagnosticOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -186,44 +156,34 @@ func Test_DiagnosticOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DiagnosticOperatorSpec to DiagnosticOperatorSpec via AssignProperties_To_DiagnosticOperatorSpec & AssignProperties_From_DiagnosticOperatorSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDiagnosticOperatorSpec, DiagnosticOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DiagnosticOperatorSpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDiagnosticOperatorSpec tests if a specific instance of DiagnosticOperatorSpec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDiagnosticOperatorSpec(subject DiagnosticOperatorSpec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DiagnosticOperatorSpec
+		err := copied.AssignProperties_To_DiagnosticOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DiagnosticOperatorSpec
-	err := copied.AssignProperties_To_DiagnosticOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DiagnosticOperatorSpec
+		err = actual.AssignProperties_From_DiagnosticOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DiagnosticOperatorSpec
-	err = actual.AssignProperties_From_DiagnosticOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DiagnosticOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -233,29 +193,23 @@ func Test_DiagnosticOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DiagnosticOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDiagnosticOperatorSpec, DiagnosticOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDiagnosticOperatorSpec)
 }
 
 // RunJSONSerializationTestForDiagnosticOperatorSpec runs a test to see if a specific instance of DiagnosticOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForDiagnosticOperatorSpec(subject DiagnosticOperatorSpec) string {
+func RunJSONSerializationTestForDiagnosticOperatorSpec(t *rapid.T) {
+	subject := DiagnosticOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DiagnosticOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -264,28 +218,26 @@ func RunJSONSerializationTestForDiagnosticOperatorSpec(subject DiagnosticOperato
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DiagnosticOperatorSpec instances for property testing - lazily instantiated by
 // DiagnosticOperatorSpecGenerator()
-var diagnosticOperatorSpecGenerator gopter.Gen
+var diagnosticOperatorSpecGenerator *rapid.Generator[DiagnosticOperatorSpec]
 
 // DiagnosticOperatorSpecGenerator returns a generator of DiagnosticOperatorSpec instances for property testing.
-func DiagnosticOperatorSpecGenerator() gopter.Gen {
+func DiagnosticOperatorSpecGenerator() *rapid.Generator[DiagnosticOperatorSpec] {
 	if diagnosticOperatorSpecGenerator != nil {
 		return diagnosticOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	diagnosticOperatorSpecGenerator = gen.Struct(reflect.TypeOf(DiagnosticOperatorSpec{}), generators)
+	diagnosticOperatorSpecGenerator = rapid.Just(DiagnosticOperatorSpec{})
 
 	return diagnosticOperatorSpecGenerator
 }
 
+// Test_Diagnostic_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Diagnostic_STATUS can be assigned to storage and back losslessly
 func Test_Diagnostic_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -293,44 +245,34 @@ func Test_Diagnostic_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Diagnostic_STATUS to Diagnostic_STATUS via AssignProperties_To_Diagnostic_STATUS & AssignProperties_From_Diagnostic_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDiagnostic_STATUS, Diagnostic_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := Diagnostic_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDiagnostic_STATUS tests if a specific instance of Diagnostic_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDiagnostic_STATUS(subject Diagnostic_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.Diagnostic_STATUS
+		err := copied.AssignProperties_To_Diagnostic_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Diagnostic_STATUS
-	err := copied.AssignProperties_To_Diagnostic_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual Diagnostic_STATUS
+		err = actual.AssignProperties_From_Diagnostic_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Diagnostic_STATUS
-	err = actual.AssignProperties_From_Diagnostic_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_Diagnostic_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -340,29 +282,23 @@ func Test_Diagnostic_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Diagnostic_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDiagnostic_STATUS, Diagnostic_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDiagnostic_STATUS)
 }
 
 // RunJSONSerializationTestForDiagnostic_STATUS runs a test to see if a specific instance of Diagnostic_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDiagnostic_STATUS(subject Diagnostic_STATUS) string {
+func RunJSONSerializationTestForDiagnostic_STATUS(t *rapid.T) {
+	subject := Diagnostic_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Diagnostic_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -371,58 +307,50 @@ func RunJSONSerializationTestForDiagnostic_STATUS(subject Diagnostic_STATUS) str
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Diagnostic_STATUS instances for property testing - lazily instantiated by Diagnostic_STATUSGenerator()
-var diagnostic_STATUSGenerator gopter.Gen
+var diagnostic_STATUSGenerator *rapid.Generator[Diagnostic_STATUS]
 
 // Diagnostic_STATUSGenerator returns a generator of Diagnostic_STATUS instances for property testing.
-// We first initialize diagnostic_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Diagnostic_STATUSGenerator() gopter.Gen {
+func Diagnostic_STATUSGenerator() *rapid.Generator[Diagnostic_STATUS] {
 	if diagnostic_STATUSGenerator != nil {
 		return diagnostic_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDiagnostic_STATUS(generators)
-	diagnostic_STATUSGenerator = gen.Struct(reflect.TypeOf(Diagnostic_STATUS{}), generators)
+	ptrPipelineDiagnosticSettingsSTATUS := rapid.Ptr(PipelineDiagnosticSettings_STATUSGenerator(), true)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	ptrBool := rapid.Ptr(rapid.Bool(), true)
+	alwaysLog := rapid.Ptr(rapid.SampledFrom([]DiagnosticContractProperties_AlwaysLog_STATUS{DiagnosticContractProperties_AlwaysLog_STATUS_AllErrors}), true)
+	httpCorrelationProtocol := rapid.Ptr(rapid.SampledFrom([]DiagnosticContractProperties_HttpCorrelationProtocol_STATUS{DiagnosticContractProperties_HttpCorrelationProtocol_STATUS_Legacy, DiagnosticContractProperties_HttpCorrelationProtocol_STATUS_None, DiagnosticContractProperties_HttpCorrelationProtocol_STATUS_W3C}), true)
+	operationNameFormat := rapid.Ptr(rapid.SampledFrom([]DiagnosticContractProperties_OperationNameFormat_STATUS{DiagnosticContractProperties_OperationNameFormat_STATUS_Name, DiagnosticContractProperties_OperationNameFormat_STATUS_Url}), true)
+	sampling := rapid.Ptr(SamplingSettings_STATUSGenerator(), true)
+	verbosity := rapid.Ptr(rapid.SampledFrom([]DiagnosticContractProperties_Verbosity_STATUS{DiagnosticContractProperties_Verbosity_STATUS_Error, DiagnosticContractProperties_Verbosity_STATUS_Information, DiagnosticContractProperties_Verbosity_STATUS_Verbose}), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDiagnostic_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDiagnostic_STATUS(generators)
-	diagnostic_STATUSGenerator = gen.Struct(reflect.TypeOf(Diagnostic_STATUS{}), generators)
+	diagnostic_STATUSGenerator = rapid.Custom(func(t *rapid.T) Diagnostic_STATUS {
+		var result Diagnostic_STATUS
+		result.AlwaysLog = alwaysLog.Draw(t, "AlwaysLog")
+		result.Backend = ptrPipelineDiagnosticSettingsSTATUS.Draw(t, "Backend")
+		result.Frontend = ptrPipelineDiagnosticSettingsSTATUS.Draw(t, "Frontend")
+		result.HttpCorrelationProtocol = httpCorrelationProtocol.Draw(t, "HttpCorrelationProtocol")
+		result.Id = ptrString.Draw(t, "Id")
+		result.LogClientIp = ptrBool.Draw(t, "LogClientIp")
+		result.LoggerId = ptrString.Draw(t, "LoggerId")
+		result.Metrics = ptrBool.Draw(t, "Metrics")
+		result.Name = ptrString.Draw(t, "Name")
+		result.OperationNameFormat = operationNameFormat.Draw(t, "OperationNameFormat")
+		result.Sampling = sampling.Draw(t, "Sampling")
+		result.Type = ptrString.Draw(t, "Type")
+		result.Verbosity = verbosity.Draw(t, "Verbosity")
+		return result
+	})
 
 	return diagnostic_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDiagnostic_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDiagnostic_STATUS(gens map[string]gopter.Gen) {
-	gens["AlwaysLog"] = gen.PtrOf(gen.OneConstOf(DiagnosticContractProperties_AlwaysLog_STATUS_AllErrors))
-	gens["HttpCorrelationProtocol"] = gen.PtrOf(gen.OneConstOf(DiagnosticContractProperties_HttpCorrelationProtocol_STATUS_Legacy, DiagnosticContractProperties_HttpCorrelationProtocol_STATUS_None, DiagnosticContractProperties_HttpCorrelationProtocol_STATUS_W3C))
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["LogClientIp"] = gen.PtrOf(gen.Bool())
-	gens["LoggerId"] = gen.PtrOf(gen.AlphaString())
-	gens["Metrics"] = gen.PtrOf(gen.Bool())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["OperationNameFormat"] = gen.PtrOf(gen.OneConstOf(DiagnosticContractProperties_OperationNameFormat_STATUS_Name, DiagnosticContractProperties_OperationNameFormat_STATUS_Url))
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["Verbosity"] = gen.PtrOf(gen.OneConstOf(DiagnosticContractProperties_Verbosity_STATUS_Error, DiagnosticContractProperties_Verbosity_STATUS_Information, DiagnosticContractProperties_Verbosity_STATUS_Verbose))
-}
-
-// AddRelatedPropertyGeneratorsForDiagnostic_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDiagnostic_STATUS(gens map[string]gopter.Gen) {
-	gens["Backend"] = gen.PtrOf(PipelineDiagnosticSettings_STATUSGenerator())
-	gens["Frontend"] = gen.PtrOf(PipelineDiagnosticSettings_STATUSGenerator())
-	gens["Sampling"] = gen.PtrOf(SamplingSettings_STATUSGenerator())
-}
-
+// Test_Diagnostic_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Diagnostic_Spec can be assigned to storage and back losslessly
 func Test_Diagnostic_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -430,44 +358,34 @@ func Test_Diagnostic_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Diagnostic_Spec to Diagnostic_Spec via AssignProperties_To_Diagnostic_Spec & AssignProperties_From_Diagnostic_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDiagnostic_Spec, Diagnostic_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := Diagnostic_SpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForDiagnostic_Spec tests if a specific instance of Diagnostic_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDiagnostic_Spec(subject Diagnostic_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.Diagnostic_Spec
+		err := copied.AssignProperties_To_Diagnostic_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Diagnostic_Spec
-	err := copied.AssignProperties_To_Diagnostic_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual Diagnostic_Spec
+		err = actual.AssignProperties_From_Diagnostic_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Diagnostic_Spec
-	err = actual.AssignProperties_From_Diagnostic_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_Diagnostic_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -477,29 +395,23 @@ func Test_Diagnostic_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Diagnostic_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDiagnostic_Spec, Diagnostic_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDiagnostic_Spec)
 }
 
 // RunJSONSerializationTestForDiagnostic_Spec runs a test to see if a specific instance of Diagnostic_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForDiagnostic_Spec(subject Diagnostic_Spec) string {
+func RunJSONSerializationTestForDiagnostic_Spec(t *rapid.T) {
+	subject := Diagnostic_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Diagnostic_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -508,52 +420,44 @@ func RunJSONSerializationTestForDiagnostic_Spec(subject Diagnostic_Spec) string 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Diagnostic_Spec instances for property testing - lazily instantiated by Diagnostic_SpecGenerator()
-var diagnostic_SpecGenerator gopter.Gen
+var diagnostic_SpecGenerator *rapid.Generator[Diagnostic_Spec]
 
 // Diagnostic_SpecGenerator returns a generator of Diagnostic_Spec instances for property testing.
-// We first initialize diagnostic_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Diagnostic_SpecGenerator() gopter.Gen {
+func Diagnostic_SpecGenerator() *rapid.Generator[Diagnostic_Spec] {
 	if diagnostic_SpecGenerator != nil {
 		return diagnostic_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDiagnostic_Spec(generators)
-	diagnostic_SpecGenerator = gen.Struct(reflect.TypeOf(Diagnostic_Spec{}), generators)
+	ptrPipelineDiagnosticSettings := rapid.Ptr(PipelineDiagnosticSettingsGenerator(), true)
+	ptrBool := rapid.Ptr(rapid.Bool(), true)
+	alwaysLog := rapid.Ptr(rapid.SampledFrom([]DiagnosticContractProperties_AlwaysLog{DiagnosticContractProperties_AlwaysLog_AllErrors}), true)
+	azureName := rapid.String()
+	httpCorrelationProtocol := rapid.Ptr(rapid.SampledFrom([]DiagnosticContractProperties_HttpCorrelationProtocol{DiagnosticContractProperties_HttpCorrelationProtocol_Legacy, DiagnosticContractProperties_HttpCorrelationProtocol_None, DiagnosticContractProperties_HttpCorrelationProtocol_W3C}), true)
+	operationNameFormat := rapid.Ptr(rapid.SampledFrom([]DiagnosticContractProperties_OperationNameFormat{DiagnosticContractProperties_OperationNameFormat_Name, DiagnosticContractProperties_OperationNameFormat_Url}), true)
+	operatorSpec := rapid.Ptr(DiagnosticOperatorSpecGenerator(), true)
+	sampling := rapid.Ptr(SamplingSettingsGenerator(), true)
+	verbosity := rapid.Ptr(rapid.SampledFrom([]DiagnosticContractProperties_Verbosity{DiagnosticContractProperties_Verbosity_Error, DiagnosticContractProperties_Verbosity_Information, DiagnosticContractProperties_Verbosity_Verbose}), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDiagnostic_Spec(generators)
-	AddRelatedPropertyGeneratorsForDiagnostic_Spec(generators)
-	diagnostic_SpecGenerator = gen.Struct(reflect.TypeOf(Diagnostic_Spec{}), generators)
+	diagnostic_SpecGenerator = rapid.Custom(func(t *rapid.T) Diagnostic_Spec {
+		var result Diagnostic_Spec
+		result.AlwaysLog = alwaysLog.Draw(t, "AlwaysLog")
+		result.AzureName = azureName.Draw(t, "AzureName")
+		result.Backend = ptrPipelineDiagnosticSettings.Draw(t, "Backend")
+		result.Frontend = ptrPipelineDiagnosticSettings.Draw(t, "Frontend")
+		result.HttpCorrelationProtocol = httpCorrelationProtocol.Draw(t, "HttpCorrelationProtocol")
+		result.LogClientIp = ptrBool.Draw(t, "LogClientIp")
+		result.Metrics = ptrBool.Draw(t, "Metrics")
+		result.OperationNameFormat = operationNameFormat.Draw(t, "OperationNameFormat")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		result.Sampling = sampling.Draw(t, "Sampling")
+		result.Verbosity = verbosity.Draw(t, "Verbosity")
+		return result
+	})
 
 	return diagnostic_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDiagnostic_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDiagnostic_Spec(gens map[string]gopter.Gen) {
-	gens["AlwaysLog"] = gen.PtrOf(gen.OneConstOf(DiagnosticContractProperties_AlwaysLog_AllErrors))
-	gens["AzureName"] = gen.AlphaString()
-	gens["HttpCorrelationProtocol"] = gen.PtrOf(gen.OneConstOf(DiagnosticContractProperties_HttpCorrelationProtocol_Legacy, DiagnosticContractProperties_HttpCorrelationProtocol_None, DiagnosticContractProperties_HttpCorrelationProtocol_W3C))
-	gens["LogClientIp"] = gen.PtrOf(gen.Bool())
-	gens["Metrics"] = gen.PtrOf(gen.Bool())
-	gens["OperationNameFormat"] = gen.PtrOf(gen.OneConstOf(DiagnosticContractProperties_OperationNameFormat_Name, DiagnosticContractProperties_OperationNameFormat_Url))
-	gens["Verbosity"] = gen.PtrOf(gen.OneConstOf(DiagnosticContractProperties_Verbosity_Error, DiagnosticContractProperties_Verbosity_Information, DiagnosticContractProperties_Verbosity_Verbose))
-}
-
-// AddRelatedPropertyGeneratorsForDiagnostic_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDiagnostic_Spec(gens map[string]gopter.Gen) {
-	gens["Backend"] = gen.PtrOf(PipelineDiagnosticSettingsGenerator())
-	gens["Frontend"] = gen.PtrOf(PipelineDiagnosticSettingsGenerator())
-	gens["OperatorSpec"] = gen.PtrOf(DiagnosticOperatorSpecGenerator())
-	gens["Sampling"] = gen.PtrOf(SamplingSettingsGenerator())
 }

@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_LoggerContractProperties_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of LoggerContractProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLoggerContractProperties, LoggerContractPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForLoggerContractProperties)
 }
 
 // RunJSONSerializationTestForLoggerContractProperties runs a test to see if a specific instance of LoggerContractProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForLoggerContractProperties(subject LoggerContractProperties) string {
+func RunJSONSerializationTestForLoggerContractProperties(t *rapid.T) {
+	subject := LoggerContractPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual LoggerContractProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,38 +45,38 @@ func RunJSONSerializationTestForLoggerContractProperties(subject LoggerContractP
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of LoggerContractProperties instances for property testing - lazily instantiated by
 // LoggerContractPropertiesGenerator()
-var loggerContractPropertiesGenerator gopter.Gen
+var loggerContractPropertiesGenerator *rapid.Generator[LoggerContractProperties]
 
 // LoggerContractPropertiesGenerator returns a generator of LoggerContractProperties instances for property testing.
-func LoggerContractPropertiesGenerator() gopter.Gen {
+func LoggerContractPropertiesGenerator() *rapid.Generator[LoggerContractProperties] {
 	if loggerContractPropertiesGenerator != nil {
 		return loggerContractPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLoggerContractProperties(generators)
-	loggerContractPropertiesGenerator = gen.Struct(reflect.TypeOf(LoggerContractProperties{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	credentials := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
+	isBuffered := rapid.Ptr(rapid.Bool(), true)
+	loggerType := rapid.Ptr(rapid.SampledFrom([]LoggerContractProperties_LoggerType{LoggerContractProperties_LoggerType_ApplicationInsights, LoggerContractProperties_LoggerType_AzureEventHub, LoggerContractProperties_LoggerType_AzureMonitor}), true)
+
+	loggerContractPropertiesGenerator = rapid.Custom(func(t *rapid.T) LoggerContractProperties {
+		var result LoggerContractProperties
+		result.Credentials = credentials.Draw(t, "Credentials")
+		result.Description = ptrString.Draw(t, "Description")
+		result.IsBuffered = isBuffered.Draw(t, "IsBuffered")
+		result.LoggerType = loggerType.Draw(t, "LoggerType")
+		result.ResourceId = ptrString.Draw(t, "ResourceId")
+		return result
+	})
 
 	return loggerContractPropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForLoggerContractProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLoggerContractProperties(gens map[string]gopter.Gen) {
-	gens["Credentials"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["IsBuffered"] = gen.PtrOf(gen.Bool())
-	gens["LoggerType"] = gen.PtrOf(gen.OneConstOf(LoggerContractProperties_LoggerType_ApplicationInsights, LoggerContractProperties_LoggerType_AzureEventHub, LoggerContractProperties_LoggerType_AzureMonitor))
-	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_Logger_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -96,29 +86,23 @@ func Test_Logger_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Logger_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLogger_Spec, Logger_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForLogger_Spec)
 }
 
 // RunJSONSerializationTestForLogger_Spec runs a test to see if a specific instance of Logger_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForLogger_Spec(subject Logger_Spec) string {
+func RunJSONSerializationTestForLogger_Spec(t *rapid.T) {
+	subject := Logger_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Logger_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -127,43 +111,28 @@ func RunJSONSerializationTestForLogger_Spec(subject Logger_Spec) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Logger_Spec instances for property testing - lazily instantiated by Logger_SpecGenerator()
-var logger_SpecGenerator gopter.Gen
+var logger_SpecGenerator *rapid.Generator[Logger_Spec]
 
 // Logger_SpecGenerator returns a generator of Logger_Spec instances for property testing.
-// We first initialize logger_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Logger_SpecGenerator() gopter.Gen {
+func Logger_SpecGenerator() *rapid.Generator[Logger_Spec] {
 	if logger_SpecGenerator != nil {
 		return logger_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLogger_Spec(generators)
-	logger_SpecGenerator = gen.Struct(reflect.TypeOf(Logger_Spec{}), generators)
+	name := rapid.String()
+	properties := rapid.Ptr(LoggerContractPropertiesGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLogger_Spec(generators)
-	AddRelatedPropertyGeneratorsForLogger_Spec(generators)
-	logger_SpecGenerator = gen.Struct(reflect.TypeOf(Logger_Spec{}), generators)
+	logger_SpecGenerator = rapid.Custom(func(t *rapid.T) Logger_Spec {
+		var result Logger_Spec
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return logger_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForLogger_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLogger_Spec(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForLogger_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForLogger_Spec(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(LoggerContractPropertiesGenerator())
 }

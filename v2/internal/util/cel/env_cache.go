@@ -12,8 +12,8 @@ import (
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
+	"cel.dev/cel-go/cel"
 	"github.com/go-logr/logr"
-	"github.com/google/cel-go/cel"
 	"github.com/jellydator/ttlcache/v3"
 
 	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"

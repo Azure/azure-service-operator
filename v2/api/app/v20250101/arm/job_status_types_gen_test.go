@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_JobConfiguration_EventTriggerConfig_STATUS_WhenSerializedToJson_Deseri
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of JobConfiguration_EventTriggerConfig_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForJobConfiguration_EventTriggerConfig_STATUS, JobConfiguration_EventTriggerConfig_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForJobConfiguration_EventTriggerConfig_STATUS)
 }
 
 // RunJSONSerializationTestForJobConfiguration_EventTriggerConfig_STATUS runs a test to see if a specific instance of JobConfiguration_EventTriggerConfig_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForJobConfiguration_EventTriggerConfig_STATUS(subject JobConfiguration_EventTriggerConfig_STATUS) string {
+func RunJSONSerializationTestForJobConfiguration_EventTriggerConfig_STATUS(t *rapid.T) {
+	subject := JobConfiguration_EventTriggerConfig_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual JobConfiguration_EventTriggerConfig_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,47 +45,32 @@ func RunJSONSerializationTestForJobConfiguration_EventTriggerConfig_STATUS(subje
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of JobConfiguration_EventTriggerConfig_STATUS instances for property testing - lazily instantiated by
 // JobConfiguration_EventTriggerConfig_STATUSGenerator()
-var jobConfiguration_EventTriggerConfig_STATUSGenerator gopter.Gen
+var jobConfiguration_EventTriggerConfig_STATUSGenerator *rapid.Generator[JobConfiguration_EventTriggerConfig_STATUS]
 
 // JobConfiguration_EventTriggerConfig_STATUSGenerator returns a generator of JobConfiguration_EventTriggerConfig_STATUS instances for property testing.
-// We first initialize jobConfiguration_EventTriggerConfig_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func JobConfiguration_EventTriggerConfig_STATUSGenerator() gopter.Gen {
+func JobConfiguration_EventTriggerConfig_STATUSGenerator() *rapid.Generator[JobConfiguration_EventTriggerConfig_STATUS] {
 	if jobConfiguration_EventTriggerConfig_STATUSGenerator != nil {
 		return jobConfiguration_EventTriggerConfig_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForJobConfiguration_EventTriggerConfig_STATUS(generators)
-	jobConfiguration_EventTriggerConfig_STATUSGenerator = gen.Struct(reflect.TypeOf(JobConfiguration_EventTriggerConfig_STATUS{}), generators)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+	scale := rapid.Ptr(JobScale_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForJobConfiguration_EventTriggerConfig_STATUS(generators)
-	AddRelatedPropertyGeneratorsForJobConfiguration_EventTriggerConfig_STATUS(generators)
-	jobConfiguration_EventTriggerConfig_STATUSGenerator = gen.Struct(reflect.TypeOf(JobConfiguration_EventTriggerConfig_STATUS{}), generators)
+	jobConfiguration_EventTriggerConfig_STATUSGenerator = rapid.Custom(func(t *rapid.T) JobConfiguration_EventTriggerConfig_STATUS {
+		var result JobConfiguration_EventTriggerConfig_STATUS
+		result.Parallelism = ptrInt.Draw(t, "Parallelism")
+		result.ReplicaCompletionCount = ptrInt.Draw(t, "ReplicaCompletionCount")
+		result.Scale = scale.Draw(t, "Scale")
+		return result
+	})
 
 	return jobConfiguration_EventTriggerConfig_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForJobConfiguration_EventTriggerConfig_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForJobConfiguration_EventTriggerConfig_STATUS(gens map[string]gopter.Gen) {
-	gens["Parallelism"] = gen.PtrOf(gen.Int())
-	gens["ReplicaCompletionCount"] = gen.PtrOf(gen.Int())
-}
-
-// AddRelatedPropertyGeneratorsForJobConfiguration_EventTriggerConfig_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForJobConfiguration_EventTriggerConfig_STATUS(gens map[string]gopter.Gen) {
-	gens["Scale"] = gen.PtrOf(JobScale_STATUSGenerator())
 }
 
 func Test_JobConfiguration_ManualTriggerConfig_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -105,29 +80,23 @@ func Test_JobConfiguration_ManualTriggerConfig_STATUS_WhenSerializedToJson_Deser
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of JobConfiguration_ManualTriggerConfig_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForJobConfiguration_ManualTriggerConfig_STATUS, JobConfiguration_ManualTriggerConfig_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForJobConfiguration_ManualTriggerConfig_STATUS)
 }
 
 // RunJSONSerializationTestForJobConfiguration_ManualTriggerConfig_STATUS runs a test to see if a specific instance of JobConfiguration_ManualTriggerConfig_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForJobConfiguration_ManualTriggerConfig_STATUS(subject JobConfiguration_ManualTriggerConfig_STATUS) string {
+func RunJSONSerializationTestForJobConfiguration_ManualTriggerConfig_STATUS(t *rapid.T) {
+	subject := JobConfiguration_ManualTriggerConfig_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual JobConfiguration_ManualTriggerConfig_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -136,33 +105,30 @@ func RunJSONSerializationTestForJobConfiguration_ManualTriggerConfig_STATUS(subj
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of JobConfiguration_ManualTriggerConfig_STATUS instances for property testing - lazily instantiated by
 // JobConfiguration_ManualTriggerConfig_STATUSGenerator()
-var jobConfiguration_ManualTriggerConfig_STATUSGenerator gopter.Gen
+var jobConfiguration_ManualTriggerConfig_STATUSGenerator *rapid.Generator[JobConfiguration_ManualTriggerConfig_STATUS]
 
 // JobConfiguration_ManualTriggerConfig_STATUSGenerator returns a generator of JobConfiguration_ManualTriggerConfig_STATUS instances for property testing.
-func JobConfiguration_ManualTriggerConfig_STATUSGenerator() gopter.Gen {
+func JobConfiguration_ManualTriggerConfig_STATUSGenerator() *rapid.Generator[JobConfiguration_ManualTriggerConfig_STATUS] {
 	if jobConfiguration_ManualTriggerConfig_STATUSGenerator != nil {
 		return jobConfiguration_ManualTriggerConfig_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForJobConfiguration_ManualTriggerConfig_STATUS(generators)
-	jobConfiguration_ManualTriggerConfig_STATUSGenerator = gen.Struct(reflect.TypeOf(JobConfiguration_ManualTriggerConfig_STATUS{}), generators)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+
+	jobConfiguration_ManualTriggerConfig_STATUSGenerator = rapid.Custom(func(t *rapid.T) JobConfiguration_ManualTriggerConfig_STATUS {
+		var result JobConfiguration_ManualTriggerConfig_STATUS
+		result.Parallelism = ptrInt.Draw(t, "Parallelism")
+		result.ReplicaCompletionCount = ptrInt.Draw(t, "ReplicaCompletionCount")
+		return result
+	})
 
 	return jobConfiguration_ManualTriggerConfig_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForJobConfiguration_ManualTriggerConfig_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForJobConfiguration_ManualTriggerConfig_STATUS(gens map[string]gopter.Gen) {
-	gens["Parallelism"] = gen.PtrOf(gen.Int())
-	gens["ReplicaCompletionCount"] = gen.PtrOf(gen.Int())
 }
 
 func Test_JobConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -172,29 +138,23 @@ func Test_JobConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *te
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of JobConfiguration_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForJobConfiguration_STATUS, JobConfiguration_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForJobConfiguration_STATUS)
 }
 
 // RunJSONSerializationTestForJobConfiguration_STATUS runs a test to see if a specific instance of JobConfiguration_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForJobConfiguration_STATUS(subject JobConfiguration_STATUS) string {
+func RunJSONSerializationTestForJobConfiguration_STATUS(t *rapid.T) {
+	subject := JobConfiguration_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual JobConfiguration_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -203,53 +163,44 @@ func RunJSONSerializationTestForJobConfiguration_STATUS(subject JobConfiguration
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of JobConfiguration_STATUS instances for property testing - lazily instantiated by
 // JobConfiguration_STATUSGenerator()
-var jobConfiguration_STATUSGenerator gopter.Gen
+var jobConfiguration_STATUSGenerator *rapid.Generator[JobConfiguration_STATUS]
 
 // JobConfiguration_STATUSGenerator returns a generator of JobConfiguration_STATUS instances for property testing.
-// We first initialize jobConfiguration_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func JobConfiguration_STATUSGenerator() gopter.Gen {
+func JobConfiguration_STATUSGenerator() *rapid.Generator[JobConfiguration_STATUS] {
 	if jobConfiguration_STATUSGenerator != nil {
 		return jobConfiguration_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForJobConfiguration_STATUS(generators)
-	jobConfiguration_STATUSGenerator = gen.Struct(reflect.TypeOf(JobConfiguration_STATUS{}), generators)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+	eventTriggerConfig := rapid.Ptr(JobConfiguration_EventTriggerConfig_STATUSGenerator(), true)
+	identitySettings := rapid.SliceOf(IdentitySettings_STATUSGenerator())
+	manualTriggerConfig := rapid.Ptr(JobConfiguration_ManualTriggerConfig_STATUSGenerator(), true)
+	registries := rapid.SliceOf(RegistryCredentials_STATUSGenerator())
+	scheduleTriggerConfig := rapid.Ptr(JobConfiguration_ScheduleTriggerConfig_STATUSGenerator(), true)
+	secrets := rapid.SliceOf(Secret_STATUSGenerator())
+	triggerType := rapid.Ptr(rapid.SampledFrom([]JobConfiguration_TriggerType_STATUS{JobConfiguration_TriggerType_STATUS_Event, JobConfiguration_TriggerType_STATUS_Manual, JobConfiguration_TriggerType_STATUS_Schedule}), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForJobConfiguration_STATUS(generators)
-	AddRelatedPropertyGeneratorsForJobConfiguration_STATUS(generators)
-	jobConfiguration_STATUSGenerator = gen.Struct(reflect.TypeOf(JobConfiguration_STATUS{}), generators)
+	jobConfiguration_STATUSGenerator = rapid.Custom(func(t *rapid.T) JobConfiguration_STATUS {
+		var result JobConfiguration_STATUS
+		result.EventTriggerConfig = eventTriggerConfig.Draw(t, "EventTriggerConfig")
+		result.IdentitySettings = identitySettings.Draw(t, "IdentitySettings")
+		result.ManualTriggerConfig = manualTriggerConfig.Draw(t, "ManualTriggerConfig")
+		result.Registries = registries.Draw(t, "Registries")
+		result.ReplicaRetryLimit = ptrInt.Draw(t, "ReplicaRetryLimit")
+		result.ReplicaTimeout = ptrInt.Draw(t, "ReplicaTimeout")
+		result.ScheduleTriggerConfig = scheduleTriggerConfig.Draw(t, "ScheduleTriggerConfig")
+		result.Secrets = secrets.Draw(t, "Secrets")
+		result.TriggerType = triggerType.Draw(t, "TriggerType")
+		return result
+	})
 
 	return jobConfiguration_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForJobConfiguration_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForJobConfiguration_STATUS(gens map[string]gopter.Gen) {
-	gens["ReplicaRetryLimit"] = gen.PtrOf(gen.Int())
-	gens["ReplicaTimeout"] = gen.PtrOf(gen.Int())
-	gens["TriggerType"] = gen.PtrOf(gen.OneConstOf(JobConfiguration_TriggerType_STATUS_Event, JobConfiguration_TriggerType_STATUS_Manual, JobConfiguration_TriggerType_STATUS_Schedule))
-}
-
-// AddRelatedPropertyGeneratorsForJobConfiguration_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForJobConfiguration_STATUS(gens map[string]gopter.Gen) {
-	gens["EventTriggerConfig"] = gen.PtrOf(JobConfiguration_EventTriggerConfig_STATUSGenerator())
-	gens["IdentitySettings"] = gen.SliceOf(IdentitySettings_STATUSGenerator())
-	gens["ManualTriggerConfig"] = gen.PtrOf(JobConfiguration_ManualTriggerConfig_STATUSGenerator())
-	gens["Registries"] = gen.SliceOf(RegistryCredentials_STATUSGenerator())
-	gens["ScheduleTriggerConfig"] = gen.PtrOf(JobConfiguration_ScheduleTriggerConfig_STATUSGenerator())
-	gens["Secrets"] = gen.SliceOf(Secret_STATUSGenerator())
 }
 
 func Test_JobConfiguration_ScheduleTriggerConfig_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -259,29 +210,23 @@ func Test_JobConfiguration_ScheduleTriggerConfig_STATUS_WhenSerializedToJson_Des
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of JobConfiguration_ScheduleTriggerConfig_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForJobConfiguration_ScheduleTriggerConfig_STATUS, JobConfiguration_ScheduleTriggerConfig_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForJobConfiguration_ScheduleTriggerConfig_STATUS)
 }
 
 // RunJSONSerializationTestForJobConfiguration_ScheduleTriggerConfig_STATUS runs a test to see if a specific instance of JobConfiguration_ScheduleTriggerConfig_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForJobConfiguration_ScheduleTriggerConfig_STATUS(subject JobConfiguration_ScheduleTriggerConfig_STATUS) string {
+func RunJSONSerializationTestForJobConfiguration_ScheduleTriggerConfig_STATUS(t *rapid.T) {
+	subject := JobConfiguration_ScheduleTriggerConfig_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual JobConfiguration_ScheduleTriggerConfig_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -290,34 +235,32 @@ func RunJSONSerializationTestForJobConfiguration_ScheduleTriggerConfig_STATUS(su
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of JobConfiguration_ScheduleTriggerConfig_STATUS instances for property testing - lazily instantiated by
 // JobConfiguration_ScheduleTriggerConfig_STATUSGenerator()
-var jobConfiguration_ScheduleTriggerConfig_STATUSGenerator gopter.Gen
+var jobConfiguration_ScheduleTriggerConfig_STATUSGenerator *rapid.Generator[JobConfiguration_ScheduleTriggerConfig_STATUS]
 
 // JobConfiguration_ScheduleTriggerConfig_STATUSGenerator returns a generator of JobConfiguration_ScheduleTriggerConfig_STATUS instances for property testing.
-func JobConfiguration_ScheduleTriggerConfig_STATUSGenerator() gopter.Gen {
+func JobConfiguration_ScheduleTriggerConfig_STATUSGenerator() *rapid.Generator[JobConfiguration_ScheduleTriggerConfig_STATUS] {
 	if jobConfiguration_ScheduleTriggerConfig_STATUSGenerator != nil {
 		return jobConfiguration_ScheduleTriggerConfig_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForJobConfiguration_ScheduleTriggerConfig_STATUS(generators)
-	jobConfiguration_ScheduleTriggerConfig_STATUSGenerator = gen.Struct(reflect.TypeOf(JobConfiguration_ScheduleTriggerConfig_STATUS{}), generators)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+	cronExpression := rapid.Ptr(rapid.String(), true)
+
+	jobConfiguration_ScheduleTriggerConfig_STATUSGenerator = rapid.Custom(func(t *rapid.T) JobConfiguration_ScheduleTriggerConfig_STATUS {
+		var result JobConfiguration_ScheduleTriggerConfig_STATUS
+		result.CronExpression = cronExpression.Draw(t, "CronExpression")
+		result.Parallelism = ptrInt.Draw(t, "Parallelism")
+		result.ReplicaCompletionCount = ptrInt.Draw(t, "ReplicaCompletionCount")
+		return result
+	})
 
 	return jobConfiguration_ScheduleTriggerConfig_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForJobConfiguration_ScheduleTriggerConfig_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForJobConfiguration_ScheduleTriggerConfig_STATUS(gens map[string]gopter.Gen) {
-	gens["CronExpression"] = gen.PtrOf(gen.AlphaString())
-	gens["Parallelism"] = gen.PtrOf(gen.Int())
-	gens["ReplicaCompletionCount"] = gen.PtrOf(gen.Int())
 }
 
 func Test_JobScaleRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -327,29 +270,23 @@ func Test_JobScaleRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of JobScaleRule_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForJobScaleRule_STATUS, JobScaleRule_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForJobScaleRule_STATUS)
 }
 
 // RunJSONSerializationTestForJobScaleRule_STATUS runs a test to see if a specific instance of JobScaleRule_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForJobScaleRule_STATUS(subject JobScaleRule_STATUS) string {
+func RunJSONSerializationTestForJobScaleRule_STATUS(t *rapid.T) {
+	subject := JobScaleRule_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual JobScaleRule_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -358,48 +295,33 @@ func RunJSONSerializationTestForJobScaleRule_STATUS(subject JobScaleRule_STATUS)
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of JobScaleRule_STATUS instances for property testing - lazily instantiated by
 // JobScaleRule_STATUSGenerator()
-var jobScaleRule_STATUSGenerator gopter.Gen
+var jobScaleRule_STATUSGenerator *rapid.Generator[JobScaleRule_STATUS]
 
 // JobScaleRule_STATUSGenerator returns a generator of JobScaleRule_STATUS instances for property testing.
-// We first initialize jobScaleRule_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func JobScaleRule_STATUSGenerator() gopter.Gen {
+func JobScaleRule_STATUSGenerator() *rapid.Generator[JobScaleRule_STATUS] {
 	if jobScaleRule_STATUSGenerator != nil {
 		return jobScaleRule_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForJobScaleRule_STATUS(generators)
-	jobScaleRule_STATUSGenerator = gen.Struct(reflect.TypeOf(JobScaleRule_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	auth := rapid.SliceOf(ScaleRuleAuth_STATUSGenerator())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForJobScaleRule_STATUS(generators)
-	AddRelatedPropertyGeneratorsForJobScaleRule_STATUS(generators)
-	jobScaleRule_STATUSGenerator = gen.Struct(reflect.TypeOf(JobScaleRule_STATUS{}), generators)
+	jobScaleRule_STATUSGenerator = rapid.Custom(func(t *rapid.T) JobScaleRule_STATUS {
+		var result JobScaleRule_STATUS
+		result.Auth = auth.Draw(t, "Auth")
+		result.Identity = ptrString.Draw(t, "Identity")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return jobScaleRule_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForJobScaleRule_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForJobScaleRule_STATUS(gens map[string]gopter.Gen) {
-	gens["Identity"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForJobScaleRule_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForJobScaleRule_STATUS(gens map[string]gopter.Gen) {
-	gens["Auth"] = gen.SliceOf(ScaleRuleAuth_STATUSGenerator())
 }
 
 func Test_JobScale_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -409,29 +331,23 @@ func Test_JobScale_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of JobScale_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForJobScale_STATUS, JobScale_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForJobScale_STATUS)
 }
 
 // RunJSONSerializationTestForJobScale_STATUS runs a test to see if a specific instance of JobScale_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForJobScale_STATUS(subject JobScale_STATUS) string {
+func RunJSONSerializationTestForJobScale_STATUS(t *rapid.T) {
+	subject := JobScale_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual JobScale_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -440,47 +356,32 @@ func RunJSONSerializationTestForJobScale_STATUS(subject JobScale_STATUS) string 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of JobScale_STATUS instances for property testing - lazily instantiated by JobScale_STATUSGenerator()
-var jobScale_STATUSGenerator gopter.Gen
+var jobScale_STATUSGenerator *rapid.Generator[JobScale_STATUS]
 
 // JobScale_STATUSGenerator returns a generator of JobScale_STATUS instances for property testing.
-// We first initialize jobScale_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func JobScale_STATUSGenerator() gopter.Gen {
+func JobScale_STATUSGenerator() *rapid.Generator[JobScale_STATUS] {
 	if jobScale_STATUSGenerator != nil {
 		return jobScale_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForJobScale_STATUS(generators)
-	jobScale_STATUSGenerator = gen.Struct(reflect.TypeOf(JobScale_STATUS{}), generators)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+	rules := rapid.SliceOf(JobScaleRule_STATUSGenerator())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForJobScale_STATUS(generators)
-	AddRelatedPropertyGeneratorsForJobScale_STATUS(generators)
-	jobScale_STATUSGenerator = gen.Struct(reflect.TypeOf(JobScale_STATUS{}), generators)
+	jobScale_STATUSGenerator = rapid.Custom(func(t *rapid.T) JobScale_STATUS {
+		var result JobScale_STATUS
+		result.MaxExecutions = ptrInt.Draw(t, "MaxExecutions")
+		result.MinExecutions = ptrInt.Draw(t, "MinExecutions")
+		result.PollingInterval = ptrInt.Draw(t, "PollingInterval")
+		result.Rules = rules.Draw(t, "Rules")
+		return result
+	})
 
 	return jobScale_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForJobScale_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForJobScale_STATUS(gens map[string]gopter.Gen) {
-	gens["MaxExecutions"] = gen.PtrOf(gen.Int())
-	gens["MinExecutions"] = gen.PtrOf(gen.Int())
-	gens["PollingInterval"] = gen.PtrOf(gen.Int())
-}
-
-// AddRelatedPropertyGeneratorsForJobScale_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForJobScale_STATUS(gens map[string]gopter.Gen) {
-	gens["Rules"] = gen.SliceOf(JobScaleRule_STATUSGenerator())
 }
 
 func Test_JobTemplate_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -490,29 +391,23 @@ func Test_JobTemplate_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of JobTemplate_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForJobTemplate_STATUS, JobTemplate_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForJobTemplate_STATUS)
 }
 
 // RunJSONSerializationTestForJobTemplate_STATUS runs a test to see if a specific instance of JobTemplate_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForJobTemplate_STATUS(subject JobTemplate_STATUS) string {
+func RunJSONSerializationTestForJobTemplate_STATUS(t *rapid.T) {
+	subject := JobTemplate_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual JobTemplate_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -521,33 +416,32 @@ func RunJSONSerializationTestForJobTemplate_STATUS(subject JobTemplate_STATUS) s
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of JobTemplate_STATUS instances for property testing - lazily instantiated by JobTemplate_STATUSGenerator()
-var jobTemplate_STATUSGenerator gopter.Gen
+var jobTemplate_STATUSGenerator *rapid.Generator[JobTemplate_STATUS]
 
 // JobTemplate_STATUSGenerator returns a generator of JobTemplate_STATUS instances for property testing.
-func JobTemplate_STATUSGenerator() gopter.Gen {
+func JobTemplate_STATUSGenerator() *rapid.Generator[JobTemplate_STATUS] {
 	if jobTemplate_STATUSGenerator != nil {
 		return jobTemplate_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForJobTemplate_STATUS(generators)
-	jobTemplate_STATUSGenerator = gen.Struct(reflect.TypeOf(JobTemplate_STATUS{}), generators)
+	containers := rapid.SliceOf(Container_STATUSGenerator())
+	initContainers := rapid.SliceOf(BaseContainer_STATUSGenerator())
+	volumes := rapid.SliceOf(Volume_STATUSGenerator())
+
+	jobTemplate_STATUSGenerator = rapid.Custom(func(t *rapid.T) JobTemplate_STATUS {
+		var result JobTemplate_STATUS
+		result.Containers = containers.Draw(t, "Containers")
+		result.InitContainers = initContainers.Draw(t, "InitContainers")
+		result.Volumes = volumes.Draw(t, "Volumes")
+		return result
+	})
 
 	return jobTemplate_STATUSGenerator
-}
-
-// AddRelatedPropertyGeneratorsForJobTemplate_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForJobTemplate_STATUS(gens map[string]gopter.Gen) {
-	gens["Containers"] = gen.SliceOf(Container_STATUSGenerator())
-	gens["InitContainers"] = gen.SliceOf(BaseContainer_STATUSGenerator())
-	gens["Volumes"] = gen.SliceOf(Volume_STATUSGenerator())
 }
 
 func Test_Job_Properties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -557,29 +451,23 @@ func Test_Job_Properties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Job_Properties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForJob_Properties_STATUS, Job_Properties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForJob_Properties_STATUS)
 }
 
 // RunJSONSerializationTestForJob_Properties_STATUS runs a test to see if a specific instance of Job_Properties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForJob_Properties_STATUS(subject Job_Properties_STATUS) string {
+func RunJSONSerializationTestForJob_Properties_STATUS(t *rapid.T) {
+	subject := Job_Properties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Job_Properties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -588,56 +476,39 @@ func RunJSONSerializationTestForJob_Properties_STATUS(subject Job_Properties_STA
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Job_Properties_STATUS instances for property testing - lazily instantiated by
 // Job_Properties_STATUSGenerator()
-var job_Properties_STATUSGenerator gopter.Gen
+var job_Properties_STATUSGenerator *rapid.Generator[Job_Properties_STATUS]
 
 // Job_Properties_STATUSGenerator returns a generator of Job_Properties_STATUS instances for property testing.
-// We first initialize job_Properties_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Job_Properties_STATUSGenerator() gopter.Gen {
+func Job_Properties_STATUSGenerator() *rapid.Generator[Job_Properties_STATUS] {
 	if job_Properties_STATUSGenerator != nil {
 		return job_Properties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForJob_Properties_STATUS(generators)
-	job_Properties_STATUSGenerator = gen.Struct(reflect.TypeOf(Job_Properties_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	configuration := rapid.Ptr(JobConfiguration_STATUSGenerator(), true)
+	outboundIpAddresses := rapid.SliceOf(rapid.String())
+	provisioningState := rapid.Ptr(rapid.SampledFrom([]Job_Properties_ProvisioningState_STATUS{Job_Properties_ProvisioningState_STATUS_Canceled, Job_Properties_ProvisioningState_STATUS_Deleting, Job_Properties_ProvisioningState_STATUS_Failed, Job_Properties_ProvisioningState_STATUS_InProgress, Job_Properties_ProvisioningState_STATUS_Succeeded}), true)
+	template := rapid.Ptr(JobTemplate_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForJob_Properties_STATUS(generators)
-	AddRelatedPropertyGeneratorsForJob_Properties_STATUS(generators)
-	job_Properties_STATUSGenerator = gen.Struct(reflect.TypeOf(Job_Properties_STATUS{}), generators)
+	job_Properties_STATUSGenerator = rapid.Custom(func(t *rapid.T) Job_Properties_STATUS {
+		var result Job_Properties_STATUS
+		result.Configuration = configuration.Draw(t, "Configuration")
+		result.EnvironmentId = ptrString.Draw(t, "EnvironmentId")
+		result.EventStreamEndpoint = ptrString.Draw(t, "EventStreamEndpoint")
+		result.OutboundIpAddresses = outboundIpAddresses.Draw(t, "OutboundIpAddresses")
+		result.ProvisioningState = provisioningState.Draw(t, "ProvisioningState")
+		result.Template = template.Draw(t, "Template")
+		result.WorkloadProfileName = ptrString.Draw(t, "WorkloadProfileName")
+		return result
+	})
 
 	return job_Properties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForJob_Properties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForJob_Properties_STATUS(gens map[string]gopter.Gen) {
-	gens["EnvironmentId"] = gen.PtrOf(gen.AlphaString())
-	gens["EventStreamEndpoint"] = gen.PtrOf(gen.AlphaString())
-	gens["OutboundIpAddresses"] = gen.SliceOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		Job_Properties_ProvisioningState_STATUS_Canceled,
-		Job_Properties_ProvisioningState_STATUS_Deleting,
-		Job_Properties_ProvisioningState_STATUS_Failed,
-		Job_Properties_ProvisioningState_STATUS_InProgress,
-		Job_Properties_ProvisioningState_STATUS_Succeeded))
-	gens["WorkloadProfileName"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForJob_Properties_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForJob_Properties_STATUS(gens map[string]gopter.Gen) {
-	gens["Configuration"] = gen.PtrOf(JobConfiguration_STATUSGenerator())
-	gens["Template"] = gen.PtrOf(JobTemplate_STATUSGenerator())
 }
 
 func Test_Job_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -647,29 +518,23 @@ func Test_Job_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Job_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForJob_STATUS, Job_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForJob_STATUS)
 }
 
 // RunJSONSerializationTestForJob_STATUS runs a test to see if a specific instance of Job_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForJob_STATUS(subject Job_STATUS) string {
+func RunJSONSerializationTestForJob_STATUS(t *rapid.T) {
+	subject := Job_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Job_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -678,51 +543,39 @@ func RunJSONSerializationTestForJob_STATUS(subject Job_STATUS) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Job_STATUS instances for property testing - lazily instantiated by Job_STATUSGenerator()
-var job_STATUSGenerator gopter.Gen
+var job_STATUSGenerator *rapid.Generator[Job_STATUS]
 
 // Job_STATUSGenerator returns a generator of Job_STATUS instances for property testing.
-// We first initialize job_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Job_STATUSGenerator() gopter.Gen {
+func Job_STATUSGenerator() *rapid.Generator[Job_STATUS] {
 	if job_STATUSGenerator != nil {
 		return job_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForJob_STATUS(generators)
-	job_STATUSGenerator = gen.Struct(reflect.TypeOf(Job_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	identity := rapid.Ptr(ManagedServiceIdentity_STATUSGenerator(), true)
+	properties := rapid.Ptr(Job_Properties_STATUSGenerator(), true)
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForJob_STATUS(generators)
-	AddRelatedPropertyGeneratorsForJob_STATUS(generators)
-	job_STATUSGenerator = gen.Struct(reflect.TypeOf(Job_STATUS{}), generators)
+	job_STATUSGenerator = rapid.Custom(func(t *rapid.T) Job_STATUS {
+		var result Job_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.Identity = identity.Draw(t, "Identity")
+		result.Location = ptrString.Draw(t, "Location")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.Tags = tags.Draw(t, "Tags")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return job_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForJob_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForJob_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForJob_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForJob_STATUS(gens map[string]gopter.Gen) {
-	gens["Identity"] = gen.PtrOf(ManagedServiceIdentity_STATUSGenerator())
-	gens["Properties"] = gen.PtrOf(Job_Properties_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
