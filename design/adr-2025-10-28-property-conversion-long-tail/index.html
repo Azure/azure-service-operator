@@ -24,7 +24,7 @@ In the past, as each case of incompatibility has arisen, we’ve enhanced the co
 	<meta itemprop="description" content="Context We are successfully generating conversion code for inter-version transformation of resources across a wide range of resources. However, we’re encountering the “long tail” - increasingly rare edge cases that fall outside the capabilities of our current automatic conversion generator.
 The most recent example affects preview versions of ManagedClustersAgentPool (a child resource of ManagedCluster) where the cardinality of ScaleProfile has changed from plural (AutoScaleProfile[]) to singular (AutoScaleProfile).
 In the past, as each case of incompatibility has arisen, we’ve enhanced the code generator to handle the new case, taking the stance that it’s better to handle these cases once (by enhancing the generator) than to handle them many times (by writing custom conversion code for each resource that needs it).">
-	<meta itemprop="wordCount" content="511">
+	<meta itemprop="wordCount" content="652">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="2025-10: The Long Tail of Property Conversion">
 	<meta name="twitter:description" content="Context We are successfully generating conversion code for inter-version transformation of resources across a wide range of resources. However, we’re encountering the “long tail” - increasingly rare edge cases that fall outside the capabilities of our current automatic conversion generator.
@@ -79,7 +79,7 @@ In the past, as each case of incompatibility has arisen, we’ve enhanced the co
     <div class="td-search__icon" aria-hidden="true"></div>
     <input type="search" name="q" class="td-search__input form-control"
       placeholder="Search documentation..." aria-label="Search documentation..." autocomplete="off"
-      data-offline-search-index-json-src="/azure-service-operator/offline-search-index-documentation.4c599b799b694263f42ce18d227d391b.json"
+      data-offline-search-index-json-src="/azure-service-operator/offline-search-index-documentation.48daf1d3d4f8822e657569a89e61efa1.json"
       data-offline-search-base-href="/"
       data-offline-search-max-results="10">
   </div>
@@ -99,7 +99,7 @@ In the past, as each case of incompatibility has arisen, we’ve enhanced the co
     <div class="td-search__icon" aria-hidden="true"></div>
     <input type="search" name="q" class="td-search__input form-control"
       placeholder="Search documentation..." aria-label="Search documentation..." autocomplete="off"
-      data-offline-search-index-json-src="/azure-service-operator/offline-search-index-documentation.4c599b799b694263f42ce18d227d391b.json"
+      data-offline-search-index-json-src="/azure-service-operator/offline-search-index-documentation.48daf1d3d4f8822e657569a89e61efa1.json"
       data-offline-search-base-href="/"
       data-offline-search-max-results="10">
   </div>
@@ -303,6 +303,8 @@ In the past, as each case of incompatibility has arisen, we’ve enhanced the co
 <p>Proposed.</p>
 <h2 id="consequences">Consequences</h2>
 <h2 id="experience-report">Experience Report</h2>
+<p>The implemented configuration uses <code>$conversionStrategy: manual</code> to delegate unsupported property assignments to the existing <code>augment*</code> interfaces. For inter-version property bag reads and writes, manual conversion also takes precedence when the generator can produce a conversion: the generated code may compile but fail at runtime when a skipped property returns with a different JSON shape. Direct property assignments and status-to-spec initialization continue to use automatic conversion where available.</p>
+<p>ContainerService&rsquo;s <code>ScaleProfile.Autoscale</code> uses handwritten augmentation hooks because the preview singleton becomes a list in a later API version, with an intermediate version that omits the property. The hooks accept both historical singleton and list property bag values. When converting a list to the preview, they expose the first entry and retain the remaining entries in the property bag. Edits to the first entry preserve the remainder; clearing the preview field clears the entire list.</p>
 <h2 id="references">References</h2>
 <ul>
 <li><a href="/azure-service-operator/design/versioning/">Resource Versioning</a></li>
