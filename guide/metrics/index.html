@@ -24,7 +24,7 @@ ASOv2 Helm Chart While installing the Helm chart, we can turn the metrics _**on*
 	<meta itemprop="description" content="Prometheus metrics are exposed for ASOv2 which can be helpful in diagnosability and tracing. The metrics exposed fall into two groups: Azure based metrics, and reconciler metrics (from controller-runtime).
 Toggling the metrics By default, secure metrics for ASOv2 are turned on and can be toggled by the following options:
 ASOv2 Helm Chart While installing the Helm chart, we can turn the metrics _**on**_ and _**off**_ and set the metrics expose address using the below settings. Also, we can change the settings inside `values.yaml` file for ASOv2 Helm chart. ``` --set metrics.enable=true/false (default: true) --set metrics.secure=true/false (default: true) --set metrics.profiling=true/false (default: false) --set metrics.address=0.0.0.0:8443 (default) ``` Deployment YAML In the deployment yaml, we can turn _**off**_ the metrics by omitting the `metrics-addr` flag. We can also change to use a different metrics-addr by changing the default value of that same flag. ``` spec: containers: - args: - --metrics-addr=0.0.0.0:8080 (default) - --secure-metrics=true/false (default: true) - --profiling-metrics=true/false (default: false) ``` Scraping Metrics Securely via HTTPs using RBAC A ServiceAccount token is required to scrape metrics securely. The corresponding ServiceAccount needs permissions on the “/metrics” and “debug/pprof” paths. This can be achieved e.g. by following the Kubernetes documentation.">
-	<meta itemprop="wordCount" content="1021">
+	<meta itemprop="wordCount" content="1447">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Metrics">
 	<meta name="twitter:description" content="Prometheus metrics are exposed for ASOv2 which can be helpful in diagnosability and tracing. The metrics exposed fall into two groups: Azure based metrics, and reconciler metrics (from controller-runtime).
@@ -79,7 +79,7 @@ ASOv2 Helm Chart While installing the Helm chart, we can turn the metrics _**on*
     <div class="td-search__icon" aria-hidden="true"></div>
     <input type="search" name="q" class="td-search__input form-control"
       placeholder="Search documentation..." aria-label="Search documentation..." autocomplete="off"
-      data-offline-search-index-json-src="/azure-service-operator/offline-search-index-documentation.48daf1d3d4f8822e657569a89e61efa1.json"
+      data-offline-search-index-json-src="/azure-service-operator/offline-search-index-documentation.eb9faf6dd35d28b29a074f2a48c1021f.json"
       data-offline-search-base-href="/"
       data-offline-search-max-results="10">
   </div>
@@ -99,7 +99,7 @@ ASOv2 Helm Chart While installing the Helm chart, we can turn the metrics _**on*
     <div class="td-search__icon" aria-hidden="true"></div>
     <input type="search" name="q" class="td-search__input form-control"
       placeholder="Search documentation..." aria-label="Search documentation..." autocomplete="off"
-      data-offline-search-index-json-src="/azure-service-operator/offline-search-index-documentation.48daf1d3d4f8822e657569a89e61efa1.json"
+      data-offline-search-index-json-src="/azure-service-operator/offline-search-index-documentation.eb9faf6dd35d28b29a074f2a48c1021f.json"
       data-offline-search-base-href="/"
       data-offline-search-max-results="10">
   </div>
@@ -280,6 +280,13 @@ ASOv2 Helm Chart While installing the Helm chart, we can turn the metrics _**on*
     <li><a href="#understanding-the-asov2-metrics">Understanding the ASOv2 Metrics</a>
       <ul>
         <li><a href="#labels">Labels</a></li>
+      </ul>
+    </li>
+    <li><a href="#visualizing-metrics-with-grafana">Visualizing metrics with Grafana</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#how-to-import-the-dashboard">How to import the dashboard</a></li>
+        <li><a href="#dashboard-variables">Dashboard variables</a></li>
       </ul>
     </li>
   </ul>
@@ -830,6 +837,105 @@ is an independent metric. Below are the labels used in ASOv2 metrics:</p>
 <li><strong>requestType</strong>: HTTP request method ( GET | PUT | DELETE ).</li>
 <li><strong>responseCode</strong>: HTTP status code in response from Azure.</li>
 </ul>
+<h2 id="visualizing-metrics-with-grafana">Visualizing metrics with Grafana</h2>
+<p>We provide a sample Grafana dashboard so you can monitor ASO without building one from scratch. The dashboard is available at
+<a href="https://github.com/Azure/azure-service-operator/blob/main/v2/observability/grafana/dashboards/azure-service-operator.json"><code>v2/observability/grafana/dashboards/azure-service-operator.json</code></a>
+and is organised into the following sections:</p>
+<table>
+	<thead>
+			<tr>
+					<th>Section</th>
+					<th>What it shows</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Overview</td>
+					<td>Reconcile rate, Azure request error ratio, work queue depth, Azure request rate, throttling, panics</td>
+			</tr>
+			<tr>
+					<td>Reconciliation</td>
+					<td>Reconciles by result and by controller, reconcile errors, reconcile duration, workers</td>
+			</tr>
+			<tr>
+					<td>Work queue</td>
+					<td>Queue depth, wait time, retries, and longest running reconcile per controller</td>
+			</tr>
+			<tr>
+					<td>Azure Resource Manager requests</td>
+					<td>Requests by response code and method, latency, busiest resource types, throttled (429) requests</td>
+			</tr>
+			<tr>
+					<td>Webhooks</td>
+					<td>Admission webhook requests, latency, and requests in flight</td>
+			</tr>
+			<tr>
+					<td>Controller process</td>
+					<td>CPU, memory, and goroutines of the ASO controller pods</td>
+			</tr>
+	</tbody>
+</table>
+<h3 id="prerequisites">Prerequisites</h3>
+<ul>
+<li><strong>Prometheus must already be scraping ASO.</strong> See <a href="#scraping-metrics-securely-via-https-using-rbac">scraping metrics securely</a> above.
+The dashboard expects each series to carry <code>job</code> and <code>namespace</code> labels, which Prometheus Operator <code>ServiceMonitor</code> and
+<code>PodMonitor</code> resources add by default.</li>
+<li><strong>Grafana 10 or later</strong> with a Prometheus data source.</li>
+</ul>
+<h3 id="how-to-import-the-dashboard">How to import the dashboard</h3>
+<ol>
+<li>
+<p><strong>Download</strong> the dashboard JSON:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ curl --location --output azure-service-operator.json https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/observability/grafana/dashboards/azure-service-operator.json
+</span></span></code></pre></div></li>
+<li>
+<p>In Grafana, open <strong>Dashboards</strong> &gt; <strong>New</strong> &gt; <strong>Import</strong>, and upload <code>azure-service-operator.json</code>.</p>
+</li>
+<li>
+<p><strong>Select</strong> your Prometheus data source, the job that scrapes ASO, and the namespace ASO is installed in (by default,
+<code>azureserviceoperator-system</code>) using the variables at the top of the dashboard.</p>
+</li>
+</ol>
+<p>If you run Grafana with the dashboard sidecar enabled (for example, from the <code>kube-prometheus-stack</code> Helm chart), you can
+instead load the dashboard from a labelled <code>ConfigMap</code> in the namespace the sidecar watches:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl create configmap aso-grafana-dashboard --namespace monitoring --from-file<span style="color:#f92672">=</span>azure-service-operator.json
+</span></span><span style="display:flex;"><span>$ kubectl label configmap aso-grafana-dashboard --namespace monitoring grafana_dashboard<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><h3 id="dashboard-variables">Dashboard variables</h3>
+<table>
+	<thead>
+			<tr>
+					<th>Variable</th>
+					<th>Description</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Data source</td>
+					<td>The Prometheus data source to query.</td>
+			</tr>
+			<tr>
+					<td>Job</td>
+					<td>The Prometheus job that scrapes the ASO controller. Defaults to <code>azureserviceoperator-controller-manager-metrics-service</code>, the job name a <code>ServiceMonitor</code> for ASO&rsquo;s metrics service produces.</td>
+			</tr>
+			<tr>
+					<td>Namespace</td>
+					<td>The namespace ASO is installed in.</td>
+			</tr>
+			<tr>
+					<td>Controller</td>
+					<td>One or more ASO controllers to show. ASO runs one controller per resource kind; defaults to all controllers.</td>
+			</tr>
+	</tbody>
+</table>
+<p>Every panel is filtered by job and namespace, so metrics from other applications in the same namespace are excluded. The Azure
+Resource Manager, webhook, and controller process panels are not filtered by controller, as those metrics are not reported per
+controller. If you see unusually high throttling, see <a href="/azure-service-operator/guide/diagnosing-problems/azure-throttling/">diagnosing Azure throttling</a>.</p>
+<div class="alert alert-primary" role="alert"><div class="h4 alert-heading" role="heading">Note</div>
+<p>ASO records most reconciliation failures, including errors returned by Azure, on each resource&rsquo;s <code>Ready</code> condition and retries
+them with a <code>requeue_after</code> result. These failures are not counted by <code>controller_runtime_reconcile_errors_total</code>, so use the
+<strong>Azure request error ratio</strong> and the Azure Resource Manager panels to spot failing resources, then
+<a href="/azure-service-operator/guide/conditions/">check the resource&rsquo;s conditions</a> to find the cause.</p>
+</div>
 
 	
 </div>
