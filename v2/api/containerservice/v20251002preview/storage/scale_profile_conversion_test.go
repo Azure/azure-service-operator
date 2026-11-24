@@ -21,11 +21,11 @@ func TestScaleProfile_AutoscaleRoundTripsThroughHub(t *testing.T) {
 
 	original := ScaleProfile{
 		Autoscale: &AutoScaleProfile{
-			MinCount: ptr.To(1),
-			MaxCount: ptr.To(5),
-			Size:     ptr.To("Standard_D2s_v3"),
+			MinCount: new(1),
+			MaxCount: new(5),
+			Size:     new("Standard_D2s_v3"),
 		},
-		Manual:      []ManualScaleProfile{{Count: ptr.To(2)}},
+		Manual:      []ManualScaleProfile{{Count: new(2)}},
 		PropertyBag: genruntime.PropertyBag{"unrelated": "retained"},
 	}
 
@@ -35,9 +35,9 @@ func TestScaleProfile_AutoscaleRoundTripsThroughHub(t *testing.T) {
 	var newest hub.ScaleProfile
 	g.Expect(intermediate.AssignProperties_To_ScaleProfile(&newest)).To(Succeed())
 	g.Expect(newest.Autoscale).To(Equal([]hub.AutoScaleProfile{{
-		MinCount: ptr.To(1),
-		MaxCount: ptr.To(5),
-		Size:     ptr.To("Standard_D2s_v3"),
+		MinCount: new(1),
+		MaxCount: new(5),
+		Size:     new("Standard_D2s_v3"),
 	}}))
 
 	var restoredIntermediate v20250801s.ScaleProfile
@@ -54,11 +54,11 @@ func TestScaleProfileStatus_AutoscaleRoundTripsThroughHub(t *testing.T) {
 
 	original := ScaleProfile_STATUS{
 		Autoscale: &AutoScaleProfile_STATUS{
-			MinCount: ptr.To(1),
-			MaxCount: ptr.To(5),
-			Size:     ptr.To("Standard_D2s_v3"),
+			MinCount: new(1),
+			MaxCount: new(5),
+			Size:     new("Standard_D2s_v3"),
 		},
-		Manual:      []ManualScaleProfile_STATUS{{Count: ptr.To(2)}},
+		Manual:      []ManualScaleProfile_STATUS{{Count: new(2)}},
 		PropertyBag: genruntime.PropertyBag{"unrelated": "retained"},
 	}
 
@@ -68,9 +68,9 @@ func TestScaleProfileStatus_AutoscaleRoundTripsThroughHub(t *testing.T) {
 	var newest hub.ScaleProfile_STATUS
 	g.Expect(intermediate.AssignProperties_To_ScaleProfile_STATUS(&newest)).To(Succeed())
 	g.Expect(newest.Autoscale).To(Equal([]hub.AutoScaleProfile_STATUS{{
-		MinCount: ptr.To(1),
-		MaxCount: ptr.To(5),
-		Size:     ptr.To("Standard_D2s_v3"),
+		MinCount: new(1),
+		MaxCount: new(5),
+		Size:     new("Standard_D2s_v3"),
 	}}))
 
 	var restoredIntermediate v20250801s.ScaleProfile_STATUS
@@ -87,9 +87,9 @@ func TestScaleProfile_AutoscaleListIsReplacedByPreviewEdits(t *testing.T) {
 
 	original := hub.ScaleProfile{
 		Autoscale: []hub.AutoScaleProfile{
-			{MinCount: ptr.To(1), Size: ptr.To("first")},
-			{MinCount: ptr.To(2), Size: ptr.To("second"), PropertyBag: genruntime.PropertyBag{"future": "retained"}},
-			{MinCount: ptr.To(3), Size: ptr.To("third")},
+			{MinCount: new(1), Size: new("first")},
+			{MinCount: new(2), Size: new("second"), PropertyBag: genruntime.PropertyBag{"future": "retained"}},
+			{MinCount: new(3), Size: new("third")},
 		},
 		PropertyBag: genruntime.PropertyBag{"unrelated": "retained"},
 	}
@@ -101,7 +101,7 @@ func TestScaleProfile_AutoscaleListIsReplacedByPreviewEdits(t *testing.T) {
 
 	var preview ScaleProfile
 	g.Expect(preview.AssignProperties_From_ScaleProfile(&intermediate)).To(Succeed())
-	g.Expect(preview.Autoscale).To(Equal(&AutoScaleProfile{MinCount: ptr.To(1), Size: ptr.To("first")}))
+	g.Expect(preview.Autoscale).To(Equal(&AutoScaleProfile{MinCount: new(1), Size: new("first")}))
 	g.Expect(intermediate.PropertyBag).To(Equal(bagSnapshot))
 	g.Expect(preview.PropertyBag).To(Equal(bagSnapshot))
 
@@ -112,13 +112,13 @@ func TestScaleProfile_AutoscaleListIsReplacedByPreviewEdits(t *testing.T) {
 	g.Expect(restored).To(Equal(*snapshot))
 	g.Expect(preview.PropertyBag).To(Equal(bagSnapshot))
 
-	preview.Autoscale.MinCount = ptr.To(5)
+	preview.Autoscale.MinCount = new(5)
 	g.Expect(preview.AssignProperties_To_ScaleProfile(&restoredIntermediate)).To(Succeed())
 	g.Expect(restoredIntermediate.AssignProperties_To_ScaleProfile(&restored)).To(Succeed())
 
 	want := snapshot.DeepCopy()
 	want.Autoscale = want.Autoscale[:1]
-	want.Autoscale[0].MinCount = ptr.To(5)
+	want.Autoscale[0].MinCount = new(5)
 	g.Expect(restored).To(Equal(*want))
 	g.Expect(original).To(Equal(*snapshot))
 	g.Expect(preview.PropertyBag).To(Equal(bagSnapshot))
@@ -136,9 +136,9 @@ func TestScaleProfileStatus_AutoscaleListIsReplacedByPreviewEdits(t *testing.T) 
 
 	original := hub.ScaleProfile_STATUS{
 		Autoscale: []hub.AutoScaleProfile_STATUS{
-			{MinCount: ptr.To(1), Size: ptr.To("first")},
-			{MinCount: ptr.To(2), Size: ptr.To("second"), PropertyBag: genruntime.PropertyBag{"future": "retained"}},
-			{MinCount: ptr.To(3), Size: ptr.To("third")},
+			{MinCount: new(1), Size: new("first")},
+			{MinCount: new(2), Size: new("second"), PropertyBag: genruntime.PropertyBag{"future": "retained"}},
+			{MinCount: new(3), Size: new("third")},
 		},
 		PropertyBag: genruntime.PropertyBag{"unrelated": "retained"},
 	}
@@ -150,7 +150,7 @@ func TestScaleProfileStatus_AutoscaleListIsReplacedByPreviewEdits(t *testing.T) 
 
 	var preview ScaleProfile_STATUS
 	g.Expect(preview.AssignProperties_From_ScaleProfile_STATUS(&intermediate)).To(Succeed())
-	g.Expect(preview.Autoscale).To(Equal(&AutoScaleProfile_STATUS{MinCount: ptr.To(1), Size: ptr.To("first")}))
+	g.Expect(preview.Autoscale).To(Equal(&AutoScaleProfile_STATUS{MinCount: new(1), Size: new("first")}))
 	g.Expect(intermediate.PropertyBag).To(Equal(bagSnapshot))
 	g.Expect(preview.PropertyBag).To(Equal(bagSnapshot))
 
@@ -161,13 +161,13 @@ func TestScaleProfileStatus_AutoscaleListIsReplacedByPreviewEdits(t *testing.T) 
 	g.Expect(restored).To(Equal(*snapshot))
 	g.Expect(preview.PropertyBag).To(Equal(bagSnapshot))
 
-	preview.Autoscale.MinCount = ptr.To(5)
+	preview.Autoscale.MinCount = new(5)
 	g.Expect(preview.AssignProperties_To_ScaleProfile_STATUS(&restoredIntermediate)).To(Succeed())
 	g.Expect(restoredIntermediate.AssignProperties_To_ScaleProfile_STATUS(&restored)).To(Succeed())
 
 	want := snapshot.DeepCopy()
 	want.Autoscale = want.Autoscale[:1]
-	want.Autoscale[0].MinCount = ptr.To(5)
+	want.Autoscale[0].MinCount = new(5)
 	g.Expect(restored).To(Equal(*want))
 	g.Expect(original).To(Equal(*snapshot))
 	g.Expect(preview.PropertyBag).To(Equal(bagSnapshot))
@@ -184,13 +184,13 @@ func TestScaleProfile_AutoscaleAbsenceClearsReusedDestination(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	var source v20250801s.ScaleProfile
-	preview := ScaleProfile{Autoscale: &AutoScaleProfile{MinCount: ptr.To(1)}}
+	preview := ScaleProfile{Autoscale: &AutoScaleProfile{MinCount: new(1)}}
 	g.Expect(preview.AssignProperties_From_ScaleProfile(&source)).To(Succeed())
 	g.Expect(preview.Autoscale).To(BeNil())
 	g.Expect(preview.PropertyBag).To(BeNil())
 
 	var statusSource v20250801s.ScaleProfile_STATUS
-	previewStatus := ScaleProfile_STATUS{Autoscale: &AutoScaleProfile_STATUS{MinCount: ptr.To(1)}}
+	previewStatus := ScaleProfile_STATUS{Autoscale: &AutoScaleProfile_STATUS{MinCount: new(1)}}
 	g.Expect(previewStatus.AssignProperties_From_ScaleProfile_STATUS(&statusSource)).To(Succeed())
 	g.Expect(previewStatus.Autoscale).To(BeNil())
 	g.Expect(previewStatus.PropertyBag).To(BeNil())
@@ -228,21 +228,21 @@ func TestScaleProfile_LegacySingletonPropertyBagCanBeRead(t *testing.T) {
 	legacy := v20250801s.ScaleProfile{PropertyBag: bag}
 	var newest hub.ScaleProfile
 	g.Expect(legacy.AssignProperties_To_ScaleProfile(&newest)).To(Succeed())
-	g.Expect(newest.Autoscale).To(Equal([]hub.AutoScaleProfile{{MinCount: ptr.To(1), Size: ptr.To("legacy")}}))
+	g.Expect(newest.Autoscale).To(Equal([]hub.AutoScaleProfile{{MinCount: new(1), Size: new("legacy")}}))
 	g.Expect(newest.PropertyBag).To(Equal(genruntime.PropertyBag{"unrelated": "retained"}))
 
 	var preview ScaleProfile
 	g.Expect(preview.AssignProperties_From_ScaleProfile(&legacy)).To(Succeed())
-	g.Expect(preview.Autoscale).To(Equal(&AutoScaleProfile{MinCount: ptr.To(1), Size: ptr.To("legacy")}))
+	g.Expect(preview.Autoscale).To(Equal(&AutoScaleProfile{MinCount: new(1), Size: new("legacy")}))
 
 	legacyStatus := v20250801s.ScaleProfile_STATUS{PropertyBag: bag}
 	var newestStatus hub.ScaleProfile_STATUS
 	g.Expect(legacyStatus.AssignProperties_To_ScaleProfile_STATUS(&newestStatus)).To(Succeed())
-	g.Expect(newestStatus.Autoscale).To(Equal([]hub.AutoScaleProfile_STATUS{{MinCount: ptr.To(1), Size: ptr.To("legacy")}}))
+	g.Expect(newestStatus.Autoscale).To(Equal([]hub.AutoScaleProfile_STATUS{{MinCount: new(1), Size: new("legacy")}}))
 	g.Expect(newestStatus.PropertyBag).To(Equal(genruntime.PropertyBag{"unrelated": "retained"}))
 
 	var previewStatus ScaleProfile_STATUS
 	g.Expect(previewStatus.AssignProperties_From_ScaleProfile_STATUS(&legacyStatus)).To(Succeed())
-	g.Expect(previewStatus.Autoscale).To(Equal(&AutoScaleProfile_STATUS{MinCount: ptr.To(1), Size: ptr.To("legacy")}))
+	g.Expect(previewStatus.Autoscale).To(Equal(&AutoScaleProfile_STATUS{MinCount: new(1), Size: new("legacy")}))
 	g.Expect(bag).To(Equal(genruntime.PropertyBag{"Autoscale": `{"minCount":1,"size":"legacy"}`, "unrelated": "retained"}))
 }

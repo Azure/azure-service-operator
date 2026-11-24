@@ -23,9 +23,9 @@ func TestPullAutoscaleProfiles(t *testing.T) {
 		want    []compat.AutoScaleProfile
 		wantErr bool
 	}{
-		{name: "singleton", value: `{"minCount":1}`, want: []compat.AutoScaleProfile{{MinCount: ptr.To(1)}}},
-		{name: "whitespace", value: " \n {\"minCount\":1}", want: []compat.AutoScaleProfile{{MinCount: ptr.To(1)}}},
-		{name: "list", value: `[{"minCount":1},{"minCount":2}]`, want: []compat.AutoScaleProfile{{MinCount: ptr.To(1)}, {MinCount: ptr.To(2)}}},
+		{name: "singleton", value: `{"minCount":1}`, want: []compat.AutoScaleProfile{{MinCount: new(1)}}},
+		{name: "whitespace", value: " \n {\"minCount\":1}", want: []compat.AutoScaleProfile{{MinCount: new(1)}}},
+		{name: "list", value: `[{"minCount":1},{"minCount":2}]`, want: []compat.AutoScaleProfile{{MinCount: new(1)}, {MinCount: new(2)}}},
 		{name: "emptyList", value: `[]`, want: []compat.AutoScaleProfile{}},
 		{name: "null", value: `null`},
 		{name: "malformedSingleton", value: `{`, wantErr: true},
