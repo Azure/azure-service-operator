@@ -81,7 +81,7 @@ func TestScaleProfileStatus_AutoscaleRoundTripsThroughHub(t *testing.T) {
 	g.Expect(restored).To(Equal(original))
 }
 
-func TestScaleProfile_AutoscaleOverflowSurvivesPreviewEdits(t *testing.T) {
+func TestScaleProfile_AutoscaleListIsReplacedByPreviewEdits(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -103,18 +103,25 @@ func TestScaleProfile_AutoscaleOverflowSurvivesPreviewEdits(t *testing.T) {
 	g.Expect(preview.AssignProperties_From_ScaleProfile(&intermediate)).To(Succeed())
 	g.Expect(preview.Autoscale).To(Equal(&AutoScaleProfile{MinCount: ptr.To(1), Size: ptr.To("first")}))
 	g.Expect(intermediate.PropertyBag).To(Equal(bagSnapshot))
-	preview.Autoscale.MinCount = ptr.To(5)
+	g.Expect(preview.PropertyBag).To(Equal(bagSnapshot))
 
 	var restoredIntermediate v20250801s.ScaleProfile
 	g.Expect(preview.AssignProperties_To_ScaleProfile(&restoredIntermediate)).To(Succeed())
 	var restored hub.ScaleProfile
 	g.Expect(restoredIntermediate.AssignProperties_To_ScaleProfile(&restored)).To(Succeed())
+	g.Expect(restored).To(Equal(*snapshot))
+	g.Expect(preview.PropertyBag).To(Equal(bagSnapshot))
+
+	preview.Autoscale.MinCount = ptr.To(5)
+	g.Expect(preview.AssignProperties_To_ScaleProfile(&restoredIntermediate)).To(Succeed())
+	g.Expect(restoredIntermediate.AssignProperties_To_ScaleProfile(&restored)).To(Succeed())
 
 	want := snapshot.DeepCopy()
+	want.Autoscale = want.Autoscale[:1]
 	want.Autoscale[0].MinCount = ptr.To(5)
 	g.Expect(restored).To(Equal(*want))
 	g.Expect(original).To(Equal(*snapshot))
-	g.Expect(preview.PropertyBag).To(HaveKey(autoscaleOverflowProperty))
+	g.Expect(preview.PropertyBag).To(Equal(bagSnapshot))
 
 	preview.Autoscale = nil
 	g.Expect(preview.AssignProperties_To_ScaleProfile(&restoredIntermediate)).To(Succeed())
@@ -123,7 +130,7 @@ func TestScaleProfile_AutoscaleOverflowSurvivesPreviewEdits(t *testing.T) {
 	g.Expect(restored.PropertyBag).To(Equal(genruntime.PropertyBag{"unrelated": "retained"}))
 }
 
-func TestScaleProfileStatus_AutoscaleOverflowSurvivesPreviewEdits(t *testing.T) {
+func TestScaleProfileStatus_AutoscaleListIsReplacedByPreviewEdits(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -145,18 +152,25 @@ func TestScaleProfileStatus_AutoscaleOverflowSurvivesPreviewEdits(t *testing.T) 
 	g.Expect(preview.AssignProperties_From_ScaleProfile_STATUS(&intermediate)).To(Succeed())
 	g.Expect(preview.Autoscale).To(Equal(&AutoScaleProfile_STATUS{MinCount: ptr.To(1), Size: ptr.To("first")}))
 	g.Expect(intermediate.PropertyBag).To(Equal(bagSnapshot))
-	preview.Autoscale.MinCount = ptr.To(5)
+	g.Expect(preview.PropertyBag).To(Equal(bagSnapshot))
 
 	var restoredIntermediate v20250801s.ScaleProfile_STATUS
 	g.Expect(preview.AssignProperties_To_ScaleProfile_STATUS(&restoredIntermediate)).To(Succeed())
 	var restored hub.ScaleProfile_STATUS
 	g.Expect(restoredIntermediate.AssignProperties_To_ScaleProfile_STATUS(&restored)).To(Succeed())
+	g.Expect(restored).To(Equal(*snapshot))
+	g.Expect(preview.PropertyBag).To(Equal(bagSnapshot))
+
+	preview.Autoscale.MinCount = ptr.To(5)
+	g.Expect(preview.AssignProperties_To_ScaleProfile_STATUS(&restoredIntermediate)).To(Succeed())
+	g.Expect(restoredIntermediate.AssignProperties_To_ScaleProfile_STATUS(&restored)).To(Succeed())
 
 	want := snapshot.DeepCopy()
+	want.Autoscale = want.Autoscale[:1]
 	want.Autoscale[0].MinCount = ptr.To(5)
 	g.Expect(restored).To(Equal(*want))
 	g.Expect(original).To(Equal(*snapshot))
-	g.Expect(preview.PropertyBag).To(HaveKey(autoscaleOverflowProperty))
+	g.Expect(preview.PropertyBag).To(Equal(bagSnapshot))
 
 	preview.Autoscale = nil
 	g.Expect(preview.AssignProperties_To_ScaleProfile_STATUS(&restoredIntermediate)).To(Succeed())

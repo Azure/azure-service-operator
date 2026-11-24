@@ -4,6 +4,8 @@
 package storage
 
 import (
+	"reflect"
+
 	"github.com/Azure/azure-service-operator/v2/api/containerservice/internal/conversion"
 	v20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
 	"github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage/compat"
@@ -15,11 +17,10 @@ var (
 	_ augmentConversionForScaleProfile_STATUS = &ScaleProfile_STATUS{}
 )
 
-const autoscaleOverflowProperty = "AutoscaleOverflow"
-
 func (profile *ScaleProfile) AssignPropertiesFrom(src *v20250801s.ScaleProfile) error {
 	bag := genruntime.NewPropertyBag(profile.PropertyBag)
-	profiles, err := conversion.PullAutoscaleProfiles[compat.AutoScaleProfile](bag)
+	// Retain multi-entry lists so conversion back can distinguish edits from an unchanged singleton.
+	profiles, err := conversion.PullAutoscaleProfiles[compat.AutoScaleProfile](genruntime.NewPropertyBag(bag))
 	if err != nil {
 		return err
 	}
@@ -31,12 +32,8 @@ func (profile *ScaleProfile) AssignPropertiesFrom(src *v20250801s.ScaleProfile) 
 			return err
 		}
 	}
-
-	// The preview can expose only one entry; retain any remaining entries for a lossless return to the hub.
-	if len(profiles) > 1 {
-		if err := bag.Add(autoscaleOverflowProperty, profiles[1:]); err != nil {
-			return err
-		}
+	if len(profiles) <= 1 {
+		bag.Remove("Autoscale")
 	}
 
 	if len(bag) == 0 {
@@ -48,19 +45,27 @@ func (profile *ScaleProfile) AssignPropertiesFrom(src *v20250801s.ScaleProfile) 
 
 func (profile *ScaleProfile) AssignPropertiesTo(dst *v20250801s.ScaleProfile) error {
 	bag := genruntime.NewPropertyBag(dst.PropertyBag)
-	var overflow []compat.AutoScaleProfile
-	if bag.Contains(autoscaleOverflowProperty) {
-		if err := bag.Pull(autoscaleOverflowProperty, &overflow); err != nil {
-			return err
-		}
+	profiles, err := conversion.PullAutoscaleProfiles[compat.AutoScaleProfile](bag)
+	if err != nil {
+		return err
 	}
 
 	if profile.Autoscale != nil {
-		profiles := make([]compat.AutoScaleProfile, 1, len(overflow)+1)
-		if err := profile.Autoscale.AssignProperties_To_AutoScaleProfile(&profiles[0]); err != nil {
-			return err
+		var original *AutoScaleProfile
+		if len(profiles) > 0 {
+			original = &AutoScaleProfile{}
+			if err := original.AssignProperties_From_AutoScaleProfile(&profiles[0]); err != nil {
+				return err
+			}
 		}
-		profiles = append(profiles, overflow...)
+
+		// Editing the singleton replaces the list; an unchanged singleton preserves it.
+		if !reflect.DeepEqual(profile.Autoscale, original) {
+			profiles = make([]compat.AutoScaleProfile, 1)
+			if err := profile.Autoscale.AssignProperties_To_AutoScaleProfile(&profiles[0]); err != nil {
+				return err
+			}
+		}
 		if err := bag.Add("Autoscale", profiles); err != nil {
 			return err
 		}
@@ -77,7 +82,7 @@ func (profile *ScaleProfile) AssignPropertiesTo(dst *v20250801s.ScaleProfile) er
 
 func (profile *ScaleProfile_STATUS) AssignPropertiesFrom(src *v20250801s.ScaleProfile_STATUS) error {
 	bag := genruntime.NewPropertyBag(profile.PropertyBag)
-	profiles, err := conversion.PullAutoscaleProfiles[compat.AutoScaleProfile_STATUS](bag)
+	profiles, err := conversion.PullAutoscaleProfiles[compat.AutoScaleProfile_STATUS](genruntime.NewPropertyBag(bag))
 	if err != nil {
 		return err
 	}
@@ -89,11 +94,8 @@ func (profile *ScaleProfile_STATUS) AssignPropertiesFrom(src *v20250801s.ScalePr
 			return err
 		}
 	}
-
-	if len(profiles) > 1 {
-		if err := bag.Add(autoscaleOverflowProperty, profiles[1:]); err != nil {
-			return err
-		}
+	if len(profiles) <= 1 {
+		bag.Remove("Autoscale")
 	}
 
 	if len(bag) == 0 {
@@ -105,19 +107,26 @@ func (profile *ScaleProfile_STATUS) AssignPropertiesFrom(src *v20250801s.ScalePr
 
 func (profile *ScaleProfile_STATUS) AssignPropertiesTo(dst *v20250801s.ScaleProfile_STATUS) error {
 	bag := genruntime.NewPropertyBag(dst.PropertyBag)
-	var overflow []compat.AutoScaleProfile_STATUS
-	if bag.Contains(autoscaleOverflowProperty) {
-		if err := bag.Pull(autoscaleOverflowProperty, &overflow); err != nil {
-			return err
-		}
+	profiles, err := conversion.PullAutoscaleProfiles[compat.AutoScaleProfile_STATUS](bag)
+	if err != nil {
+		return err
 	}
 
 	if profile.Autoscale != nil {
-		profiles := make([]compat.AutoScaleProfile_STATUS, 1, len(overflow)+1)
-		if err := profile.Autoscale.AssignProperties_To_AutoScaleProfile_STATUS(&profiles[0]); err != nil {
-			return err
+		var original *AutoScaleProfile_STATUS
+		if len(profiles) > 0 {
+			original = &AutoScaleProfile_STATUS{}
+			if err := original.AssignProperties_From_AutoScaleProfile_STATUS(&profiles[0]); err != nil {
+				return err
+			}
 		}
-		profiles = append(profiles, overflow...)
+
+		if !reflect.DeepEqual(profile.Autoscale, original) {
+			profiles = make([]compat.AutoScaleProfile_STATUS, 1)
+			if err := profile.Autoscale.AssignProperties_To_AutoScaleProfile_STATUS(&profiles[0]); err != nil {
+				return err
+			}
+		}
 		if err := bag.Add("Autoscale", profiles); err != nil {
 			return err
 		}

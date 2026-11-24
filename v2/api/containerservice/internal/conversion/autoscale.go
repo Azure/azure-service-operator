@@ -17,6 +17,7 @@ func PullAutoscaleProfiles[T any](bag genruntime.PropertyBag) ([]T, error) {
 		return nil, nil
 	}
 
+	// Handle the case where the property bag contains just a single profile represented as an object
 	if strings.HasPrefix(strings.TrimSpace(value), "{") {
 		var profile T
 		if err := bag.Pull("Autoscale", &profile); err != nil {
@@ -25,9 +26,11 @@ func PullAutoscaleProfiles[T any](bag genruntime.PropertyBag) ([]T, error) {
 		return []T{profile}, nil
 	}
 
+	// Handle the case where the property bag contains a list of profiles
 	var profiles []T
 	if err := bag.Pull("Autoscale", &profiles); err != nil {
 		return nil, err
 	}
+
 	return profiles, nil
 }

@@ -235,6 +235,11 @@ func (builder *PropertyAssignmentFunctionBuilder) createWritingEndpoints() conve
 // destinationEndpoints is a set of endpoints that can be written to.
 // conversionContext is the context for the conversion.
 // conversions is a map of property names to conversions that will be populated by this function.
+//
+// Normally an error is returned if an impossible conversion is encountered, but this can be suppressed by specifying
+// a manual conversion strategy for either property in configuration.
+// Storage via PropertyBag still occurs for manual conversions; any implementation of the manual conversion must handle
+// this appropriately.
 func (builder *PropertyAssignmentFunctionBuilder) createConversions(
 	sourceEndpoints conversions.ReadableConversionEndpointSet,
 	destinationEndpoints conversions.WritableConversionEndpointSet,
