@@ -11,14 +11,11 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
+// Test_Api_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of Api round trips to the hub storage version and back losslessly
 func Test_Api_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -26,47 +23,37 @@ func Test_Api_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Api to hub returns original",
-		prop.ForAll(RunResourceConversionTestForApi, ApiGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ApiGenerator().Draw(t, "subject")
+		// Copy subject to make sure conversion doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Convert to our hub version
+		var hub apimanagement_v20240501s.Api
+		err := copied.ConvertTo(&hub)
+		if err != nil {
+			t.Fatal("ConvertTo: " + err.Error())
+		}
+
+		// Convert from our hub version
+		var actual Api
+		err = actual.ConvertFrom(&hub)
+		if err != nil {
+			t.Fatal("ConvertFrom: " + err.Error())
+		}
+
+		// Compare actual with what we started with
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
-// RunResourceConversionTestForApi tests if a specific instance of Api round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForApi(subject Api) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub apimanagement_v20240501s.Api
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual Api
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
+// Test_Api_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Api can be assigned to storage and back losslessly
 func Test_Api_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -74,44 +61,34 @@ func Test_Api_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Api to Api via AssignProperties_To_Api & AssignProperties_From_Api returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApi, ApiGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ApiGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForApi tests if a specific instance of Api can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApi(subject Api) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other apimanagement_v1api20240501s.Api
+		err := copied.AssignProperties_To_Api(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other apimanagement_v1api20240501s.Api
-	err := copied.AssignProperties_To_Api(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual Api
+		err = actual.AssignProperties_From_Api(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Api
-	err = actual.AssignProperties_From_Api(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_Api_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -121,29 +98,23 @@ func Test_Api_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Api via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApi, ApiGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForApi)
 }
 
 // RunJSONSerializationTestForApi runs a test to see if a specific instance of Api round trips to JSON and back losslessly
-func RunJSONSerializationTestForApi(subject Api) string {
+func RunJSONSerializationTestForApi(t *rapid.T) {
+	subject := ApiGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Api
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -152,34 +123,33 @@ func RunJSONSerializationTestForApi(subject Api) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Api instances for property testing - lazily instantiated by ApiGenerator()
-var apiGenerator gopter.Gen
+var apiGenerator *rapid.Generator[Api]
 
 // ApiGenerator returns a generator of Api instances for property testing.
-func ApiGenerator() gopter.Gen {
+func ApiGenerator() *rapid.Generator[Api] {
 	if apiGenerator != nil {
 		return apiGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForApi(generators)
-	apiGenerator = gen.Struct(reflect.TypeOf(Api{}), generators)
+	spec := Api_SpecGenerator()
+	status := Api_STATUSGenerator()
+
+	apiGenerator = rapid.Custom(func(t *rapid.T) Api {
+		var result Api
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return apiGenerator
 }
 
-// AddRelatedPropertyGeneratorsForApi is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForApi(gens map[string]gopter.Gen) {
-	gens["Spec"] = Api_SpecGenerator()
-	gens["Status"] = Api_STATUSGenerator()
-}
-
+// Test_ApiContactInformation_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ApiContactInformation can be assigned to storage and back losslessly
 func Test_ApiContactInformation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -187,44 +157,34 @@ func Test_ApiContactInformation_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ApiContactInformation to ApiContactInformation via AssignProperties_To_ApiContactInformation & AssignProperties_From_ApiContactInformation returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApiContactInformation, ApiContactInformationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ApiContactInformationGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForApiContactInformation tests if a specific instance of ApiContactInformation can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApiContactInformation(subject ApiContactInformation) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other apimanagement_v1api20240501s.ApiContactInformation
+		err := copied.AssignProperties_To_ApiContactInformation(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other apimanagement_v1api20240501s.ApiContactInformation
-	err := copied.AssignProperties_To_ApiContactInformation(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ApiContactInformation
+		err = actual.AssignProperties_From_ApiContactInformation(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApiContactInformation
-	err = actual.AssignProperties_From_ApiContactInformation(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ApiContactInformation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -234,29 +194,23 @@ func Test_ApiContactInformation_WhenSerializedToJson_DeserializesAsEqual(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApiContactInformation via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApiContactInformation, ApiContactInformationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForApiContactInformation)
 }
 
 // RunJSONSerializationTestForApiContactInformation runs a test to see if a specific instance of ApiContactInformation round trips to JSON and back losslessly
-func RunJSONSerializationTestForApiContactInformation(subject ApiContactInformation) string {
+func RunJSONSerializationTestForApiContactInformation(t *rapid.T) {
+	subject := ApiContactInformationGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ApiContactInformation
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -265,36 +219,34 @@ func RunJSONSerializationTestForApiContactInformation(subject ApiContactInformat
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ApiContactInformation instances for property testing - lazily instantiated by
 // ApiContactInformationGenerator()
-var apiContactInformationGenerator gopter.Gen
+var apiContactInformationGenerator *rapid.Generator[ApiContactInformation]
 
 // ApiContactInformationGenerator returns a generator of ApiContactInformation instances for property testing.
-func ApiContactInformationGenerator() gopter.Gen {
+func ApiContactInformationGenerator() *rapid.Generator[ApiContactInformation] {
 	if apiContactInformationGenerator != nil {
 		return apiContactInformationGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApiContactInformation(generators)
-	apiContactInformationGenerator = gen.Struct(reflect.TypeOf(ApiContactInformation{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	apiContactInformationGenerator = rapid.Custom(func(t *rapid.T) ApiContactInformation {
+		var result ApiContactInformation
+		result.Email = ptrString.Draw(t, "Email")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Url = ptrString.Draw(t, "Url")
+		return result
+	})
 
 	return apiContactInformationGenerator
 }
 
-// AddIndependentPropertyGeneratorsForApiContactInformation is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApiContactInformation(gens map[string]gopter.Gen) {
-	gens["Email"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Url"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_ApiContactInformation_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ApiContactInformation_STATUS can be assigned to storage and back losslessly
 func Test_ApiContactInformation_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -302,44 +254,34 @@ func Test_ApiContactInformation_STATUS_WhenPropertiesConverted_RoundTripsWithout
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ApiContactInformation_STATUS to ApiContactInformation_STATUS via AssignProperties_To_ApiContactInformation_STATUS & AssignProperties_From_ApiContactInformation_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApiContactInformation_STATUS, ApiContactInformation_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ApiContactInformation_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForApiContactInformation_STATUS tests if a specific instance of ApiContactInformation_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApiContactInformation_STATUS(subject ApiContactInformation_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other apimanagement_v1api20240501s.ApiContactInformation_STATUS
+		err := copied.AssignProperties_To_ApiContactInformation_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other apimanagement_v1api20240501s.ApiContactInformation_STATUS
-	err := copied.AssignProperties_To_ApiContactInformation_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ApiContactInformation_STATUS
+		err = actual.AssignProperties_From_ApiContactInformation_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApiContactInformation_STATUS
-	err = actual.AssignProperties_From_ApiContactInformation_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ApiContactInformation_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -349,29 +291,23 @@ func Test_ApiContactInformation_STATUS_WhenSerializedToJson_DeserializesAsEqual(
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApiContactInformation_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApiContactInformation_STATUS, ApiContactInformation_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForApiContactInformation_STATUS)
 }
 
 // RunJSONSerializationTestForApiContactInformation_STATUS runs a test to see if a specific instance of ApiContactInformation_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForApiContactInformation_STATUS(subject ApiContactInformation_STATUS) string {
+func RunJSONSerializationTestForApiContactInformation_STATUS(t *rapid.T) {
+	subject := ApiContactInformation_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ApiContactInformation_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -380,36 +316,34 @@ func RunJSONSerializationTestForApiContactInformation_STATUS(subject ApiContactI
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ApiContactInformation_STATUS instances for property testing - lazily instantiated by
 // ApiContactInformation_STATUSGenerator()
-var apiContactInformation_STATUSGenerator gopter.Gen
+var apiContactInformation_STATUSGenerator *rapid.Generator[ApiContactInformation_STATUS]
 
 // ApiContactInformation_STATUSGenerator returns a generator of ApiContactInformation_STATUS instances for property testing.
-func ApiContactInformation_STATUSGenerator() gopter.Gen {
+func ApiContactInformation_STATUSGenerator() *rapid.Generator[ApiContactInformation_STATUS] {
 	if apiContactInformation_STATUSGenerator != nil {
 		return apiContactInformation_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApiContactInformation_STATUS(generators)
-	apiContactInformation_STATUSGenerator = gen.Struct(reflect.TypeOf(ApiContactInformation_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	apiContactInformation_STATUSGenerator = rapid.Custom(func(t *rapid.T) ApiContactInformation_STATUS {
+		var result ApiContactInformation_STATUS
+		result.Email = ptrString.Draw(t, "Email")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Url = ptrString.Draw(t, "Url")
+		return result
+	})
 
 	return apiContactInformation_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForApiContactInformation_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApiContactInformation_STATUS(gens map[string]gopter.Gen) {
-	gens["Email"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Url"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_ApiCreateOrUpdateProperties_WsdlSelector_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ApiCreateOrUpdateProperties_WsdlSelector can be assigned to storage and back losslessly
 func Test_ApiCreateOrUpdateProperties_WsdlSelector_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -417,44 +351,34 @@ func Test_ApiCreateOrUpdateProperties_WsdlSelector_WhenPropertiesConverted_Round
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ApiCreateOrUpdateProperties_WsdlSelector to ApiCreateOrUpdateProperties_WsdlSelector via AssignProperties_To_ApiCreateOrUpdateProperties_WsdlSelector & AssignProperties_From_ApiCreateOrUpdateProperties_WsdlSelector returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApiCreateOrUpdateProperties_WsdlSelector, ApiCreateOrUpdateProperties_WsdlSelectorGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ApiCreateOrUpdateProperties_WsdlSelectorGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForApiCreateOrUpdateProperties_WsdlSelector tests if a specific instance of ApiCreateOrUpdateProperties_WsdlSelector can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApiCreateOrUpdateProperties_WsdlSelector(subject ApiCreateOrUpdateProperties_WsdlSelector) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other apimanagement_v1api20240501s.ApiCreateOrUpdateProperties_WsdlSelector
+		err := copied.AssignProperties_To_ApiCreateOrUpdateProperties_WsdlSelector(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other apimanagement_v1api20240501s.ApiCreateOrUpdateProperties_WsdlSelector
-	err := copied.AssignProperties_To_ApiCreateOrUpdateProperties_WsdlSelector(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ApiCreateOrUpdateProperties_WsdlSelector
+		err = actual.AssignProperties_From_ApiCreateOrUpdateProperties_WsdlSelector(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApiCreateOrUpdateProperties_WsdlSelector
-	err = actual.AssignProperties_From_ApiCreateOrUpdateProperties_WsdlSelector(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ApiCreateOrUpdateProperties_WsdlSelector_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -464,29 +388,23 @@ func Test_ApiCreateOrUpdateProperties_WsdlSelector_WhenSerializedToJson_Deserial
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApiCreateOrUpdateProperties_WsdlSelector via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApiCreateOrUpdateProperties_WsdlSelector, ApiCreateOrUpdateProperties_WsdlSelectorGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForApiCreateOrUpdateProperties_WsdlSelector)
 }
 
 // RunJSONSerializationTestForApiCreateOrUpdateProperties_WsdlSelector runs a test to see if a specific instance of ApiCreateOrUpdateProperties_WsdlSelector round trips to JSON and back losslessly
-func RunJSONSerializationTestForApiCreateOrUpdateProperties_WsdlSelector(subject ApiCreateOrUpdateProperties_WsdlSelector) string {
+func RunJSONSerializationTestForApiCreateOrUpdateProperties_WsdlSelector(t *rapid.T) {
+	subject := ApiCreateOrUpdateProperties_WsdlSelectorGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ApiCreateOrUpdateProperties_WsdlSelector
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -495,35 +413,33 @@ func RunJSONSerializationTestForApiCreateOrUpdateProperties_WsdlSelector(subject
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ApiCreateOrUpdateProperties_WsdlSelector instances for property testing - lazily instantiated by
 // ApiCreateOrUpdateProperties_WsdlSelectorGenerator()
-var apiCreateOrUpdateProperties_WsdlSelectorGenerator gopter.Gen
+var apiCreateOrUpdateProperties_WsdlSelectorGenerator *rapid.Generator[ApiCreateOrUpdateProperties_WsdlSelector]
 
 // ApiCreateOrUpdateProperties_WsdlSelectorGenerator returns a generator of ApiCreateOrUpdateProperties_WsdlSelector instances for property testing.
-func ApiCreateOrUpdateProperties_WsdlSelectorGenerator() gopter.Gen {
+func ApiCreateOrUpdateProperties_WsdlSelectorGenerator() *rapid.Generator[ApiCreateOrUpdateProperties_WsdlSelector] {
 	if apiCreateOrUpdateProperties_WsdlSelectorGenerator != nil {
 		return apiCreateOrUpdateProperties_WsdlSelectorGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApiCreateOrUpdateProperties_WsdlSelector(generators)
-	apiCreateOrUpdateProperties_WsdlSelectorGenerator = gen.Struct(reflect.TypeOf(ApiCreateOrUpdateProperties_WsdlSelector{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	apiCreateOrUpdateProperties_WsdlSelectorGenerator = rapid.Custom(func(t *rapid.T) ApiCreateOrUpdateProperties_WsdlSelector {
+		var result ApiCreateOrUpdateProperties_WsdlSelector
+		result.WsdlEndpointName = ptrString.Draw(t, "WsdlEndpointName")
+		result.WsdlServiceName = ptrString.Draw(t, "WsdlServiceName")
+		return result
+	})
 
 	return apiCreateOrUpdateProperties_WsdlSelectorGenerator
 }
 
-// AddIndependentPropertyGeneratorsForApiCreateOrUpdateProperties_WsdlSelector is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApiCreateOrUpdateProperties_WsdlSelector(gens map[string]gopter.Gen) {
-	gens["WsdlEndpointName"] = gen.PtrOf(gen.AlphaString())
-	gens["WsdlServiceName"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_ApiLicenseInformation_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ApiLicenseInformation can be assigned to storage and back losslessly
 func Test_ApiLicenseInformation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -531,44 +447,34 @@ func Test_ApiLicenseInformation_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ApiLicenseInformation to ApiLicenseInformation via AssignProperties_To_ApiLicenseInformation & AssignProperties_From_ApiLicenseInformation returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApiLicenseInformation, ApiLicenseInformationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ApiLicenseInformationGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForApiLicenseInformation tests if a specific instance of ApiLicenseInformation can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApiLicenseInformation(subject ApiLicenseInformation) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other apimanagement_v1api20240501s.ApiLicenseInformation
+		err := copied.AssignProperties_To_ApiLicenseInformation(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other apimanagement_v1api20240501s.ApiLicenseInformation
-	err := copied.AssignProperties_To_ApiLicenseInformation(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ApiLicenseInformation
+		err = actual.AssignProperties_From_ApiLicenseInformation(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApiLicenseInformation
-	err = actual.AssignProperties_From_ApiLicenseInformation(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ApiLicenseInformation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -578,29 +484,23 @@ func Test_ApiLicenseInformation_WhenSerializedToJson_DeserializesAsEqual(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApiLicenseInformation via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApiLicenseInformation, ApiLicenseInformationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForApiLicenseInformation)
 }
 
 // RunJSONSerializationTestForApiLicenseInformation runs a test to see if a specific instance of ApiLicenseInformation round trips to JSON and back losslessly
-func RunJSONSerializationTestForApiLicenseInformation(subject ApiLicenseInformation) string {
+func RunJSONSerializationTestForApiLicenseInformation(t *rapid.T) {
+	subject := ApiLicenseInformationGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ApiLicenseInformation
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -609,35 +509,33 @@ func RunJSONSerializationTestForApiLicenseInformation(subject ApiLicenseInformat
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ApiLicenseInformation instances for property testing - lazily instantiated by
 // ApiLicenseInformationGenerator()
-var apiLicenseInformationGenerator gopter.Gen
+var apiLicenseInformationGenerator *rapid.Generator[ApiLicenseInformation]
 
 // ApiLicenseInformationGenerator returns a generator of ApiLicenseInformation instances for property testing.
-func ApiLicenseInformationGenerator() gopter.Gen {
+func ApiLicenseInformationGenerator() *rapid.Generator[ApiLicenseInformation] {
 	if apiLicenseInformationGenerator != nil {
 		return apiLicenseInformationGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApiLicenseInformation(generators)
-	apiLicenseInformationGenerator = gen.Struct(reflect.TypeOf(ApiLicenseInformation{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	apiLicenseInformationGenerator = rapid.Custom(func(t *rapid.T) ApiLicenseInformation {
+		var result ApiLicenseInformation
+		result.Name = ptrString.Draw(t, "Name")
+		result.Url = ptrString.Draw(t, "Url")
+		return result
+	})
 
 	return apiLicenseInformationGenerator
 }
 
-// AddIndependentPropertyGeneratorsForApiLicenseInformation is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApiLicenseInformation(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Url"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_ApiLicenseInformation_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ApiLicenseInformation_STATUS can be assigned to storage and back losslessly
 func Test_ApiLicenseInformation_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -645,44 +543,34 @@ func Test_ApiLicenseInformation_STATUS_WhenPropertiesConverted_RoundTripsWithout
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ApiLicenseInformation_STATUS to ApiLicenseInformation_STATUS via AssignProperties_To_ApiLicenseInformation_STATUS & AssignProperties_From_ApiLicenseInformation_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApiLicenseInformation_STATUS, ApiLicenseInformation_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ApiLicenseInformation_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForApiLicenseInformation_STATUS tests if a specific instance of ApiLicenseInformation_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApiLicenseInformation_STATUS(subject ApiLicenseInformation_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other apimanagement_v1api20240501s.ApiLicenseInformation_STATUS
+		err := copied.AssignProperties_To_ApiLicenseInformation_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other apimanagement_v1api20240501s.ApiLicenseInformation_STATUS
-	err := copied.AssignProperties_To_ApiLicenseInformation_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ApiLicenseInformation_STATUS
+		err = actual.AssignProperties_From_ApiLicenseInformation_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApiLicenseInformation_STATUS
-	err = actual.AssignProperties_From_ApiLicenseInformation_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ApiLicenseInformation_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -692,29 +580,23 @@ func Test_ApiLicenseInformation_STATUS_WhenSerializedToJson_DeserializesAsEqual(
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApiLicenseInformation_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApiLicenseInformation_STATUS, ApiLicenseInformation_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForApiLicenseInformation_STATUS)
 }
 
 // RunJSONSerializationTestForApiLicenseInformation_STATUS runs a test to see if a specific instance of ApiLicenseInformation_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForApiLicenseInformation_STATUS(subject ApiLicenseInformation_STATUS) string {
+func RunJSONSerializationTestForApiLicenseInformation_STATUS(t *rapid.T) {
+	subject := ApiLicenseInformation_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ApiLicenseInformation_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -723,35 +605,33 @@ func RunJSONSerializationTestForApiLicenseInformation_STATUS(subject ApiLicenseI
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ApiLicenseInformation_STATUS instances for property testing - lazily instantiated by
 // ApiLicenseInformation_STATUSGenerator()
-var apiLicenseInformation_STATUSGenerator gopter.Gen
+var apiLicenseInformation_STATUSGenerator *rapid.Generator[ApiLicenseInformation_STATUS]
 
 // ApiLicenseInformation_STATUSGenerator returns a generator of ApiLicenseInformation_STATUS instances for property testing.
-func ApiLicenseInformation_STATUSGenerator() gopter.Gen {
+func ApiLicenseInformation_STATUSGenerator() *rapid.Generator[ApiLicenseInformation_STATUS] {
 	if apiLicenseInformation_STATUSGenerator != nil {
 		return apiLicenseInformation_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApiLicenseInformation_STATUS(generators)
-	apiLicenseInformation_STATUSGenerator = gen.Struct(reflect.TypeOf(ApiLicenseInformation_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	apiLicenseInformation_STATUSGenerator = rapid.Custom(func(t *rapid.T) ApiLicenseInformation_STATUS {
+		var result ApiLicenseInformation_STATUS
+		result.Name = ptrString.Draw(t, "Name")
+		result.Url = ptrString.Draw(t, "Url")
+		return result
+	})
 
 	return apiLicenseInformation_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForApiLicenseInformation_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApiLicenseInformation_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Url"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_ApiOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ApiOperatorSpec can be assigned to storage and back losslessly
 func Test_ApiOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -759,44 +639,34 @@ func Test_ApiOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ApiOperatorSpec to ApiOperatorSpec via AssignProperties_To_ApiOperatorSpec & AssignProperties_From_ApiOperatorSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApiOperatorSpec, ApiOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ApiOperatorSpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForApiOperatorSpec tests if a specific instance of ApiOperatorSpec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApiOperatorSpec(subject ApiOperatorSpec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other apimanagement_v1api20240501s.ApiOperatorSpec
+		err := copied.AssignProperties_To_ApiOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other apimanagement_v1api20240501s.ApiOperatorSpec
-	err := copied.AssignProperties_To_ApiOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ApiOperatorSpec
+		err = actual.AssignProperties_From_ApiOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApiOperatorSpec
-	err = actual.AssignProperties_From_ApiOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ApiOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -806,29 +676,23 @@ func Test_ApiOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApiOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApiOperatorSpec, ApiOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForApiOperatorSpec)
 }
 
 // RunJSONSerializationTestForApiOperatorSpec runs a test to see if a specific instance of ApiOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForApiOperatorSpec(subject ApiOperatorSpec) string {
+func RunJSONSerializationTestForApiOperatorSpec(t *rapid.T) {
+	subject := ApiOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ApiOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -837,27 +701,25 @@ func RunJSONSerializationTestForApiOperatorSpec(subject ApiOperatorSpec) string 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ApiOperatorSpec instances for property testing - lazily instantiated by ApiOperatorSpecGenerator()
-var apiOperatorSpecGenerator gopter.Gen
+var apiOperatorSpecGenerator *rapid.Generator[ApiOperatorSpec]
 
 // ApiOperatorSpecGenerator returns a generator of ApiOperatorSpec instances for property testing.
-func ApiOperatorSpecGenerator() gopter.Gen {
+func ApiOperatorSpecGenerator() *rapid.Generator[ApiOperatorSpec] {
 	if apiOperatorSpecGenerator != nil {
 		return apiOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	apiOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ApiOperatorSpec{}), generators)
+	apiOperatorSpecGenerator = rapid.Just(ApiOperatorSpec{})
 
 	return apiOperatorSpecGenerator
 }
 
+// Test_ApiVersionSetContractDetails_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ApiVersionSetContractDetails can be assigned to storage and back losslessly
 func Test_ApiVersionSetContractDetails_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -865,44 +727,34 @@ func Test_ApiVersionSetContractDetails_WhenPropertiesConverted_RoundTripsWithout
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ApiVersionSetContractDetails to ApiVersionSetContractDetails via AssignProperties_To_ApiVersionSetContractDetails & AssignProperties_From_ApiVersionSetContractDetails returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApiVersionSetContractDetails, ApiVersionSetContractDetailsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ApiVersionSetContractDetailsGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForApiVersionSetContractDetails tests if a specific instance of ApiVersionSetContractDetails can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApiVersionSetContractDetails(subject ApiVersionSetContractDetails) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other apimanagement_v1api20240501s.ApiVersionSetContractDetails
+		err := copied.AssignProperties_To_ApiVersionSetContractDetails(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other apimanagement_v1api20240501s.ApiVersionSetContractDetails
-	err := copied.AssignProperties_To_ApiVersionSetContractDetails(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ApiVersionSetContractDetails
+		err = actual.AssignProperties_From_ApiVersionSetContractDetails(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApiVersionSetContractDetails
-	err = actual.AssignProperties_From_ApiVersionSetContractDetails(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ApiVersionSetContractDetails_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -912,29 +764,23 @@ func Test_ApiVersionSetContractDetails_WhenSerializedToJson_DeserializesAsEqual(
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApiVersionSetContractDetails via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApiVersionSetContractDetails, ApiVersionSetContractDetailsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForApiVersionSetContractDetails)
 }
 
 // RunJSONSerializationTestForApiVersionSetContractDetails runs a test to see if a specific instance of ApiVersionSetContractDetails round trips to JSON and back losslessly
-func RunJSONSerializationTestForApiVersionSetContractDetails(subject ApiVersionSetContractDetails) string {
+func RunJSONSerializationTestForApiVersionSetContractDetails(t *rapid.T) {
+	subject := ApiVersionSetContractDetailsGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ApiVersionSetContractDetails
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -943,38 +789,37 @@ func RunJSONSerializationTestForApiVersionSetContractDetails(subject ApiVersionS
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ApiVersionSetContractDetails instances for property testing - lazily instantiated by
 // ApiVersionSetContractDetailsGenerator()
-var apiVersionSetContractDetailsGenerator gopter.Gen
+var apiVersionSetContractDetailsGenerator *rapid.Generator[ApiVersionSetContractDetails]
 
 // ApiVersionSetContractDetailsGenerator returns a generator of ApiVersionSetContractDetails instances for property testing.
-func ApiVersionSetContractDetailsGenerator() gopter.Gen {
+func ApiVersionSetContractDetailsGenerator() *rapid.Generator[ApiVersionSetContractDetails] {
 	if apiVersionSetContractDetailsGenerator != nil {
 		return apiVersionSetContractDetailsGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApiVersionSetContractDetails(generators)
-	apiVersionSetContractDetailsGenerator = gen.Struct(reflect.TypeOf(ApiVersionSetContractDetails{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	versioningScheme := rapid.Ptr(rapid.SampledFrom([]ApiVersionSetContractDetails_VersioningScheme{ApiVersionSetContractDetails_VersioningScheme_Header, ApiVersionSetContractDetails_VersioningScheme_Query, ApiVersionSetContractDetails_VersioningScheme_Segment}), true)
+
+	apiVersionSetContractDetailsGenerator = rapid.Custom(func(t *rapid.T) ApiVersionSetContractDetails {
+		var result ApiVersionSetContractDetails
+		result.Description = ptrString.Draw(t, "Description")
+		result.Name = ptrString.Draw(t, "Name")
+		result.VersionHeaderName = ptrString.Draw(t, "VersionHeaderName")
+		result.VersionQueryName = ptrString.Draw(t, "VersionQueryName")
+		result.VersioningScheme = versioningScheme.Draw(t, "VersioningScheme")
+		return result
+	})
 
 	return apiVersionSetContractDetailsGenerator
 }
 
-// AddIndependentPropertyGeneratorsForApiVersionSetContractDetails is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApiVersionSetContractDetails(gens map[string]gopter.Gen) {
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["VersionHeaderName"] = gen.PtrOf(gen.AlphaString())
-	gens["VersionQueryName"] = gen.PtrOf(gen.AlphaString())
-	gens["VersioningScheme"] = gen.PtrOf(gen.OneConstOf(ApiVersionSetContractDetails_VersioningScheme_Header, ApiVersionSetContractDetails_VersioningScheme_Query, ApiVersionSetContractDetails_VersioningScheme_Segment))
-}
-
+// Test_ApiVersionSetContractDetails_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ApiVersionSetContractDetails_STATUS can be assigned to storage and back losslessly
 func Test_ApiVersionSetContractDetails_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -982,44 +827,34 @@ func Test_ApiVersionSetContractDetails_STATUS_WhenPropertiesConverted_RoundTrips
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ApiVersionSetContractDetails_STATUS to ApiVersionSetContractDetails_STATUS via AssignProperties_To_ApiVersionSetContractDetails_STATUS & AssignProperties_From_ApiVersionSetContractDetails_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApiVersionSetContractDetails_STATUS, ApiVersionSetContractDetails_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ApiVersionSetContractDetails_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForApiVersionSetContractDetails_STATUS tests if a specific instance of ApiVersionSetContractDetails_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApiVersionSetContractDetails_STATUS(subject ApiVersionSetContractDetails_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other apimanagement_v1api20240501s.ApiVersionSetContractDetails_STATUS
+		err := copied.AssignProperties_To_ApiVersionSetContractDetails_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other apimanagement_v1api20240501s.ApiVersionSetContractDetails_STATUS
-	err := copied.AssignProperties_To_ApiVersionSetContractDetails_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ApiVersionSetContractDetails_STATUS
+		err = actual.AssignProperties_From_ApiVersionSetContractDetails_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApiVersionSetContractDetails_STATUS
-	err = actual.AssignProperties_From_ApiVersionSetContractDetails_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ApiVersionSetContractDetails_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1029,29 +864,23 @@ func Test_ApiVersionSetContractDetails_STATUS_WhenSerializedToJson_DeserializesA
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApiVersionSetContractDetails_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApiVersionSetContractDetails_STATUS, ApiVersionSetContractDetails_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForApiVersionSetContractDetails_STATUS)
 }
 
 // RunJSONSerializationTestForApiVersionSetContractDetails_STATUS runs a test to see if a specific instance of ApiVersionSetContractDetails_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForApiVersionSetContractDetails_STATUS(subject ApiVersionSetContractDetails_STATUS) string {
+func RunJSONSerializationTestForApiVersionSetContractDetails_STATUS(t *rapid.T) {
+	subject := ApiVersionSetContractDetails_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ApiVersionSetContractDetails_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1060,39 +889,38 @@ func RunJSONSerializationTestForApiVersionSetContractDetails_STATUS(subject ApiV
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ApiVersionSetContractDetails_STATUS instances for property testing - lazily instantiated by
 // ApiVersionSetContractDetails_STATUSGenerator()
-var apiVersionSetContractDetails_STATUSGenerator gopter.Gen
+var apiVersionSetContractDetails_STATUSGenerator *rapid.Generator[ApiVersionSetContractDetails_STATUS]
 
 // ApiVersionSetContractDetails_STATUSGenerator returns a generator of ApiVersionSetContractDetails_STATUS instances for property testing.
-func ApiVersionSetContractDetails_STATUSGenerator() gopter.Gen {
+func ApiVersionSetContractDetails_STATUSGenerator() *rapid.Generator[ApiVersionSetContractDetails_STATUS] {
 	if apiVersionSetContractDetails_STATUSGenerator != nil {
 		return apiVersionSetContractDetails_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApiVersionSetContractDetails_STATUS(generators)
-	apiVersionSetContractDetails_STATUSGenerator = gen.Struct(reflect.TypeOf(ApiVersionSetContractDetails_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	versioningScheme := rapid.Ptr(rapid.SampledFrom([]ApiVersionSetContractDetails_VersioningScheme_STATUS{ApiVersionSetContractDetails_VersioningScheme_STATUS_Header, ApiVersionSetContractDetails_VersioningScheme_STATUS_Query, ApiVersionSetContractDetails_VersioningScheme_STATUS_Segment}), true)
+
+	apiVersionSetContractDetails_STATUSGenerator = rapid.Custom(func(t *rapid.T) ApiVersionSetContractDetails_STATUS {
+		var result ApiVersionSetContractDetails_STATUS
+		result.Description = ptrString.Draw(t, "Description")
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.VersionHeaderName = ptrString.Draw(t, "VersionHeaderName")
+		result.VersionQueryName = ptrString.Draw(t, "VersionQueryName")
+		result.VersioningScheme = versioningScheme.Draw(t, "VersioningScheme")
+		return result
+	})
 
 	return apiVersionSetContractDetails_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForApiVersionSetContractDetails_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApiVersionSetContractDetails_STATUS(gens map[string]gopter.Gen) {
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["VersionHeaderName"] = gen.PtrOf(gen.AlphaString())
-	gens["VersionQueryName"] = gen.PtrOf(gen.AlphaString())
-	gens["VersioningScheme"] = gen.PtrOf(gen.OneConstOf(ApiVersionSetContractDetails_VersioningScheme_STATUS_Header, ApiVersionSetContractDetails_VersioningScheme_STATUS_Query, ApiVersionSetContractDetails_VersioningScheme_STATUS_Segment))
-}
-
+// Test_Api_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Api_STATUS can be assigned to storage and back losslessly
 func Test_Api_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1100,44 +928,34 @@ func Test_Api_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Api_STATUS to Api_STATUS via AssignProperties_To_Api_STATUS & AssignProperties_From_Api_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApi_STATUS, Api_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := Api_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForApi_STATUS tests if a specific instance of Api_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApi_STATUS(subject Api_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other apimanagement_v1api20240501s.Api_STATUS
+		err := copied.AssignProperties_To_Api_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other apimanagement_v1api20240501s.Api_STATUS
-	err := copied.AssignProperties_To_Api_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual Api_STATUS
+		err = actual.AssignProperties_From_Api_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Api_STATUS
-	err = actual.AssignProperties_From_Api_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_Api_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1147,29 +965,23 @@ func Test_Api_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Api_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApi_STATUS, Api_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForApi_STATUS)
 }
 
 // RunJSONSerializationTestForApi_STATUS runs a test to see if a specific instance of Api_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForApi_STATUS(subject Api_STATUS) string {
+func RunJSONSerializationTestForApi_STATUS(t *rapid.T) {
+	subject := Api_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Api_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1178,80 +990,63 @@ func RunJSONSerializationTestForApi_STATUS(subject Api_STATUS) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Api_STATUS instances for property testing - lazily instantiated by Api_STATUSGenerator()
-var api_STATUSGenerator gopter.Gen
+var api_STATUSGenerator *rapid.Generator[Api_STATUS]
 
 // Api_STATUSGenerator returns a generator of Api_STATUS instances for property testing.
-// We first initialize api_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Api_STATUSGenerator() gopter.Gen {
+func Api_STATUSGenerator() *rapid.Generator[Api_STATUS] {
 	if api_STATUSGenerator != nil {
 		return api_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApi_STATUS(generators)
-	api_STATUSGenerator = gen.Struct(reflect.TypeOf(Api_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	ptrBool := rapid.Ptr(rapid.Bool(), true)
+	apiVersionSet := rapid.Ptr(ApiVersionSetContractDetails_STATUSGenerator(), true)
+	authenticationSettings := rapid.Ptr(AuthenticationSettingsContract_STATUSGenerator(), true)
+	contact := rapid.Ptr(ApiContactInformation_STATUSGenerator(), true)
+	license := rapid.Ptr(ApiLicenseInformation_STATUSGenerator(), true)
+	propertiesType := rapid.Ptr(rapid.SampledFrom([]ApiContractProperties_Type_STATUS{ApiContractProperties_Type_STATUS_Graphql, ApiContractProperties_Type_STATUS_Grpc, ApiContractProperties_Type_STATUS_Http, ApiContractProperties_Type_STATUS_Odata, ApiContractProperties_Type_STATUS_Soap, ApiContractProperties_Type_STATUS_Websocket}), true)
+	protocols := rapid.SliceOf(rapid.SampledFrom([]ApiContractProperties_Protocols_STATUS{ApiContractProperties_Protocols_STATUS_Http, ApiContractProperties_Protocols_STATUS_Https, ApiContractProperties_Protocols_STATUS_Ws, ApiContractProperties_Protocols_STATUS_Wss}))
+	subscriptionKeyParameterNames := rapid.Ptr(SubscriptionKeyParameterNamesContract_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApi_STATUS(generators)
-	AddRelatedPropertyGeneratorsForApi_STATUS(generators)
-	api_STATUSGenerator = gen.Struct(reflect.TypeOf(Api_STATUS{}), generators)
+	api_STATUSGenerator = rapid.Custom(func(t *rapid.T) Api_STATUS {
+		var result Api_STATUS
+		result.APIVersion = ptrString.Draw(t, "APIVersion")
+		result.ApiRevision = ptrString.Draw(t, "ApiRevision")
+		result.ApiRevisionDescription = ptrString.Draw(t, "ApiRevisionDescription")
+		result.ApiVersionDescription = ptrString.Draw(t, "ApiVersionDescription")
+		result.ApiVersionSet = apiVersionSet.Draw(t, "ApiVersionSet")
+		result.ApiVersionSetId = ptrString.Draw(t, "ApiVersionSetId")
+		result.AuthenticationSettings = authenticationSettings.Draw(t, "AuthenticationSettings")
+		result.Contact = contact.Draw(t, "Contact")
+		result.Description = ptrString.Draw(t, "Description")
+		result.DisplayName = ptrString.Draw(t, "DisplayName")
+		result.Id = ptrString.Draw(t, "Id")
+		result.IsCurrent = ptrBool.Draw(t, "IsCurrent")
+		result.IsOnline = ptrBool.Draw(t, "IsOnline")
+		result.License = license.Draw(t, "License")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Path = ptrString.Draw(t, "Path")
+		result.PropertiesType = propertiesType.Draw(t, "PropertiesType")
+		result.Protocols = protocols.Draw(t, "Protocols")
+		result.ProvisioningState = ptrString.Draw(t, "ProvisioningState")
+		result.ServiceUrl = ptrString.Draw(t, "ServiceUrl")
+		result.SourceApiId = ptrString.Draw(t, "SourceApiId")
+		result.SubscriptionKeyParameterNames = subscriptionKeyParameterNames.Draw(t, "SubscriptionKeyParameterNames")
+		result.SubscriptionRequired = ptrBool.Draw(t, "SubscriptionRequired")
+		result.TermsOfServiceUrl = ptrString.Draw(t, "TermsOfServiceUrl")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return api_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForApi_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApi_STATUS(gens map[string]gopter.Gen) {
-	gens["APIVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["ApiRevision"] = gen.PtrOf(gen.AlphaString())
-	gens["ApiRevisionDescription"] = gen.PtrOf(gen.AlphaString())
-	gens["ApiVersionDescription"] = gen.PtrOf(gen.AlphaString())
-	gens["ApiVersionSetId"] = gen.PtrOf(gen.AlphaString())
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["IsCurrent"] = gen.PtrOf(gen.Bool())
-	gens["IsOnline"] = gen.PtrOf(gen.Bool())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Path"] = gen.PtrOf(gen.AlphaString())
-	gens["PropertiesType"] = gen.PtrOf(gen.OneConstOf(
-		ApiContractProperties_Type_STATUS_Graphql,
-		ApiContractProperties_Type_STATUS_Grpc,
-		ApiContractProperties_Type_STATUS_Http,
-		ApiContractProperties_Type_STATUS_Odata,
-		ApiContractProperties_Type_STATUS_Soap,
-		ApiContractProperties_Type_STATUS_Websocket))
-	gens["Protocols"] = gen.SliceOf(gen.OneConstOf(
-		ApiContractProperties_Protocols_STATUS_Http,
-		ApiContractProperties_Protocols_STATUS_Https,
-		ApiContractProperties_Protocols_STATUS_Ws,
-		ApiContractProperties_Protocols_STATUS_Wss))
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["ServiceUrl"] = gen.PtrOf(gen.AlphaString())
-	gens["SourceApiId"] = gen.PtrOf(gen.AlphaString())
-	gens["SubscriptionRequired"] = gen.PtrOf(gen.Bool())
-	gens["TermsOfServiceUrl"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForApi_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForApi_STATUS(gens map[string]gopter.Gen) {
-	gens["ApiVersionSet"] = gen.PtrOf(ApiVersionSetContractDetails_STATUSGenerator())
-	gens["AuthenticationSettings"] = gen.PtrOf(AuthenticationSettingsContract_STATUSGenerator())
-	gens["Contact"] = gen.PtrOf(ApiContactInformation_STATUSGenerator())
-	gens["License"] = gen.PtrOf(ApiLicenseInformation_STATUSGenerator())
-	gens["SubscriptionKeyParameterNames"] = gen.PtrOf(SubscriptionKeyParameterNamesContract_STATUSGenerator())
-}
-
+// Test_Api_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Api_Spec can be assigned to storage and back losslessly
 func Test_Api_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1259,44 +1054,34 @@ func Test_Api_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Api_Spec to Api_Spec via AssignProperties_To_Api_Spec & AssignProperties_From_Api_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApi_Spec, Api_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := Api_SpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForApi_Spec tests if a specific instance of Api_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForApi_Spec(subject Api_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other apimanagement_v1api20240501s.Api_Spec
+		err := copied.AssignProperties_To_Api_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other apimanagement_v1api20240501s.Api_Spec
-	err := copied.AssignProperties_To_Api_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual Api_Spec
+		err = actual.AssignProperties_From_Api_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Api_Spec
-	err = actual.AssignProperties_From_Api_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_Api_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1306,29 +1091,23 @@ func Test_Api_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Api_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApi_Spec, Api_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForApi_Spec)
 }
 
 // RunJSONSerializationTestForApi_Spec runs a test to see if a specific instance of Api_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForApi_Spec(subject Api_Spec) string {
+func RunJSONSerializationTestForApi_Spec(t *rapid.T) {
+	subject := Api_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Api_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1337,101 +1116,70 @@ func RunJSONSerializationTestForApi_Spec(subject Api_Spec) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Api_Spec instances for property testing - lazily instantiated by Api_SpecGenerator()
-var api_SpecGenerator gopter.Gen
+var api_SpecGenerator *rapid.Generator[Api_Spec]
 
 // Api_SpecGenerator returns a generator of Api_Spec instances for property testing.
-// We first initialize api_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Api_SpecGenerator() gopter.Gen {
+func Api_SpecGenerator() *rapid.Generator[Api_Spec] {
 	if api_SpecGenerator != nil {
 		return api_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApi_Spec(generators)
-	api_SpecGenerator = gen.Struct(reflect.TypeOf(Api_Spec{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	ptrString1 := rapid.Ptr(rapid.String(), true)
+	ptrBool := rapid.Ptr(rapid.Bool(), true)
+	apiType := rapid.Ptr(rapid.SampledFrom([]ApiCreateOrUpdateProperties_ApiType{ApiCreateOrUpdateProperties_ApiType_Graphql, ApiCreateOrUpdateProperties_ApiType_Grpc, ApiCreateOrUpdateProperties_ApiType_Http, ApiCreateOrUpdateProperties_ApiType_Odata, ApiCreateOrUpdateProperties_ApiType_Soap, ApiCreateOrUpdateProperties_ApiType_Websocket}), true)
+	apiVersionSet := rapid.Ptr(ApiVersionSetContractDetailsGenerator(), true)
+	authenticationSettings := rapid.Ptr(AuthenticationSettingsContractGenerator(), true)
+	azureName := rapid.String()
+	contact := rapid.Ptr(ApiContactInformationGenerator(), true)
+	format := rapid.Ptr(rapid.SampledFrom([]ApiCreateOrUpdateProperties_Format{ApiCreateOrUpdateProperties_Format_GraphqlLink, ApiCreateOrUpdateProperties_Format_Grpc, ApiCreateOrUpdateProperties_Format_GrpcLink, ApiCreateOrUpdateProperties_Format_Odata, ApiCreateOrUpdateProperties_Format_OdataLink, ApiCreateOrUpdateProperties_Format_Openapi, ApiCreateOrUpdateProperties_Format_OpenapiJson, ApiCreateOrUpdateProperties_Format_OpenapiJsonLink, ApiCreateOrUpdateProperties_Format_OpenapiLink, ApiCreateOrUpdateProperties_Format_SwaggerJson, ApiCreateOrUpdateProperties_Format_SwaggerLinkJson, ApiCreateOrUpdateProperties_Format_WadlLinkJson, ApiCreateOrUpdateProperties_Format_WadlXml, ApiCreateOrUpdateProperties_Format_Wsdl, ApiCreateOrUpdateProperties_Format_WsdlLink}), true)
+	license := rapid.Ptr(ApiLicenseInformationGenerator(), true)
+	operatorSpec := rapid.Ptr(ApiOperatorSpecGenerator(), true)
+	protocols := rapid.SliceOf(rapid.SampledFrom([]ApiCreateOrUpdateProperties_Protocols{ApiCreateOrUpdateProperties_Protocols_Http, ApiCreateOrUpdateProperties_Protocols_Https, ApiCreateOrUpdateProperties_Protocols_Ws, ApiCreateOrUpdateProperties_Protocols_Wss}))
+	subscriptionKeyParameterNames := rapid.Ptr(SubscriptionKeyParameterNamesContractGenerator(), true)
+	translateRequiredQueryParameters := rapid.Ptr(rapid.SampledFrom([]ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters{ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters_Query, ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters_Template}), true)
+	typeVar := rapid.Ptr(rapid.SampledFrom([]ApiCreateOrUpdateProperties_Type{ApiCreateOrUpdateProperties_Type_Graphql, ApiCreateOrUpdateProperties_Type_Grpc, ApiCreateOrUpdateProperties_Type_Http, ApiCreateOrUpdateProperties_Type_Odata, ApiCreateOrUpdateProperties_Type_Soap, ApiCreateOrUpdateProperties_Type_Websocket}), true)
+	wsdlSelector := rapid.Ptr(ApiCreateOrUpdateProperties_WsdlSelectorGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApi_Spec(generators)
-	AddRelatedPropertyGeneratorsForApi_Spec(generators)
-	api_SpecGenerator = gen.Struct(reflect.TypeOf(Api_Spec{}), generators)
+	api_SpecGenerator = rapid.Custom(func(t *rapid.T) Api_Spec {
+		var result Api_Spec
+		result.APIVersion = ptrString.Draw(t, "APIVersion")
+		result.ApiRevision = ptrString.Draw(t, "ApiRevision")
+		result.ApiRevisionDescription = ptrString.Draw(t, "ApiRevisionDescription")
+		result.ApiType = apiType.Draw(t, "ApiType")
+		result.ApiVersionDescription = ptrString.Draw(t, "ApiVersionDescription")
+		result.ApiVersionSet = apiVersionSet.Draw(t, "ApiVersionSet")
+		result.AuthenticationSettings = authenticationSettings.Draw(t, "AuthenticationSettings")
+		result.AzureName = azureName.Draw(t, "AzureName")
+		result.Contact = contact.Draw(t, "Contact")
+		result.Description = ptrString1.Draw(t, "Description")
+		result.DisplayName = ptrString.Draw(t, "DisplayName")
+		result.Format = format.Draw(t, "Format")
+		result.IsCurrent = ptrBool.Draw(t, "IsCurrent")
+		result.License = license.Draw(t, "License")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		result.Path = ptrString.Draw(t, "Path")
+		result.Protocols = protocols.Draw(t, "Protocols")
+		result.ServiceUrl = ptrString.Draw(t, "ServiceUrl")
+		result.SubscriptionKeyParameterNames = subscriptionKeyParameterNames.Draw(t, "SubscriptionKeyParameterNames")
+		result.SubscriptionRequired = ptrBool.Draw(t, "SubscriptionRequired")
+		result.TermsOfServiceUrl = ptrString1.Draw(t, "TermsOfServiceUrl")
+		result.TranslateRequiredQueryParameters = translateRequiredQueryParameters.Draw(t, "TranslateRequiredQueryParameters")
+		result.Type = typeVar.Draw(t, "Type")
+		result.Value = ptrString1.Draw(t, "Value")
+		result.WsdlSelector = wsdlSelector.Draw(t, "WsdlSelector")
+		return result
+	})
 
 	return api_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForApi_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApi_Spec(gens map[string]gopter.Gen) {
-	gens["APIVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["ApiRevision"] = gen.PtrOf(gen.AlphaString())
-	gens["ApiRevisionDescription"] = gen.PtrOf(gen.AlphaString())
-	gens["ApiType"] = gen.PtrOf(gen.OneConstOf(
-		ApiCreateOrUpdateProperties_ApiType_Graphql,
-		ApiCreateOrUpdateProperties_ApiType_Grpc,
-		ApiCreateOrUpdateProperties_ApiType_Http,
-		ApiCreateOrUpdateProperties_ApiType_Odata,
-		ApiCreateOrUpdateProperties_ApiType_Soap,
-		ApiCreateOrUpdateProperties_ApiType_Websocket))
-	gens["ApiVersionDescription"] = gen.PtrOf(gen.AlphaString())
-	gens["AzureName"] = gen.AlphaString()
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
-	gens["Format"] = gen.PtrOf(gen.OneConstOf(
-		ApiCreateOrUpdateProperties_Format_GraphqlLink,
-		ApiCreateOrUpdateProperties_Format_Grpc,
-		ApiCreateOrUpdateProperties_Format_GrpcLink,
-		ApiCreateOrUpdateProperties_Format_Odata,
-		ApiCreateOrUpdateProperties_Format_OdataLink,
-		ApiCreateOrUpdateProperties_Format_Openapi,
-		ApiCreateOrUpdateProperties_Format_OpenapiJson,
-		ApiCreateOrUpdateProperties_Format_OpenapiJsonLink,
-		ApiCreateOrUpdateProperties_Format_OpenapiLink,
-		ApiCreateOrUpdateProperties_Format_SwaggerJson,
-		ApiCreateOrUpdateProperties_Format_SwaggerLinkJson,
-		ApiCreateOrUpdateProperties_Format_WadlLinkJson,
-		ApiCreateOrUpdateProperties_Format_WadlXml,
-		ApiCreateOrUpdateProperties_Format_Wsdl,
-		ApiCreateOrUpdateProperties_Format_WsdlLink))
-	gens["IsCurrent"] = gen.PtrOf(gen.Bool())
-	gens["Path"] = gen.PtrOf(gen.AlphaString())
-	gens["Protocols"] = gen.SliceOf(gen.OneConstOf(
-		ApiCreateOrUpdateProperties_Protocols_Http,
-		ApiCreateOrUpdateProperties_Protocols_Https,
-		ApiCreateOrUpdateProperties_Protocols_Ws,
-		ApiCreateOrUpdateProperties_Protocols_Wss))
-	gens["ServiceUrl"] = gen.PtrOf(gen.AlphaString())
-	gens["SubscriptionRequired"] = gen.PtrOf(gen.Bool())
-	gens["TermsOfServiceUrl"] = gen.PtrOf(gen.AlphaString())
-	gens["TranslateRequiredQueryParameters"] = gen.PtrOf(gen.OneConstOf(ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters_Query, ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters_Template))
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ApiCreateOrUpdateProperties_Type_Graphql,
-		ApiCreateOrUpdateProperties_Type_Grpc,
-		ApiCreateOrUpdateProperties_Type_Http,
-		ApiCreateOrUpdateProperties_Type_Odata,
-		ApiCreateOrUpdateProperties_Type_Soap,
-		ApiCreateOrUpdateProperties_Type_Websocket))
-	gens["Value"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForApi_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForApi_Spec(gens map[string]gopter.Gen) {
-	gens["ApiVersionSet"] = gen.PtrOf(ApiVersionSetContractDetailsGenerator())
-	gens["AuthenticationSettings"] = gen.PtrOf(AuthenticationSettingsContractGenerator())
-	gens["Contact"] = gen.PtrOf(ApiContactInformationGenerator())
-	gens["License"] = gen.PtrOf(ApiLicenseInformationGenerator())
-	gens["OperatorSpec"] = gen.PtrOf(ApiOperatorSpecGenerator())
-	gens["SubscriptionKeyParameterNames"] = gen.PtrOf(SubscriptionKeyParameterNamesContractGenerator())
-	gens["WsdlSelector"] = gen.PtrOf(ApiCreateOrUpdateProperties_WsdlSelectorGenerator())
-}
-
+// Test_AuthenticationSettingsContract_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of AuthenticationSettingsContract can be assigned to storage and back losslessly
 func Test_AuthenticationSettingsContract_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1439,44 +1187,34 @@ func Test_AuthenticationSettingsContract_WhenPropertiesConverted_RoundTripsWitho
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AuthenticationSettingsContract to AuthenticationSettingsContract via AssignProperties_To_AuthenticationSettingsContract & AssignProperties_From_AuthenticationSettingsContract returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAuthenticationSettingsContract, AuthenticationSettingsContractGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := AuthenticationSettingsContractGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForAuthenticationSettingsContract tests if a specific instance of AuthenticationSettingsContract can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForAuthenticationSettingsContract(subject AuthenticationSettingsContract) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other apimanagement_v1api20240501s.AuthenticationSettingsContract
+		err := copied.AssignProperties_To_AuthenticationSettingsContract(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other apimanagement_v1api20240501s.AuthenticationSettingsContract
-	err := copied.AssignProperties_To_AuthenticationSettingsContract(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual AuthenticationSettingsContract
+		err = actual.AssignProperties_From_AuthenticationSettingsContract(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AuthenticationSettingsContract
-	err = actual.AssignProperties_From_AuthenticationSettingsContract(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_AuthenticationSettingsContract_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1486,29 +1224,23 @@ func Test_AuthenticationSettingsContract_WhenSerializedToJson_DeserializesAsEqua
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AuthenticationSettingsContract via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAuthenticationSettingsContract, AuthenticationSettingsContractGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAuthenticationSettingsContract)
 }
 
 // RunJSONSerializationTestForAuthenticationSettingsContract runs a test to see if a specific instance of AuthenticationSettingsContract round trips to JSON and back losslessly
-func RunJSONSerializationTestForAuthenticationSettingsContract(subject AuthenticationSettingsContract) string {
+func RunJSONSerializationTestForAuthenticationSettingsContract(t *rapid.T) {
+	subject := AuthenticationSettingsContractGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AuthenticationSettingsContract
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1517,37 +1249,38 @@ func RunJSONSerializationTestForAuthenticationSettingsContract(subject Authentic
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AuthenticationSettingsContract instances for property testing - lazily instantiated by
 // AuthenticationSettingsContractGenerator()
-var authenticationSettingsContractGenerator gopter.Gen
+var authenticationSettingsContractGenerator *rapid.Generator[AuthenticationSettingsContract]
 
 // AuthenticationSettingsContractGenerator returns a generator of AuthenticationSettingsContract instances for property testing.
-func AuthenticationSettingsContractGenerator() gopter.Gen {
+func AuthenticationSettingsContractGenerator() *rapid.Generator[AuthenticationSettingsContract] {
 	if authenticationSettingsContractGenerator != nil {
 		return authenticationSettingsContractGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForAuthenticationSettingsContract(generators)
-	authenticationSettingsContractGenerator = gen.Struct(reflect.TypeOf(AuthenticationSettingsContract{}), generators)
+	oAuth2 := rapid.Ptr(OAuth2AuthenticationSettingsContractGenerator(), true)
+	oAuth2AuthenticationSettings := rapid.SliceOf(OAuth2AuthenticationSettingsContractGenerator())
+	openid := rapid.Ptr(OpenIdAuthenticationSettingsContractGenerator(), true)
+	openidAuthenticationSettings := rapid.SliceOf(OpenIdAuthenticationSettingsContractGenerator())
+
+	authenticationSettingsContractGenerator = rapid.Custom(func(t *rapid.T) AuthenticationSettingsContract {
+		var result AuthenticationSettingsContract
+		result.OAuth2 = oAuth2.Draw(t, "OAuth2")
+		result.OAuth2AuthenticationSettings = oAuth2AuthenticationSettings.Draw(t, "OAuth2AuthenticationSettings")
+		result.Openid = openid.Draw(t, "Openid")
+		result.OpenidAuthenticationSettings = openidAuthenticationSettings.Draw(t, "OpenidAuthenticationSettings")
+		return result
+	})
 
 	return authenticationSettingsContractGenerator
 }
 
-// AddRelatedPropertyGeneratorsForAuthenticationSettingsContract is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAuthenticationSettingsContract(gens map[string]gopter.Gen) {
-	gens["OAuth2"] = gen.PtrOf(OAuth2AuthenticationSettingsContractGenerator())
-	gens["OAuth2AuthenticationSettings"] = gen.SliceOf(OAuth2AuthenticationSettingsContractGenerator())
-	gens["Openid"] = gen.PtrOf(OpenIdAuthenticationSettingsContractGenerator())
-	gens["OpenidAuthenticationSettings"] = gen.SliceOf(OpenIdAuthenticationSettingsContractGenerator())
-}
-
+// Test_AuthenticationSettingsContract_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of AuthenticationSettingsContract_STATUS can be assigned to storage and back losslessly
 func Test_AuthenticationSettingsContract_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1555,44 +1288,34 @@ func Test_AuthenticationSettingsContract_STATUS_WhenPropertiesConverted_RoundTri
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AuthenticationSettingsContract_STATUS to AuthenticationSettingsContract_STATUS via AssignProperties_To_AuthenticationSettingsContract_STATUS & AssignProperties_From_AuthenticationSettingsContract_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAuthenticationSettingsContract_STATUS, AuthenticationSettingsContract_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := AuthenticationSettingsContract_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForAuthenticationSettingsContract_STATUS tests if a specific instance of AuthenticationSettingsContract_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForAuthenticationSettingsContract_STATUS(subject AuthenticationSettingsContract_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other apimanagement_v1api20240501s.AuthenticationSettingsContract_STATUS
+		err := copied.AssignProperties_To_AuthenticationSettingsContract_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other apimanagement_v1api20240501s.AuthenticationSettingsContract_STATUS
-	err := copied.AssignProperties_To_AuthenticationSettingsContract_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual AuthenticationSettingsContract_STATUS
+		err = actual.AssignProperties_From_AuthenticationSettingsContract_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AuthenticationSettingsContract_STATUS
-	err = actual.AssignProperties_From_AuthenticationSettingsContract_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_AuthenticationSettingsContract_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1602,29 +1325,23 @@ func Test_AuthenticationSettingsContract_STATUS_WhenSerializedToJson_Deserialize
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AuthenticationSettingsContract_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAuthenticationSettingsContract_STATUS, AuthenticationSettingsContract_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAuthenticationSettingsContract_STATUS)
 }
 
 // RunJSONSerializationTestForAuthenticationSettingsContract_STATUS runs a test to see if a specific instance of AuthenticationSettingsContract_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForAuthenticationSettingsContract_STATUS(subject AuthenticationSettingsContract_STATUS) string {
+func RunJSONSerializationTestForAuthenticationSettingsContract_STATUS(t *rapid.T) {
+	subject := AuthenticationSettingsContract_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AuthenticationSettingsContract_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1633,37 +1350,38 @@ func RunJSONSerializationTestForAuthenticationSettingsContract_STATUS(subject Au
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AuthenticationSettingsContract_STATUS instances for property testing - lazily instantiated by
 // AuthenticationSettingsContract_STATUSGenerator()
-var authenticationSettingsContract_STATUSGenerator gopter.Gen
+var authenticationSettingsContract_STATUSGenerator *rapid.Generator[AuthenticationSettingsContract_STATUS]
 
 // AuthenticationSettingsContract_STATUSGenerator returns a generator of AuthenticationSettingsContract_STATUS instances for property testing.
-func AuthenticationSettingsContract_STATUSGenerator() gopter.Gen {
+func AuthenticationSettingsContract_STATUSGenerator() *rapid.Generator[AuthenticationSettingsContract_STATUS] {
 	if authenticationSettingsContract_STATUSGenerator != nil {
 		return authenticationSettingsContract_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForAuthenticationSettingsContract_STATUS(generators)
-	authenticationSettingsContract_STATUSGenerator = gen.Struct(reflect.TypeOf(AuthenticationSettingsContract_STATUS{}), generators)
+	oAuth2 := rapid.Ptr(OAuth2AuthenticationSettingsContract_STATUSGenerator(), true)
+	oAuth2AuthenticationSettings := rapid.SliceOf(OAuth2AuthenticationSettingsContract_STATUSGenerator())
+	openid := rapid.Ptr(OpenIdAuthenticationSettingsContract_STATUSGenerator(), true)
+	openidAuthenticationSettings := rapid.SliceOf(OpenIdAuthenticationSettingsContract_STATUSGenerator())
+
+	authenticationSettingsContract_STATUSGenerator = rapid.Custom(func(t *rapid.T) AuthenticationSettingsContract_STATUS {
+		var result AuthenticationSettingsContract_STATUS
+		result.OAuth2 = oAuth2.Draw(t, "OAuth2")
+		result.OAuth2AuthenticationSettings = oAuth2AuthenticationSettings.Draw(t, "OAuth2AuthenticationSettings")
+		result.Openid = openid.Draw(t, "Openid")
+		result.OpenidAuthenticationSettings = openidAuthenticationSettings.Draw(t, "OpenidAuthenticationSettings")
+		return result
+	})
 
 	return authenticationSettingsContract_STATUSGenerator
 }
 
-// AddRelatedPropertyGeneratorsForAuthenticationSettingsContract_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAuthenticationSettingsContract_STATUS(gens map[string]gopter.Gen) {
-	gens["OAuth2"] = gen.PtrOf(OAuth2AuthenticationSettingsContract_STATUSGenerator())
-	gens["OAuth2AuthenticationSettings"] = gen.SliceOf(OAuth2AuthenticationSettingsContract_STATUSGenerator())
-	gens["Openid"] = gen.PtrOf(OpenIdAuthenticationSettingsContract_STATUSGenerator())
-	gens["OpenidAuthenticationSettings"] = gen.SliceOf(OpenIdAuthenticationSettingsContract_STATUSGenerator())
-}
-
+// Test_OAuth2AuthenticationSettingsContract_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of OAuth2AuthenticationSettingsContract can be assigned to storage and back losslessly
 func Test_OAuth2AuthenticationSettingsContract_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1671,44 +1389,34 @@ func Test_OAuth2AuthenticationSettingsContract_WhenPropertiesConverted_RoundTrip
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from OAuth2AuthenticationSettingsContract to OAuth2AuthenticationSettingsContract via AssignProperties_To_OAuth2AuthenticationSettingsContract & AssignProperties_From_OAuth2AuthenticationSettingsContract returns original",
-		prop.ForAll(RunPropertyAssignmentTestForOAuth2AuthenticationSettingsContract, OAuth2AuthenticationSettingsContractGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := OAuth2AuthenticationSettingsContractGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForOAuth2AuthenticationSettingsContract tests if a specific instance of OAuth2AuthenticationSettingsContract can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForOAuth2AuthenticationSettingsContract(subject OAuth2AuthenticationSettingsContract) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other apimanagement_v1api20240501s.OAuth2AuthenticationSettingsContract
+		err := copied.AssignProperties_To_OAuth2AuthenticationSettingsContract(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other apimanagement_v1api20240501s.OAuth2AuthenticationSettingsContract
-	err := copied.AssignProperties_To_OAuth2AuthenticationSettingsContract(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual OAuth2AuthenticationSettingsContract
+		err = actual.AssignProperties_From_OAuth2AuthenticationSettingsContract(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual OAuth2AuthenticationSettingsContract
-	err = actual.AssignProperties_From_OAuth2AuthenticationSettingsContract(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_OAuth2AuthenticationSettingsContract_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1718,29 +1426,23 @@ func Test_OAuth2AuthenticationSettingsContract_WhenSerializedToJson_Deserializes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of OAuth2AuthenticationSettingsContract via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForOAuth2AuthenticationSettingsContract, OAuth2AuthenticationSettingsContractGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForOAuth2AuthenticationSettingsContract)
 }
 
 // RunJSONSerializationTestForOAuth2AuthenticationSettingsContract runs a test to see if a specific instance of OAuth2AuthenticationSettingsContract round trips to JSON and back losslessly
-func RunJSONSerializationTestForOAuth2AuthenticationSettingsContract(subject OAuth2AuthenticationSettingsContract) string {
+func RunJSONSerializationTestForOAuth2AuthenticationSettingsContract(t *rapid.T) {
+	subject := OAuth2AuthenticationSettingsContractGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual OAuth2AuthenticationSettingsContract
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1749,35 +1451,33 @@ func RunJSONSerializationTestForOAuth2AuthenticationSettingsContract(subject OAu
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of OAuth2AuthenticationSettingsContract instances for property testing - lazily instantiated by
 // OAuth2AuthenticationSettingsContractGenerator()
-var oAuth2AuthenticationSettingsContractGenerator gopter.Gen
+var oAuth2AuthenticationSettingsContractGenerator *rapid.Generator[OAuth2AuthenticationSettingsContract]
 
 // OAuth2AuthenticationSettingsContractGenerator returns a generator of OAuth2AuthenticationSettingsContract instances for property testing.
-func OAuth2AuthenticationSettingsContractGenerator() gopter.Gen {
+func OAuth2AuthenticationSettingsContractGenerator() *rapid.Generator[OAuth2AuthenticationSettingsContract] {
 	if oAuth2AuthenticationSettingsContractGenerator != nil {
 		return oAuth2AuthenticationSettingsContractGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOAuth2AuthenticationSettingsContract(generators)
-	oAuth2AuthenticationSettingsContractGenerator = gen.Struct(reflect.TypeOf(OAuth2AuthenticationSettingsContract{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	oAuth2AuthenticationSettingsContractGenerator = rapid.Custom(func(t *rapid.T) OAuth2AuthenticationSettingsContract {
+		var result OAuth2AuthenticationSettingsContract
+		result.AuthorizationServerId = ptrString.Draw(t, "AuthorizationServerId")
+		result.Scope = ptrString.Draw(t, "Scope")
+		return result
+	})
 
 	return oAuth2AuthenticationSettingsContractGenerator
 }
 
-// AddIndependentPropertyGeneratorsForOAuth2AuthenticationSettingsContract is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForOAuth2AuthenticationSettingsContract(gens map[string]gopter.Gen) {
-	gens["AuthorizationServerId"] = gen.PtrOf(gen.AlphaString())
-	gens["Scope"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_OAuth2AuthenticationSettingsContract_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of OAuth2AuthenticationSettingsContract_STATUS can be assigned to storage and back losslessly
 func Test_OAuth2AuthenticationSettingsContract_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1785,44 +1485,34 @@ func Test_OAuth2AuthenticationSettingsContract_STATUS_WhenPropertiesConverted_Ro
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from OAuth2AuthenticationSettingsContract_STATUS to OAuth2AuthenticationSettingsContract_STATUS via AssignProperties_To_OAuth2AuthenticationSettingsContract_STATUS & AssignProperties_From_OAuth2AuthenticationSettingsContract_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForOAuth2AuthenticationSettingsContract_STATUS, OAuth2AuthenticationSettingsContract_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := OAuth2AuthenticationSettingsContract_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForOAuth2AuthenticationSettingsContract_STATUS tests if a specific instance of OAuth2AuthenticationSettingsContract_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForOAuth2AuthenticationSettingsContract_STATUS(subject OAuth2AuthenticationSettingsContract_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other apimanagement_v1api20240501s.OAuth2AuthenticationSettingsContract_STATUS
+		err := copied.AssignProperties_To_OAuth2AuthenticationSettingsContract_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other apimanagement_v1api20240501s.OAuth2AuthenticationSettingsContract_STATUS
-	err := copied.AssignProperties_To_OAuth2AuthenticationSettingsContract_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual OAuth2AuthenticationSettingsContract_STATUS
+		err = actual.AssignProperties_From_OAuth2AuthenticationSettingsContract_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual OAuth2AuthenticationSettingsContract_STATUS
-	err = actual.AssignProperties_From_OAuth2AuthenticationSettingsContract_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_OAuth2AuthenticationSettingsContract_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1832,29 +1522,23 @@ func Test_OAuth2AuthenticationSettingsContract_STATUS_WhenSerializedToJson_Deser
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of OAuth2AuthenticationSettingsContract_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForOAuth2AuthenticationSettingsContract_STATUS, OAuth2AuthenticationSettingsContract_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForOAuth2AuthenticationSettingsContract_STATUS)
 }
 
 // RunJSONSerializationTestForOAuth2AuthenticationSettingsContract_STATUS runs a test to see if a specific instance of OAuth2AuthenticationSettingsContract_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForOAuth2AuthenticationSettingsContract_STATUS(subject OAuth2AuthenticationSettingsContract_STATUS) string {
+func RunJSONSerializationTestForOAuth2AuthenticationSettingsContract_STATUS(t *rapid.T) {
+	subject := OAuth2AuthenticationSettingsContract_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual OAuth2AuthenticationSettingsContract_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1863,35 +1547,33 @@ func RunJSONSerializationTestForOAuth2AuthenticationSettingsContract_STATUS(subj
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of OAuth2AuthenticationSettingsContract_STATUS instances for property testing - lazily instantiated by
 // OAuth2AuthenticationSettingsContract_STATUSGenerator()
-var oAuth2AuthenticationSettingsContract_STATUSGenerator gopter.Gen
+var oAuth2AuthenticationSettingsContract_STATUSGenerator *rapid.Generator[OAuth2AuthenticationSettingsContract_STATUS]
 
 // OAuth2AuthenticationSettingsContract_STATUSGenerator returns a generator of OAuth2AuthenticationSettingsContract_STATUS instances for property testing.
-func OAuth2AuthenticationSettingsContract_STATUSGenerator() gopter.Gen {
+func OAuth2AuthenticationSettingsContract_STATUSGenerator() *rapid.Generator[OAuth2AuthenticationSettingsContract_STATUS] {
 	if oAuth2AuthenticationSettingsContract_STATUSGenerator != nil {
 		return oAuth2AuthenticationSettingsContract_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOAuth2AuthenticationSettingsContract_STATUS(generators)
-	oAuth2AuthenticationSettingsContract_STATUSGenerator = gen.Struct(reflect.TypeOf(OAuth2AuthenticationSettingsContract_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	oAuth2AuthenticationSettingsContract_STATUSGenerator = rapid.Custom(func(t *rapid.T) OAuth2AuthenticationSettingsContract_STATUS {
+		var result OAuth2AuthenticationSettingsContract_STATUS
+		result.AuthorizationServerId = ptrString.Draw(t, "AuthorizationServerId")
+		result.Scope = ptrString.Draw(t, "Scope")
+		return result
+	})
 
 	return oAuth2AuthenticationSettingsContract_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForOAuth2AuthenticationSettingsContract_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForOAuth2AuthenticationSettingsContract_STATUS(gens map[string]gopter.Gen) {
-	gens["AuthorizationServerId"] = gen.PtrOf(gen.AlphaString())
-	gens["Scope"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_OpenIdAuthenticationSettingsContract_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of OpenIdAuthenticationSettingsContract can be assigned to storage and back losslessly
 func Test_OpenIdAuthenticationSettingsContract_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1899,44 +1581,34 @@ func Test_OpenIdAuthenticationSettingsContract_WhenPropertiesConverted_RoundTrip
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from OpenIdAuthenticationSettingsContract to OpenIdAuthenticationSettingsContract via AssignProperties_To_OpenIdAuthenticationSettingsContract & AssignProperties_From_OpenIdAuthenticationSettingsContract returns original",
-		prop.ForAll(RunPropertyAssignmentTestForOpenIdAuthenticationSettingsContract, OpenIdAuthenticationSettingsContractGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := OpenIdAuthenticationSettingsContractGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForOpenIdAuthenticationSettingsContract tests if a specific instance of OpenIdAuthenticationSettingsContract can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForOpenIdAuthenticationSettingsContract(subject OpenIdAuthenticationSettingsContract) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other apimanagement_v1api20240501s.OpenIdAuthenticationSettingsContract
+		err := copied.AssignProperties_To_OpenIdAuthenticationSettingsContract(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other apimanagement_v1api20240501s.OpenIdAuthenticationSettingsContract
-	err := copied.AssignProperties_To_OpenIdAuthenticationSettingsContract(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual OpenIdAuthenticationSettingsContract
+		err = actual.AssignProperties_From_OpenIdAuthenticationSettingsContract(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual OpenIdAuthenticationSettingsContract
-	err = actual.AssignProperties_From_OpenIdAuthenticationSettingsContract(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_OpenIdAuthenticationSettingsContract_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1946,29 +1618,23 @@ func Test_OpenIdAuthenticationSettingsContract_WhenSerializedToJson_Deserializes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of OpenIdAuthenticationSettingsContract via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForOpenIdAuthenticationSettingsContract, OpenIdAuthenticationSettingsContractGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForOpenIdAuthenticationSettingsContract)
 }
 
 // RunJSONSerializationTestForOpenIdAuthenticationSettingsContract runs a test to see if a specific instance of OpenIdAuthenticationSettingsContract round trips to JSON and back losslessly
-func RunJSONSerializationTestForOpenIdAuthenticationSettingsContract(subject OpenIdAuthenticationSettingsContract) string {
+func RunJSONSerializationTestForOpenIdAuthenticationSettingsContract(t *rapid.T) {
+	subject := OpenIdAuthenticationSettingsContractGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual OpenIdAuthenticationSettingsContract
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1977,35 +1643,34 @@ func RunJSONSerializationTestForOpenIdAuthenticationSettingsContract(subject Ope
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of OpenIdAuthenticationSettingsContract instances for property testing - lazily instantiated by
 // OpenIdAuthenticationSettingsContractGenerator()
-var openIdAuthenticationSettingsContractGenerator gopter.Gen
+var openIdAuthenticationSettingsContractGenerator *rapid.Generator[OpenIdAuthenticationSettingsContract]
 
 // OpenIdAuthenticationSettingsContractGenerator returns a generator of OpenIdAuthenticationSettingsContract instances for property testing.
-func OpenIdAuthenticationSettingsContractGenerator() gopter.Gen {
+func OpenIdAuthenticationSettingsContractGenerator() *rapid.Generator[OpenIdAuthenticationSettingsContract] {
 	if openIdAuthenticationSettingsContractGenerator != nil {
 		return openIdAuthenticationSettingsContractGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOpenIdAuthenticationSettingsContract(generators)
-	openIdAuthenticationSettingsContractGenerator = gen.Struct(reflect.TypeOf(OpenIdAuthenticationSettingsContract{}), generators)
+	bearerTokenSendingMethods := rapid.SliceOf(rapid.SampledFrom([]BearerTokenSendingMethodsContract{BearerTokenSendingMethodsContract_AuthorizationHeader, BearerTokenSendingMethodsContract_Query}))
+	openidProviderId := rapid.Ptr(rapid.String(), true)
+
+	openIdAuthenticationSettingsContractGenerator = rapid.Custom(func(t *rapid.T) OpenIdAuthenticationSettingsContract {
+		var result OpenIdAuthenticationSettingsContract
+		result.BearerTokenSendingMethods = bearerTokenSendingMethods.Draw(t, "BearerTokenSendingMethods")
+		result.OpenidProviderId = openidProviderId.Draw(t, "OpenidProviderId")
+		return result
+	})
 
 	return openIdAuthenticationSettingsContractGenerator
 }
 
-// AddIndependentPropertyGeneratorsForOpenIdAuthenticationSettingsContract is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForOpenIdAuthenticationSettingsContract(gens map[string]gopter.Gen) {
-	gens["BearerTokenSendingMethods"] = gen.SliceOf(gen.OneConstOf(BearerTokenSendingMethodsContract_AuthorizationHeader, BearerTokenSendingMethodsContract_Query))
-	gens["OpenidProviderId"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_OpenIdAuthenticationSettingsContract_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of OpenIdAuthenticationSettingsContract_STATUS can be assigned to storage and back losslessly
 func Test_OpenIdAuthenticationSettingsContract_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -2013,44 +1678,34 @@ func Test_OpenIdAuthenticationSettingsContract_STATUS_WhenPropertiesConverted_Ro
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from OpenIdAuthenticationSettingsContract_STATUS to OpenIdAuthenticationSettingsContract_STATUS via AssignProperties_To_OpenIdAuthenticationSettingsContract_STATUS & AssignProperties_From_OpenIdAuthenticationSettingsContract_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForOpenIdAuthenticationSettingsContract_STATUS, OpenIdAuthenticationSettingsContract_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := OpenIdAuthenticationSettingsContract_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForOpenIdAuthenticationSettingsContract_STATUS tests if a specific instance of OpenIdAuthenticationSettingsContract_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForOpenIdAuthenticationSettingsContract_STATUS(subject OpenIdAuthenticationSettingsContract_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other apimanagement_v1api20240501s.OpenIdAuthenticationSettingsContract_STATUS
+		err := copied.AssignProperties_To_OpenIdAuthenticationSettingsContract_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other apimanagement_v1api20240501s.OpenIdAuthenticationSettingsContract_STATUS
-	err := copied.AssignProperties_To_OpenIdAuthenticationSettingsContract_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual OpenIdAuthenticationSettingsContract_STATUS
+		err = actual.AssignProperties_From_OpenIdAuthenticationSettingsContract_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual OpenIdAuthenticationSettingsContract_STATUS
-	err = actual.AssignProperties_From_OpenIdAuthenticationSettingsContract_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_OpenIdAuthenticationSettingsContract_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2060,29 +1715,23 @@ func Test_OpenIdAuthenticationSettingsContract_STATUS_WhenSerializedToJson_Deser
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of OpenIdAuthenticationSettingsContract_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForOpenIdAuthenticationSettingsContract_STATUS, OpenIdAuthenticationSettingsContract_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForOpenIdAuthenticationSettingsContract_STATUS)
 }
 
 // RunJSONSerializationTestForOpenIdAuthenticationSettingsContract_STATUS runs a test to see if a specific instance of OpenIdAuthenticationSettingsContract_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForOpenIdAuthenticationSettingsContract_STATUS(subject OpenIdAuthenticationSettingsContract_STATUS) string {
+func RunJSONSerializationTestForOpenIdAuthenticationSettingsContract_STATUS(t *rapid.T) {
+	subject := OpenIdAuthenticationSettingsContract_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual OpenIdAuthenticationSettingsContract_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -2091,35 +1740,34 @@ func RunJSONSerializationTestForOpenIdAuthenticationSettingsContract_STATUS(subj
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of OpenIdAuthenticationSettingsContract_STATUS instances for property testing - lazily instantiated by
 // OpenIdAuthenticationSettingsContract_STATUSGenerator()
-var openIdAuthenticationSettingsContract_STATUSGenerator gopter.Gen
+var openIdAuthenticationSettingsContract_STATUSGenerator *rapid.Generator[OpenIdAuthenticationSettingsContract_STATUS]
 
 // OpenIdAuthenticationSettingsContract_STATUSGenerator returns a generator of OpenIdAuthenticationSettingsContract_STATUS instances for property testing.
-func OpenIdAuthenticationSettingsContract_STATUSGenerator() gopter.Gen {
+func OpenIdAuthenticationSettingsContract_STATUSGenerator() *rapid.Generator[OpenIdAuthenticationSettingsContract_STATUS] {
 	if openIdAuthenticationSettingsContract_STATUSGenerator != nil {
 		return openIdAuthenticationSettingsContract_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOpenIdAuthenticationSettingsContract_STATUS(generators)
-	openIdAuthenticationSettingsContract_STATUSGenerator = gen.Struct(reflect.TypeOf(OpenIdAuthenticationSettingsContract_STATUS{}), generators)
+	bearerTokenSendingMethods := rapid.SliceOf(rapid.SampledFrom([]BearerTokenSendingMethodsContract_STATUS{BearerTokenSendingMethodsContract_STATUS_AuthorizationHeader, BearerTokenSendingMethodsContract_STATUS_Query}))
+	openidProviderId := rapid.Ptr(rapid.String(), true)
+
+	openIdAuthenticationSettingsContract_STATUSGenerator = rapid.Custom(func(t *rapid.T) OpenIdAuthenticationSettingsContract_STATUS {
+		var result OpenIdAuthenticationSettingsContract_STATUS
+		result.BearerTokenSendingMethods = bearerTokenSendingMethods.Draw(t, "BearerTokenSendingMethods")
+		result.OpenidProviderId = openidProviderId.Draw(t, "OpenidProviderId")
+		return result
+	})
 
 	return openIdAuthenticationSettingsContract_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForOpenIdAuthenticationSettingsContract_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForOpenIdAuthenticationSettingsContract_STATUS(gens map[string]gopter.Gen) {
-	gens["BearerTokenSendingMethods"] = gen.SliceOf(gen.OneConstOf(BearerTokenSendingMethodsContract_STATUS_AuthorizationHeader, BearerTokenSendingMethodsContract_STATUS_Query))
-	gens["OpenidProviderId"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_SubscriptionKeyParameterNamesContract_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of SubscriptionKeyParameterNamesContract can be assigned to storage and back losslessly
 func Test_SubscriptionKeyParameterNamesContract_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -2127,44 +1775,34 @@ func Test_SubscriptionKeyParameterNamesContract_WhenPropertiesConverted_RoundTri
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from SubscriptionKeyParameterNamesContract to SubscriptionKeyParameterNamesContract via AssignProperties_To_SubscriptionKeyParameterNamesContract & AssignProperties_From_SubscriptionKeyParameterNamesContract returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSubscriptionKeyParameterNamesContract, SubscriptionKeyParameterNamesContractGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := SubscriptionKeyParameterNamesContractGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForSubscriptionKeyParameterNamesContract tests if a specific instance of SubscriptionKeyParameterNamesContract can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForSubscriptionKeyParameterNamesContract(subject SubscriptionKeyParameterNamesContract) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other apimanagement_v1api20240501s.SubscriptionKeyParameterNamesContract
+		err := copied.AssignProperties_To_SubscriptionKeyParameterNamesContract(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other apimanagement_v1api20240501s.SubscriptionKeyParameterNamesContract
-	err := copied.AssignProperties_To_SubscriptionKeyParameterNamesContract(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual SubscriptionKeyParameterNamesContract
+		err = actual.AssignProperties_From_SubscriptionKeyParameterNamesContract(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SubscriptionKeyParameterNamesContract
-	err = actual.AssignProperties_From_SubscriptionKeyParameterNamesContract(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_SubscriptionKeyParameterNamesContract_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2174,29 +1812,23 @@ func Test_SubscriptionKeyParameterNamesContract_WhenSerializedToJson_Deserialize
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SubscriptionKeyParameterNamesContract via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSubscriptionKeyParameterNamesContract, SubscriptionKeyParameterNamesContractGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSubscriptionKeyParameterNamesContract)
 }
 
 // RunJSONSerializationTestForSubscriptionKeyParameterNamesContract runs a test to see if a specific instance of SubscriptionKeyParameterNamesContract round trips to JSON and back losslessly
-func RunJSONSerializationTestForSubscriptionKeyParameterNamesContract(subject SubscriptionKeyParameterNamesContract) string {
+func RunJSONSerializationTestForSubscriptionKeyParameterNamesContract(t *rapid.T) {
+	subject := SubscriptionKeyParameterNamesContractGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SubscriptionKeyParameterNamesContract
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -2205,35 +1837,33 @@ func RunJSONSerializationTestForSubscriptionKeyParameterNamesContract(subject Su
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SubscriptionKeyParameterNamesContract instances for property testing - lazily instantiated by
 // SubscriptionKeyParameterNamesContractGenerator()
-var subscriptionKeyParameterNamesContractGenerator gopter.Gen
+var subscriptionKeyParameterNamesContractGenerator *rapid.Generator[SubscriptionKeyParameterNamesContract]
 
 // SubscriptionKeyParameterNamesContractGenerator returns a generator of SubscriptionKeyParameterNamesContract instances for property testing.
-func SubscriptionKeyParameterNamesContractGenerator() gopter.Gen {
+func SubscriptionKeyParameterNamesContractGenerator() *rapid.Generator[SubscriptionKeyParameterNamesContract] {
 	if subscriptionKeyParameterNamesContractGenerator != nil {
 		return subscriptionKeyParameterNamesContractGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSubscriptionKeyParameterNamesContract(generators)
-	subscriptionKeyParameterNamesContractGenerator = gen.Struct(reflect.TypeOf(SubscriptionKeyParameterNamesContract{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	subscriptionKeyParameterNamesContractGenerator = rapid.Custom(func(t *rapid.T) SubscriptionKeyParameterNamesContract {
+		var result SubscriptionKeyParameterNamesContract
+		result.Header = ptrString.Draw(t, "Header")
+		result.Query = ptrString.Draw(t, "Query")
+		return result
+	})
 
 	return subscriptionKeyParameterNamesContractGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSubscriptionKeyParameterNamesContract is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSubscriptionKeyParameterNamesContract(gens map[string]gopter.Gen) {
-	gens["Header"] = gen.PtrOf(gen.AlphaString())
-	gens["Query"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_SubscriptionKeyParameterNamesContract_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of SubscriptionKeyParameterNamesContract_STATUS can be assigned to storage and back losslessly
 func Test_SubscriptionKeyParameterNamesContract_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -2241,44 +1871,34 @@ func Test_SubscriptionKeyParameterNamesContract_STATUS_WhenPropertiesConverted_R
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from SubscriptionKeyParameterNamesContract_STATUS to SubscriptionKeyParameterNamesContract_STATUS via AssignProperties_To_SubscriptionKeyParameterNamesContract_STATUS & AssignProperties_From_SubscriptionKeyParameterNamesContract_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSubscriptionKeyParameterNamesContract_STATUS, SubscriptionKeyParameterNamesContract_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := SubscriptionKeyParameterNamesContract_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForSubscriptionKeyParameterNamesContract_STATUS tests if a specific instance of SubscriptionKeyParameterNamesContract_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForSubscriptionKeyParameterNamesContract_STATUS(subject SubscriptionKeyParameterNamesContract_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other apimanagement_v1api20240501s.SubscriptionKeyParameterNamesContract_STATUS
+		err := copied.AssignProperties_To_SubscriptionKeyParameterNamesContract_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other apimanagement_v1api20240501s.SubscriptionKeyParameterNamesContract_STATUS
-	err := copied.AssignProperties_To_SubscriptionKeyParameterNamesContract_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual SubscriptionKeyParameterNamesContract_STATUS
+		err = actual.AssignProperties_From_SubscriptionKeyParameterNamesContract_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SubscriptionKeyParameterNamesContract_STATUS
-	err = actual.AssignProperties_From_SubscriptionKeyParameterNamesContract_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_SubscriptionKeyParameterNamesContract_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2288,29 +1908,23 @@ func Test_SubscriptionKeyParameterNamesContract_STATUS_WhenSerializedToJson_Dese
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SubscriptionKeyParameterNamesContract_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSubscriptionKeyParameterNamesContract_STATUS, SubscriptionKeyParameterNamesContract_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSubscriptionKeyParameterNamesContract_STATUS)
 }
 
 // RunJSONSerializationTestForSubscriptionKeyParameterNamesContract_STATUS runs a test to see if a specific instance of SubscriptionKeyParameterNamesContract_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSubscriptionKeyParameterNamesContract_STATUS(subject SubscriptionKeyParameterNamesContract_STATUS) string {
+func RunJSONSerializationTestForSubscriptionKeyParameterNamesContract_STATUS(t *rapid.T) {
+	subject := SubscriptionKeyParameterNamesContract_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SubscriptionKeyParameterNamesContract_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -2319,31 +1933,28 @@ func RunJSONSerializationTestForSubscriptionKeyParameterNamesContract_STATUS(sub
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SubscriptionKeyParameterNamesContract_STATUS instances for property testing - lazily instantiated by
 // SubscriptionKeyParameterNamesContract_STATUSGenerator()
-var subscriptionKeyParameterNamesContract_STATUSGenerator gopter.Gen
+var subscriptionKeyParameterNamesContract_STATUSGenerator *rapid.Generator[SubscriptionKeyParameterNamesContract_STATUS]
 
 // SubscriptionKeyParameterNamesContract_STATUSGenerator returns a generator of SubscriptionKeyParameterNamesContract_STATUS instances for property testing.
-func SubscriptionKeyParameterNamesContract_STATUSGenerator() gopter.Gen {
+func SubscriptionKeyParameterNamesContract_STATUSGenerator() *rapid.Generator[SubscriptionKeyParameterNamesContract_STATUS] {
 	if subscriptionKeyParameterNamesContract_STATUSGenerator != nil {
 		return subscriptionKeyParameterNamesContract_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSubscriptionKeyParameterNamesContract_STATUS(generators)
-	subscriptionKeyParameterNamesContract_STATUSGenerator = gen.Struct(reflect.TypeOf(SubscriptionKeyParameterNamesContract_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	subscriptionKeyParameterNamesContract_STATUSGenerator = rapid.Custom(func(t *rapid.T) SubscriptionKeyParameterNamesContract_STATUS {
+		var result SubscriptionKeyParameterNamesContract_STATUS
+		result.Header = ptrString.Draw(t, "Header")
+		result.Query = ptrString.Draw(t, "Query")
+		return result
+	})
 
 	return subscriptionKeyParameterNamesContract_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSubscriptionKeyParameterNamesContract_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSubscriptionKeyParameterNamesContract_STATUS(gens map[string]gopter.Gen) {
-	gens["Header"] = gen.PtrOf(gen.AlphaString())
-	gens["Query"] = gen.PtrOf(gen.AlphaString())
 }

@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_SecurityPolicyProperties_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SecurityPolicyProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSecurityPolicyProperties, SecurityPolicyPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSecurityPolicyProperties)
 }
 
 // RunJSONSerializationTestForSecurityPolicyProperties runs a test to see if a specific instance of SecurityPolicyProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForSecurityPolicyProperties(subject SecurityPolicyProperties) string {
+func RunJSONSerializationTestForSecurityPolicyProperties(t *rapid.T) {
+	subject := SecurityPolicyPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SecurityPolicyProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,32 +45,29 @@ func RunJSONSerializationTestForSecurityPolicyProperties(subject SecurityPolicyP
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SecurityPolicyProperties instances for property testing - lazily instantiated by
 // SecurityPolicyPropertiesGenerator()
-var securityPolicyPropertiesGenerator gopter.Gen
+var securityPolicyPropertiesGenerator *rapid.Generator[SecurityPolicyProperties]
 
 // SecurityPolicyPropertiesGenerator returns a generator of SecurityPolicyProperties instances for property testing.
-func SecurityPolicyPropertiesGenerator() gopter.Gen {
+func SecurityPolicyPropertiesGenerator() *rapid.Generator[SecurityPolicyProperties] {
 	if securityPolicyPropertiesGenerator != nil {
 		return securityPolicyPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForSecurityPolicyProperties(generators)
-	securityPolicyPropertiesGenerator = gen.Struct(reflect.TypeOf(SecurityPolicyProperties{}), generators)
+	parameters := rapid.Ptr(SecurityPolicyPropertiesParametersGenerator(), true)
+
+	securityPolicyPropertiesGenerator = rapid.Custom(func(t *rapid.T) SecurityPolicyProperties {
+		var result SecurityPolicyProperties
+		result.Parameters = parameters.Draw(t, "Parameters")
+		return result
+	})
 
 	return securityPolicyPropertiesGenerator
-}
-
-// AddRelatedPropertyGeneratorsForSecurityPolicyProperties is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSecurityPolicyProperties(gens map[string]gopter.Gen) {
-	gens["Parameters"] = gen.PtrOf(SecurityPolicyPropertiesParametersGenerator())
 }
 
 func Test_SecurityPolicyPropertiesParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -90,29 +77,23 @@ func Test_SecurityPolicyPropertiesParameters_WhenSerializedToJson_DeserializesAs
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SecurityPolicyPropertiesParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSecurityPolicyPropertiesParameters, SecurityPolicyPropertiesParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSecurityPolicyPropertiesParameters)
 }
 
 // RunJSONSerializationTestForSecurityPolicyPropertiesParameters runs a test to see if a specific instance of SecurityPolicyPropertiesParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForSecurityPolicyPropertiesParameters(subject SecurityPolicyPropertiesParameters) string {
+func RunJSONSerializationTestForSecurityPolicyPropertiesParameters(t *rapid.T) {
+	subject := SecurityPolicyPropertiesParametersGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SecurityPolicyPropertiesParameters
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -121,41 +102,33 @@ func RunJSONSerializationTestForSecurityPolicyPropertiesParameters(subject Secur
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SecurityPolicyPropertiesParameters instances for property testing - lazily instantiated by
 // SecurityPolicyPropertiesParametersGenerator()
-var securityPolicyPropertiesParametersGenerator gopter.Gen
+var securityPolicyPropertiesParametersGenerator *rapid.Generator[SecurityPolicyPropertiesParameters]
 
 // SecurityPolicyPropertiesParametersGenerator returns a generator of SecurityPolicyPropertiesParameters instances for property testing.
-func SecurityPolicyPropertiesParametersGenerator() gopter.Gen {
+func SecurityPolicyPropertiesParametersGenerator() *rapid.Generator[SecurityPolicyPropertiesParameters] {
 	if securityPolicyPropertiesParametersGenerator != nil {
 		return securityPolicyPropertiesParametersGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForSecurityPolicyPropertiesParameters(generators)
-
 	// handle OneOf by choosing only one field to instantiate
-	var gens []gopter.Gen
-	for propName, propGen := range generators {
-		props := map[string]gopter.Gen{propName: propGen}
-		gens = append(gens, gen.Struct(reflect.TypeOf(SecurityPolicyPropertiesParameters{}), props))
-	}
-	securityPolicyPropertiesParametersGenerator = gen.OneGenOf(gens...)
+	var gens []*rapid.Generator[SecurityPolicyPropertiesParameters]
+	gens = append(gens, rapid.Custom(func(t *rapid.T) SecurityPolicyPropertiesParameters {
+		var result SecurityPolicyPropertiesParameters
+		result.WebApplicationFirewall = rapid.Map(SecurityPolicyWebApplicationFirewallParametersGenerator(), func(it SecurityPolicyWebApplicationFirewallParameters) *SecurityPolicyWebApplicationFirewallParameters {
+			return &it
+		}). // generate one case for OneOf type
+			Draw(t, "WebApplicationFirewall")
+		return result
+	}))
+	securityPolicyPropertiesParametersGenerator = rapid.OneOf(gens...)
 
 	return securityPolicyPropertiesParametersGenerator
-}
-
-// AddRelatedPropertyGeneratorsForSecurityPolicyPropertiesParameters is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSecurityPolicyPropertiesParameters(gens map[string]gopter.Gen) {
-	gens["WebApplicationFirewall"] = SecurityPolicyWebApplicationFirewallParametersGenerator().Map(func(it SecurityPolicyWebApplicationFirewallParameters) *SecurityPolicyWebApplicationFirewallParameters {
-		return &it
-	}) // generate one case for OneOf type
 }
 
 func Test_SecurityPolicyWebApplicationFirewallAssociation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -165,29 +138,23 @@ func Test_SecurityPolicyWebApplicationFirewallAssociation_WhenSerializedToJson_D
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SecurityPolicyWebApplicationFirewallAssociation via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSecurityPolicyWebApplicationFirewallAssociation, SecurityPolicyWebApplicationFirewallAssociationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSecurityPolicyWebApplicationFirewallAssociation)
 }
 
 // RunJSONSerializationTestForSecurityPolicyWebApplicationFirewallAssociation runs a test to see if a specific instance of SecurityPolicyWebApplicationFirewallAssociation round trips to JSON and back losslessly
-func RunJSONSerializationTestForSecurityPolicyWebApplicationFirewallAssociation(subject SecurityPolicyWebApplicationFirewallAssociation) string {
+func RunJSONSerializationTestForSecurityPolicyWebApplicationFirewallAssociation(t *rapid.T) {
+	subject := SecurityPolicyWebApplicationFirewallAssociationGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SecurityPolicyWebApplicationFirewallAssociation
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -196,46 +163,31 @@ func RunJSONSerializationTestForSecurityPolicyWebApplicationFirewallAssociation(
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SecurityPolicyWebApplicationFirewallAssociation instances for property testing - lazily instantiated by
 // SecurityPolicyWebApplicationFirewallAssociationGenerator()
-var securityPolicyWebApplicationFirewallAssociationGenerator gopter.Gen
+var securityPolicyWebApplicationFirewallAssociationGenerator *rapid.Generator[SecurityPolicyWebApplicationFirewallAssociation]
 
 // SecurityPolicyWebApplicationFirewallAssociationGenerator returns a generator of SecurityPolicyWebApplicationFirewallAssociation instances for property testing.
-// We first initialize securityPolicyWebApplicationFirewallAssociationGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func SecurityPolicyWebApplicationFirewallAssociationGenerator() gopter.Gen {
+func SecurityPolicyWebApplicationFirewallAssociationGenerator() *rapid.Generator[SecurityPolicyWebApplicationFirewallAssociation] {
 	if securityPolicyWebApplicationFirewallAssociationGenerator != nil {
 		return securityPolicyWebApplicationFirewallAssociationGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSecurityPolicyWebApplicationFirewallAssociation(generators)
-	securityPolicyWebApplicationFirewallAssociationGenerator = gen.Struct(reflect.TypeOf(SecurityPolicyWebApplicationFirewallAssociation{}), generators)
+	domains := rapid.SliceOf(ActivatedResourceReferenceGenerator())
+	patternsToMatch := rapid.SliceOf(rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSecurityPolicyWebApplicationFirewallAssociation(generators)
-	AddRelatedPropertyGeneratorsForSecurityPolicyWebApplicationFirewallAssociation(generators)
-	securityPolicyWebApplicationFirewallAssociationGenerator = gen.Struct(reflect.TypeOf(SecurityPolicyWebApplicationFirewallAssociation{}), generators)
+	securityPolicyWebApplicationFirewallAssociationGenerator = rapid.Custom(func(t *rapid.T) SecurityPolicyWebApplicationFirewallAssociation {
+		var result SecurityPolicyWebApplicationFirewallAssociation
+		result.Domains = domains.Draw(t, "Domains")
+		result.PatternsToMatch = patternsToMatch.Draw(t, "PatternsToMatch")
+		return result
+	})
 
 	return securityPolicyWebApplicationFirewallAssociationGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSecurityPolicyWebApplicationFirewallAssociation is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSecurityPolicyWebApplicationFirewallAssociation(gens map[string]gopter.Gen) {
-	gens["PatternsToMatch"] = gen.SliceOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForSecurityPolicyWebApplicationFirewallAssociation is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSecurityPolicyWebApplicationFirewallAssociation(gens map[string]gopter.Gen) {
-	gens["Domains"] = gen.SliceOf(ActivatedResourceReferenceGenerator())
 }
 
 func Test_SecurityPolicyWebApplicationFirewallParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -245,29 +197,23 @@ func Test_SecurityPolicyWebApplicationFirewallParameters_WhenSerializedToJson_De
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SecurityPolicyWebApplicationFirewallParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSecurityPolicyWebApplicationFirewallParameters, SecurityPolicyWebApplicationFirewallParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSecurityPolicyWebApplicationFirewallParameters)
 }
 
 // RunJSONSerializationTestForSecurityPolicyWebApplicationFirewallParameters runs a test to see if a specific instance of SecurityPolicyWebApplicationFirewallParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForSecurityPolicyWebApplicationFirewallParameters(subject SecurityPolicyWebApplicationFirewallParameters) string {
+func RunJSONSerializationTestForSecurityPolicyWebApplicationFirewallParameters(t *rapid.T) {
+	subject := SecurityPolicyWebApplicationFirewallParametersGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SecurityPolicyWebApplicationFirewallParameters
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -276,47 +222,33 @@ func RunJSONSerializationTestForSecurityPolicyWebApplicationFirewallParameters(s
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SecurityPolicyWebApplicationFirewallParameters instances for property testing - lazily instantiated by
 // SecurityPolicyWebApplicationFirewallParametersGenerator()
-var securityPolicyWebApplicationFirewallParametersGenerator gopter.Gen
+var securityPolicyWebApplicationFirewallParametersGenerator *rapid.Generator[SecurityPolicyWebApplicationFirewallParameters]
 
 // SecurityPolicyWebApplicationFirewallParametersGenerator returns a generator of SecurityPolicyWebApplicationFirewallParameters instances for property testing.
-// We first initialize securityPolicyWebApplicationFirewallParametersGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func SecurityPolicyWebApplicationFirewallParametersGenerator() gopter.Gen {
+func SecurityPolicyWebApplicationFirewallParametersGenerator() *rapid.Generator[SecurityPolicyWebApplicationFirewallParameters] {
 	if securityPolicyWebApplicationFirewallParametersGenerator != nil {
 		return securityPolicyWebApplicationFirewallParametersGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters(generators)
-	securityPolicyWebApplicationFirewallParametersGenerator = gen.Struct(reflect.TypeOf(SecurityPolicyWebApplicationFirewallParameters{}), generators)
+	associations := rapid.SliceOf(SecurityPolicyWebApplicationFirewallAssociationGenerator())
+	typeVar := rapid.SampledFrom([]SecurityPolicyWebApplicationFirewallParameters_Type{SecurityPolicyWebApplicationFirewallParameters_Type_WebApplicationFirewall})
+	wafPolicy := rapid.Ptr(ResourceReferenceGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters(generators)
-	AddRelatedPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters(generators)
-	securityPolicyWebApplicationFirewallParametersGenerator = gen.Struct(reflect.TypeOf(SecurityPolicyWebApplicationFirewallParameters{}), generators)
+	securityPolicyWebApplicationFirewallParametersGenerator = rapid.Custom(func(t *rapid.T) SecurityPolicyWebApplicationFirewallParameters {
+		var result SecurityPolicyWebApplicationFirewallParameters
+		result.Associations = associations.Draw(t, "Associations")
+		result.Type = typeVar.Draw(t, "Type")
+		result.WafPolicy = wafPolicy.Draw(t, "WafPolicy")
+		return result
+	})
 
 	return securityPolicyWebApplicationFirewallParametersGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.OneConstOf(SecurityPolicyWebApplicationFirewallParameters_Type_WebApplicationFirewall)
-}
-
-// AddRelatedPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParameters(gens map[string]gopter.Gen) {
-	gens["Associations"] = gen.SliceOf(SecurityPolicyWebApplicationFirewallAssociationGenerator())
-	gens["WafPolicy"] = gen.PtrOf(ResourceReferenceGenerator())
 }
 
 func Test_SecurityPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -326,29 +258,23 @@ func Test_SecurityPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SecurityPolicy_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSecurityPolicy_Spec, SecurityPolicy_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSecurityPolicy_Spec)
 }
 
 // RunJSONSerializationTestForSecurityPolicy_Spec runs a test to see if a specific instance of SecurityPolicy_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForSecurityPolicy_Spec(subject SecurityPolicy_Spec) string {
+func RunJSONSerializationTestForSecurityPolicy_Spec(t *rapid.T) {
+	subject := SecurityPolicy_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SecurityPolicy_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -357,44 +283,29 @@ func RunJSONSerializationTestForSecurityPolicy_Spec(subject SecurityPolicy_Spec)
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SecurityPolicy_Spec instances for property testing - lazily instantiated by
 // SecurityPolicy_SpecGenerator()
-var securityPolicy_SpecGenerator gopter.Gen
+var securityPolicy_SpecGenerator *rapid.Generator[SecurityPolicy_Spec]
 
 // SecurityPolicy_SpecGenerator returns a generator of SecurityPolicy_Spec instances for property testing.
-// We first initialize securityPolicy_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func SecurityPolicy_SpecGenerator() gopter.Gen {
+func SecurityPolicy_SpecGenerator() *rapid.Generator[SecurityPolicy_Spec] {
 	if securityPolicy_SpecGenerator != nil {
 		return securityPolicy_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSecurityPolicy_Spec(generators)
-	securityPolicy_SpecGenerator = gen.Struct(reflect.TypeOf(SecurityPolicy_Spec{}), generators)
+	name := rapid.String()
+	properties := rapid.Ptr(SecurityPolicyPropertiesGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSecurityPolicy_Spec(generators)
-	AddRelatedPropertyGeneratorsForSecurityPolicy_Spec(generators)
-	securityPolicy_SpecGenerator = gen.Struct(reflect.TypeOf(SecurityPolicy_Spec{}), generators)
+	securityPolicy_SpecGenerator = rapid.Custom(func(t *rapid.T) SecurityPolicy_Spec {
+		var result SecurityPolicy_Spec
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return securityPolicy_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSecurityPolicy_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSecurityPolicy_Spec(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForSecurityPolicy_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSecurityPolicy_Spec(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(SecurityPolicyPropertiesGenerator())
 }

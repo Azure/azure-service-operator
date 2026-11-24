@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_BackupAutomaticAndOnDemandProperties_STATUS_WhenSerializedToJson_Deser
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BackupAutomaticAndOnDemandProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBackupAutomaticAndOnDemandProperties_STATUS, BackupAutomaticAndOnDemandProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForBackupAutomaticAndOnDemandProperties_STATUS)
 }
 
 // RunJSONSerializationTestForBackupAutomaticAndOnDemandProperties_STATUS runs a test to see if a specific instance of BackupAutomaticAndOnDemandProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForBackupAutomaticAndOnDemandProperties_STATUS(subject BackupAutomaticAndOnDemandProperties_STATUS) string {
+func RunJSONSerializationTestForBackupAutomaticAndOnDemandProperties_STATUS(t *rapid.T) {
+	subject := BackupAutomaticAndOnDemandProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual BackupAutomaticAndOnDemandProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,34 +45,32 @@ func RunJSONSerializationTestForBackupAutomaticAndOnDemandProperties_STATUS(subj
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of BackupAutomaticAndOnDemandProperties_STATUS instances for property testing - lazily instantiated by
 // BackupAutomaticAndOnDemandProperties_STATUSGenerator()
-var backupAutomaticAndOnDemandProperties_STATUSGenerator gopter.Gen
+var backupAutomaticAndOnDemandProperties_STATUSGenerator *rapid.Generator[BackupAutomaticAndOnDemandProperties_STATUS]
 
 // BackupAutomaticAndOnDemandProperties_STATUSGenerator returns a generator of BackupAutomaticAndOnDemandProperties_STATUS instances for property testing.
-func BackupAutomaticAndOnDemandProperties_STATUSGenerator() gopter.Gen {
+func BackupAutomaticAndOnDemandProperties_STATUSGenerator() *rapid.Generator[BackupAutomaticAndOnDemandProperties_STATUS] {
 	if backupAutomaticAndOnDemandProperties_STATUSGenerator != nil {
 		return backupAutomaticAndOnDemandProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBackupAutomaticAndOnDemandProperties_STATUS(generators)
-	backupAutomaticAndOnDemandProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(BackupAutomaticAndOnDemandProperties_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	backupType := rapid.Ptr(rapid.SampledFrom([]BackupType_STATUS{BackupType_STATUS_CustomerOnDemand, BackupType_STATUS_Full}), true)
+
+	backupAutomaticAndOnDemandProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) BackupAutomaticAndOnDemandProperties_STATUS {
+		var result BackupAutomaticAndOnDemandProperties_STATUS
+		result.BackupType = backupType.Draw(t, "BackupType")
+		result.CompletedTime = ptrString.Draw(t, "CompletedTime")
+		result.Source = ptrString.Draw(t, "Source")
+		return result
+	})
 
 	return backupAutomaticAndOnDemandProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForBackupAutomaticAndOnDemandProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBackupAutomaticAndOnDemandProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["BackupType"] = gen.PtrOf(gen.OneConstOf(BackupType_STATUS_CustomerOnDemand, BackupType_STATUS_Full))
-	gens["CompletedTime"] = gen.PtrOf(gen.AlphaString())
-	gens["Source"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_FlexibleServersBackup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -92,29 +80,23 @@ func Test_FlexibleServersBackup_STATUS_WhenSerializedToJson_DeserializesAsEqual(
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FlexibleServersBackup_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFlexibleServersBackup_STATUS, FlexibleServersBackup_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFlexibleServersBackup_STATUS)
 }
 
 // RunJSONSerializationTestForFlexibleServersBackup_STATUS runs a test to see if a specific instance of FlexibleServersBackup_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForFlexibleServersBackup_STATUS(subject FlexibleServersBackup_STATUS) string {
+func RunJSONSerializationTestForFlexibleServersBackup_STATUS(t *rapid.T) {
+	subject := FlexibleServersBackup_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FlexibleServersBackup_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -123,47 +105,33 @@ func RunJSONSerializationTestForFlexibleServersBackup_STATUS(subject FlexibleSer
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FlexibleServersBackup_STATUS instances for property testing - lazily instantiated by
 // FlexibleServersBackup_STATUSGenerator()
-var flexibleServersBackup_STATUSGenerator gopter.Gen
+var flexibleServersBackup_STATUSGenerator *rapid.Generator[FlexibleServersBackup_STATUS]
 
 // FlexibleServersBackup_STATUSGenerator returns a generator of FlexibleServersBackup_STATUS instances for property testing.
-// We first initialize flexibleServersBackup_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func FlexibleServersBackup_STATUSGenerator() gopter.Gen {
+func FlexibleServersBackup_STATUSGenerator() *rapid.Generator[FlexibleServersBackup_STATUS] {
 	if flexibleServersBackup_STATUSGenerator != nil {
 		return flexibleServersBackup_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServersBackup_STATUS(generators)
-	flexibleServersBackup_STATUSGenerator = gen.Struct(reflect.TypeOf(FlexibleServersBackup_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	properties := rapid.Ptr(BackupAutomaticAndOnDemandProperties_STATUSGenerator(), true)
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServersBackup_STATUS(generators)
-	AddRelatedPropertyGeneratorsForFlexibleServersBackup_STATUS(generators)
-	flexibleServersBackup_STATUSGenerator = gen.Struct(reflect.TypeOf(FlexibleServersBackup_STATUS{}), generators)
+	flexibleServersBackup_STATUSGenerator = rapid.Custom(func(t *rapid.T) FlexibleServersBackup_STATUS {
+		var result FlexibleServersBackup_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return flexibleServersBackup_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForFlexibleServersBackup_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFlexibleServersBackup_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForFlexibleServersBackup_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFlexibleServersBackup_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(BackupAutomaticAndOnDemandProperties_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }

@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_AdministratorMicrosoftEntraProperties_STATUS_WhenSerializedToJson_Dese
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AdministratorMicrosoftEntraProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdministratorMicrosoftEntraProperties_STATUS, AdministratorMicrosoftEntraProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAdministratorMicrosoftEntraProperties_STATUS)
 }
 
 // RunJSONSerializationTestForAdministratorMicrosoftEntraProperties_STATUS runs a test to see if a specific instance of AdministratorMicrosoftEntraProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdministratorMicrosoftEntraProperties_STATUS(subject AdministratorMicrosoftEntraProperties_STATUS) string {
+func RunJSONSerializationTestForAdministratorMicrosoftEntraProperties_STATUS(t *rapid.T) {
+	subject := AdministratorMicrosoftEntraProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AdministratorMicrosoftEntraProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,39 +45,33 @@ func RunJSONSerializationTestForAdministratorMicrosoftEntraProperties_STATUS(sub
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AdministratorMicrosoftEntraProperties_STATUS instances for property testing - lazily instantiated by
 // AdministratorMicrosoftEntraProperties_STATUSGenerator()
-var administratorMicrosoftEntraProperties_STATUSGenerator gopter.Gen
+var administratorMicrosoftEntraProperties_STATUSGenerator *rapid.Generator[AdministratorMicrosoftEntraProperties_STATUS]
 
 // AdministratorMicrosoftEntraProperties_STATUSGenerator returns a generator of AdministratorMicrosoftEntraProperties_STATUS instances for property testing.
-func AdministratorMicrosoftEntraProperties_STATUSGenerator() gopter.Gen {
+func AdministratorMicrosoftEntraProperties_STATUSGenerator() *rapid.Generator[AdministratorMicrosoftEntraProperties_STATUS] {
 	if administratorMicrosoftEntraProperties_STATUSGenerator != nil {
 		return administratorMicrosoftEntraProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAdministratorMicrosoftEntraProperties_STATUS(generators)
-	administratorMicrosoftEntraProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(AdministratorMicrosoftEntraProperties_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	principalType := rapid.Ptr(rapid.SampledFrom([]PrincipalType_STATUS{PrincipalType_STATUS_Group, PrincipalType_STATUS_ServicePrincipal, PrincipalType_STATUS_Unknown, PrincipalType_STATUS_User}), true)
+
+	administratorMicrosoftEntraProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) AdministratorMicrosoftEntraProperties_STATUS {
+		var result AdministratorMicrosoftEntraProperties_STATUS
+		result.ObjectId = ptrString.Draw(t, "ObjectId")
+		result.PrincipalName = ptrString.Draw(t, "PrincipalName")
+		result.PrincipalType = principalType.Draw(t, "PrincipalType")
+		result.TenantId = ptrString.Draw(t, "TenantId")
+		return result
+	})
 
 	return administratorMicrosoftEntraProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAdministratorMicrosoftEntraProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAdministratorMicrosoftEntraProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["ObjectId"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalName"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalType"] = gen.PtrOf(gen.OneConstOf(
-		PrincipalType_STATUS_Group,
-		PrincipalType_STATUS_ServicePrincipal,
-		PrincipalType_STATUS_Unknown,
-		PrincipalType_STATUS_User))
-	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_FlexibleServersAdministrator_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -97,29 +81,23 @@ func Test_FlexibleServersAdministrator_STATUS_WhenSerializedToJson_DeserializesA
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FlexibleServersAdministrator_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFlexibleServersAdministrator_STATUS, FlexibleServersAdministrator_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFlexibleServersAdministrator_STATUS)
 }
 
 // RunJSONSerializationTestForFlexibleServersAdministrator_STATUS runs a test to see if a specific instance of FlexibleServersAdministrator_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForFlexibleServersAdministrator_STATUS(subject FlexibleServersAdministrator_STATUS) string {
+func RunJSONSerializationTestForFlexibleServersAdministrator_STATUS(t *rapid.T) {
+	subject := FlexibleServersAdministrator_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FlexibleServersAdministrator_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -128,47 +106,33 @@ func RunJSONSerializationTestForFlexibleServersAdministrator_STATUS(subject Flex
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FlexibleServersAdministrator_STATUS instances for property testing - lazily instantiated by
 // FlexibleServersAdministrator_STATUSGenerator()
-var flexibleServersAdministrator_STATUSGenerator gopter.Gen
+var flexibleServersAdministrator_STATUSGenerator *rapid.Generator[FlexibleServersAdministrator_STATUS]
 
 // FlexibleServersAdministrator_STATUSGenerator returns a generator of FlexibleServersAdministrator_STATUS instances for property testing.
-// We first initialize flexibleServersAdministrator_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func FlexibleServersAdministrator_STATUSGenerator() gopter.Gen {
+func FlexibleServersAdministrator_STATUSGenerator() *rapid.Generator[FlexibleServersAdministrator_STATUS] {
 	if flexibleServersAdministrator_STATUSGenerator != nil {
 		return flexibleServersAdministrator_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServersAdministrator_STATUS(generators)
-	flexibleServersAdministrator_STATUSGenerator = gen.Struct(reflect.TypeOf(FlexibleServersAdministrator_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	properties := rapid.Ptr(AdministratorMicrosoftEntraProperties_STATUSGenerator(), true)
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServersAdministrator_STATUS(generators)
-	AddRelatedPropertyGeneratorsForFlexibleServersAdministrator_STATUS(generators)
-	flexibleServersAdministrator_STATUSGenerator = gen.Struct(reflect.TypeOf(FlexibleServersAdministrator_STATUS{}), generators)
+	flexibleServersAdministrator_STATUSGenerator = rapid.Custom(func(t *rapid.T) FlexibleServersAdministrator_STATUS {
+		var result FlexibleServersAdministrator_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return flexibleServersAdministrator_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForFlexibleServersAdministrator_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFlexibleServersAdministrator_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForFlexibleServersAdministrator_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFlexibleServersAdministrator_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(AdministratorMicrosoftEntraProperties_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }

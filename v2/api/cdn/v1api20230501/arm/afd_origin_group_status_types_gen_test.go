@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_AFDOriginGroupProperties_STATUS_WhenSerializedToJson_DeserializesAsEqu
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AFDOriginGroupProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAFDOriginGroupProperties_STATUS, AFDOriginGroupProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAFDOriginGroupProperties_STATUS)
 }
 
 // RunJSONSerializationTestForAFDOriginGroupProperties_STATUS runs a test to see if a specific instance of AFDOriginGroupProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForAFDOriginGroupProperties_STATUS(subject AFDOriginGroupProperties_STATUS) string {
+func RunJSONSerializationTestForAFDOriginGroupProperties_STATUS(t *rapid.T) {
+	subject := AFDOriginGroupProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AFDOriginGroupProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,60 +45,41 @@ func RunJSONSerializationTestForAFDOriginGroupProperties_STATUS(subject AFDOrigi
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AFDOriginGroupProperties_STATUS instances for property testing - lazily instantiated by
 // AFDOriginGroupProperties_STATUSGenerator()
-var afdOriginGroupProperties_STATUSGenerator gopter.Gen
+var afdOriginGroupProperties_STATUSGenerator *rapid.Generator[AFDOriginGroupProperties_STATUS]
 
 // AFDOriginGroupProperties_STATUSGenerator returns a generator of AFDOriginGroupProperties_STATUS instances for property testing.
-// We first initialize afdOriginGroupProperties_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func AFDOriginGroupProperties_STATUSGenerator() gopter.Gen {
+func AFDOriginGroupProperties_STATUSGenerator() *rapid.Generator[AFDOriginGroupProperties_STATUS] {
 	if afdOriginGroupProperties_STATUSGenerator != nil {
 		return afdOriginGroupProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAFDOriginGroupProperties_STATUS(generators)
-	afdOriginGroupProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(AFDOriginGroupProperties_STATUS{}), generators)
+	deploymentStatus := rapid.Ptr(rapid.SampledFrom([]AFDOriginGroupProperties_DeploymentStatus_STATUS{AFDOriginGroupProperties_DeploymentStatus_STATUS_Failed, AFDOriginGroupProperties_DeploymentStatus_STATUS_InProgress, AFDOriginGroupProperties_DeploymentStatus_STATUS_NotStarted, AFDOriginGroupProperties_DeploymentStatus_STATUS_Succeeded}), true)
+	healthProbeSettings := rapid.Ptr(HealthProbeParameters_STATUSGenerator(), true)
+	loadBalancingSettings := rapid.Ptr(LoadBalancingSettingsParameters_STATUSGenerator(), true)
+	profileName := rapid.Ptr(rapid.String(), true)
+	provisioningState := rapid.Ptr(rapid.SampledFrom([]AFDOriginGroupProperties_ProvisioningState_STATUS{AFDOriginGroupProperties_ProvisioningState_STATUS_Creating, AFDOriginGroupProperties_ProvisioningState_STATUS_Deleting, AFDOriginGroupProperties_ProvisioningState_STATUS_Failed, AFDOriginGroupProperties_ProvisioningState_STATUS_Succeeded, AFDOriginGroupProperties_ProvisioningState_STATUS_Updating}), true)
+	sessionAffinityState := rapid.Ptr(rapid.SampledFrom([]AFDOriginGroupProperties_SessionAffinityState_STATUS{AFDOriginGroupProperties_SessionAffinityState_STATUS_Disabled, AFDOriginGroupProperties_SessionAffinityState_STATUS_Enabled}), true)
+	trafficRestorationTimeToHealedOrNewEndpointsInMinutes := rapid.Ptr(rapid.Int(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAFDOriginGroupProperties_STATUS(generators)
-	AddRelatedPropertyGeneratorsForAFDOriginGroupProperties_STATUS(generators)
-	afdOriginGroupProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(AFDOriginGroupProperties_STATUS{}), generators)
+	afdOriginGroupProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) AFDOriginGroupProperties_STATUS {
+		var result AFDOriginGroupProperties_STATUS
+		result.DeploymentStatus = deploymentStatus.Draw(t, "DeploymentStatus")
+		result.HealthProbeSettings = healthProbeSettings.Draw(t, "HealthProbeSettings")
+		result.LoadBalancingSettings = loadBalancingSettings.Draw(t, "LoadBalancingSettings")
+		result.ProfileName = profileName.Draw(t, "ProfileName")
+		result.ProvisioningState = provisioningState.Draw(t, "ProvisioningState")
+		result.SessionAffinityState = sessionAffinityState.Draw(t, "SessionAffinityState")
+		result.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = trafficRestorationTimeToHealedOrNewEndpointsInMinutes.Draw(t, "TrafficRestorationTimeToHealedOrNewEndpointsInMinutes")
+		return result
+	})
 
 	return afdOriginGroupProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAFDOriginGroupProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAFDOriginGroupProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["DeploymentStatus"] = gen.PtrOf(gen.OneConstOf(
-		AFDOriginGroupProperties_DeploymentStatus_STATUS_Failed,
-		AFDOriginGroupProperties_DeploymentStatus_STATUS_InProgress,
-		AFDOriginGroupProperties_DeploymentStatus_STATUS_NotStarted,
-		AFDOriginGroupProperties_DeploymentStatus_STATUS_Succeeded))
-	gens["ProfileName"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		AFDOriginGroupProperties_ProvisioningState_STATUS_Creating,
-		AFDOriginGroupProperties_ProvisioningState_STATUS_Deleting,
-		AFDOriginGroupProperties_ProvisioningState_STATUS_Failed,
-		AFDOriginGroupProperties_ProvisioningState_STATUS_Succeeded,
-		AFDOriginGroupProperties_ProvisioningState_STATUS_Updating))
-	gens["SessionAffinityState"] = gen.PtrOf(gen.OneConstOf(AFDOriginGroupProperties_SessionAffinityState_STATUS_Disabled, AFDOriginGroupProperties_SessionAffinityState_STATUS_Enabled))
-	gens["TrafficRestorationTimeToHealedOrNewEndpointsInMinutes"] = gen.PtrOf(gen.Int())
-}
-
-// AddRelatedPropertyGeneratorsForAFDOriginGroupProperties_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAFDOriginGroupProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["HealthProbeSettings"] = gen.PtrOf(HealthProbeParameters_STATUSGenerator())
-	gens["LoadBalancingSettings"] = gen.PtrOf(LoadBalancingSettingsParameters_STATUSGenerator())
 }
 
 func Test_AfdOriginGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -118,29 +89,23 @@ func Test_AfdOriginGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AfdOriginGroup_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAfdOriginGroup_STATUS, AfdOriginGroup_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAfdOriginGroup_STATUS)
 }
 
 // RunJSONSerializationTestForAfdOriginGroup_STATUS runs a test to see if a specific instance of AfdOriginGroup_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForAfdOriginGroup_STATUS(subject AfdOriginGroup_STATUS) string {
+func RunJSONSerializationTestForAfdOriginGroup_STATUS(t *rapid.T) {
+	subject := AfdOriginGroup_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AfdOriginGroup_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -149,49 +114,35 @@ func RunJSONSerializationTestForAfdOriginGroup_STATUS(subject AfdOriginGroup_STA
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AfdOriginGroup_STATUS instances for property testing - lazily instantiated by
 // AfdOriginGroup_STATUSGenerator()
-var afdOriginGroup_STATUSGenerator gopter.Gen
+var afdOriginGroup_STATUSGenerator *rapid.Generator[AfdOriginGroup_STATUS]
 
 // AfdOriginGroup_STATUSGenerator returns a generator of AfdOriginGroup_STATUS instances for property testing.
-// We first initialize afdOriginGroup_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func AfdOriginGroup_STATUSGenerator() gopter.Gen {
+func AfdOriginGroup_STATUSGenerator() *rapid.Generator[AfdOriginGroup_STATUS] {
 	if afdOriginGroup_STATUSGenerator != nil {
 		return afdOriginGroup_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAfdOriginGroup_STATUS(generators)
-	afdOriginGroup_STATUSGenerator = gen.Struct(reflect.TypeOf(AfdOriginGroup_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	properties := rapid.Ptr(AFDOriginGroupProperties_STATUSGenerator(), true)
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAfdOriginGroup_STATUS(generators)
-	AddRelatedPropertyGeneratorsForAfdOriginGroup_STATUS(generators)
-	afdOriginGroup_STATUSGenerator = gen.Struct(reflect.TypeOf(AfdOriginGroup_STATUS{}), generators)
+	afdOriginGroup_STATUSGenerator = rapid.Custom(func(t *rapid.T) AfdOriginGroup_STATUS {
+		var result AfdOriginGroup_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return afdOriginGroup_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAfdOriginGroup_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAfdOriginGroup_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForAfdOriginGroup_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAfdOriginGroup_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(AFDOriginGroupProperties_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_HealthProbeParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -201,29 +152,23 @@ func Test_HealthProbeParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of HealthProbeParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForHealthProbeParameters_STATUS, HealthProbeParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForHealthProbeParameters_STATUS)
 }
 
 // RunJSONSerializationTestForHealthProbeParameters_STATUS runs a test to see if a specific instance of HealthProbeParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForHealthProbeParameters_STATUS(subject HealthProbeParameters_STATUS) string {
+func RunJSONSerializationTestForHealthProbeParameters_STATUS(t *rapid.T) {
+	subject := HealthProbeParameters_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual HealthProbeParameters_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -232,35 +177,35 @@ func RunJSONSerializationTestForHealthProbeParameters_STATUS(subject HealthProbe
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of HealthProbeParameters_STATUS instances for property testing - lazily instantiated by
 // HealthProbeParameters_STATUSGenerator()
-var healthProbeParameters_STATUSGenerator gopter.Gen
+var healthProbeParameters_STATUSGenerator *rapid.Generator[HealthProbeParameters_STATUS]
 
 // HealthProbeParameters_STATUSGenerator returns a generator of HealthProbeParameters_STATUS instances for property testing.
-func HealthProbeParameters_STATUSGenerator() gopter.Gen {
+func HealthProbeParameters_STATUSGenerator() *rapid.Generator[HealthProbeParameters_STATUS] {
 	if healthProbeParameters_STATUSGenerator != nil {
 		return healthProbeParameters_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForHealthProbeParameters_STATUS(generators)
-	healthProbeParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(HealthProbeParameters_STATUS{}), generators)
+	probeIntervalInSeconds := rapid.Ptr(rapid.Int(), true)
+	probePath := rapid.Ptr(rapid.String(), true)
+	probeProtocol := rapid.Ptr(rapid.SampledFrom([]HealthProbeParameters_ProbeProtocol_STATUS{HealthProbeParameters_ProbeProtocol_STATUS_Http, HealthProbeParameters_ProbeProtocol_STATUS_Https, HealthProbeParameters_ProbeProtocol_STATUS_NotSet}), true)
+	probeRequestType := rapid.Ptr(rapid.SampledFrom([]HealthProbeParameters_ProbeRequestType_STATUS{HealthProbeParameters_ProbeRequestType_STATUS_GET, HealthProbeParameters_ProbeRequestType_STATUS_HEAD, HealthProbeParameters_ProbeRequestType_STATUS_NotSet}), true)
+
+	healthProbeParameters_STATUSGenerator = rapid.Custom(func(t *rapid.T) HealthProbeParameters_STATUS {
+		var result HealthProbeParameters_STATUS
+		result.ProbeIntervalInSeconds = probeIntervalInSeconds.Draw(t, "ProbeIntervalInSeconds")
+		result.ProbePath = probePath.Draw(t, "ProbePath")
+		result.ProbeProtocol = probeProtocol.Draw(t, "ProbeProtocol")
+		result.ProbeRequestType = probeRequestType.Draw(t, "ProbeRequestType")
+		return result
+	})
 
 	return healthProbeParameters_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForHealthProbeParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForHealthProbeParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["ProbeIntervalInSeconds"] = gen.PtrOf(gen.Int())
-	gens["ProbePath"] = gen.PtrOf(gen.AlphaString())
-	gens["ProbeProtocol"] = gen.PtrOf(gen.OneConstOf(HealthProbeParameters_ProbeProtocol_STATUS_Http, HealthProbeParameters_ProbeProtocol_STATUS_Https, HealthProbeParameters_ProbeProtocol_STATUS_NotSet))
-	gens["ProbeRequestType"] = gen.PtrOf(gen.OneConstOf(HealthProbeParameters_ProbeRequestType_STATUS_GET, HealthProbeParameters_ProbeRequestType_STATUS_HEAD, HealthProbeParameters_ProbeRequestType_STATUS_NotSet))
 }
 
 func Test_LoadBalancingSettingsParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -270,29 +215,23 @@ func Test_LoadBalancingSettingsParameters_STATUS_WhenSerializedToJson_Deserializ
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of LoadBalancingSettingsParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLoadBalancingSettingsParameters_STATUS, LoadBalancingSettingsParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForLoadBalancingSettingsParameters_STATUS)
 }
 
 // RunJSONSerializationTestForLoadBalancingSettingsParameters_STATUS runs a test to see if a specific instance of LoadBalancingSettingsParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForLoadBalancingSettingsParameters_STATUS(subject LoadBalancingSettingsParameters_STATUS) string {
+func RunJSONSerializationTestForLoadBalancingSettingsParameters_STATUS(t *rapid.T) {
+	subject := LoadBalancingSettingsParameters_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual LoadBalancingSettingsParameters_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -301,32 +240,29 @@ func RunJSONSerializationTestForLoadBalancingSettingsParameters_STATUS(subject L
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of LoadBalancingSettingsParameters_STATUS instances for property testing - lazily instantiated by
 // LoadBalancingSettingsParameters_STATUSGenerator()
-var loadBalancingSettingsParameters_STATUSGenerator gopter.Gen
+var loadBalancingSettingsParameters_STATUSGenerator *rapid.Generator[LoadBalancingSettingsParameters_STATUS]
 
 // LoadBalancingSettingsParameters_STATUSGenerator returns a generator of LoadBalancingSettingsParameters_STATUS instances for property testing.
-func LoadBalancingSettingsParameters_STATUSGenerator() gopter.Gen {
+func LoadBalancingSettingsParameters_STATUSGenerator() *rapid.Generator[LoadBalancingSettingsParameters_STATUS] {
 	if loadBalancingSettingsParameters_STATUSGenerator != nil {
 		return loadBalancingSettingsParameters_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLoadBalancingSettingsParameters_STATUS(generators)
-	loadBalancingSettingsParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(LoadBalancingSettingsParameters_STATUS{}), generators)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+
+	loadBalancingSettingsParameters_STATUSGenerator = rapid.Custom(func(t *rapid.T) LoadBalancingSettingsParameters_STATUS {
+		var result LoadBalancingSettingsParameters_STATUS
+		result.AdditionalLatencyInMilliseconds = ptrInt.Draw(t, "AdditionalLatencyInMilliseconds")
+		result.SampleSize = ptrInt.Draw(t, "SampleSize")
+		result.SuccessfulSamplesRequired = ptrInt.Draw(t, "SuccessfulSamplesRequired")
+		return result
+	})
 
 	return loadBalancingSettingsParameters_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForLoadBalancingSettingsParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLoadBalancingSettingsParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["AdditionalLatencyInMilliseconds"] = gen.PtrOf(gen.Int())
-	gens["SampleSize"] = gen.PtrOf(gen.Int())
-	gens["SuccessfulSamplesRequired"] = gen.PtrOf(gen.Int())
 }

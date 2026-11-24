@@ -8,10 +8,10 @@ package cel
 import (
 	"reflect"
 
+	"cel.dev/cel-go/cel"
+	"cel.dev/cel-go/common/types"
+	"cel.dev/cel-go/common/types/ref"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
-	"github.com/google/cel-go/cel"
-	"github.com/google/cel-go/common/types"
-	"github.com/google/cel-go/common/types/ref"
 )
 
 // ResourceType represents an Azure resource type, for use in CEL expressions.
