@@ -166,6 +166,14 @@ groupModelConfiguration:
       ObjectId:
         $importConfigMapMode: optional
   2025-10-02-preview:
+    # Autoscale changes from a singleton to a list after skipping the stable API version.
+    # Augment hooks handle its property bag representation and preserve additional list entries.
+    ScaleProfile:
+      Autoscale:
+        $conversionStrategy: manual
+    ScaleProfile_STATUS:
+      Autoscale:
+        $conversionStrategy: manual
     ContainerServiceSshPublicKey:
       KeyData:
         $importSecretMode: never
@@ -248,6 +256,12 @@ groupModelConfiguration:
       ObjectId:
         $importConfigMapMode: optional
   2026-05-01:
+    ScaleProfile:
+      Autoscale:
+        $conversionStrategy: manual
+    ScaleProfile_STATUS:
+      Autoscale:
+        $conversionStrategy: manual
     ContainerServiceSshPublicKey:
       KeyData:
         $importSecretMode: never
