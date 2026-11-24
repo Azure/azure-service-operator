@@ -280,7 +280,8 @@ func DatabasePrivilegeMismatches(
 				database,
 				strings.Join(set.AsSortedSlice(delta.AddedPrivileges), ", "),
 				strings.Join(set.AsSortedSlice(delta.DeletedPrivileges), ", "),
-			))
+			),
+		)
 	}
 
 	return kerrors.NewAggregate(errs)
