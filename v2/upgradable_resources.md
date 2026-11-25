@@ -103,11 +103,11 @@ The following resources have newer versions available in the Azure REST API spec
 
 |      | Resource                 | Available Stable | Supported Stable | Available Preview      | Supported Preview  |
 |------|--------------------------|------------------|------------------|------------------------|--------------------|
-| 💡    | Fleet                    | **2026-06-01**   | 2025-03-01       | 2026-06-02-preview     | -                  |
-| 💡    | FleetsAutoUpgradeProfile | **2026-06-01**   | 2025-03-01       | 2026-06-02-preview     | -                  |
-| 💡    | FleetsMember             | **2026-06-01**   | 2025-03-01       | 2026-06-02-preview     | -                  |
-| 💡    | FleetsUpdateRun          | **2026-06-01**   | 2025-03-01       | 2026-06-02-preview     | -                  |
-| 💡    | FleetsUpdateStrategy     | **2026-06-01**   | 2025-03-01       | 2026-06-02-preview     | -                  |
+| 💡    | Fleet                    | **2026-11-01**   | 2025-03-01       | 2026-06-02-preview     | -                  |
+| 💡    | FleetsAutoUpgradeProfile | **2026-11-01**   | 2025-03-01       | 2026-06-02-preview     | -                  |
+| 💡    | FleetsMember             | **2026-11-01**   | 2025-03-01       | 2026-06-02-preview     | -                  |
+| 💡    | FleetsUpdateRun          | **2026-11-01**   | 2025-03-01       | 2026-06-02-preview     | -                  |
+| 💡    | FleetsUpdateStrategy     | **2026-11-01**   | 2025-03-01       | 2026-06-02-preview     | -                  |
 |      | IdentityBinding          | 2026-08-01       | 2026-05-01       | 2026-08-02-preview     | -                  |
 | 💡    | MaintenanceConfiguration | 2026-08-01       | 2026-05-01       | **2026-08-02-preview** | 2025-10-02-preview |
 | 💡    | ManagedCluster           | 2026-08-01       | 2026-05-01       | **2026-08-02-preview** | 2025-10-02-preview |
@@ -139,29 +139,31 @@ The following resources have newer versions available in the Azure REST API spec
 
 |      | Resource | Available Stable | Supported Stable | Available Preview | Supported Preview |
 |------|----------|------------------|------------------|-------------------|-------------------|
-| 💡    | IotHub   | **2023-06-30**   | 2021-07-02       | -                 | -                 |
+| 💡    | IotHub   | **2026-11-01**   | 2021-07-02       | -                 | -                 |
 
 ## documentdb
 
 |      | Resource                                   | Available Stable | Supported Stable | Available Preview | Supported Preview |
 |------|--------------------------------------------|------------------|------------------|-------------------|-------------------|
-| 💡    | DatabaseAccount                            | **2026-03-15**   | 2024-08-15       | -                 | -                 |
+|      | CassandraCluster                           | 2026-07-15       | 2026-03-15       | -                 | -                 |
+|      | CassandraDataCenter                        | 2026-07-15       | 2026-03-15       | -                 | -                 |
+| 💡    | DatabaseAccount                            | **2026-07-15**   | 2024-08-15       | -                 | -                 |
 | 💡    | FirewallRule                               | **2026-06-01**   | 2024-07-01       | -                 | -                 |
 | 💡    | MongoCluster                               | **2026-06-01**   | 2024-07-01       | -                 | -                 |
-| 💡    | MongodbDatabase                            | **2026-03-15**   | 2024-08-15       | -                 | -                 |
-| 💡    | MongodbDatabaseCollection                  | **2026-03-15**   | 2024-08-15       | -                 | -                 |
-| 💡    | MongodbDatabaseCollectionThroughputSetting | **2026-03-15**   | 2024-08-15       | -                 | -                 |
-| 💡    | MongodbDatabaseThroughputSetting           | **2026-03-15**   | 2024-08-15       | -                 | -                 |
-| 💡    | MongodbRoleDefinition                      | **2026-03-15**   | 2024-08-15       | -                 | -                 |
-| 💡    | MongodbUserDefinition                      | **2026-03-15**   | 2024-08-15       | -                 | -                 |
-| 💡    | SqlDatabase                                | **2026-03-15**   | 2024-08-15       | -                 | -                 |
-| 💡    | SqlDatabaseContainer                       | **2026-03-15**   | 2024-08-15       | -                 | -                 |
-| 💡    | SqlDatabaseContainerStoredProcedure        | **2026-03-15**   | 2024-08-15       | -                 | -                 |
-| 💡    | SqlDatabaseContainerThroughputSetting      | **2026-03-15**   | 2024-08-15       | -                 | -                 |
-| 💡    | SqlDatabaseContainerTrigger                | **2026-03-15**   | 2024-08-15       | -                 | -                 |
-| 💡    | SqlDatabaseContainerUserDefinedFunction    | **2026-03-15**   | 2024-08-15       | -                 | -                 |
-| 💡    | SqlDatabaseThroughputSetting               | **2026-03-15**   | 2024-08-15       | -                 | -                 |
-| 💡    | SqlRoleAssignment                          | **2026-03-15**   | 2024-08-15       | -                 | -                 |
+| 💡    | MongodbDatabase                            | **2026-07-15**   | 2024-08-15       | -                 | -                 |
+| 💡    | MongodbDatabaseCollection                  | **2026-07-15**   | 2024-08-15       | -                 | -                 |
+| 💡    | MongodbDatabaseCollectionThroughputSetting | **2026-07-15**   | 2024-08-15       | -                 | -                 |
+| 💡    | MongodbDatabaseThroughputSetting           | **2026-07-15**   | 2024-08-15       | -                 | -                 |
+| 💡    | MongodbRoleDefinition                      | **2026-07-15**   | 2024-08-15       | -                 | -                 |
+| 💡    | MongodbUserDefinition                      | **2026-07-15**   | 2024-08-15       | -                 | -                 |
+| 💡    | SqlDatabase                                | **2026-07-15**   | 2024-08-15       | -                 | -                 |
+| 💡    | SqlDatabaseContainer                       | **2026-07-15**   | 2024-08-15       | -                 | -                 |
+| 💡    | SqlDatabaseContainerStoredProcedure        | **2026-07-15**   | 2024-08-15       | -                 | -                 |
+| 💡    | SqlDatabaseContainerThroughputSetting      | **2026-07-15**   | 2024-08-15       | -                 | -                 |
+| 💡    | SqlDatabaseContainerTrigger                | **2026-07-15**   | 2024-08-15       | -                 | -                 |
+| 💡    | SqlDatabaseContainerUserDefinedFunction    | **2026-07-15**   | 2024-08-15       | -                 | -                 |
+| 💡    | SqlDatabaseThroughputSetting               | **2026-07-15**   | 2024-08-15       | -                 | -                 |
+| 💡    | SqlRoleAssignment                          | **2026-07-15**   | 2024-08-15       | -                 | -                 |
 
 ## eventhub
 
@@ -325,4 +327,12 @@ The following resources have newer versions available in the Azure REST API spec
 |  | StorageAccountsQueueServicesQueue    | 2026-09-01       | 2026-06-01       | -                 | -                 |
 |  | StorageAccountsTableService          | 2026-09-01       | 2026-06-01       | -                 | -                 |
 |  | StorageAccountsTableServicesTable    | 2026-09-01       | 2026-06-01       | -                 | -                 |
+
+## web
+
+|  | Resource           | Available Stable | Supported Stable | Available Preview | Supported Preview |
+|--|--------------------|------------------|------------------|-------------------|-------------------|
+|  | ServerFarm         | 2026-08-01       | 2026-07-15       | -                 | -                 |
+|  | Site               | 2026-08-01       | 2026-07-15       | -                 | -                 |
+|  | SitesSourcecontrol | 2026-08-01       | 2026-07-15       | -                 | -                 |
 
