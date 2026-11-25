@@ -708,6 +708,8 @@ func (r *RapidJSONSerializationTestCase) createIndependentGenerator(
 			return astbuilder.CallQualifiedFunc(rapidPackage, "String")
 		case astmodel.UInt32Type:
 			return astbuilder.CallQualifiedFunc(rapidPackage, "Uint32")
+		case astmodel.UInt64Type:
+			return astbuilder.CallQualifiedFunc(rapidPackage, "Uint64")
 		case astmodel.IntType:
 			return astbuilder.CallQualifiedFunc(rapidPackage, "Int")
 		case astmodel.FloatType:

@@ -6,15 +6,17 @@
 package cel
 
 import (
+	"context"
 	"fmt"
 	"reflect"
 	"strings"
 
+	"cel.dev/cel-go/cel"
+	"cel.dev/cel-go/common/ast"
+	"cel.dev/cel-go/common/types"
+	"cel.dev/cel-go/common/types/ref"
+	"cel.dev/cel-go/ext"
 	"github.com/go-logr/logr"
-	"github.com/google/cel-go/cel"
-	"github.com/google/cel-go/common/ast"
-	"github.com/google/cel-go/common/types/ref"
-	"github.com/google/cel-go/ext"
 	"github.com/rotisserie/eris"
 	"github.com/samber/lo"
 
@@ -47,7 +49,7 @@ func RegisterEvaluator(e ExpressionEvaluator) {
 // ExpressionEvaluator defines an interface for evaluating expressions based on self (the resource) and an optional
 // secret parameter (containing the secrets)
 type ExpressionEvaluator interface {
-	CompileAndRun(expression string, self any, secret map[string]string) (*ExpressionResult, error)
+	CompileAndRun(ctx context.Context, budget *EvaluationBudget, expression string, self any, secret map[string]string) (*ExpressionResult, error)
 	Check(expression string, self any) (*cel.Type, error)
 	FindSecretUsage(expression string, self any) (set.Set[string], error)
 	Start()
@@ -146,11 +148,12 @@ func NewEnv(resource reflect.Type) (*cel.Env, error) {
 
 	// The typesList of supported env functions was taken from Kubernetes here:
 	// https://kubernetes.io/docs/reference/using-api/cel/#language-overview.
-
 	// Note: Adding to the below list of supported functions/features should be done with caution,
 	// and any updates should be propagated to docs/hugo/content/guide/expressions.md as well.
 	return cel.NewEnv(
-		ext.Strings(ext.StringsVersion(3)), // At the time of writing, 3 was the latest version
+		// Keep v3 formatting compatibility; cap precision at v5's default to prevent excessive numeric expansion.
+		// TODO: Should update to strings v5+
+		ext.Strings(ext.StringsVersion(3), ext.StringsMaxPrecision(100)),
 		cel.DefaultUTCTimeZone(true),
 		// Kubernetes specifies HomogenousAggregateLiterals, but it could cause issues for
 		// construction of dynamic JSON payloads. This isn't a common operation, but then again
@@ -188,12 +191,21 @@ type ExpressionResult struct {
 }
 
 // CompileAndRun compiles the specified expression and returns the result of the compilation.
+// ctx supports caller cancellation.
+// budget is the aggregate CPU and result-memory budget for this evaluation.
 // expression is a CEL expression that must return either a string or map[string]string.
 // self is the resource being reconciled.
 // secret is the set of secrets associated with the resource (which may be empty).
-func (e *expressionEvaluator) CompileAndRun(expression string, self any, secret map[string]string) (*ExpressionResult, error) {
+func (e *expressionEvaluator) CompileAndRun(ctx context.Context, budget *EvaluationBudget, expression string, self any, secret map[string]string) (*ExpressionResult, error) {
 	if self == nil {
 		return nil, eris.New("self cannot be nil")
+	}
+	// Check cancellation
+	if err := ctx.Err(); err != nil {
+		return nil, err
+	}
+	if err := budget.check(); err != nil {
+		return nil, err
 	}
 
 	// Cache lookup also compiles and checks the program for errors
@@ -201,27 +213,51 @@ func (e *expressionEvaluator) CompileAndRun(expression string, self any, secret 
 	if err != nil {
 		return nil, err
 	}
+	// Check cancellation
+	if err := ctx.Err(); err != nil {
+		return nil, err
+	}
 
 	input := map[string]any{
 		SelfIdent:   self,
 		SecretIdent: secret,
 	}
-	// TODO: We may want to use ContextEval here, alongside prgm, err := env.cel.Program(ast, cel.InterruptCheckFrequency(10))
-	out, _, err := program.Program.Eval(input)
+	out, details, err := program.Program.ContextEval(ctx, input)
 	if err != nil {
 		return nil, eris.Wrapf(err, "failed to eval CEL expression: %q", expression)
 	}
 
-	// We could use out.Type(), which is a CEL type, rather than out.Value(), which is a Go value, but there's not
-	// much practical reason to do that since we've already evaluated the expression.
-	outStr, strOK := out.Value().(string)
-	outMap, mapErr := valToMap(out)
+	// This shouldn't ever happen, we have cost tracking enabled
+	if details == nil || details.ActualCost() == nil {
+		return nil, eris.New("CEL evaluation did not report runtime cost")
+	}
+	if err := budget.chargeCPU(*details.ActualCost()); err != nil {
+		return nil, err
+	}
+	// Match MemoryLimit sizing, but charge only retained output.
+	size := newMemorySizeCalculator().ApproximateAggregateSize(out)
+	if size.LimitExceeded {
+		return nil, eris.New("CEL result memory size calculation limit exceeded")
+	}
+	if err := budget.chargeMemory(size.Size); err != nil {
+		return nil, err
+	}
 
-	if strOK {
+	// Check cancellation
+	if err := ctx.Err(); err != nil {
+		return nil, err
+	}
+
+	if outStr, ok := out.Value().(string); ok {
 		return &ExpressionResult{
 			Value: outStr,
 		}, nil
-	} else if mapErr == nil {
+	}
+	if out.Type() == types.MapType {
+		outMap, err := valToMap(out)
+		if err != nil {
+			return nil, err
+		}
 		return &ExpressionResult{
 			Values: outMap,
 		}, nil

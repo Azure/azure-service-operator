@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_ServiceGatewayCertificateAuthority_WhenSerializedToJson_DeserializesAs
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ServiceGatewayCertificateAuthority via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServiceGatewayCertificateAuthority, ServiceGatewayCertificateAuthorityGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForServiceGatewayCertificateAuthority)
 }
 
 // RunJSONSerializationTestForServiceGatewayCertificateAuthority runs a test to see if a specific instance of ServiceGatewayCertificateAuthority round trips to JSON and back losslessly
-func RunJSONSerializationTestForServiceGatewayCertificateAuthority(subject ServiceGatewayCertificateAuthority) string {
+func RunJSONSerializationTestForServiceGatewayCertificateAuthority(t *rapid.T) {
+	subject := ServiceGatewayCertificateAuthorityGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ServiceGatewayCertificateAuthority
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,33 +45,31 @@ func RunJSONSerializationTestForServiceGatewayCertificateAuthority(subject Servi
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ServiceGatewayCertificateAuthority instances for property testing - lazily instantiated by
 // ServiceGatewayCertificateAuthorityGenerator()
-var serviceGatewayCertificateAuthorityGenerator gopter.Gen
+var serviceGatewayCertificateAuthorityGenerator *rapid.Generator[ServiceGatewayCertificateAuthority]
 
 // ServiceGatewayCertificateAuthorityGenerator returns a generator of ServiceGatewayCertificateAuthority instances for property testing.
-func ServiceGatewayCertificateAuthorityGenerator() gopter.Gen {
+func ServiceGatewayCertificateAuthorityGenerator() *rapid.Generator[ServiceGatewayCertificateAuthority] {
 	if serviceGatewayCertificateAuthorityGenerator != nil {
 		return serviceGatewayCertificateAuthorityGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForServiceGatewayCertificateAuthority(generators)
-	serviceGatewayCertificateAuthorityGenerator = gen.Struct(reflect.TypeOf(ServiceGatewayCertificateAuthority{}), generators)
+	spec := ServiceGatewayCertificateAuthority_SpecGenerator()
+	status := ServiceGatewayCertificateAuthority_STATUSGenerator()
+
+	serviceGatewayCertificateAuthorityGenerator = rapid.Custom(func(t *rapid.T) ServiceGatewayCertificateAuthority {
+		var result ServiceGatewayCertificateAuthority
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return serviceGatewayCertificateAuthorityGenerator
-}
-
-// AddRelatedPropertyGeneratorsForServiceGatewayCertificateAuthority is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForServiceGatewayCertificateAuthority(gens map[string]gopter.Gen) {
-	gens["Spec"] = ServiceGatewayCertificateAuthority_SpecGenerator()
-	gens["Status"] = ServiceGatewayCertificateAuthority_STATUSGenerator()
 }
 
 func Test_ServiceGatewayCertificateAuthorityOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -91,29 +79,23 @@ func Test_ServiceGatewayCertificateAuthorityOperatorSpec_WhenSerializedToJson_De
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ServiceGatewayCertificateAuthorityOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServiceGatewayCertificateAuthorityOperatorSpec, ServiceGatewayCertificateAuthorityOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForServiceGatewayCertificateAuthorityOperatorSpec)
 }
 
 // RunJSONSerializationTestForServiceGatewayCertificateAuthorityOperatorSpec runs a test to see if a specific instance of ServiceGatewayCertificateAuthorityOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForServiceGatewayCertificateAuthorityOperatorSpec(subject ServiceGatewayCertificateAuthorityOperatorSpec) string {
+func RunJSONSerializationTestForServiceGatewayCertificateAuthorityOperatorSpec(t *rapid.T) {
+	subject := ServiceGatewayCertificateAuthorityOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ServiceGatewayCertificateAuthorityOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -122,24 +104,21 @@ func RunJSONSerializationTestForServiceGatewayCertificateAuthorityOperatorSpec(s
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ServiceGatewayCertificateAuthorityOperatorSpec instances for property testing - lazily instantiated by
 // ServiceGatewayCertificateAuthorityOperatorSpecGenerator()
-var serviceGatewayCertificateAuthorityOperatorSpecGenerator gopter.Gen
+var serviceGatewayCertificateAuthorityOperatorSpecGenerator *rapid.Generator[ServiceGatewayCertificateAuthorityOperatorSpec]
 
 // ServiceGatewayCertificateAuthorityOperatorSpecGenerator returns a generator of ServiceGatewayCertificateAuthorityOperatorSpec instances for property testing.
-func ServiceGatewayCertificateAuthorityOperatorSpecGenerator() gopter.Gen {
+func ServiceGatewayCertificateAuthorityOperatorSpecGenerator() *rapid.Generator[ServiceGatewayCertificateAuthorityOperatorSpec] {
 	if serviceGatewayCertificateAuthorityOperatorSpecGenerator != nil {
 		return serviceGatewayCertificateAuthorityOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	serviceGatewayCertificateAuthorityOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ServiceGatewayCertificateAuthorityOperatorSpec{}), generators)
+	serviceGatewayCertificateAuthorityOperatorSpecGenerator = rapid.Just(ServiceGatewayCertificateAuthorityOperatorSpec{})
 
 	return serviceGatewayCertificateAuthorityOperatorSpecGenerator
 }
@@ -151,29 +130,23 @@ func Test_ServiceGatewayCertificateAuthority_STATUS_WhenSerializedToJson_Deseria
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ServiceGatewayCertificateAuthority_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServiceGatewayCertificateAuthority_STATUS, ServiceGatewayCertificateAuthority_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForServiceGatewayCertificateAuthority_STATUS)
 }
 
 // RunJSONSerializationTestForServiceGatewayCertificateAuthority_STATUS runs a test to see if a specific instance of ServiceGatewayCertificateAuthority_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForServiceGatewayCertificateAuthority_STATUS(subject ServiceGatewayCertificateAuthority_STATUS) string {
+func RunJSONSerializationTestForServiceGatewayCertificateAuthority_STATUS(t *rapid.T) {
+	subject := ServiceGatewayCertificateAuthority_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ServiceGatewayCertificateAuthority_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -182,35 +155,33 @@ func RunJSONSerializationTestForServiceGatewayCertificateAuthority_STATUS(subjec
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ServiceGatewayCertificateAuthority_STATUS instances for property testing - lazily instantiated by
 // ServiceGatewayCertificateAuthority_STATUSGenerator()
-var serviceGatewayCertificateAuthority_STATUSGenerator gopter.Gen
+var serviceGatewayCertificateAuthority_STATUSGenerator *rapid.Generator[ServiceGatewayCertificateAuthority_STATUS]
 
 // ServiceGatewayCertificateAuthority_STATUSGenerator returns a generator of ServiceGatewayCertificateAuthority_STATUS instances for property testing.
-func ServiceGatewayCertificateAuthority_STATUSGenerator() gopter.Gen {
+func ServiceGatewayCertificateAuthority_STATUSGenerator() *rapid.Generator[ServiceGatewayCertificateAuthority_STATUS] {
 	if serviceGatewayCertificateAuthority_STATUSGenerator != nil {
 		return serviceGatewayCertificateAuthority_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServiceGatewayCertificateAuthority_STATUS(generators)
-	serviceGatewayCertificateAuthority_STATUSGenerator = gen.Struct(reflect.TypeOf(ServiceGatewayCertificateAuthority_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	isTrusted := rapid.Ptr(rapid.Bool(), true)
+
+	serviceGatewayCertificateAuthority_STATUSGenerator = rapid.Custom(func(t *rapid.T) ServiceGatewayCertificateAuthority_STATUS {
+		var result ServiceGatewayCertificateAuthority_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.IsTrusted = isTrusted.Draw(t, "IsTrusted")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return serviceGatewayCertificateAuthority_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForServiceGatewayCertificateAuthority_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServiceGatewayCertificateAuthority_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["IsTrusted"] = gen.PtrOf(gen.Bool())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ServiceGatewayCertificateAuthority_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -220,29 +191,23 @@ func Test_ServiceGatewayCertificateAuthority_Spec_WhenSerializedToJson_Deseriali
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ServiceGatewayCertificateAuthority_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServiceGatewayCertificateAuthority_Spec, ServiceGatewayCertificateAuthority_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForServiceGatewayCertificateAuthority_Spec)
 }
 
 // RunJSONSerializationTestForServiceGatewayCertificateAuthority_Spec runs a test to see if a specific instance of ServiceGatewayCertificateAuthority_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForServiceGatewayCertificateAuthority_Spec(subject ServiceGatewayCertificateAuthority_Spec) string {
+func RunJSONSerializationTestForServiceGatewayCertificateAuthority_Spec(t *rapid.T) {
+	subject := ServiceGatewayCertificateAuthority_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ServiceGatewayCertificateAuthority_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -251,46 +216,32 @@ func RunJSONSerializationTestForServiceGatewayCertificateAuthority_Spec(subject 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ServiceGatewayCertificateAuthority_Spec instances for property testing - lazily instantiated by
 // ServiceGatewayCertificateAuthority_SpecGenerator()
-var serviceGatewayCertificateAuthority_SpecGenerator gopter.Gen
+var serviceGatewayCertificateAuthority_SpecGenerator *rapid.Generator[ServiceGatewayCertificateAuthority_Spec]
 
 // ServiceGatewayCertificateAuthority_SpecGenerator returns a generator of ServiceGatewayCertificateAuthority_Spec instances for property testing.
-// We first initialize serviceGatewayCertificateAuthority_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ServiceGatewayCertificateAuthority_SpecGenerator() gopter.Gen {
+func ServiceGatewayCertificateAuthority_SpecGenerator() *rapid.Generator[ServiceGatewayCertificateAuthority_Spec] {
 	if serviceGatewayCertificateAuthority_SpecGenerator != nil {
 		return serviceGatewayCertificateAuthority_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServiceGatewayCertificateAuthority_Spec(generators)
-	serviceGatewayCertificateAuthority_SpecGenerator = gen.Struct(reflect.TypeOf(ServiceGatewayCertificateAuthority_Spec{}), generators)
+	genString := rapid.String()
+	isTrusted := rapid.Ptr(rapid.Bool(), true)
+	operatorSpec := rapid.Ptr(ServiceGatewayCertificateAuthorityOperatorSpecGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServiceGatewayCertificateAuthority_Spec(generators)
-	AddRelatedPropertyGeneratorsForServiceGatewayCertificateAuthority_Spec(generators)
-	serviceGatewayCertificateAuthority_SpecGenerator = gen.Struct(reflect.TypeOf(ServiceGatewayCertificateAuthority_Spec{}), generators)
+	serviceGatewayCertificateAuthority_SpecGenerator = rapid.Custom(func(t *rapid.T) ServiceGatewayCertificateAuthority_Spec {
+		var result ServiceGatewayCertificateAuthority_Spec
+		result.AzureName = genString.Draw(t, "AzureName")
+		result.IsTrusted = isTrusted.Draw(t, "IsTrusted")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		result.OriginalVersion = genString.Draw(t, "OriginalVersion")
+		return result
+	})
 
 	return serviceGatewayCertificateAuthority_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForServiceGatewayCertificateAuthority_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServiceGatewayCertificateAuthority_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["IsTrusted"] = gen.PtrOf(gen.Bool())
-	gens["OriginalVersion"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForServiceGatewayCertificateAuthority_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForServiceGatewayCertificateAuthority_Spec(gens map[string]gopter.Gen) {
-	gens["OperatorSpec"] = gen.PtrOf(ServiceGatewayCertificateAuthorityOperatorSpecGenerator())
 }

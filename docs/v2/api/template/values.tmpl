@@ -4,7 +4,7 @@
 | Value        | Description                 |
 |------------- | --------------------------- |
 {{ range .Values -}}
-| {{ .Value }} | {{ .Description | unwrap }} |
+| {{ .Value }} | {{ .Description | unwrapTable }} |
 {{ end -}}
 {{- end -}}
 {{- end -}}

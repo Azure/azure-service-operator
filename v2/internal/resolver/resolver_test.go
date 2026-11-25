@@ -51,6 +51,7 @@ func NewTestResolver(client kubeclient.Client) (*resolver.Resolver, error) {
 		registration.NewStorageType(new(storage.StorageAccountsBlobService)),
 		registration.NewStorageType(new(mysql.FlexibleServer)),
 		registration.NewStorageType(new(subscription.Alias)),
+		registration.NewStorageType(new(testcommon.SimpleExtensionResource)),
 	}
 	err := res.IndexStorageTypes(client.Scheme(), objs)
 	if err != nil {
@@ -412,6 +413,43 @@ func Test_ResolveResourceHierarchy_ReturnsReferenceNotFound(t *testing.T) {
 	g.Expect(eris.Unwrap(err)).To(BeAssignableToTypeOf(&core.ReferenceNotFound{}))
 }
 
+func Test_ResolveResourceHierarchy_SelfReferentialOwner_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	ctx := t.Context()
+
+	test, err := testSetup()
+	g.Expect(err).ToNot(HaveOccurred())
+
+	gvk := testcommon.SimpleExtensionResourceGroupVersion.WithKind("SimpleExtensionResource")
+	resource := createSimpleExtensionResource("self-owned", "self-owned", gvk)
+	err = test.client.Create(ctx, resource)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	_, err = test.resolver.ResolveResourceHierarchy(ctx, resource)
+	g.Expect(err).To(MatchError(ContainSubstring("owner cycle detected")))
+}
+
+func Test_ResolveResourceHierarchy_MultiResourceOwnerCycle_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	ctx := t.Context()
+
+	test, err := testSetup()
+	g.Expect(err).ToNot(HaveOccurred())
+
+	gvk := testcommon.SimpleExtensionResourceGroupVersion.WithKind("SimpleExtensionResource")
+	first := createSimpleExtensionResource("first", "second", gvk)
+	second := createSimpleExtensionResource("second", "first", gvk)
+	err = test.client.Create(ctx, first)
+	g.Expect(err).ToNot(HaveOccurred())
+	err = test.client.Create(ctx, second)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	_, err = test.resolver.ResolveResourceHierarchy(ctx, first)
+	g.Expect(err).To(MatchError(ContainSubstring("owner cycle detected")))
+}
+
 func Test_ResolveReference_FindsReference(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
@@ -713,6 +751,8 @@ func createTestScheme() *runtime.Scheme {
 	_ = mysql.AddToScheme(s)
 	_ = subscription.AddToScheme(s)
 	_ = v1.AddToScheme(s)
+	s.AddKnownTypes(testcommon.SimpleExtensionResourceGroupVersion, &testcommon.SimpleExtensionResource{})
+	metav1.AddToGroupVersion(s, testcommon.SimpleExtensionResourceGroupVersion)
 
 	return s
 }

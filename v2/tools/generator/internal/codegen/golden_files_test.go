@@ -161,6 +161,7 @@ func NewTestCodeGenerator(
 			pipeline.CheckForAnyTypeStageID,
 			pipeline.CreateResourceExtensionsStageID,
 			pipeline.ReportOnTypesAndVersionsStageID,
+			pipeline.ReportPropertyChangesStageID,
 			pipeline.ReportResourceVersionsStageID,
 			pipeline.ReportResourceStructureStageID,
 			pipeline.ReportUpgradableResourcesStageID,
@@ -190,6 +191,7 @@ func NewTestCodeGenerator(
 		codegen.RemoveStages(
 			pipeline.DeleteGeneratedCodeStageID,
 			pipeline.CheckForAnyTypeStageID,
+			pipeline.ReportPropertyChangesStageID,
 			pipeline.ReportResourceVersionsStageID,
 			pipeline.ReportResourceStructureStageID,
 			pipeline.ReportUpgradableResourcesStageID,

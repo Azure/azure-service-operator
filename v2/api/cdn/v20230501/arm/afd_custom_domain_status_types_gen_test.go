@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_AFDDomainHttpsParameters_STATUS_WhenSerializedToJson_DeserializesAsEqu
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AFDDomainHttpsParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAFDDomainHttpsParameters_STATUS, AFDDomainHttpsParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAFDDomainHttpsParameters_STATUS)
 }
 
 // RunJSONSerializationTestForAFDDomainHttpsParameters_STATUS runs a test to see if a specific instance of AFDDomainHttpsParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForAFDDomainHttpsParameters_STATUS(subject AFDDomainHttpsParameters_STATUS) string {
+func RunJSONSerializationTestForAFDDomainHttpsParameters_STATUS(t *rapid.T) {
+	subject := AFDDomainHttpsParameters_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AFDDomainHttpsParameters_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,47 +45,33 @@ func RunJSONSerializationTestForAFDDomainHttpsParameters_STATUS(subject AFDDomai
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AFDDomainHttpsParameters_STATUS instances for property testing - lazily instantiated by
 // AFDDomainHttpsParameters_STATUSGenerator()
-var afdDomainHttpsParameters_STATUSGenerator gopter.Gen
+var afdDomainHttpsParameters_STATUSGenerator *rapid.Generator[AFDDomainHttpsParameters_STATUS]
 
 // AFDDomainHttpsParameters_STATUSGenerator returns a generator of AFDDomainHttpsParameters_STATUS instances for property testing.
-// We first initialize afdDomainHttpsParameters_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func AFDDomainHttpsParameters_STATUSGenerator() gopter.Gen {
+func AFDDomainHttpsParameters_STATUSGenerator() *rapid.Generator[AFDDomainHttpsParameters_STATUS] {
 	if afdDomainHttpsParameters_STATUSGenerator != nil {
 		return afdDomainHttpsParameters_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAFDDomainHttpsParameters_STATUS(generators)
-	afdDomainHttpsParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(AFDDomainHttpsParameters_STATUS{}), generators)
+	certificateType := rapid.Ptr(rapid.SampledFrom([]AFDDomainHttpsParameters_CertificateType_STATUS{AFDDomainHttpsParameters_CertificateType_STATUS_AzureFirstPartyManagedCertificate, AFDDomainHttpsParameters_CertificateType_STATUS_CustomerCertificate, AFDDomainHttpsParameters_CertificateType_STATUS_ManagedCertificate}), true)
+	minimumTlsVersion := rapid.Ptr(rapid.SampledFrom([]AFDDomainHttpsParameters_MinimumTlsVersion_STATUS{AFDDomainHttpsParameters_MinimumTlsVersion_STATUS_TLS10, AFDDomainHttpsParameters_MinimumTlsVersion_STATUS_TLS12}), true)
+	secret := rapid.Ptr(ResourceReference_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAFDDomainHttpsParameters_STATUS(generators)
-	AddRelatedPropertyGeneratorsForAFDDomainHttpsParameters_STATUS(generators)
-	afdDomainHttpsParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(AFDDomainHttpsParameters_STATUS{}), generators)
+	afdDomainHttpsParameters_STATUSGenerator = rapid.Custom(func(t *rapid.T) AFDDomainHttpsParameters_STATUS {
+		var result AFDDomainHttpsParameters_STATUS
+		result.CertificateType = certificateType.Draw(t, "CertificateType")
+		result.MinimumTlsVersion = minimumTlsVersion.Draw(t, "MinimumTlsVersion")
+		result.Secret = secret.Draw(t, "Secret")
+		return result
+	})
 
 	return afdDomainHttpsParameters_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAFDDomainHttpsParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAFDDomainHttpsParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["CertificateType"] = gen.PtrOf(gen.OneConstOf(AFDDomainHttpsParameters_CertificateType_STATUS_AzureFirstPartyManagedCertificate, AFDDomainHttpsParameters_CertificateType_STATUS_CustomerCertificate, AFDDomainHttpsParameters_CertificateType_STATUS_ManagedCertificate))
-	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(AFDDomainHttpsParameters_MinimumTlsVersion_STATUS_TLS10, AFDDomainHttpsParameters_MinimumTlsVersion_STATUS_TLS12))
-}
-
-// AddRelatedPropertyGeneratorsForAFDDomainHttpsParameters_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAFDDomainHttpsParameters_STATUS(gens map[string]gopter.Gen) {
-	gens["Secret"] = gen.PtrOf(ResourceReference_STATUSGenerator())
 }
 
 func Test_AFDDomainProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -105,29 +81,23 @@ func Test_AFDDomainProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AFDDomainProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAFDDomainProperties_STATUS, AFDDomainProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAFDDomainProperties_STATUS)
 }
 
 // RunJSONSerializationTestForAFDDomainProperties_STATUS runs a test to see if a specific instance of AFDDomainProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForAFDDomainProperties_STATUS(subject AFDDomainProperties_STATUS) string {
+func RunJSONSerializationTestForAFDDomainProperties_STATUS(t *rapid.T) {
+	subject := AFDDomainProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AFDDomainProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -136,74 +106,47 @@ func RunJSONSerializationTestForAFDDomainProperties_STATUS(subject AFDDomainProp
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AFDDomainProperties_STATUS instances for property testing - lazily instantiated by
 // AFDDomainProperties_STATUSGenerator()
-var afdDomainProperties_STATUSGenerator gopter.Gen
+var afdDomainProperties_STATUSGenerator *rapid.Generator[AFDDomainProperties_STATUS]
 
 // AFDDomainProperties_STATUSGenerator returns a generator of AFDDomainProperties_STATUS instances for property testing.
-// We first initialize afdDomainProperties_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func AFDDomainProperties_STATUSGenerator() gopter.Gen {
+func AFDDomainProperties_STATUSGenerator() *rapid.Generator[AFDDomainProperties_STATUS] {
 	if afdDomainProperties_STATUSGenerator != nil {
 		return afdDomainProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAFDDomainProperties_STATUS(generators)
-	afdDomainProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(AFDDomainProperties_STATUS{}), generators)
+	ptrResourceReferenceSTATUS := rapid.Ptr(ResourceReference_STATUSGenerator(), true)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	deploymentStatus := rapid.Ptr(rapid.SampledFrom([]AFDDomainProperties_DeploymentStatus_STATUS{AFDDomainProperties_DeploymentStatus_STATUS_Failed, AFDDomainProperties_DeploymentStatus_STATUS_InProgress, AFDDomainProperties_DeploymentStatus_STATUS_NotStarted, AFDDomainProperties_DeploymentStatus_STATUS_Succeeded}), true)
+	domainValidationState := rapid.Ptr(rapid.SampledFrom([]AFDDomainProperties_DomainValidationState_STATUS{AFDDomainProperties_DomainValidationState_STATUS_Approved, AFDDomainProperties_DomainValidationState_STATUS_InternalError, AFDDomainProperties_DomainValidationState_STATUS_Pending, AFDDomainProperties_DomainValidationState_STATUS_PendingRevalidation, AFDDomainProperties_DomainValidationState_STATUS_RefreshingValidationToken, AFDDomainProperties_DomainValidationState_STATUS_Rejected, AFDDomainProperties_DomainValidationState_STATUS_Submitting, AFDDomainProperties_DomainValidationState_STATUS_TimedOut, AFDDomainProperties_DomainValidationState_STATUS_Unknown}), true)
+	extendedProperties := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
+	provisioningState := rapid.Ptr(rapid.SampledFrom([]AFDDomainProperties_ProvisioningState_STATUS{AFDDomainProperties_ProvisioningState_STATUS_Creating, AFDDomainProperties_ProvisioningState_STATUS_Deleting, AFDDomainProperties_ProvisioningState_STATUS_Failed, AFDDomainProperties_ProvisioningState_STATUS_Succeeded, AFDDomainProperties_ProvisioningState_STATUS_Updating}), true)
+	tlsSettings := rapid.Ptr(AFDDomainHttpsParameters_STATUSGenerator(), true)
+	validationProperties := rapid.Ptr(DomainValidationProperties_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAFDDomainProperties_STATUS(generators)
-	AddRelatedPropertyGeneratorsForAFDDomainProperties_STATUS(generators)
-	afdDomainProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(AFDDomainProperties_STATUS{}), generators)
+	afdDomainProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) AFDDomainProperties_STATUS {
+		var result AFDDomainProperties_STATUS
+		result.AzureDnsZone = ptrResourceReferenceSTATUS.Draw(t, "AzureDnsZone")
+		result.DeploymentStatus = deploymentStatus.Draw(t, "DeploymentStatus")
+		result.DomainValidationState = domainValidationState.Draw(t, "DomainValidationState")
+		result.ExtendedProperties = extendedProperties.Draw(t, "ExtendedProperties")
+		result.HostName = ptrString.Draw(t, "HostName")
+		result.PreValidatedCustomDomainResourceId = ptrResourceReferenceSTATUS.Draw(t, "PreValidatedCustomDomainResourceId")
+		result.ProfileName = ptrString.Draw(t, "ProfileName")
+		result.ProvisioningState = provisioningState.Draw(t, "ProvisioningState")
+		result.TlsSettings = tlsSettings.Draw(t, "TlsSettings")
+		result.ValidationProperties = validationProperties.Draw(t, "ValidationProperties")
+		return result
+	})
 
 	return afdDomainProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAFDDomainProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAFDDomainProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["DeploymentStatus"] = gen.PtrOf(gen.OneConstOf(
-		AFDDomainProperties_DeploymentStatus_STATUS_Failed,
-		AFDDomainProperties_DeploymentStatus_STATUS_InProgress,
-		AFDDomainProperties_DeploymentStatus_STATUS_NotStarted,
-		AFDDomainProperties_DeploymentStatus_STATUS_Succeeded))
-	gens["DomainValidationState"] = gen.PtrOf(gen.OneConstOf(
-		AFDDomainProperties_DomainValidationState_STATUS_Approved,
-		AFDDomainProperties_DomainValidationState_STATUS_InternalError,
-		AFDDomainProperties_DomainValidationState_STATUS_Pending,
-		AFDDomainProperties_DomainValidationState_STATUS_PendingRevalidation,
-		AFDDomainProperties_DomainValidationState_STATUS_RefreshingValidationToken,
-		AFDDomainProperties_DomainValidationState_STATUS_Rejected,
-		AFDDomainProperties_DomainValidationState_STATUS_Submitting,
-		AFDDomainProperties_DomainValidationState_STATUS_TimedOut,
-		AFDDomainProperties_DomainValidationState_STATUS_Unknown))
-	gens["ExtendedProperties"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["HostName"] = gen.PtrOf(gen.AlphaString())
-	gens["ProfileName"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		AFDDomainProperties_ProvisioningState_STATUS_Creating,
-		AFDDomainProperties_ProvisioningState_STATUS_Deleting,
-		AFDDomainProperties_ProvisioningState_STATUS_Failed,
-		AFDDomainProperties_ProvisioningState_STATUS_Succeeded,
-		AFDDomainProperties_ProvisioningState_STATUS_Updating))
-}
-
-// AddRelatedPropertyGeneratorsForAFDDomainProperties_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAFDDomainProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["AzureDnsZone"] = gen.PtrOf(ResourceReference_STATUSGenerator())
-	gens["PreValidatedCustomDomainResourceId"] = gen.PtrOf(ResourceReference_STATUSGenerator())
-	gens["TlsSettings"] = gen.PtrOf(AFDDomainHttpsParameters_STATUSGenerator())
-	gens["ValidationProperties"] = gen.PtrOf(DomainValidationProperties_STATUSGenerator())
 }
 
 func Test_AfdCustomDomain_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -213,29 +156,23 @@ func Test_AfdCustomDomain_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AfdCustomDomain_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAfdCustomDomain_STATUS, AfdCustomDomain_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAfdCustomDomain_STATUS)
 }
 
 // RunJSONSerializationTestForAfdCustomDomain_STATUS runs a test to see if a specific instance of AfdCustomDomain_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForAfdCustomDomain_STATUS(subject AfdCustomDomain_STATUS) string {
+func RunJSONSerializationTestForAfdCustomDomain_STATUS(t *rapid.T) {
+	subject := AfdCustomDomain_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AfdCustomDomain_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -244,49 +181,35 @@ func RunJSONSerializationTestForAfdCustomDomain_STATUS(subject AfdCustomDomain_S
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AfdCustomDomain_STATUS instances for property testing - lazily instantiated by
 // AfdCustomDomain_STATUSGenerator()
-var afdCustomDomain_STATUSGenerator gopter.Gen
+var afdCustomDomain_STATUSGenerator *rapid.Generator[AfdCustomDomain_STATUS]
 
 // AfdCustomDomain_STATUSGenerator returns a generator of AfdCustomDomain_STATUS instances for property testing.
-// We first initialize afdCustomDomain_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func AfdCustomDomain_STATUSGenerator() gopter.Gen {
+func AfdCustomDomain_STATUSGenerator() *rapid.Generator[AfdCustomDomain_STATUS] {
 	if afdCustomDomain_STATUSGenerator != nil {
 		return afdCustomDomain_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAfdCustomDomain_STATUS(generators)
-	afdCustomDomain_STATUSGenerator = gen.Struct(reflect.TypeOf(AfdCustomDomain_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	properties := rapid.Ptr(AFDDomainProperties_STATUSGenerator(), true)
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAfdCustomDomain_STATUS(generators)
-	AddRelatedPropertyGeneratorsForAfdCustomDomain_STATUS(generators)
-	afdCustomDomain_STATUSGenerator = gen.Struct(reflect.TypeOf(AfdCustomDomain_STATUS{}), generators)
+	afdCustomDomain_STATUSGenerator = rapid.Custom(func(t *rapid.T) AfdCustomDomain_STATUS {
+		var result AfdCustomDomain_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return afdCustomDomain_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAfdCustomDomain_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAfdCustomDomain_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForAfdCustomDomain_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAfdCustomDomain_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(AFDDomainProperties_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_DomainValidationProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -296,29 +219,23 @@ func Test_DomainValidationProperties_STATUS_WhenSerializedToJson_DeserializesAsE
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DomainValidationProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDomainValidationProperties_STATUS, DomainValidationProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDomainValidationProperties_STATUS)
 }
 
 // RunJSONSerializationTestForDomainValidationProperties_STATUS runs a test to see if a specific instance of DomainValidationProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDomainValidationProperties_STATUS(subject DomainValidationProperties_STATUS) string {
+func RunJSONSerializationTestForDomainValidationProperties_STATUS(t *rapid.T) {
+	subject := DomainValidationProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DomainValidationProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -327,33 +244,30 @@ func RunJSONSerializationTestForDomainValidationProperties_STATUS(subject Domain
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DomainValidationProperties_STATUS instances for property testing - lazily instantiated by
 // DomainValidationProperties_STATUSGenerator()
-var domainValidationProperties_STATUSGenerator gopter.Gen
+var domainValidationProperties_STATUSGenerator *rapid.Generator[DomainValidationProperties_STATUS]
 
 // DomainValidationProperties_STATUSGenerator returns a generator of DomainValidationProperties_STATUS instances for property testing.
-func DomainValidationProperties_STATUSGenerator() gopter.Gen {
+func DomainValidationProperties_STATUSGenerator() *rapid.Generator[DomainValidationProperties_STATUS] {
 	if domainValidationProperties_STATUSGenerator != nil {
 		return domainValidationProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDomainValidationProperties_STATUS(generators)
-	domainValidationProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(DomainValidationProperties_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	domainValidationProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) DomainValidationProperties_STATUS {
+		var result DomainValidationProperties_STATUS
+		result.ExpirationDate = ptrString.Draw(t, "ExpirationDate")
+		result.ValidationToken = ptrString.Draw(t, "ValidationToken")
+		return result
+	})
 
 	return domainValidationProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDomainValidationProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDomainValidationProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["ExpirationDate"] = gen.PtrOf(gen.AlphaString())
-	gens["ValidationToken"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ResourceReference_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -363,29 +277,23 @@ func Test_ResourceReference_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ResourceReference_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForResourceReference_STATUS, ResourceReference_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForResourceReference_STATUS)
 }
 
 // RunJSONSerializationTestForResourceReference_STATUS runs a test to see if a specific instance of ResourceReference_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForResourceReference_STATUS(subject ResourceReference_STATUS) string {
+func RunJSONSerializationTestForResourceReference_STATUS(t *rapid.T) {
+	subject := ResourceReference_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ResourceReference_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -394,32 +302,29 @@ func RunJSONSerializationTestForResourceReference_STATUS(subject ResourceReferen
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ResourceReference_STATUS instances for property testing - lazily instantiated by
 // ResourceReference_STATUSGenerator()
-var resourceReference_STATUSGenerator gopter.Gen
+var resourceReference_STATUSGenerator *rapid.Generator[ResourceReference_STATUS]
 
 // ResourceReference_STATUSGenerator returns a generator of ResourceReference_STATUS instances for property testing.
-func ResourceReference_STATUSGenerator() gopter.Gen {
+func ResourceReference_STATUSGenerator() *rapid.Generator[ResourceReference_STATUS] {
 	if resourceReference_STATUSGenerator != nil {
 		return resourceReference_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForResourceReference_STATUS(generators)
-	resourceReference_STATUSGenerator = gen.Struct(reflect.TypeOf(ResourceReference_STATUS{}), generators)
+	id := rapid.Ptr(rapid.String(), true)
+
+	resourceReference_STATUSGenerator = rapid.Custom(func(t *rapid.T) ResourceReference_STATUS {
+		var result ResourceReference_STATUS
+		result.Id = id.Draw(t, "Id")
+		return result
+	})
 
 	return resourceReference_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForResourceReference_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForResourceReference_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -429,29 +334,23 @@ func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SystemData_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSystemData_STATUS, SystemData_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSystemData_STATUS)
 }
 
 // RunJSONSerializationTestForSystemData_STATUS runs a test to see if a specific instance of SystemData_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSystemData_STATUS(subject SystemData_STATUS) string {
+func RunJSONSerializationTestForSystemData_STATUS(t *rapid.T) {
+	subject := SystemData_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SystemData_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -460,42 +359,32 @@ func RunJSONSerializationTestForSystemData_STATUS(subject SystemData_STATUS) str
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SystemData_STATUS instances for property testing - lazily instantiated by SystemData_STATUSGenerator()
-var systemData_STATUSGenerator gopter.Gen
+var systemData_STATUSGenerator *rapid.Generator[SystemData_STATUS]
 
 // SystemData_STATUSGenerator returns a generator of SystemData_STATUS instances for property testing.
-func SystemData_STATUSGenerator() gopter.Gen {
+func SystemData_STATUSGenerator() *rapid.Generator[SystemData_STATUS] {
 	if systemData_STATUSGenerator != nil {
 		return systemData_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSystemData_STATUS(generators)
-	systemData_STATUSGenerator = gen.Struct(reflect.TypeOf(SystemData_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	ptrIdentityTypeSTATUS := rapid.Ptr(rapid.SampledFrom([]IdentityType_STATUS{IdentityType_STATUS_Application, IdentityType_STATUS_Key, IdentityType_STATUS_ManagedIdentity, IdentityType_STATUS_User}), true)
+
+	systemData_STATUSGenerator = rapid.Custom(func(t *rapid.T) SystemData_STATUS {
+		var result SystemData_STATUS
+		result.CreatedAt = ptrString.Draw(t, "CreatedAt")
+		result.CreatedBy = ptrString.Draw(t, "CreatedBy")
+		result.CreatedByType = ptrIdentityTypeSTATUS.Draw(t, "CreatedByType")
+		result.LastModifiedAt = ptrString.Draw(t, "LastModifiedAt")
+		result.LastModifiedBy = ptrString.Draw(t, "LastModifiedBy")
+		result.LastModifiedByType = ptrIdentityTypeSTATUS.Draw(t, "LastModifiedByType")
+		return result
+	})
 
 	return systemData_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSystemData_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter.Gen) {
-	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		IdentityType_STATUS_Application,
-		IdentityType_STATUS_Key,
-		IdentityType_STATUS_ManagedIdentity,
-		IdentityType_STATUS_User))
-	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		IdentityType_STATUS_Application,
-		IdentityType_STATUS_Key,
-		IdentityType_STATUS_ManagedIdentity,
-		IdentityType_STATUS_User))
 }

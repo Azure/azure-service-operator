@@ -60,12 +60,12 @@ Compare with [Kubernetes supported options](https://kubernetes.io/docs/reference
 | ------------------------------------------------------------------------------------------------------------------ |
 | [Standard macros](https://github.com/google/cel-spec/blob/master/doc/langdef.md#macros)                            |
 | [Standard functions](https://github.com/google/cel-spec/blob/master/doc/langdef.md#list-of-standard-definitions)   |
-| [Default UTC Time Zone](https://pkg.go.dev/github.com/google/cel-go/cel#DefaultUTCTimeZone)                        |
-| [Eagerly Validate Declarations](https://pkg.go.dev/github.com/google/cel-go/cel#EagerlyValidateDeclarations)       |
-| [Extended String Library, version 3](https://pkg.go.dev/github.com/google/cel-go/ext#Strings)                      |
-| [Extended Two Var Comprehensions, version 0](https://pkg.go.dev/github.com/google/cel-go/ext#TwoVarComprehensions) |
-| [Optional Types](https://pkg.go.dev/github.com/google/cel-go/cel#OptionalTypes)                                    |
-| [Cross Type Numeric comparisons](https://pkg.go.dev/github.com/google/cel-go/cel#CrossTypeNumericComparisons)      |
+| [Default UTC Time Zone](https://pkg.go.dev/cel.dev/cel-go/cel#DefaultUTCTimeZone)                                  |
+| [Eagerly Validate Declarations](https://pkg.go.dev/cel.dev/cel-go/cel#EagerlyValidateDeclarations)                 |
+| [Extended String Library, version 3](https://pkg.go.dev/cel.dev/cel-go/ext#Strings)                                |
+| [Extended Two Var Comprehensions, version 0](https://pkg.go.dev/cel.dev/cel-go/ext#TwoVarComprehensions)           |
+| [Optional Types](https://pkg.go.dev/cel.dev/cel-go/cel#OptionalTypes)                                              |
+| [Cross Type Numeric comparisons](https://pkg.go.dev/cel.dev/cel-go/cel#CrossTypeNumericComparisons)                |
 
 ### Escaping
 

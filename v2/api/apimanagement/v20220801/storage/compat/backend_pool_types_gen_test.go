@@ -10,14 +10,11 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
+// Test_BackendPool_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of BackendPool can be assigned to storage and back losslessly
 func Test_BackendPool_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -25,44 +22,34 @@ func Test_BackendPool_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from BackendPool to BackendPool via AssignProperties_To_BackendPool & AssignProperties_From_BackendPool returns original",
-		prop.ForAll(RunPropertyAssignmentTestForBackendPool, BackendPoolGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := BackendPoolGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForBackendPool tests if a specific instance of BackendPool can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForBackendPool(subject BackendPool) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.BackendPool
+		err := copied.AssignProperties_To_BackendPool(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BackendPool
-	err := copied.AssignProperties_To_BackendPool(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual BackendPool
+		err = actual.AssignProperties_From_BackendPool(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual BackendPool
-	err = actual.AssignProperties_From_BackendPool(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_BackendPool_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -72,29 +59,23 @@ func Test_BackendPool_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BackendPool via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBackendPool, BackendPoolGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForBackendPool)
 }
 
 // RunJSONSerializationTestForBackendPool runs a test to see if a specific instance of BackendPool round trips to JSON and back losslessly
-func RunJSONSerializationTestForBackendPool(subject BackendPool) string {
+func RunJSONSerializationTestForBackendPool(t *rapid.T) {
+	subject := BackendPoolGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual BackendPool
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -103,33 +84,31 @@ func RunJSONSerializationTestForBackendPool(subject BackendPool) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of BackendPool instances for property testing - lazily instantiated by BackendPoolGenerator()
-var backendPoolGenerator gopter.Gen
+var backendPoolGenerator *rapid.Generator[BackendPool]
 
 // BackendPoolGenerator returns a generator of BackendPool instances for property testing.
-func BackendPoolGenerator() gopter.Gen {
+func BackendPoolGenerator() *rapid.Generator[BackendPool] {
 	if backendPoolGenerator != nil {
 		return backendPoolGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForBackendPool(generators)
-	backendPoolGenerator = gen.Struct(reflect.TypeOf(BackendPool{}), generators)
+	services := rapid.SliceOf(BackendPoolItemGenerator())
+
+	backendPoolGenerator = rapid.Custom(func(t *rapid.T) BackendPool {
+		var result BackendPool
+		result.Services = services.Draw(t, "Services")
+		return result
+	})
 
 	return backendPoolGenerator
 }
 
-// AddRelatedPropertyGeneratorsForBackendPool is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForBackendPool(gens map[string]gopter.Gen) {
-	gens["Services"] = gen.SliceOf(BackendPoolItemGenerator())
-}
-
+// Test_BackendPoolItem_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of BackendPoolItem can be assigned to storage and back losslessly
 func Test_BackendPoolItem_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -137,44 +116,34 @@ func Test_BackendPoolItem_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from BackendPoolItem to BackendPoolItem via AssignProperties_To_BackendPoolItem & AssignProperties_From_BackendPoolItem returns original",
-		prop.ForAll(RunPropertyAssignmentTestForBackendPoolItem, BackendPoolItemGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := BackendPoolItemGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForBackendPoolItem tests if a specific instance of BackendPoolItem can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForBackendPoolItem(subject BackendPoolItem) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.BackendPoolItem
+		err := copied.AssignProperties_To_BackendPoolItem(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BackendPoolItem
-	err := copied.AssignProperties_To_BackendPoolItem(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual BackendPoolItem
+		err = actual.AssignProperties_From_BackendPoolItem(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual BackendPoolItem
-	err = actual.AssignProperties_From_BackendPoolItem(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_BackendPoolItem_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -184,29 +153,23 @@ func Test_BackendPoolItem_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BackendPoolItem via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBackendPoolItem, BackendPoolItemGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForBackendPoolItem)
 }
 
 // RunJSONSerializationTestForBackendPoolItem runs a test to see if a specific instance of BackendPoolItem round trips to JSON and back losslessly
-func RunJSONSerializationTestForBackendPoolItem(subject BackendPoolItem) string {
+func RunJSONSerializationTestForBackendPoolItem(t *rapid.T) {
+	subject := BackendPoolItemGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual BackendPoolItem
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -215,23 +178,20 @@ func RunJSONSerializationTestForBackendPoolItem(subject BackendPoolItem) string 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of BackendPoolItem instances for property testing - lazily instantiated by BackendPoolItemGenerator()
-var backendPoolItemGenerator gopter.Gen
+var backendPoolItemGenerator *rapid.Generator[BackendPoolItem]
 
 // BackendPoolItemGenerator returns a generator of BackendPoolItem instances for property testing.
-func BackendPoolItemGenerator() gopter.Gen {
+func BackendPoolItemGenerator() *rapid.Generator[BackendPoolItem] {
 	if backendPoolItemGenerator != nil {
 		return backendPoolItemGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	backendPoolItemGenerator = gen.Struct(reflect.TypeOf(BackendPoolItem{}), generators)
+	backendPoolItemGenerator = rapid.Just(BackendPoolItem{})
 
 	return backendPoolItemGenerator
 }

@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20261001/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -12,6 +13,82 @@ import (
 	"pgregory.net/rapid"
 	"testing"
 )
+
+// Test_HcpOpenShiftClustersNodePool_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of HcpOpenShiftClustersNodePool round trips to the hub storage version and back losslessly
+func Test_HcpOpenShiftClustersNodePool_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := HcpOpenShiftClustersNodePoolGenerator().Draw(t, "subject")
+		// Copy subject to make sure conversion doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Convert to our hub version
+		var hub storage.HcpOpenShiftClustersNodePool
+		err := copied.ConvertTo(&hub)
+		if err != nil {
+			t.Fatal("ConvertTo: " + err.Error())
+		}
+
+		// Convert from our hub version
+		var actual HcpOpenShiftClustersNodePool
+		err = actual.ConvertFrom(&hub)
+		if err != nil {
+			t.Fatal("ConvertFrom: " + err.Error())
+		}
+
+		// Compare actual with what we started with
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
+// Test_HcpOpenShiftClustersNodePool_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of HcpOpenShiftClustersNodePool can be assigned to storage and back losslessly
+func Test_HcpOpenShiftClustersNodePool_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := HcpOpenShiftClustersNodePoolGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.HcpOpenShiftClustersNodePool
+		err := copied.AssignProperties_To_HcpOpenShiftClustersNodePool(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual HcpOpenShiftClustersNodePool
+		err = actual.AssignProperties_From_HcpOpenShiftClustersNodePool(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
 
 func Test_HcpOpenShiftClustersNodePool_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -72,6 +149,44 @@ func HcpOpenShiftClustersNodePoolGenerator() *rapid.Generator[HcpOpenShiftCluste
 	return hcpOpenShiftClustersNodePoolGenerator
 }
 
+// Test_HcpOpenShiftClustersNodePoolOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of HcpOpenShiftClustersNodePoolOperatorSpec can be assigned to storage and back losslessly
+func Test_HcpOpenShiftClustersNodePoolOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := HcpOpenShiftClustersNodePoolOperatorSpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.HcpOpenShiftClustersNodePoolOperatorSpec
+		err := copied.AssignProperties_To_HcpOpenShiftClustersNodePoolOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual HcpOpenShiftClustersNodePoolOperatorSpec
+		err = actual.AssignProperties_From_HcpOpenShiftClustersNodePoolOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_HcpOpenShiftClustersNodePoolOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -121,6 +236,44 @@ func HcpOpenShiftClustersNodePoolOperatorSpecGenerator() *rapid.Generator[HcpOpe
 	hcpOpenShiftClustersNodePoolOperatorSpecGenerator = rapid.Just(HcpOpenShiftClustersNodePoolOperatorSpec{})
 
 	return hcpOpenShiftClustersNodePoolOperatorSpecGenerator
+}
+
+// Test_HcpOpenShiftClustersNodePool_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of HcpOpenShiftClustersNodePool_STATUS can be assigned to storage and back losslessly
+func Test_HcpOpenShiftClustersNodePool_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := HcpOpenShiftClustersNodePool_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.HcpOpenShiftClustersNodePool_STATUS
+		err := copied.AssignProperties_To_HcpOpenShiftClustersNodePool_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual HcpOpenShiftClustersNodePool_STATUS
+		err = actual.AssignProperties_From_HcpOpenShiftClustersNodePool_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_HcpOpenShiftClustersNodePool_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -193,6 +346,44 @@ func HcpOpenShiftClustersNodePool_STATUSGenerator() *rapid.Generator[HcpOpenShif
 	return hcpOpenShiftClustersNodePool_STATUSGenerator
 }
 
+// Test_HcpOpenShiftClustersNodePool_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of HcpOpenShiftClustersNodePool_Spec can be assigned to storage and back losslessly
+func Test_HcpOpenShiftClustersNodePool_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := HcpOpenShiftClustersNodePool_SpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.HcpOpenShiftClustersNodePool_Spec
+		err := copied.AssignProperties_To_HcpOpenShiftClustersNodePool_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual HcpOpenShiftClustersNodePool_Spec
+		err = actual.AssignProperties_From_HcpOpenShiftClustersNodePool_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_HcpOpenShiftClustersNodePool_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -263,6 +454,44 @@ func HcpOpenShiftClustersNodePool_SpecGenerator() *rapid.Generator[HcpOpenShiftC
 	return hcpOpenShiftClustersNodePool_SpecGenerator
 }
 
+// Test_Label_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Label can be assigned to storage and back losslessly
+func Test_Label_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := LabelGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.Label
+		err := copied.AssignProperties_To_Label(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual Label
+		err = actual.AssignProperties_From_Label(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_Label_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -320,6 +549,44 @@ func LabelGenerator() *rapid.Generator[Label] {
 	return labelGenerator
 }
 
+// Test_Label_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Label_STATUS can be assigned to storage and back losslessly
+func Test_Label_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := Label_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.Label_STATUS
+		err := copied.AssignProperties_To_Label_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual Label_STATUS
+		err = actual.AssignProperties_From_Label_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_Label_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -375,6 +642,44 @@ func Label_STATUSGenerator() *rapid.Generator[Label_STATUS] {
 	})
 
 	return label_STATUSGenerator
+}
+
+// Test_NodePoolAutoScaling_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of NodePoolAutoScaling can be assigned to storage and back losslessly
+func Test_NodePoolAutoScaling_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := NodePoolAutoScalingGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.NodePoolAutoScaling
+		err := copied.AssignProperties_To_NodePoolAutoScaling(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual NodePoolAutoScaling
+		err = actual.AssignProperties_From_NodePoolAutoScaling(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_NodePoolAutoScaling_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -435,6 +740,44 @@ func NodePoolAutoScalingGenerator() *rapid.Generator[NodePoolAutoScaling] {
 	return nodePoolAutoScalingGenerator
 }
 
+// Test_NodePoolAutoScaling_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of NodePoolAutoScaling_STATUS can be assigned to storage and back losslessly
+func Test_NodePoolAutoScaling_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := NodePoolAutoScaling_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.NodePoolAutoScaling_STATUS
+		err := copied.AssignProperties_To_NodePoolAutoScaling_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual NodePoolAutoScaling_STATUS
+		err = actual.AssignProperties_From_NodePoolAutoScaling_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_NodePoolAutoScaling_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -491,6 +834,44 @@ func NodePoolAutoScaling_STATUSGenerator() *rapid.Generator[NodePoolAutoScaling_
 	})
 
 	return nodePoolAutoScaling_STATUSGenerator
+}
+
+// Test_NodePoolPlatformProfile_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of NodePoolPlatformProfile can be assigned to storage and back losslessly
+func Test_NodePoolPlatformProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := NodePoolPlatformProfileGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.NodePoolPlatformProfile
+		err := copied.AssignProperties_To_NodePoolPlatformProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual NodePoolPlatformProfile
+		err = actual.AssignProperties_From_NodePoolPlatformProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_NodePoolPlatformProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -555,6 +936,44 @@ func NodePoolPlatformProfileGenerator() *rapid.Generator[NodePoolPlatformProfile
 	return nodePoolPlatformProfileGenerator
 }
 
+// Test_NodePoolPlatformProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of NodePoolPlatformProfile_STATUS can be assigned to storage and back losslessly
+func Test_NodePoolPlatformProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := NodePoolPlatformProfile_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.NodePoolPlatformProfile_STATUS
+		err := copied.AssignProperties_To_NodePoolPlatformProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual NodePoolPlatformProfile_STATUS
+		err = actual.AssignProperties_From_NodePoolPlatformProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_NodePoolPlatformProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -616,6 +1035,44 @@ func NodePoolPlatformProfile_STATUSGenerator() *rapid.Generator[NodePoolPlatform
 	})
 
 	return nodePoolPlatformProfile_STATUSGenerator
+}
+
+// Test_NodePoolProperties_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of NodePoolProperties can be assigned to storage and back losslessly
+func Test_NodePoolProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := NodePoolPropertiesGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.NodePoolProperties
+		err := copied.AssignProperties_To_NodePoolProperties(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual NodePoolProperties
+		err = actual.AssignProperties_From_NodePoolProperties(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_NodePoolProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -685,6 +1142,44 @@ func NodePoolPropertiesGenerator() *rapid.Generator[NodePoolProperties] {
 	})
 
 	return nodePoolPropertiesGenerator
+}
+
+// Test_NodePoolProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of NodePoolProperties_STATUS can be assigned to storage and back losslessly
+func Test_NodePoolProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := NodePoolProperties_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.NodePoolProperties_STATUS
+		err := copied.AssignProperties_To_NodePoolProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual NodePoolProperties_STATUS
+		err = actual.AssignProperties_From_NodePoolProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_NodePoolProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -761,6 +1256,44 @@ func NodePoolProperties_STATUSGenerator() *rapid.Generator[NodePoolProperties_ST
 	return nodePoolProperties_STATUSGenerator
 }
 
+// Test_NodePoolVersionProfile_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of NodePoolVersionProfile can be assigned to storage and back losslessly
+func Test_NodePoolVersionProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := NodePoolVersionProfileGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.NodePoolVersionProfile
+		err := copied.AssignProperties_To_NodePoolVersionProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual NodePoolVersionProfile
+		err = actual.AssignProperties_From_NodePoolVersionProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_NodePoolVersionProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -817,6 +1350,44 @@ func NodePoolVersionProfileGenerator() *rapid.Generator[NodePoolVersionProfile] 
 	})
 
 	return nodePoolVersionProfileGenerator
+}
+
+// Test_NodePoolVersionProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of NodePoolVersionProfile_STATUS can be assigned to storage and back losslessly
+func Test_NodePoolVersionProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := NodePoolVersionProfile_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.NodePoolVersionProfile_STATUS
+		err := copied.AssignProperties_To_NodePoolVersionProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual NodePoolVersionProfile_STATUS
+		err = actual.AssignProperties_From_NodePoolVersionProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_NodePoolVersionProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -877,6 +1448,44 @@ func NodePoolVersionProfile_STATUSGenerator() *rapid.Generator[NodePoolVersionPr
 	return nodePoolVersionProfile_STATUSGenerator
 }
 
+// Test_OsDiskProfile_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of OsDiskProfile can be assigned to storage and back losslessly
+func Test_OsDiskProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := OsDiskProfileGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.OsDiskProfile
+		err := copied.AssignProperties_To_OsDiskProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual OsDiskProfile
+		err = actual.AssignProperties_From_OsDiskProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_OsDiskProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -934,6 +1543,44 @@ func OsDiskProfileGenerator() *rapid.Generator[OsDiskProfile] {
 	})
 
 	return osDiskProfileGenerator
+}
+
+// Test_OsDiskProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of OsDiskProfile_STATUS can be assigned to storage and back losslessly
+func Test_OsDiskProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := OsDiskProfile_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.OsDiskProfile_STATUS
+		err := copied.AssignProperties_To_OsDiskProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual OsDiskProfile_STATUS
+		err = actual.AssignProperties_From_OsDiskProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_OsDiskProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -997,6 +1644,44 @@ func OsDiskProfile_STATUSGenerator() *rapid.Generator[OsDiskProfile_STATUS] {
 	return osDiskProfile_STATUSGenerator
 }
 
+// Test_Taint_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Taint can be assigned to storage and back losslessly
+func Test_Taint_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := TaintGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.Taint
+		err := copied.AssignProperties_To_Taint(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual Taint
+		err = actual.AssignProperties_From_Taint(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_Taint_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -1053,6 +1738,44 @@ func TaintGenerator() *rapid.Generator[Taint] {
 	})
 
 	return taintGenerator
+}
+
+// Test_Taint_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Taint_STATUS can be assigned to storage and back losslessly
+func Test_Taint_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := Taint_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.Taint_STATUS
+		err := copied.AssignProperties_To_Taint_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual Taint_STATUS
+		err = actual.AssignProperties_From_Taint_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_Taint_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

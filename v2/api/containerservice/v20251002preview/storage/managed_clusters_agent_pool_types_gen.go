@@ -5629,19 +5629,6 @@ func (profile *ScaleProfile) AssignProperties_From_ScaleProfile(source *v2025080
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// Autoscale
-	if propertyBag.Contains("Autoscale") {
-		var autoscale AutoScaleProfile
-		err := propertyBag.Pull("Autoscale", &autoscale)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Autoscale' from propertyBag")
-		}
-
-		profile.Autoscale = &autoscale
-	} else {
-		profile.Autoscale = nil
-	}
-
 	// Manual
 	if source.Manual != nil {
 		manualList := make([]ManualScaleProfile, len(source.Manual))
@@ -5682,13 +5669,6 @@ func (profile *ScaleProfile) AssignProperties_From_ScaleProfile(source *v2025080
 func (profile *ScaleProfile) AssignProperties_To_ScaleProfile(destination *v20250801s.ScaleProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
-
-	// Autoscale
-	if profile.Autoscale != nil {
-		propertyBag.Add("Autoscale", *profile.Autoscale)
-	} else {
-		propertyBag.Remove("Autoscale")
-	}
 
 	// Manual
 	if profile.Manual != nil {
@@ -5739,19 +5719,6 @@ func (profile *ScaleProfile_STATUS) AssignProperties_From_ScaleProfile_STATUS(so
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// Autoscale
-	if propertyBag.Contains("Autoscale") {
-		var autoscale AutoScaleProfile_STATUS
-		err := propertyBag.Pull("Autoscale", &autoscale)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Autoscale' from propertyBag")
-		}
-
-		profile.Autoscale = &autoscale
-	} else {
-		profile.Autoscale = nil
-	}
-
 	// Manual
 	if source.Manual != nil {
 		manualList := make([]ManualScaleProfile_STATUS, len(source.Manual))
@@ -5792,13 +5759,6 @@ func (profile *ScaleProfile_STATUS) AssignProperties_From_ScaleProfile_STATUS(so
 func (profile *ScaleProfile_STATUS) AssignProperties_To_ScaleProfile_STATUS(destination *v20250801s.ScaleProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
-
-	// Autoscale
-	if profile.Autoscale != nil {
-		propertyBag.Add("Autoscale", *profile.Autoscale)
-	} else {
-		propertyBag.Remove("Autoscale")
-	}
 
 	// Manual
 	if profile.Manual != nil {

@@ -1,0 +1,27 @@
+apiVersion: botservice.azure.com/v20220915
+kind: BotService
+metadata:
+  name: aso-sample-botservice
+  namespace: default
+spec:
+  location: global
+  kind: sdk
+  sku:
+    name: F0
+  owner:
+    name: aso-sample-rg
+  properties:
+    displayName: ASO Sample Bot
+    endpoint: https://example.com/api/messages
+    # Azure no longer allows creating multitenant bots, so this bot runs as a user assigned managed identity
+    msaAppType: UserAssignedMSI
+    msaAppIdFromConfig:
+      name: aso-sample-botidentity-settings
+      key: clientId
+    msaAppTenantIdFromConfig:
+      name: aso-sample-botidentity-settings
+      key: tenantId
+    msaAppMSIResourceReference:
+      group: managedidentity.azure.com
+      kind: UserAssignedIdentity
+      name: aso-sample-botidentity

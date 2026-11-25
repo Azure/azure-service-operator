@@ -10,14 +10,11 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
+// Test_BackendCircuitBreaker_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of BackendCircuitBreaker can be assigned to storage and back losslessly
 func Test_BackendCircuitBreaker_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -25,44 +22,34 @@ func Test_BackendCircuitBreaker_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from BackendCircuitBreaker to BackendCircuitBreaker via AssignProperties_To_BackendCircuitBreaker & AssignProperties_From_BackendCircuitBreaker returns original",
-		prop.ForAll(RunPropertyAssignmentTestForBackendCircuitBreaker, BackendCircuitBreakerGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := BackendCircuitBreakerGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForBackendCircuitBreaker tests if a specific instance of BackendCircuitBreaker can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForBackendCircuitBreaker(subject BackendCircuitBreaker) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.BackendCircuitBreaker
+		err := copied.AssignProperties_To_BackendCircuitBreaker(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BackendCircuitBreaker
-	err := copied.AssignProperties_To_BackendCircuitBreaker(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual BackendCircuitBreaker
+		err = actual.AssignProperties_From_BackendCircuitBreaker(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual BackendCircuitBreaker
-	err = actual.AssignProperties_From_BackendCircuitBreaker(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_BackendCircuitBreaker_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -72,29 +59,23 @@ func Test_BackendCircuitBreaker_WhenSerializedToJson_DeserializesAsEqual(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BackendCircuitBreaker via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBackendCircuitBreaker, BackendCircuitBreakerGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForBackendCircuitBreaker)
 }
 
 // RunJSONSerializationTestForBackendCircuitBreaker runs a test to see if a specific instance of BackendCircuitBreaker round trips to JSON and back losslessly
-func RunJSONSerializationTestForBackendCircuitBreaker(subject BackendCircuitBreaker) string {
+func RunJSONSerializationTestForBackendCircuitBreaker(t *rapid.T) {
+	subject := BackendCircuitBreakerGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual BackendCircuitBreaker
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -103,34 +84,32 @@ func RunJSONSerializationTestForBackendCircuitBreaker(subject BackendCircuitBrea
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of BackendCircuitBreaker instances for property testing - lazily instantiated by
 // BackendCircuitBreakerGenerator()
-var backendCircuitBreakerGenerator gopter.Gen
+var backendCircuitBreakerGenerator *rapid.Generator[BackendCircuitBreaker]
 
 // BackendCircuitBreakerGenerator returns a generator of BackendCircuitBreaker instances for property testing.
-func BackendCircuitBreakerGenerator() gopter.Gen {
+func BackendCircuitBreakerGenerator() *rapid.Generator[BackendCircuitBreaker] {
 	if backendCircuitBreakerGenerator != nil {
 		return backendCircuitBreakerGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForBackendCircuitBreaker(generators)
-	backendCircuitBreakerGenerator = gen.Struct(reflect.TypeOf(BackendCircuitBreaker{}), generators)
+	rules := rapid.SliceOf(CircuitBreakerRuleGenerator())
+
+	backendCircuitBreakerGenerator = rapid.Custom(func(t *rapid.T) BackendCircuitBreaker {
+		var result BackendCircuitBreaker
+		result.Rules = rules.Draw(t, "Rules")
+		return result
+	})
 
 	return backendCircuitBreakerGenerator
 }
 
-// AddRelatedPropertyGeneratorsForBackendCircuitBreaker is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForBackendCircuitBreaker(gens map[string]gopter.Gen) {
-	gens["Rules"] = gen.SliceOf(CircuitBreakerRuleGenerator())
-}
-
+// Test_CircuitBreakerFailureCondition_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of CircuitBreakerFailureCondition can be assigned to storage and back losslessly
 func Test_CircuitBreakerFailureCondition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -138,44 +117,34 @@ func Test_CircuitBreakerFailureCondition_WhenPropertiesConverted_RoundTripsWitho
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from CircuitBreakerFailureCondition to CircuitBreakerFailureCondition via AssignProperties_To_CircuitBreakerFailureCondition & AssignProperties_From_CircuitBreakerFailureCondition returns original",
-		prop.ForAll(RunPropertyAssignmentTestForCircuitBreakerFailureCondition, CircuitBreakerFailureConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := CircuitBreakerFailureConditionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForCircuitBreakerFailureCondition tests if a specific instance of CircuitBreakerFailureCondition can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForCircuitBreakerFailureCondition(subject CircuitBreakerFailureCondition) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.CircuitBreakerFailureCondition
+		err := copied.AssignProperties_To_CircuitBreakerFailureCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CircuitBreakerFailureCondition
-	err := copied.AssignProperties_To_CircuitBreakerFailureCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual CircuitBreakerFailureCondition
+		err = actual.AssignProperties_From_CircuitBreakerFailureCondition(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual CircuitBreakerFailureCondition
-	err = actual.AssignProperties_From_CircuitBreakerFailureCondition(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_CircuitBreakerFailureCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -185,29 +154,23 @@ func Test_CircuitBreakerFailureCondition_WhenSerializedToJson_DeserializesAsEqua
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CircuitBreakerFailureCondition via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCircuitBreakerFailureCondition, CircuitBreakerFailureConditionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForCircuitBreakerFailureCondition)
 }
 
 // RunJSONSerializationTestForCircuitBreakerFailureCondition runs a test to see if a specific instance of CircuitBreakerFailureCondition round trips to JSON and back losslessly
-func RunJSONSerializationTestForCircuitBreakerFailureCondition(subject CircuitBreakerFailureCondition) string {
+func RunJSONSerializationTestForCircuitBreakerFailureCondition(t *rapid.T) {
+	subject := CircuitBreakerFailureConditionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual CircuitBreakerFailureCondition
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -216,51 +179,39 @@ func RunJSONSerializationTestForCircuitBreakerFailureCondition(subject CircuitBr
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of CircuitBreakerFailureCondition instances for property testing - lazily instantiated by
 // CircuitBreakerFailureConditionGenerator()
-var circuitBreakerFailureConditionGenerator gopter.Gen
+var circuitBreakerFailureConditionGenerator *rapid.Generator[CircuitBreakerFailureCondition]
 
 // CircuitBreakerFailureConditionGenerator returns a generator of CircuitBreakerFailureCondition instances for property testing.
-// We first initialize circuitBreakerFailureConditionGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func CircuitBreakerFailureConditionGenerator() gopter.Gen {
+func CircuitBreakerFailureConditionGenerator() *rapid.Generator[CircuitBreakerFailureCondition] {
 	if circuitBreakerFailureConditionGenerator != nil {
 		return circuitBreakerFailureConditionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCircuitBreakerFailureCondition(generators)
-	circuitBreakerFailureConditionGenerator = gen.Struct(reflect.TypeOf(CircuitBreakerFailureCondition{}), generators)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+	errorReasons := rapid.SliceOf(rapid.String())
+	interval := rapid.Ptr(rapid.String(), true)
+	statusCodeRanges := rapid.SliceOf(FailureStatusCodeRangeGenerator())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCircuitBreakerFailureCondition(generators)
-	AddRelatedPropertyGeneratorsForCircuitBreakerFailureCondition(generators)
-	circuitBreakerFailureConditionGenerator = gen.Struct(reflect.TypeOf(CircuitBreakerFailureCondition{}), generators)
+	circuitBreakerFailureConditionGenerator = rapid.Custom(func(t *rapid.T) CircuitBreakerFailureCondition {
+		var result CircuitBreakerFailureCondition
+		result.Count = ptrInt.Draw(t, "Count")
+		result.ErrorReasons = errorReasons.Draw(t, "ErrorReasons")
+		result.Interval = interval.Draw(t, "Interval")
+		result.Percentage = ptrInt.Draw(t, "Percentage")
+		result.StatusCodeRanges = statusCodeRanges.Draw(t, "StatusCodeRanges")
+		return result
+	})
 
 	return circuitBreakerFailureConditionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForCircuitBreakerFailureCondition is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCircuitBreakerFailureCondition(gens map[string]gopter.Gen) {
-	gens["Count"] = gen.PtrOf(gen.Int())
-	gens["ErrorReasons"] = gen.SliceOf(gen.AlphaString())
-	gens["Interval"] = gen.PtrOf(gen.AlphaString())
-	gens["Percentage"] = gen.PtrOf(gen.Int())
-}
-
-// AddRelatedPropertyGeneratorsForCircuitBreakerFailureCondition is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForCircuitBreakerFailureCondition(gens map[string]gopter.Gen) {
-	gens["StatusCodeRanges"] = gen.SliceOf(FailureStatusCodeRangeGenerator())
-}
-
+// Test_CircuitBreakerRule_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of CircuitBreakerRule can be assigned to storage and back losslessly
 func Test_CircuitBreakerRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -268,44 +219,34 @@ func Test_CircuitBreakerRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from CircuitBreakerRule to CircuitBreakerRule via AssignProperties_To_CircuitBreakerRule & AssignProperties_From_CircuitBreakerRule returns original",
-		prop.ForAll(RunPropertyAssignmentTestForCircuitBreakerRule, CircuitBreakerRuleGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := CircuitBreakerRuleGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForCircuitBreakerRule tests if a specific instance of CircuitBreakerRule can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForCircuitBreakerRule(subject CircuitBreakerRule) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.CircuitBreakerRule
+		err := copied.AssignProperties_To_CircuitBreakerRule(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CircuitBreakerRule
-	err := copied.AssignProperties_To_CircuitBreakerRule(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual CircuitBreakerRule
+		err = actual.AssignProperties_From_CircuitBreakerRule(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual CircuitBreakerRule
-	err = actual.AssignProperties_From_CircuitBreakerRule(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_CircuitBreakerRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -315,29 +256,23 @@ func Test_CircuitBreakerRule_WhenSerializedToJson_DeserializesAsEqual(t *testing
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CircuitBreakerRule via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCircuitBreakerRule, CircuitBreakerRuleGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForCircuitBreakerRule)
 }
 
 // RunJSONSerializationTestForCircuitBreakerRule runs a test to see if a specific instance of CircuitBreakerRule round trips to JSON and back losslessly
-func RunJSONSerializationTestForCircuitBreakerRule(subject CircuitBreakerRule) string {
+func RunJSONSerializationTestForCircuitBreakerRule(t *rapid.T) {
+	subject := CircuitBreakerRuleGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual CircuitBreakerRule
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -346,48 +281,34 @@ func RunJSONSerializationTestForCircuitBreakerRule(subject CircuitBreakerRule) s
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of CircuitBreakerRule instances for property testing - lazily instantiated by CircuitBreakerRuleGenerator()
-var circuitBreakerRuleGenerator gopter.Gen
+var circuitBreakerRuleGenerator *rapid.Generator[CircuitBreakerRule]
 
 // CircuitBreakerRuleGenerator returns a generator of CircuitBreakerRule instances for property testing.
-// We first initialize circuitBreakerRuleGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func CircuitBreakerRuleGenerator() gopter.Gen {
+func CircuitBreakerRuleGenerator() *rapid.Generator[CircuitBreakerRule] {
 	if circuitBreakerRuleGenerator != nil {
 		return circuitBreakerRuleGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCircuitBreakerRule(generators)
-	circuitBreakerRuleGenerator = gen.Struct(reflect.TypeOf(CircuitBreakerRule{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	failureCondition := rapid.Ptr(CircuitBreakerFailureConditionGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCircuitBreakerRule(generators)
-	AddRelatedPropertyGeneratorsForCircuitBreakerRule(generators)
-	circuitBreakerRuleGenerator = gen.Struct(reflect.TypeOf(CircuitBreakerRule{}), generators)
+	circuitBreakerRuleGenerator = rapid.Custom(func(t *rapid.T) CircuitBreakerRule {
+		var result CircuitBreakerRule
+		result.FailureCondition = failureCondition.Draw(t, "FailureCondition")
+		result.Name = ptrString.Draw(t, "Name")
+		result.TripDuration = ptrString.Draw(t, "TripDuration")
+		return result
+	})
 
 	return circuitBreakerRuleGenerator
 }
 
-// AddIndependentPropertyGeneratorsForCircuitBreakerRule is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCircuitBreakerRule(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["TripDuration"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForCircuitBreakerRule is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForCircuitBreakerRule(gens map[string]gopter.Gen) {
-	gens["FailureCondition"] = gen.PtrOf(CircuitBreakerFailureConditionGenerator())
-}
-
+// Test_FailureStatusCodeRange_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of FailureStatusCodeRange can be assigned to storage and back losslessly
 func Test_FailureStatusCodeRange_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -395,44 +316,34 @@ func Test_FailureStatusCodeRange_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from FailureStatusCodeRange to FailureStatusCodeRange via AssignProperties_To_FailureStatusCodeRange & AssignProperties_From_FailureStatusCodeRange returns original",
-		prop.ForAll(RunPropertyAssignmentTestForFailureStatusCodeRange, FailureStatusCodeRangeGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := FailureStatusCodeRangeGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForFailureStatusCodeRange tests if a specific instance of FailureStatusCodeRange can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForFailureStatusCodeRange(subject FailureStatusCodeRange) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.FailureStatusCodeRange
+		err := copied.AssignProperties_To_FailureStatusCodeRange(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FailureStatusCodeRange
-	err := copied.AssignProperties_To_FailureStatusCodeRange(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual FailureStatusCodeRange
+		err = actual.AssignProperties_From_FailureStatusCodeRange(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual FailureStatusCodeRange
-	err = actual.AssignProperties_From_FailureStatusCodeRange(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_FailureStatusCodeRange_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -442,29 +353,23 @@ func Test_FailureStatusCodeRange_WhenSerializedToJson_DeserializesAsEqual(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FailureStatusCodeRange via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFailureStatusCodeRange, FailureStatusCodeRangeGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFailureStatusCodeRange)
 }
 
 // RunJSONSerializationTestForFailureStatusCodeRange runs a test to see if a specific instance of FailureStatusCodeRange round trips to JSON and back losslessly
-func RunJSONSerializationTestForFailureStatusCodeRange(subject FailureStatusCodeRange) string {
+func RunJSONSerializationTestForFailureStatusCodeRange(t *rapid.T) {
+	subject := FailureStatusCodeRangeGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FailureStatusCodeRange
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -473,31 +378,28 @@ func RunJSONSerializationTestForFailureStatusCodeRange(subject FailureStatusCode
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FailureStatusCodeRange instances for property testing - lazily instantiated by
 // FailureStatusCodeRangeGenerator()
-var failureStatusCodeRangeGenerator gopter.Gen
+var failureStatusCodeRangeGenerator *rapid.Generator[FailureStatusCodeRange]
 
 // FailureStatusCodeRangeGenerator returns a generator of FailureStatusCodeRange instances for property testing.
-func FailureStatusCodeRangeGenerator() gopter.Gen {
+func FailureStatusCodeRangeGenerator() *rapid.Generator[FailureStatusCodeRange] {
 	if failureStatusCodeRangeGenerator != nil {
 		return failureStatusCodeRangeGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFailureStatusCodeRange(generators)
-	failureStatusCodeRangeGenerator = gen.Struct(reflect.TypeOf(FailureStatusCodeRange{}), generators)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+
+	failureStatusCodeRangeGenerator = rapid.Custom(func(t *rapid.T) FailureStatusCodeRange {
+		var result FailureStatusCodeRange
+		result.Max = ptrInt.Draw(t, "Max")
+		result.Min = ptrInt.Draw(t, "Min")
+		return result
+	})
 
 	return failureStatusCodeRangeGenerator
-}
-
-// AddIndependentPropertyGeneratorsForFailureStatusCodeRange is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFailureStatusCodeRange(gens map[string]gopter.Gen) {
-	gens["Max"] = gen.PtrOf(gen.Int())
-	gens["Min"] = gen.PtrOf(gen.Int())
 }

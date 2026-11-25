@@ -10,14 +10,11 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
+// Test_ServiceGatewayHostnameConfiguration_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of ServiceGatewayHostnameConfiguration round trips to the hub storage version and back losslessly
 func Test_ServiceGatewayHostnameConfiguration_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -25,47 +22,37 @@ func Test_ServiceGatewayHostnameConfiguration_WhenConvertedToHub_RoundTripsWitho
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ServiceGatewayHostnameConfiguration to hub returns original",
-		prop.ForAll(RunResourceConversionTestForServiceGatewayHostnameConfiguration, ServiceGatewayHostnameConfigurationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ServiceGatewayHostnameConfigurationGenerator().Draw(t, "subject")
+		// Copy subject to make sure conversion doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Convert to our hub version
+		var hub storage.ServiceGatewayHostnameConfiguration
+		err := copied.ConvertTo(&hub)
+		if err != nil {
+			t.Fatal("ConvertTo: " + err.Error())
+		}
+
+		// Convert from our hub version
+		var actual ServiceGatewayHostnameConfiguration
+		err = actual.ConvertFrom(&hub)
+		if err != nil {
+			t.Fatal("ConvertFrom: " + err.Error())
+		}
+
+		// Compare actual with what we started with
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
-// RunResourceConversionTestForServiceGatewayHostnameConfiguration tests if a specific instance of ServiceGatewayHostnameConfiguration round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForServiceGatewayHostnameConfiguration(subject ServiceGatewayHostnameConfiguration) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub storage.ServiceGatewayHostnameConfiguration
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual ServiceGatewayHostnameConfiguration
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
+// Test_ServiceGatewayHostnameConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ServiceGatewayHostnameConfiguration can be assigned to storage and back losslessly
 func Test_ServiceGatewayHostnameConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -73,44 +60,34 @@ func Test_ServiceGatewayHostnameConfiguration_WhenPropertiesConverted_RoundTrips
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ServiceGatewayHostnameConfiguration to ServiceGatewayHostnameConfiguration via AssignProperties_To_ServiceGatewayHostnameConfiguration & AssignProperties_From_ServiceGatewayHostnameConfiguration returns original",
-		prop.ForAll(RunPropertyAssignmentTestForServiceGatewayHostnameConfiguration, ServiceGatewayHostnameConfigurationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ServiceGatewayHostnameConfigurationGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForServiceGatewayHostnameConfiguration tests if a specific instance of ServiceGatewayHostnameConfiguration can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForServiceGatewayHostnameConfiguration(subject ServiceGatewayHostnameConfiguration) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ServiceGatewayHostnameConfiguration
+		err := copied.AssignProperties_To_ServiceGatewayHostnameConfiguration(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServiceGatewayHostnameConfiguration
-	err := copied.AssignProperties_To_ServiceGatewayHostnameConfiguration(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ServiceGatewayHostnameConfiguration
+		err = actual.AssignProperties_From_ServiceGatewayHostnameConfiguration(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ServiceGatewayHostnameConfiguration
-	err = actual.AssignProperties_From_ServiceGatewayHostnameConfiguration(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ServiceGatewayHostnameConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -120,29 +97,23 @@ func Test_ServiceGatewayHostnameConfiguration_WhenSerializedToJson_DeserializesA
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ServiceGatewayHostnameConfiguration via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServiceGatewayHostnameConfiguration, ServiceGatewayHostnameConfigurationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForServiceGatewayHostnameConfiguration)
 }
 
 // RunJSONSerializationTestForServiceGatewayHostnameConfiguration runs a test to see if a specific instance of ServiceGatewayHostnameConfiguration round trips to JSON and back losslessly
-func RunJSONSerializationTestForServiceGatewayHostnameConfiguration(subject ServiceGatewayHostnameConfiguration) string {
+func RunJSONSerializationTestForServiceGatewayHostnameConfiguration(t *rapid.T) {
+	subject := ServiceGatewayHostnameConfigurationGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ServiceGatewayHostnameConfiguration
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -151,35 +122,34 @@ func RunJSONSerializationTestForServiceGatewayHostnameConfiguration(subject Serv
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ServiceGatewayHostnameConfiguration instances for property testing - lazily instantiated by
 // ServiceGatewayHostnameConfigurationGenerator()
-var serviceGatewayHostnameConfigurationGenerator gopter.Gen
+var serviceGatewayHostnameConfigurationGenerator *rapid.Generator[ServiceGatewayHostnameConfiguration]
 
 // ServiceGatewayHostnameConfigurationGenerator returns a generator of ServiceGatewayHostnameConfiguration instances for property testing.
-func ServiceGatewayHostnameConfigurationGenerator() gopter.Gen {
+func ServiceGatewayHostnameConfigurationGenerator() *rapid.Generator[ServiceGatewayHostnameConfiguration] {
 	if serviceGatewayHostnameConfigurationGenerator != nil {
 		return serviceGatewayHostnameConfigurationGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForServiceGatewayHostnameConfiguration(generators)
-	serviceGatewayHostnameConfigurationGenerator = gen.Struct(reflect.TypeOf(ServiceGatewayHostnameConfiguration{}), generators)
+	spec := ServiceGatewayHostnameConfiguration_SpecGenerator()
+	status := ServiceGatewayHostnameConfiguration_STATUSGenerator()
+
+	serviceGatewayHostnameConfigurationGenerator = rapid.Custom(func(t *rapid.T) ServiceGatewayHostnameConfiguration {
+		var result ServiceGatewayHostnameConfiguration
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return serviceGatewayHostnameConfigurationGenerator
 }
 
-// AddRelatedPropertyGeneratorsForServiceGatewayHostnameConfiguration is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForServiceGatewayHostnameConfiguration(gens map[string]gopter.Gen) {
-	gens["Spec"] = ServiceGatewayHostnameConfiguration_SpecGenerator()
-	gens["Status"] = ServiceGatewayHostnameConfiguration_STATUSGenerator()
-}
-
+// Test_ServiceGatewayHostnameConfigurationOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ServiceGatewayHostnameConfigurationOperatorSpec can be assigned to storage and back losslessly
 func Test_ServiceGatewayHostnameConfigurationOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -187,44 +157,34 @@ func Test_ServiceGatewayHostnameConfigurationOperatorSpec_WhenPropertiesConverte
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ServiceGatewayHostnameConfigurationOperatorSpec to ServiceGatewayHostnameConfigurationOperatorSpec via AssignProperties_To_ServiceGatewayHostnameConfigurationOperatorSpec & AssignProperties_From_ServiceGatewayHostnameConfigurationOperatorSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForServiceGatewayHostnameConfigurationOperatorSpec, ServiceGatewayHostnameConfigurationOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ServiceGatewayHostnameConfigurationOperatorSpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForServiceGatewayHostnameConfigurationOperatorSpec tests if a specific instance of ServiceGatewayHostnameConfigurationOperatorSpec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForServiceGatewayHostnameConfigurationOperatorSpec(subject ServiceGatewayHostnameConfigurationOperatorSpec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ServiceGatewayHostnameConfigurationOperatorSpec
+		err := copied.AssignProperties_To_ServiceGatewayHostnameConfigurationOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServiceGatewayHostnameConfigurationOperatorSpec
-	err := copied.AssignProperties_To_ServiceGatewayHostnameConfigurationOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ServiceGatewayHostnameConfigurationOperatorSpec
+		err = actual.AssignProperties_From_ServiceGatewayHostnameConfigurationOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ServiceGatewayHostnameConfigurationOperatorSpec
-	err = actual.AssignProperties_From_ServiceGatewayHostnameConfigurationOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ServiceGatewayHostnameConfigurationOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -234,29 +194,23 @@ func Test_ServiceGatewayHostnameConfigurationOperatorSpec_WhenSerializedToJson_D
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ServiceGatewayHostnameConfigurationOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServiceGatewayHostnameConfigurationOperatorSpec, ServiceGatewayHostnameConfigurationOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForServiceGatewayHostnameConfigurationOperatorSpec)
 }
 
 // RunJSONSerializationTestForServiceGatewayHostnameConfigurationOperatorSpec runs a test to see if a specific instance of ServiceGatewayHostnameConfigurationOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForServiceGatewayHostnameConfigurationOperatorSpec(subject ServiceGatewayHostnameConfigurationOperatorSpec) string {
+func RunJSONSerializationTestForServiceGatewayHostnameConfigurationOperatorSpec(t *rapid.T) {
+	subject := ServiceGatewayHostnameConfigurationOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ServiceGatewayHostnameConfigurationOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -265,28 +219,26 @@ func RunJSONSerializationTestForServiceGatewayHostnameConfigurationOperatorSpec(
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ServiceGatewayHostnameConfigurationOperatorSpec instances for property testing - lazily instantiated by
 // ServiceGatewayHostnameConfigurationOperatorSpecGenerator()
-var serviceGatewayHostnameConfigurationOperatorSpecGenerator gopter.Gen
+var serviceGatewayHostnameConfigurationOperatorSpecGenerator *rapid.Generator[ServiceGatewayHostnameConfigurationOperatorSpec]
 
 // ServiceGatewayHostnameConfigurationOperatorSpecGenerator returns a generator of ServiceGatewayHostnameConfigurationOperatorSpec instances for property testing.
-func ServiceGatewayHostnameConfigurationOperatorSpecGenerator() gopter.Gen {
+func ServiceGatewayHostnameConfigurationOperatorSpecGenerator() *rapid.Generator[ServiceGatewayHostnameConfigurationOperatorSpec] {
 	if serviceGatewayHostnameConfigurationOperatorSpecGenerator != nil {
 		return serviceGatewayHostnameConfigurationOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	serviceGatewayHostnameConfigurationOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ServiceGatewayHostnameConfigurationOperatorSpec{}), generators)
+	serviceGatewayHostnameConfigurationOperatorSpecGenerator = rapid.Just(ServiceGatewayHostnameConfigurationOperatorSpec{})
 
 	return serviceGatewayHostnameConfigurationOperatorSpecGenerator
 }
 
+// Test_ServiceGatewayHostnameConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ServiceGatewayHostnameConfiguration_STATUS can be assigned to storage and back losslessly
 func Test_ServiceGatewayHostnameConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -294,44 +246,34 @@ func Test_ServiceGatewayHostnameConfiguration_STATUS_WhenPropertiesConverted_Rou
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ServiceGatewayHostnameConfiguration_STATUS to ServiceGatewayHostnameConfiguration_STATUS via AssignProperties_To_ServiceGatewayHostnameConfiguration_STATUS & AssignProperties_From_ServiceGatewayHostnameConfiguration_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForServiceGatewayHostnameConfiguration_STATUS, ServiceGatewayHostnameConfiguration_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ServiceGatewayHostnameConfiguration_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForServiceGatewayHostnameConfiguration_STATUS tests if a specific instance of ServiceGatewayHostnameConfiguration_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForServiceGatewayHostnameConfiguration_STATUS(subject ServiceGatewayHostnameConfiguration_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ServiceGatewayHostnameConfiguration_STATUS
+		err := copied.AssignProperties_To_ServiceGatewayHostnameConfiguration_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServiceGatewayHostnameConfiguration_STATUS
-	err := copied.AssignProperties_To_ServiceGatewayHostnameConfiguration_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ServiceGatewayHostnameConfiguration_STATUS
+		err = actual.AssignProperties_From_ServiceGatewayHostnameConfiguration_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ServiceGatewayHostnameConfiguration_STATUS
-	err = actual.AssignProperties_From_ServiceGatewayHostnameConfiguration_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ServiceGatewayHostnameConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -341,29 +283,23 @@ func Test_ServiceGatewayHostnameConfiguration_STATUS_WhenSerializedToJson_Deseri
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ServiceGatewayHostnameConfiguration_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServiceGatewayHostnameConfiguration_STATUS, ServiceGatewayHostnameConfiguration_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForServiceGatewayHostnameConfiguration_STATUS)
 }
 
 // RunJSONSerializationTestForServiceGatewayHostnameConfiguration_STATUS runs a test to see if a specific instance of ServiceGatewayHostnameConfiguration_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForServiceGatewayHostnameConfiguration_STATUS(subject ServiceGatewayHostnameConfiguration_STATUS) string {
+func RunJSONSerializationTestForServiceGatewayHostnameConfiguration_STATUS(t *rapid.T) {
+	subject := ServiceGatewayHostnameConfiguration_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ServiceGatewayHostnameConfiguration_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -372,42 +308,41 @@ func RunJSONSerializationTestForServiceGatewayHostnameConfiguration_STATUS(subje
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ServiceGatewayHostnameConfiguration_STATUS instances for property testing - lazily instantiated by
 // ServiceGatewayHostnameConfiguration_STATUSGenerator()
-var serviceGatewayHostnameConfiguration_STATUSGenerator gopter.Gen
+var serviceGatewayHostnameConfiguration_STATUSGenerator *rapid.Generator[ServiceGatewayHostnameConfiguration_STATUS]
 
 // ServiceGatewayHostnameConfiguration_STATUSGenerator returns a generator of ServiceGatewayHostnameConfiguration_STATUS instances for property testing.
-func ServiceGatewayHostnameConfiguration_STATUSGenerator() gopter.Gen {
+func ServiceGatewayHostnameConfiguration_STATUSGenerator() *rapid.Generator[ServiceGatewayHostnameConfiguration_STATUS] {
 	if serviceGatewayHostnameConfiguration_STATUSGenerator != nil {
 		return serviceGatewayHostnameConfiguration_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServiceGatewayHostnameConfiguration_STATUS(generators)
-	serviceGatewayHostnameConfiguration_STATUSGenerator = gen.Struct(reflect.TypeOf(ServiceGatewayHostnameConfiguration_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	ptrBool := rapid.Ptr(rapid.Bool(), true)
+
+	serviceGatewayHostnameConfiguration_STATUSGenerator = rapid.Custom(func(t *rapid.T) ServiceGatewayHostnameConfiguration_STATUS {
+		var result ServiceGatewayHostnameConfiguration_STATUS
+		result.CertificateId = ptrString.Draw(t, "CertificateId")
+		result.Hostname = ptrString.Draw(t, "Hostname")
+		result.Http2Enabled = ptrBool.Draw(t, "Http2Enabled")
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.NegotiateClientCertificate = ptrBool.Draw(t, "NegotiateClientCertificate")
+		result.Tls10Enabled = ptrBool.Draw(t, "Tls10Enabled")
+		result.Tls11Enabled = ptrBool.Draw(t, "Tls11Enabled")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return serviceGatewayHostnameConfiguration_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForServiceGatewayHostnameConfiguration_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServiceGatewayHostnameConfiguration_STATUS(gens map[string]gopter.Gen) {
-	gens["CertificateId"] = gen.PtrOf(gen.AlphaString())
-	gens["Hostname"] = gen.PtrOf(gen.AlphaString())
-	gens["Http2Enabled"] = gen.PtrOf(gen.Bool())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["NegotiateClientCertificate"] = gen.PtrOf(gen.Bool())
-	gens["Tls10Enabled"] = gen.PtrOf(gen.Bool())
-	gens["Tls11Enabled"] = gen.PtrOf(gen.Bool())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
+// Test_ServiceGatewayHostnameConfiguration_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ServiceGatewayHostnameConfiguration_Spec can be assigned to storage and back losslessly
 func Test_ServiceGatewayHostnameConfiguration_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -415,44 +350,34 @@ func Test_ServiceGatewayHostnameConfiguration_Spec_WhenPropertiesConverted_Round
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ServiceGatewayHostnameConfiguration_Spec to ServiceGatewayHostnameConfiguration_Spec via AssignProperties_To_ServiceGatewayHostnameConfiguration_Spec & AssignProperties_From_ServiceGatewayHostnameConfiguration_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForServiceGatewayHostnameConfiguration_Spec, ServiceGatewayHostnameConfiguration_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ServiceGatewayHostnameConfiguration_SpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForServiceGatewayHostnameConfiguration_Spec tests if a specific instance of ServiceGatewayHostnameConfiguration_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForServiceGatewayHostnameConfiguration_Spec(subject ServiceGatewayHostnameConfiguration_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ServiceGatewayHostnameConfiguration_Spec
+		err := copied.AssignProperties_To_ServiceGatewayHostnameConfiguration_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServiceGatewayHostnameConfiguration_Spec
-	err := copied.AssignProperties_To_ServiceGatewayHostnameConfiguration_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ServiceGatewayHostnameConfiguration_Spec
+		err = actual.AssignProperties_From_ServiceGatewayHostnameConfiguration_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ServiceGatewayHostnameConfiguration_Spec
-	err = actual.AssignProperties_From_ServiceGatewayHostnameConfiguration_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ServiceGatewayHostnameConfiguration_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -462,29 +387,23 @@ func Test_ServiceGatewayHostnameConfiguration_Spec_WhenSerializedToJson_Deserial
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ServiceGatewayHostnameConfiguration_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServiceGatewayHostnameConfiguration_Spec, ServiceGatewayHostnameConfiguration_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForServiceGatewayHostnameConfiguration_Spec)
 }
 
 // RunJSONSerializationTestForServiceGatewayHostnameConfiguration_Spec runs a test to see if a specific instance of ServiceGatewayHostnameConfiguration_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForServiceGatewayHostnameConfiguration_Spec(subject ServiceGatewayHostnameConfiguration_Spec) string {
+func RunJSONSerializationTestForServiceGatewayHostnameConfiguration_Spec(t *rapid.T) {
+	subject := ServiceGatewayHostnameConfiguration_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ServiceGatewayHostnameConfiguration_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -493,49 +412,36 @@ func RunJSONSerializationTestForServiceGatewayHostnameConfiguration_Spec(subject
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ServiceGatewayHostnameConfiguration_Spec instances for property testing - lazily instantiated by
 // ServiceGatewayHostnameConfiguration_SpecGenerator()
-var serviceGatewayHostnameConfiguration_SpecGenerator gopter.Gen
+var serviceGatewayHostnameConfiguration_SpecGenerator *rapid.Generator[ServiceGatewayHostnameConfiguration_Spec]
 
 // ServiceGatewayHostnameConfiguration_SpecGenerator returns a generator of ServiceGatewayHostnameConfiguration_Spec instances for property testing.
-// We first initialize serviceGatewayHostnameConfiguration_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ServiceGatewayHostnameConfiguration_SpecGenerator() gopter.Gen {
+func ServiceGatewayHostnameConfiguration_SpecGenerator() *rapid.Generator[ServiceGatewayHostnameConfiguration_Spec] {
 	if serviceGatewayHostnameConfiguration_SpecGenerator != nil {
 		return serviceGatewayHostnameConfiguration_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServiceGatewayHostnameConfiguration_Spec(generators)
-	serviceGatewayHostnameConfiguration_SpecGenerator = gen.Struct(reflect.TypeOf(ServiceGatewayHostnameConfiguration_Spec{}), generators)
+	ptrBool := rapid.Ptr(rapid.Bool(), true)
+	azureName := rapid.String()
+	hostname := rapid.Ptr(rapid.String(), true)
+	operatorSpec := rapid.Ptr(ServiceGatewayHostnameConfigurationOperatorSpecGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServiceGatewayHostnameConfiguration_Spec(generators)
-	AddRelatedPropertyGeneratorsForServiceGatewayHostnameConfiguration_Spec(generators)
-	serviceGatewayHostnameConfiguration_SpecGenerator = gen.Struct(reflect.TypeOf(ServiceGatewayHostnameConfiguration_Spec{}), generators)
+	serviceGatewayHostnameConfiguration_SpecGenerator = rapid.Custom(func(t *rapid.T) ServiceGatewayHostnameConfiguration_Spec {
+		var result ServiceGatewayHostnameConfiguration_Spec
+		result.AzureName = azureName.Draw(t, "AzureName")
+		result.Hostname = hostname.Draw(t, "Hostname")
+		result.Http2Enabled = ptrBool.Draw(t, "Http2Enabled")
+		result.NegotiateClientCertificate = ptrBool.Draw(t, "NegotiateClientCertificate")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		result.Tls10Enabled = ptrBool.Draw(t, "Tls10Enabled")
+		result.Tls11Enabled = ptrBool.Draw(t, "Tls11Enabled")
+		return result
+	})
 
 	return serviceGatewayHostnameConfiguration_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForServiceGatewayHostnameConfiguration_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServiceGatewayHostnameConfiguration_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["Hostname"] = gen.PtrOf(gen.AlphaString())
-	gens["Http2Enabled"] = gen.PtrOf(gen.Bool())
-	gens["NegotiateClientCertificate"] = gen.PtrOf(gen.Bool())
-	gens["Tls10Enabled"] = gen.PtrOf(gen.Bool())
-	gens["Tls11Enabled"] = gen.PtrOf(gen.Bool())
-}
-
-// AddRelatedPropertyGeneratorsForServiceGatewayHostnameConfiguration_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForServiceGatewayHostnameConfiguration_Spec(gens map[string]gopter.Gen) {
-	gens["OperatorSpec"] = gen.PtrOf(ServiceGatewayHostnameConfigurationOperatorSpecGenerator())
 }

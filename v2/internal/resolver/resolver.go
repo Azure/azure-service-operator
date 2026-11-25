@@ -136,6 +136,36 @@ func (r *Resolver) ResolveResourceReferences(ctx context.Context, metaObject gen
 // Note that there is NO GUARANTEE that this hierarchy is "complete". It may root up to a resource which uses
 // the ARMID field of owner.
 func (r *Resolver) ResolveResourceHierarchy(ctx context.Context, obj genruntime.ARMMetaObject) (ResourceHierarchy, error) {
+	return r.resolveResourceHierarchy(ctx, obj, set.Make[resourceHierarchyKey]())
+}
+
+type resourceHierarchyKey struct {
+	groupKind      schema.GroupKind
+	namespacedName types.NamespacedName
+}
+
+func (r *Resolver) resolveResourceHierarchy(
+	ctx context.Context,
+	obj genruntime.ARMMetaObject,
+	visited set.Set[resourceHierarchyKey],
+) (ResourceHierarchy, error) {
+	gvk := genruntime.GetOriginalGVK(obj)
+	key := resourceHierarchyKey{
+		groupKind: gvk.GroupKind(),
+		namespacedName: types.NamespacedName{
+			Namespace: obj.GetNamespace(),
+			Name:      obj.GetName(),
+		},
+	}
+	if visited.Contains(key) {
+		return nil, eris.Errorf(
+			"owner cycle detected at %s %s",
+			key.groupKind.String(),
+			key.namespacedName.String(),
+		)
+	}
+	visited.Add(key)
+
 	owner := obj.Owner()
 	if owner == nil {
 		return ResourceHierarchy{obj}, nil
@@ -150,7 +180,7 @@ func (r *Resolver) ResolveResourceHierarchy(ctx context.Context, obj genruntime.
 		return ResourceHierarchy{obj}, nil
 	}
 
-	owners, err := r.ResolveResourceHierarchy(ctx, ownerDetails.Owner)
+	owners, err := r.resolveResourceHierarchy(ctx, ownerDetails.Owner, visited)
 	if err != nil {
 		return nil, eris.Wrapf(err, "getting owners for %s", ownerDetails.Owner.GetName())
 	}

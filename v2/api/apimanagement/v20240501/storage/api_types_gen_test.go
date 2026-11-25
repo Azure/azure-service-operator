@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_Api_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Api via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApi, ApiGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForApi)
 }
 
 // RunJSONSerializationTestForApi runs a test to see if a specific instance of Api round trips to JSON and back losslessly
-func RunJSONSerializationTestForApi(subject Api) string {
+func RunJSONSerializationTestForApi(t *rapid.T) {
+	subject := ApiGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Api
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,32 +45,30 @@ func RunJSONSerializationTestForApi(subject Api) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Api instances for property testing - lazily instantiated by ApiGenerator()
-var apiGenerator gopter.Gen
+var apiGenerator *rapid.Generator[Api]
 
 // ApiGenerator returns a generator of Api instances for property testing.
-func ApiGenerator() gopter.Gen {
+func ApiGenerator() *rapid.Generator[Api] {
 	if apiGenerator != nil {
 		return apiGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForApi(generators)
-	apiGenerator = gen.Struct(reflect.TypeOf(Api{}), generators)
+	spec := Api_SpecGenerator()
+	status := Api_STATUSGenerator()
+
+	apiGenerator = rapid.Custom(func(t *rapid.T) Api {
+		var result Api
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return apiGenerator
-}
-
-// AddRelatedPropertyGeneratorsForApi is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForApi(gens map[string]gopter.Gen) {
-	gens["Spec"] = Api_SpecGenerator()
-	gens["Status"] = Api_STATUSGenerator()
 }
 
 func Test_ApiContactInformation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -90,29 +78,23 @@ func Test_ApiContactInformation_WhenSerializedToJson_DeserializesAsEqual(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApiContactInformation via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApiContactInformation, ApiContactInformationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForApiContactInformation)
 }
 
 // RunJSONSerializationTestForApiContactInformation runs a test to see if a specific instance of ApiContactInformation round trips to JSON and back losslessly
-func RunJSONSerializationTestForApiContactInformation(subject ApiContactInformation) string {
+func RunJSONSerializationTestForApiContactInformation(t *rapid.T) {
+	subject := ApiContactInformationGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ApiContactInformation
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -121,34 +103,31 @@ func RunJSONSerializationTestForApiContactInformation(subject ApiContactInformat
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ApiContactInformation instances for property testing - lazily instantiated by
 // ApiContactInformationGenerator()
-var apiContactInformationGenerator gopter.Gen
+var apiContactInformationGenerator *rapid.Generator[ApiContactInformation]
 
 // ApiContactInformationGenerator returns a generator of ApiContactInformation instances for property testing.
-func ApiContactInformationGenerator() gopter.Gen {
+func ApiContactInformationGenerator() *rapid.Generator[ApiContactInformation] {
 	if apiContactInformationGenerator != nil {
 		return apiContactInformationGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApiContactInformation(generators)
-	apiContactInformationGenerator = gen.Struct(reflect.TypeOf(ApiContactInformation{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	apiContactInformationGenerator = rapid.Custom(func(t *rapid.T) ApiContactInformation {
+		var result ApiContactInformation
+		result.Email = ptrString.Draw(t, "Email")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Url = ptrString.Draw(t, "Url")
+		return result
+	})
 
 	return apiContactInformationGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApiContactInformation is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApiContactInformation(gens map[string]gopter.Gen) {
-	gens["Email"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Url"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ApiContactInformation_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -158,29 +137,23 @@ func Test_ApiContactInformation_STATUS_WhenSerializedToJson_DeserializesAsEqual(
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApiContactInformation_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApiContactInformation_STATUS, ApiContactInformation_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForApiContactInformation_STATUS)
 }
 
 // RunJSONSerializationTestForApiContactInformation_STATUS runs a test to see if a specific instance of ApiContactInformation_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForApiContactInformation_STATUS(subject ApiContactInformation_STATUS) string {
+func RunJSONSerializationTestForApiContactInformation_STATUS(t *rapid.T) {
+	subject := ApiContactInformation_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ApiContactInformation_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -189,34 +162,31 @@ func RunJSONSerializationTestForApiContactInformation_STATUS(subject ApiContactI
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ApiContactInformation_STATUS instances for property testing - lazily instantiated by
 // ApiContactInformation_STATUSGenerator()
-var apiContactInformation_STATUSGenerator gopter.Gen
+var apiContactInformation_STATUSGenerator *rapid.Generator[ApiContactInformation_STATUS]
 
 // ApiContactInformation_STATUSGenerator returns a generator of ApiContactInformation_STATUS instances for property testing.
-func ApiContactInformation_STATUSGenerator() gopter.Gen {
+func ApiContactInformation_STATUSGenerator() *rapid.Generator[ApiContactInformation_STATUS] {
 	if apiContactInformation_STATUSGenerator != nil {
 		return apiContactInformation_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApiContactInformation_STATUS(generators)
-	apiContactInformation_STATUSGenerator = gen.Struct(reflect.TypeOf(ApiContactInformation_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	apiContactInformation_STATUSGenerator = rapid.Custom(func(t *rapid.T) ApiContactInformation_STATUS {
+		var result ApiContactInformation_STATUS
+		result.Email = ptrString.Draw(t, "Email")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Url = ptrString.Draw(t, "Url")
+		return result
+	})
 
 	return apiContactInformation_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApiContactInformation_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApiContactInformation_STATUS(gens map[string]gopter.Gen) {
-	gens["Email"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Url"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ApiCreateOrUpdateProperties_WsdlSelector_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -226,29 +196,23 @@ func Test_ApiCreateOrUpdateProperties_WsdlSelector_WhenSerializedToJson_Deserial
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApiCreateOrUpdateProperties_WsdlSelector via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApiCreateOrUpdateProperties_WsdlSelector, ApiCreateOrUpdateProperties_WsdlSelectorGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForApiCreateOrUpdateProperties_WsdlSelector)
 }
 
 // RunJSONSerializationTestForApiCreateOrUpdateProperties_WsdlSelector runs a test to see if a specific instance of ApiCreateOrUpdateProperties_WsdlSelector round trips to JSON and back losslessly
-func RunJSONSerializationTestForApiCreateOrUpdateProperties_WsdlSelector(subject ApiCreateOrUpdateProperties_WsdlSelector) string {
+func RunJSONSerializationTestForApiCreateOrUpdateProperties_WsdlSelector(t *rapid.T) {
+	subject := ApiCreateOrUpdateProperties_WsdlSelectorGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ApiCreateOrUpdateProperties_WsdlSelector
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -257,33 +221,30 @@ func RunJSONSerializationTestForApiCreateOrUpdateProperties_WsdlSelector(subject
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ApiCreateOrUpdateProperties_WsdlSelector instances for property testing - lazily instantiated by
 // ApiCreateOrUpdateProperties_WsdlSelectorGenerator()
-var apiCreateOrUpdateProperties_WsdlSelectorGenerator gopter.Gen
+var apiCreateOrUpdateProperties_WsdlSelectorGenerator *rapid.Generator[ApiCreateOrUpdateProperties_WsdlSelector]
 
 // ApiCreateOrUpdateProperties_WsdlSelectorGenerator returns a generator of ApiCreateOrUpdateProperties_WsdlSelector instances for property testing.
-func ApiCreateOrUpdateProperties_WsdlSelectorGenerator() gopter.Gen {
+func ApiCreateOrUpdateProperties_WsdlSelectorGenerator() *rapid.Generator[ApiCreateOrUpdateProperties_WsdlSelector] {
 	if apiCreateOrUpdateProperties_WsdlSelectorGenerator != nil {
 		return apiCreateOrUpdateProperties_WsdlSelectorGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApiCreateOrUpdateProperties_WsdlSelector(generators)
-	apiCreateOrUpdateProperties_WsdlSelectorGenerator = gen.Struct(reflect.TypeOf(ApiCreateOrUpdateProperties_WsdlSelector{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	apiCreateOrUpdateProperties_WsdlSelectorGenerator = rapid.Custom(func(t *rapid.T) ApiCreateOrUpdateProperties_WsdlSelector {
+		var result ApiCreateOrUpdateProperties_WsdlSelector
+		result.WsdlEndpointName = ptrString.Draw(t, "WsdlEndpointName")
+		result.WsdlServiceName = ptrString.Draw(t, "WsdlServiceName")
+		return result
+	})
 
 	return apiCreateOrUpdateProperties_WsdlSelectorGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApiCreateOrUpdateProperties_WsdlSelector is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApiCreateOrUpdateProperties_WsdlSelector(gens map[string]gopter.Gen) {
-	gens["WsdlEndpointName"] = gen.PtrOf(gen.AlphaString())
-	gens["WsdlServiceName"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ApiLicenseInformation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -293,29 +254,23 @@ func Test_ApiLicenseInformation_WhenSerializedToJson_DeserializesAsEqual(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApiLicenseInformation via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApiLicenseInformation, ApiLicenseInformationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForApiLicenseInformation)
 }
 
 // RunJSONSerializationTestForApiLicenseInformation runs a test to see if a specific instance of ApiLicenseInformation round trips to JSON and back losslessly
-func RunJSONSerializationTestForApiLicenseInformation(subject ApiLicenseInformation) string {
+func RunJSONSerializationTestForApiLicenseInformation(t *rapid.T) {
+	subject := ApiLicenseInformationGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ApiLicenseInformation
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -324,33 +279,30 @@ func RunJSONSerializationTestForApiLicenseInformation(subject ApiLicenseInformat
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ApiLicenseInformation instances for property testing - lazily instantiated by
 // ApiLicenseInformationGenerator()
-var apiLicenseInformationGenerator gopter.Gen
+var apiLicenseInformationGenerator *rapid.Generator[ApiLicenseInformation]
 
 // ApiLicenseInformationGenerator returns a generator of ApiLicenseInformation instances for property testing.
-func ApiLicenseInformationGenerator() gopter.Gen {
+func ApiLicenseInformationGenerator() *rapid.Generator[ApiLicenseInformation] {
 	if apiLicenseInformationGenerator != nil {
 		return apiLicenseInformationGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApiLicenseInformation(generators)
-	apiLicenseInformationGenerator = gen.Struct(reflect.TypeOf(ApiLicenseInformation{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	apiLicenseInformationGenerator = rapid.Custom(func(t *rapid.T) ApiLicenseInformation {
+		var result ApiLicenseInformation
+		result.Name = ptrString.Draw(t, "Name")
+		result.Url = ptrString.Draw(t, "Url")
+		return result
+	})
 
 	return apiLicenseInformationGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApiLicenseInformation is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApiLicenseInformation(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Url"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ApiLicenseInformation_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -360,29 +312,23 @@ func Test_ApiLicenseInformation_STATUS_WhenSerializedToJson_DeserializesAsEqual(
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApiLicenseInformation_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApiLicenseInformation_STATUS, ApiLicenseInformation_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForApiLicenseInformation_STATUS)
 }
 
 // RunJSONSerializationTestForApiLicenseInformation_STATUS runs a test to see if a specific instance of ApiLicenseInformation_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForApiLicenseInformation_STATUS(subject ApiLicenseInformation_STATUS) string {
+func RunJSONSerializationTestForApiLicenseInformation_STATUS(t *rapid.T) {
+	subject := ApiLicenseInformation_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ApiLicenseInformation_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -391,33 +337,30 @@ func RunJSONSerializationTestForApiLicenseInformation_STATUS(subject ApiLicenseI
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ApiLicenseInformation_STATUS instances for property testing - lazily instantiated by
 // ApiLicenseInformation_STATUSGenerator()
-var apiLicenseInformation_STATUSGenerator gopter.Gen
+var apiLicenseInformation_STATUSGenerator *rapid.Generator[ApiLicenseInformation_STATUS]
 
 // ApiLicenseInformation_STATUSGenerator returns a generator of ApiLicenseInformation_STATUS instances for property testing.
-func ApiLicenseInformation_STATUSGenerator() gopter.Gen {
+func ApiLicenseInformation_STATUSGenerator() *rapid.Generator[ApiLicenseInformation_STATUS] {
 	if apiLicenseInformation_STATUSGenerator != nil {
 		return apiLicenseInformation_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApiLicenseInformation_STATUS(generators)
-	apiLicenseInformation_STATUSGenerator = gen.Struct(reflect.TypeOf(ApiLicenseInformation_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	apiLicenseInformation_STATUSGenerator = rapid.Custom(func(t *rapid.T) ApiLicenseInformation_STATUS {
+		var result ApiLicenseInformation_STATUS
+		result.Name = ptrString.Draw(t, "Name")
+		result.Url = ptrString.Draw(t, "Url")
+		return result
+	})
 
 	return apiLicenseInformation_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApiLicenseInformation_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApiLicenseInformation_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Url"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ApiOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -427,29 +370,23 @@ func Test_ApiOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApiOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApiOperatorSpec, ApiOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForApiOperatorSpec)
 }
 
 // RunJSONSerializationTestForApiOperatorSpec runs a test to see if a specific instance of ApiOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForApiOperatorSpec(subject ApiOperatorSpec) string {
+func RunJSONSerializationTestForApiOperatorSpec(t *rapid.T) {
+	subject := ApiOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ApiOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -458,23 +395,20 @@ func RunJSONSerializationTestForApiOperatorSpec(subject ApiOperatorSpec) string 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ApiOperatorSpec instances for property testing - lazily instantiated by ApiOperatorSpecGenerator()
-var apiOperatorSpecGenerator gopter.Gen
+var apiOperatorSpecGenerator *rapid.Generator[ApiOperatorSpec]
 
 // ApiOperatorSpecGenerator returns a generator of ApiOperatorSpec instances for property testing.
-func ApiOperatorSpecGenerator() gopter.Gen {
+func ApiOperatorSpecGenerator() *rapid.Generator[ApiOperatorSpec] {
 	if apiOperatorSpecGenerator != nil {
 		return apiOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	apiOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ApiOperatorSpec{}), generators)
+	apiOperatorSpecGenerator = rapid.Just(ApiOperatorSpec{})
 
 	return apiOperatorSpecGenerator
 }
@@ -486,29 +420,23 @@ func Test_ApiVersionSetContractDetails_WhenSerializedToJson_DeserializesAsEqual(
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApiVersionSetContractDetails via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApiVersionSetContractDetails, ApiVersionSetContractDetailsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForApiVersionSetContractDetails)
 }
 
 // RunJSONSerializationTestForApiVersionSetContractDetails runs a test to see if a specific instance of ApiVersionSetContractDetails round trips to JSON and back losslessly
-func RunJSONSerializationTestForApiVersionSetContractDetails(subject ApiVersionSetContractDetails) string {
+func RunJSONSerializationTestForApiVersionSetContractDetails(t *rapid.T) {
+	subject := ApiVersionSetContractDetailsGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ApiVersionSetContractDetails
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -517,36 +445,33 @@ func RunJSONSerializationTestForApiVersionSetContractDetails(subject ApiVersionS
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ApiVersionSetContractDetails instances for property testing - lazily instantiated by
 // ApiVersionSetContractDetailsGenerator()
-var apiVersionSetContractDetailsGenerator gopter.Gen
+var apiVersionSetContractDetailsGenerator *rapid.Generator[ApiVersionSetContractDetails]
 
 // ApiVersionSetContractDetailsGenerator returns a generator of ApiVersionSetContractDetails instances for property testing.
-func ApiVersionSetContractDetailsGenerator() gopter.Gen {
+func ApiVersionSetContractDetailsGenerator() *rapid.Generator[ApiVersionSetContractDetails] {
 	if apiVersionSetContractDetailsGenerator != nil {
 		return apiVersionSetContractDetailsGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApiVersionSetContractDetails(generators)
-	apiVersionSetContractDetailsGenerator = gen.Struct(reflect.TypeOf(ApiVersionSetContractDetails{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	apiVersionSetContractDetailsGenerator = rapid.Custom(func(t *rapid.T) ApiVersionSetContractDetails {
+		var result ApiVersionSetContractDetails
+		result.Description = ptrString.Draw(t, "Description")
+		result.Name = ptrString.Draw(t, "Name")
+		result.VersionHeaderName = ptrString.Draw(t, "VersionHeaderName")
+		result.VersionQueryName = ptrString.Draw(t, "VersionQueryName")
+		result.VersioningScheme = ptrString.Draw(t, "VersioningScheme")
+		return result
+	})
 
 	return apiVersionSetContractDetailsGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApiVersionSetContractDetails is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApiVersionSetContractDetails(gens map[string]gopter.Gen) {
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["VersionHeaderName"] = gen.PtrOf(gen.AlphaString())
-	gens["VersionQueryName"] = gen.PtrOf(gen.AlphaString())
-	gens["VersioningScheme"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ApiVersionSetContractDetails_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -556,29 +481,23 @@ func Test_ApiVersionSetContractDetails_STATUS_WhenSerializedToJson_DeserializesA
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApiVersionSetContractDetails_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApiVersionSetContractDetails_STATUS, ApiVersionSetContractDetails_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForApiVersionSetContractDetails_STATUS)
 }
 
 // RunJSONSerializationTestForApiVersionSetContractDetails_STATUS runs a test to see if a specific instance of ApiVersionSetContractDetails_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForApiVersionSetContractDetails_STATUS(subject ApiVersionSetContractDetails_STATUS) string {
+func RunJSONSerializationTestForApiVersionSetContractDetails_STATUS(t *rapid.T) {
+	subject := ApiVersionSetContractDetails_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ApiVersionSetContractDetails_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -587,37 +506,34 @@ func RunJSONSerializationTestForApiVersionSetContractDetails_STATUS(subject ApiV
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ApiVersionSetContractDetails_STATUS instances for property testing - lazily instantiated by
 // ApiVersionSetContractDetails_STATUSGenerator()
-var apiVersionSetContractDetails_STATUSGenerator gopter.Gen
+var apiVersionSetContractDetails_STATUSGenerator *rapid.Generator[ApiVersionSetContractDetails_STATUS]
 
 // ApiVersionSetContractDetails_STATUSGenerator returns a generator of ApiVersionSetContractDetails_STATUS instances for property testing.
-func ApiVersionSetContractDetails_STATUSGenerator() gopter.Gen {
+func ApiVersionSetContractDetails_STATUSGenerator() *rapid.Generator[ApiVersionSetContractDetails_STATUS] {
 	if apiVersionSetContractDetails_STATUSGenerator != nil {
 		return apiVersionSetContractDetails_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApiVersionSetContractDetails_STATUS(generators)
-	apiVersionSetContractDetails_STATUSGenerator = gen.Struct(reflect.TypeOf(ApiVersionSetContractDetails_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	apiVersionSetContractDetails_STATUSGenerator = rapid.Custom(func(t *rapid.T) ApiVersionSetContractDetails_STATUS {
+		var result ApiVersionSetContractDetails_STATUS
+		result.Description = ptrString.Draw(t, "Description")
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.VersionHeaderName = ptrString.Draw(t, "VersionHeaderName")
+		result.VersionQueryName = ptrString.Draw(t, "VersionQueryName")
+		result.VersioningScheme = ptrString.Draw(t, "VersioningScheme")
+		return result
+	})
 
 	return apiVersionSetContractDetails_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApiVersionSetContractDetails_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApiVersionSetContractDetails_STATUS(gens map[string]gopter.Gen) {
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["VersionHeaderName"] = gen.PtrOf(gen.AlphaString())
-	gens["VersionQueryName"] = gen.PtrOf(gen.AlphaString())
-	gens["VersioningScheme"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_Api_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -627,29 +543,23 @@ func Test_Api_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Api_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApi_STATUS, Api_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForApi_STATUS)
 }
 
 // RunJSONSerializationTestForApi_STATUS runs a test to see if a specific instance of Api_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForApi_STATUS(subject Api_STATUS) string {
+func RunJSONSerializationTestForApi_STATUS(t *rapid.T) {
+	subject := Api_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Api_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -658,68 +568,59 @@ func RunJSONSerializationTestForApi_STATUS(subject Api_STATUS) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Api_STATUS instances for property testing - lazily instantiated by Api_STATUSGenerator()
-var api_STATUSGenerator gopter.Gen
+var api_STATUSGenerator *rapid.Generator[Api_STATUS]
 
 // Api_STATUSGenerator returns a generator of Api_STATUS instances for property testing.
-// We first initialize api_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Api_STATUSGenerator() gopter.Gen {
+func Api_STATUSGenerator() *rapid.Generator[Api_STATUS] {
 	if api_STATUSGenerator != nil {
 		return api_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApi_STATUS(generators)
-	api_STATUSGenerator = gen.Struct(reflect.TypeOf(Api_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	ptrBool := rapid.Ptr(rapid.Bool(), true)
+	apiVersionSet := rapid.Ptr(ApiVersionSetContractDetails_STATUSGenerator(), true)
+	authenticationSettings := rapid.Ptr(AuthenticationSettingsContract_STATUSGenerator(), true)
+	contact := rapid.Ptr(ApiContactInformation_STATUSGenerator(), true)
+	license := rapid.Ptr(ApiLicenseInformation_STATUSGenerator(), true)
+	protocols := rapid.SliceOf(rapid.String())
+	subscriptionKeyParameterNames := rapid.Ptr(SubscriptionKeyParameterNamesContract_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApi_STATUS(generators)
-	AddRelatedPropertyGeneratorsForApi_STATUS(generators)
-	api_STATUSGenerator = gen.Struct(reflect.TypeOf(Api_STATUS{}), generators)
+	api_STATUSGenerator = rapid.Custom(func(t *rapid.T) Api_STATUS {
+		var result Api_STATUS
+		result.APIVersion = ptrString.Draw(t, "APIVersion")
+		result.ApiRevision = ptrString.Draw(t, "ApiRevision")
+		result.ApiRevisionDescription = ptrString.Draw(t, "ApiRevisionDescription")
+		result.ApiVersionDescription = ptrString.Draw(t, "ApiVersionDescription")
+		result.ApiVersionSet = apiVersionSet.Draw(t, "ApiVersionSet")
+		result.ApiVersionSetId = ptrString.Draw(t, "ApiVersionSetId")
+		result.AuthenticationSettings = authenticationSettings.Draw(t, "AuthenticationSettings")
+		result.Contact = contact.Draw(t, "Contact")
+		result.Description = ptrString.Draw(t, "Description")
+		result.DisplayName = ptrString.Draw(t, "DisplayName")
+		result.Id = ptrString.Draw(t, "Id")
+		result.IsCurrent = ptrBool.Draw(t, "IsCurrent")
+		result.IsOnline = ptrBool.Draw(t, "IsOnline")
+		result.License = license.Draw(t, "License")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Path = ptrString.Draw(t, "Path")
+		result.PropertiesType = ptrString.Draw(t, "PropertiesType")
+		result.Protocols = protocols.Draw(t, "Protocols")
+		result.ProvisioningState = ptrString.Draw(t, "ProvisioningState")
+		result.ServiceUrl = ptrString.Draw(t, "ServiceUrl")
+		result.SourceApiId = ptrString.Draw(t, "SourceApiId")
+		result.SubscriptionKeyParameterNames = subscriptionKeyParameterNames.Draw(t, "SubscriptionKeyParameterNames")
+		result.SubscriptionRequired = ptrBool.Draw(t, "SubscriptionRequired")
+		result.TermsOfServiceUrl = ptrString.Draw(t, "TermsOfServiceUrl")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return api_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApi_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApi_STATUS(gens map[string]gopter.Gen) {
-	gens["APIVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["ApiRevision"] = gen.PtrOf(gen.AlphaString())
-	gens["ApiRevisionDescription"] = gen.PtrOf(gen.AlphaString())
-	gens["ApiVersionDescription"] = gen.PtrOf(gen.AlphaString())
-	gens["ApiVersionSetId"] = gen.PtrOf(gen.AlphaString())
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["IsCurrent"] = gen.PtrOf(gen.Bool())
-	gens["IsOnline"] = gen.PtrOf(gen.Bool())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Path"] = gen.PtrOf(gen.AlphaString())
-	gens["PropertiesType"] = gen.PtrOf(gen.AlphaString())
-	gens["Protocols"] = gen.SliceOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["ServiceUrl"] = gen.PtrOf(gen.AlphaString())
-	gens["SourceApiId"] = gen.PtrOf(gen.AlphaString())
-	gens["SubscriptionRequired"] = gen.PtrOf(gen.Bool())
-	gens["TermsOfServiceUrl"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForApi_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForApi_STATUS(gens map[string]gopter.Gen) {
-	gens["ApiVersionSet"] = gen.PtrOf(ApiVersionSetContractDetails_STATUSGenerator())
-	gens["AuthenticationSettings"] = gen.PtrOf(AuthenticationSettingsContract_STATUSGenerator())
-	gens["Contact"] = gen.PtrOf(ApiContactInformation_STATUSGenerator())
-	gens["License"] = gen.PtrOf(ApiLicenseInformation_STATUSGenerator())
-	gens["SubscriptionKeyParameterNames"] = gen.PtrOf(SubscriptionKeyParameterNamesContract_STATUSGenerator())
 }
 
 func Test_Api_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -729,29 +630,23 @@ func Test_Api_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Api_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApi_Spec, Api_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForApi_Spec)
 }
 
 // RunJSONSerializationTestForApi_Spec runs a test to see if a specific instance of Api_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForApi_Spec(subject Api_Spec) string {
+func RunJSONSerializationTestForApi_Spec(t *rapid.T) {
+	subject := Api_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Api_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -760,69 +655,63 @@ func RunJSONSerializationTestForApi_Spec(subject Api_Spec) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Api_Spec instances for property testing - lazily instantiated by Api_SpecGenerator()
-var api_SpecGenerator gopter.Gen
+var api_SpecGenerator *rapid.Generator[Api_Spec]
 
 // Api_SpecGenerator returns a generator of Api_Spec instances for property testing.
-// We first initialize api_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Api_SpecGenerator() gopter.Gen {
+func Api_SpecGenerator() *rapid.Generator[Api_Spec] {
 	if api_SpecGenerator != nil {
 		return api_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApi_Spec(generators)
-	api_SpecGenerator = gen.Struct(reflect.TypeOf(Api_Spec{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	genString := rapid.String()
+	ptrBool := rapid.Ptr(rapid.Bool(), true)
+	apiVersionSet := rapid.Ptr(ApiVersionSetContractDetailsGenerator(), true)
+	authenticationSettings := rapid.Ptr(AuthenticationSettingsContractGenerator(), true)
+	contact := rapid.Ptr(ApiContactInformationGenerator(), true)
+	license := rapid.Ptr(ApiLicenseInformationGenerator(), true)
+	operatorSpec := rapid.Ptr(ApiOperatorSpecGenerator(), true)
+	protocols := rapid.SliceOf(rapid.String())
+	subscriptionKeyParameterNames := rapid.Ptr(SubscriptionKeyParameterNamesContractGenerator(), true)
+	wsdlSelector := rapid.Ptr(ApiCreateOrUpdateProperties_WsdlSelectorGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApi_Spec(generators)
-	AddRelatedPropertyGeneratorsForApi_Spec(generators)
-	api_SpecGenerator = gen.Struct(reflect.TypeOf(Api_Spec{}), generators)
+	api_SpecGenerator = rapid.Custom(func(t *rapid.T) Api_Spec {
+		var result Api_Spec
+		result.APIVersion = ptrString.Draw(t, "APIVersion")
+		result.ApiRevision = ptrString.Draw(t, "ApiRevision")
+		result.ApiRevisionDescription = ptrString.Draw(t, "ApiRevisionDescription")
+		result.ApiType = ptrString.Draw(t, "ApiType")
+		result.ApiVersionDescription = ptrString.Draw(t, "ApiVersionDescription")
+		result.ApiVersionSet = apiVersionSet.Draw(t, "ApiVersionSet")
+		result.AuthenticationSettings = authenticationSettings.Draw(t, "AuthenticationSettings")
+		result.AzureName = genString.Draw(t, "AzureName")
+		result.Contact = contact.Draw(t, "Contact")
+		result.Description = ptrString.Draw(t, "Description")
+		result.DisplayName = ptrString.Draw(t, "DisplayName")
+		result.Format = ptrString.Draw(t, "Format")
+		result.IsCurrent = ptrBool.Draw(t, "IsCurrent")
+		result.License = license.Draw(t, "License")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		result.OriginalVersion = genString.Draw(t, "OriginalVersion")
+		result.Path = ptrString.Draw(t, "Path")
+		result.Protocols = protocols.Draw(t, "Protocols")
+		result.ServiceUrl = ptrString.Draw(t, "ServiceUrl")
+		result.SubscriptionKeyParameterNames = subscriptionKeyParameterNames.Draw(t, "SubscriptionKeyParameterNames")
+		result.SubscriptionRequired = ptrBool.Draw(t, "SubscriptionRequired")
+		result.TermsOfServiceUrl = ptrString.Draw(t, "TermsOfServiceUrl")
+		result.TranslateRequiredQueryParameters = ptrString.Draw(t, "TranslateRequiredQueryParameters")
+		result.Type = ptrString.Draw(t, "Type")
+		result.Value = ptrString.Draw(t, "Value")
+		result.WsdlSelector = wsdlSelector.Draw(t, "WsdlSelector")
+		return result
+	})
 
 	return api_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApi_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApi_Spec(gens map[string]gopter.Gen) {
-	gens["APIVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["ApiRevision"] = gen.PtrOf(gen.AlphaString())
-	gens["ApiRevisionDescription"] = gen.PtrOf(gen.AlphaString())
-	gens["ApiType"] = gen.PtrOf(gen.AlphaString())
-	gens["ApiVersionDescription"] = gen.PtrOf(gen.AlphaString())
-	gens["AzureName"] = gen.AlphaString()
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
-	gens["Format"] = gen.PtrOf(gen.AlphaString())
-	gens["IsCurrent"] = gen.PtrOf(gen.Bool())
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Path"] = gen.PtrOf(gen.AlphaString())
-	gens["Protocols"] = gen.SliceOf(gen.AlphaString())
-	gens["ServiceUrl"] = gen.PtrOf(gen.AlphaString())
-	gens["SubscriptionRequired"] = gen.PtrOf(gen.Bool())
-	gens["TermsOfServiceUrl"] = gen.PtrOf(gen.AlphaString())
-	gens["TranslateRequiredQueryParameters"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["Value"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForApi_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForApi_Spec(gens map[string]gopter.Gen) {
-	gens["ApiVersionSet"] = gen.PtrOf(ApiVersionSetContractDetailsGenerator())
-	gens["AuthenticationSettings"] = gen.PtrOf(AuthenticationSettingsContractGenerator())
-	gens["Contact"] = gen.PtrOf(ApiContactInformationGenerator())
-	gens["License"] = gen.PtrOf(ApiLicenseInformationGenerator())
-	gens["OperatorSpec"] = gen.PtrOf(ApiOperatorSpecGenerator())
-	gens["SubscriptionKeyParameterNames"] = gen.PtrOf(SubscriptionKeyParameterNamesContractGenerator())
-	gens["WsdlSelector"] = gen.PtrOf(ApiCreateOrUpdateProperties_WsdlSelectorGenerator())
 }
 
 func Test_AuthenticationSettingsContract_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -832,29 +721,23 @@ func Test_AuthenticationSettingsContract_WhenSerializedToJson_DeserializesAsEqua
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AuthenticationSettingsContract via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAuthenticationSettingsContract, AuthenticationSettingsContractGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAuthenticationSettingsContract)
 }
 
 // RunJSONSerializationTestForAuthenticationSettingsContract runs a test to see if a specific instance of AuthenticationSettingsContract round trips to JSON and back losslessly
-func RunJSONSerializationTestForAuthenticationSettingsContract(subject AuthenticationSettingsContract) string {
+func RunJSONSerializationTestForAuthenticationSettingsContract(t *rapid.T) {
+	subject := AuthenticationSettingsContractGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AuthenticationSettingsContract
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -863,35 +746,35 @@ func RunJSONSerializationTestForAuthenticationSettingsContract(subject Authentic
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AuthenticationSettingsContract instances for property testing - lazily instantiated by
 // AuthenticationSettingsContractGenerator()
-var authenticationSettingsContractGenerator gopter.Gen
+var authenticationSettingsContractGenerator *rapid.Generator[AuthenticationSettingsContract]
 
 // AuthenticationSettingsContractGenerator returns a generator of AuthenticationSettingsContract instances for property testing.
-func AuthenticationSettingsContractGenerator() gopter.Gen {
+func AuthenticationSettingsContractGenerator() *rapid.Generator[AuthenticationSettingsContract] {
 	if authenticationSettingsContractGenerator != nil {
 		return authenticationSettingsContractGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForAuthenticationSettingsContract(generators)
-	authenticationSettingsContractGenerator = gen.Struct(reflect.TypeOf(AuthenticationSettingsContract{}), generators)
+	oAuth2 := rapid.Ptr(OAuth2AuthenticationSettingsContractGenerator(), true)
+	oAuth2AuthenticationSettings := rapid.SliceOf(OAuth2AuthenticationSettingsContractGenerator())
+	openid := rapid.Ptr(OpenIdAuthenticationSettingsContractGenerator(), true)
+	openidAuthenticationSettings := rapid.SliceOf(OpenIdAuthenticationSettingsContractGenerator())
+
+	authenticationSettingsContractGenerator = rapid.Custom(func(t *rapid.T) AuthenticationSettingsContract {
+		var result AuthenticationSettingsContract
+		result.OAuth2 = oAuth2.Draw(t, "OAuth2")
+		result.OAuth2AuthenticationSettings = oAuth2AuthenticationSettings.Draw(t, "OAuth2AuthenticationSettings")
+		result.Openid = openid.Draw(t, "Openid")
+		result.OpenidAuthenticationSettings = openidAuthenticationSettings.Draw(t, "OpenidAuthenticationSettings")
+		return result
+	})
 
 	return authenticationSettingsContractGenerator
-}
-
-// AddRelatedPropertyGeneratorsForAuthenticationSettingsContract is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAuthenticationSettingsContract(gens map[string]gopter.Gen) {
-	gens["OAuth2"] = gen.PtrOf(OAuth2AuthenticationSettingsContractGenerator())
-	gens["OAuth2AuthenticationSettings"] = gen.SliceOf(OAuth2AuthenticationSettingsContractGenerator())
-	gens["Openid"] = gen.PtrOf(OpenIdAuthenticationSettingsContractGenerator())
-	gens["OpenidAuthenticationSettings"] = gen.SliceOf(OpenIdAuthenticationSettingsContractGenerator())
 }
 
 func Test_AuthenticationSettingsContract_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -901,29 +784,23 @@ func Test_AuthenticationSettingsContract_STATUS_WhenSerializedToJson_Deserialize
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AuthenticationSettingsContract_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAuthenticationSettingsContract_STATUS, AuthenticationSettingsContract_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAuthenticationSettingsContract_STATUS)
 }
 
 // RunJSONSerializationTestForAuthenticationSettingsContract_STATUS runs a test to see if a specific instance of AuthenticationSettingsContract_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForAuthenticationSettingsContract_STATUS(subject AuthenticationSettingsContract_STATUS) string {
+func RunJSONSerializationTestForAuthenticationSettingsContract_STATUS(t *rapid.T) {
+	subject := AuthenticationSettingsContract_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AuthenticationSettingsContract_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -932,35 +809,35 @@ func RunJSONSerializationTestForAuthenticationSettingsContract_STATUS(subject Au
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AuthenticationSettingsContract_STATUS instances for property testing - lazily instantiated by
 // AuthenticationSettingsContract_STATUSGenerator()
-var authenticationSettingsContract_STATUSGenerator gopter.Gen
+var authenticationSettingsContract_STATUSGenerator *rapid.Generator[AuthenticationSettingsContract_STATUS]
 
 // AuthenticationSettingsContract_STATUSGenerator returns a generator of AuthenticationSettingsContract_STATUS instances for property testing.
-func AuthenticationSettingsContract_STATUSGenerator() gopter.Gen {
+func AuthenticationSettingsContract_STATUSGenerator() *rapid.Generator[AuthenticationSettingsContract_STATUS] {
 	if authenticationSettingsContract_STATUSGenerator != nil {
 		return authenticationSettingsContract_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForAuthenticationSettingsContract_STATUS(generators)
-	authenticationSettingsContract_STATUSGenerator = gen.Struct(reflect.TypeOf(AuthenticationSettingsContract_STATUS{}), generators)
+	oAuth2 := rapid.Ptr(OAuth2AuthenticationSettingsContract_STATUSGenerator(), true)
+	oAuth2AuthenticationSettings := rapid.SliceOf(OAuth2AuthenticationSettingsContract_STATUSGenerator())
+	openid := rapid.Ptr(OpenIdAuthenticationSettingsContract_STATUSGenerator(), true)
+	openidAuthenticationSettings := rapid.SliceOf(OpenIdAuthenticationSettingsContract_STATUSGenerator())
+
+	authenticationSettingsContract_STATUSGenerator = rapid.Custom(func(t *rapid.T) AuthenticationSettingsContract_STATUS {
+		var result AuthenticationSettingsContract_STATUS
+		result.OAuth2 = oAuth2.Draw(t, "OAuth2")
+		result.OAuth2AuthenticationSettings = oAuth2AuthenticationSettings.Draw(t, "OAuth2AuthenticationSettings")
+		result.Openid = openid.Draw(t, "Openid")
+		result.OpenidAuthenticationSettings = openidAuthenticationSettings.Draw(t, "OpenidAuthenticationSettings")
+		return result
+	})
 
 	return authenticationSettingsContract_STATUSGenerator
-}
-
-// AddRelatedPropertyGeneratorsForAuthenticationSettingsContract_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAuthenticationSettingsContract_STATUS(gens map[string]gopter.Gen) {
-	gens["OAuth2"] = gen.PtrOf(OAuth2AuthenticationSettingsContract_STATUSGenerator())
-	gens["OAuth2AuthenticationSettings"] = gen.SliceOf(OAuth2AuthenticationSettingsContract_STATUSGenerator())
-	gens["Openid"] = gen.PtrOf(OpenIdAuthenticationSettingsContract_STATUSGenerator())
-	gens["OpenidAuthenticationSettings"] = gen.SliceOf(OpenIdAuthenticationSettingsContract_STATUSGenerator())
 }
 
 func Test_OAuth2AuthenticationSettingsContract_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -970,29 +847,23 @@ func Test_OAuth2AuthenticationSettingsContract_WhenSerializedToJson_Deserializes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of OAuth2AuthenticationSettingsContract via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForOAuth2AuthenticationSettingsContract, OAuth2AuthenticationSettingsContractGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForOAuth2AuthenticationSettingsContract)
 }
 
 // RunJSONSerializationTestForOAuth2AuthenticationSettingsContract runs a test to see if a specific instance of OAuth2AuthenticationSettingsContract round trips to JSON and back losslessly
-func RunJSONSerializationTestForOAuth2AuthenticationSettingsContract(subject OAuth2AuthenticationSettingsContract) string {
+func RunJSONSerializationTestForOAuth2AuthenticationSettingsContract(t *rapid.T) {
+	subject := OAuth2AuthenticationSettingsContractGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual OAuth2AuthenticationSettingsContract
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1001,33 +872,30 @@ func RunJSONSerializationTestForOAuth2AuthenticationSettingsContract(subject OAu
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of OAuth2AuthenticationSettingsContract instances for property testing - lazily instantiated by
 // OAuth2AuthenticationSettingsContractGenerator()
-var oAuth2AuthenticationSettingsContractGenerator gopter.Gen
+var oAuth2AuthenticationSettingsContractGenerator *rapid.Generator[OAuth2AuthenticationSettingsContract]
 
 // OAuth2AuthenticationSettingsContractGenerator returns a generator of OAuth2AuthenticationSettingsContract instances for property testing.
-func OAuth2AuthenticationSettingsContractGenerator() gopter.Gen {
+func OAuth2AuthenticationSettingsContractGenerator() *rapid.Generator[OAuth2AuthenticationSettingsContract] {
 	if oAuth2AuthenticationSettingsContractGenerator != nil {
 		return oAuth2AuthenticationSettingsContractGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOAuth2AuthenticationSettingsContract(generators)
-	oAuth2AuthenticationSettingsContractGenerator = gen.Struct(reflect.TypeOf(OAuth2AuthenticationSettingsContract{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	oAuth2AuthenticationSettingsContractGenerator = rapid.Custom(func(t *rapid.T) OAuth2AuthenticationSettingsContract {
+		var result OAuth2AuthenticationSettingsContract
+		result.AuthorizationServerId = ptrString.Draw(t, "AuthorizationServerId")
+		result.Scope = ptrString.Draw(t, "Scope")
+		return result
+	})
 
 	return oAuth2AuthenticationSettingsContractGenerator
-}
-
-// AddIndependentPropertyGeneratorsForOAuth2AuthenticationSettingsContract is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForOAuth2AuthenticationSettingsContract(gens map[string]gopter.Gen) {
-	gens["AuthorizationServerId"] = gen.PtrOf(gen.AlphaString())
-	gens["Scope"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_OAuth2AuthenticationSettingsContract_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1037,29 +905,23 @@ func Test_OAuth2AuthenticationSettingsContract_STATUS_WhenSerializedToJson_Deser
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of OAuth2AuthenticationSettingsContract_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForOAuth2AuthenticationSettingsContract_STATUS, OAuth2AuthenticationSettingsContract_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForOAuth2AuthenticationSettingsContract_STATUS)
 }
 
 // RunJSONSerializationTestForOAuth2AuthenticationSettingsContract_STATUS runs a test to see if a specific instance of OAuth2AuthenticationSettingsContract_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForOAuth2AuthenticationSettingsContract_STATUS(subject OAuth2AuthenticationSettingsContract_STATUS) string {
+func RunJSONSerializationTestForOAuth2AuthenticationSettingsContract_STATUS(t *rapid.T) {
+	subject := OAuth2AuthenticationSettingsContract_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual OAuth2AuthenticationSettingsContract_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1068,33 +930,30 @@ func RunJSONSerializationTestForOAuth2AuthenticationSettingsContract_STATUS(subj
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of OAuth2AuthenticationSettingsContract_STATUS instances for property testing - lazily instantiated by
 // OAuth2AuthenticationSettingsContract_STATUSGenerator()
-var oAuth2AuthenticationSettingsContract_STATUSGenerator gopter.Gen
+var oAuth2AuthenticationSettingsContract_STATUSGenerator *rapid.Generator[OAuth2AuthenticationSettingsContract_STATUS]
 
 // OAuth2AuthenticationSettingsContract_STATUSGenerator returns a generator of OAuth2AuthenticationSettingsContract_STATUS instances for property testing.
-func OAuth2AuthenticationSettingsContract_STATUSGenerator() gopter.Gen {
+func OAuth2AuthenticationSettingsContract_STATUSGenerator() *rapid.Generator[OAuth2AuthenticationSettingsContract_STATUS] {
 	if oAuth2AuthenticationSettingsContract_STATUSGenerator != nil {
 		return oAuth2AuthenticationSettingsContract_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOAuth2AuthenticationSettingsContract_STATUS(generators)
-	oAuth2AuthenticationSettingsContract_STATUSGenerator = gen.Struct(reflect.TypeOf(OAuth2AuthenticationSettingsContract_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	oAuth2AuthenticationSettingsContract_STATUSGenerator = rapid.Custom(func(t *rapid.T) OAuth2AuthenticationSettingsContract_STATUS {
+		var result OAuth2AuthenticationSettingsContract_STATUS
+		result.AuthorizationServerId = ptrString.Draw(t, "AuthorizationServerId")
+		result.Scope = ptrString.Draw(t, "Scope")
+		return result
+	})
 
 	return oAuth2AuthenticationSettingsContract_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForOAuth2AuthenticationSettingsContract_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForOAuth2AuthenticationSettingsContract_STATUS(gens map[string]gopter.Gen) {
-	gens["AuthorizationServerId"] = gen.PtrOf(gen.AlphaString())
-	gens["Scope"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_OpenIdAuthenticationSettingsContract_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1104,29 +963,23 @@ func Test_OpenIdAuthenticationSettingsContract_WhenSerializedToJson_Deserializes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of OpenIdAuthenticationSettingsContract via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForOpenIdAuthenticationSettingsContract, OpenIdAuthenticationSettingsContractGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForOpenIdAuthenticationSettingsContract)
 }
 
 // RunJSONSerializationTestForOpenIdAuthenticationSettingsContract runs a test to see if a specific instance of OpenIdAuthenticationSettingsContract round trips to JSON and back losslessly
-func RunJSONSerializationTestForOpenIdAuthenticationSettingsContract(subject OpenIdAuthenticationSettingsContract) string {
+func RunJSONSerializationTestForOpenIdAuthenticationSettingsContract(t *rapid.T) {
+	subject := OpenIdAuthenticationSettingsContractGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual OpenIdAuthenticationSettingsContract
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1135,33 +988,31 @@ func RunJSONSerializationTestForOpenIdAuthenticationSettingsContract(subject Ope
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of OpenIdAuthenticationSettingsContract instances for property testing - lazily instantiated by
 // OpenIdAuthenticationSettingsContractGenerator()
-var openIdAuthenticationSettingsContractGenerator gopter.Gen
+var openIdAuthenticationSettingsContractGenerator *rapid.Generator[OpenIdAuthenticationSettingsContract]
 
 // OpenIdAuthenticationSettingsContractGenerator returns a generator of OpenIdAuthenticationSettingsContract instances for property testing.
-func OpenIdAuthenticationSettingsContractGenerator() gopter.Gen {
+func OpenIdAuthenticationSettingsContractGenerator() *rapid.Generator[OpenIdAuthenticationSettingsContract] {
 	if openIdAuthenticationSettingsContractGenerator != nil {
 		return openIdAuthenticationSettingsContractGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOpenIdAuthenticationSettingsContract(generators)
-	openIdAuthenticationSettingsContractGenerator = gen.Struct(reflect.TypeOf(OpenIdAuthenticationSettingsContract{}), generators)
+	bearerTokenSendingMethods := rapid.SliceOf(rapid.String())
+	openidProviderId := rapid.Ptr(rapid.String(), true)
+
+	openIdAuthenticationSettingsContractGenerator = rapid.Custom(func(t *rapid.T) OpenIdAuthenticationSettingsContract {
+		var result OpenIdAuthenticationSettingsContract
+		result.BearerTokenSendingMethods = bearerTokenSendingMethods.Draw(t, "BearerTokenSendingMethods")
+		result.OpenidProviderId = openidProviderId.Draw(t, "OpenidProviderId")
+		return result
+	})
 
 	return openIdAuthenticationSettingsContractGenerator
-}
-
-// AddIndependentPropertyGeneratorsForOpenIdAuthenticationSettingsContract is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForOpenIdAuthenticationSettingsContract(gens map[string]gopter.Gen) {
-	gens["BearerTokenSendingMethods"] = gen.SliceOf(gen.AlphaString())
-	gens["OpenidProviderId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_OpenIdAuthenticationSettingsContract_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1171,29 +1022,23 @@ func Test_OpenIdAuthenticationSettingsContract_STATUS_WhenSerializedToJson_Deser
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of OpenIdAuthenticationSettingsContract_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForOpenIdAuthenticationSettingsContract_STATUS, OpenIdAuthenticationSettingsContract_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForOpenIdAuthenticationSettingsContract_STATUS)
 }
 
 // RunJSONSerializationTestForOpenIdAuthenticationSettingsContract_STATUS runs a test to see if a specific instance of OpenIdAuthenticationSettingsContract_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForOpenIdAuthenticationSettingsContract_STATUS(subject OpenIdAuthenticationSettingsContract_STATUS) string {
+func RunJSONSerializationTestForOpenIdAuthenticationSettingsContract_STATUS(t *rapid.T) {
+	subject := OpenIdAuthenticationSettingsContract_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual OpenIdAuthenticationSettingsContract_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1202,33 +1047,31 @@ func RunJSONSerializationTestForOpenIdAuthenticationSettingsContract_STATUS(subj
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of OpenIdAuthenticationSettingsContract_STATUS instances for property testing - lazily instantiated by
 // OpenIdAuthenticationSettingsContract_STATUSGenerator()
-var openIdAuthenticationSettingsContract_STATUSGenerator gopter.Gen
+var openIdAuthenticationSettingsContract_STATUSGenerator *rapid.Generator[OpenIdAuthenticationSettingsContract_STATUS]
 
 // OpenIdAuthenticationSettingsContract_STATUSGenerator returns a generator of OpenIdAuthenticationSettingsContract_STATUS instances for property testing.
-func OpenIdAuthenticationSettingsContract_STATUSGenerator() gopter.Gen {
+func OpenIdAuthenticationSettingsContract_STATUSGenerator() *rapid.Generator[OpenIdAuthenticationSettingsContract_STATUS] {
 	if openIdAuthenticationSettingsContract_STATUSGenerator != nil {
 		return openIdAuthenticationSettingsContract_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOpenIdAuthenticationSettingsContract_STATUS(generators)
-	openIdAuthenticationSettingsContract_STATUSGenerator = gen.Struct(reflect.TypeOf(OpenIdAuthenticationSettingsContract_STATUS{}), generators)
+	bearerTokenSendingMethods := rapid.SliceOf(rapid.String())
+	openidProviderId := rapid.Ptr(rapid.String(), true)
+
+	openIdAuthenticationSettingsContract_STATUSGenerator = rapid.Custom(func(t *rapid.T) OpenIdAuthenticationSettingsContract_STATUS {
+		var result OpenIdAuthenticationSettingsContract_STATUS
+		result.BearerTokenSendingMethods = bearerTokenSendingMethods.Draw(t, "BearerTokenSendingMethods")
+		result.OpenidProviderId = openidProviderId.Draw(t, "OpenidProviderId")
+		return result
+	})
 
 	return openIdAuthenticationSettingsContract_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForOpenIdAuthenticationSettingsContract_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForOpenIdAuthenticationSettingsContract_STATUS(gens map[string]gopter.Gen) {
-	gens["BearerTokenSendingMethods"] = gen.SliceOf(gen.AlphaString())
-	gens["OpenidProviderId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_SubscriptionKeyParameterNamesContract_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1238,29 +1081,23 @@ func Test_SubscriptionKeyParameterNamesContract_WhenSerializedToJson_Deserialize
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SubscriptionKeyParameterNamesContract via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSubscriptionKeyParameterNamesContract, SubscriptionKeyParameterNamesContractGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSubscriptionKeyParameterNamesContract)
 }
 
 // RunJSONSerializationTestForSubscriptionKeyParameterNamesContract runs a test to see if a specific instance of SubscriptionKeyParameterNamesContract round trips to JSON and back losslessly
-func RunJSONSerializationTestForSubscriptionKeyParameterNamesContract(subject SubscriptionKeyParameterNamesContract) string {
+func RunJSONSerializationTestForSubscriptionKeyParameterNamesContract(t *rapid.T) {
+	subject := SubscriptionKeyParameterNamesContractGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SubscriptionKeyParameterNamesContract
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1269,33 +1106,30 @@ func RunJSONSerializationTestForSubscriptionKeyParameterNamesContract(subject Su
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SubscriptionKeyParameterNamesContract instances for property testing - lazily instantiated by
 // SubscriptionKeyParameterNamesContractGenerator()
-var subscriptionKeyParameterNamesContractGenerator gopter.Gen
+var subscriptionKeyParameterNamesContractGenerator *rapid.Generator[SubscriptionKeyParameterNamesContract]
 
 // SubscriptionKeyParameterNamesContractGenerator returns a generator of SubscriptionKeyParameterNamesContract instances for property testing.
-func SubscriptionKeyParameterNamesContractGenerator() gopter.Gen {
+func SubscriptionKeyParameterNamesContractGenerator() *rapid.Generator[SubscriptionKeyParameterNamesContract] {
 	if subscriptionKeyParameterNamesContractGenerator != nil {
 		return subscriptionKeyParameterNamesContractGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSubscriptionKeyParameterNamesContract(generators)
-	subscriptionKeyParameterNamesContractGenerator = gen.Struct(reflect.TypeOf(SubscriptionKeyParameterNamesContract{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	subscriptionKeyParameterNamesContractGenerator = rapid.Custom(func(t *rapid.T) SubscriptionKeyParameterNamesContract {
+		var result SubscriptionKeyParameterNamesContract
+		result.Header = ptrString.Draw(t, "Header")
+		result.Query = ptrString.Draw(t, "Query")
+		return result
+	})
 
 	return subscriptionKeyParameterNamesContractGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSubscriptionKeyParameterNamesContract is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSubscriptionKeyParameterNamesContract(gens map[string]gopter.Gen) {
-	gens["Header"] = gen.PtrOf(gen.AlphaString())
-	gens["Query"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_SubscriptionKeyParameterNamesContract_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1305,29 +1139,23 @@ func Test_SubscriptionKeyParameterNamesContract_STATUS_WhenSerializedToJson_Dese
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SubscriptionKeyParameterNamesContract_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSubscriptionKeyParameterNamesContract_STATUS, SubscriptionKeyParameterNamesContract_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSubscriptionKeyParameterNamesContract_STATUS)
 }
 
 // RunJSONSerializationTestForSubscriptionKeyParameterNamesContract_STATUS runs a test to see if a specific instance of SubscriptionKeyParameterNamesContract_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSubscriptionKeyParameterNamesContract_STATUS(subject SubscriptionKeyParameterNamesContract_STATUS) string {
+func RunJSONSerializationTestForSubscriptionKeyParameterNamesContract_STATUS(t *rapid.T) {
+	subject := SubscriptionKeyParameterNamesContract_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SubscriptionKeyParameterNamesContract_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1336,31 +1164,28 @@ func RunJSONSerializationTestForSubscriptionKeyParameterNamesContract_STATUS(sub
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SubscriptionKeyParameterNamesContract_STATUS instances for property testing - lazily instantiated by
 // SubscriptionKeyParameterNamesContract_STATUSGenerator()
-var subscriptionKeyParameterNamesContract_STATUSGenerator gopter.Gen
+var subscriptionKeyParameterNamesContract_STATUSGenerator *rapid.Generator[SubscriptionKeyParameterNamesContract_STATUS]
 
 // SubscriptionKeyParameterNamesContract_STATUSGenerator returns a generator of SubscriptionKeyParameterNamesContract_STATUS instances for property testing.
-func SubscriptionKeyParameterNamesContract_STATUSGenerator() gopter.Gen {
+func SubscriptionKeyParameterNamesContract_STATUSGenerator() *rapid.Generator[SubscriptionKeyParameterNamesContract_STATUS] {
 	if subscriptionKeyParameterNamesContract_STATUSGenerator != nil {
 		return subscriptionKeyParameterNamesContract_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSubscriptionKeyParameterNamesContract_STATUS(generators)
-	subscriptionKeyParameterNamesContract_STATUSGenerator = gen.Struct(reflect.TypeOf(SubscriptionKeyParameterNamesContract_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	subscriptionKeyParameterNamesContract_STATUSGenerator = rapid.Custom(func(t *rapid.T) SubscriptionKeyParameterNamesContract_STATUS {
+		var result SubscriptionKeyParameterNamesContract_STATUS
+		result.Header = ptrString.Draw(t, "Header")
+		result.Query = ptrString.Draw(t, "Query")
+		return result
+	})
 
 	return subscriptionKeyParameterNamesContract_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSubscriptionKeyParameterNamesContract_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSubscriptionKeyParameterNamesContract_STATUS(gens map[string]gopter.Gen) {
-	gens["Header"] = gen.PtrOf(gen.AlphaString())
-	gens["Query"] = gen.PtrOf(gen.AlphaString())
 }

@@ -146,13 +146,13 @@ Once the YAML is in place, record with the samples suite:
 source test.env && TIMEOUT=60m TEST_FILTER="Test_Samples_CreationAndDeletion/Test_<GroupTitleCased>_v<version>_CreationAndDeletion" task controller:test-samples
 ```
 
-The group segment is title-cased using `cases.Title(language.English)` — only the first letter of each segment changes (`synapse` → `Synapse`, `appconfiguration` → `Appconfiguration`). For dotted groups like `network.frontdoor`, dots are **dropped** and the title-cased segments are concatenated with no separator: `network.frontdoor` → `NetworkFrontdoor`, giving `Test_NetworkFrontdoor_v<version>_CreationAndDeletion`. See `getTestName` in `v2/internal/testsamples/samples_test.go` for the definitive rule.
+The group segment is title-cased using `cases.Title(language.English)` — only the first letter of each segment changes (`synapse` → `Synapse`, `appconfiguration` → `Appconfiguration`). For dotted groups like `network.frontdoor`, dots are **dropped** and the title-cased segments are concatenated with no separator: `network.frontdoor` → `NetworkFrontdoor`, giving `Test_NetworkFrontdoor_v<version>_CreationAndDeletion`. See `getTestName` in `v2/samples/sampletesting/samples_test.go` for the definitive rule.
 
 Verify playback the same way as Step 6. 
 
-**Done when:** the sample YAML(s) exist under `v2/samples/<group>/<version>/`, a recording exists under `v2/internal/testsamples/recordings/Test_Samples_CreationAndDeletion/`, and playback passes.
+**Done when:** the sample YAML(s) exist under `v2/samples/<group>/<version>/`, a recording exists under `v2/samples/sampletesting/recordings/Test_Samples_CreationAndDeletion/`, and playback passes.
 
-**Commit now** — two commits: (1) hand-written sample YAML(s) under `v2/samples/<group>/<version>/`, (2) the samples recording under `v2/internal/testsamples/recordings/Test_Samples_CreationAndDeletion/`.
+**Commit now** — two commits: (1) hand-written sample YAML(s) under `v2/samples/<group>/<version>/`, (2) the samples recording under `v2/samples/sampletesting/recordings/Test_Samples_CreationAndDeletion/`.
 
 ### Step 8: Final verification
 
@@ -222,6 +222,6 @@ Verify the PR includes **all** of the following. Missing any is a rework signal.
 - Generated documentation under `docs/hugo/content/reference/`.
 - Any hand-written extensions under `v2/api/<group>/customizations/` (if Step 4 applied).
 - A hand-written CRUD test under `v2/internal/controllers/` plus its recording under `v2/internal/controllers/recordings/`.
-- Sample YAML(s) under `v2/samples/<group>/<version>/` plus a recording under `v2/internal/testsamples/recordings/Test_Samples_CreationAndDeletion/`.
+- Sample YAML(s) under `v2/samples/<group>/<version>/` plus a recording under `v2/samples/sampletesting/recordings/Test_Samples_CreationAndDeletion/`.
 
 Report back to the user with a table listing what was added, which tests were recorded, and any generator config decisions that required judgement (secret detection, read-only properties, extensions).

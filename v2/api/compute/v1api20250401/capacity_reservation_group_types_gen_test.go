@@ -11,14 +11,11 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
+// Test_CapacityReservationGroup_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of CapacityReservationGroup round trips to the hub storage version and back losslessly
 func Test_CapacityReservationGroup_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -26,47 +23,37 @@ func Test_CapacityReservationGroup_WhenConvertedToHub_RoundTripsWithoutLoss(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from CapacityReservationGroup to hub returns original",
-		prop.ForAll(RunResourceConversionTestForCapacityReservationGroup, CapacityReservationGroupGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+	rapid.Check(t, func(t *rapid.T) {
+		subject := CapacityReservationGroupGenerator().Draw(t, "subject")
+		// Copy subject to make sure conversion doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Convert to our hub version
+		var hub compute_v20250401s.CapacityReservationGroup
+		err := copied.ConvertTo(&hub)
+		if err != nil {
+			t.Fatal("ConvertTo: " + err.Error())
+		}
+
+		// Convert from our hub version
+		var actual CapacityReservationGroup
+		err = actual.ConvertFrom(&hub)
+		if err != nil {
+			t.Fatal("ConvertFrom: " + err.Error())
+		}
+
+		// Compare actual with what we started with
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
-// RunResourceConversionTestForCapacityReservationGroup tests if a specific instance of CapacityReservationGroup round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForCapacityReservationGroup(subject CapacityReservationGroup) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub compute_v20250401s.CapacityReservationGroup
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual CapacityReservationGroup
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
+// Test_CapacityReservationGroup_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of CapacityReservationGroup can be assigned to storage and back losslessly
 func Test_CapacityReservationGroup_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -74,44 +61,34 @@ func Test_CapacityReservationGroup_WhenPropertiesConverted_RoundTripsWithoutLoss
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from CapacityReservationGroup to CapacityReservationGroup via AssignProperties_To_CapacityReservationGroup & AssignProperties_From_CapacityReservationGroup returns original",
-		prop.ForAll(RunPropertyAssignmentTestForCapacityReservationGroup, CapacityReservationGroupGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := CapacityReservationGroupGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForCapacityReservationGroup tests if a specific instance of CapacityReservationGroup can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForCapacityReservationGroup(subject CapacityReservationGroup) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other compute_v1api20250401s.CapacityReservationGroup
+		err := copied.AssignProperties_To_CapacityReservationGroup(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other compute_v1api20250401s.CapacityReservationGroup
-	err := copied.AssignProperties_To_CapacityReservationGroup(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual CapacityReservationGroup
+		err = actual.AssignProperties_From_CapacityReservationGroup(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual CapacityReservationGroup
-	err = actual.AssignProperties_From_CapacityReservationGroup(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_CapacityReservationGroup_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -121,29 +98,23 @@ func Test_CapacityReservationGroup_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CapacityReservationGroup via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCapacityReservationGroup, CapacityReservationGroupGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForCapacityReservationGroup)
 }
 
 // RunJSONSerializationTestForCapacityReservationGroup runs a test to see if a specific instance of CapacityReservationGroup round trips to JSON and back losslessly
-func RunJSONSerializationTestForCapacityReservationGroup(subject CapacityReservationGroup) string {
+func RunJSONSerializationTestForCapacityReservationGroup(t *rapid.T) {
+	subject := CapacityReservationGroupGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual CapacityReservationGroup
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -152,35 +123,34 @@ func RunJSONSerializationTestForCapacityReservationGroup(subject CapacityReserva
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of CapacityReservationGroup instances for property testing - lazily instantiated by
 // CapacityReservationGroupGenerator()
-var capacityReservationGroupGenerator gopter.Gen
+var capacityReservationGroupGenerator *rapid.Generator[CapacityReservationGroup]
 
 // CapacityReservationGroupGenerator returns a generator of CapacityReservationGroup instances for property testing.
-func CapacityReservationGroupGenerator() gopter.Gen {
+func CapacityReservationGroupGenerator() *rapid.Generator[CapacityReservationGroup] {
 	if capacityReservationGroupGenerator != nil {
 		return capacityReservationGroupGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForCapacityReservationGroup(generators)
-	capacityReservationGroupGenerator = gen.Struct(reflect.TypeOf(CapacityReservationGroup{}), generators)
+	spec := CapacityReservationGroup_SpecGenerator()
+	status := CapacityReservationGroup_STATUSGenerator()
+
+	capacityReservationGroupGenerator = rapid.Custom(func(t *rapid.T) CapacityReservationGroup {
+		var result CapacityReservationGroup
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return capacityReservationGroupGenerator
 }
 
-// AddRelatedPropertyGeneratorsForCapacityReservationGroup is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForCapacityReservationGroup(gens map[string]gopter.Gen) {
-	gens["Spec"] = CapacityReservationGroup_SpecGenerator()
-	gens["Status"] = CapacityReservationGroup_STATUSGenerator()
-}
-
+// Test_CapacityReservationGroupInstanceView_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of CapacityReservationGroupInstanceView_STATUS can be assigned to storage and back losslessly
 func Test_CapacityReservationGroupInstanceView_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -188,44 +158,34 @@ func Test_CapacityReservationGroupInstanceView_STATUS_WhenPropertiesConverted_Ro
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from CapacityReservationGroupInstanceView_STATUS to CapacityReservationGroupInstanceView_STATUS via AssignProperties_To_CapacityReservationGroupInstanceView_STATUS & AssignProperties_From_CapacityReservationGroupInstanceView_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForCapacityReservationGroupInstanceView_STATUS, CapacityReservationGroupInstanceView_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := CapacityReservationGroupInstanceView_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForCapacityReservationGroupInstanceView_STATUS tests if a specific instance of CapacityReservationGroupInstanceView_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForCapacityReservationGroupInstanceView_STATUS(subject CapacityReservationGroupInstanceView_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other compute_v1api20250401s.CapacityReservationGroupInstanceView_STATUS
+		err := copied.AssignProperties_To_CapacityReservationGroupInstanceView_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other compute_v1api20250401s.CapacityReservationGroupInstanceView_STATUS
-	err := copied.AssignProperties_To_CapacityReservationGroupInstanceView_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual CapacityReservationGroupInstanceView_STATUS
+		err = actual.AssignProperties_From_CapacityReservationGroupInstanceView_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual CapacityReservationGroupInstanceView_STATUS
-	err = actual.AssignProperties_From_CapacityReservationGroupInstanceView_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_CapacityReservationGroupInstanceView_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -235,29 +195,23 @@ func Test_CapacityReservationGroupInstanceView_STATUS_WhenSerializedToJson_Deser
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CapacityReservationGroupInstanceView_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCapacityReservationGroupInstanceView_STATUS, CapacityReservationGroupInstanceView_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForCapacityReservationGroupInstanceView_STATUS)
 }
 
 // RunJSONSerializationTestForCapacityReservationGroupInstanceView_STATUS runs a test to see if a specific instance of CapacityReservationGroupInstanceView_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForCapacityReservationGroupInstanceView_STATUS(subject CapacityReservationGroupInstanceView_STATUS) string {
+func RunJSONSerializationTestForCapacityReservationGroupInstanceView_STATUS(t *rapid.T) {
+	subject := CapacityReservationGroupInstanceView_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual CapacityReservationGroupInstanceView_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -266,35 +220,34 @@ func RunJSONSerializationTestForCapacityReservationGroupInstanceView_STATUS(subj
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of CapacityReservationGroupInstanceView_STATUS instances for property testing - lazily instantiated by
 // CapacityReservationGroupInstanceView_STATUSGenerator()
-var capacityReservationGroupInstanceView_STATUSGenerator gopter.Gen
+var capacityReservationGroupInstanceView_STATUSGenerator *rapid.Generator[CapacityReservationGroupInstanceView_STATUS]
 
 // CapacityReservationGroupInstanceView_STATUSGenerator returns a generator of CapacityReservationGroupInstanceView_STATUS instances for property testing.
-func CapacityReservationGroupInstanceView_STATUSGenerator() gopter.Gen {
+func CapacityReservationGroupInstanceView_STATUSGenerator() *rapid.Generator[CapacityReservationGroupInstanceView_STATUS] {
 	if capacityReservationGroupInstanceView_STATUSGenerator != nil {
 		return capacityReservationGroupInstanceView_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForCapacityReservationGroupInstanceView_STATUS(generators)
-	capacityReservationGroupInstanceView_STATUSGenerator = gen.Struct(reflect.TypeOf(CapacityReservationGroupInstanceView_STATUS{}), generators)
+	capacityReservations := rapid.SliceOf(CapacityReservationInstanceViewWithName_STATUSGenerator())
+	sharedSubscriptionIds := rapid.SliceOf(SubResourceReadOnly_STATUSGenerator())
+
+	capacityReservationGroupInstanceView_STATUSGenerator = rapid.Custom(func(t *rapid.T) CapacityReservationGroupInstanceView_STATUS {
+		var result CapacityReservationGroupInstanceView_STATUS
+		result.CapacityReservations = capacityReservations.Draw(t, "CapacityReservations")
+		result.SharedSubscriptionIds = sharedSubscriptionIds.Draw(t, "SharedSubscriptionIds")
+		return result
+	})
 
 	return capacityReservationGroupInstanceView_STATUSGenerator
 }
 
-// AddRelatedPropertyGeneratorsForCapacityReservationGroupInstanceView_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForCapacityReservationGroupInstanceView_STATUS(gens map[string]gopter.Gen) {
-	gens["CapacityReservations"] = gen.SliceOf(CapacityReservationInstanceViewWithName_STATUSGenerator())
-	gens["SharedSubscriptionIds"] = gen.SliceOf(SubResourceReadOnly_STATUSGenerator())
-}
-
+// Test_CapacityReservationGroupOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of CapacityReservationGroupOperatorSpec can be assigned to storage and back losslessly
 func Test_CapacityReservationGroupOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -302,44 +255,34 @@ func Test_CapacityReservationGroupOperatorSpec_WhenPropertiesConverted_RoundTrip
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from CapacityReservationGroupOperatorSpec to CapacityReservationGroupOperatorSpec via AssignProperties_To_CapacityReservationGroupOperatorSpec & AssignProperties_From_CapacityReservationGroupOperatorSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForCapacityReservationGroupOperatorSpec, CapacityReservationGroupOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := CapacityReservationGroupOperatorSpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForCapacityReservationGroupOperatorSpec tests if a specific instance of CapacityReservationGroupOperatorSpec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForCapacityReservationGroupOperatorSpec(subject CapacityReservationGroupOperatorSpec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other compute_v1api20250401s.CapacityReservationGroupOperatorSpec
+		err := copied.AssignProperties_To_CapacityReservationGroupOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other compute_v1api20250401s.CapacityReservationGroupOperatorSpec
-	err := copied.AssignProperties_To_CapacityReservationGroupOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual CapacityReservationGroupOperatorSpec
+		err = actual.AssignProperties_From_CapacityReservationGroupOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual CapacityReservationGroupOperatorSpec
-	err = actual.AssignProperties_From_CapacityReservationGroupOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_CapacityReservationGroupOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -349,29 +292,23 @@ func Test_CapacityReservationGroupOperatorSpec_WhenSerializedToJson_Deserializes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CapacityReservationGroupOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCapacityReservationGroupOperatorSpec, CapacityReservationGroupOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForCapacityReservationGroupOperatorSpec)
 }
 
 // RunJSONSerializationTestForCapacityReservationGroupOperatorSpec runs a test to see if a specific instance of CapacityReservationGroupOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForCapacityReservationGroupOperatorSpec(subject CapacityReservationGroupOperatorSpec) string {
+func RunJSONSerializationTestForCapacityReservationGroupOperatorSpec(t *rapid.T) {
+	subject := CapacityReservationGroupOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual CapacityReservationGroupOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -380,28 +317,26 @@ func RunJSONSerializationTestForCapacityReservationGroupOperatorSpec(subject Cap
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of CapacityReservationGroupOperatorSpec instances for property testing - lazily instantiated by
 // CapacityReservationGroupOperatorSpecGenerator()
-var capacityReservationGroupOperatorSpecGenerator gopter.Gen
+var capacityReservationGroupOperatorSpecGenerator *rapid.Generator[CapacityReservationGroupOperatorSpec]
 
 // CapacityReservationGroupOperatorSpecGenerator returns a generator of CapacityReservationGroupOperatorSpec instances for property testing.
-func CapacityReservationGroupOperatorSpecGenerator() gopter.Gen {
+func CapacityReservationGroupOperatorSpecGenerator() *rapid.Generator[CapacityReservationGroupOperatorSpec] {
 	if capacityReservationGroupOperatorSpecGenerator != nil {
 		return capacityReservationGroupOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	capacityReservationGroupOperatorSpecGenerator = gen.Struct(reflect.TypeOf(CapacityReservationGroupOperatorSpec{}), generators)
+	capacityReservationGroupOperatorSpecGenerator = rapid.Just(CapacityReservationGroupOperatorSpec{})
 
 	return capacityReservationGroupOperatorSpecGenerator
 }
 
+// Test_CapacityReservationGroup_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of CapacityReservationGroup_STATUS can be assigned to storage and back losslessly
 func Test_CapacityReservationGroup_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -409,44 +344,34 @@ func Test_CapacityReservationGroup_STATUS_WhenPropertiesConverted_RoundTripsWith
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from CapacityReservationGroup_STATUS to CapacityReservationGroup_STATUS via AssignProperties_To_CapacityReservationGroup_STATUS & AssignProperties_From_CapacityReservationGroup_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForCapacityReservationGroup_STATUS, CapacityReservationGroup_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := CapacityReservationGroup_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForCapacityReservationGroup_STATUS tests if a specific instance of CapacityReservationGroup_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForCapacityReservationGroup_STATUS(subject CapacityReservationGroup_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other compute_v1api20250401s.CapacityReservationGroup_STATUS
+		err := copied.AssignProperties_To_CapacityReservationGroup_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other compute_v1api20250401s.CapacityReservationGroup_STATUS
-	err := copied.AssignProperties_To_CapacityReservationGroup_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual CapacityReservationGroup_STATUS
+		err = actual.AssignProperties_From_CapacityReservationGroup_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual CapacityReservationGroup_STATUS
-	err = actual.AssignProperties_From_CapacityReservationGroup_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_CapacityReservationGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -456,29 +381,23 @@ func Test_CapacityReservationGroup_STATUS_WhenSerializedToJson_DeserializesAsEqu
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CapacityReservationGroup_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCapacityReservationGroup_STATUS, CapacityReservationGroup_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForCapacityReservationGroup_STATUS)
 }
 
 // RunJSONSerializationTestForCapacityReservationGroup_STATUS runs a test to see if a specific instance of CapacityReservationGroup_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForCapacityReservationGroup_STATUS(subject CapacityReservationGroup_STATUS) string {
+func RunJSONSerializationTestForCapacityReservationGroup_STATUS(t *rapid.T) {
+	subject := CapacityReservationGroup_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual CapacityReservationGroup_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -487,60 +406,52 @@ func RunJSONSerializationTestForCapacityReservationGroup_STATUS(subject Capacity
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of CapacityReservationGroup_STATUS instances for property testing - lazily instantiated by
 // CapacityReservationGroup_STATUSGenerator()
-var capacityReservationGroup_STATUSGenerator gopter.Gen
+var capacityReservationGroup_STATUSGenerator *rapid.Generator[CapacityReservationGroup_STATUS]
 
 // CapacityReservationGroup_STATUSGenerator returns a generator of CapacityReservationGroup_STATUS instances for property testing.
-// We first initialize capacityReservationGroup_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func CapacityReservationGroup_STATUSGenerator() gopter.Gen {
+func CapacityReservationGroup_STATUSGenerator() *rapid.Generator[CapacityReservationGroup_STATUS] {
 	if capacityReservationGroup_STATUSGenerator != nil {
 		return capacityReservationGroup_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCapacityReservationGroup_STATUS(generators)
-	capacityReservationGroup_STATUSGenerator = gen.Struct(reflect.TypeOf(CapacityReservationGroup_STATUS{}), generators)
+	sliceOfSubResourceReadOnlySTATUS := rapid.SliceOf(SubResourceReadOnly_STATUSGenerator())
+	ptrString := rapid.Ptr(rapid.String(), true)
+	instanceView := rapid.Ptr(CapacityReservationGroupInstanceView_STATUSGenerator(), true)
+	reservationType := rapid.Ptr(rapid.SampledFrom([]ReservationType_STATUS{ReservationType_STATUS_Block, ReservationType_STATUS_Targeted}), true)
+	sharingProfile := rapid.Ptr(ResourceSharingProfile_STATUSGenerator(), true)
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
+	zones := rapid.SliceOf(rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCapacityReservationGroup_STATUS(generators)
-	AddRelatedPropertyGeneratorsForCapacityReservationGroup_STATUS(generators)
-	capacityReservationGroup_STATUSGenerator = gen.Struct(reflect.TypeOf(CapacityReservationGroup_STATUS{}), generators)
+	capacityReservationGroup_STATUSGenerator = rapid.Custom(func(t *rapid.T) CapacityReservationGroup_STATUS {
+		var result CapacityReservationGroup_STATUS
+		result.CapacityReservations = sliceOfSubResourceReadOnlySTATUS.Draw(t, "CapacityReservations")
+		result.Id = ptrString.Draw(t, "Id")
+		result.InstanceView = instanceView.Draw(t, "InstanceView")
+		result.Location = ptrString.Draw(t, "Location")
+		result.Name = ptrString.Draw(t, "Name")
+		result.ReservationType = reservationType.Draw(t, "ReservationType")
+		result.SharingProfile = sharingProfile.Draw(t, "SharingProfile")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.Tags = tags.Draw(t, "Tags")
+		result.Type = ptrString.Draw(t, "Type")
+		result.VirtualMachinesAssociated = sliceOfSubResourceReadOnlySTATUS.Draw(t, "VirtualMachinesAssociated")
+		result.Zones = zones.Draw(t, "Zones")
+		return result
+	})
 
 	return capacityReservationGroup_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForCapacityReservationGroup_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCapacityReservationGroup_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ReservationType"] = gen.PtrOf(gen.OneConstOf(ReservationType_STATUS_Block, ReservationType_STATUS_Targeted))
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["Zones"] = gen.SliceOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForCapacityReservationGroup_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForCapacityReservationGroup_STATUS(gens map[string]gopter.Gen) {
-	gens["CapacityReservations"] = gen.SliceOf(SubResourceReadOnly_STATUSGenerator())
-	gens["InstanceView"] = gen.PtrOf(CapacityReservationGroupInstanceView_STATUSGenerator())
-	gens["SharingProfile"] = gen.PtrOf(ResourceSharingProfile_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
-	gens["VirtualMachinesAssociated"] = gen.SliceOf(SubResourceReadOnly_STATUSGenerator())
-}
-
+// Test_CapacityReservationGroup_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of CapacityReservationGroup_Spec can be assigned to storage and back losslessly
 func Test_CapacityReservationGroup_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -548,44 +459,34 @@ func Test_CapacityReservationGroup_Spec_WhenPropertiesConverted_RoundTripsWithou
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from CapacityReservationGroup_Spec to CapacityReservationGroup_Spec via AssignProperties_To_CapacityReservationGroup_Spec & AssignProperties_From_CapacityReservationGroup_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForCapacityReservationGroup_Spec, CapacityReservationGroup_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := CapacityReservationGroup_SpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForCapacityReservationGroup_Spec tests if a specific instance of CapacityReservationGroup_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForCapacityReservationGroup_Spec(subject CapacityReservationGroup_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other compute_v1api20250401s.CapacityReservationGroup_Spec
+		err := copied.AssignProperties_To_CapacityReservationGroup_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other compute_v1api20250401s.CapacityReservationGroup_Spec
-	err := copied.AssignProperties_To_CapacityReservationGroup_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual CapacityReservationGroup_Spec
+		err = actual.AssignProperties_From_CapacityReservationGroup_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual CapacityReservationGroup_Spec
-	err = actual.AssignProperties_From_CapacityReservationGroup_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_CapacityReservationGroup_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -595,29 +496,23 @@ func Test_CapacityReservationGroup_Spec_WhenSerializedToJson_DeserializesAsEqual
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CapacityReservationGroup_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCapacityReservationGroup_Spec, CapacityReservationGroup_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForCapacityReservationGroup_Spec)
 }
 
 // RunJSONSerializationTestForCapacityReservationGroup_Spec runs a test to see if a specific instance of CapacityReservationGroup_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForCapacityReservationGroup_Spec(subject CapacityReservationGroup_Spec) string {
+func RunJSONSerializationTestForCapacityReservationGroup_Spec(t *rapid.T) {
+	subject := CapacityReservationGroup_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual CapacityReservationGroup_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -626,55 +521,46 @@ func RunJSONSerializationTestForCapacityReservationGroup_Spec(subject CapacityRe
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of CapacityReservationGroup_Spec instances for property testing - lazily instantiated by
 // CapacityReservationGroup_SpecGenerator()
-var capacityReservationGroup_SpecGenerator gopter.Gen
+var capacityReservationGroup_SpecGenerator *rapid.Generator[CapacityReservationGroup_Spec]
 
 // CapacityReservationGroup_SpecGenerator returns a generator of CapacityReservationGroup_Spec instances for property testing.
-// We first initialize capacityReservationGroup_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func CapacityReservationGroup_SpecGenerator() gopter.Gen {
+func CapacityReservationGroup_SpecGenerator() *rapid.Generator[CapacityReservationGroup_Spec] {
 	if capacityReservationGroup_SpecGenerator != nil {
 		return capacityReservationGroup_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCapacityReservationGroup_Spec(generators)
-	capacityReservationGroup_SpecGenerator = gen.Struct(reflect.TypeOf(CapacityReservationGroup_Spec{}), generators)
+	azureName := rapid.String()
+	location := rapid.Ptr(rapid.String(), true)
+	operatorSpec := rapid.Ptr(CapacityReservationGroupOperatorSpecGenerator(), true)
+	reservationType := rapid.Ptr(rapid.SampledFrom([]ReservationType{ReservationType_Block, ReservationType_Targeted}), true)
+	sharingProfile := rapid.Ptr(ResourceSharingProfileGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
+	zones := rapid.SliceOf(rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCapacityReservationGroup_Spec(generators)
-	AddRelatedPropertyGeneratorsForCapacityReservationGroup_Spec(generators)
-	capacityReservationGroup_SpecGenerator = gen.Struct(reflect.TypeOf(CapacityReservationGroup_Spec{}), generators)
+	capacityReservationGroup_SpecGenerator = rapid.Custom(func(t *rapid.T) CapacityReservationGroup_Spec {
+		var result CapacityReservationGroup_Spec
+		result.AzureName = azureName.Draw(t, "AzureName")
+		result.Location = location.Draw(t, "Location")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		result.ReservationType = reservationType.Draw(t, "ReservationType")
+		result.SharingProfile = sharingProfile.Draw(t, "SharingProfile")
+		result.Tags = tags.Draw(t, "Tags")
+		result.Zones = zones.Draw(t, "Zones")
+		return result
+	})
 
 	return capacityReservationGroup_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForCapacityReservationGroup_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCapacityReservationGroup_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["ReservationType"] = gen.PtrOf(gen.OneConstOf(ReservationType_Block, ReservationType_Targeted))
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Zones"] = gen.SliceOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForCapacityReservationGroup_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForCapacityReservationGroup_Spec(gens map[string]gopter.Gen) {
-	gens["OperatorSpec"] = gen.PtrOf(CapacityReservationGroupOperatorSpecGenerator())
-	gens["SharingProfile"] = gen.PtrOf(ResourceSharingProfileGenerator())
-}
-
+// Test_CapacityReservationInstanceViewWithName_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of CapacityReservationInstanceViewWithName_STATUS can be assigned to storage and back losslessly
 func Test_CapacityReservationInstanceViewWithName_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -682,44 +568,34 @@ func Test_CapacityReservationInstanceViewWithName_STATUS_WhenPropertiesConverted
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from CapacityReservationInstanceViewWithName_STATUS to CapacityReservationInstanceViewWithName_STATUS via AssignProperties_To_CapacityReservationInstanceViewWithName_STATUS & AssignProperties_From_CapacityReservationInstanceViewWithName_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForCapacityReservationInstanceViewWithName_STATUS, CapacityReservationInstanceViewWithName_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := CapacityReservationInstanceViewWithName_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForCapacityReservationInstanceViewWithName_STATUS tests if a specific instance of CapacityReservationInstanceViewWithName_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForCapacityReservationInstanceViewWithName_STATUS(subject CapacityReservationInstanceViewWithName_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other compute_v1api20250401s.CapacityReservationInstanceViewWithName_STATUS
+		err := copied.AssignProperties_To_CapacityReservationInstanceViewWithName_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other compute_v1api20250401s.CapacityReservationInstanceViewWithName_STATUS
-	err := copied.AssignProperties_To_CapacityReservationInstanceViewWithName_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual CapacityReservationInstanceViewWithName_STATUS
+		err = actual.AssignProperties_From_CapacityReservationInstanceViewWithName_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual CapacityReservationInstanceViewWithName_STATUS
-	err = actual.AssignProperties_From_CapacityReservationInstanceViewWithName_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_CapacityReservationInstanceViewWithName_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -729,29 +605,23 @@ func Test_CapacityReservationInstanceViewWithName_STATUS_WhenSerializedToJson_De
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CapacityReservationInstanceViewWithName_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCapacityReservationInstanceViewWithName_STATUS, CapacityReservationInstanceViewWithName_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForCapacityReservationInstanceViewWithName_STATUS)
 }
 
 // RunJSONSerializationTestForCapacityReservationInstanceViewWithName_STATUS runs a test to see if a specific instance of CapacityReservationInstanceViewWithName_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForCapacityReservationInstanceViewWithName_STATUS(subject CapacityReservationInstanceViewWithName_STATUS) string {
+func RunJSONSerializationTestForCapacityReservationInstanceViewWithName_STATUS(t *rapid.T) {
+	subject := CapacityReservationInstanceViewWithName_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual CapacityReservationInstanceViewWithName_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -760,49 +630,36 @@ func RunJSONSerializationTestForCapacityReservationInstanceViewWithName_STATUS(s
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of CapacityReservationInstanceViewWithName_STATUS instances for property testing - lazily instantiated by
 // CapacityReservationInstanceViewWithName_STATUSGenerator()
-var capacityReservationInstanceViewWithName_STATUSGenerator gopter.Gen
+var capacityReservationInstanceViewWithName_STATUSGenerator *rapid.Generator[CapacityReservationInstanceViewWithName_STATUS]
 
 // CapacityReservationInstanceViewWithName_STATUSGenerator returns a generator of CapacityReservationInstanceViewWithName_STATUS instances for property testing.
-// We first initialize capacityReservationInstanceViewWithName_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func CapacityReservationInstanceViewWithName_STATUSGenerator() gopter.Gen {
+func CapacityReservationInstanceViewWithName_STATUSGenerator() *rapid.Generator[CapacityReservationInstanceViewWithName_STATUS] {
 	if capacityReservationInstanceViewWithName_STATUSGenerator != nil {
 		return capacityReservationInstanceViewWithName_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCapacityReservationInstanceViewWithName_STATUS(generators)
-	capacityReservationInstanceViewWithName_STATUSGenerator = gen.Struct(reflect.TypeOf(CapacityReservationInstanceViewWithName_STATUS{}), generators)
+	name := rapid.Ptr(rapid.String(), true)
+	statuses := rapid.SliceOf(InstanceViewStatus_STATUSGenerator())
+	utilizationInfo := rapid.Ptr(CapacityReservationUtilization_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCapacityReservationInstanceViewWithName_STATUS(generators)
-	AddRelatedPropertyGeneratorsForCapacityReservationInstanceViewWithName_STATUS(generators)
-	capacityReservationInstanceViewWithName_STATUSGenerator = gen.Struct(reflect.TypeOf(CapacityReservationInstanceViewWithName_STATUS{}), generators)
+	capacityReservationInstanceViewWithName_STATUSGenerator = rapid.Custom(func(t *rapid.T) CapacityReservationInstanceViewWithName_STATUS {
+		var result CapacityReservationInstanceViewWithName_STATUS
+		result.Name = name.Draw(t, "Name")
+		result.Statuses = statuses.Draw(t, "Statuses")
+		result.UtilizationInfo = utilizationInfo.Draw(t, "UtilizationInfo")
+		return result
+	})
 
 	return capacityReservationInstanceViewWithName_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForCapacityReservationInstanceViewWithName_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCapacityReservationInstanceViewWithName_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForCapacityReservationInstanceViewWithName_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForCapacityReservationInstanceViewWithName_STATUS(gens map[string]gopter.Gen) {
-	gens["Statuses"] = gen.SliceOf(InstanceViewStatus_STATUSGenerator())
-	gens["UtilizationInfo"] = gen.PtrOf(CapacityReservationUtilization_STATUSGenerator())
-}
-
+// Test_ResourceSharingProfile_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ResourceSharingProfile can be assigned to storage and back losslessly
 func Test_ResourceSharingProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -810,44 +667,34 @@ func Test_ResourceSharingProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ResourceSharingProfile to ResourceSharingProfile via AssignProperties_To_ResourceSharingProfile & AssignProperties_From_ResourceSharingProfile returns original",
-		prop.ForAll(RunPropertyAssignmentTestForResourceSharingProfile, ResourceSharingProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ResourceSharingProfileGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForResourceSharingProfile tests if a specific instance of ResourceSharingProfile can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForResourceSharingProfile(subject ResourceSharingProfile) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other compute_v1api20250401s.ResourceSharingProfile
+		err := copied.AssignProperties_To_ResourceSharingProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other compute_v1api20250401s.ResourceSharingProfile
-	err := copied.AssignProperties_To_ResourceSharingProfile(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ResourceSharingProfile
+		err = actual.AssignProperties_From_ResourceSharingProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ResourceSharingProfile
-	err = actual.AssignProperties_From_ResourceSharingProfile(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ResourceSharingProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -857,29 +704,23 @@ func Test_ResourceSharingProfile_WhenSerializedToJson_DeserializesAsEqual(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ResourceSharingProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForResourceSharingProfile, ResourceSharingProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForResourceSharingProfile)
 }
 
 // RunJSONSerializationTestForResourceSharingProfile runs a test to see if a specific instance of ResourceSharingProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForResourceSharingProfile(subject ResourceSharingProfile) string {
+func RunJSONSerializationTestForResourceSharingProfile(t *rapid.T) {
+	subject := ResourceSharingProfileGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ResourceSharingProfile
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -888,34 +729,32 @@ func RunJSONSerializationTestForResourceSharingProfile(subject ResourceSharingPr
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ResourceSharingProfile instances for property testing - lazily instantiated by
 // ResourceSharingProfileGenerator()
-var resourceSharingProfileGenerator gopter.Gen
+var resourceSharingProfileGenerator *rapid.Generator[ResourceSharingProfile]
 
 // ResourceSharingProfileGenerator returns a generator of ResourceSharingProfile instances for property testing.
-func ResourceSharingProfileGenerator() gopter.Gen {
+func ResourceSharingProfileGenerator() *rapid.Generator[ResourceSharingProfile] {
 	if resourceSharingProfileGenerator != nil {
 		return resourceSharingProfileGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForResourceSharingProfile(generators)
-	resourceSharingProfileGenerator = gen.Struct(reflect.TypeOf(ResourceSharingProfile{}), generators)
+	subscriptionIds := rapid.SliceOf(SubResourceGenerator())
+
+	resourceSharingProfileGenerator = rapid.Custom(func(t *rapid.T) ResourceSharingProfile {
+		var result ResourceSharingProfile
+		result.SubscriptionIds = subscriptionIds.Draw(t, "SubscriptionIds")
+		return result
+	})
 
 	return resourceSharingProfileGenerator
 }
 
-// AddRelatedPropertyGeneratorsForResourceSharingProfile is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForResourceSharingProfile(gens map[string]gopter.Gen) {
-	gens["SubscriptionIds"] = gen.SliceOf(SubResourceGenerator())
-}
-
+// Test_ResourceSharingProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ResourceSharingProfile_STATUS can be assigned to storage and back losslessly
 func Test_ResourceSharingProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -923,44 +762,34 @@ func Test_ResourceSharingProfile_STATUS_WhenPropertiesConverted_RoundTripsWithou
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ResourceSharingProfile_STATUS to ResourceSharingProfile_STATUS via AssignProperties_To_ResourceSharingProfile_STATUS & AssignProperties_From_ResourceSharingProfile_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForResourceSharingProfile_STATUS, ResourceSharingProfile_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ResourceSharingProfile_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForResourceSharingProfile_STATUS tests if a specific instance of ResourceSharingProfile_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForResourceSharingProfile_STATUS(subject ResourceSharingProfile_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other compute_v1api20250401s.ResourceSharingProfile_STATUS
+		err := copied.AssignProperties_To_ResourceSharingProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other compute_v1api20250401s.ResourceSharingProfile_STATUS
-	err := copied.AssignProperties_To_ResourceSharingProfile_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ResourceSharingProfile_STATUS
+		err = actual.AssignProperties_From_ResourceSharingProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ResourceSharingProfile_STATUS
-	err = actual.AssignProperties_From_ResourceSharingProfile_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ResourceSharingProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -970,29 +799,23 @@ func Test_ResourceSharingProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ResourceSharingProfile_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForResourceSharingProfile_STATUS, ResourceSharingProfile_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForResourceSharingProfile_STATUS)
 }
 
 // RunJSONSerializationTestForResourceSharingProfile_STATUS runs a test to see if a specific instance of ResourceSharingProfile_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForResourceSharingProfile_STATUS(subject ResourceSharingProfile_STATUS) string {
+func RunJSONSerializationTestForResourceSharingProfile_STATUS(t *rapid.T) {
+	subject := ResourceSharingProfile_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ResourceSharingProfile_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1001,34 +824,32 @@ func RunJSONSerializationTestForResourceSharingProfile_STATUS(subject ResourceSh
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ResourceSharingProfile_STATUS instances for property testing - lazily instantiated by
 // ResourceSharingProfile_STATUSGenerator()
-var resourceSharingProfile_STATUSGenerator gopter.Gen
+var resourceSharingProfile_STATUSGenerator *rapid.Generator[ResourceSharingProfile_STATUS]
 
 // ResourceSharingProfile_STATUSGenerator returns a generator of ResourceSharingProfile_STATUS instances for property testing.
-func ResourceSharingProfile_STATUSGenerator() gopter.Gen {
+func ResourceSharingProfile_STATUSGenerator() *rapid.Generator[ResourceSharingProfile_STATUS] {
 	if resourceSharingProfile_STATUSGenerator != nil {
 		return resourceSharingProfile_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForResourceSharingProfile_STATUS(generators)
-	resourceSharingProfile_STATUSGenerator = gen.Struct(reflect.TypeOf(ResourceSharingProfile_STATUS{}), generators)
+	subscriptionIds := rapid.SliceOf(SubResource_STATUSGenerator())
+
+	resourceSharingProfile_STATUSGenerator = rapid.Custom(func(t *rapid.T) ResourceSharingProfile_STATUS {
+		var result ResourceSharingProfile_STATUS
+		result.SubscriptionIds = subscriptionIds.Draw(t, "SubscriptionIds")
+		return result
+	})
 
 	return resourceSharingProfile_STATUSGenerator
 }
 
-// AddRelatedPropertyGeneratorsForResourceSharingProfile_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForResourceSharingProfile_STATUS(gens map[string]gopter.Gen) {
-	gens["SubscriptionIds"] = gen.SliceOf(SubResource_STATUSGenerator())
-}
-
+// Test_SubResource_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of SubResource can be assigned to storage and back losslessly
 func Test_SubResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1036,44 +857,34 @@ func Test_SubResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from SubResource to SubResource via AssignProperties_To_SubResource & AssignProperties_From_SubResource returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSubResource, SubResourceGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := SubResourceGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForSubResource tests if a specific instance of SubResource can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForSubResource(subject SubResource) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other compute_v1api20250401s.SubResource
+		err := copied.AssignProperties_To_SubResource(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other compute_v1api20250401s.SubResource
-	err := copied.AssignProperties_To_SubResource(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual SubResource
+		err = actual.AssignProperties_From_SubResource(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SubResource
-	err = actual.AssignProperties_From_SubResource(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_SubResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1083,29 +894,23 @@ func Test_SubResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SubResource via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSubResource, SubResourceGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSubResource)
 }
 
 // RunJSONSerializationTestForSubResource runs a test to see if a specific instance of SubResource round trips to JSON and back losslessly
-func RunJSONSerializationTestForSubResource(subject SubResource) string {
+func RunJSONSerializationTestForSubResource(t *rapid.T) {
+	subject := SubResourceGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SubResource
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1114,27 +919,25 @@ func RunJSONSerializationTestForSubResource(subject SubResource) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SubResource instances for property testing - lazily instantiated by SubResourceGenerator()
-var subResourceGenerator gopter.Gen
+var subResourceGenerator *rapid.Generator[SubResource]
 
 // SubResourceGenerator returns a generator of SubResource instances for property testing.
-func SubResourceGenerator() gopter.Gen {
+func SubResourceGenerator() *rapid.Generator[SubResource] {
 	if subResourceGenerator != nil {
 		return subResourceGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	subResourceGenerator = gen.Struct(reflect.TypeOf(SubResource{}), generators)
+	subResourceGenerator = rapid.Just(SubResource{})
 
 	return subResourceGenerator
 }
 
+// Test_SubResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of SubResource_STATUS can be assigned to storage and back losslessly
 func Test_SubResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -1142,44 +945,34 @@ func Test_SubResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from SubResource_STATUS to SubResource_STATUS via AssignProperties_To_SubResource_STATUS & AssignProperties_From_SubResource_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSubResource_STATUS, SubResource_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := SubResource_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForSubResource_STATUS tests if a specific instance of SubResource_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForSubResource_STATUS(subject SubResource_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other compute_v1api20250401s.SubResource_STATUS
+		err := copied.AssignProperties_To_SubResource_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other compute_v1api20250401s.SubResource_STATUS
-	err := copied.AssignProperties_To_SubResource_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual SubResource_STATUS
+		err = actual.AssignProperties_From_SubResource_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SubResource_STATUS
-	err = actual.AssignProperties_From_SubResource_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_SubResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1189,29 +982,23 @@ func Test_SubResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SubResource_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSubResource_STATUS, SubResource_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSubResource_STATUS)
 }
 
 // RunJSONSerializationTestForSubResource_STATUS runs a test to see if a specific instance of SubResource_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSubResource_STATUS(subject SubResource_STATUS) string {
+func RunJSONSerializationTestForSubResource_STATUS(t *rapid.T) {
+	subject := SubResource_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SubResource_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1220,29 +1007,26 @@ func RunJSONSerializationTestForSubResource_STATUS(subject SubResource_STATUS) s
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SubResource_STATUS instances for property testing - lazily instantiated by SubResource_STATUSGenerator()
-var subResource_STATUSGenerator gopter.Gen
+var subResource_STATUSGenerator *rapid.Generator[SubResource_STATUS]
 
 // SubResource_STATUSGenerator returns a generator of SubResource_STATUS instances for property testing.
-func SubResource_STATUSGenerator() gopter.Gen {
+func SubResource_STATUSGenerator() *rapid.Generator[SubResource_STATUS] {
 	if subResource_STATUSGenerator != nil {
 		return subResource_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSubResource_STATUS(generators)
-	subResource_STATUSGenerator = gen.Struct(reflect.TypeOf(SubResource_STATUS{}), generators)
+	id := rapid.Ptr(rapid.String(), true)
+
+	subResource_STATUSGenerator = rapid.Custom(func(t *rapid.T) SubResource_STATUS {
+		var result SubResource_STATUS
+		result.Id = id.Draw(t, "Id")
+		return result
+	})
 
 	return subResource_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSubResource_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSubResource_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }

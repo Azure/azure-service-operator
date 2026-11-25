@@ -30,7 +30,8 @@ credentials. Other supported identity types are called out
 and may be omitted when installing ASO.
 
 ✅ DO enable `AZURE_WORKLOAD_IDENTITY_AUTH_MODE=strict` for single-operator multitenant clusters. Create a namespace-local
-ServiceAccount (default `aso-workload`) and matching FederatedIdentityCredential for each Workload Identity credential.
+ServiceAccount (default `aso-workload`) and matching FederatedIdentityCredential for each Workload Identity credential. See 
+[Workload Identity isolation]( {{< relref "workload-identity-isolation" >}} ) for more details.
 
 ⛔ DO NOT grant ASO unrestricted `create` access to `serviceaccounts/token`. Restrict `resourceNames` to the ServiceAccount
 names that ASO is expected to use.
