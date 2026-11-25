@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_SubscriptionContractProperties_STATUS_WhenSerializedToJson_Deserialize
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SubscriptionContractProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSubscriptionContractProperties_STATUS, SubscriptionContractProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSubscriptionContractProperties_STATUS)
 }
 
 // RunJSONSerializationTestForSubscriptionContractProperties_STATUS runs a test to see if a specific instance of SubscriptionContractProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSubscriptionContractProperties_STATUS(subject SubscriptionContractProperties_STATUS) string {
+func RunJSONSerializationTestForSubscriptionContractProperties_STATUS(t *rapid.T) {
+	subject := SubscriptionContractProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SubscriptionContractProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,48 +45,41 @@ func RunJSONSerializationTestForSubscriptionContractProperties_STATUS(subject Su
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SubscriptionContractProperties_STATUS instances for property testing - lazily instantiated by
 // SubscriptionContractProperties_STATUSGenerator()
-var subscriptionContractProperties_STATUSGenerator gopter.Gen
+var subscriptionContractProperties_STATUSGenerator *rapid.Generator[SubscriptionContractProperties_STATUS]
 
 // SubscriptionContractProperties_STATUSGenerator returns a generator of SubscriptionContractProperties_STATUS instances for property testing.
-func SubscriptionContractProperties_STATUSGenerator() gopter.Gen {
+func SubscriptionContractProperties_STATUSGenerator() *rapid.Generator[SubscriptionContractProperties_STATUS] {
 	if subscriptionContractProperties_STATUSGenerator != nil {
 		return subscriptionContractProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSubscriptionContractProperties_STATUS(generators)
-	subscriptionContractProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(SubscriptionContractProperties_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	allowTracing := rapid.Ptr(rapid.Bool(), true)
+	state := rapid.Ptr(rapid.SampledFrom([]SubscriptionContractProperties_State_STATUS{SubscriptionContractProperties_State_STATUS_Active, SubscriptionContractProperties_State_STATUS_Cancelled, SubscriptionContractProperties_State_STATUS_Expired, SubscriptionContractProperties_State_STATUS_Rejected, SubscriptionContractProperties_State_STATUS_Submitted, SubscriptionContractProperties_State_STATUS_Suspended}), true)
+
+	subscriptionContractProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) SubscriptionContractProperties_STATUS {
+		var result SubscriptionContractProperties_STATUS
+		result.AllowTracing = allowTracing.Draw(t, "AllowTracing")
+		result.CreatedDate = ptrString.Draw(t, "CreatedDate")
+		result.DisplayName = ptrString.Draw(t, "DisplayName")
+		result.EndDate = ptrString.Draw(t, "EndDate")
+		result.ExpirationDate = ptrString.Draw(t, "ExpirationDate")
+		result.NotificationDate = ptrString.Draw(t, "NotificationDate")
+		result.OwnerId = ptrString.Draw(t, "OwnerId")
+		result.Scope = ptrString.Draw(t, "Scope")
+		result.StartDate = ptrString.Draw(t, "StartDate")
+		result.State = state.Draw(t, "State")
+		result.StateComment = ptrString.Draw(t, "StateComment")
+		return result
+	})
 
 	return subscriptionContractProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSubscriptionContractProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSubscriptionContractProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["AllowTracing"] = gen.PtrOf(gen.Bool())
-	gens["CreatedDate"] = gen.PtrOf(gen.AlphaString())
-	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
-	gens["EndDate"] = gen.PtrOf(gen.AlphaString())
-	gens["ExpirationDate"] = gen.PtrOf(gen.AlphaString())
-	gens["NotificationDate"] = gen.PtrOf(gen.AlphaString())
-	gens["OwnerId"] = gen.PtrOf(gen.AlphaString())
-	gens["Scope"] = gen.PtrOf(gen.AlphaString())
-	gens["StartDate"] = gen.PtrOf(gen.AlphaString())
-	gens["State"] = gen.PtrOf(gen.OneConstOf(
-		SubscriptionContractProperties_State_STATUS_Active,
-		SubscriptionContractProperties_State_STATUS_Cancelled,
-		SubscriptionContractProperties_State_STATUS_Expired,
-		SubscriptionContractProperties_State_STATUS_Rejected,
-		SubscriptionContractProperties_State_STATUS_Submitted,
-		SubscriptionContractProperties_State_STATUS_Suspended))
-	gens["StateComment"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_Subscription_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -106,29 +89,23 @@ func Test_Subscription_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testin
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Subscription_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSubscription_STATUS, Subscription_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSubscription_STATUS)
 }
 
 // RunJSONSerializationTestForSubscription_STATUS runs a test to see if a specific instance of Subscription_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSubscription_STATUS(subject Subscription_STATUS) string {
+func RunJSONSerializationTestForSubscription_STATUS(t *rapid.T) {
+	subject := Subscription_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Subscription_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -137,46 +114,31 @@ func RunJSONSerializationTestForSubscription_STATUS(subject Subscription_STATUS)
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Subscription_STATUS instances for property testing - lazily instantiated by
 // Subscription_STATUSGenerator()
-var subscription_STATUSGenerator gopter.Gen
+var subscription_STATUSGenerator *rapid.Generator[Subscription_STATUS]
 
 // Subscription_STATUSGenerator returns a generator of Subscription_STATUS instances for property testing.
-// We first initialize subscription_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Subscription_STATUSGenerator() gopter.Gen {
+func Subscription_STATUSGenerator() *rapid.Generator[Subscription_STATUS] {
 	if subscription_STATUSGenerator != nil {
 		return subscription_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSubscription_STATUS(generators)
-	subscription_STATUSGenerator = gen.Struct(reflect.TypeOf(Subscription_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	properties := rapid.Ptr(SubscriptionContractProperties_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSubscription_STATUS(generators)
-	AddRelatedPropertyGeneratorsForSubscription_STATUS(generators)
-	subscription_STATUSGenerator = gen.Struct(reflect.TypeOf(Subscription_STATUS{}), generators)
+	subscription_STATUSGenerator = rapid.Custom(func(t *rapid.T) Subscription_STATUS {
+		var result Subscription_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return subscription_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSubscription_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSubscription_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForSubscription_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSubscription_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(SubscriptionContractProperties_STATUSGenerator())
 }

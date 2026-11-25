@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_ClusterCreateProperties_WhenSerializedToJson_DeserializesAsEqual(t *te
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ClusterCreateProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForClusterCreateProperties, ClusterCreatePropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForClusterCreateProperties)
 }
 
 // RunJSONSerializationTestForClusterCreateProperties runs a test to see if a specific instance of ClusterCreateProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForClusterCreateProperties(subject ClusterCreateProperties) string {
+func RunJSONSerializationTestForClusterCreateProperties(t *rapid.T) {
+	subject := ClusterCreatePropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ClusterCreateProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,48 +45,35 @@ func RunJSONSerializationTestForClusterCreateProperties(subject ClusterCreatePro
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ClusterCreateProperties instances for property testing - lazily instantiated by
 // ClusterCreatePropertiesGenerator()
-var clusterCreatePropertiesGenerator gopter.Gen
+var clusterCreatePropertiesGenerator *rapid.Generator[ClusterCreateProperties]
 
 // ClusterCreatePropertiesGenerator returns a generator of ClusterCreateProperties instances for property testing.
-// We first initialize clusterCreatePropertiesGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ClusterCreatePropertiesGenerator() gopter.Gen {
+func ClusterCreatePropertiesGenerator() *rapid.Generator[ClusterCreateProperties] {
 	if clusterCreatePropertiesGenerator != nil {
 		return clusterCreatePropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForClusterCreateProperties(generators)
-	clusterCreatePropertiesGenerator = gen.Struct(reflect.TypeOf(ClusterCreateProperties{}), generators)
+	encryption := rapid.Ptr(ClusterCreateProperties_EncryptionGenerator(), true)
+	highAvailability := rapid.Ptr(rapid.SampledFrom([]ClusterCreateProperties_HighAvailability{ClusterCreateProperties_HighAvailability_Disabled, ClusterCreateProperties_HighAvailability_Enabled}), true)
+	minimumTlsVersion := rapid.Ptr(rapid.SampledFrom([]ClusterCreateProperties_MinimumTlsVersion{ClusterCreateProperties_MinimumTlsVersion_10, ClusterCreateProperties_MinimumTlsVersion_11, ClusterCreateProperties_MinimumTlsVersion_12}), true)
+	publicNetworkAccess := rapid.Ptr(rapid.SampledFrom([]ClusterCreateProperties_PublicNetworkAccess{ClusterCreateProperties_PublicNetworkAccess_Disabled, ClusterCreateProperties_PublicNetworkAccess_Enabled}), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForClusterCreateProperties(generators)
-	AddRelatedPropertyGeneratorsForClusterCreateProperties(generators)
-	clusterCreatePropertiesGenerator = gen.Struct(reflect.TypeOf(ClusterCreateProperties{}), generators)
+	clusterCreatePropertiesGenerator = rapid.Custom(func(t *rapid.T) ClusterCreateProperties {
+		var result ClusterCreateProperties
+		result.Encryption = encryption.Draw(t, "Encryption")
+		result.HighAvailability = highAvailability.Draw(t, "HighAvailability")
+		result.MinimumTlsVersion = minimumTlsVersion.Draw(t, "MinimumTlsVersion")
+		result.PublicNetworkAccess = publicNetworkAccess.Draw(t, "PublicNetworkAccess")
+		return result
+	})
 
 	return clusterCreatePropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForClusterCreateProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForClusterCreateProperties(gens map[string]gopter.Gen) {
-	gens["HighAvailability"] = gen.PtrOf(gen.OneConstOf(ClusterCreateProperties_HighAvailability_Disabled, ClusterCreateProperties_HighAvailability_Enabled))
-	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(ClusterCreateProperties_MinimumTlsVersion_10, ClusterCreateProperties_MinimumTlsVersion_11, ClusterCreateProperties_MinimumTlsVersion_12))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ClusterCreateProperties_PublicNetworkAccess_Disabled, ClusterCreateProperties_PublicNetworkAccess_Enabled))
-}
-
-// AddRelatedPropertyGeneratorsForClusterCreateProperties is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForClusterCreateProperties(gens map[string]gopter.Gen) {
-	gens["Encryption"] = gen.PtrOf(ClusterCreateProperties_EncryptionGenerator())
 }
 
 func Test_ClusterCreateProperties_Encryption_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -106,29 +83,23 @@ func Test_ClusterCreateProperties_Encryption_WhenSerializedToJson_DeserializesAs
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ClusterCreateProperties_Encryption via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForClusterCreateProperties_Encryption, ClusterCreateProperties_EncryptionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForClusterCreateProperties_Encryption)
 }
 
 // RunJSONSerializationTestForClusterCreateProperties_Encryption runs a test to see if a specific instance of ClusterCreateProperties_Encryption round trips to JSON and back losslessly
-func RunJSONSerializationTestForClusterCreateProperties_Encryption(subject ClusterCreateProperties_Encryption) string {
+func RunJSONSerializationTestForClusterCreateProperties_Encryption(t *rapid.T) {
+	subject := ClusterCreateProperties_EncryptionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ClusterCreateProperties_Encryption
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -137,32 +108,29 @@ func RunJSONSerializationTestForClusterCreateProperties_Encryption(subject Clust
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ClusterCreateProperties_Encryption instances for property testing - lazily instantiated by
 // ClusterCreateProperties_EncryptionGenerator()
-var clusterCreateProperties_EncryptionGenerator gopter.Gen
+var clusterCreateProperties_EncryptionGenerator *rapid.Generator[ClusterCreateProperties_Encryption]
 
 // ClusterCreateProperties_EncryptionGenerator returns a generator of ClusterCreateProperties_Encryption instances for property testing.
-func ClusterCreateProperties_EncryptionGenerator() gopter.Gen {
+func ClusterCreateProperties_EncryptionGenerator() *rapid.Generator[ClusterCreateProperties_Encryption] {
 	if clusterCreateProperties_EncryptionGenerator != nil {
 		return clusterCreateProperties_EncryptionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForClusterCreateProperties_Encryption(generators)
-	clusterCreateProperties_EncryptionGenerator = gen.Struct(reflect.TypeOf(ClusterCreateProperties_Encryption{}), generators)
+	customerManagedKeyEncryption := rapid.Ptr(ClusterCreateProperties_Encryption_CustomerManagedKeyEncryptionGenerator(), true)
+
+	clusterCreateProperties_EncryptionGenerator = rapid.Custom(func(t *rapid.T) ClusterCreateProperties_Encryption {
+		var result ClusterCreateProperties_Encryption
+		result.CustomerManagedKeyEncryption = customerManagedKeyEncryption.Draw(t, "CustomerManagedKeyEncryption")
+		return result
+	})
 
 	return clusterCreateProperties_EncryptionGenerator
-}
-
-// AddRelatedPropertyGeneratorsForClusterCreateProperties_Encryption is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForClusterCreateProperties_Encryption(gens map[string]gopter.Gen) {
-	gens["CustomerManagedKeyEncryption"] = gen.PtrOf(ClusterCreateProperties_Encryption_CustomerManagedKeyEncryptionGenerator())
 }
 
 func Test_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -172,29 +140,23 @@ func Test_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_WhenSe
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForClusterCreateProperties_Encryption_CustomerManagedKeyEncryption, ClusterCreateProperties_Encryption_CustomerManagedKeyEncryptionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForClusterCreateProperties_Encryption_CustomerManagedKeyEncryption)
 }
 
 // RunJSONSerializationTestForClusterCreateProperties_Encryption_CustomerManagedKeyEncryption runs a test to see if a specific instance of ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption round trips to JSON and back losslessly
-func RunJSONSerializationTestForClusterCreateProperties_Encryption_CustomerManagedKeyEncryption(subject ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption) string {
+func RunJSONSerializationTestForClusterCreateProperties_Encryption_CustomerManagedKeyEncryption(t *rapid.T) {
+	subject := ClusterCreateProperties_Encryption_CustomerManagedKeyEncryptionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -203,46 +165,31 @@ func RunJSONSerializationTestForClusterCreateProperties_Encryption_CustomerManag
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption instances for property testing - lazily
 // instantiated by ClusterCreateProperties_Encryption_CustomerManagedKeyEncryptionGenerator()
-var clusterCreateProperties_Encryption_CustomerManagedKeyEncryptionGenerator gopter.Gen
+var clusterCreateProperties_Encryption_CustomerManagedKeyEncryptionGenerator *rapid.Generator[ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption]
 
 // ClusterCreateProperties_Encryption_CustomerManagedKeyEncryptionGenerator returns a generator of ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption instances for property testing.
-// We first initialize clusterCreateProperties_Encryption_CustomerManagedKeyEncryptionGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ClusterCreateProperties_Encryption_CustomerManagedKeyEncryptionGenerator() gopter.Gen {
+func ClusterCreateProperties_Encryption_CustomerManagedKeyEncryptionGenerator() *rapid.Generator[ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption] {
 	if clusterCreateProperties_Encryption_CustomerManagedKeyEncryptionGenerator != nil {
 		return clusterCreateProperties_Encryption_CustomerManagedKeyEncryptionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForClusterCreateProperties_Encryption_CustomerManagedKeyEncryption(generators)
-	clusterCreateProperties_Encryption_CustomerManagedKeyEncryptionGenerator = gen.Struct(reflect.TypeOf(ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption{}), generators)
+	keyEncryptionKeyIdentity := rapid.Ptr(ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentityGenerator(), true)
+	keyEncryptionKeyUrl := rapid.Ptr(rapid.String(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForClusterCreateProperties_Encryption_CustomerManagedKeyEncryption(generators)
-	AddRelatedPropertyGeneratorsForClusterCreateProperties_Encryption_CustomerManagedKeyEncryption(generators)
-	clusterCreateProperties_Encryption_CustomerManagedKeyEncryptionGenerator = gen.Struct(reflect.TypeOf(ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption{}), generators)
+	clusterCreateProperties_Encryption_CustomerManagedKeyEncryptionGenerator = rapid.Custom(func(t *rapid.T) ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption {
+		var result ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption
+		result.KeyEncryptionKeyIdentity = keyEncryptionKeyIdentity.Draw(t, "KeyEncryptionKeyIdentity")
+		result.KeyEncryptionKeyUrl = keyEncryptionKeyUrl.Draw(t, "KeyEncryptionKeyUrl")
+		return result
+	})
 
 	return clusterCreateProperties_Encryption_CustomerManagedKeyEncryptionGenerator
-}
-
-// AddIndependentPropertyGeneratorsForClusterCreateProperties_Encryption_CustomerManagedKeyEncryption is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForClusterCreateProperties_Encryption_CustomerManagedKeyEncryption(gens map[string]gopter.Gen) {
-	gens["KeyEncryptionKeyUrl"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForClusterCreateProperties_Encryption_CustomerManagedKeyEncryption is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForClusterCreateProperties_Encryption_CustomerManagedKeyEncryption(gens map[string]gopter.Gen) {
-	gens["KeyEncryptionKeyIdentity"] = gen.PtrOf(ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentityGenerator())
 }
 
 func Test_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -252,29 +199,23 @@ func Test_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEnc
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity, ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentityGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity)
 }
 
 // RunJSONSerializationTestForClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity runs a test to see if a specific instance of ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity round trips to JSON and back losslessly
-func RunJSONSerializationTestForClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity(subject ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity) string {
+func RunJSONSerializationTestForClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity(t *rapid.T) {
+	subject := ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentityGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -283,34 +224,32 @@ func RunJSONSerializationTestForClusterCreateProperties_Encryption_CustomerManag
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity instances for
 // property testing - lazily instantiated by
 // ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentityGenerator()
-var clusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentityGenerator gopter.Gen
+var clusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentityGenerator *rapid.Generator[ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity]
 
 // ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentityGenerator returns a generator of ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity instances for property testing.
-func ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentityGenerator() gopter.Gen {
+func ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentityGenerator() *rapid.Generator[ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity] {
 	if clusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentityGenerator != nil {
 		return clusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentityGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity(generators)
-	clusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentityGenerator = gen.Struct(reflect.TypeOf(ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity{}), generators)
+	identityType := rapid.Ptr(rapid.SampledFrom([]ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_IdentityType{ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_IdentityType_SystemAssignedIdentity, ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_IdentityType_UserAssignedIdentity}), true)
+	userAssignedIdentityResourceId := rapid.Ptr(rapid.String(), true)
+
+	clusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentityGenerator = rapid.Custom(func(t *rapid.T) ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity {
+		var result ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity
+		result.IdentityType = identityType.Draw(t, "IdentityType")
+		result.UserAssignedIdentityResourceId = userAssignedIdentityResourceId.Draw(t, "UserAssignedIdentityResourceId")
+		return result
+	})
 
 	return clusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentityGenerator
-}
-
-// AddIndependentPropertyGeneratorsForClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity(gens map[string]gopter.Gen) {
-	gens["IdentityType"] = gen.PtrOf(gen.OneConstOf(ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_IdentityType_SystemAssignedIdentity, ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_IdentityType_UserAssignedIdentity))
-	gens["UserAssignedIdentityResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ManagedServiceIdentity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -320,29 +259,23 @@ func Test_ManagedServiceIdentity_WhenSerializedToJson_DeserializesAsEqual(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedServiceIdentity via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedServiceIdentity, ManagedServiceIdentityGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForManagedServiceIdentity)
 }
 
 // RunJSONSerializationTestForManagedServiceIdentity runs a test to see if a specific instance of ManagedServiceIdentity round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedServiceIdentity(subject ManagedServiceIdentity) string {
+func RunJSONSerializationTestForManagedServiceIdentity(t *rapid.T) {
+	subject := ManagedServiceIdentityGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ManagedServiceIdentity
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -351,52 +284,33 @@ func RunJSONSerializationTestForManagedServiceIdentity(subject ManagedServiceIde
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ManagedServiceIdentity instances for property testing - lazily instantiated by
 // ManagedServiceIdentityGenerator()
-var managedServiceIdentityGenerator gopter.Gen
+var managedServiceIdentityGenerator *rapid.Generator[ManagedServiceIdentity]
 
 // ManagedServiceIdentityGenerator returns a generator of ManagedServiceIdentity instances for property testing.
-// We first initialize managedServiceIdentityGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ManagedServiceIdentityGenerator() gopter.Gen {
+func ManagedServiceIdentityGenerator() *rapid.Generator[ManagedServiceIdentity] {
 	if managedServiceIdentityGenerator != nil {
 		return managedServiceIdentityGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedServiceIdentity(generators)
-	managedServiceIdentityGenerator = gen.Struct(reflect.TypeOf(ManagedServiceIdentity{}), generators)
+	typeVar := rapid.Ptr(rapid.SampledFrom([]ManagedServiceIdentityType{ManagedServiceIdentityType_None, ManagedServiceIdentityType_SystemAssigned, ManagedServiceIdentityType_SystemAssignedUserAssigned, ManagedServiceIdentityType_UserAssigned}), true)
+	userAssignedIdentities := rapid.MapOf(
+		rapid.String(),
+		UserAssignedIdentityDetailsGenerator())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedServiceIdentity(generators)
-	AddRelatedPropertyGeneratorsForManagedServiceIdentity(generators)
-	managedServiceIdentityGenerator = gen.Struct(reflect.TypeOf(ManagedServiceIdentity{}), generators)
+	managedServiceIdentityGenerator = rapid.Custom(func(t *rapid.T) ManagedServiceIdentity {
+		var result ManagedServiceIdentity
+		result.Type = typeVar.Draw(t, "Type")
+		result.UserAssignedIdentities = userAssignedIdentities.Draw(t, "UserAssignedIdentities")
+		return result
+	})
 
 	return managedServiceIdentityGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedServiceIdentity is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedServiceIdentity(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ManagedServiceIdentityType_None,
-		ManagedServiceIdentityType_SystemAssigned,
-		ManagedServiceIdentityType_SystemAssignedUserAssigned,
-		ManagedServiceIdentityType_UserAssigned))
-}
-
-// AddRelatedPropertyGeneratorsForManagedServiceIdentity is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedServiceIdentity(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(
-		gen.AlphaString(),
-		UserAssignedIdentityDetailsGenerator())
 }
 
 func Test_RedisEnterprise_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -406,29 +320,23 @@ func Test_RedisEnterprise_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RedisEnterprise_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisEnterprise_Spec, RedisEnterprise_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRedisEnterprise_Spec)
 }
 
 // RunJSONSerializationTestForRedisEnterprise_Spec runs a test to see if a specific instance of RedisEnterprise_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisEnterprise_Spec(subject RedisEnterprise_Spec) string {
+func RunJSONSerializationTestForRedisEnterprise_Spec(t *rapid.T) {
+	subject := RedisEnterprise_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RedisEnterprise_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -437,54 +345,45 @@ func RunJSONSerializationTestForRedisEnterprise_Spec(subject RedisEnterprise_Spe
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RedisEnterprise_Spec instances for property testing - lazily instantiated by
 // RedisEnterprise_SpecGenerator()
-var redisEnterprise_SpecGenerator gopter.Gen
+var redisEnterprise_SpecGenerator *rapid.Generator[RedisEnterprise_Spec]
 
 // RedisEnterprise_SpecGenerator returns a generator of RedisEnterprise_Spec instances for property testing.
-// We first initialize redisEnterprise_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func RedisEnterprise_SpecGenerator() gopter.Gen {
+func RedisEnterprise_SpecGenerator() *rapid.Generator[RedisEnterprise_Spec] {
 	if redisEnterprise_SpecGenerator != nil {
 		return redisEnterprise_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisEnterprise_Spec(generators)
-	redisEnterprise_SpecGenerator = gen.Struct(reflect.TypeOf(RedisEnterprise_Spec{}), generators)
+	identity := rapid.Ptr(ManagedServiceIdentityGenerator(), true)
+	kind := rapid.Ptr(rapid.SampledFrom([]Kind{Kind_V1, Kind_V2}), true)
+	location := rapid.Ptr(rapid.String(), true)
+	name := rapid.String()
+	properties := rapid.Ptr(ClusterCreatePropertiesGenerator(), true)
+	sku := rapid.Ptr(SkuGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
+	zones := rapid.SliceOf(rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisEnterprise_Spec(generators)
-	AddRelatedPropertyGeneratorsForRedisEnterprise_Spec(generators)
-	redisEnterprise_SpecGenerator = gen.Struct(reflect.TypeOf(RedisEnterprise_Spec{}), generators)
+	redisEnterprise_SpecGenerator = rapid.Custom(func(t *rapid.T) RedisEnterprise_Spec {
+		var result RedisEnterprise_Spec
+		result.Identity = identity.Draw(t, "Identity")
+		result.Kind = kind.Draw(t, "Kind")
+		result.Location = location.Draw(t, "Location")
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Sku = sku.Draw(t, "Sku")
+		result.Tags = tags.Draw(t, "Tags")
+		result.Zones = zones.Draw(t, "Zones")
+		return result
+	})
 
 	return redisEnterprise_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRedisEnterprise_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedisEnterprise_Spec(gens map[string]gopter.Gen) {
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(Kind_V1, Kind_V2))
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Zones"] = gen.SliceOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForRedisEnterprise_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRedisEnterprise_Spec(gens map[string]gopter.Gen) {
-	gens["Identity"] = gen.PtrOf(ManagedServiceIdentityGenerator())
-	gens["Properties"] = gen.PtrOf(ClusterCreatePropertiesGenerator())
-	gens["Sku"] = gen.PtrOf(SkuGenerator())
 }
 
 func Test_Sku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -494,29 +393,23 @@ func Test_Sku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Sku via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSku, SkuGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSku)
 }
 
 // RunJSONSerializationTestForSku runs a test to see if a specific instance of Sku round trips to JSON and back losslessly
-func RunJSONSerializationTestForSku(subject Sku) string {
+func RunJSONSerializationTestForSku(t *rapid.T) {
+	subject := SkuGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Sku
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -525,87 +418,30 @@ func RunJSONSerializationTestForSku(subject Sku) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Sku instances for property testing - lazily instantiated by SkuGenerator()
-var skuGenerator gopter.Gen
+var skuGenerator *rapid.Generator[Sku]
 
 // SkuGenerator returns a generator of Sku instances for property testing.
-func SkuGenerator() gopter.Gen {
+func SkuGenerator() *rapid.Generator[Sku] {
 	if skuGenerator != nil {
 		return skuGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSku(generators)
-	skuGenerator = gen.Struct(reflect.TypeOf(Sku{}), generators)
+	capacity := rapid.Ptr(rapid.Int(), true)
+	name := rapid.Ptr(rapid.SampledFrom([]Sku_Name{Sku_Name_Balanced_B0, Sku_Name_Balanced_B1, Sku_Name_Balanced_B10, Sku_Name_Balanced_B100, Sku_Name_Balanced_B1000, Sku_Name_Balanced_B150, Sku_Name_Balanced_B20, Sku_Name_Balanced_B250, Sku_Name_Balanced_B3, Sku_Name_Balanced_B350, Sku_Name_Balanced_B5, Sku_Name_Balanced_B50, Sku_Name_Balanced_B500, Sku_Name_Balanced_B700, Sku_Name_ComputeOptimized_X10, Sku_Name_ComputeOptimized_X100, Sku_Name_ComputeOptimized_X150, Sku_Name_ComputeOptimized_X20, Sku_Name_ComputeOptimized_X250, Sku_Name_ComputeOptimized_X3, Sku_Name_ComputeOptimized_X350, Sku_Name_ComputeOptimized_X5, Sku_Name_ComputeOptimized_X50, Sku_Name_ComputeOptimized_X500, Sku_Name_ComputeOptimized_X700, Sku_Name_EnterpriseFlash_F1500, Sku_Name_EnterpriseFlash_F300, Sku_Name_EnterpriseFlash_F700, Sku_Name_Enterprise_E1, Sku_Name_Enterprise_E10, Sku_Name_Enterprise_E100, Sku_Name_Enterprise_E20, Sku_Name_Enterprise_E200, Sku_Name_Enterprise_E400, Sku_Name_Enterprise_E5, Sku_Name_Enterprise_E50, Sku_Name_FlashOptimized_A1000, Sku_Name_FlashOptimized_A1500, Sku_Name_FlashOptimized_A2000, Sku_Name_FlashOptimized_A250, Sku_Name_FlashOptimized_A4500, Sku_Name_FlashOptimized_A500, Sku_Name_FlashOptimized_A700, Sku_Name_MemoryOptimized_M10, Sku_Name_MemoryOptimized_M100, Sku_Name_MemoryOptimized_M1000, Sku_Name_MemoryOptimized_M150, Sku_Name_MemoryOptimized_M1500, Sku_Name_MemoryOptimized_M20, Sku_Name_MemoryOptimized_M2000, Sku_Name_MemoryOptimized_M250, Sku_Name_MemoryOptimized_M350, Sku_Name_MemoryOptimized_M50, Sku_Name_MemoryOptimized_M500, Sku_Name_MemoryOptimized_M700}), true)
+
+	skuGenerator = rapid.Custom(func(t *rapid.T) Sku {
+		var result Sku
+		result.Capacity = capacity.Draw(t, "Capacity")
+		result.Name = name.Draw(t, "Name")
+		return result
+	})
 
 	return skuGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSku is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSku(gens map[string]gopter.Gen) {
-	gens["Capacity"] = gen.PtrOf(gen.Int())
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		Sku_Name_Balanced_B0,
-		Sku_Name_Balanced_B1,
-		Sku_Name_Balanced_B10,
-		Sku_Name_Balanced_B100,
-		Sku_Name_Balanced_B1000,
-		Sku_Name_Balanced_B150,
-		Sku_Name_Balanced_B20,
-		Sku_Name_Balanced_B250,
-		Sku_Name_Balanced_B3,
-		Sku_Name_Balanced_B350,
-		Sku_Name_Balanced_B5,
-		Sku_Name_Balanced_B50,
-		Sku_Name_Balanced_B500,
-		Sku_Name_Balanced_B700,
-		Sku_Name_ComputeOptimized_X10,
-		Sku_Name_ComputeOptimized_X100,
-		Sku_Name_ComputeOptimized_X150,
-		Sku_Name_ComputeOptimized_X20,
-		Sku_Name_ComputeOptimized_X250,
-		Sku_Name_ComputeOptimized_X3,
-		Sku_Name_ComputeOptimized_X350,
-		Sku_Name_ComputeOptimized_X5,
-		Sku_Name_ComputeOptimized_X50,
-		Sku_Name_ComputeOptimized_X500,
-		Sku_Name_ComputeOptimized_X700,
-		Sku_Name_EnterpriseFlash_F1500,
-		Sku_Name_EnterpriseFlash_F300,
-		Sku_Name_EnterpriseFlash_F700,
-		Sku_Name_Enterprise_E1,
-		Sku_Name_Enterprise_E10,
-		Sku_Name_Enterprise_E100,
-		Sku_Name_Enterprise_E20,
-		Sku_Name_Enterprise_E200,
-		Sku_Name_Enterprise_E400,
-		Sku_Name_Enterprise_E5,
-		Sku_Name_Enterprise_E50,
-		Sku_Name_FlashOptimized_A1000,
-		Sku_Name_FlashOptimized_A1500,
-		Sku_Name_FlashOptimized_A2000,
-		Sku_Name_FlashOptimized_A250,
-		Sku_Name_FlashOptimized_A4500,
-		Sku_Name_FlashOptimized_A500,
-		Sku_Name_FlashOptimized_A700,
-		Sku_Name_MemoryOptimized_M10,
-		Sku_Name_MemoryOptimized_M100,
-		Sku_Name_MemoryOptimized_M1000,
-		Sku_Name_MemoryOptimized_M150,
-		Sku_Name_MemoryOptimized_M1500,
-		Sku_Name_MemoryOptimized_M20,
-		Sku_Name_MemoryOptimized_M2000,
-		Sku_Name_MemoryOptimized_M250,
-		Sku_Name_MemoryOptimized_M350,
-		Sku_Name_MemoryOptimized_M50,
-		Sku_Name_MemoryOptimized_M500,
-		Sku_Name_MemoryOptimized_M700))
 }
 
 func Test_UserAssignedIdentityDetails_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -615,29 +451,23 @@ func Test_UserAssignedIdentityDetails_WhenSerializedToJson_DeserializesAsEqual(t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UserAssignedIdentityDetails via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUserAssignedIdentityDetails, UserAssignedIdentityDetailsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForUserAssignedIdentityDetails)
 }
 
 // RunJSONSerializationTestForUserAssignedIdentityDetails runs a test to see if a specific instance of UserAssignedIdentityDetails round trips to JSON and back losslessly
-func RunJSONSerializationTestForUserAssignedIdentityDetails(subject UserAssignedIdentityDetails) string {
+func RunJSONSerializationTestForUserAssignedIdentityDetails(t *rapid.T) {
+	subject := UserAssignedIdentityDetailsGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual UserAssignedIdentityDetails
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -646,24 +476,21 @@ func RunJSONSerializationTestForUserAssignedIdentityDetails(subject UserAssigned
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of UserAssignedIdentityDetails instances for property testing - lazily instantiated by
 // UserAssignedIdentityDetailsGenerator()
-var userAssignedIdentityDetailsGenerator gopter.Gen
+var userAssignedIdentityDetailsGenerator *rapid.Generator[UserAssignedIdentityDetails]
 
 // UserAssignedIdentityDetailsGenerator returns a generator of UserAssignedIdentityDetails instances for property testing.
-func UserAssignedIdentityDetailsGenerator() gopter.Gen {
+func UserAssignedIdentityDetailsGenerator() *rapid.Generator[UserAssignedIdentityDetails] {
 	if userAssignedIdentityDetailsGenerator != nil {
 		return userAssignedIdentityDetailsGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	userAssignedIdentityDetailsGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentityDetails{}), generators)
+	userAssignedIdentityDetailsGenerator = rapid.Just(UserAssignedIdentityDetails{})
 
 	return userAssignedIdentityDetailsGenerator
 }

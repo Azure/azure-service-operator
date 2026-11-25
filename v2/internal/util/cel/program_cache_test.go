@@ -11,8 +11,8 @@ import (
 
 	. "github.com/onsi/gomega"
 
+	"cel.dev/cel-go/cel"
 	"github.com/go-logr/logr"
-	"github.com/google/cel-go/cel"
 	"github.com/rotisserie/eris"
 
 	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"

@@ -17,11 +17,9 @@ interactions:
         url: https://graph.microsoft.com/beta/applications?%24filter=displayName%20eq%20%27ASO%20Test%20Application%27
         method: GET
       response:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        transfer_encoding:
-            - chunked
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
         content_length: -1
         uncompressed: true
         body: '{"@odata.context":"https://graph.microsoft.com/beta/$metadata#applications","value":[]}'
@@ -32,25 +30,6 @@ interactions:
                 - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
             Deprecation:
                 - Mon, 18 Apr 2022 23:59:59 GMT
-            Link:
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAutoTokenEncryption&from=2023-08-01&to=2023-09-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAutoTokenEncryption&from=2023-08-01&to=2023-09-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAutoTokenEncryption&from=2023-08-01&to=2023-09-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAutoTokenVersioning&from=2023-08-01&to=2023-09-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAutoTokenEncryption&from=2023-08-01&to=2023-09-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ExtendRefreshTokenLifetime&from=2026-04-01&to=2026-05-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:billingInformation&from=2022-09-01&to=2022-10-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:billingInformation&from=2022-09-01&to=2022-10-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:HardDeleteProtection&from=2026-06-01&to=2026-07-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ApplicationsInAdministrativeUnits&from=2021-05-01&to=2021-06-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppMigration&from=2023-07-01&to=2023-08-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppMigration&from=2023-07-01&to=2023-08-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppMigration&from=2023-07-01&to=2023-08-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppMigration&from=2023-07-01&to=2023-08-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ApplicationRiskLevelThreat&from=2023-11-01&to=2023-12-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ApplicationRiskLevelThreat&from=2023-11-01&to=2023-12-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ApplicationRiskLevelThreat&from=2023-11-01&to=2023-12-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAllowedIpRanges&from=2026-02-01&to=2026-03-01>;rel="deprecation";type="text/html"
             Odata-Version:
                 - "4.0"
             Strict-Transport-Security:
@@ -61,7 +40,7 @@ interactions:
                 - Accept-Encoding
         status: 200 OK
         code: 200
-        duration: 318.297815ms
+        duration: 1.088790375s
     - id: 1
       request:
         proto: HTTP/1.1
@@ -69,7 +48,7 @@ interactions:
         proto_minor: 1
         content_length: 0
         host: graph.microsoft.com
-        body: '{"description":null,"web":null,"spa":null,"publicClient":null,"isFallbackPublicClient":null,"groupMembershipClaims":null,"@odata.type":"#microsoft.graph.application","displayName":"ASO Test Application","identifierUris":[],"signInAudience":"AzureADMyOrg","tags":[]}'
+        body: '{"description":null,"spa":null,"publicClient":null,"web":null,"isFallbackPublicClient":null,"groupMembershipClaims":null,"@odata.type":"#microsoft.graph.application","displayName":"ASO Test Application","identifierUris":[],"signInAudience":"AzureADMyOrg","tags":[]}'
         headers:
             Accept:
                 - application/json
@@ -78,18 +57,16 @@ interactions:
             Test-Request-Canonical-Hash:
                 - f2edecc08bbab575c552a08255f90362ccc7a6f29894a9029215be6cc2167210
             Test-Request-Hash:
-                - bbe29b16734af0d553d855dba21b054802a83c61043da39fcd440b73e8aa80fd
+                - 4a2b5e01cd074e75e7c70297f87816a302c4ad8b64e81a4348f526021c4f14f7
         url: https://graph.microsoft.com/beta/applications
         method: POST
       response:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        transfer_encoding:
-            - chunked
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
         content_length: -1
         uncompressed: true
-        body: '{"@odata.context":"https://graph.microsoft.com/beta/$metadata#applications/$entity","id":"b7b3ea99-3788-468a-8546-07a99be8aada","deletedDateTime":null,"appId":"8b00a106-934f-4fbd-9725-7cbdb8c1e303","applicationTemplateId":null,"identifierUris":[],"createdByAppId":"04b07795-8ddb-461a-bbee-02f9e1bf7b46","createdDateTime":"2001-02-03T04:05:06Z","description":null,"disabledByMicrosoftStatus":null,"displayName":"ASO Test Application","isAuthorizationServiceEnabled":false,"isDeviceOnlyAuthSupported":null,"isDisabled":null,"isFallbackPublicClient":null,"isHardDeleteProtectionEnabled":null,"isManagementRestricted":null,"groupMembershipClaims":null,"nativeAuthenticationApisEnabled":null,"notes":null,"oauth2RequirePostResponse":false,"orgRestrictions":[],"publisherDomain":"redactedtenant.onmicrosoft.com","signInAudience":"AzureADMyOrg","tags":[],"tokenEncryptionKeyId":null,"uniqueName":null,"defaultRedirectUri":null,"samlMetadataUrl":null,"serviceManagementReference":null,"addIns":[],"appCapabilities":[],"certification":null,"optionalClaims":null,"windows":null,"requestSignatureVerification":null,"migrationStatus":null,"api":{"requestedAccessTokenVersion":null,"acceptMappedClaims":null,"knownClientApplications":[],"oauth2PermissionScopes":[],"preAuthorizedApplications":[],"tokenEncryptionSetting":{"scheme":null,"audience":null,"automatedTokenVersion":{"current":null,"available":[]}}},"appRoles":[],"publicClient":{"redirectUris":[],"enabledResponseModes":"all"},"info":{"termsOfServiceUrl":null,"supportUrl":null,"privacyStatementUrl":null,"marketingUrl":null,"logoUrl":null},"keyCredentials":[],"parentalControlSettings":{"countriesBlockedForMinors":[],"legalAgeGroupRule":"Allow"},"passwordCredentials":[],"requiredResourceAccess":[],"signInAudienceRestrictions":{"@odata.type":"#microsoft.graph.unrestrictedAudience","kind":"unrestricted"},"verifiedPublisher":{"displayName":null,"verifiedPublisherId":null,"addedDateTime":null},"web":{"redirectUris":[],"homePageUrl":null,"logoutUrl":null,"enabledResponseModes":"all","redirectUriSettings":[],"implicitGrantSettings":{"enableIdTokenIssuance":false,"enableAccessTokenIssuance":false}},"spa":{"redirectUris":[],"enabledResponseModes":"all"},"servicePrincipalLockConfiguration":{"isEnabled":true,"allProperties":true,"credentialsWithUsageVerify":null,"credentialsWithUsageSign":null,"identifierUris":null,"tokenEncryptionKeyId":null,"enforcementScope":"foreignTenantOnly"}}'
+        body: '{"@odata.context":"https://graph.microsoft.com/beta/$metadata#applications/$entity","id":"91e409b1-b11e-4471-a9ee-5e43df43e0ba","deletedDateTime":null,"appId":"cf9ef04c-7c28-4965-8ec1-737002fa5a3e","applicationTemplateId":null,"identifierUris":[],"createdByAppId":"04b07795-8ddb-461a-bbee-02f9e1bf7b46","createdDateTime":"2001-02-03T04:05:06Z","description":null,"disabledByMicrosoftStatus":null,"displayName":"ASO Test Application","isAuthorizationServiceEnabled":false,"isDeviceOnlyAuthSupported":null,"isDisabled":null,"isFallbackPublicClient":null,"isHardDeleteProtectionEnabled":null,"isManagementRestricted":null,"groupMembershipClaims":null,"nativeAuthenticationApisEnabled":null,"notes":null,"oauth2RequirePostResponse":false,"orgRestrictions":[],"publisherDomain":"redactedtenant.onmicrosoft.com","signInAudience":"AzureADMyOrg","tags":[],"tokenEncryptionKeyId":null,"uniqueName":null,"defaultRedirectUri":null,"samlMetadataUrl":null,"serviceManagementReference":null,"addIns":[],"appCapabilities":[],"certification":null,"optionalClaims":null,"windows":null,"requestSignatureVerification":null,"migrationStatus":null,"api":{"requestedAccessTokenVersion":null,"acceptMappedClaims":null,"knownClientApplications":[],"oauth2PermissionScopes":[],"preAuthorizedApplications":[],"tokenEncryptionSetting":{"scheme":null,"audience":null,"automatedTokenVersion":{"current":null,"available":[]}}},"appRoles":[],"publicClient":{"redirectUris":[],"enabledResponseModes":"all"},"info":{"termsOfServiceUrl":null,"supportUrl":null,"privacyStatementUrl":null,"marketingUrl":null,"logoUrl":null},"keyCredentials":[],"parentalControlSettings":{"countriesBlockedForMinors":[],"legalAgeGroupRule":"Allow"},"passwordCredentials":[],"requiredResourceAccess":[],"signInAudienceRestrictions":{"@odata.type":"#microsoft.graph.unrestrictedAudience","kind":"unrestricted"},"verifiedPublisher":{"displayName":null,"verifiedPublisherId":null,"addedDateTime":null},"web":{"redirectUris":[],"homePageUrl":null,"logoutUrl":null,"enabledResponseModes":"all","customAuthenticationUx":null,"redirectUriSettings":[],"implicitGrantSettings":{"enableIdTokenIssuance":false,"enableAccessTokenIssuance":false}},"spa":{"redirectUris":[],"enabledResponseModes":"all"},"servicePrincipalLockConfiguration":{"isEnabled":true,"allProperties":true,"credentialsWithUsageVerify":null,"credentialsWithUsageSign":null,"identifierUris":null,"tokenEncryptionKeyId":null,"enforcementScope":"foreignTenantOnly"}}'
         headers:
             Cache-Control:
                 - no-cache
@@ -97,27 +74,8 @@ interactions:
                 - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
             Deprecation:
                 - Mon, 18 Apr 2022 23:59:59 GMT
-            Link:
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAutoTokenEncryption&from=2023-08-01&to=2023-09-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAutoTokenEncryption&from=2023-08-01&to=2023-09-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAutoTokenEncryption&from=2023-08-01&to=2023-09-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAutoTokenVersioning&from=2023-08-01&to=2023-09-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAutoTokenEncryption&from=2023-08-01&to=2023-09-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ExtendRefreshTokenLifetime&from=2026-04-01&to=2026-05-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:billingInformation&from=2022-09-01&to=2022-10-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:billingInformation&from=2022-09-01&to=2022-10-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:HardDeleteProtection&from=2026-06-01&to=2026-07-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ApplicationsInAdministrativeUnits&from=2021-05-01&to=2021-06-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppMigration&from=2023-07-01&to=2023-08-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppMigration&from=2023-07-01&to=2023-08-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppMigration&from=2023-07-01&to=2023-08-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppMigration&from=2023-07-01&to=2023-08-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ApplicationRiskLevelThreat&from=2023-11-01&to=2023-12-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ApplicationRiskLevelThreat&from=2023-11-01&to=2023-12-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ApplicationRiskLevelThreat&from=2023-11-01&to=2023-12-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAllowedIpRanges&from=2026-02-01&to=2026-03-01>;rel="deprecation";type="text/html"
             Location:
-                - https://graph.microsoft.com/beta/00000000-0000-0000-0000-000000000000/directoryObjects/b7b3ea99-3788-468a-8546-07a99be8aada/Microsoft.DirectoryServices.Application
+                - https://graph.microsoft.com/beta/9b0c84c7-21c4-4c92-ae62-d9c1eb53333f/directoryObjects/91e409b1-b11e-4471-a9ee-5e43df43e0ba/Microsoft.DirectoryServices.Application
             Odata-Version:
                 - "4.0"
             Strict-Transport-Security:
@@ -128,7 +86,7 @@ interactions:
                 - Accept-Encoding
         status: 201 Created
         code: 201
-        duration: 301.377591ms
+        duration: 445.786286ms
     - id: 2
       request:
         proto: HTTP/1.1
@@ -139,17 +97,15 @@ interactions:
         headers:
             Accept:
                 - application/json
-        url: https://graph.microsoft.com/beta/applications/b7b3ea99-3788-468a-8546-07a99be8aada
+        url: https://graph.microsoft.com/beta/applications/91e409b1-b11e-4471-a9ee-5e43df43e0ba
         method: GET
       response:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        transfer_encoding:
-            - chunked
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
         content_length: -1
         uncompressed: true
-        body: '{"@odata.context":"https://graph.microsoft.com/beta/$metadata#applications/$entity","id":"b7b3ea99-3788-468a-8546-07a99be8aada","deletedDateTime":null,"appId":"8b00a106-934f-4fbd-9725-7cbdb8c1e303","applicationTemplateId":null,"identifierUris":[],"createdByAppId":"04b07795-8ddb-461a-bbee-02f9e1bf7b46","createdDateTime":"2001-02-03T04:05:06Z","description":null,"disabledByMicrosoftStatus":null,"displayName":"ASO Test Application","isAuthorizationServiceEnabled":false,"isDeviceOnlyAuthSupported":null,"isDisabled":null,"isFallbackPublicClient":null,"isHardDeleteProtectionEnabled":null,"isManagementRestricted":null,"groupMembershipClaims":null,"nativeAuthenticationApisEnabled":null,"notes":null,"oauth2RequirePostResponse":false,"orgRestrictions":[],"publisherDomain":"redactedtenant.onmicrosoft.com","signInAudience":"AzureADMyOrg","tags":[],"tokenEncryptionKeyId":null,"uniqueName":null,"defaultRedirectUri":null,"samlMetadataUrl":null,"serviceManagementReference":null,"addIns":[],"appCapabilities":[],"certification":null,"optionalClaims":null,"windows":null,"requestSignatureVerification":null,"migrationStatus":null,"api":{"requestedAccessTokenVersion":null,"acceptMappedClaims":null,"knownClientApplications":[],"oauth2PermissionScopes":[],"preAuthorizedApplications":[],"tokenEncryptionSetting":{"scheme":null,"audience":null,"automatedTokenVersion":{"current":null,"available":[]}}},"appRoles":[],"publicClient":{"redirectUris":[],"enabledResponseModes":"all"},"info":{"termsOfServiceUrl":null,"supportUrl":null,"privacyStatementUrl":null,"marketingUrl":null,"logoUrl":null},"keyCredentials":[],"parentalControlSettings":{"countriesBlockedForMinors":[],"legalAgeGroupRule":"Allow"},"passwordCredentials":[],"requiredResourceAccess":[],"signInAudienceRestrictions":{"@odata.type":"#microsoft.graph.unrestrictedAudience","kind":"unrestricted"},"verifiedPublisher":{"displayName":null,"verifiedPublisherId":null,"addedDateTime":null},"web":{"redirectUris":[],"homePageUrl":null,"logoutUrl":null,"enabledResponseModes":"all","redirectUriSettings":[],"implicitGrantSettings":{"enableIdTokenIssuance":false,"enableAccessTokenIssuance":false}},"spa":{"redirectUris":[],"enabledResponseModes":"all"},"servicePrincipalLockConfiguration":{"isEnabled":true,"allProperties":true,"credentialsWithUsageVerify":null,"credentialsWithUsageSign":null,"identifierUris":null,"tokenEncryptionKeyId":null,"enforcementScope":"foreignTenantOnly"}}'
+        body: '{"@odata.context":"https://graph.microsoft.com/beta/$metadata#applications/$entity","id":"91e409b1-b11e-4471-a9ee-5e43df43e0ba","deletedDateTime":null,"appId":"cf9ef04c-7c28-4965-8ec1-737002fa5a3e","applicationTemplateId":null,"identifierUris":[],"createdByAppId":"04b07795-8ddb-461a-bbee-02f9e1bf7b46","createdDateTime":"2001-02-03T04:05:06Z","description":null,"disabledByMicrosoftStatus":null,"displayName":"ASO Test Application","isAuthorizationServiceEnabled":false,"isDeviceOnlyAuthSupported":null,"isDisabled":null,"isFallbackPublicClient":null,"isHardDeleteProtectionEnabled":null,"isManagementRestricted":null,"groupMembershipClaims":null,"nativeAuthenticationApisEnabled":null,"notes":null,"oauth2RequirePostResponse":false,"orgRestrictions":[],"publisherDomain":"redactedtenant.onmicrosoft.com","signInAudience":"AzureADMyOrg","tags":[],"tokenEncryptionKeyId":null,"uniqueName":null,"defaultRedirectUri":null,"samlMetadataUrl":null,"serviceManagementReference":null,"addIns":[],"appCapabilities":[],"certification":null,"optionalClaims":null,"windows":null,"requestSignatureVerification":null,"migrationStatus":null,"api":{"requestedAccessTokenVersion":null,"acceptMappedClaims":null,"knownClientApplications":[],"oauth2PermissionScopes":[],"preAuthorizedApplications":[],"tokenEncryptionSetting":{"scheme":null,"audience":null,"automatedTokenVersion":{"current":null,"available":[]}}},"appRoles":[],"publicClient":{"redirectUris":[],"enabledResponseModes":"all"},"info":{"termsOfServiceUrl":null,"supportUrl":null,"privacyStatementUrl":null,"marketingUrl":null,"logoUrl":null},"keyCredentials":[],"parentalControlSettings":{"countriesBlockedForMinors":[],"legalAgeGroupRule":"Allow"},"passwordCredentials":[],"requiredResourceAccess":[],"signInAudienceRestrictions":{"@odata.type":"#microsoft.graph.unrestrictedAudience","kind":"unrestricted"},"verifiedPublisher":{"displayName":null,"verifiedPublisherId":null,"addedDateTime":null},"web":{"redirectUris":[],"homePageUrl":null,"logoutUrl":null,"enabledResponseModes":"all","customAuthenticationUx":null,"redirectUriSettings":[],"implicitGrantSettings":{"enableIdTokenIssuance":false,"enableAccessTokenIssuance":false}},"spa":{"redirectUris":[],"enabledResponseModes":"all"},"servicePrincipalLockConfiguration":{"isEnabled":true,"allProperties":true,"credentialsWithUsageVerify":null,"credentialsWithUsageSign":null,"identifierUris":null,"tokenEncryptionKeyId":null,"enforcementScope":"foreignTenantOnly"}}'
         headers:
             Cache-Control:
                 - no-cache
@@ -157,25 +113,6 @@ interactions:
                 - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
             Deprecation:
                 - Mon, 18 Apr 2022 23:59:59 GMT
-            Link:
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAutoTokenEncryption&from=2023-08-01&to=2023-09-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAutoTokenEncryption&from=2023-08-01&to=2023-09-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAutoTokenEncryption&from=2023-08-01&to=2023-09-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAutoTokenVersioning&from=2023-08-01&to=2023-09-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAutoTokenEncryption&from=2023-08-01&to=2023-09-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ExtendRefreshTokenLifetime&from=2026-04-01&to=2026-05-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:billingInformation&from=2022-09-01&to=2022-10-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:billingInformation&from=2022-09-01&to=2022-10-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:HardDeleteProtection&from=2026-06-01&to=2026-07-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ApplicationsInAdministrativeUnits&from=2021-05-01&to=2021-06-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppMigration&from=2023-07-01&to=2023-08-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppMigration&from=2023-07-01&to=2023-08-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppMigration&from=2023-07-01&to=2023-08-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppMigration&from=2023-07-01&to=2023-08-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ApplicationRiskLevelThreat&from=2023-11-01&to=2023-12-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ApplicationRiskLevelThreat&from=2023-11-01&to=2023-12-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ApplicationRiskLevelThreat&from=2023-11-01&to=2023-12-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAllowedIpRanges&from=2026-02-01&to=2026-03-01>;rel="deprecation";type="text/html"
             Odata-Version:
                 - "4.0"
             Strict-Transport-Security:
@@ -186,7 +123,7 @@ interactions:
                 - Accept-Encoding
         status: 200 OK
         code: 200
-        duration: 77.482595ms
+        duration: 271.91965ms
     - id: 3
       request:
         proto: HTTP/1.1
@@ -194,7 +131,7 @@ interactions:
         proto_minor: 1
         content_length: 0
         host: graph.microsoft.com
-        body: '{"description":null,"spa":null,"isFallbackPublicClient":null,"groupMembershipClaims":null,"web":null,"publicClient":null,"@odata.type":"#microsoft.graph.application","displayName":"ASO Test Application Updated","identifierUris":[],"signInAudience":"AzureADMyOrg","tags":[]}'
+        body: '{"web":null,"isFallbackPublicClient":null,"description":null,"spa":null,"publicClient":null,"groupMembershipClaims":null,"@odata.type":"#microsoft.graph.application","displayName":"ASO Test Application Updated","identifierUris":[],"signInAudience":"AzureADMyOrg","tags":[]}'
         headers:
             Accept:
                 - application/json
@@ -203,46 +140,27 @@ interactions:
             Test-Request-Canonical-Hash:
                 - ca2220410aab50516074f787e6eb590a7493a08d8b7996e89980612f8888f90b
             Test-Request-Hash:
-                - 3fcd0a02c6651040a8d037e9b571dc580825a95eb461a63acd14e63252d07db0
-        url: https://graph.microsoft.com/beta/applications/b7b3ea99-3788-468a-8546-07a99be8aada
+                - 39d9a3406286bf97c3fc3c03e96dfd4de9f410339fe322cb780635d51984c34c
+        url: https://graph.microsoft.com/beta/applications/91e409b1-b11e-4471-a9ee-5e43df43e0ba
         method: PATCH
       response:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: -1
         body: ""
         headers:
             Cache-Control:
                 - no-cache
             Deprecation:
                 - Mon, 18 Apr 2022 23:59:59 GMT
-            Link:
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAutoTokenEncryption&from=2023-08-01&to=2023-09-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAutoTokenEncryption&from=2023-08-01&to=2023-09-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAutoTokenEncryption&from=2023-08-01&to=2023-09-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAutoTokenVersioning&from=2023-08-01&to=2023-09-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAutoTokenEncryption&from=2023-08-01&to=2023-09-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ExtendRefreshTokenLifetime&from=2026-04-01&to=2026-05-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:billingInformation&from=2022-09-01&to=2022-10-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:billingInformation&from=2022-09-01&to=2022-10-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:HardDeleteProtection&from=2026-06-01&to=2026-07-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ApplicationsInAdministrativeUnits&from=2021-05-01&to=2021-06-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppMigration&from=2023-07-01&to=2023-08-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppMigration&from=2023-07-01&to=2023-08-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppMigration&from=2023-07-01&to=2023-08-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppMigration&from=2023-07-01&to=2023-08-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ApplicationRiskLevelThreat&from=2023-11-01&to=2023-12-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ApplicationRiskLevelThreat&from=2023-11-01&to=2023-12-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ApplicationRiskLevelThreat&from=2023-11-01&to=2023-12-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAllowedIpRanges&from=2026-02-01&to=2026-03-01>;rel="deprecation";type="text/html"
             Strict-Transport-Security:
                 - max-age=31536000
             Sunset:
                 - Thu, 18 Apr 2024 23:59:59 GMT
         status: 204 No Content
         code: 204
-        duration: 133.310279ms
+        duration: 409.035322ms
     - id: 4
       request:
         proto: HTTP/1.1
@@ -253,17 +171,15 @@ interactions:
         headers:
             Accept:
                 - application/json
-        url: https://graph.microsoft.com/beta/applications/b7b3ea99-3788-468a-8546-07a99be8aada
+        url: https://graph.microsoft.com/beta/applications/91e409b1-b11e-4471-a9ee-5e43df43e0ba
         method: GET
       response:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        transfer_encoding:
-            - chunked
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
         content_length: -1
         uncompressed: true
-        body: '{"@odata.context":"https://graph.microsoft.com/beta/$metadata#applications/$entity","id":"b7b3ea99-3788-468a-8546-07a99be8aada","deletedDateTime":null,"appId":"8b00a106-934f-4fbd-9725-7cbdb8c1e303","applicationTemplateId":null,"identifierUris":[],"createdByAppId":"04b07795-8ddb-461a-bbee-02f9e1bf7b46","createdDateTime":"2001-02-03T04:05:06Z","description":null,"disabledByMicrosoftStatus":null,"displayName":"ASO Test Application Updated","isAuthorizationServiceEnabled":false,"isDeviceOnlyAuthSupported":null,"isDisabled":null,"isFallbackPublicClient":null,"isHardDeleteProtectionEnabled":null,"isManagementRestricted":null,"groupMembershipClaims":null,"nativeAuthenticationApisEnabled":null,"notes":null,"oauth2RequirePostResponse":false,"orgRestrictions":[],"publisherDomain":"redactedtenant.onmicrosoft.com","signInAudience":"AzureADMyOrg","tags":[],"tokenEncryptionKeyId":null,"uniqueName":null,"defaultRedirectUri":null,"samlMetadataUrl":null,"serviceManagementReference":null,"addIns":[],"appCapabilities":[],"certification":null,"optionalClaims":null,"windows":null,"requestSignatureVerification":null,"migrationStatus":null,"api":{"requestedAccessTokenVersion":null,"acceptMappedClaims":null,"knownClientApplications":[],"oauth2PermissionScopes":[],"preAuthorizedApplications":[],"tokenEncryptionSetting":{"scheme":null,"audience":null,"automatedTokenVersion":{"current":null,"available":[]}}},"appRoles":[],"publicClient":{"redirectUris":[],"enabledResponseModes":"all"},"info":{"termsOfServiceUrl":null,"supportUrl":null,"privacyStatementUrl":null,"marketingUrl":null,"logoUrl":null},"keyCredentials":[],"parentalControlSettings":{"countriesBlockedForMinors":[],"legalAgeGroupRule":"Allow"},"passwordCredentials":[],"requiredResourceAccess":[],"signInAudienceRestrictions":{"@odata.type":"#microsoft.graph.unrestrictedAudience","kind":"unrestricted"},"verifiedPublisher":{"displayName":null,"verifiedPublisherId":null,"addedDateTime":null},"web":{"redirectUris":[],"homePageUrl":null,"logoutUrl":null,"enabledResponseModes":"all","redirectUriSettings":[],"implicitGrantSettings":{"enableIdTokenIssuance":false,"enableAccessTokenIssuance":false}},"spa":{"redirectUris":[],"enabledResponseModes":"all"},"servicePrincipalLockConfiguration":{"isEnabled":true,"allProperties":true,"credentialsWithUsageVerify":null,"credentialsWithUsageSign":null,"identifierUris":null,"tokenEncryptionKeyId":null,"enforcementScope":"foreignTenantOnly"}}'
+        body: '{"@odata.context":"https://graph.microsoft.com/beta/$metadata#applications/$entity","id":"91e409b1-b11e-4471-a9ee-5e43df43e0ba","deletedDateTime":null,"appId":"cf9ef04c-7c28-4965-8ec1-737002fa5a3e","applicationTemplateId":null,"identifierUris":[],"createdByAppId":"04b07795-8ddb-461a-bbee-02f9e1bf7b46","createdDateTime":"2001-02-03T04:05:06Z","description":null,"disabledByMicrosoftStatus":null,"displayName":"ASO Test Application Updated","isAuthorizationServiceEnabled":false,"isDeviceOnlyAuthSupported":null,"isDisabled":null,"isFallbackPublicClient":null,"isHardDeleteProtectionEnabled":null,"isManagementRestricted":null,"groupMembershipClaims":null,"nativeAuthenticationApisEnabled":null,"notes":null,"oauth2RequirePostResponse":false,"orgRestrictions":[],"publisherDomain":"redactedtenant.onmicrosoft.com","signInAudience":"AzureADMyOrg","tags":[],"tokenEncryptionKeyId":null,"uniqueName":null,"defaultRedirectUri":null,"samlMetadataUrl":null,"serviceManagementReference":null,"addIns":[],"appCapabilities":[],"certification":null,"optionalClaims":null,"windows":null,"requestSignatureVerification":null,"migrationStatus":null,"api":{"requestedAccessTokenVersion":null,"acceptMappedClaims":null,"knownClientApplications":[],"oauth2PermissionScopes":[],"preAuthorizedApplications":[],"tokenEncryptionSetting":{"scheme":null,"audience":null,"automatedTokenVersion":{"current":null,"available":[]}}},"appRoles":[],"publicClient":{"redirectUris":[],"enabledResponseModes":"all"},"info":{"termsOfServiceUrl":null,"supportUrl":null,"privacyStatementUrl":null,"marketingUrl":null,"logoUrl":null},"keyCredentials":[],"parentalControlSettings":{"countriesBlockedForMinors":[],"legalAgeGroupRule":"Allow"},"passwordCredentials":[],"requiredResourceAccess":[],"signInAudienceRestrictions":{"@odata.type":"#microsoft.graph.unrestrictedAudience","kind":"unrestricted"},"verifiedPublisher":{"displayName":null,"verifiedPublisherId":null,"addedDateTime":null},"web":{"redirectUris":[],"homePageUrl":null,"logoutUrl":null,"enabledResponseModes":"all","customAuthenticationUx":null,"redirectUriSettings":[],"implicitGrantSettings":{"enableIdTokenIssuance":false,"enableAccessTokenIssuance":false}},"spa":{"redirectUris":[],"enabledResponseModes":"all"},"servicePrincipalLockConfiguration":{"isEnabled":true,"allProperties":true,"credentialsWithUsageVerify":null,"credentialsWithUsageSign":null,"identifierUris":null,"tokenEncryptionKeyId":null,"enforcementScope":"foreignTenantOnly"}}'
         headers:
             Cache-Control:
                 - no-cache
@@ -271,25 +187,6 @@ interactions:
                 - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
             Deprecation:
                 - Mon, 18 Apr 2022 23:59:59 GMT
-            Link:
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAutoTokenEncryption&from=2023-08-01&to=2023-09-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAutoTokenEncryption&from=2023-08-01&to=2023-09-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAutoTokenEncryption&from=2023-08-01&to=2023-09-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAutoTokenVersioning&from=2023-08-01&to=2023-09-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAutoTokenEncryption&from=2023-08-01&to=2023-09-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ExtendRefreshTokenLifetime&from=2026-04-01&to=2026-05-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:billingInformation&from=2022-09-01&to=2022-10-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:billingInformation&from=2022-09-01&to=2022-10-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:HardDeleteProtection&from=2026-06-01&to=2026-07-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ApplicationsInAdministrativeUnits&from=2021-05-01&to=2021-06-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppMigration&from=2023-07-01&to=2023-08-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppMigration&from=2023-07-01&to=2023-08-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppMigration&from=2023-07-01&to=2023-08-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppMigration&from=2023-07-01&to=2023-08-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ApplicationRiskLevelThreat&from=2023-11-01&to=2023-12-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ApplicationRiskLevelThreat&from=2023-11-01&to=2023-12-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ApplicationRiskLevelThreat&from=2023-11-01&to=2023-12-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAllowedIpRanges&from=2026-02-01&to=2026-03-01>;rel="deprecation";type="text/html"
             Odata-Version:
                 - "4.0"
             Strict-Transport-Security:
@@ -300,7 +197,7 @@ interactions:
                 - Accept-Encoding
         status: 200 OK
         code: 200
-        duration: 82.050475ms
+        duration: 316.099019ms
     - id: 5
       request:
         proto: HTTP/1.1
@@ -311,42 +208,23 @@ interactions:
         headers:
             Accept:
                 - application/json
-        url: https://graph.microsoft.com/beta/applications/b7b3ea99-3788-468a-8546-07a99be8aada
+        url: https://graph.microsoft.com/beta/applications/91e409b1-b11e-4471-a9ee-5e43df43e0ba
         method: DELETE
       response:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: -1
         body: ""
         headers:
             Cache-Control:
                 - no-cache
             Deprecation:
                 - Mon, 18 Apr 2022 23:59:59 GMT
-            Link:
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAutoTokenEncryption&from=2023-08-01&to=2023-09-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAutoTokenEncryption&from=2023-08-01&to=2023-09-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAutoTokenEncryption&from=2023-08-01&to=2023-09-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAutoTokenVersioning&from=2023-08-01&to=2023-09-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAutoTokenEncryption&from=2023-08-01&to=2023-09-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ExtendRefreshTokenLifetime&from=2026-04-01&to=2026-05-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:billingInformation&from=2022-09-01&to=2022-10-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:billingInformation&from=2022-09-01&to=2022-10-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:HardDeleteProtection&from=2026-06-01&to=2026-07-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ApplicationsInAdministrativeUnits&from=2021-05-01&to=2021-06-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppMigration&from=2023-07-01&to=2023-08-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppMigration&from=2023-07-01&to=2023-08-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppMigration&from=2023-07-01&to=2023-08-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppMigration&from=2023-07-01&to=2023-08-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ApplicationRiskLevelThreat&from=2023-11-01&to=2023-12-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ApplicationRiskLevelThreat&from=2023-11-01&to=2023-12-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:ApplicationRiskLevelThreat&from=2023-11-01&to=2023-12-01>;rel="deprecation";type="text/html"
-                - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=beta,PrivatePreview:AppAllowedIpRanges&from=2026-02-01&to=2026-03-01>;rel="deprecation";type="text/html"
             Strict-Transport-Security:
                 - max-age=31536000
             Sunset:
                 - Thu, 18 Apr 2024 23:59:59 GMT
         status: 204 No Content
         code: 204
-        duration: 141.079992ms
+        duration: 443.865194ms

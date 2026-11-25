@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_ProfileProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ProfileProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProfileProperties, ProfilePropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForProfileProperties)
 }
 
 // RunJSONSerializationTestForProfileProperties runs a test to see if a specific instance of ProfileProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForProfileProperties(subject ProfileProperties) string {
+func RunJSONSerializationTestForProfileProperties(t *rapid.T) {
+	subject := ProfilePropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ProfileProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,31 +45,28 @@ func RunJSONSerializationTestForProfileProperties(subject ProfileProperties) str
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ProfileProperties instances for property testing - lazily instantiated by ProfilePropertiesGenerator()
-var profilePropertiesGenerator gopter.Gen
+var profilePropertiesGenerator *rapid.Generator[ProfileProperties]
 
 // ProfilePropertiesGenerator returns a generator of ProfileProperties instances for property testing.
-func ProfilePropertiesGenerator() gopter.Gen {
+func ProfilePropertiesGenerator() *rapid.Generator[ProfileProperties] {
 	if profilePropertiesGenerator != nil {
 		return profilePropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfileProperties(generators)
-	profilePropertiesGenerator = gen.Struct(reflect.TypeOf(ProfileProperties{}), generators)
+	originResponseTimeoutSeconds := rapid.Ptr(rapid.Int(), true)
+
+	profilePropertiesGenerator = rapid.Custom(func(t *rapid.T) ProfileProperties {
+		var result ProfileProperties
+		result.OriginResponseTimeoutSeconds = originResponseTimeoutSeconds.Draw(t, "OriginResponseTimeoutSeconds")
+		return result
+	})
 
 	return profilePropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForProfileProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProfileProperties(gens map[string]gopter.Gen) {
-	gens["OriginResponseTimeoutSeconds"] = gen.PtrOf(gen.Int())
 }
 
 func Test_Profile_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -89,29 +76,23 @@ func Test_Profile_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Profile_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProfile_Spec, Profile_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForProfile_Spec)
 }
 
 // RunJSONSerializationTestForProfile_Spec runs a test to see if a specific instance of Profile_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForProfile_Spec(subject Profile_Spec) string {
+func RunJSONSerializationTestForProfile_Spec(t *rapid.T) {
+	subject := Profile_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Profile_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -120,50 +101,38 @@ func RunJSONSerializationTestForProfile_Spec(subject Profile_Spec) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Profile_Spec instances for property testing - lazily instantiated by Profile_SpecGenerator()
-var profile_SpecGenerator gopter.Gen
+var profile_SpecGenerator *rapid.Generator[Profile_Spec]
 
 // Profile_SpecGenerator returns a generator of Profile_Spec instances for property testing.
-// We first initialize profile_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Profile_SpecGenerator() gopter.Gen {
+func Profile_SpecGenerator() *rapid.Generator[Profile_Spec] {
 	if profile_SpecGenerator != nil {
 		return profile_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfile_Spec(generators)
-	profile_SpecGenerator = gen.Struct(reflect.TypeOf(Profile_Spec{}), generators)
+	location := rapid.Ptr(rapid.String(), true)
+	name := rapid.String()
+	properties := rapid.Ptr(ProfilePropertiesGenerator(), true)
+	sku := rapid.Ptr(SkuGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfile_Spec(generators)
-	AddRelatedPropertyGeneratorsForProfile_Spec(generators)
-	profile_SpecGenerator = gen.Struct(reflect.TypeOf(Profile_Spec{}), generators)
+	profile_SpecGenerator = rapid.Custom(func(t *rapid.T) Profile_Spec {
+		var result Profile_Spec
+		result.Location = location.Draw(t, "Location")
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Sku = sku.Draw(t, "Sku")
+		result.Tags = tags.Draw(t, "Tags")
+		return result
+	})
 
 	return profile_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForProfile_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProfile_Spec(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForProfile_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForProfile_Spec(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(ProfilePropertiesGenerator())
-	gens["Sku"] = gen.PtrOf(SkuGenerator())
 }
 
 func Test_Sku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -173,29 +142,23 @@ func Test_Sku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Sku via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSku, SkuGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSku)
 }
 
 // RunJSONSerializationTestForSku runs a test to see if a specific instance of Sku round trips to JSON and back losslessly
-func RunJSONSerializationTestForSku(subject Sku) string {
+func RunJSONSerializationTestForSku(t *rapid.T) {
+	subject := SkuGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Sku
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -204,42 +167,26 @@ func RunJSONSerializationTestForSku(subject Sku) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Sku instances for property testing - lazily instantiated by SkuGenerator()
-var skuGenerator gopter.Gen
+var skuGenerator *rapid.Generator[Sku]
 
 // SkuGenerator returns a generator of Sku instances for property testing.
-func SkuGenerator() gopter.Gen {
+func SkuGenerator() *rapid.Generator[Sku] {
 	if skuGenerator != nil {
 		return skuGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSku(generators)
-	skuGenerator = gen.Struct(reflect.TypeOf(Sku{}), generators)
+	name := rapid.Ptr(rapid.SampledFrom([]Sku_Name{Sku_Name_Custom_Verizon, Sku_Name_Premium_AzureFrontDoor, Sku_Name_Premium_Verizon, Sku_Name_StandardPlus_955BandWidth_ChinaCdn, Sku_Name_StandardPlus_AvgBandWidth_ChinaCdn, Sku_Name_StandardPlus_ChinaCdn, Sku_Name_Standard_955BandWidth_ChinaCdn, Sku_Name_Standard_Akamai, Sku_Name_Standard_AvgBandWidth_ChinaCdn, Sku_Name_Standard_AzureFrontDoor, Sku_Name_Standard_ChinaCdn, Sku_Name_Standard_Microsoft, Sku_Name_Standard_Verizon}), true)
+
+	skuGenerator = rapid.Custom(func(t *rapid.T) Sku {
+		var result Sku
+		result.Name = name.Draw(t, "Name")
+		return result
+	})
 
 	return skuGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSku is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSku(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		Sku_Name_Custom_Verizon,
-		Sku_Name_Premium_AzureFrontDoor,
-		Sku_Name_Premium_Verizon,
-		Sku_Name_StandardPlus_955BandWidth_ChinaCdn,
-		Sku_Name_StandardPlus_AvgBandWidth_ChinaCdn,
-		Sku_Name_StandardPlus_ChinaCdn,
-		Sku_Name_Standard_955BandWidth_ChinaCdn,
-		Sku_Name_Standard_Akamai,
-		Sku_Name_Standard_AvgBandWidth_ChinaCdn,
-		Sku_Name_Standard_AzureFrontDoor,
-		Sku_Name_Standard_ChinaCdn,
-		Sku_Name_Standard_Microsoft,
-		Sku_Name_Standard_Verizon))
 }

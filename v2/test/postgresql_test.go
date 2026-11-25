@@ -199,7 +199,24 @@ func PostgreSQL_User_Helpers(tc *testcommon.KubePerTestContext, fqdn string, adm
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(userRoles).To(Equal(set.Make[string](expectedUserRoles...)))
 
-	// Delete the user
+	// Grant database privileges, with ALL expanded to every database privilege
+	dbName := postgresqlutil.DefaultMaintanenceDatabase
+	tc.Expect(postgresqlutil.ReconcileUserDatabasePrivileges(ctx, db, username, map[string][]string{dbName: {"ALL"}})).To(Succeed())
+	dbPrivileges, err := postgresqlutil.GetUserDatabasePrivileges(ctx, db, username)
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(dbPrivileges).To(Equal(map[string]set.Set[string]{dbName: set.Make("CONNECT", "CREATE", "TEMPORARY")}))
+
+	// Narrow database privileges
+	tc.Expect(postgresqlutil.ReconcileUserDatabasePrivileges(ctx, db, username, map[string][]string{dbName: {"CONNECT"}})).To(Succeed())
+	dbPrivileges, err = postgresqlutil.GetUserDatabasePrivileges(ctx, db, username)
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(dbPrivileges).To(Equal(map[string]set.Set[string]{dbName: set.Make("CONNECT")}))
+
+	// Delete the user, which first needs its database privileges revoked
+	tc.Expect(postgresqlutil.RevokeAllDatabasePrivileges(ctx, db, username)).To(Succeed())
+	dbPrivileges, err = postgresqlutil.GetUserDatabasePrivileges(ctx, db, username)
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(dbPrivileges).To(BeEmpty())
 	tc.Expect(postgresqlutil.DropUser(ctx, db, username)).To(Succeed())
 
 	exists, err = postgresqlutil.DoesUserExist(ctx, db, username)

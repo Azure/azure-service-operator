@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_ServiceGatewayApi_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ServiceGatewayApi via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServiceGatewayApi, ServiceGatewayApiGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForServiceGatewayApi)
 }
 
 // RunJSONSerializationTestForServiceGatewayApi runs a test to see if a specific instance of ServiceGatewayApi round trips to JSON and back losslessly
-func RunJSONSerializationTestForServiceGatewayApi(subject ServiceGatewayApi) string {
+func RunJSONSerializationTestForServiceGatewayApi(t *rapid.T) {
+	subject := ServiceGatewayApiGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ServiceGatewayApi
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,32 +45,30 @@ func RunJSONSerializationTestForServiceGatewayApi(subject ServiceGatewayApi) str
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ServiceGatewayApi instances for property testing - lazily instantiated by ServiceGatewayApiGenerator()
-var serviceGatewayApiGenerator gopter.Gen
+var serviceGatewayApiGenerator *rapid.Generator[ServiceGatewayApi]
 
 // ServiceGatewayApiGenerator returns a generator of ServiceGatewayApi instances for property testing.
-func ServiceGatewayApiGenerator() gopter.Gen {
+func ServiceGatewayApiGenerator() *rapid.Generator[ServiceGatewayApi] {
 	if serviceGatewayApiGenerator != nil {
 		return serviceGatewayApiGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForServiceGatewayApi(generators)
-	serviceGatewayApiGenerator = gen.Struct(reflect.TypeOf(ServiceGatewayApi{}), generators)
+	spec := ServiceGatewayApi_SpecGenerator()
+	status := ServiceGatewayApi_STATUSGenerator()
+
+	serviceGatewayApiGenerator = rapid.Custom(func(t *rapid.T) ServiceGatewayApi {
+		var result ServiceGatewayApi
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return serviceGatewayApiGenerator
-}
-
-// AddRelatedPropertyGeneratorsForServiceGatewayApi is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForServiceGatewayApi(gens map[string]gopter.Gen) {
-	gens["Spec"] = ServiceGatewayApi_SpecGenerator()
-	gens["Status"] = ServiceGatewayApi_STATUSGenerator()
 }
 
 func Test_ServiceGatewayApiOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -90,29 +78,23 @@ func Test_ServiceGatewayApiOperatorSpec_WhenSerializedToJson_DeserializesAsEqual
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ServiceGatewayApiOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServiceGatewayApiOperatorSpec, ServiceGatewayApiOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForServiceGatewayApiOperatorSpec)
 }
 
 // RunJSONSerializationTestForServiceGatewayApiOperatorSpec runs a test to see if a specific instance of ServiceGatewayApiOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForServiceGatewayApiOperatorSpec(subject ServiceGatewayApiOperatorSpec) string {
+func RunJSONSerializationTestForServiceGatewayApiOperatorSpec(t *rapid.T) {
+	subject := ServiceGatewayApiOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ServiceGatewayApiOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -121,24 +103,21 @@ func RunJSONSerializationTestForServiceGatewayApiOperatorSpec(subject ServiceGat
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ServiceGatewayApiOperatorSpec instances for property testing - lazily instantiated by
 // ServiceGatewayApiOperatorSpecGenerator()
-var serviceGatewayApiOperatorSpecGenerator gopter.Gen
+var serviceGatewayApiOperatorSpecGenerator *rapid.Generator[ServiceGatewayApiOperatorSpec]
 
 // ServiceGatewayApiOperatorSpecGenerator returns a generator of ServiceGatewayApiOperatorSpec instances for property testing.
-func ServiceGatewayApiOperatorSpecGenerator() gopter.Gen {
+func ServiceGatewayApiOperatorSpecGenerator() *rapid.Generator[ServiceGatewayApiOperatorSpec] {
 	if serviceGatewayApiOperatorSpecGenerator != nil {
 		return serviceGatewayApiOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	serviceGatewayApiOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ServiceGatewayApiOperatorSpec{}), generators)
+	serviceGatewayApiOperatorSpecGenerator = rapid.Just(ServiceGatewayApiOperatorSpec{})
 
 	return serviceGatewayApiOperatorSpecGenerator
 }
@@ -150,29 +129,23 @@ func Test_ServiceGatewayApi_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ServiceGatewayApi_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServiceGatewayApi_STATUS, ServiceGatewayApi_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForServiceGatewayApi_STATUS)
 }
 
 // RunJSONSerializationTestForServiceGatewayApi_STATUS runs a test to see if a specific instance of ServiceGatewayApi_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForServiceGatewayApi_STATUS(subject ServiceGatewayApi_STATUS) string {
+func RunJSONSerializationTestForServiceGatewayApi_STATUS(t *rapid.T) {
+	subject := ServiceGatewayApi_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ServiceGatewayApi_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -181,24 +154,21 @@ func RunJSONSerializationTestForServiceGatewayApi_STATUS(subject ServiceGatewayA
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ServiceGatewayApi_STATUS instances for property testing - lazily instantiated by
 // ServiceGatewayApi_STATUSGenerator()
-var serviceGatewayApi_STATUSGenerator gopter.Gen
+var serviceGatewayApi_STATUSGenerator *rapid.Generator[ServiceGatewayApi_STATUS]
 
 // ServiceGatewayApi_STATUSGenerator returns a generator of ServiceGatewayApi_STATUS instances for property testing.
-func ServiceGatewayApi_STATUSGenerator() gopter.Gen {
+func ServiceGatewayApi_STATUSGenerator() *rapid.Generator[ServiceGatewayApi_STATUS] {
 	if serviceGatewayApi_STATUSGenerator != nil {
 		return serviceGatewayApi_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	serviceGatewayApi_STATUSGenerator = gen.Struct(reflect.TypeOf(ServiceGatewayApi_STATUS{}), generators)
+	serviceGatewayApi_STATUSGenerator = rapid.Just(ServiceGatewayApi_STATUS{})
 
 	return serviceGatewayApi_STATUSGenerator
 }
@@ -210,29 +180,23 @@ func Test_ServiceGatewayApi_Spec_WhenSerializedToJson_DeserializesAsEqual(t *tes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ServiceGatewayApi_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServiceGatewayApi_Spec, ServiceGatewayApi_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForServiceGatewayApi_Spec)
 }
 
 // RunJSONSerializationTestForServiceGatewayApi_Spec runs a test to see if a specific instance of ServiceGatewayApi_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForServiceGatewayApi_Spec(subject ServiceGatewayApi_Spec) string {
+func RunJSONSerializationTestForServiceGatewayApi_Spec(t *rapid.T) {
+	subject := ServiceGatewayApi_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ServiceGatewayApi_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -241,46 +205,32 @@ func RunJSONSerializationTestForServiceGatewayApi_Spec(subject ServiceGatewayApi
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ServiceGatewayApi_Spec instances for property testing - lazily instantiated by
 // ServiceGatewayApi_SpecGenerator()
-var serviceGatewayApi_SpecGenerator gopter.Gen
+var serviceGatewayApi_SpecGenerator *rapid.Generator[ServiceGatewayApi_Spec]
 
 // ServiceGatewayApi_SpecGenerator returns a generator of ServiceGatewayApi_Spec instances for property testing.
-// We first initialize serviceGatewayApi_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ServiceGatewayApi_SpecGenerator() gopter.Gen {
+func ServiceGatewayApi_SpecGenerator() *rapid.Generator[ServiceGatewayApi_Spec] {
 	if serviceGatewayApi_SpecGenerator != nil {
 		return serviceGatewayApi_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServiceGatewayApi_Spec(generators)
-	serviceGatewayApi_SpecGenerator = gen.Struct(reflect.TypeOf(ServiceGatewayApi_Spec{}), generators)
+	genString := rapid.String()
+	operatorSpec := rapid.Ptr(ServiceGatewayApiOperatorSpecGenerator(), true)
+	provisioningState := rapid.Ptr(rapid.String(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServiceGatewayApi_Spec(generators)
-	AddRelatedPropertyGeneratorsForServiceGatewayApi_Spec(generators)
-	serviceGatewayApi_SpecGenerator = gen.Struct(reflect.TypeOf(ServiceGatewayApi_Spec{}), generators)
+	serviceGatewayApi_SpecGenerator = rapid.Custom(func(t *rapid.T) ServiceGatewayApi_Spec {
+		var result ServiceGatewayApi_Spec
+		result.AzureName = genString.Draw(t, "AzureName")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		result.OriginalVersion = genString.Draw(t, "OriginalVersion")
+		result.ProvisioningState = provisioningState.Draw(t, "ProvisioningState")
+		return result
+	})
 
 	return serviceGatewayApi_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForServiceGatewayApi_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServiceGatewayApi_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["OriginalVersion"] = gen.AlphaString()
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForServiceGatewayApi_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForServiceGatewayApi_Spec(gens map[string]gopter.Gen) {
-	gens["OperatorSpec"] = gen.PtrOf(ServiceGatewayApiOperatorSpecGenerator())
 }

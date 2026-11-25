@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_RedisAccessPolicyAssignment_STATUS_WhenSerializedToJson_DeserializesAs
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RedisAccessPolicyAssignment_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisAccessPolicyAssignment_STATUS, RedisAccessPolicyAssignment_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRedisAccessPolicyAssignment_STATUS)
 }
 
 // RunJSONSerializationTestForRedisAccessPolicyAssignment_STATUS runs a test to see if a specific instance of RedisAccessPolicyAssignment_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisAccessPolicyAssignment_STATUS(subject RedisAccessPolicyAssignment_STATUS) string {
+func RunJSONSerializationTestForRedisAccessPolicyAssignment_STATUS(t *rapid.T) {
+	subject := RedisAccessPolicyAssignment_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RedisAccessPolicyAssignment_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,49 +45,35 @@ func RunJSONSerializationTestForRedisAccessPolicyAssignment_STATUS(subject Redis
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RedisAccessPolicyAssignment_STATUS instances for property testing - lazily instantiated by
 // RedisAccessPolicyAssignment_STATUSGenerator()
-var redisAccessPolicyAssignment_STATUSGenerator gopter.Gen
+var redisAccessPolicyAssignment_STATUSGenerator *rapid.Generator[RedisAccessPolicyAssignment_STATUS]
 
 // RedisAccessPolicyAssignment_STATUSGenerator returns a generator of RedisAccessPolicyAssignment_STATUS instances for property testing.
-// We first initialize redisAccessPolicyAssignment_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func RedisAccessPolicyAssignment_STATUSGenerator() gopter.Gen {
+func RedisAccessPolicyAssignment_STATUSGenerator() *rapid.Generator[RedisAccessPolicyAssignment_STATUS] {
 	if redisAccessPolicyAssignment_STATUSGenerator != nil {
 		return redisAccessPolicyAssignment_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisAccessPolicyAssignment_STATUS(generators)
-	redisAccessPolicyAssignment_STATUSGenerator = gen.Struct(reflect.TypeOf(RedisAccessPolicyAssignment_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	properties := rapid.Ptr(RedisCacheAccessPolicyAssignmentProperties_STATUSGenerator(), true)
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisAccessPolicyAssignment_STATUS(generators)
-	AddRelatedPropertyGeneratorsForRedisAccessPolicyAssignment_STATUS(generators)
-	redisAccessPolicyAssignment_STATUSGenerator = gen.Struct(reflect.TypeOf(RedisAccessPolicyAssignment_STATUS{}), generators)
+	redisAccessPolicyAssignment_STATUSGenerator = rapid.Custom(func(t *rapid.T) RedisAccessPolicyAssignment_STATUS {
+		var result RedisAccessPolicyAssignment_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return redisAccessPolicyAssignment_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRedisAccessPolicyAssignment_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedisAccessPolicyAssignment_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForRedisAccessPolicyAssignment_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRedisAccessPolicyAssignment_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(RedisCacheAccessPolicyAssignmentProperties_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_RedisCacheAccessPolicyAssignmentProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -107,29 +83,23 @@ func Test_RedisCacheAccessPolicyAssignmentProperties_STATUS_WhenSerializedToJson
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RedisCacheAccessPolicyAssignmentProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisCacheAccessPolicyAssignmentProperties_STATUS, RedisCacheAccessPolicyAssignmentProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRedisCacheAccessPolicyAssignmentProperties_STATUS)
 }
 
 // RunJSONSerializationTestForRedisCacheAccessPolicyAssignmentProperties_STATUS runs a test to see if a specific instance of RedisCacheAccessPolicyAssignmentProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisCacheAccessPolicyAssignmentProperties_STATUS(subject RedisCacheAccessPolicyAssignmentProperties_STATUS) string {
+func RunJSONSerializationTestForRedisCacheAccessPolicyAssignmentProperties_STATUS(t *rapid.T) {
+	subject := RedisCacheAccessPolicyAssignmentProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RedisCacheAccessPolicyAssignmentProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -138,41 +108,33 @@ func RunJSONSerializationTestForRedisCacheAccessPolicyAssignmentProperties_STATU
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RedisCacheAccessPolicyAssignmentProperties_STATUS instances for property testing - lazily instantiated
 // by RedisCacheAccessPolicyAssignmentProperties_STATUSGenerator()
-var redisCacheAccessPolicyAssignmentProperties_STATUSGenerator gopter.Gen
+var redisCacheAccessPolicyAssignmentProperties_STATUSGenerator *rapid.Generator[RedisCacheAccessPolicyAssignmentProperties_STATUS]
 
 // RedisCacheAccessPolicyAssignmentProperties_STATUSGenerator returns a generator of RedisCacheAccessPolicyAssignmentProperties_STATUS instances for property testing.
-func RedisCacheAccessPolicyAssignmentProperties_STATUSGenerator() gopter.Gen {
+func RedisCacheAccessPolicyAssignmentProperties_STATUSGenerator() *rapid.Generator[RedisCacheAccessPolicyAssignmentProperties_STATUS] {
 	if redisCacheAccessPolicyAssignmentProperties_STATUSGenerator != nil {
 		return redisCacheAccessPolicyAssignmentProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisCacheAccessPolicyAssignmentProperties_STATUS(generators)
-	redisCacheAccessPolicyAssignmentProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(RedisCacheAccessPolicyAssignmentProperties_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	provisioningState := rapid.Ptr(rapid.SampledFrom([]AccessPolicyAssignmentProvisioningState_STATUS{AccessPolicyAssignmentProvisioningState_STATUS_Canceled, AccessPolicyAssignmentProvisioningState_STATUS_Deleted, AccessPolicyAssignmentProvisioningState_STATUS_Deleting, AccessPolicyAssignmentProvisioningState_STATUS_Failed, AccessPolicyAssignmentProvisioningState_STATUS_Succeeded, AccessPolicyAssignmentProvisioningState_STATUS_Updating}), true)
+
+	redisCacheAccessPolicyAssignmentProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) RedisCacheAccessPolicyAssignmentProperties_STATUS {
+		var result RedisCacheAccessPolicyAssignmentProperties_STATUS
+		result.AccessPolicyName = ptrString.Draw(t, "AccessPolicyName")
+		result.ObjectId = ptrString.Draw(t, "ObjectId")
+		result.ObjectIdAlias = ptrString.Draw(t, "ObjectIdAlias")
+		result.ProvisioningState = provisioningState.Draw(t, "ProvisioningState")
+		return result
+	})
 
 	return redisCacheAccessPolicyAssignmentProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRedisCacheAccessPolicyAssignmentProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedisCacheAccessPolicyAssignmentProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["AccessPolicyName"] = gen.PtrOf(gen.AlphaString())
-	gens["ObjectId"] = gen.PtrOf(gen.AlphaString())
-	gens["ObjectIdAlias"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		AccessPolicyAssignmentProvisioningState_STATUS_Canceled,
-		AccessPolicyAssignmentProvisioningState_STATUS_Deleted,
-		AccessPolicyAssignmentProvisioningState_STATUS_Deleting,
-		AccessPolicyAssignmentProvisioningState_STATUS_Failed,
-		AccessPolicyAssignmentProvisioningState_STATUS_Succeeded,
-		AccessPolicyAssignmentProvisioningState_STATUS_Updating))
 }
 
 func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -182,29 +144,23 @@ func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SystemData_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSystemData_STATUS, SystemData_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSystemData_STATUS)
 }
 
 // RunJSONSerializationTestForSystemData_STATUS runs a test to see if a specific instance of SystemData_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSystemData_STATUS(subject SystemData_STATUS) string {
+func RunJSONSerializationTestForSystemData_STATUS(t *rapid.T) {
+	subject := SystemData_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual SystemData_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -213,42 +169,33 @@ func RunJSONSerializationTestForSystemData_STATUS(subject SystemData_STATUS) str
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of SystemData_STATUS instances for property testing - lazily instantiated by SystemData_STATUSGenerator()
-var systemData_STATUSGenerator gopter.Gen
+var systemData_STATUSGenerator *rapid.Generator[SystemData_STATUS]
 
 // SystemData_STATUSGenerator returns a generator of SystemData_STATUS instances for property testing.
-func SystemData_STATUSGenerator() gopter.Gen {
+func SystemData_STATUSGenerator() *rapid.Generator[SystemData_STATUS] {
 	if systemData_STATUSGenerator != nil {
 		return systemData_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSystemData_STATUS(generators)
-	systemData_STATUSGenerator = gen.Struct(reflect.TypeOf(SystemData_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	createdByType := rapid.Ptr(rapid.SampledFrom([]SystemData_CreatedByType_STATUS{SystemData_CreatedByType_STATUS_Application, SystemData_CreatedByType_STATUS_Key, SystemData_CreatedByType_STATUS_ManagedIdentity, SystemData_CreatedByType_STATUS_User}), true)
+	lastModifiedByType := rapid.Ptr(rapid.SampledFrom([]SystemData_LastModifiedByType_STATUS{SystemData_LastModifiedByType_STATUS_Application, SystemData_LastModifiedByType_STATUS_Key, SystemData_LastModifiedByType_STATUS_ManagedIdentity, SystemData_LastModifiedByType_STATUS_User}), true)
+
+	systemData_STATUSGenerator = rapid.Custom(func(t *rapid.T) SystemData_STATUS {
+		var result SystemData_STATUS
+		result.CreatedAt = ptrString.Draw(t, "CreatedAt")
+		result.CreatedBy = ptrString.Draw(t, "CreatedBy")
+		result.CreatedByType = createdByType.Draw(t, "CreatedByType")
+		result.LastModifiedAt = ptrString.Draw(t, "LastModifiedAt")
+		result.LastModifiedBy = ptrString.Draw(t, "LastModifiedBy")
+		result.LastModifiedByType = lastModifiedByType.Draw(t, "LastModifiedByType")
+		return result
+	})
 
 	return systemData_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSystemData_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter.Gen) {
-	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_STATUS_Application,
-		SystemData_CreatedByType_STATUS_Key,
-		SystemData_CreatedByType_STATUS_ManagedIdentity,
-		SystemData_CreatedByType_STATUS_User))
-	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_STATUS_Application,
-		SystemData_LastModifiedByType_STATUS_Key,
-		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-		SystemData_LastModifiedByType_STATUS_User))
 }

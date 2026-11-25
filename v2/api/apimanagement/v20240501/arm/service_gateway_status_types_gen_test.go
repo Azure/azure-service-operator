@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_GatewayContractProperties_STATUS_WhenSerializedToJson_DeserializesAsEq
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of GatewayContractProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForGatewayContractProperties_STATUS, GatewayContractProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForGatewayContractProperties_STATUS)
 }
 
 // RunJSONSerializationTestForGatewayContractProperties_STATUS runs a test to see if a specific instance of GatewayContractProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForGatewayContractProperties_STATUS(subject GatewayContractProperties_STATUS) string {
+func RunJSONSerializationTestForGatewayContractProperties_STATUS(t *rapid.T) {
+	subject := GatewayContractProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual GatewayContractProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,46 +45,31 @@ func RunJSONSerializationTestForGatewayContractProperties_STATUS(subject Gateway
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of GatewayContractProperties_STATUS instances for property testing - lazily instantiated by
 // GatewayContractProperties_STATUSGenerator()
-var gatewayContractProperties_STATUSGenerator gopter.Gen
+var gatewayContractProperties_STATUSGenerator *rapid.Generator[GatewayContractProperties_STATUS]
 
 // GatewayContractProperties_STATUSGenerator returns a generator of GatewayContractProperties_STATUS instances for property testing.
-// We first initialize gatewayContractProperties_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func GatewayContractProperties_STATUSGenerator() gopter.Gen {
+func GatewayContractProperties_STATUSGenerator() *rapid.Generator[GatewayContractProperties_STATUS] {
 	if gatewayContractProperties_STATUSGenerator != nil {
 		return gatewayContractProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForGatewayContractProperties_STATUS(generators)
-	gatewayContractProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(GatewayContractProperties_STATUS{}), generators)
+	description := rapid.Ptr(rapid.String(), true)
+	locationData := rapid.Ptr(ResourceLocationDataContract_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForGatewayContractProperties_STATUS(generators)
-	AddRelatedPropertyGeneratorsForGatewayContractProperties_STATUS(generators)
-	gatewayContractProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(GatewayContractProperties_STATUS{}), generators)
+	gatewayContractProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) GatewayContractProperties_STATUS {
+		var result GatewayContractProperties_STATUS
+		result.Description = description.Draw(t, "Description")
+		result.LocationData = locationData.Draw(t, "LocationData")
+		return result
+	})
 
 	return gatewayContractProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForGatewayContractProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForGatewayContractProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForGatewayContractProperties_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForGatewayContractProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["LocationData"] = gen.PtrOf(ResourceLocationDataContract_STATUSGenerator())
 }
 
 func Test_ResourceLocationDataContract_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -104,29 +79,23 @@ func Test_ResourceLocationDataContract_STATUS_WhenSerializedToJson_DeserializesA
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ResourceLocationDataContract_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForResourceLocationDataContract_STATUS, ResourceLocationDataContract_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForResourceLocationDataContract_STATUS)
 }
 
 // RunJSONSerializationTestForResourceLocationDataContract_STATUS runs a test to see if a specific instance of ResourceLocationDataContract_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForResourceLocationDataContract_STATUS(subject ResourceLocationDataContract_STATUS) string {
+func RunJSONSerializationTestForResourceLocationDataContract_STATUS(t *rapid.T) {
+	subject := ResourceLocationDataContract_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ResourceLocationDataContract_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -135,35 +104,32 @@ func RunJSONSerializationTestForResourceLocationDataContract_STATUS(subject Reso
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ResourceLocationDataContract_STATUS instances for property testing - lazily instantiated by
 // ResourceLocationDataContract_STATUSGenerator()
-var resourceLocationDataContract_STATUSGenerator gopter.Gen
+var resourceLocationDataContract_STATUSGenerator *rapid.Generator[ResourceLocationDataContract_STATUS]
 
 // ResourceLocationDataContract_STATUSGenerator returns a generator of ResourceLocationDataContract_STATUS instances for property testing.
-func ResourceLocationDataContract_STATUSGenerator() gopter.Gen {
+func ResourceLocationDataContract_STATUSGenerator() *rapid.Generator[ResourceLocationDataContract_STATUS] {
 	if resourceLocationDataContract_STATUSGenerator != nil {
 		return resourceLocationDataContract_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForResourceLocationDataContract_STATUS(generators)
-	resourceLocationDataContract_STATUSGenerator = gen.Struct(reflect.TypeOf(ResourceLocationDataContract_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	resourceLocationDataContract_STATUSGenerator = rapid.Custom(func(t *rapid.T) ResourceLocationDataContract_STATUS {
+		var result ResourceLocationDataContract_STATUS
+		result.City = ptrString.Draw(t, "City")
+		result.CountryOrRegion = ptrString.Draw(t, "CountryOrRegion")
+		result.District = ptrString.Draw(t, "District")
+		result.Name = ptrString.Draw(t, "Name")
+		return result
+	})
 
 	return resourceLocationDataContract_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForResourceLocationDataContract_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForResourceLocationDataContract_STATUS(gens map[string]gopter.Gen) {
-	gens["City"] = gen.PtrOf(gen.AlphaString())
-	gens["CountryOrRegion"] = gen.PtrOf(gen.AlphaString())
-	gens["District"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ServiceGateway_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -173,29 +139,23 @@ func Test_ServiceGateway_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ServiceGateway_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServiceGateway_STATUS, ServiceGateway_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForServiceGateway_STATUS)
 }
 
 // RunJSONSerializationTestForServiceGateway_STATUS runs a test to see if a specific instance of ServiceGateway_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForServiceGateway_STATUS(subject ServiceGateway_STATUS) string {
+func RunJSONSerializationTestForServiceGateway_STATUS(t *rapid.T) {
+	subject := ServiceGateway_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ServiceGateway_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -204,46 +164,31 @@ func RunJSONSerializationTestForServiceGateway_STATUS(subject ServiceGateway_STA
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ServiceGateway_STATUS instances for property testing - lazily instantiated by
 // ServiceGateway_STATUSGenerator()
-var serviceGateway_STATUSGenerator gopter.Gen
+var serviceGateway_STATUSGenerator *rapid.Generator[ServiceGateway_STATUS]
 
 // ServiceGateway_STATUSGenerator returns a generator of ServiceGateway_STATUS instances for property testing.
-// We first initialize serviceGateway_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ServiceGateway_STATUSGenerator() gopter.Gen {
+func ServiceGateway_STATUSGenerator() *rapid.Generator[ServiceGateway_STATUS] {
 	if serviceGateway_STATUSGenerator != nil {
 		return serviceGateway_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServiceGateway_STATUS(generators)
-	serviceGateway_STATUSGenerator = gen.Struct(reflect.TypeOf(ServiceGateway_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	properties := rapid.Ptr(GatewayContractProperties_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServiceGateway_STATUS(generators)
-	AddRelatedPropertyGeneratorsForServiceGateway_STATUS(generators)
-	serviceGateway_STATUSGenerator = gen.Struct(reflect.TypeOf(ServiceGateway_STATUS{}), generators)
+	serviceGateway_STATUSGenerator = rapid.Custom(func(t *rapid.T) ServiceGateway_STATUS {
+		var result ServiceGateway_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return serviceGateway_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForServiceGateway_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServiceGateway_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForServiceGateway_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForServiceGateway_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(GatewayContractProperties_STATUSGenerator())
 }

@@ -85,6 +85,10 @@ import (
 	batch_v20240701 "github.com/Azure/azure-service-operator/v2/api/batch/v20240701"
 	batch_v20240701s "github.com/Azure/azure-service-operator/v2/api/batch/v20240701/storage"
 	batch_v20240701w "github.com/Azure/azure-service-operator/v2/api/batch/v20240701/webhook"
+	botservice_customizations "github.com/Azure/azure-service-operator/v2/api/botservice/customizations"
+	botservice_v20220915 "github.com/Azure/azure-service-operator/v2/api/botservice/v20220915"
+	botservice_v20220915s "github.com/Azure/azure-service-operator/v2/api/botservice/v20220915/storage"
+	botservice_v20220915w "github.com/Azure/azure-service-operator/v2/api/botservice/v20220915/webhook"
 	cache_customizations "github.com/Azure/azure-service-operator/v2/api/cache/customizations"
 	cache_v1api20201201 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201"
 	cache_v1api20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201/storage"
@@ -535,6 +539,10 @@ import (
 	search_v20231101 "github.com/Azure/azure-service-operator/v2/api/search/v1api20231101"
 	search_v20231101s "github.com/Azure/azure-service-operator/v2/api/search/v1api20231101/storage"
 	search_v20231101w "github.com/Azure/azure-service-operator/v2/api/search/v1api20231101/webhook"
+	security_customizations "github.com/Azure/azure-service-operator/v2/api/security/customizations"
+	security_v20250601 "github.com/Azure/azure-service-operator/v2/api/security/v20250601"
+	security_v20250601s "github.com/Azure/azure-service-operator/v2/api/security/v20250601/storage"
+	security_v20250601w "github.com/Azure/azure-service-operator/v2/api/security/v20250601/webhook"
 	servicebus_customizations "github.com/Azure/azure-service-operator/v2/api/servicebus/customizations"
 	servicebus_v1api20210101p "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview"
 	servicebus_v1api20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview/storage"
@@ -1034,6 +1042,57 @@ func getKnownStorageTypes() []*registration.StorageType {
 	})
 	result = append(result, &registration.StorageType{Obj: new(authorization_v20220401s.RoleDefinition)})
 	result = append(result, &registration.StorageType{Obj: new(batch_v20240701s.BatchAccount)})
+	result = append(result, &registration.StorageType{
+		Obj: new(botservice_v20220915s.BotService),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.properties.developerAppInsightKey",
+				Func: indexBotserviceBotServiceDeveloperAppInsightKey,
+			},
+			{
+				Key:  ".spec.properties.developerAppInsightsApiKey",
+				Func: indexBotserviceBotServiceDeveloperAppInsightsApiKey,
+			},
+			{
+				Key:  ".spec.properties.luisKey",
+				Func: indexBotserviceBotServiceLuisKey,
+			},
+			{
+				Key:  ".spec.properties.msaAppIdFromConfig",
+				Func: indexBotserviceBotServiceMsaAppIdFromConfig,
+			},
+			{
+				Key:  ".spec.properties.msaAppTenantIdFromConfig",
+				Func: indexBotserviceBotServiceMsaAppTenantIdFromConfig,
+			},
+			{
+				Key:  ".spec.properties.publishingCredentials",
+				Func: indexBotserviceBotServicePublishingCredentials,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.properties.developerAppInsightKey",
+						".spec.properties.developerAppInsightsApiKey",
+						".spec.properties.luisKey",
+						".spec.properties.publishingCredentials",
+					},
+					&botservice_v20220915s.BotServiceList{}),
+			},
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.properties.msaAppIdFromConfig",
+						".spec.properties.msaAppTenantIdFromConfig",
+					},
+					&botservice_v20220915s.BotServiceList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20241101s.Redis)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20241101s.RedisAccessPolicy)})
 	result = append(result, &registration.StorageType{
@@ -3082,6 +3141,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(redhatopenshift_v20261001s.HcpOpenShiftClustersNodePool)})
 	result = append(result, &registration.StorageType{Obj: new(resources_v20200601s.ResourceGroup)})
 	result = append(result, &registration.StorageType{Obj: new(search_v20231101s.SearchService)})
+	result = append(result, &registration.StorageType{Obj: new(security_v20250601s.DefenderForStorageSetting)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.Namespace)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.NamespacesAuthorizationRule)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.NamespacesQueue)})
@@ -4424,6 +4484,12 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &batch_v20240701w.BatchAccount{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(batch_v20240701s.BatchAccount)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(botservice_v20220915.BotService),
+		Defaulter: &botservice_v20220915w.BotService{},
+		Validator: &botservice_v20220915w.BotService{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(botservice_v20220915s.BotService)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -7738,6 +7804,12 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &search_v20231101w.SearchService{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(search_v20231101s.SearchService)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(security_v20250601.DefenderForStorageSetting),
+		Defaulter: &security_v20250601w.DefenderForStorageSetting{},
+		Validator: &security_v20250601w.DefenderForStorageSetting{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(security_v20250601s.DefenderForStorageSetting)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -9213,6 +9285,8 @@ func createScheme() *runtime.Scheme {
 	_ = batch_v20210101s.AddToScheme(scheme)
 	_ = batch_v20240701.AddToScheme(scheme)
 	_ = batch_v20240701s.AddToScheme(scheme)
+	_ = botservice_v20220915.AddToScheme(scheme)
+	_ = botservice_v20220915s.AddToScheme(scheme)
 	_ = cache_v1api20201201.AddToScheme(scheme)
 	_ = cache_v1api20201201s.AddToScheme(scheme)
 	_ = cache_v1api20230401.AddToScheme(scheme)
@@ -9491,6 +9565,8 @@ func createScheme() *runtime.Scheme {
 	_ = search_v20220901s.AddToScheme(scheme)
 	_ = search_v20231101.AddToScheme(scheme)
 	_ = search_v20231101s.AddToScheme(scheme)
+	_ = security_v20250601.AddToScheme(scheme)
+	_ = security_v20250601s.AddToScheme(scheme)
 	_ = servicebus_v1api20210101p.AddToScheme(scheme)
 	_ = servicebus_v1api20210101ps.AddToScheme(scheme)
 	_ = servicebus_v1api20211101.AddToScheme(scheme)
@@ -9596,6 +9672,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &authorization_customizations.RoleAssignmentExtension{})
 	result = append(result, &authorization_customizations.RoleDefinitionExtension{})
 	result = append(result, &batch_customizations.BatchAccountExtension{})
+	result = append(result, &botservice_customizations.BotServiceExtension{})
 	result = append(result, &cache_customizations.RedisAccessPolicyAssignmentExtension{})
 	result = append(result, &cache_customizations.RedisAccessPolicyExtension{})
 	result = append(result, &cache_customizations.RedisEnterpriseDatabaseAccessPolicyAssignmentExtension{})
@@ -9799,6 +9876,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &redhatopenshift_customizations.OpenShiftClusterExtension{})
 	result = append(result, &resources_customizations.ResourceGroupExtension{})
 	result = append(result, &search_customizations.SearchServiceExtension{})
+	result = append(result, &security_customizations.DefenderForStorageSettingExtension{})
 	result = append(result, &servicebus_customizations.NamespaceExtension{})
 	result = append(result, &servicebus_customizations.NamespacesAuthorizationRuleExtension{})
 	result = append(result, &servicebus_customizations.NamespacesQueueExtension{})
@@ -10330,6 +10408,96 @@ func indexAuthorizationRoleAssignmentPrincipalIdFromConfig(rawObj client.Object)
 		return nil
 	}
 	return obj.Spec.PrincipalIdFromConfig.Index()
+}
+
+// indexBotserviceBotServiceDeveloperAppInsightKey an index function for botservice_v20220915s.BotService .spec.properties.developerAppInsightKey
+func indexBotserviceBotServiceDeveloperAppInsightKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*botservice_v20220915s.BotService)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.DeveloperAppInsightKey == nil {
+		return nil
+	}
+	return obj.Spec.Properties.DeveloperAppInsightKey.Index()
+}
+
+// indexBotserviceBotServiceDeveloperAppInsightsApiKey an index function for botservice_v20220915s.BotService .spec.properties.developerAppInsightsApiKey
+func indexBotserviceBotServiceDeveloperAppInsightsApiKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*botservice_v20220915s.BotService)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.DeveloperAppInsightsApiKey == nil {
+		return nil
+	}
+	return obj.Spec.Properties.DeveloperAppInsightsApiKey.Index()
+}
+
+// indexBotserviceBotServiceLuisKey an index function for botservice_v20220915s.BotService .spec.properties.luisKey
+func indexBotserviceBotServiceLuisKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*botservice_v20220915s.BotService)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.LuisKey == nil {
+		return nil
+	}
+	return obj.Spec.Properties.LuisKey.Index()
+}
+
+// indexBotserviceBotServiceMsaAppIdFromConfig an index function for botservice_v20220915s.BotService .spec.properties.msaAppIdFromConfig
+func indexBotserviceBotServiceMsaAppIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*botservice_v20220915s.BotService)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.MsaAppIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.MsaAppIdFromConfig.Index()
+}
+
+// indexBotserviceBotServiceMsaAppTenantIdFromConfig an index function for botservice_v20220915s.BotService .spec.properties.msaAppTenantIdFromConfig
+func indexBotserviceBotServiceMsaAppTenantIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*botservice_v20220915s.BotService)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.MsaAppTenantIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.MsaAppTenantIdFromConfig.Index()
+}
+
+// indexBotserviceBotServicePublishingCredentials an index function for botservice_v20220915s.BotService .spec.properties.publishingCredentials
+func indexBotserviceBotServicePublishingCredentials(rawObj client.Object) []string {
+	obj, ok := rawObj.(*botservice_v20220915s.BotService)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PublishingCredentials == nil {
+		return nil
+	}
+	return obj.Spec.Properties.PublishingCredentials.Index()
 }
 
 // indexCacheRedisAccessPolicyAssignmentObjectIdAliasFromConfig an index function for cache_v20241101s.RedisAccessPolicyAssignment .spec.objectIdAliasFromConfig

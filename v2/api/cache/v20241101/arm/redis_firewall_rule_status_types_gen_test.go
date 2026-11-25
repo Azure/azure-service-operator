@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_RedisFirewallRuleProperties_STATUS_WhenSerializedToJson_DeserializesAs
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RedisFirewallRuleProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisFirewallRuleProperties_STATUS, RedisFirewallRuleProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRedisFirewallRuleProperties_STATUS)
 }
 
 // RunJSONSerializationTestForRedisFirewallRuleProperties_STATUS runs a test to see if a specific instance of RedisFirewallRuleProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisFirewallRuleProperties_STATUS(subject RedisFirewallRuleProperties_STATUS) string {
+func RunJSONSerializationTestForRedisFirewallRuleProperties_STATUS(t *rapid.T) {
+	subject := RedisFirewallRuleProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RedisFirewallRuleProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,33 +45,30 @@ func RunJSONSerializationTestForRedisFirewallRuleProperties_STATUS(subject Redis
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RedisFirewallRuleProperties_STATUS instances for property testing - lazily instantiated by
 // RedisFirewallRuleProperties_STATUSGenerator()
-var redisFirewallRuleProperties_STATUSGenerator gopter.Gen
+var redisFirewallRuleProperties_STATUSGenerator *rapid.Generator[RedisFirewallRuleProperties_STATUS]
 
 // RedisFirewallRuleProperties_STATUSGenerator returns a generator of RedisFirewallRuleProperties_STATUS instances for property testing.
-func RedisFirewallRuleProperties_STATUSGenerator() gopter.Gen {
+func RedisFirewallRuleProperties_STATUSGenerator() *rapid.Generator[RedisFirewallRuleProperties_STATUS] {
 	if redisFirewallRuleProperties_STATUSGenerator != nil {
 		return redisFirewallRuleProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisFirewallRuleProperties_STATUS(generators)
-	redisFirewallRuleProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(RedisFirewallRuleProperties_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	redisFirewallRuleProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) RedisFirewallRuleProperties_STATUS {
+		var result RedisFirewallRuleProperties_STATUS
+		result.EndIP = ptrString.Draw(t, "EndIP")
+		result.StartIP = ptrString.Draw(t, "StartIP")
+		return result
+	})
 
 	return redisFirewallRuleProperties_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRedisFirewallRuleProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedisFirewallRuleProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["EndIP"] = gen.PtrOf(gen.AlphaString())
-	gens["StartIP"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_RedisFirewallRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -91,29 +78,23 @@ func Test_RedisFirewallRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RedisFirewallRule_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisFirewallRule_STATUS, RedisFirewallRule_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRedisFirewallRule_STATUS)
 }
 
 // RunJSONSerializationTestForRedisFirewallRule_STATUS runs a test to see if a specific instance of RedisFirewallRule_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisFirewallRule_STATUS(subject RedisFirewallRule_STATUS) string {
+func RunJSONSerializationTestForRedisFirewallRule_STATUS(t *rapid.T) {
+	subject := RedisFirewallRule_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RedisFirewallRule_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -122,47 +103,33 @@ func RunJSONSerializationTestForRedisFirewallRule_STATUS(subject RedisFirewallRu
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RedisFirewallRule_STATUS instances for property testing - lazily instantiated by
 // RedisFirewallRule_STATUSGenerator()
-var redisFirewallRule_STATUSGenerator gopter.Gen
+var redisFirewallRule_STATUSGenerator *rapid.Generator[RedisFirewallRule_STATUS]
 
 // RedisFirewallRule_STATUSGenerator returns a generator of RedisFirewallRule_STATUS instances for property testing.
-// We first initialize redisFirewallRule_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func RedisFirewallRule_STATUSGenerator() gopter.Gen {
+func RedisFirewallRule_STATUSGenerator() *rapid.Generator[RedisFirewallRule_STATUS] {
 	if redisFirewallRule_STATUSGenerator != nil {
 		return redisFirewallRule_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisFirewallRule_STATUS(generators)
-	redisFirewallRule_STATUSGenerator = gen.Struct(reflect.TypeOf(RedisFirewallRule_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	properties := rapid.Ptr(RedisFirewallRuleProperties_STATUSGenerator(), true)
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisFirewallRule_STATUS(generators)
-	AddRelatedPropertyGeneratorsForRedisFirewallRule_STATUS(generators)
-	redisFirewallRule_STATUSGenerator = gen.Struct(reflect.TypeOf(RedisFirewallRule_STATUS{}), generators)
+	redisFirewallRule_STATUSGenerator = rapid.Custom(func(t *rapid.T) RedisFirewallRule_STATUS {
+		var result RedisFirewallRule_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return redisFirewallRule_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRedisFirewallRule_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedisFirewallRule_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForRedisFirewallRule_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRedisFirewallRule_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(RedisFirewallRuleProperties_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }

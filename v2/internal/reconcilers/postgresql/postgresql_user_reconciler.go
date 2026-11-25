@@ -87,6 +87,15 @@ func (r *PostgreSQLUserReconciler) CreateOrUpdate(
 	// Augment Log
 	log = log.WithValues("azureName", user.AzureName())
 
+	databasePrivileges := toPrivilegeStrings(user.Spec.DatabasePrivileges)
+
+	// Reject invalid database privileges before any SQL runs, so a bad spec never leaves a partially updated user
+	err = postgresqlutil.ValidateDatabasePrivileges(databasePrivileges)
+	if err != nil {
+		err = eris.Wrap(err, "invalid .spec.databasePrivileges")
+		return ctrl.Result{}, conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityError, conditions.ReasonFailed)
+	}
+
 	// Resolve the secrets
 	secrets, err := r.ResourceResolver.ResolveResourceSecretReferences(ctx, user)
 	if err != nil {
@@ -164,6 +173,15 @@ func (r *PostgreSQLUserReconciler) CreateOrUpdate(
 		return ctrl.Result{}, eris.Wrap(err, "ensuring server roles")
 	}
 
+	// Ensure that the database privileges are set. Users that don't specify databasePrivileges keep
+	// whatever database privileges they already have.
+	if user.Spec.DatabasePrivileges != nil {
+		err = postgresqlutil.ReconcileUserDatabasePrivileges(ctx, db, username, databasePrivileges)
+		if err != nil {
+			return ctrl.Result{}, eris.Wrap(err, "ensuring database privileges")
+		}
+	}
+
 	log.V(Status).Info("Successfully reconciled PostgreSqlUser")
 
 	return ctrl.Result{}, nil
@@ -216,6 +234,12 @@ func (r *PostgreSQLUserReconciler) Delete(ctx context.Context, log logr.Logger, 
 		if !owned {
 			return ctrl.Result{}, nil
 		}
+	}
+
+	// PostgreSQL refuses to drop a role that still holds privileges on a database, so revoke them first.
+	err = postgresqlutil.RevokeAllDatabasePrivileges(ctx, db, user.Spec.AzureName)
+	if err != nil {
+		return ctrl.Result{}, eris.Wrap(err, "revoking database privileges")
 	}
 
 	err = postgresqlutil.DropUser(ctx, db, user.Spec.AzureName)
@@ -405,4 +429,21 @@ func (r *PostgreSQLUserReconciler) connectToDBAAD(ctx context.Context, log logr.
 	}
 
 	return db, nil
+}
+
+func toPrivilegeStrings(in map[string][]asopostgresql.DatabasePrivilege) map[string][]string {
+	if in == nil {
+		return nil
+	}
+
+	result := make(map[string][]string, len(in))
+	for database, privileges := range in {
+		strs := make([]string, len(privileges))
+		for i, p := range privileges {
+			strs[i] = string(p)
+		}
+		result[database] = strs
+	}
+
+	return result
 }

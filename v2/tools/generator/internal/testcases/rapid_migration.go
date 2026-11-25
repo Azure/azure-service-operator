@@ -10,16 +10,8 @@ import "github.com/Azure/azure-service-operator/v2/internal/set"
 // gopterGroups is the set of groups that still use gopter-based property tests.
 // To migrate a group to rapid, remove it from this set.
 var gopterGroups = set.Make(
-	"apimanagement",
-	"app",
-	"cache",
-	"cdn",
-	"compute",
-	"containerinstance",
 	"containerservice",
 	"dataprotection",
-	"dbformysql",
-	"dbforpostgresql",
 	"documentdb",
 	"entra",
 	"eventgrid",
