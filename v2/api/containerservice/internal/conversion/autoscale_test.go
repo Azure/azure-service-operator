@@ -8,8 +8,6 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	"k8s.io/utils/ptr"
-
 	"github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage/compat"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
