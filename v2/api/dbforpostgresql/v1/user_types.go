@@ -87,6 +87,17 @@ type UserSpec struct {
 	// at https://www.postgresql.org/docs/current/role-attributes.html.
 	RoleOptions *RoleOptionsSpec `json:"roleOptions,omitempty"`
 
+	// DatabasePrivileges are the database-level privileges granted to the user, keyed by database name.
+	// Privileges include the following: CONNECT, CREATE, TEMPORARY (or TEMP) and ALL (or ALL PRIVILEGES), which
+	// is expanded to CONNECT, CREATE and TEMPORARY. Privileges must be upper case.
+	// When set, the user ends up with exactly these privileges on each listed database, and privileges
+	// granted directly to the user on any database not listed are revoked. When omitted, database
+	// privileges are not managed. Databases owned by the user are never managed (an owner holds every
+	// privilege on its database).
+	// An empty map is kept (not dropped as omitted) and revokes every privilege granted directly to the user.
+	// You can read more about these privileges at https://www.postgresql.org/docs/current/ddl-priv.html.
+	DatabasePrivileges map[string][]DatabasePrivilege `json:"databasePrivileges,omitzero"`
+
 	// +kubebuilder:validation:Required
 	// LocalUser contains details for creating a standard (non-aad) postgresql User.
 	LocalUser *LocalUserSpec `json:"localUser,omitempty"`
@@ -99,6 +110,10 @@ func (userSpec *UserSpec) OriginalVersion() string {
 
 // SetAzureName sets the Azure name of the resource
 func (userSpec *UserSpec) SetAzureName(azureName string) { userSpec.AzureName = azureName }
+
+// DatabasePrivilege is a privilege that can be granted on a PostgreSQL database.
+// +kubebuilder:validation:Enum={"CONNECT","CREATE","TEMPORARY","TEMP","ALL","ALL PRIVILEGES"}
+type DatabasePrivilege string
 
 type LocalUserSpec struct {
 	// +kubebuilder:validation:Required
