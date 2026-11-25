@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_IdentityBindingManagedIdentityProfile_WhenSerializedToJson_Deserialize
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of IdentityBindingManagedIdentityProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForIdentityBindingManagedIdentityProfile, IdentityBindingManagedIdentityProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForIdentityBindingManagedIdentityProfile)
 }
 
 // RunJSONSerializationTestForIdentityBindingManagedIdentityProfile runs a test to see if a specific instance of IdentityBindingManagedIdentityProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForIdentityBindingManagedIdentityProfile(subject IdentityBindingManagedIdentityProfile) string {
+func RunJSONSerializationTestForIdentityBindingManagedIdentityProfile(t *rapid.T) {
+	subject := IdentityBindingManagedIdentityProfileGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual IdentityBindingManagedIdentityProfile
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,32 +45,29 @@ func RunJSONSerializationTestForIdentityBindingManagedIdentityProfile(subject Id
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of IdentityBindingManagedIdentityProfile instances for property testing - lazily instantiated by
 // IdentityBindingManagedIdentityProfileGenerator()
-var identityBindingManagedIdentityProfileGenerator gopter.Gen
+var identityBindingManagedIdentityProfileGenerator *rapid.Generator[IdentityBindingManagedIdentityProfile]
 
 // IdentityBindingManagedIdentityProfileGenerator returns a generator of IdentityBindingManagedIdentityProfile instances for property testing.
-func IdentityBindingManagedIdentityProfileGenerator() gopter.Gen {
+func IdentityBindingManagedIdentityProfileGenerator() *rapid.Generator[IdentityBindingManagedIdentityProfile] {
 	if identityBindingManagedIdentityProfileGenerator != nil {
 		return identityBindingManagedIdentityProfileGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIdentityBindingManagedIdentityProfile(generators)
-	identityBindingManagedIdentityProfileGenerator = gen.Struct(reflect.TypeOf(IdentityBindingManagedIdentityProfile{}), generators)
+	resourceId := rapid.Ptr(rapid.String(), true)
+
+	identityBindingManagedIdentityProfileGenerator = rapid.Custom(func(t *rapid.T) IdentityBindingManagedIdentityProfile {
+		var result IdentityBindingManagedIdentityProfile
+		result.ResourceId = resourceId.Draw(t, "ResourceId")
+		return result
+	})
 
 	return identityBindingManagedIdentityProfileGenerator
-}
-
-// AddIndependentPropertyGeneratorsForIdentityBindingManagedIdentityProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForIdentityBindingManagedIdentityProfile(gens map[string]gopter.Gen) {
-	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_IdentityBindingProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -90,29 +77,23 @@ func Test_IdentityBindingProperties_WhenSerializedToJson_DeserializesAsEqual(t *
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of IdentityBindingProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForIdentityBindingProperties, IdentityBindingPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForIdentityBindingProperties)
 }
 
 // RunJSONSerializationTestForIdentityBindingProperties runs a test to see if a specific instance of IdentityBindingProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForIdentityBindingProperties(subject IdentityBindingProperties) string {
+func RunJSONSerializationTestForIdentityBindingProperties(t *rapid.T) {
+	subject := IdentityBindingPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual IdentityBindingProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -121,32 +102,29 @@ func RunJSONSerializationTestForIdentityBindingProperties(subject IdentityBindin
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of IdentityBindingProperties instances for property testing - lazily instantiated by
 // IdentityBindingPropertiesGenerator()
-var identityBindingPropertiesGenerator gopter.Gen
+var identityBindingPropertiesGenerator *rapid.Generator[IdentityBindingProperties]
 
 // IdentityBindingPropertiesGenerator returns a generator of IdentityBindingProperties instances for property testing.
-func IdentityBindingPropertiesGenerator() gopter.Gen {
+func IdentityBindingPropertiesGenerator() *rapid.Generator[IdentityBindingProperties] {
 	if identityBindingPropertiesGenerator != nil {
 		return identityBindingPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForIdentityBindingProperties(generators)
-	identityBindingPropertiesGenerator = gen.Struct(reflect.TypeOf(IdentityBindingProperties{}), generators)
+	managedIdentity := rapid.Ptr(IdentityBindingManagedIdentityProfileGenerator(), true)
+
+	identityBindingPropertiesGenerator = rapid.Custom(func(t *rapid.T) IdentityBindingProperties {
+		var result IdentityBindingProperties
+		result.ManagedIdentity = managedIdentity.Draw(t, "ManagedIdentity")
+		return result
+	})
 
 	return identityBindingPropertiesGenerator
-}
-
-// AddRelatedPropertyGeneratorsForIdentityBindingProperties is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForIdentityBindingProperties(gens map[string]gopter.Gen) {
-	gens["ManagedIdentity"] = gen.PtrOf(IdentityBindingManagedIdentityProfileGenerator())
 }
 
 func Test_IdentityBinding_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -156,29 +134,23 @@ func Test_IdentityBinding_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of IdentityBinding_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForIdentityBinding_Spec, IdentityBinding_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForIdentityBinding_Spec)
 }
 
 // RunJSONSerializationTestForIdentityBinding_Spec runs a test to see if a specific instance of IdentityBinding_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForIdentityBinding_Spec(subject IdentityBinding_Spec) string {
+func RunJSONSerializationTestForIdentityBinding_Spec(t *rapid.T) {
+	subject := IdentityBinding_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual IdentityBinding_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -187,44 +159,29 @@ func RunJSONSerializationTestForIdentityBinding_Spec(subject IdentityBinding_Spe
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of IdentityBinding_Spec instances for property testing - lazily instantiated by
 // IdentityBinding_SpecGenerator()
-var identityBinding_SpecGenerator gopter.Gen
+var identityBinding_SpecGenerator *rapid.Generator[IdentityBinding_Spec]
 
 // IdentityBinding_SpecGenerator returns a generator of IdentityBinding_Spec instances for property testing.
-// We first initialize identityBinding_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func IdentityBinding_SpecGenerator() gopter.Gen {
+func IdentityBinding_SpecGenerator() *rapid.Generator[IdentityBinding_Spec] {
 	if identityBinding_SpecGenerator != nil {
 		return identityBinding_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIdentityBinding_Spec(generators)
-	identityBinding_SpecGenerator = gen.Struct(reflect.TypeOf(IdentityBinding_Spec{}), generators)
+	name := rapid.String()
+	properties := rapid.Ptr(IdentityBindingPropertiesGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIdentityBinding_Spec(generators)
-	AddRelatedPropertyGeneratorsForIdentityBinding_Spec(generators)
-	identityBinding_SpecGenerator = gen.Struct(reflect.TypeOf(IdentityBinding_Spec{}), generators)
+	identityBinding_SpecGenerator = rapid.Custom(func(t *rapid.T) IdentityBinding_Spec {
+		var result IdentityBinding_Spec
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return identityBinding_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForIdentityBinding_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForIdentityBinding_Spec(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForIdentityBinding_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForIdentityBinding_Spec(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(IdentityBindingPropertiesGenerator())
 }

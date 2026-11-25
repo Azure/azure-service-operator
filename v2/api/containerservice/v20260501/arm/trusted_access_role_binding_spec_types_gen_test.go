@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_TrustedAccessRoleBindingProperties_WhenSerializedToJson_DeserializesAs
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of TrustedAccessRoleBindingProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForTrustedAccessRoleBindingProperties, TrustedAccessRoleBindingPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForTrustedAccessRoleBindingProperties)
 }
 
 // RunJSONSerializationTestForTrustedAccessRoleBindingProperties runs a test to see if a specific instance of TrustedAccessRoleBindingProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForTrustedAccessRoleBindingProperties(subject TrustedAccessRoleBindingProperties) string {
+func RunJSONSerializationTestForTrustedAccessRoleBindingProperties(t *rapid.T) {
+	subject := TrustedAccessRoleBindingPropertiesGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual TrustedAccessRoleBindingProperties
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,33 +45,31 @@ func RunJSONSerializationTestForTrustedAccessRoleBindingProperties(subject Trust
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of TrustedAccessRoleBindingProperties instances for property testing - lazily instantiated by
 // TrustedAccessRoleBindingPropertiesGenerator()
-var trustedAccessRoleBindingPropertiesGenerator gopter.Gen
+var trustedAccessRoleBindingPropertiesGenerator *rapid.Generator[TrustedAccessRoleBindingProperties]
 
 // TrustedAccessRoleBindingPropertiesGenerator returns a generator of TrustedAccessRoleBindingProperties instances for property testing.
-func TrustedAccessRoleBindingPropertiesGenerator() gopter.Gen {
+func TrustedAccessRoleBindingPropertiesGenerator() *rapid.Generator[TrustedAccessRoleBindingProperties] {
 	if trustedAccessRoleBindingPropertiesGenerator != nil {
 		return trustedAccessRoleBindingPropertiesGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForTrustedAccessRoleBindingProperties(generators)
-	trustedAccessRoleBindingPropertiesGenerator = gen.Struct(reflect.TypeOf(TrustedAccessRoleBindingProperties{}), generators)
+	roles := rapid.SliceOf(rapid.String())
+	sourceResourceId := rapid.Ptr(rapid.String(), true)
+
+	trustedAccessRoleBindingPropertiesGenerator = rapid.Custom(func(t *rapid.T) TrustedAccessRoleBindingProperties {
+		var result TrustedAccessRoleBindingProperties
+		result.Roles = roles.Draw(t, "Roles")
+		result.SourceResourceId = sourceResourceId.Draw(t, "SourceResourceId")
+		return result
+	})
 
 	return trustedAccessRoleBindingPropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForTrustedAccessRoleBindingProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForTrustedAccessRoleBindingProperties(gens map[string]gopter.Gen) {
-	gens["Roles"] = gen.SliceOf(gen.AlphaString())
-	gens["SourceResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_TrustedAccessRoleBinding_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -91,29 +79,23 @@ func Test_TrustedAccessRoleBinding_Spec_WhenSerializedToJson_DeserializesAsEqual
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of TrustedAccessRoleBinding_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForTrustedAccessRoleBinding_Spec, TrustedAccessRoleBinding_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForTrustedAccessRoleBinding_Spec)
 }
 
 // RunJSONSerializationTestForTrustedAccessRoleBinding_Spec runs a test to see if a specific instance of TrustedAccessRoleBinding_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForTrustedAccessRoleBinding_Spec(subject TrustedAccessRoleBinding_Spec) string {
+func RunJSONSerializationTestForTrustedAccessRoleBinding_Spec(t *rapid.T) {
+	subject := TrustedAccessRoleBinding_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual TrustedAccessRoleBinding_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -122,44 +104,29 @@ func RunJSONSerializationTestForTrustedAccessRoleBinding_Spec(subject TrustedAcc
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of TrustedAccessRoleBinding_Spec instances for property testing - lazily instantiated by
 // TrustedAccessRoleBinding_SpecGenerator()
-var trustedAccessRoleBinding_SpecGenerator gopter.Gen
+var trustedAccessRoleBinding_SpecGenerator *rapid.Generator[TrustedAccessRoleBinding_Spec]
 
 // TrustedAccessRoleBinding_SpecGenerator returns a generator of TrustedAccessRoleBinding_Spec instances for property testing.
-// We first initialize trustedAccessRoleBinding_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func TrustedAccessRoleBinding_SpecGenerator() gopter.Gen {
+func TrustedAccessRoleBinding_SpecGenerator() *rapid.Generator[TrustedAccessRoleBinding_Spec] {
 	if trustedAccessRoleBinding_SpecGenerator != nil {
 		return trustedAccessRoleBinding_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForTrustedAccessRoleBinding_Spec(generators)
-	trustedAccessRoleBinding_SpecGenerator = gen.Struct(reflect.TypeOf(TrustedAccessRoleBinding_Spec{}), generators)
+	name := rapid.String()
+	properties := rapid.Ptr(TrustedAccessRoleBindingPropertiesGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForTrustedAccessRoleBinding_Spec(generators)
-	AddRelatedPropertyGeneratorsForTrustedAccessRoleBinding_Spec(generators)
-	trustedAccessRoleBinding_SpecGenerator = gen.Struct(reflect.TypeOf(TrustedAccessRoleBinding_Spec{}), generators)
+	trustedAccessRoleBinding_SpecGenerator = rapid.Custom(func(t *rapid.T) TrustedAccessRoleBinding_Spec {
+		var result TrustedAccessRoleBinding_Spec
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		return result
+	})
 
 	return trustedAccessRoleBinding_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForTrustedAccessRoleBinding_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForTrustedAccessRoleBinding_Spec(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForTrustedAccessRoleBinding_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForTrustedAccessRoleBinding_Spec(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(TrustedAccessRoleBindingPropertiesGenerator())
 }

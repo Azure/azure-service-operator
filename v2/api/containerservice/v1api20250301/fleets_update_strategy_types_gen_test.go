@@ -10,14 +10,11 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
+// Test_FleetsUpdateStrategy_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of FleetsUpdateStrategy round trips to the hub storage version and back losslessly
 func Test_FleetsUpdateStrategy_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -25,47 +22,37 @@ func Test_FleetsUpdateStrategy_WhenConvertedToHub_RoundTripsWithoutLoss(t *testi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from FleetsUpdateStrategy to hub returns original",
-		prop.ForAll(RunResourceConversionTestForFleetsUpdateStrategy, FleetsUpdateStrategyGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+	rapid.Check(t, func(t *rapid.T) {
+		subject := FleetsUpdateStrategyGenerator().Draw(t, "subject")
+		// Copy subject to make sure conversion doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Convert to our hub version
+		var hub storage.FleetsUpdateStrategy
+		err := copied.ConvertTo(&hub)
+		if err != nil {
+			t.Fatal("ConvertTo: " + err.Error())
+		}
+
+		// Convert from our hub version
+		var actual FleetsUpdateStrategy
+		err = actual.ConvertFrom(&hub)
+		if err != nil {
+			t.Fatal("ConvertFrom: " + err.Error())
+		}
+
+		// Compare actual with what we started with
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
-// RunResourceConversionTestForFleetsUpdateStrategy tests if a specific instance of FleetsUpdateStrategy round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForFleetsUpdateStrategy(subject FleetsUpdateStrategy) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub storage.FleetsUpdateStrategy
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual FleetsUpdateStrategy
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
+// Test_FleetsUpdateStrategy_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of FleetsUpdateStrategy can be assigned to storage and back losslessly
 func Test_FleetsUpdateStrategy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -73,44 +60,34 @@ func Test_FleetsUpdateStrategy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from FleetsUpdateStrategy to FleetsUpdateStrategy via AssignProperties_To_FleetsUpdateStrategy & AssignProperties_From_FleetsUpdateStrategy returns original",
-		prop.ForAll(RunPropertyAssignmentTestForFleetsUpdateStrategy, FleetsUpdateStrategyGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := FleetsUpdateStrategyGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForFleetsUpdateStrategy tests if a specific instance of FleetsUpdateStrategy can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForFleetsUpdateStrategy(subject FleetsUpdateStrategy) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.FleetsUpdateStrategy
+		err := copied.AssignProperties_To_FleetsUpdateStrategy(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FleetsUpdateStrategy
-	err := copied.AssignProperties_To_FleetsUpdateStrategy(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual FleetsUpdateStrategy
+		err = actual.AssignProperties_From_FleetsUpdateStrategy(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual FleetsUpdateStrategy
-	err = actual.AssignProperties_From_FleetsUpdateStrategy(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_FleetsUpdateStrategy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -120,29 +97,23 @@ func Test_FleetsUpdateStrategy_WhenSerializedToJson_DeserializesAsEqual(t *testi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FleetsUpdateStrategy via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFleetsUpdateStrategy, FleetsUpdateStrategyGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFleetsUpdateStrategy)
 }
 
 // RunJSONSerializationTestForFleetsUpdateStrategy runs a test to see if a specific instance of FleetsUpdateStrategy round trips to JSON and back losslessly
-func RunJSONSerializationTestForFleetsUpdateStrategy(subject FleetsUpdateStrategy) string {
+func RunJSONSerializationTestForFleetsUpdateStrategy(t *rapid.T) {
+	subject := FleetsUpdateStrategyGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FleetsUpdateStrategy
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -151,35 +122,34 @@ func RunJSONSerializationTestForFleetsUpdateStrategy(subject FleetsUpdateStrateg
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FleetsUpdateStrategy instances for property testing - lazily instantiated by
 // FleetsUpdateStrategyGenerator()
-var fleetsUpdateStrategyGenerator gopter.Gen
+var fleetsUpdateStrategyGenerator *rapid.Generator[FleetsUpdateStrategy]
 
 // FleetsUpdateStrategyGenerator returns a generator of FleetsUpdateStrategy instances for property testing.
-func FleetsUpdateStrategyGenerator() gopter.Gen {
+func FleetsUpdateStrategyGenerator() *rapid.Generator[FleetsUpdateStrategy] {
 	if fleetsUpdateStrategyGenerator != nil {
 		return fleetsUpdateStrategyGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForFleetsUpdateStrategy(generators)
-	fleetsUpdateStrategyGenerator = gen.Struct(reflect.TypeOf(FleetsUpdateStrategy{}), generators)
+	spec := FleetsUpdateStrategy_SpecGenerator()
+	status := FleetsUpdateStrategy_STATUSGenerator()
+
+	fleetsUpdateStrategyGenerator = rapid.Custom(func(t *rapid.T) FleetsUpdateStrategy {
+		var result FleetsUpdateStrategy
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return fleetsUpdateStrategyGenerator
 }
 
-// AddRelatedPropertyGeneratorsForFleetsUpdateStrategy is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFleetsUpdateStrategy(gens map[string]gopter.Gen) {
-	gens["Spec"] = FleetsUpdateStrategy_SpecGenerator()
-	gens["Status"] = FleetsUpdateStrategy_STATUSGenerator()
-}
-
+// Test_FleetsUpdateStrategyOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of FleetsUpdateStrategyOperatorSpec can be assigned to storage and back losslessly
 func Test_FleetsUpdateStrategyOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -187,44 +157,34 @@ func Test_FleetsUpdateStrategyOperatorSpec_WhenPropertiesConverted_RoundTripsWit
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from FleetsUpdateStrategyOperatorSpec to FleetsUpdateStrategyOperatorSpec via AssignProperties_To_FleetsUpdateStrategyOperatorSpec & AssignProperties_From_FleetsUpdateStrategyOperatorSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForFleetsUpdateStrategyOperatorSpec, FleetsUpdateStrategyOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := FleetsUpdateStrategyOperatorSpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForFleetsUpdateStrategyOperatorSpec tests if a specific instance of FleetsUpdateStrategyOperatorSpec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForFleetsUpdateStrategyOperatorSpec(subject FleetsUpdateStrategyOperatorSpec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.FleetsUpdateStrategyOperatorSpec
+		err := copied.AssignProperties_To_FleetsUpdateStrategyOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FleetsUpdateStrategyOperatorSpec
-	err := copied.AssignProperties_To_FleetsUpdateStrategyOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual FleetsUpdateStrategyOperatorSpec
+		err = actual.AssignProperties_From_FleetsUpdateStrategyOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual FleetsUpdateStrategyOperatorSpec
-	err = actual.AssignProperties_From_FleetsUpdateStrategyOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_FleetsUpdateStrategyOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -234,29 +194,23 @@ func Test_FleetsUpdateStrategyOperatorSpec_WhenSerializedToJson_DeserializesAsEq
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FleetsUpdateStrategyOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFleetsUpdateStrategyOperatorSpec, FleetsUpdateStrategyOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFleetsUpdateStrategyOperatorSpec)
 }
 
 // RunJSONSerializationTestForFleetsUpdateStrategyOperatorSpec runs a test to see if a specific instance of FleetsUpdateStrategyOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForFleetsUpdateStrategyOperatorSpec(subject FleetsUpdateStrategyOperatorSpec) string {
+func RunJSONSerializationTestForFleetsUpdateStrategyOperatorSpec(t *rapid.T) {
+	subject := FleetsUpdateStrategyOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FleetsUpdateStrategyOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -265,28 +219,26 @@ func RunJSONSerializationTestForFleetsUpdateStrategyOperatorSpec(subject FleetsU
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FleetsUpdateStrategyOperatorSpec instances for property testing - lazily instantiated by
 // FleetsUpdateStrategyOperatorSpecGenerator()
-var fleetsUpdateStrategyOperatorSpecGenerator gopter.Gen
+var fleetsUpdateStrategyOperatorSpecGenerator *rapid.Generator[FleetsUpdateStrategyOperatorSpec]
 
 // FleetsUpdateStrategyOperatorSpecGenerator returns a generator of FleetsUpdateStrategyOperatorSpec instances for property testing.
-func FleetsUpdateStrategyOperatorSpecGenerator() gopter.Gen {
+func FleetsUpdateStrategyOperatorSpecGenerator() *rapid.Generator[FleetsUpdateStrategyOperatorSpec] {
 	if fleetsUpdateStrategyOperatorSpecGenerator != nil {
 		return fleetsUpdateStrategyOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	fleetsUpdateStrategyOperatorSpecGenerator = gen.Struct(reflect.TypeOf(FleetsUpdateStrategyOperatorSpec{}), generators)
+	fleetsUpdateStrategyOperatorSpecGenerator = rapid.Just(FleetsUpdateStrategyOperatorSpec{})
 
 	return fleetsUpdateStrategyOperatorSpecGenerator
 }
 
+// Test_FleetsUpdateStrategy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of FleetsUpdateStrategy_STATUS can be assigned to storage and back losslessly
 func Test_FleetsUpdateStrategy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -294,44 +246,34 @@ func Test_FleetsUpdateStrategy_STATUS_WhenPropertiesConverted_RoundTripsWithoutL
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from FleetsUpdateStrategy_STATUS to FleetsUpdateStrategy_STATUS via AssignProperties_To_FleetsUpdateStrategy_STATUS & AssignProperties_From_FleetsUpdateStrategy_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForFleetsUpdateStrategy_STATUS, FleetsUpdateStrategy_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := FleetsUpdateStrategy_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForFleetsUpdateStrategy_STATUS tests if a specific instance of FleetsUpdateStrategy_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForFleetsUpdateStrategy_STATUS(subject FleetsUpdateStrategy_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.FleetsUpdateStrategy_STATUS
+		err := copied.AssignProperties_To_FleetsUpdateStrategy_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FleetsUpdateStrategy_STATUS
-	err := copied.AssignProperties_To_FleetsUpdateStrategy_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual FleetsUpdateStrategy_STATUS
+		err = actual.AssignProperties_From_FleetsUpdateStrategy_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual FleetsUpdateStrategy_STATUS
-	err = actual.AssignProperties_From_FleetsUpdateStrategy_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_FleetsUpdateStrategy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -341,29 +283,23 @@ func Test_FleetsUpdateStrategy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FleetsUpdateStrategy_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFleetsUpdateStrategy_STATUS, FleetsUpdateStrategy_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFleetsUpdateStrategy_STATUS)
 }
 
 // RunJSONSerializationTestForFleetsUpdateStrategy_STATUS runs a test to see if a specific instance of FleetsUpdateStrategy_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForFleetsUpdateStrategy_STATUS(subject FleetsUpdateStrategy_STATUS) string {
+func RunJSONSerializationTestForFleetsUpdateStrategy_STATUS(t *rapid.T) {
+	subject := FleetsUpdateStrategy_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FleetsUpdateStrategy_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -372,53 +308,41 @@ func RunJSONSerializationTestForFleetsUpdateStrategy_STATUS(subject FleetsUpdate
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FleetsUpdateStrategy_STATUS instances for property testing - lazily instantiated by
 // FleetsUpdateStrategy_STATUSGenerator()
-var fleetsUpdateStrategy_STATUSGenerator gopter.Gen
+var fleetsUpdateStrategy_STATUSGenerator *rapid.Generator[FleetsUpdateStrategy_STATUS]
 
 // FleetsUpdateStrategy_STATUSGenerator returns a generator of FleetsUpdateStrategy_STATUS instances for property testing.
-// We first initialize fleetsUpdateStrategy_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func FleetsUpdateStrategy_STATUSGenerator() gopter.Gen {
+func FleetsUpdateStrategy_STATUSGenerator() *rapid.Generator[FleetsUpdateStrategy_STATUS] {
 	if fleetsUpdateStrategy_STATUSGenerator != nil {
 		return fleetsUpdateStrategy_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleetsUpdateStrategy_STATUS(generators)
-	fleetsUpdateStrategy_STATUSGenerator = gen.Struct(reflect.TypeOf(FleetsUpdateStrategy_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	provisioningState := rapid.Ptr(rapid.SampledFrom([]FleetUpdateStrategyProvisioningState_STATUS{FleetUpdateStrategyProvisioningState_STATUS_Canceled, FleetUpdateStrategyProvisioningState_STATUS_Failed, FleetUpdateStrategyProvisioningState_STATUS_Succeeded}), true)
+	strategy := rapid.Ptr(UpdateRunStrategy_STATUSGenerator(), true)
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleetsUpdateStrategy_STATUS(generators)
-	AddRelatedPropertyGeneratorsForFleetsUpdateStrategy_STATUS(generators)
-	fleetsUpdateStrategy_STATUSGenerator = gen.Struct(reflect.TypeOf(FleetsUpdateStrategy_STATUS{}), generators)
+	fleetsUpdateStrategy_STATUSGenerator = rapid.Custom(func(t *rapid.T) FleetsUpdateStrategy_STATUS {
+		var result FleetsUpdateStrategy_STATUS
+		result.ETag = ptrString.Draw(t, "ETag")
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.ProvisioningState = provisioningState.Draw(t, "ProvisioningState")
+		result.Strategy = strategy.Draw(t, "Strategy")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return fleetsUpdateStrategy_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForFleetsUpdateStrategy_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFleetsUpdateStrategy_STATUS(gens map[string]gopter.Gen) {
-	gens["ETag"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(FleetUpdateStrategyProvisioningState_STATUS_Canceled, FleetUpdateStrategyProvisioningState_STATUS_Failed, FleetUpdateStrategyProvisioningState_STATUS_Succeeded))
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForFleetsUpdateStrategy_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFleetsUpdateStrategy_STATUS(gens map[string]gopter.Gen) {
-	gens["Strategy"] = gen.PtrOf(UpdateRunStrategy_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
-}
-
+// Test_FleetsUpdateStrategy_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of FleetsUpdateStrategy_Spec can be assigned to storage and back losslessly
 func Test_FleetsUpdateStrategy_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -426,44 +350,34 @@ func Test_FleetsUpdateStrategy_Spec_WhenPropertiesConverted_RoundTripsWithoutLos
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from FleetsUpdateStrategy_Spec to FleetsUpdateStrategy_Spec via AssignProperties_To_FleetsUpdateStrategy_Spec & AssignProperties_From_FleetsUpdateStrategy_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForFleetsUpdateStrategy_Spec, FleetsUpdateStrategy_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := FleetsUpdateStrategy_SpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForFleetsUpdateStrategy_Spec tests if a specific instance of FleetsUpdateStrategy_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForFleetsUpdateStrategy_Spec(subject FleetsUpdateStrategy_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.FleetsUpdateStrategy_Spec
+		err := copied.AssignProperties_To_FleetsUpdateStrategy_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FleetsUpdateStrategy_Spec
-	err := copied.AssignProperties_To_FleetsUpdateStrategy_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual FleetsUpdateStrategy_Spec
+		err = actual.AssignProperties_From_FleetsUpdateStrategy_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual FleetsUpdateStrategy_Spec
-	err = actual.AssignProperties_From_FleetsUpdateStrategy_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_FleetsUpdateStrategy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -473,29 +387,23 @@ func Test_FleetsUpdateStrategy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FleetsUpdateStrategy_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFleetsUpdateStrategy_Spec, FleetsUpdateStrategy_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFleetsUpdateStrategy_Spec)
 }
 
 // RunJSONSerializationTestForFleetsUpdateStrategy_Spec runs a test to see if a specific instance of FleetsUpdateStrategy_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForFleetsUpdateStrategy_Spec(subject FleetsUpdateStrategy_Spec) string {
+func RunJSONSerializationTestForFleetsUpdateStrategy_Spec(t *rapid.T) {
+	subject := FleetsUpdateStrategy_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FleetsUpdateStrategy_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -504,45 +412,31 @@ func RunJSONSerializationTestForFleetsUpdateStrategy_Spec(subject FleetsUpdateSt
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FleetsUpdateStrategy_Spec instances for property testing - lazily instantiated by
 // FleetsUpdateStrategy_SpecGenerator()
-var fleetsUpdateStrategy_SpecGenerator gopter.Gen
+var fleetsUpdateStrategy_SpecGenerator *rapid.Generator[FleetsUpdateStrategy_Spec]
 
 // FleetsUpdateStrategy_SpecGenerator returns a generator of FleetsUpdateStrategy_Spec instances for property testing.
-// We first initialize fleetsUpdateStrategy_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func FleetsUpdateStrategy_SpecGenerator() gopter.Gen {
+func FleetsUpdateStrategy_SpecGenerator() *rapid.Generator[FleetsUpdateStrategy_Spec] {
 	if fleetsUpdateStrategy_SpecGenerator != nil {
 		return fleetsUpdateStrategy_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleetsUpdateStrategy_Spec(generators)
-	fleetsUpdateStrategy_SpecGenerator = gen.Struct(reflect.TypeOf(FleetsUpdateStrategy_Spec{}), generators)
+	azureName := rapid.String()
+	operatorSpec := rapid.Ptr(FleetsUpdateStrategyOperatorSpecGenerator(), true)
+	strategy := rapid.Ptr(UpdateRunStrategyGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleetsUpdateStrategy_Spec(generators)
-	AddRelatedPropertyGeneratorsForFleetsUpdateStrategy_Spec(generators)
-	fleetsUpdateStrategy_SpecGenerator = gen.Struct(reflect.TypeOf(FleetsUpdateStrategy_Spec{}), generators)
+	fleetsUpdateStrategy_SpecGenerator = rapid.Custom(func(t *rapid.T) FleetsUpdateStrategy_Spec {
+		var result FleetsUpdateStrategy_Spec
+		result.AzureName = azureName.Draw(t, "AzureName")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		result.Strategy = strategy.Draw(t, "Strategy")
+		return result
+	})
 
 	return fleetsUpdateStrategy_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForFleetsUpdateStrategy_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFleetsUpdateStrategy_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForFleetsUpdateStrategy_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFleetsUpdateStrategy_Spec(gens map[string]gopter.Gen) {
-	gens["OperatorSpec"] = gen.PtrOf(FleetsUpdateStrategyOperatorSpecGenerator())
-	gens["Strategy"] = gen.PtrOf(UpdateRunStrategyGenerator())
 }
