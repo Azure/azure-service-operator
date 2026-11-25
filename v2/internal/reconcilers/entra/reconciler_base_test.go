@@ -9,8 +9,9 @@ import (
 	"net/http"
 	"testing"
 
-	msgraphmodels "github.com/microsoftgraph/msgraph-beta-sdk-go/models"
 	. "github.com/onsi/gomega"
+
+	msgraphmodels "github.com/microsoftgraph/msgraph-beta-sdk-go/models"
 
 	asoentra "github.com/Azure/azure-service-operator/v2/api/entra/v1"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
