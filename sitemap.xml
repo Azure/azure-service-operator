@@ -270,6 +270,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/batch/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/botservice/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/cache/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/versioning/case-studies/</loc>
@@ -725,6 +727,8 @@
     <loc>https://azure.github.io/azure-service-operator/reference/apimanagement/v20220801/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/storage/v20220901/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/botservice/v20220915/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/servicebus/v20221001preview/</loc>
   </url><url>
