@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/bigDataPool.json
+// - Generated from: /synapse/resource-manager/Microsoft.Synapse/Synapse/stable/2021-06-01/bigDataPool.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/bigDataPools/{bigDataPoolName}
 type WorkspacesBigDataPool struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -241,7 +241,7 @@ func (pool *WorkspacesBigDataPool) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/bigDataPool.json
+// - Generated from: /synapse/resource-manager/Microsoft.Synapse/Synapse/stable/2021-06-01/bigDataPool.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/bigDataPools/{bigDataPoolName}
 type WorkspacesBigDataPoolList struct {
 	metav1.TypeMeta `json:",inline"`
