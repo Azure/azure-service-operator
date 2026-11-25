@@ -6,7 +6,6 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/rotisserie/eris"
 	"k8s.io/apimachinery/pkg/runtime"
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
@@ -115,10 +114,7 @@ func (webhook *User_Webhook) ValidateUpdate(ctx context.Context, oldObj runtime.
 
 // createValidations validates the creation of the resource
 func (webhook *User_Webhook) createValidations() []func(ctx context.Context, obj *v1.User) (admission.Warnings, error) {
-	return []func(ctx context.Context, obj *v1.User) (admission.Warnings, error){
-		webhook.validateIsLocalOrAAD,
-		webhook.validateAADPrincipal,
-	}
+	return nil
 }
 
 // deleteValidations validates the deletion of the resource
@@ -128,66 +124,5 @@ func (webhook *User_Webhook) deleteValidations() []func(ctx context.Context, obj
 
 // updateValidations validates the update of the resource
 func (webhook *User_Webhook) updateValidations() []func(ctx context.Context, oldObj *v1.User, newObj *v1.User) (admission.Warnings, error) {
-	return []func(ctx context.Context, oldObj *v1.User, newObj *v1.User) (admission.Warnings, error){
-		func(ctx context.Context, oldObj *v1.User, newObj *v1.User) (admission.Warnings, error) {
-			return webhook.validateIsLocalOrAAD(ctx, newObj)
-		},
-		func(ctx context.Context, oldObj *v1.User, newObj *v1.User) (admission.Warnings, error) {
-			return webhook.validateAADPrincipal(ctx, newObj)
-		},
-		webhook.validateUserTypeNotChanged,
-		webhook.validateAADPrincipalNotChanged,
-	}
-}
-
-func (webhook *User_Webhook) validateIsLocalOrAAD(_ context.Context, obj *v1.User) (admission.Warnings, error) {
-	if (obj.Spec.LocalUser == nil) == (obj.Spec.AADUser == nil) {
-		return nil, eris.Errorf("exactly one of spec.localUser or spec.aadUser must be set")
-	}
-
-	return nil, nil
-}
-
-func (webhook *User_Webhook) validateAADPrincipal(_ context.Context, obj *v1.User) (admission.Warnings, error) {
-	if obj.Spec.AADUser == nil {
-		return nil, nil
-	}
-
-	if (obj.Spec.AADUser.ObjectId == "") != (obj.Spec.AADUser.PrincipalType == "") {
-		return nil, eris.Errorf("spec.aadUser.objectId and spec.aadUser.principalType must be set together")
-	}
-
-	return nil, nil
-}
-
-func (webhook *User_Webhook) validateUserTypeNotChanged(_ context.Context, oldObj *v1.User, newObj *v1.User) (admission.Warnings, error) {
-	// Prevent change from AAD -> Local
-	if oldObj.Spec.AADUser != nil && newObj.Spec.AADUser == nil {
-		return nil, eris.Errorf("cannot change from AAD User to local user")
-	}
-
-	// Prevent change from Local -> AAD
-	if oldObj.Spec.LocalUser != nil && newObj.Spec.LocalUser == nil {
-		return nil, eris.Errorf("cannot change from local user to AAD user")
-	}
-
-	return nil, nil
-}
-
-// validateAADPrincipalNotChanged prevents changing the principal an AAD user is bound to: the role is bound once, when
-// it is created.
-func (webhook *User_Webhook) validateAADPrincipalNotChanged(_ context.Context, oldObj *v1.User, newObj *v1.User) (admission.Warnings, error) {
-	if oldObj.Spec.AADUser == nil || newObj.Spec.AADUser == nil {
-		return nil, nil
-	}
-
-	if oldObj.Spec.AADUser.ObjectId != newObj.Spec.AADUser.ObjectId {
-		return nil, eris.Errorf("cannot change AAD user 'objectId' from %q to %q", oldObj.Spec.AADUser.ObjectId, newObj.Spec.AADUser.ObjectId)
-	}
-
-	if oldObj.Spec.AADUser.PrincipalType != newObj.Spec.AADUser.PrincipalType {
-		return nil, eris.Errorf("cannot change AAD user 'principalType' from %q to %q", oldObj.Spec.AADUser.PrincipalType, newObj.Spec.AADUser.PrincipalType)
-	}
-
-	return nil, nil
+	return nil
 }

@@ -25,8 +25,9 @@ import (
 type User struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              UserSpec   `json:"spec,omitempty"`
-	Status            UserStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:Required
+	Spec   UserSpec   `json:"spec,omitempty"`
+	Status UserStatus `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &User{}
@@ -66,6 +67,9 @@ type UserList struct {
 	Items           []User `json:"items"`
 }
 
+// +kubebuilder:validation:XValidation:rule="has(self.localUser) != has(self.aadUser)",message="exactly one of spec.localUser or spec.aadUser must be set"
+// +kubebuilder:validation:XValidation:rule="!has(oldSelf.localUser) || has(self.localUser)",message="cannot change from local user to AAD user"
+// +kubebuilder:validation:XValidation:rule="!has(oldSelf.aadUser) || has(self.aadUser)",message="cannot change from AAD user to local user"
 type UserSpec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -120,6 +124,9 @@ type LocalUserSpec struct {
 	Password *genruntime.SecretReference `json:"password,omitempty"`
 }
 
+// +kubebuilder:validation:XValidation:rule="(has(self.objectId) && self.objectId != \"\") == (has(self.principalType) && self.principalType != \"\")",message="spec.aadUser.objectId and spec.aadUser.principalType must be set together"
+// +kubebuilder:validation:XValidation:rule="(has(self.objectId) ? self.objectId : \"\") == (has(oldSelf.objectId) ? oldSelf.objectId : \"\")",message="cannot change AAD user objectId"
+// +kubebuilder:validation:XValidation:rule="(has(self.principalType) ? self.principalType : \"\") == (has(oldSelf.principalType) ? oldSelf.principalType : \"\")",message="cannot change AAD user principalType"
 type AADUserSpec struct {
 	// +kubebuilder:validation:Required
 	// ServerAdminUsername is the name of the server's Microsoft Entra administrator that the operator's identity signs in

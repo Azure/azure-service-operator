@@ -14,6 +14,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
+	corev1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	ctrlconversion "sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -205,12 +206,59 @@ func (r *PostgreSQLUserReconciler) Delete(ctx context.Context, log logr.Logger, 
 	// TODO: so might cause an error triggering the resource to get stuck).
 	// TODO: We check for owner not existing above, but cases where the server is in the process of being
 	// TODO: deleted (or all system tables have been wiped?) might also exist...
+	if user.Spec.AADUser != nil {
+		// CreateOrUpdate refuses to adopt a role that isn't bound to the expected Microsoft Entra principal, so deletion
+		// must not drop such a role either: it isn't ours.
+		owned, err := r.ownsAADRole(ctx, log, eventRecorder, user, db)
+		if err != nil {
+			return ctrl.Result{}, err
+		}
+		if !owned {
+			return ctrl.Result{}, nil
+		}
+	}
+
 	err = postgresqlutil.DropUser(ctx, db, user.Spec.AzureName)
 	if err != nil {
 		return ctrl.Result{}, err
 	}
 
 	return ctrl.Result{}, nil
+}
+
+// ownsAADRole reports whether the role an AAD user names exists and is bound to the Microsoft Entra principal the spec
+// asks for, so that deleting the resource may drop it. An absent role, or one bound elsewhere (a local role or another
+// Entra principal), is left alone.
+func (r *PostgreSQLUserReconciler) ownsAADRole(
+	ctx context.Context,
+	log logr.Logger,
+	eventRecorder record.EventRecorder,
+	user *asopostgresql.User,
+	db *sql.DB,
+) (bool, error) {
+	username := user.Spec.AzureName
+
+	exists, err := postgresqlutil.DoesUserExist(ctx, db, username)
+	if err != nil {
+		return false, eris.Wrap(err, "failed to find user")
+	}
+	if !exists {
+		return false, nil
+	}
+
+	principal, err := postgresqlutil.GetAADPrincipal(ctx, db, username)
+	if err != nil {
+		return false, eris.Wrap(err, "failed to look up Microsoft Entra principal")
+	}
+
+	err = postgresqlutil.VerifyAADPrincipal(username, principal, user.Spec.AADUser.ObjectId, user.Spec.AADUser.PrincipalType)
+	if err != nil {
+		log.V(Status).Info("Not dropping a role this resource does not own", "reason", err.Error())
+		eventRecorder.Eventf(user, corev1.EventTypeWarning, "RoleNotOwned", "Not dropping role %s: %s", username, err.Error())
+		return false, nil
+	}
+
+	return true, nil
 }
 
 func (r *PostgreSQLUserReconciler) Claim(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject) error {
