@@ -74,7 +74,6 @@ func Test_ProgramCache(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
@@ -126,7 +125,7 @@ func Test_ProgramCache_ErrorsAreCached(t *testing.T) {
 
 	self := newSimpleResource()
 
-	for i := 0; i < 10; i++ {
+	for range 10 {
 		_, err := programCache.Get(reflect.TypeOf(self), `self.loc`)
 		g.Expect(err).To(MatchError(ContainSubstring("undefined field 'loc'")))
 	}

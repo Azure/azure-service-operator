@@ -38,33 +38,33 @@ func Test_VMSSExceedsQuota_ContinuesToRetry(t *testing.T) {
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &compute2022.Sku{
-				Name:     to.Ptr("STANDARD_D1_v2"),
-				Capacity: to.Ptr(10000), // We can't possibly have this quota
+				Name:     new("STANDARD_D1_v2"),
+				Capacity: new(10000), // We can't possibly have this quota
 			},
-			PlatformFaultDomainCount: to.Ptr(3),
-			SinglePlacementGroup:     to.Ptr(false),
+			PlatformFaultDomainCount: new(3),
+			SinglePlacementGroup:     new(false),
 			UpgradePolicy: &compute2022.UpgradePolicy{
 				Mode: to.Ptr(compute2022.UpgradePolicy_Mode_Automatic),
 			},
 			VirtualMachineProfile: &compute2022.VirtualMachineScaleSetVMProfile{
 				StorageProfile: &compute2022.VirtualMachineScaleSetStorageProfile{
 					ImageReference: &compute2022.ImageReference{
-						Publisher: to.Ptr("Canonical"),
-						Offer:     to.Ptr("UbuntuServer"),
-						Sku:       to.Ptr("18.04-lts"),
-						Version:   to.Ptr("latest"),
+						Publisher: new("Canonical"),
+						Offer:     new("UbuntuServer"),
+						Sku:       new("18.04-lts"),
+						Version:   new("latest"),
 					},
 				},
 				OsProfile: &compute2022.VirtualMachineScaleSetOSProfile{
-					ComputerNamePrefix: to.Ptr("computer"),
-					AdminUsername:      to.Ptr(adminUsername),
+					ComputerNamePrefix: new("computer"),
+					AdminUsername:      new(adminUsername),
 					LinuxConfiguration: &compute2022.LinuxConfiguration{
-						DisablePasswordAuthentication: to.Ptr(true),
+						DisablePasswordAuthentication: new(true),
 						Ssh: &compute2022.SshConfiguration{
 							PublicKeys: []compute2022.SshPublicKeySpec{
 								{
 									KeyData: sshPublicKey,
-									Path:    to.Ptr(fmt.Sprintf("/home/%s/.ssh/authorized_keys", adminUsername)),
+									Path:    new(fmt.Sprintf("/home/%s/.ssh/authorized_keys", adminUsername)),
 								},
 							},
 						},
@@ -73,11 +73,11 @@ func Test_VMSSExceedsQuota_ContinuesToRetry(t *testing.T) {
 				NetworkProfile: &compute2022.VirtualMachineScaleSetNetworkProfile{
 					NetworkInterfaceConfigurations: []compute2022.VirtualMachineScaleSetNetworkConfiguration{
 						{
-							Name:    to.Ptr("mynicconfig"),
-							Primary: to.Ptr(true),
+							Name:    new("mynicconfig"),
+							Primary: new(true),
 							IpConfigurations: []compute2022.VirtualMachineScaleSetIPConfiguration{
 								{
-									Name: to.Ptr("myipconfiguration"),
+									Name: new("myipconfiguration"),
 								},
 							},
 						},

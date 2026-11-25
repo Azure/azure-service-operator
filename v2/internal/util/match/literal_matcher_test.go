@@ -32,7 +32,6 @@ func TestLiteralMatcher_Matches_GivesExpectedResults(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		c := c
 		t.Run(
 			c.name,
 			func(t *testing.T) {
@@ -59,7 +58,6 @@ func TestLiteralMatcher_IsRestrictive_GivesExpectedResults(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		c := c
 		t.Run(
 			c.name,
 			func(t *testing.T) {

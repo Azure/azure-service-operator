@@ -32,7 +32,6 @@ func TestParse(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		tt := tt
 		t.Run(tt.label, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)

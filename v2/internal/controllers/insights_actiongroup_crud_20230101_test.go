@@ -12,7 +12,6 @@ import (
 
 	insights "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_Insights_ActionGroup_v20230101_CRUD(t *testing.T) {
@@ -25,10 +24,10 @@ func Test_Insights_ActionGroup_v20230101_CRUD(t *testing.T) {
 	actionGroup := &insights.ActionGroup{
 		ObjectMeta: tc.MakeObjectMeta("group"),
 		Spec: insights.ActionGroup_Spec{
-			Enabled:        to.Ptr(false),
-			Location:       to.Ptr("global"),
+			Enabled:        new(false),
+			Location:       new("global"),
 			Owner:          testcommon.AsOwner(rg),
-			GroupShortName: to.Ptr("aso"),
+			GroupShortName: new("aso"),
 		},
 	}
 

@@ -13,7 +13,6 @@ import (
 	insights "github.com/Azure/azure-service-operator/v2/api/insights/v1api20201001"
 	insights2023 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -31,10 +30,10 @@ func Test_Insights_ActivityLogAlert_v20201001_CRUD(t *testing.T) {
 	actionGroup := &insights2023.ActionGroup{
 		ObjectMeta: tc.MakeObjectMeta("actiongroup"),
 		Spec: insights2023.ActionGroup_Spec{
-			Enabled:        to.Ptr(false),
-			Location:       to.Ptr("global"),
+			Enabled:        new(false),
+			Location:       new("global"),
 			Owner:          testcommon.AsOwner(rg),
-			GroupShortName: to.Ptr("aso"),
+			GroupShortName: new("aso"),
 		},
 	}
 
@@ -52,18 +51,18 @@ func Test_Insights_ActivityLogAlert_v20201001_CRUD(t *testing.T) {
 			Condition: &insights.AlertRuleAllOfCondition{
 				AllOf: []insights.AlertRuleAnyOfOrLeafCondition{
 					{
-						Field:  to.Ptr("category"),
-						Equals: to.Ptr("Administrative"),
+						Field:  new("category"),
+						Equals: new("Administrative"),
 					},
 					{
-						Field:  to.Ptr("operationName"),
-						Equals: to.Ptr("Microsoft.Storage/storageAccounts/write"),
+						Field:  new("operationName"),
+						Equals: new("Microsoft.Storage/storageAccounts/write"),
 					},
 				},
 			},
-			Description: to.Ptr("Activity log alert for testing"),
-			Enabled:     to.Ptr(false),
-			Location:    to.Ptr("global"),
+			Description: new("Activity log alert for testing"),
+			Enabled:     new(false),
+			Location:    new("global"),
 			Owner:       testcommon.AsOwner(rg),
 			ScopesReferences: []genruntime.ResourceReference{
 				*tc.MakeReferenceFromResource(sa),

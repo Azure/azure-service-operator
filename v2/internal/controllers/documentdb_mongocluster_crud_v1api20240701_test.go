@@ -24,7 +24,7 @@ func Test_DocumentDB_MongoCluster_v1api20240701_CRUD(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
 
-	tc.AzureRegion = to.Ptr("eastus")
+	tc.AzureRegion = new("eastus")
 
 	// Create our resource group
 	rg := tc.CreateTestResourceGroupAndWait()
@@ -53,23 +53,23 @@ func Test_DocumentDB_MongoCluster_v1api20240701_CRUD(t *testing.T) {
 			Owner:    testcommon.AsOwner(rg),
 			Properties: &documentdb.MongoClusterProperties{
 				Administrator: &documentdb.AdministratorProperties{
-					UserName: to.Ptr("testadmin"),
+					UserName: new("testadmin"),
 					Password: &adminPasswordSecretRef,
 				},
 				Compute: &documentdb.ComputeProperties{
-					Tier: to.Ptr("M30"),
+					Tier: new("M30"),
 				},
 				Storage: &documentdb.StorageProperties{
-					SizeGb: to.Ptr(32),
+					SizeGb: new(32),
 				},
-				ServerVersion:       to.Ptr("7.0"),
+				ServerVersion:       new("7.0"),
 				PublicNetworkAccess: to.Ptr(documentdb.PublicNetworkAccess_Enabled),
 				HighAvailability: &documentdb.HighAvailabilityProperties{
 					TargetMode: to.Ptr(documentdb.HighAvailabilityMode_ZoneRedundantPreferred),
 				},
 				PreviewFeatures: []documentdb.PreviewFeature{documentdb.PreviewFeature_GeoReplicas},
 				Sharding: &documentdb.ShardingProperties{
-					ShardCount: to.Ptr(1),
+					ShardCount: new(1),
 				},
 			},
 			OperatorSpec: &documentdb.MongoClusterOperatorSpec{
@@ -172,8 +172,8 @@ func DocumentDB_MongoCluster_FirewallRule_v1api20240701_CRUD(tc *testcommon.Kube
 		Spec: documentdb.FirewallRule_Spec{
 			Owner: testcommon.AsOwner(mongoCluster),
 			Properties: &documentdb.FirewallRuleProperties{
-				StartIpAddress: to.Ptr("192.168.1.1"),
-				EndIpAddress:   to.Ptr("192.168.1.255"),
+				StartIpAddress: new("192.168.1.1"),
+				EndIpAddress:   new("192.168.1.255"),
 			},
 		},
 	}
@@ -198,8 +198,8 @@ func DocumentDB_MongoCluster_FirewallRule_v1api20240701_CRUD(tc *testcommon.Kube
 	// Update the firewall rule
 	tc.LogSectionf("Updating firewall rule IP range")
 	old := firewallRule.DeepCopy()
-	firewallRule.Spec.Properties.StartIpAddress = to.Ptr("10.0.0.1")
-	firewallRule.Spec.Properties.EndIpAddress = to.Ptr("10.0.0.255")
+	firewallRule.Spec.Properties.StartIpAddress = new("10.0.0.1")
+	firewallRule.Spec.Properties.EndIpAddress = new("10.0.0.255")
 	tc.PatchResourceAndWait(old, &firewallRule)
 	tc.Expect(firewallRule.Status.Properties.StartIpAddress).ToNot(BeNil())
 	tc.Expect(*firewallRule.Status.Properties.StartIpAddress).To(Equal("10.0.0.1"))

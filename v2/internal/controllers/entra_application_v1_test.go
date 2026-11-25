@@ -26,7 +26,7 @@ func Test_Entra_Application_v1_CRUD(t *testing.T) {
 	application := &entra.Application{
 		ObjectMeta: tc.MakeObjectMeta("application"),
 		Spec: entra.ApplicationSpec{
-			DisplayName:    to.Ptr("ASO Test Application"),
+			DisplayName:    new("ASO Test Application"),
 			SignInAudience: to.Ptr(entra.SignInAudienceAzureADMyOrg),
 			OperatorSpec: &entra.ApplicationOperatorSpec{
 				ConfigMaps: &entra.ApplicationOperatorConfigMaps{
@@ -55,7 +55,7 @@ func Test_Entra_Application_v1_CRUD(t *testing.T) {
 
 	// Save an update
 	old := application.DeepCopy()
-	application.Spec.DisplayName = to.Ptr("ASO Test Application Updated")
+	application.Spec.DisplayName = new("ASO Test Application Updated")
 	tc.PatchResourceAndWait(old, application)
 
 	// Make sure the application was updated

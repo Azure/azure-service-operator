@@ -7,6 +7,7 @@ package embeddedresources
 
 import (
 	"fmt"
+	"maps"
 
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
@@ -128,9 +129,7 @@ func (e EmbeddedResourceRemover) RemoveEmbeddedResources(
 		}
 
 		// Aggregate all renames
-		for nw, og := range e.renames {
-			originalNames[nw] = og
-		}
+		maps.Copy(originalNames, e.renames)
 	}
 
 	result, err := simplifyTypeNames(result, e.typeFlag, originalNames, log)

@@ -39,7 +39,6 @@ func TestConvertStringToJSON_RoundTripsThroughConvertJSONToString(t *testing.T) 
 	}
 
 	for name, c := range cases {
-		name, c := name, c
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)

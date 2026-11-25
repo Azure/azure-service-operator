@@ -25,7 +25,6 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/api"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 type clientSet struct {
@@ -366,7 +365,7 @@ func newResourceGroup(name, namespace string) *resources.ResourceGroup {
 			Namespace: namespace,
 		},
 		Spec: resources.ResourceGroup_Spec{
-			Location: to.Ptr("westus2"),
+			Location: new("westus2"),
 		},
 	}
 }

@@ -46,8 +46,8 @@ func Test_Entra_SecurityGroup_v1_CRUD(t *testing.T) {
 	securityGroup := &entra.SecurityGroup{
 		ObjectMeta: tc.MakeObjectMeta("securitygroup"),
 		Spec: entra.SecurityGroupSpec{
-			DisplayName:    to.Ptr("ASO Test Security Group"),
-			MailNickname:   to.Ptr("asotest-security-group"),
+			DisplayName:    new("ASO Test Security Group"),
+			MailNickname:   new("asotest-security-group"),
 			MembershipType: to.Ptr(entra.SecurityGroupMembershipTypeAssigned),
 			OperatorSpec: &entra.SecurityGroupOperatorSpec{
 				ConfigMaps: &entra.SecurityGroupOperatorConfigMaps{
@@ -79,7 +79,7 @@ func Test_Entra_SecurityGroup_v1_CRUD(t *testing.T) {
 
 	// Save an update
 	old := securityGroup.DeepCopy()
-	securityGroup.Spec.DisplayName = to.Ptr("ASO Test Security Group Updated")
+	securityGroup.Spec.DisplayName = new("ASO Test Security Group Updated")
 	tc.PatchResourceAndWait(old, securityGroup)
 
 	// Make sure the group was updated

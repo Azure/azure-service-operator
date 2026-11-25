@@ -26,7 +26,6 @@ import (
 	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -99,7 +98,7 @@ func Test_NewResourceGroup_Error(t *testing.T) {
 			Name: rgName,
 		},
 		Spec: resources.ResourceGroup_Spec{
-			Location: to.Ptr("BadLocation"),
+			Location: new("BadLocation"),
 			Tags:     testcommon.CreateTestResourceGroupDefaultTags(),
 		},
 	}
@@ -211,7 +210,7 @@ func Test_NewResourceGroup_SubscriptionNotRegisteredError(t *testing.T) {
 			Name: "name",
 		},
 		Spec: resources.ResourceGroup_Spec{
-			Location: to.Ptr("westus"),
+			Location: new("westus"),
 		},
 	}
 
@@ -269,7 +268,7 @@ func Test_NewResourceGroup_ConflictWithMalformedErrorShape(t *testing.T) {
 			Name: "name",
 		},
 		Spec: resources.ResourceGroup_Spec{
-			Location: to.Ptr("westus"),
+			Location: new("westus"),
 		},
 	}
 
@@ -323,7 +322,7 @@ func Test_NewResourceGroup_ErrorIncludesRequestID(t *testing.T) {
 			Name: "name",
 		},
 		Spec: resources.ResourceGroup_Spec{
-			Location: to.Ptr("westus"),
+			Location: new("westus"),
 		},
 	}
 

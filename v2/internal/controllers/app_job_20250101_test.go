@@ -31,11 +31,11 @@ func Test_App_Job_20250101_CRUD(t *testing.T) {
 			Configuration: &app.JobConfiguration{
 				EventTriggerConfig: nil,
 				ManualTriggerConfig: &app.JobConfiguration_ManualTriggerConfig{
-					Parallelism:            to.Ptr(1),
-					ReplicaCompletionCount: to.Ptr(1),
+					Parallelism:            new(1),
+					ReplicaCompletionCount: new(1),
 				},
-				ReplicaRetryLimit: to.Ptr(10),
-				ReplicaTimeout:    to.Ptr(10),
+				ReplicaRetryLimit: new(10),
+				ReplicaTimeout:    new(10),
 				TriggerType:       to.Ptr(app.JobConfiguration_TriggerType_Manual),
 			},
 			EnvironmentReference: tc.MakeReferenceFromResource(managedEnv),
@@ -44,8 +44,8 @@ func Test_App_Job_20250101_CRUD(t *testing.T) {
 			Template: &app.JobTemplate{
 				Containers: []app.Container{
 					{
-						Image: to.Ptr("mcr.microsoft.com/k8se/quickstart-jobs:latest"),
-						Name:  to.Ptr("testcontainerappsjob"),
+						Image: new("mcr.microsoft.com/k8se/quickstart-jobs:latest"),
+						Name:  new("testcontainerappsjob"),
 					},
 				},
 			},

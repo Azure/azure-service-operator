@@ -6,6 +6,7 @@
 package astmodel
 
 import (
+	"slices"
 	"sort"
 
 	"github.com/dave/dst"
@@ -170,10 +171,8 @@ func (imports *PackageImportSet) assignImportAliases() {
 		GroupAndFullVersion,
 	}
 
-	for _, style := range importStyles {
-		if imports.tryAssignImportAliases(style) {
-			return
-		}
+	if slices.ContainsFunc(importStyles, imports.tryAssignImportAliases) {
+		return
 	}
 
 	panic("Could not assign unique import aliases")

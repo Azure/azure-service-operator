@@ -42,28 +42,28 @@ func Test_Insights_Autoscalesetting_v20221001_CRUD(t *testing.T) {
 			Profiles: []insights.AutoscaleProfile{
 				{
 					Capacity: &insights.ScaleCapacity{
-						Default: to.Ptr("1"),
-						Maximum: to.Ptr("3"),
-						Minimum: to.Ptr("1"),
+						Default: new("1"),
+						Maximum: new("3"),
+						Minimum: new("1"),
 					},
-					Name: to.Ptr("profile"),
+					Name: new("profile"),
 					Rules: []insights.ScaleRule{
 						{
 							MetricTrigger: &insights.MetricTrigger{
-								MetricName:                 to.Ptr("Percentage CPU"),
+								MetricName:                 new("Percentage CPU"),
 								MetricResourceUriReference: tc.MakeReferenceFromResource(vmss),
 								Operator:                   to.Ptr(insights.ComparisonOperationType_GreaterThan),
 								Statistic:                  to.Ptr(insights.MetricStatisticType_Average),
-								Threshold:                  to.Ptr(75.0),
-								TimeGrain:                  to.Ptr("PT1M"),
-								TimeWindow:                 to.Ptr("PT5M"),
+								Threshold:                  new(75.0),
+								TimeGrain:                  new("PT1M"),
+								TimeWindow:                 new("PT5M"),
 								TimeAggregation:            to.Ptr(insights.TimeAggregationType_Average),
 							},
 							ScaleAction: &insights.ScaleAction{
-								Cooldown:  to.Ptr("PT1M"),
+								Cooldown:  new("PT1M"),
 								Direction: to.Ptr(insights.ScaleDirection_Increase),
 								Type:      to.Ptr(insights.ScaleType_ChangeCount),
-								Value:     to.Ptr("1"),
+								Value:     new("1"),
 							},
 						},
 					},

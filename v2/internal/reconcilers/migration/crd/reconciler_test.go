@@ -43,10 +43,10 @@ func TestReconcileCRDs(t *testing.T) {
 		"InstancesExistWithoutLatestVersion_NotMigrated": {
 			instances: []*unstructured.Unstructured{
 				{
-					Object: map[string]interface{}{
+					Object: map[string]any{
 						"apiVersion": "containerservice.azure.com/v20260501storage", // This must be the storage version of the CRD
 						"kind":       "ManagedCluster",
-						"metadata": map[string]interface{}{
+						"metadata": map[string]any{
 							"name":      "test-cluster",
 							"namespace": "default",
 						},
@@ -58,13 +58,13 @@ func TestReconcileCRDs(t *testing.T) {
 		"InstancesExistWithLatestVersion_Migrated": {
 			instances: []*unstructured.Unstructured{
 				{
-					Object: map[string]interface{}{
+					Object: map[string]any{
 						"apiVersion": "containerservice.azure.com/v20260501storage", // This must be the storage version of the CRD
 						"kind":       "ManagedCluster",
-						"metadata": map[string]interface{}{
+						"metadata": map[string]any{
 							"name":      "test-cluster",
 							"namespace": "default",
-							"labels": map[string]interface{}{
+							"labels": map[string]any{
 								"serviceoperator.azure.com/last-reconciled-version": "v1.0.0",
 							},
 						},
@@ -76,13 +76,13 @@ func TestReconcileCRDs(t *testing.T) {
 		"InstancesExistWithOlderVersion_NotMigrated": {
 			instances: []*unstructured.Unstructured{
 				{
-					Object: map[string]interface{}{
+					Object: map[string]any{
 						"apiVersion": "containerservice.azure.com/v20260501storage", // This must be the storage version of the CRD
 						"kind":       "ManagedCluster",
-						"metadata": map[string]interface{}{
+						"metadata": map[string]any{
 							"name":      "test-cluster",
 							"namespace": "default",
-							"labels": map[string]interface{}{
+							"labels": map[string]any{
 								"serviceoperator.azure.com/last-reconciled-version": "v0.0.9",
 							},
 						},
