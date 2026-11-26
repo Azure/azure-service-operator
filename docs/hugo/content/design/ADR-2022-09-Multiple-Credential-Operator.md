@@ -159,6 +159,10 @@ If the resource group is deleted from the cluster first, we will fall back to th
 3. Watch secrets: TBD
 5. Per-ResourceGroup secrets: Will not be implemented unless there is strong user demand. We believe that per-Resource secrets should be sufficiently granular.
 
+## Status
+
+Implemented. See the [authentication guide]({{< relref "authentication" >}}) for credential selection.
+
 ## Consequences
 
 TBC

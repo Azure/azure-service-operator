@@ -146,7 +146,7 @@ We've previously placed a high value on making things as simple as possible for 
 
 ## Status
 
-Proposed.
+Implemented.
 
 ## Consequences
 

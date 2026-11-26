@@ -189,7 +189,7 @@ We will watch a magically named "aso-installed-resources" instance of this CRD a
 - The operator will tolerate the situation where the meta-resource reconciliation isn't done yet when it launches.
 
 ## Status
-TBD
+Implemented.
 
 ## Consequences
 TBD 

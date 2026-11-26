@@ -86,7 +86,7 @@ This keeps ASO aligned with Kubernetes conventions around strongly-typed, schema
 
 ## Status
 
-Proposed.
+Adopted.
 
 ## Consequences
 

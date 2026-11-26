@@ -100,7 +100,7 @@ That said, we're aware of some challenges.
 
 ## Status
 
-Proposed.
+Implemented.
 
 ## Consequences
 

@@ -197,7 +197,7 @@ func (classifier *ErrorClassifier) ClassifyError(
 
 ## Status
 
-Proposed.
+Implemented.
 
 ## Consequences
 

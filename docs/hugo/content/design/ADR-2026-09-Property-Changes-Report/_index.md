@@ -105,7 +105,7 @@ Configured type renames follow conversion-graph semantics: an exact name match i
 
 ## Status
 
-Proposed.
+Implemented.
 
 ## Consequences
 

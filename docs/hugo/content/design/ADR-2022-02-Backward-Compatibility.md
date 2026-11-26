@@ -122,7 +122,7 @@ At some point, after giving users of ASO alpha releases a reasonable time frame,
 
 ## Status
 
-Proposed.
+Implemented.
 
 ## Consequences
 

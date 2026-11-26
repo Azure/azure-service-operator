@@ -425,7 +425,8 @@ Today, if admins do not want to allow fallback to the global credential, just do
 
 ## Status
 
-Proposed.
+Implemented. Strict mode defaults to `aso-workload` and also supports a configurable ServiceAccount name in the credential secret.
+See the [workload identity isolation guide]({{< relref "workload-identity-isolation" >}}).
 
 ## Consequences
 

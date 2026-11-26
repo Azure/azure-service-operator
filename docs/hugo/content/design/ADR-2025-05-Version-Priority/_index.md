@@ -127,3 +127,5 @@ This would seem to be quite awkward, difficult for users to understand, and pote
 Recommendation: 
 
 Option 4 with the proposed version change to use just `v` as the prefix, but with the understanding that some resources may not be able to accommodate the duplication of existing versions.
+
+Implementation is underway. The generator supports hybrid versioning, but migration of existing resource groups is still in progress.

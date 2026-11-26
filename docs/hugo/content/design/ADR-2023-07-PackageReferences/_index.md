@@ -167,9 +167,9 @@ As for Option 4, but we also rename types to better reflect the new semantics. G
 
 ## Status
 
-Option #4 confirmed.
+Option #4 implemented.
 
-We're concerned that the amount of work required might be more than anticipated and recommend that implementation be done in small increments. In this way, we'll end up within something akin to Option 2 if things don't go smoothly.
+The implementation was planned in small increments because of the anticipated amount of rework.
 
 ## Consequences
 
