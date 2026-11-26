@@ -25,8 +25,9 @@ import (
 type User struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              UserSpec   `json:"spec,omitempty"`
-	Status            UserStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:Required
+	Spec   UserSpec   `json:"spec,omitempty"`
+	Status UserStatus `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &User{}
@@ -66,6 +67,9 @@ type UserList struct {
 	Items           []User `json:"items"`
 }
 
+// +kubebuilder:validation:XValidation:rule="has(self.localUser) != has(self.aadUser)",message="exactly one of spec.localUser or spec.aadUser must be set"
+// +kubebuilder:validation:XValidation:rule="!has(oldSelf.localUser) || has(self.localUser)",message="cannot change from local user to AAD user"
+// +kubebuilder:validation:XValidation:rule="!has(oldSelf.aadUser) || has(self.aadUser)",message="cannot change from AAD user to local user"
 type UserSpec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -98,9 +102,15 @@ type UserSpec struct {
 	// You can read more about these privileges at https://www.postgresql.org/docs/current/ddl-priv.html.
 	DatabasePrivileges map[string][]DatabasePrivilege `json:"databasePrivileges,omitzero"`
 
-	// +kubebuilder:validation:Required
 	// LocalUser contains details for creating a standard (non-aad) postgresql User.
+	// Exactly one of LocalUser and AADUser must be set.
 	LocalUser *LocalUserSpec `json:"localUser,omitempty"`
+
+	// AADUser contains details for creating a Microsoft Entra ID (AAD) user: a role bound to an Entra principal (a managed
+	// identity, a service principal, a user or a group), which signs in with an Entra token instead of a password. The
+	// operator signs in as the server's Entra administrator using its own credential.
+	// Exactly one of LocalUser and AADUser must be set.
+	AADUser *AADUserSpec `json:"aadUser,omitempty"`
 }
 
 // OriginalVersion returns the original API version used to create the resource.
@@ -127,6 +137,29 @@ type LocalUserSpec struct {
 	// +kubebuilder:validation:Required
 	// Password is the password to use for the user
 	Password *genruntime.SecretReference `json:"password,omitempty"`
+}
+
+// +kubebuilder:validation:XValidation:rule="(has(self.objectId) && self.objectId != \"\") == (has(self.principalType) && self.principalType != \"\")",message="spec.aadUser.objectId and spec.aadUser.principalType must be set together"
+// +kubebuilder:validation:XValidation:rule="(has(self.objectId) ? self.objectId : \"\") == (has(oldSelf.objectId) ? oldSelf.objectId : \"\")",message="cannot change AAD user objectId"
+// +kubebuilder:validation:XValidation:rule="(has(self.principalType) ? self.principalType : \"\") == (has(oldSelf.principalType) ? oldSelf.principalType : \"\")",message="cannot change AAD user principalType"
+type AADUserSpec struct {
+	// +kubebuilder:validation:Required
+	// ServerAdminUsername is the name of the server's Microsoft Entra administrator that the operator's identity signs in
+	// as. If the administrator was configured with Azure Service Operator, this should match the Administrator's
+	// $.spec.principalName field. If the administrator is a group, this is the group name, not the name of the identity
+	// that is a member of the group.
+	ServerAdminUsername string `json:"serverAdminUsername,omitempty"`
+
+	// ObjectId is the Microsoft Entra object ID of the principal. When set, the role is created with
+	// pgaadauth_create_principal_with_oid, so the AzureName may differ from the principal's display name, and
+	// PrincipalType must be set too. When omitted, the role is created with pgaadauth_create_principal, which binds it to
+	// the principal whose display name is the AzureName.
+	ObjectId string `json:"objectId,omitempty"`
+
+	// +kubebuilder:validation:Enum=user;group;service
+	// PrincipalType is the kind of principal ObjectId names: user, group or service (a managed identity or service
+	// principal). Required when ObjectId is set.
+	PrincipalType string `json:"principalType,omitempty"`
 }
 
 type RoleOptionsSpec struct {
