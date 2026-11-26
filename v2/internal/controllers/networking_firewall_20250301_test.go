@@ -43,7 +43,7 @@ func Test_Networking_Firewall_20250301_CRUD(t *testing.T) {
 			Location: tc.AzureRegion,
 			IpConfigurations: []network.AzureFirewallIPConfiguration{
 				{
-					Name: to.Ptr("firewall-ipconfig"),
+					Name: new("firewall-ipconfig"),
 					Subnet: &network.SubResource{
 						Reference: tc.MakeReferenceFromResource(subnet),
 					},
@@ -74,10 +74,10 @@ func Test_Networking_Firewall_20250301_CRUD(t *testing.T) {
 	// Update firewall to enable autoscaling
 	old := firewall.DeepCopy()
 	firewall.Spec.AutoscaleConfiguration = &network.AzureFirewallAutoscaleConfiguration{
-		MaxCapacity: to.Ptr(4),
+		MaxCapacity: new(4),
 	}
 	tc.PatchResourceAndWait(old, firewall)
-	tc.Expect(firewall.Status.AutoscaleConfiguration.MaxCapacity).To(Equal(to.Ptr(4)))
+	tc.Expect(firewall.Status.AutoscaleConfiguration.MaxCapacity).To(Equal(new(4)))
 
 	tc.DeleteResourceAndWait(firewall)
 
@@ -93,12 +93,12 @@ func FirewallPolicy_RuleCollectionGroup_20250301_CRUD(tc *testcommon.KubePerTest
 		ObjectMeta: tc.MakeObjectMeta("rulecollectiongroup"),
 		Spec: network.FirewallPoliciesRuleCollectionGroup_Spec{
 			Owner:    testcommon.AsOwner(firewallPolicy),
-			Priority: to.Ptr(200),
+			Priority: new(200),
 			RuleCollections: []network.FirewallPolicyRuleCollection{
 				{
 					FirewallPolicyFilter: &network.FirewallPolicyFilterRuleCollection{
-						Name:               to.Ptr("TestRuleCollection"),
-						Priority:           to.Ptr(1000),
+						Name:               new("TestRuleCollection"),
+						Priority:           new(1000),
 						RuleCollectionType: to.Ptr(network.FirewallPolicyFilterRuleCollection_RuleCollectionType_FirewallPolicyFilterRuleCollection),
 						Action: &network.FirewallPolicyFilterRuleCollectionAction{
 							Type: to.Ptr(network.FirewallPolicyFilterRuleCollectionActionType_Allow),

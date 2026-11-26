@@ -32,7 +32,7 @@ func Test_Notificationhubs_Namespace_20230901_CRUD(t *testing.T) {
 				NamespaceType: to.Ptr(notificationhubs.NamespaceType_NotificationHub),
 			},
 			Sku: &notificationhubs.Sku{
-				Capacity: to.Ptr(1),
+				Capacity: new(1),
 				Name:     to.Ptr(notificationhubs.SkuName_Free),
 			},
 		},
@@ -100,7 +100,7 @@ func NotificationHub_CRUD(tc *testcommon.KubePerTestContext, owner *genruntime.K
 			Location: tc.AzureRegion,
 			Owner:    owner,
 			Sku: &notificationhubs.Sku{
-				Capacity: to.Ptr(1),
+				Capacity: new(1),
 				Name:     to.Ptr(notificationhubs.SkuName_Free),
 			},
 		},

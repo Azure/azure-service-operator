@@ -20,7 +20,7 @@ func Test_DatabaseWatcher_Watcher_v20241001preview_CRUD(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 	// Database Watcher isn't available in the default test region
-	tc.AzureRegion = to.Ptr("eastus")
+	tc.AzureRegion = new("eastus")
 
 	rg := tc.CreateTestResourceGroupAndWait()
 

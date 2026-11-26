@@ -12,7 +12,6 @@ import (
 
 	cdn "github.com/Azure/azure-service-operator/v2/api/cdn/v20210601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 // Note: if re-recording, CRD resources require registration.
@@ -28,7 +27,7 @@ func Test_CDN_Profile_CRUD(t *testing.T) {
 	profile := &cdn.Profile{
 		ObjectMeta: tc.MakeObjectMeta("cdnprofile"),
 		Spec: cdn.Profile_Spec{
-			Location: to.Ptr("Global"),
+			Location: new("Global"),
 			Owner:    testcommon.AsOwner(rg),
 			Sku:      &cdn.Sku{Name: &sku},
 		},
@@ -62,15 +61,15 @@ func Endpoint_CRUD(tc *testcommon.KubePerTestContext, profile *cdn.Profile) {
 		ObjectMeta: tc.MakeObjectMeta("cdn-endpoint"),
 		Spec: cdn.ProfilesEndpoint_Spec{
 			Owner:                  testcommon.AsOwner(profile),
-			Location:               to.Ptr("Global"),
-			IsCompressionEnabled:   to.Ptr(true),
+			Location:               new("Global"),
+			IsCompressionEnabled:   new(true),
 			ContentTypesToCompress: []string{"application/json"},
-			IsHttpAllowed:          to.Ptr(false),
-			IsHttpsAllowed:         to.Ptr(true),
+			IsHttpAllowed:          new(false),
+			IsHttpsAllowed:         new(true),
 			Origins: []cdn.DeepCreatedOrigin{
 				{
-					Name:     to.Ptr("source"),
-					HostName: to.Ptr("example.com"),
+					Name:     new("source"),
+					HostName: new("example.com"),
 				},
 			},
 		},

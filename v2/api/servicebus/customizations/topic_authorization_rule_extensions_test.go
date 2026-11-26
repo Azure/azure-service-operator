@@ -31,7 +31,7 @@ func Test_TopicAuthorizationRuleSecretsSpecified_AllSecretsSpecifiedAllSecretsRe
 		},
 	}
 	secretNames := topicAuthorizationRuleSecretsSpecified(obj)
-	expectedTags := reflecthelpers.GetJSONTags(reflect.TypeOf(servicebus.TopicAuthorizationRuleOperatorSecrets{}))
+	expectedTags := reflecthelpers.GetJSONTags(reflect.TypeFor[servicebus.TopicAuthorizationRuleOperatorSecrets]())
 	// We expect every property in the secrets struct to be considered a secret except for the $propertyBag one
 	// (that property exists because this is the storage version)
 	expectedTags.Remove("$propertyBag")

@@ -40,7 +40,7 @@ func Test_AppConfiguration_ConfigurationStore_v20220501_CRUD(t *testing.T) {
 			Location:   tc.AzureRegion,
 			Owner:      testcommon.AsOwner(rg),
 			Sku: &appconfig.Sku{
-				Name: to.Ptr("standard"),
+				Name: new("standard"),
 			},
 			PublicNetworkAccess: to.Ptr(appconfig.ConfigurationStoreProperties_PublicNetworkAccess_Disabled),
 		},

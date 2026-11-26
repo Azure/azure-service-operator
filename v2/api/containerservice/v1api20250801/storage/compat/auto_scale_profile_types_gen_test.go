@@ -10,14 +10,11 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
+// Test_AutoScaleProfile_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of AutoScaleProfile can be assigned to storage and back losslessly
 func Test_AutoScaleProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -25,44 +22,34 @@ func Test_AutoScaleProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AutoScaleProfile to AutoScaleProfile via AssignProperties_To_AutoScaleProfile & AssignProperties_From_AutoScaleProfile returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAutoScaleProfile, AutoScaleProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := AutoScaleProfileGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForAutoScaleProfile tests if a specific instance of AutoScaleProfile can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForAutoScaleProfile(subject AutoScaleProfile) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.AutoScaleProfile
+		err := copied.AssignProperties_To_AutoScaleProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AutoScaleProfile
-	err := copied.AssignProperties_To_AutoScaleProfile(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual AutoScaleProfile
+		err = actual.AssignProperties_From_AutoScaleProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AutoScaleProfile
-	err = actual.AssignProperties_From_AutoScaleProfile(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_AutoScaleProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -72,29 +59,23 @@ func Test_AutoScaleProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AutoScaleProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAutoScaleProfile, AutoScaleProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAutoScaleProfile)
 }
 
 // RunJSONSerializationTestForAutoScaleProfile runs a test to see if a specific instance of AutoScaleProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForAutoScaleProfile(subject AutoScaleProfile) string {
+func RunJSONSerializationTestForAutoScaleProfile(t *rapid.T) {
+	subject := AutoScaleProfileGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AutoScaleProfile
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -103,31 +84,29 @@ func RunJSONSerializationTestForAutoScaleProfile(subject AutoScaleProfile) strin
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AutoScaleProfile instances for property testing - lazily instantiated by AutoScaleProfileGenerator()
-var autoScaleProfileGenerator gopter.Gen
+var autoScaleProfileGenerator *rapid.Generator[AutoScaleProfile]
 
 // AutoScaleProfileGenerator returns a generator of AutoScaleProfile instances for property testing.
-func AutoScaleProfileGenerator() gopter.Gen {
+func AutoScaleProfileGenerator() *rapid.Generator[AutoScaleProfile] {
 	if autoScaleProfileGenerator != nil {
 		return autoScaleProfileGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAutoScaleProfile(generators)
-	autoScaleProfileGenerator = gen.Struct(reflect.TypeOf(AutoScaleProfile{}), generators)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+	size := rapid.Ptr(rapid.String(), true)
+
+	autoScaleProfileGenerator = rapid.Custom(func(t *rapid.T) AutoScaleProfile {
+		var result AutoScaleProfile
+		result.MaxCount = ptrInt.Draw(t, "MaxCount")
+		result.MinCount = ptrInt.Draw(t, "MinCount")
+		result.Size = size.Draw(t, "Size")
+		return result
+	})
 
 	return autoScaleProfileGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAutoScaleProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAutoScaleProfile(gens map[string]gopter.Gen) {
-	gens["MaxCount"] = gen.PtrOf(gen.Int())
-	gens["MinCount"] = gen.PtrOf(gen.Int())
-	gens["Size"] = gen.PtrOf(gen.AlphaString())
 }

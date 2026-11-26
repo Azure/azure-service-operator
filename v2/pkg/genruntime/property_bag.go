@@ -8,6 +8,7 @@ package genruntime
 import (
 	"bytes"
 	"encoding/json"
+	"maps"
 
 	"github.com/rotisserie/eris"
 )
@@ -31,9 +32,7 @@ func NewPropertyBag(originals ...PropertyBag) PropertyBag {
 	result := make(PropertyBag)
 
 	for _, orig := range originals {
-		for k, v := range orig {
-			result[k] = v
-		}
+		maps.Copy(result, orig)
 	}
 
 	return result
@@ -49,7 +48,7 @@ func (bag PropertyBag) Contains(name string) bool {
 // Any existing value will be overwritten.
 // property is the name of the item to put into the bag
 // value is the instance to be stashed away for later
-func (bag PropertyBag) Add(property string, value interface{}) error {
+func (bag PropertyBag) Add(property string, value any) error {
 	switch v := value.(type) {
 	case string:
 		bag[property] = v
@@ -70,7 +69,7 @@ func (bag PropertyBag) Add(property string, value interface{}) error {
 // destination should be a pointer to where the value is to be placed
 // If the item is present and successfully deserialized, returns no error (nil); otherwise returns an error.
 // If an error happens deserializing an item from the bag, it is still removed from the bag.
-func (bag PropertyBag) Pull(property string, destination interface{}) error {
+func (bag PropertyBag) Pull(property string, destination any) error {
 	value, found := bag[property]
 	if !found {
 		// Property not found in the bag

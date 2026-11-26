@@ -35,7 +35,7 @@ func Test_ExpressionExporters_ShareBudget(t *testing.T) {
 	}
 	expr := `string(self.metadata.annotations.chunk.indexOf(self.metadata.annotations.chunk))`
 	metadataExpressions := make(map[string]string)
-	for i := 0; i < 100; i++ {
+	for i := range 100 {
 		metadataExpressions[fmt.Sprintf("key%d", i)] = expr
 	}
 

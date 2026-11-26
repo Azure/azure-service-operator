@@ -10,14 +10,11 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
+// Test_AutoUpgradeNodeImageSelection_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of AutoUpgradeNodeImageSelection can be assigned to storage and back losslessly
 func Test_AutoUpgradeNodeImageSelection_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -25,44 +22,34 @@ func Test_AutoUpgradeNodeImageSelection_WhenPropertiesConverted_RoundTripsWithou
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AutoUpgradeNodeImageSelection to AutoUpgradeNodeImageSelection via AssignProperties_To_AutoUpgradeNodeImageSelection & AssignProperties_From_AutoUpgradeNodeImageSelection returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAutoUpgradeNodeImageSelection, AutoUpgradeNodeImageSelectionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := AutoUpgradeNodeImageSelectionGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForAutoUpgradeNodeImageSelection tests if a specific instance of AutoUpgradeNodeImageSelection can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForAutoUpgradeNodeImageSelection(subject AutoUpgradeNodeImageSelection) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.AutoUpgradeNodeImageSelection
+		err := copied.AssignProperties_To_AutoUpgradeNodeImageSelection(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AutoUpgradeNodeImageSelection
-	err := copied.AssignProperties_To_AutoUpgradeNodeImageSelection(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual AutoUpgradeNodeImageSelection
+		err = actual.AssignProperties_From_AutoUpgradeNodeImageSelection(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AutoUpgradeNodeImageSelection
-	err = actual.AssignProperties_From_AutoUpgradeNodeImageSelection(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_AutoUpgradeNodeImageSelection_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -72,29 +59,23 @@ func Test_AutoUpgradeNodeImageSelection_WhenSerializedToJson_DeserializesAsEqual
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AutoUpgradeNodeImageSelection via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAutoUpgradeNodeImageSelection, AutoUpgradeNodeImageSelectionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAutoUpgradeNodeImageSelection)
 }
 
 // RunJSONSerializationTestForAutoUpgradeNodeImageSelection runs a test to see if a specific instance of AutoUpgradeNodeImageSelection round trips to JSON and back losslessly
-func RunJSONSerializationTestForAutoUpgradeNodeImageSelection(subject AutoUpgradeNodeImageSelection) string {
+func RunJSONSerializationTestForAutoUpgradeNodeImageSelection(t *rapid.T) {
+	subject := AutoUpgradeNodeImageSelectionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AutoUpgradeNodeImageSelection
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -103,34 +84,32 @@ func RunJSONSerializationTestForAutoUpgradeNodeImageSelection(subject AutoUpgrad
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AutoUpgradeNodeImageSelection instances for property testing - lazily instantiated by
 // AutoUpgradeNodeImageSelectionGenerator()
-var autoUpgradeNodeImageSelectionGenerator gopter.Gen
+var autoUpgradeNodeImageSelectionGenerator *rapid.Generator[AutoUpgradeNodeImageSelection]
 
 // AutoUpgradeNodeImageSelectionGenerator returns a generator of AutoUpgradeNodeImageSelection instances for property testing.
-func AutoUpgradeNodeImageSelectionGenerator() gopter.Gen {
+func AutoUpgradeNodeImageSelectionGenerator() *rapid.Generator[AutoUpgradeNodeImageSelection] {
 	if autoUpgradeNodeImageSelectionGenerator != nil {
 		return autoUpgradeNodeImageSelectionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAutoUpgradeNodeImageSelection(generators)
-	autoUpgradeNodeImageSelectionGenerator = gen.Struct(reflect.TypeOf(AutoUpgradeNodeImageSelection{}), generators)
+	typeVar := rapid.Ptr(rapid.SampledFrom([]AutoUpgradeNodeImageSelectionType{AutoUpgradeNodeImageSelectionType_Consistent, AutoUpgradeNodeImageSelectionType_Latest}), true)
+
+	autoUpgradeNodeImageSelectionGenerator = rapid.Custom(func(t *rapid.T) AutoUpgradeNodeImageSelection {
+		var result AutoUpgradeNodeImageSelection
+		result.Type = typeVar.Draw(t, "Type")
+		return result
+	})
 
 	return autoUpgradeNodeImageSelectionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAutoUpgradeNodeImageSelection is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAutoUpgradeNodeImageSelection(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(AutoUpgradeNodeImageSelectionType_Consistent, AutoUpgradeNodeImageSelectionType_Latest))
-}
-
+// Test_AutoUpgradeNodeImageSelection_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of AutoUpgradeNodeImageSelection_STATUS can be assigned to storage and back losslessly
 func Test_AutoUpgradeNodeImageSelection_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -138,44 +117,34 @@ func Test_AutoUpgradeNodeImageSelection_STATUS_WhenPropertiesConverted_RoundTrip
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AutoUpgradeNodeImageSelection_STATUS to AutoUpgradeNodeImageSelection_STATUS via AssignProperties_To_AutoUpgradeNodeImageSelection_STATUS & AssignProperties_From_AutoUpgradeNodeImageSelection_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAutoUpgradeNodeImageSelection_STATUS, AutoUpgradeNodeImageSelection_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := AutoUpgradeNodeImageSelection_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForAutoUpgradeNodeImageSelection_STATUS tests if a specific instance of AutoUpgradeNodeImageSelection_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForAutoUpgradeNodeImageSelection_STATUS(subject AutoUpgradeNodeImageSelection_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.AutoUpgradeNodeImageSelection_STATUS
+		err := copied.AssignProperties_To_AutoUpgradeNodeImageSelection_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AutoUpgradeNodeImageSelection_STATUS
-	err := copied.AssignProperties_To_AutoUpgradeNodeImageSelection_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual AutoUpgradeNodeImageSelection_STATUS
+		err = actual.AssignProperties_From_AutoUpgradeNodeImageSelection_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AutoUpgradeNodeImageSelection_STATUS
-	err = actual.AssignProperties_From_AutoUpgradeNodeImageSelection_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_AutoUpgradeNodeImageSelection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -185,29 +154,23 @@ func Test_AutoUpgradeNodeImageSelection_STATUS_WhenSerializedToJson_Deserializes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AutoUpgradeNodeImageSelection_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAutoUpgradeNodeImageSelection_STATUS, AutoUpgradeNodeImageSelection_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAutoUpgradeNodeImageSelection_STATUS)
 }
 
 // RunJSONSerializationTestForAutoUpgradeNodeImageSelection_STATUS runs a test to see if a specific instance of AutoUpgradeNodeImageSelection_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForAutoUpgradeNodeImageSelection_STATUS(subject AutoUpgradeNodeImageSelection_STATUS) string {
+func RunJSONSerializationTestForAutoUpgradeNodeImageSelection_STATUS(t *rapid.T) {
+	subject := AutoUpgradeNodeImageSelection_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AutoUpgradeNodeImageSelection_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -216,34 +179,32 @@ func RunJSONSerializationTestForAutoUpgradeNodeImageSelection_STATUS(subject Aut
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AutoUpgradeNodeImageSelection_STATUS instances for property testing - lazily instantiated by
 // AutoUpgradeNodeImageSelection_STATUSGenerator()
-var autoUpgradeNodeImageSelection_STATUSGenerator gopter.Gen
+var autoUpgradeNodeImageSelection_STATUSGenerator *rapid.Generator[AutoUpgradeNodeImageSelection_STATUS]
 
 // AutoUpgradeNodeImageSelection_STATUSGenerator returns a generator of AutoUpgradeNodeImageSelection_STATUS instances for property testing.
-func AutoUpgradeNodeImageSelection_STATUSGenerator() gopter.Gen {
+func AutoUpgradeNodeImageSelection_STATUSGenerator() *rapid.Generator[AutoUpgradeNodeImageSelection_STATUS] {
 	if autoUpgradeNodeImageSelection_STATUSGenerator != nil {
 		return autoUpgradeNodeImageSelection_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAutoUpgradeNodeImageSelection_STATUS(generators)
-	autoUpgradeNodeImageSelection_STATUSGenerator = gen.Struct(reflect.TypeOf(AutoUpgradeNodeImageSelection_STATUS{}), generators)
+	typeVar := rapid.Ptr(rapid.SampledFrom([]AutoUpgradeNodeImageSelectionType_STATUS{AutoUpgradeNodeImageSelectionType_STATUS_Consistent, AutoUpgradeNodeImageSelectionType_STATUS_Latest}), true)
+
+	autoUpgradeNodeImageSelection_STATUSGenerator = rapid.Custom(func(t *rapid.T) AutoUpgradeNodeImageSelection_STATUS {
+		var result AutoUpgradeNodeImageSelection_STATUS
+		result.Type = typeVar.Draw(t, "Type")
+		return result
+	})
 
 	return autoUpgradeNodeImageSelection_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAutoUpgradeNodeImageSelection_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAutoUpgradeNodeImageSelection_STATUS(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(AutoUpgradeNodeImageSelectionType_STATUS_Consistent, AutoUpgradeNodeImageSelectionType_STATUS_Latest))
-}
-
+// Test_AutoUpgradeProfileStatus_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of AutoUpgradeProfileStatus_STATUS can be assigned to storage and back losslessly
 func Test_AutoUpgradeProfileStatus_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -251,44 +212,34 @@ func Test_AutoUpgradeProfileStatus_STATUS_WhenPropertiesConverted_RoundTripsWith
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AutoUpgradeProfileStatus_STATUS to AutoUpgradeProfileStatus_STATUS via AssignProperties_To_AutoUpgradeProfileStatus_STATUS & AssignProperties_From_AutoUpgradeProfileStatus_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAutoUpgradeProfileStatus_STATUS, AutoUpgradeProfileStatus_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := AutoUpgradeProfileStatus_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForAutoUpgradeProfileStatus_STATUS tests if a specific instance of AutoUpgradeProfileStatus_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForAutoUpgradeProfileStatus_STATUS(subject AutoUpgradeProfileStatus_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.AutoUpgradeProfileStatus_STATUS
+		err := copied.AssignProperties_To_AutoUpgradeProfileStatus_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AutoUpgradeProfileStatus_STATUS
-	err := copied.AssignProperties_To_AutoUpgradeProfileStatus_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual AutoUpgradeProfileStatus_STATUS
+		err = actual.AssignProperties_From_AutoUpgradeProfileStatus_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AutoUpgradeProfileStatus_STATUS
-	err = actual.AssignProperties_From_AutoUpgradeProfileStatus_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_AutoUpgradeProfileStatus_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -298,29 +249,23 @@ func Test_AutoUpgradeProfileStatus_STATUS_WhenSerializedToJson_DeserializesAsEqu
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AutoUpgradeProfileStatus_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAutoUpgradeProfileStatus_STATUS, AutoUpgradeProfileStatus_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAutoUpgradeProfileStatus_STATUS)
 }
 
 // RunJSONSerializationTestForAutoUpgradeProfileStatus_STATUS runs a test to see if a specific instance of AutoUpgradeProfileStatus_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForAutoUpgradeProfileStatus_STATUS(subject AutoUpgradeProfileStatus_STATUS) string {
+func RunJSONSerializationTestForAutoUpgradeProfileStatus_STATUS(t *rapid.T) {
+	subject := AutoUpgradeProfileStatus_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AutoUpgradeProfileStatus_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -329,50 +274,38 @@ func RunJSONSerializationTestForAutoUpgradeProfileStatus_STATUS(subject AutoUpgr
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AutoUpgradeProfileStatus_STATUS instances for property testing - lazily instantiated by
 // AutoUpgradeProfileStatus_STATUSGenerator()
-var autoUpgradeProfileStatus_STATUSGenerator gopter.Gen
+var autoUpgradeProfileStatus_STATUSGenerator *rapid.Generator[AutoUpgradeProfileStatus_STATUS]
 
 // AutoUpgradeProfileStatus_STATUSGenerator returns a generator of AutoUpgradeProfileStatus_STATUS instances for property testing.
-// We first initialize autoUpgradeProfileStatus_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func AutoUpgradeProfileStatus_STATUSGenerator() gopter.Gen {
+func AutoUpgradeProfileStatus_STATUSGenerator() *rapid.Generator[AutoUpgradeProfileStatus_STATUS] {
 	if autoUpgradeProfileStatus_STATUSGenerator != nil {
 		return autoUpgradeProfileStatus_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAutoUpgradeProfileStatus_STATUS(generators)
-	autoUpgradeProfileStatus_STATUSGenerator = gen.Struct(reflect.TypeOf(AutoUpgradeProfileStatus_STATUS{}), generators)
+	lastTriggerError := rapid.Ptr(ErrorDetail_STATUSGenerator(), true)
+	lastTriggerStatus := rapid.Ptr(rapid.SampledFrom([]AutoUpgradeLastTriggerStatus_STATUS{AutoUpgradeLastTriggerStatus_STATUS_Failed, AutoUpgradeLastTriggerStatus_STATUS_Succeeded}), true)
+	lastTriggerUpgradeVersions := rapid.SliceOf(rapid.String())
+	lastTriggeredAt := rapid.Ptr(rapid.String(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAutoUpgradeProfileStatus_STATUS(generators)
-	AddRelatedPropertyGeneratorsForAutoUpgradeProfileStatus_STATUS(generators)
-	autoUpgradeProfileStatus_STATUSGenerator = gen.Struct(reflect.TypeOf(AutoUpgradeProfileStatus_STATUS{}), generators)
+	autoUpgradeProfileStatus_STATUSGenerator = rapid.Custom(func(t *rapid.T) AutoUpgradeProfileStatus_STATUS {
+		var result AutoUpgradeProfileStatus_STATUS
+		result.LastTriggerError = lastTriggerError.Draw(t, "LastTriggerError")
+		result.LastTriggerStatus = lastTriggerStatus.Draw(t, "LastTriggerStatus")
+		result.LastTriggerUpgradeVersions = lastTriggerUpgradeVersions.Draw(t, "LastTriggerUpgradeVersions")
+		result.LastTriggeredAt = lastTriggeredAt.Draw(t, "LastTriggeredAt")
+		return result
+	})
 
 	return autoUpgradeProfileStatus_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAutoUpgradeProfileStatus_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAutoUpgradeProfileStatus_STATUS(gens map[string]gopter.Gen) {
-	gens["LastTriggerStatus"] = gen.PtrOf(gen.OneConstOf(AutoUpgradeLastTriggerStatus_STATUS_Failed, AutoUpgradeLastTriggerStatus_STATUS_Succeeded))
-	gens["LastTriggerUpgradeVersions"] = gen.SliceOf(gen.AlphaString())
-	gens["LastTriggeredAt"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForAutoUpgradeProfileStatus_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAutoUpgradeProfileStatus_STATUS(gens map[string]gopter.Gen) {
-	gens["LastTriggerError"] = gen.PtrOf(ErrorDetail_STATUSGenerator())
-}
-
+// Test_FleetsAutoUpgradeProfile_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of FleetsAutoUpgradeProfile round trips to the hub storage version and back losslessly
 func Test_FleetsAutoUpgradeProfile_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -380,47 +313,37 @@ func Test_FleetsAutoUpgradeProfile_WhenConvertedToHub_RoundTripsWithoutLoss(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from FleetsAutoUpgradeProfile to hub returns original",
-		prop.ForAll(RunResourceConversionTestForFleetsAutoUpgradeProfile, FleetsAutoUpgradeProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+	rapid.Check(t, func(t *rapid.T) {
+		subject := FleetsAutoUpgradeProfileGenerator().Draw(t, "subject")
+		// Copy subject to make sure conversion doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Convert to our hub version
+		var hub storage.FleetsAutoUpgradeProfile
+		err := copied.ConvertTo(&hub)
+		if err != nil {
+			t.Fatal("ConvertTo: " + err.Error())
+		}
+
+		// Convert from our hub version
+		var actual FleetsAutoUpgradeProfile
+		err = actual.ConvertFrom(&hub)
+		if err != nil {
+			t.Fatal("ConvertFrom: " + err.Error())
+		}
+
+		// Compare actual with what we started with
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
-// RunResourceConversionTestForFleetsAutoUpgradeProfile tests if a specific instance of FleetsAutoUpgradeProfile round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForFleetsAutoUpgradeProfile(subject FleetsAutoUpgradeProfile) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub storage.FleetsAutoUpgradeProfile
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual FleetsAutoUpgradeProfile
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
+// Test_FleetsAutoUpgradeProfile_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of FleetsAutoUpgradeProfile can be assigned to storage and back losslessly
 func Test_FleetsAutoUpgradeProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -428,44 +351,34 @@ func Test_FleetsAutoUpgradeProfile_WhenPropertiesConverted_RoundTripsWithoutLoss
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from FleetsAutoUpgradeProfile to FleetsAutoUpgradeProfile via AssignProperties_To_FleetsAutoUpgradeProfile & AssignProperties_From_FleetsAutoUpgradeProfile returns original",
-		prop.ForAll(RunPropertyAssignmentTestForFleetsAutoUpgradeProfile, FleetsAutoUpgradeProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := FleetsAutoUpgradeProfileGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForFleetsAutoUpgradeProfile tests if a specific instance of FleetsAutoUpgradeProfile can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForFleetsAutoUpgradeProfile(subject FleetsAutoUpgradeProfile) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.FleetsAutoUpgradeProfile
+		err := copied.AssignProperties_To_FleetsAutoUpgradeProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FleetsAutoUpgradeProfile
-	err := copied.AssignProperties_To_FleetsAutoUpgradeProfile(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual FleetsAutoUpgradeProfile
+		err = actual.AssignProperties_From_FleetsAutoUpgradeProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual FleetsAutoUpgradeProfile
-	err = actual.AssignProperties_From_FleetsAutoUpgradeProfile(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_FleetsAutoUpgradeProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -475,29 +388,23 @@ func Test_FleetsAutoUpgradeProfile_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FleetsAutoUpgradeProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFleetsAutoUpgradeProfile, FleetsAutoUpgradeProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFleetsAutoUpgradeProfile)
 }
 
 // RunJSONSerializationTestForFleetsAutoUpgradeProfile runs a test to see if a specific instance of FleetsAutoUpgradeProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForFleetsAutoUpgradeProfile(subject FleetsAutoUpgradeProfile) string {
+func RunJSONSerializationTestForFleetsAutoUpgradeProfile(t *rapid.T) {
+	subject := FleetsAutoUpgradeProfileGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FleetsAutoUpgradeProfile
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -506,35 +413,34 @@ func RunJSONSerializationTestForFleetsAutoUpgradeProfile(subject FleetsAutoUpgra
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FleetsAutoUpgradeProfile instances for property testing - lazily instantiated by
 // FleetsAutoUpgradeProfileGenerator()
-var fleetsAutoUpgradeProfileGenerator gopter.Gen
+var fleetsAutoUpgradeProfileGenerator *rapid.Generator[FleetsAutoUpgradeProfile]
 
 // FleetsAutoUpgradeProfileGenerator returns a generator of FleetsAutoUpgradeProfile instances for property testing.
-func FleetsAutoUpgradeProfileGenerator() gopter.Gen {
+func FleetsAutoUpgradeProfileGenerator() *rapid.Generator[FleetsAutoUpgradeProfile] {
 	if fleetsAutoUpgradeProfileGenerator != nil {
 		return fleetsAutoUpgradeProfileGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForFleetsAutoUpgradeProfile(generators)
-	fleetsAutoUpgradeProfileGenerator = gen.Struct(reflect.TypeOf(FleetsAutoUpgradeProfile{}), generators)
+	spec := FleetsAutoUpgradeProfile_SpecGenerator()
+	status := FleetsAutoUpgradeProfile_STATUSGenerator()
+
+	fleetsAutoUpgradeProfileGenerator = rapid.Custom(func(t *rapid.T) FleetsAutoUpgradeProfile {
+		var result FleetsAutoUpgradeProfile
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return fleetsAutoUpgradeProfileGenerator
 }
 
-// AddRelatedPropertyGeneratorsForFleetsAutoUpgradeProfile is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFleetsAutoUpgradeProfile(gens map[string]gopter.Gen) {
-	gens["Spec"] = FleetsAutoUpgradeProfile_SpecGenerator()
-	gens["Status"] = FleetsAutoUpgradeProfile_STATUSGenerator()
-}
-
+// Test_FleetsAutoUpgradeProfileOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of FleetsAutoUpgradeProfileOperatorSpec can be assigned to storage and back losslessly
 func Test_FleetsAutoUpgradeProfileOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -542,44 +448,34 @@ func Test_FleetsAutoUpgradeProfileOperatorSpec_WhenPropertiesConverted_RoundTrip
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from FleetsAutoUpgradeProfileOperatorSpec to FleetsAutoUpgradeProfileOperatorSpec via AssignProperties_To_FleetsAutoUpgradeProfileOperatorSpec & AssignProperties_From_FleetsAutoUpgradeProfileOperatorSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForFleetsAutoUpgradeProfileOperatorSpec, FleetsAutoUpgradeProfileOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := FleetsAutoUpgradeProfileOperatorSpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForFleetsAutoUpgradeProfileOperatorSpec tests if a specific instance of FleetsAutoUpgradeProfileOperatorSpec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForFleetsAutoUpgradeProfileOperatorSpec(subject FleetsAutoUpgradeProfileOperatorSpec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.FleetsAutoUpgradeProfileOperatorSpec
+		err := copied.AssignProperties_To_FleetsAutoUpgradeProfileOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FleetsAutoUpgradeProfileOperatorSpec
-	err := copied.AssignProperties_To_FleetsAutoUpgradeProfileOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual FleetsAutoUpgradeProfileOperatorSpec
+		err = actual.AssignProperties_From_FleetsAutoUpgradeProfileOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual FleetsAutoUpgradeProfileOperatorSpec
-	err = actual.AssignProperties_From_FleetsAutoUpgradeProfileOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_FleetsAutoUpgradeProfileOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -589,29 +485,23 @@ func Test_FleetsAutoUpgradeProfileOperatorSpec_WhenSerializedToJson_Deserializes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FleetsAutoUpgradeProfileOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFleetsAutoUpgradeProfileOperatorSpec, FleetsAutoUpgradeProfileOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFleetsAutoUpgradeProfileOperatorSpec)
 }
 
 // RunJSONSerializationTestForFleetsAutoUpgradeProfileOperatorSpec runs a test to see if a specific instance of FleetsAutoUpgradeProfileOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForFleetsAutoUpgradeProfileOperatorSpec(subject FleetsAutoUpgradeProfileOperatorSpec) string {
+func RunJSONSerializationTestForFleetsAutoUpgradeProfileOperatorSpec(t *rapid.T) {
+	subject := FleetsAutoUpgradeProfileOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FleetsAutoUpgradeProfileOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -620,28 +510,26 @@ func RunJSONSerializationTestForFleetsAutoUpgradeProfileOperatorSpec(subject Fle
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FleetsAutoUpgradeProfileOperatorSpec instances for property testing - lazily instantiated by
 // FleetsAutoUpgradeProfileOperatorSpecGenerator()
-var fleetsAutoUpgradeProfileOperatorSpecGenerator gopter.Gen
+var fleetsAutoUpgradeProfileOperatorSpecGenerator *rapid.Generator[FleetsAutoUpgradeProfileOperatorSpec]
 
 // FleetsAutoUpgradeProfileOperatorSpecGenerator returns a generator of FleetsAutoUpgradeProfileOperatorSpec instances for property testing.
-func FleetsAutoUpgradeProfileOperatorSpecGenerator() gopter.Gen {
+func FleetsAutoUpgradeProfileOperatorSpecGenerator() *rapid.Generator[FleetsAutoUpgradeProfileOperatorSpec] {
 	if fleetsAutoUpgradeProfileOperatorSpecGenerator != nil {
 		return fleetsAutoUpgradeProfileOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	fleetsAutoUpgradeProfileOperatorSpecGenerator = gen.Struct(reflect.TypeOf(FleetsAutoUpgradeProfileOperatorSpec{}), generators)
+	fleetsAutoUpgradeProfileOperatorSpecGenerator = rapid.Just(FleetsAutoUpgradeProfileOperatorSpec{})
 
 	return fleetsAutoUpgradeProfileOperatorSpecGenerator
 }
 
+// Test_FleetsAutoUpgradeProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of FleetsAutoUpgradeProfile_STATUS can be assigned to storage and back losslessly
 func Test_FleetsAutoUpgradeProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -649,44 +537,34 @@ func Test_FleetsAutoUpgradeProfile_STATUS_WhenPropertiesConverted_RoundTripsWith
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from FleetsAutoUpgradeProfile_STATUS to FleetsAutoUpgradeProfile_STATUS via AssignProperties_To_FleetsAutoUpgradeProfile_STATUS & AssignProperties_From_FleetsAutoUpgradeProfile_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForFleetsAutoUpgradeProfile_STATUS, FleetsAutoUpgradeProfile_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := FleetsAutoUpgradeProfile_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForFleetsAutoUpgradeProfile_STATUS tests if a specific instance of FleetsAutoUpgradeProfile_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForFleetsAutoUpgradeProfile_STATUS(subject FleetsAutoUpgradeProfile_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.FleetsAutoUpgradeProfile_STATUS
+		err := copied.AssignProperties_To_FleetsAutoUpgradeProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FleetsAutoUpgradeProfile_STATUS
-	err := copied.AssignProperties_To_FleetsAutoUpgradeProfile_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual FleetsAutoUpgradeProfile_STATUS
+		err = actual.AssignProperties_From_FleetsAutoUpgradeProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual FleetsAutoUpgradeProfile_STATUS
-	err = actual.AssignProperties_From_FleetsAutoUpgradeProfile_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_FleetsAutoUpgradeProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -696,29 +574,23 @@ func Test_FleetsAutoUpgradeProfile_STATUS_WhenSerializedToJson_DeserializesAsEqu
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FleetsAutoUpgradeProfile_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFleetsAutoUpgradeProfile_STATUS, FleetsAutoUpgradeProfile_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFleetsAutoUpgradeProfile_STATUS)
 }
 
 // RunJSONSerializationTestForFleetsAutoUpgradeProfile_STATUS runs a test to see if a specific instance of FleetsAutoUpgradeProfile_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForFleetsAutoUpgradeProfile_STATUS(subject FleetsAutoUpgradeProfile_STATUS) string {
+func RunJSONSerializationTestForFleetsAutoUpgradeProfile_STATUS(t *rapid.T) {
+	subject := FleetsAutoUpgradeProfile_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FleetsAutoUpgradeProfile_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -727,57 +599,48 @@ func RunJSONSerializationTestForFleetsAutoUpgradeProfile_STATUS(subject FleetsAu
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FleetsAutoUpgradeProfile_STATUS instances for property testing - lazily instantiated by
 // FleetsAutoUpgradeProfile_STATUSGenerator()
-var fleetsAutoUpgradeProfile_STATUSGenerator gopter.Gen
+var fleetsAutoUpgradeProfile_STATUSGenerator *rapid.Generator[FleetsAutoUpgradeProfile_STATUS]
 
 // FleetsAutoUpgradeProfile_STATUSGenerator returns a generator of FleetsAutoUpgradeProfile_STATUS instances for property testing.
-// We first initialize fleetsAutoUpgradeProfile_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func FleetsAutoUpgradeProfile_STATUSGenerator() gopter.Gen {
+func FleetsAutoUpgradeProfile_STATUSGenerator() *rapid.Generator[FleetsAutoUpgradeProfile_STATUS] {
 	if fleetsAutoUpgradeProfile_STATUSGenerator != nil {
 		return fleetsAutoUpgradeProfile_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleetsAutoUpgradeProfile_STATUS(generators)
-	fleetsAutoUpgradeProfile_STATUSGenerator = gen.Struct(reflect.TypeOf(FleetsAutoUpgradeProfile_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	autoUpgradeProfileStatus := rapid.Ptr(AutoUpgradeProfileStatus_STATUSGenerator(), true)
+	channel := rapid.Ptr(rapid.SampledFrom([]UpgradeChannel_STATUS{UpgradeChannel_STATUS_NodeImage, UpgradeChannel_STATUS_Rapid, UpgradeChannel_STATUS_Stable}), true)
+	disabled := rapid.Ptr(rapid.Bool(), true)
+	nodeImageSelection := rapid.Ptr(AutoUpgradeNodeImageSelection_STATUSGenerator(), true)
+	provisioningState := rapid.Ptr(rapid.SampledFrom([]AutoUpgradeProfileProvisioningState_STATUS{AutoUpgradeProfileProvisioningState_STATUS_Canceled, AutoUpgradeProfileProvisioningState_STATUS_Failed, AutoUpgradeProfileProvisioningState_STATUS_Succeeded}), true)
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleetsAutoUpgradeProfile_STATUS(generators)
-	AddRelatedPropertyGeneratorsForFleetsAutoUpgradeProfile_STATUS(generators)
-	fleetsAutoUpgradeProfile_STATUSGenerator = gen.Struct(reflect.TypeOf(FleetsAutoUpgradeProfile_STATUS{}), generators)
+	fleetsAutoUpgradeProfile_STATUSGenerator = rapid.Custom(func(t *rapid.T) FleetsAutoUpgradeProfile_STATUS {
+		var result FleetsAutoUpgradeProfile_STATUS
+		result.AutoUpgradeProfileStatus = autoUpgradeProfileStatus.Draw(t, "AutoUpgradeProfileStatus")
+		result.Channel = channel.Draw(t, "Channel")
+		result.Disabled = disabled.Draw(t, "Disabled")
+		result.ETag = ptrString.Draw(t, "ETag")
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.NodeImageSelection = nodeImageSelection.Draw(t, "NodeImageSelection")
+		result.ProvisioningState = provisioningState.Draw(t, "ProvisioningState")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.Type = ptrString.Draw(t, "Type")
+		result.UpdateStrategyId = ptrString.Draw(t, "UpdateStrategyId")
+		return result
+	})
 
 	return fleetsAutoUpgradeProfile_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForFleetsAutoUpgradeProfile_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFleetsAutoUpgradeProfile_STATUS(gens map[string]gopter.Gen) {
-	gens["Channel"] = gen.PtrOf(gen.OneConstOf(UpgradeChannel_STATUS_NodeImage, UpgradeChannel_STATUS_Rapid, UpgradeChannel_STATUS_Stable))
-	gens["Disabled"] = gen.PtrOf(gen.Bool())
-	gens["ETag"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(AutoUpgradeProfileProvisioningState_STATUS_Canceled, AutoUpgradeProfileProvisioningState_STATUS_Failed, AutoUpgradeProfileProvisioningState_STATUS_Succeeded))
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["UpdateStrategyId"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForFleetsAutoUpgradeProfile_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFleetsAutoUpgradeProfile_STATUS(gens map[string]gopter.Gen) {
-	gens["AutoUpgradeProfileStatus"] = gen.PtrOf(AutoUpgradeProfileStatus_STATUSGenerator())
-	gens["NodeImageSelection"] = gen.PtrOf(AutoUpgradeNodeImageSelection_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
-}
-
+// Test_FleetsAutoUpgradeProfile_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of FleetsAutoUpgradeProfile_Spec can be assigned to storage and back losslessly
 func Test_FleetsAutoUpgradeProfile_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -785,44 +648,34 @@ func Test_FleetsAutoUpgradeProfile_Spec_WhenPropertiesConverted_RoundTripsWithou
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from FleetsAutoUpgradeProfile_Spec to FleetsAutoUpgradeProfile_Spec via AssignProperties_To_FleetsAutoUpgradeProfile_Spec & AssignProperties_From_FleetsAutoUpgradeProfile_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForFleetsAutoUpgradeProfile_Spec, FleetsAutoUpgradeProfile_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := FleetsAutoUpgradeProfile_SpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForFleetsAutoUpgradeProfile_Spec tests if a specific instance of FleetsAutoUpgradeProfile_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForFleetsAutoUpgradeProfile_Spec(subject FleetsAutoUpgradeProfile_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.FleetsAutoUpgradeProfile_Spec
+		err := copied.AssignProperties_To_FleetsAutoUpgradeProfile_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FleetsAutoUpgradeProfile_Spec
-	err := copied.AssignProperties_To_FleetsAutoUpgradeProfile_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual FleetsAutoUpgradeProfile_Spec
+		err = actual.AssignProperties_From_FleetsAutoUpgradeProfile_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual FleetsAutoUpgradeProfile_Spec
-	err = actual.AssignProperties_From_FleetsAutoUpgradeProfile_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_FleetsAutoUpgradeProfile_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -832,29 +685,23 @@ func Test_FleetsAutoUpgradeProfile_Spec_WhenSerializedToJson_DeserializesAsEqual
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FleetsAutoUpgradeProfile_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFleetsAutoUpgradeProfile_Spec, FleetsAutoUpgradeProfile_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFleetsAutoUpgradeProfile_Spec)
 }
 
 // RunJSONSerializationTestForFleetsAutoUpgradeProfile_Spec runs a test to see if a specific instance of FleetsAutoUpgradeProfile_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForFleetsAutoUpgradeProfile_Spec(subject FleetsAutoUpgradeProfile_Spec) string {
+func RunJSONSerializationTestForFleetsAutoUpgradeProfile_Spec(t *rapid.T) {
+	subject := FleetsAutoUpgradeProfile_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FleetsAutoUpgradeProfile_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -863,47 +710,35 @@ func RunJSONSerializationTestForFleetsAutoUpgradeProfile_Spec(subject FleetsAuto
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FleetsAutoUpgradeProfile_Spec instances for property testing - lazily instantiated by
 // FleetsAutoUpgradeProfile_SpecGenerator()
-var fleetsAutoUpgradeProfile_SpecGenerator gopter.Gen
+var fleetsAutoUpgradeProfile_SpecGenerator *rapid.Generator[FleetsAutoUpgradeProfile_Spec]
 
 // FleetsAutoUpgradeProfile_SpecGenerator returns a generator of FleetsAutoUpgradeProfile_Spec instances for property testing.
-// We first initialize fleetsAutoUpgradeProfile_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func FleetsAutoUpgradeProfile_SpecGenerator() gopter.Gen {
+func FleetsAutoUpgradeProfile_SpecGenerator() *rapid.Generator[FleetsAutoUpgradeProfile_Spec] {
 	if fleetsAutoUpgradeProfile_SpecGenerator != nil {
 		return fleetsAutoUpgradeProfile_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleetsAutoUpgradeProfile_Spec(generators)
-	fleetsAutoUpgradeProfile_SpecGenerator = gen.Struct(reflect.TypeOf(FleetsAutoUpgradeProfile_Spec{}), generators)
+	azureName := rapid.String()
+	channel := rapid.Ptr(rapid.SampledFrom([]UpgradeChannel{UpgradeChannel_NodeImage, UpgradeChannel_Rapid, UpgradeChannel_Stable}), true)
+	disabled := rapid.Ptr(rapid.Bool(), true)
+	nodeImageSelection := rapid.Ptr(AutoUpgradeNodeImageSelectionGenerator(), true)
+	operatorSpec := rapid.Ptr(FleetsAutoUpgradeProfileOperatorSpecGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleetsAutoUpgradeProfile_Spec(generators)
-	AddRelatedPropertyGeneratorsForFleetsAutoUpgradeProfile_Spec(generators)
-	fleetsAutoUpgradeProfile_SpecGenerator = gen.Struct(reflect.TypeOf(FleetsAutoUpgradeProfile_Spec{}), generators)
+	fleetsAutoUpgradeProfile_SpecGenerator = rapid.Custom(func(t *rapid.T) FleetsAutoUpgradeProfile_Spec {
+		var result FleetsAutoUpgradeProfile_Spec
+		result.AzureName = azureName.Draw(t, "AzureName")
+		result.Channel = channel.Draw(t, "Channel")
+		result.Disabled = disabled.Draw(t, "Disabled")
+		result.NodeImageSelection = nodeImageSelection.Draw(t, "NodeImageSelection")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		return result
+	})
 
 	return fleetsAutoUpgradeProfile_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForFleetsAutoUpgradeProfile_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFleetsAutoUpgradeProfile_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["Channel"] = gen.PtrOf(gen.OneConstOf(UpgradeChannel_NodeImage, UpgradeChannel_Rapid, UpgradeChannel_Stable))
-	gens["Disabled"] = gen.PtrOf(gen.Bool())
-}
-
-// AddRelatedPropertyGeneratorsForFleetsAutoUpgradeProfile_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFleetsAutoUpgradeProfile_Spec(gens map[string]gopter.Gen) {
-	gens["NodeImageSelection"] = gen.PtrOf(AutoUpgradeNodeImageSelectionGenerator())
-	gens["OperatorSpec"] = gen.PtrOf(FleetsAutoUpgradeProfileOperatorSpecGenerator())
 }

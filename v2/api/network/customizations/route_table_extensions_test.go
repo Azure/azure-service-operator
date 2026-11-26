@@ -17,7 +17,6 @@ import (
 	"github.com/leanovate/gopter/arbitrary"
 
 	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/arm"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_FuzzySetRoutes(t *testing.T) {
@@ -25,9 +24,9 @@ func Test_FuzzySetRoutes(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	routeTable := &arm.RouteTable_Spec{
-		Location: to.Ptr("westus"),
+		Location: new("westus"),
 		Properties: &arm.RouteTablePropertiesFormat{
-			DisableBgpRoutePropagation: to.Ptr(true),
+			DisableBgpRoutePropagation: new(true),
 		},
 	}
 
@@ -65,22 +64,22 @@ func Test_FuzzySetRoutes(t *testing.T) {
 
 	err = setChildCollection(routeTable, azureRoutes, "Routes")
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(routeTable.Location).To(Equal(to.Ptr("westus")))
+	g.Expect(routeTable.Location).To(Equal(new("westus")))
 	g.Expect(routeTable.Properties).ToNot(BeNil())
 	g.Expect(routeTable.Properties.DisableBgpRoutePropagation).ToNot(BeNil())
 	g.Expect(*routeTable.Properties.DisableBgpRoutePropagation).To(Equal(true))
 	g.Expect(routeTable.Properties.Routes).To(HaveLen(1))
 	g.Expect(routeTable.Properties.Routes[0].Properties).ToNot(BeNil())
-	g.Expect(routeTable.Properties.Routes[0].Name).To(Equal(to.Ptr("myroute")))
-	g.Expect(routeTable.Properties.Routes[0].Properties.AddressPrefix).To(Equal(to.Ptr("Storage")))
+	g.Expect(routeTable.Properties.Routes[0].Name).To(Equal(new("myroute")))
+	g.Expect(routeTable.Properties.Routes[0].Properties.AddressPrefix).To(Equal(new("Storage")))
 	g.Expect(routeTable.Properties.Routes[0].Properties.NextHopIpAddress).ToNot(BeNil())
-	g.Expect(routeTable.Properties.Routes[0].Properties.NextHopIpAddress).To(Equal(to.Ptr("10.0.100.4")))
+	g.Expect(routeTable.Properties.Routes[0].Properties.NextHopIpAddress).To(Equal(new("10.0.100.4")))
 }
 
 func Test_FuzzySetRoute(t *testing.T) {
 	t.Parallel()
 
-	embeddedType := reflect.TypeOf(arm.Route{})
+	embeddedType := reflect.TypeFor[arm.Route]()
 	properties := gopter.NewProperties(nil)
 	arbitraries := arbitrary.DefaultArbitraries()
 

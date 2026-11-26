@@ -24,7 +24,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -106,7 +105,7 @@ func Test_Conversion_DiscoversConfigMapsNotOnStorageVersion(t *testing.T) {
 		},
 		Spec: dbforpostgresql.FlexibleServer_Spec{
 			AzureName: "mydb",
-			Location:  to.Ptr("westus"),
+			Location:  new("westus"),
 			Owner: &genruntime.KnownResourceReference{
 				Name: "myrg",
 			},
@@ -148,5 +147,5 @@ func Test_Conversion_DiscoversConfigMapsNotOnStorageVersion(t *testing.T) {
 	g.Expect(resource.Spec().GetType()).To(Equal("Microsoft.DBforPostgreSQL/flexibleServers"))
 
 	// Ensure that the property that exists only in the preview API but not in the storage version was found
-	g.Expect(armType.Properties.DataEncryption.GeoBackupKeyURI).To(Equal(to.Ptr("bagel")))
+	g.Expect(armType.Properties.DataEncryption.GeoBackupKeyURI).To(Equal(new("bagel")))
 }

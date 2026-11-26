@@ -419,7 +419,7 @@ func newSecret(tc *testcommon.KubePerTestContext, key string, password string) *
 func newMySQLServer(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, adminUsername string, adminKey string, adminSecretName string) *mysql.FlexibleServer {
 	// Force this test to run in a region that is not capacity constrained.
 	// location := tc.AzureRegion TODO: Uncomment this line when West US 2 is no longer constrained
-	location := to.Ptr("australiacentral2")
+	location := new("australiacentral2")
 
 	version := "8.0.21"
 	secretRef := genruntime.SecretReference{
@@ -434,13 +434,13 @@ func newMySQLServer(tc *testcommon.KubePerTestContext, rg *resources.ResourceGro
 			Owner:    testcommon.AsOwner(rg),
 			Version:  &version,
 			Sku: &mysql.Sku{
-				Name: to.Ptr("Standard_D4ds_v4"),
+				Name: new("Standard_D4ds_v4"),
 				Tier: &tier,
 			},
-			AdministratorLogin:         to.Ptr(adminUsername),
+			AdministratorLogin:         new(adminUsername),
 			AdministratorLoginPassword: &secretRef,
 			Storage: &mysql.Storage{
-				StorageSizeGB: to.Ptr(128),
+				StorageSizeGB: new(128),
 			},
 		},
 	}
@@ -455,8 +455,8 @@ func newMySQLServerOpenFirewallRule(tc *testcommon.KubePerTestContext, flexibleS
 		ObjectMeta: tc.MakeObjectMeta("firewall"),
 		Spec: mysql.FlexibleServersFirewallRule_Spec{
 			Owner:          testcommon.AsOwner(flexibleServer),
-			StartIpAddress: to.Ptr("0.0.0.0"),
-			EndIpAddress:   to.Ptr("255.255.255.255"),
+			StartIpAddress: new("0.0.0.0"),
+			EndIpAddress:   new("255.255.255.255"),
 		},
 	}
 

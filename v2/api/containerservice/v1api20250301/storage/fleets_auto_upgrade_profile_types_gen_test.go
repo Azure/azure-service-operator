@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_AutoUpgradeNodeImageSelection_WhenSerializedToJson_DeserializesAsEqual
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AutoUpgradeNodeImageSelection via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAutoUpgradeNodeImageSelection, AutoUpgradeNodeImageSelectionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAutoUpgradeNodeImageSelection)
 }
 
 // RunJSONSerializationTestForAutoUpgradeNodeImageSelection runs a test to see if a specific instance of AutoUpgradeNodeImageSelection round trips to JSON and back losslessly
-func RunJSONSerializationTestForAutoUpgradeNodeImageSelection(subject AutoUpgradeNodeImageSelection) string {
+func RunJSONSerializationTestForAutoUpgradeNodeImageSelection(t *rapid.T) {
+	subject := AutoUpgradeNodeImageSelectionGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AutoUpgradeNodeImageSelection
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,32 +45,29 @@ func RunJSONSerializationTestForAutoUpgradeNodeImageSelection(subject AutoUpgrad
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AutoUpgradeNodeImageSelection instances for property testing - lazily instantiated by
 // AutoUpgradeNodeImageSelectionGenerator()
-var autoUpgradeNodeImageSelectionGenerator gopter.Gen
+var autoUpgradeNodeImageSelectionGenerator *rapid.Generator[AutoUpgradeNodeImageSelection]
 
 // AutoUpgradeNodeImageSelectionGenerator returns a generator of AutoUpgradeNodeImageSelection instances for property testing.
-func AutoUpgradeNodeImageSelectionGenerator() gopter.Gen {
+func AutoUpgradeNodeImageSelectionGenerator() *rapid.Generator[AutoUpgradeNodeImageSelection] {
 	if autoUpgradeNodeImageSelectionGenerator != nil {
 		return autoUpgradeNodeImageSelectionGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAutoUpgradeNodeImageSelection(generators)
-	autoUpgradeNodeImageSelectionGenerator = gen.Struct(reflect.TypeOf(AutoUpgradeNodeImageSelection{}), generators)
+	typeVar := rapid.Ptr(rapid.String(), true)
+
+	autoUpgradeNodeImageSelectionGenerator = rapid.Custom(func(t *rapid.T) AutoUpgradeNodeImageSelection {
+		var result AutoUpgradeNodeImageSelection
+		result.Type = typeVar.Draw(t, "Type")
+		return result
+	})
 
 	return autoUpgradeNodeImageSelectionGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAutoUpgradeNodeImageSelection is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAutoUpgradeNodeImageSelection(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_AutoUpgradeNodeImageSelection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -90,29 +77,23 @@ func Test_AutoUpgradeNodeImageSelection_STATUS_WhenSerializedToJson_Deserializes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AutoUpgradeNodeImageSelection_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAutoUpgradeNodeImageSelection_STATUS, AutoUpgradeNodeImageSelection_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAutoUpgradeNodeImageSelection_STATUS)
 }
 
 // RunJSONSerializationTestForAutoUpgradeNodeImageSelection_STATUS runs a test to see if a specific instance of AutoUpgradeNodeImageSelection_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForAutoUpgradeNodeImageSelection_STATUS(subject AutoUpgradeNodeImageSelection_STATUS) string {
+func RunJSONSerializationTestForAutoUpgradeNodeImageSelection_STATUS(t *rapid.T) {
+	subject := AutoUpgradeNodeImageSelection_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AutoUpgradeNodeImageSelection_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -121,32 +102,29 @@ func RunJSONSerializationTestForAutoUpgradeNodeImageSelection_STATUS(subject Aut
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AutoUpgradeNodeImageSelection_STATUS instances for property testing - lazily instantiated by
 // AutoUpgradeNodeImageSelection_STATUSGenerator()
-var autoUpgradeNodeImageSelection_STATUSGenerator gopter.Gen
+var autoUpgradeNodeImageSelection_STATUSGenerator *rapid.Generator[AutoUpgradeNodeImageSelection_STATUS]
 
 // AutoUpgradeNodeImageSelection_STATUSGenerator returns a generator of AutoUpgradeNodeImageSelection_STATUS instances for property testing.
-func AutoUpgradeNodeImageSelection_STATUSGenerator() gopter.Gen {
+func AutoUpgradeNodeImageSelection_STATUSGenerator() *rapid.Generator[AutoUpgradeNodeImageSelection_STATUS] {
 	if autoUpgradeNodeImageSelection_STATUSGenerator != nil {
 		return autoUpgradeNodeImageSelection_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAutoUpgradeNodeImageSelection_STATUS(generators)
-	autoUpgradeNodeImageSelection_STATUSGenerator = gen.Struct(reflect.TypeOf(AutoUpgradeNodeImageSelection_STATUS{}), generators)
+	typeVar := rapid.Ptr(rapid.String(), true)
+
+	autoUpgradeNodeImageSelection_STATUSGenerator = rapid.Custom(func(t *rapid.T) AutoUpgradeNodeImageSelection_STATUS {
+		var result AutoUpgradeNodeImageSelection_STATUS
+		result.Type = typeVar.Draw(t, "Type")
+		return result
+	})
 
 	return autoUpgradeNodeImageSelection_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAutoUpgradeNodeImageSelection_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAutoUpgradeNodeImageSelection_STATUS(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_AutoUpgradeProfileStatus_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -156,29 +134,23 @@ func Test_AutoUpgradeProfileStatus_STATUS_WhenSerializedToJson_DeserializesAsEqu
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AutoUpgradeProfileStatus_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAutoUpgradeProfileStatus_STATUS, AutoUpgradeProfileStatus_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAutoUpgradeProfileStatus_STATUS)
 }
 
 // RunJSONSerializationTestForAutoUpgradeProfileStatus_STATUS runs a test to see if a specific instance of AutoUpgradeProfileStatus_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForAutoUpgradeProfileStatus_STATUS(subject AutoUpgradeProfileStatus_STATUS) string {
+func RunJSONSerializationTestForAutoUpgradeProfileStatus_STATUS(t *rapid.T) {
+	subject := AutoUpgradeProfileStatus_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AutoUpgradeProfileStatus_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -187,48 +159,34 @@ func RunJSONSerializationTestForAutoUpgradeProfileStatus_STATUS(subject AutoUpgr
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AutoUpgradeProfileStatus_STATUS instances for property testing - lazily instantiated by
 // AutoUpgradeProfileStatus_STATUSGenerator()
-var autoUpgradeProfileStatus_STATUSGenerator gopter.Gen
+var autoUpgradeProfileStatus_STATUSGenerator *rapid.Generator[AutoUpgradeProfileStatus_STATUS]
 
 // AutoUpgradeProfileStatus_STATUSGenerator returns a generator of AutoUpgradeProfileStatus_STATUS instances for property testing.
-// We first initialize autoUpgradeProfileStatus_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func AutoUpgradeProfileStatus_STATUSGenerator() gopter.Gen {
+func AutoUpgradeProfileStatus_STATUSGenerator() *rapid.Generator[AutoUpgradeProfileStatus_STATUS] {
 	if autoUpgradeProfileStatus_STATUSGenerator != nil {
 		return autoUpgradeProfileStatus_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAutoUpgradeProfileStatus_STATUS(generators)
-	autoUpgradeProfileStatus_STATUSGenerator = gen.Struct(reflect.TypeOf(AutoUpgradeProfileStatus_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	lastTriggerError := rapid.Ptr(ErrorDetail_STATUSGenerator(), true)
+	lastTriggerUpgradeVersions := rapid.SliceOf(rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAutoUpgradeProfileStatus_STATUS(generators)
-	AddRelatedPropertyGeneratorsForAutoUpgradeProfileStatus_STATUS(generators)
-	autoUpgradeProfileStatus_STATUSGenerator = gen.Struct(reflect.TypeOf(AutoUpgradeProfileStatus_STATUS{}), generators)
+	autoUpgradeProfileStatus_STATUSGenerator = rapid.Custom(func(t *rapid.T) AutoUpgradeProfileStatus_STATUS {
+		var result AutoUpgradeProfileStatus_STATUS
+		result.LastTriggerError = lastTriggerError.Draw(t, "LastTriggerError")
+		result.LastTriggerStatus = ptrString.Draw(t, "LastTriggerStatus")
+		result.LastTriggerUpgradeVersions = lastTriggerUpgradeVersions.Draw(t, "LastTriggerUpgradeVersions")
+		result.LastTriggeredAt = ptrString.Draw(t, "LastTriggeredAt")
+		return result
+	})
 
 	return autoUpgradeProfileStatus_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAutoUpgradeProfileStatus_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAutoUpgradeProfileStatus_STATUS(gens map[string]gopter.Gen) {
-	gens["LastTriggerStatus"] = gen.PtrOf(gen.AlphaString())
-	gens["LastTriggerUpgradeVersions"] = gen.SliceOf(gen.AlphaString())
-	gens["LastTriggeredAt"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForAutoUpgradeProfileStatus_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAutoUpgradeProfileStatus_STATUS(gens map[string]gopter.Gen) {
-	gens["LastTriggerError"] = gen.PtrOf(ErrorDetail_STATUSGenerator())
 }
 
 func Test_FleetsAutoUpgradeProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -238,29 +196,23 @@ func Test_FleetsAutoUpgradeProfile_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FleetsAutoUpgradeProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFleetsAutoUpgradeProfile, FleetsAutoUpgradeProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFleetsAutoUpgradeProfile)
 }
 
 // RunJSONSerializationTestForFleetsAutoUpgradeProfile runs a test to see if a specific instance of FleetsAutoUpgradeProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForFleetsAutoUpgradeProfile(subject FleetsAutoUpgradeProfile) string {
+func RunJSONSerializationTestForFleetsAutoUpgradeProfile(t *rapid.T) {
+	subject := FleetsAutoUpgradeProfileGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FleetsAutoUpgradeProfile
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -269,33 +221,31 @@ func RunJSONSerializationTestForFleetsAutoUpgradeProfile(subject FleetsAutoUpgra
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FleetsAutoUpgradeProfile instances for property testing - lazily instantiated by
 // FleetsAutoUpgradeProfileGenerator()
-var fleetsAutoUpgradeProfileGenerator gopter.Gen
+var fleetsAutoUpgradeProfileGenerator *rapid.Generator[FleetsAutoUpgradeProfile]
 
 // FleetsAutoUpgradeProfileGenerator returns a generator of FleetsAutoUpgradeProfile instances for property testing.
-func FleetsAutoUpgradeProfileGenerator() gopter.Gen {
+func FleetsAutoUpgradeProfileGenerator() *rapid.Generator[FleetsAutoUpgradeProfile] {
 	if fleetsAutoUpgradeProfileGenerator != nil {
 		return fleetsAutoUpgradeProfileGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForFleetsAutoUpgradeProfile(generators)
-	fleetsAutoUpgradeProfileGenerator = gen.Struct(reflect.TypeOf(FleetsAutoUpgradeProfile{}), generators)
+	spec := FleetsAutoUpgradeProfile_SpecGenerator()
+	status := FleetsAutoUpgradeProfile_STATUSGenerator()
+
+	fleetsAutoUpgradeProfileGenerator = rapid.Custom(func(t *rapid.T) FleetsAutoUpgradeProfile {
+		var result FleetsAutoUpgradeProfile
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return fleetsAutoUpgradeProfileGenerator
-}
-
-// AddRelatedPropertyGeneratorsForFleetsAutoUpgradeProfile is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFleetsAutoUpgradeProfile(gens map[string]gopter.Gen) {
-	gens["Spec"] = FleetsAutoUpgradeProfile_SpecGenerator()
-	gens["Status"] = FleetsAutoUpgradeProfile_STATUSGenerator()
 }
 
 func Test_FleetsAutoUpgradeProfileOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -305,29 +255,23 @@ func Test_FleetsAutoUpgradeProfileOperatorSpec_WhenSerializedToJson_Deserializes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FleetsAutoUpgradeProfileOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFleetsAutoUpgradeProfileOperatorSpec, FleetsAutoUpgradeProfileOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFleetsAutoUpgradeProfileOperatorSpec)
 }
 
 // RunJSONSerializationTestForFleetsAutoUpgradeProfileOperatorSpec runs a test to see if a specific instance of FleetsAutoUpgradeProfileOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForFleetsAutoUpgradeProfileOperatorSpec(subject FleetsAutoUpgradeProfileOperatorSpec) string {
+func RunJSONSerializationTestForFleetsAutoUpgradeProfileOperatorSpec(t *rapid.T) {
+	subject := FleetsAutoUpgradeProfileOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FleetsAutoUpgradeProfileOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -336,24 +280,21 @@ func RunJSONSerializationTestForFleetsAutoUpgradeProfileOperatorSpec(subject Fle
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FleetsAutoUpgradeProfileOperatorSpec instances for property testing - lazily instantiated by
 // FleetsAutoUpgradeProfileOperatorSpecGenerator()
-var fleetsAutoUpgradeProfileOperatorSpecGenerator gopter.Gen
+var fleetsAutoUpgradeProfileOperatorSpecGenerator *rapid.Generator[FleetsAutoUpgradeProfileOperatorSpec]
 
 // FleetsAutoUpgradeProfileOperatorSpecGenerator returns a generator of FleetsAutoUpgradeProfileOperatorSpec instances for property testing.
-func FleetsAutoUpgradeProfileOperatorSpecGenerator() gopter.Gen {
+func FleetsAutoUpgradeProfileOperatorSpecGenerator() *rapid.Generator[FleetsAutoUpgradeProfileOperatorSpec] {
 	if fleetsAutoUpgradeProfileOperatorSpecGenerator != nil {
 		return fleetsAutoUpgradeProfileOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	fleetsAutoUpgradeProfileOperatorSpecGenerator = gen.Struct(reflect.TypeOf(FleetsAutoUpgradeProfileOperatorSpec{}), generators)
+	fleetsAutoUpgradeProfileOperatorSpecGenerator = rapid.Just(FleetsAutoUpgradeProfileOperatorSpec{})
 
 	return fleetsAutoUpgradeProfileOperatorSpecGenerator
 }
@@ -365,29 +306,23 @@ func Test_FleetsAutoUpgradeProfile_STATUS_WhenSerializedToJson_DeserializesAsEqu
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FleetsAutoUpgradeProfile_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFleetsAutoUpgradeProfile_STATUS, FleetsAutoUpgradeProfile_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFleetsAutoUpgradeProfile_STATUS)
 }
 
 // RunJSONSerializationTestForFleetsAutoUpgradeProfile_STATUS runs a test to see if a specific instance of FleetsAutoUpgradeProfile_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForFleetsAutoUpgradeProfile_STATUS(subject FleetsAutoUpgradeProfile_STATUS) string {
+func RunJSONSerializationTestForFleetsAutoUpgradeProfile_STATUS(t *rapid.T) {
+	subject := FleetsAutoUpgradeProfile_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FleetsAutoUpgradeProfile_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -396,55 +331,43 @@ func RunJSONSerializationTestForFleetsAutoUpgradeProfile_STATUS(subject FleetsAu
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FleetsAutoUpgradeProfile_STATUS instances for property testing - lazily instantiated by
 // FleetsAutoUpgradeProfile_STATUSGenerator()
-var fleetsAutoUpgradeProfile_STATUSGenerator gopter.Gen
+var fleetsAutoUpgradeProfile_STATUSGenerator *rapid.Generator[FleetsAutoUpgradeProfile_STATUS]
 
 // FleetsAutoUpgradeProfile_STATUSGenerator returns a generator of FleetsAutoUpgradeProfile_STATUS instances for property testing.
-// We first initialize fleetsAutoUpgradeProfile_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func FleetsAutoUpgradeProfile_STATUSGenerator() gopter.Gen {
+func FleetsAutoUpgradeProfile_STATUSGenerator() *rapid.Generator[FleetsAutoUpgradeProfile_STATUS] {
 	if fleetsAutoUpgradeProfile_STATUSGenerator != nil {
 		return fleetsAutoUpgradeProfile_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleetsAutoUpgradeProfile_STATUS(generators)
-	fleetsAutoUpgradeProfile_STATUSGenerator = gen.Struct(reflect.TypeOf(FleetsAutoUpgradeProfile_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	autoUpgradeProfileStatus := rapid.Ptr(AutoUpgradeProfileStatus_STATUSGenerator(), true)
+	disabled := rapid.Ptr(rapid.Bool(), true)
+	nodeImageSelection := rapid.Ptr(AutoUpgradeNodeImageSelection_STATUSGenerator(), true)
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleetsAutoUpgradeProfile_STATUS(generators)
-	AddRelatedPropertyGeneratorsForFleetsAutoUpgradeProfile_STATUS(generators)
-	fleetsAutoUpgradeProfile_STATUSGenerator = gen.Struct(reflect.TypeOf(FleetsAutoUpgradeProfile_STATUS{}), generators)
+	fleetsAutoUpgradeProfile_STATUSGenerator = rapid.Custom(func(t *rapid.T) FleetsAutoUpgradeProfile_STATUS {
+		var result FleetsAutoUpgradeProfile_STATUS
+		result.AutoUpgradeProfileStatus = autoUpgradeProfileStatus.Draw(t, "AutoUpgradeProfileStatus")
+		result.Channel = ptrString.Draw(t, "Channel")
+		result.Disabled = disabled.Draw(t, "Disabled")
+		result.ETag = ptrString.Draw(t, "ETag")
+		result.Id = ptrString.Draw(t, "Id")
+		result.Name = ptrString.Draw(t, "Name")
+		result.NodeImageSelection = nodeImageSelection.Draw(t, "NodeImageSelection")
+		result.ProvisioningState = ptrString.Draw(t, "ProvisioningState")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.Type = ptrString.Draw(t, "Type")
+		result.UpdateStrategyId = ptrString.Draw(t, "UpdateStrategyId")
+		return result
+	})
 
 	return fleetsAutoUpgradeProfile_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForFleetsAutoUpgradeProfile_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFleetsAutoUpgradeProfile_STATUS(gens map[string]gopter.Gen) {
-	gens["Channel"] = gen.PtrOf(gen.AlphaString())
-	gens["Disabled"] = gen.PtrOf(gen.Bool())
-	gens["ETag"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["UpdateStrategyId"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForFleetsAutoUpgradeProfile_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFleetsAutoUpgradeProfile_STATUS(gens map[string]gopter.Gen) {
-	gens["AutoUpgradeProfileStatus"] = gen.PtrOf(AutoUpgradeProfileStatus_STATUSGenerator())
-	gens["NodeImageSelection"] = gen.PtrOf(AutoUpgradeNodeImageSelection_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_FleetsAutoUpgradeProfile_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -454,29 +377,23 @@ func Test_FleetsAutoUpgradeProfile_Spec_WhenSerializedToJson_DeserializesAsEqual
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of FleetsAutoUpgradeProfile_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFleetsAutoUpgradeProfile_Spec, FleetsAutoUpgradeProfile_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForFleetsAutoUpgradeProfile_Spec)
 }
 
 // RunJSONSerializationTestForFleetsAutoUpgradeProfile_Spec runs a test to see if a specific instance of FleetsAutoUpgradeProfile_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForFleetsAutoUpgradeProfile_Spec(subject FleetsAutoUpgradeProfile_Spec) string {
+func RunJSONSerializationTestForFleetsAutoUpgradeProfile_Spec(t *rapid.T) {
+	subject := FleetsAutoUpgradeProfile_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual FleetsAutoUpgradeProfile_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -485,48 +402,36 @@ func RunJSONSerializationTestForFleetsAutoUpgradeProfile_Spec(subject FleetsAuto
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of FleetsAutoUpgradeProfile_Spec instances for property testing - lazily instantiated by
 // FleetsAutoUpgradeProfile_SpecGenerator()
-var fleetsAutoUpgradeProfile_SpecGenerator gopter.Gen
+var fleetsAutoUpgradeProfile_SpecGenerator *rapid.Generator[FleetsAutoUpgradeProfile_Spec]
 
 // FleetsAutoUpgradeProfile_SpecGenerator returns a generator of FleetsAutoUpgradeProfile_Spec instances for property testing.
-// We first initialize fleetsAutoUpgradeProfile_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func FleetsAutoUpgradeProfile_SpecGenerator() gopter.Gen {
+func FleetsAutoUpgradeProfile_SpecGenerator() *rapid.Generator[FleetsAutoUpgradeProfile_Spec] {
 	if fleetsAutoUpgradeProfile_SpecGenerator != nil {
 		return fleetsAutoUpgradeProfile_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleetsAutoUpgradeProfile_Spec(generators)
-	fleetsAutoUpgradeProfile_SpecGenerator = gen.Struct(reflect.TypeOf(FleetsAutoUpgradeProfile_Spec{}), generators)
+	genString := rapid.String()
+	channel := rapid.Ptr(rapid.String(), true)
+	disabled := rapid.Ptr(rapid.Bool(), true)
+	nodeImageSelection := rapid.Ptr(AutoUpgradeNodeImageSelectionGenerator(), true)
+	operatorSpec := rapid.Ptr(FleetsAutoUpgradeProfileOperatorSpecGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleetsAutoUpgradeProfile_Spec(generators)
-	AddRelatedPropertyGeneratorsForFleetsAutoUpgradeProfile_Spec(generators)
-	fleetsAutoUpgradeProfile_SpecGenerator = gen.Struct(reflect.TypeOf(FleetsAutoUpgradeProfile_Spec{}), generators)
+	fleetsAutoUpgradeProfile_SpecGenerator = rapid.Custom(func(t *rapid.T) FleetsAutoUpgradeProfile_Spec {
+		var result FleetsAutoUpgradeProfile_Spec
+		result.AzureName = genString.Draw(t, "AzureName")
+		result.Channel = channel.Draw(t, "Channel")
+		result.Disabled = disabled.Draw(t, "Disabled")
+		result.NodeImageSelection = nodeImageSelection.Draw(t, "NodeImageSelection")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		result.OriginalVersion = genString.Draw(t, "OriginalVersion")
+		return result
+	})
 
 	return fleetsAutoUpgradeProfile_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForFleetsAutoUpgradeProfile_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFleetsAutoUpgradeProfile_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["Channel"] = gen.PtrOf(gen.AlphaString())
-	gens["Disabled"] = gen.PtrOf(gen.Bool())
-	gens["OriginalVersion"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForFleetsAutoUpgradeProfile_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFleetsAutoUpgradeProfile_Spec(gens map[string]gopter.Gen) {
-	gens["NodeImageSelection"] = gen.PtrOf(AutoUpgradeNodeImageSelectionGenerator())
-	gens["OperatorSpec"] = gen.PtrOf(FleetsAutoUpgradeProfileOperatorSpecGenerator())
 }

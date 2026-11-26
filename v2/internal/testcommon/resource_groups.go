@@ -11,7 +11,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -29,7 +28,7 @@ func CreateResourceGroup() *resources.ResourceGroup {
 			},
 		},
 		Spec: resources.ResourceGroup_Spec{
-			Location: to.Ptr("West US"),
+			Location: new("West US"),
 		},
 	}
 }

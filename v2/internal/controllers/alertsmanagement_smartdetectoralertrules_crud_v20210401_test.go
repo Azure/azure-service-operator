@@ -15,7 +15,6 @@ import (
 	insights "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202"
 	insightsag "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -34,15 +33,15 @@ func Test_AlertsManagement_SmartDetectorAlertRules_CRUD(t *testing.T) {
 			Owner:    testcommon.AsOwner(rg),
 			// According to their documentation you can set anything here, it's ignored.
 			Application_Type: &applicationType,
-			Kind:             to.Ptr("web"),
+			Kind:             new("web"),
 		},
 	}
 	ag := &insightsag.ActionGroup{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("actiongroup")),
 		Spec: insightsag.ActionGroup_Spec{
-			Enabled:        to.Ptr(false),
-			GroupShortName: to.Ptr("ag"),
-			Location:       to.Ptr("global"),
+			Enabled:        new(false),
+			GroupShortName: new("ag"),
+			Location:       new("global"),
 			Owner:          testcommon.AsOwner(rg),
 		},
 	}
@@ -52,7 +51,7 @@ func Test_AlertsManagement_SmartDetectorAlertRules_CRUD(t *testing.T) {
 	state := alertsmanagement.AlertRuleProperties_State("Enabled")
 	severity := alertsmanagement.AlertRuleProperties_Severity("Sev3")
 	detectorId := &alertsmanagement.Detector{
-		Id: to.Ptr("FailureAnomaliesDetector"),
+		Id: new("FailureAnomaliesDetector"),
 	}
 	actionGroup := &alertsmanagement.ActionGroupsInformation{
 		GroupReferences: []genruntime.ResourceReference{
@@ -62,11 +61,11 @@ func Test_AlertsManagement_SmartDetectorAlertRules_CRUD(t *testing.T) {
 	alertRule := &alertsmanagement.SmartDetectorAlertRule{
 		ObjectMeta: tc.MakeObjectMeta("smartalertrules"),
 		Spec: alertsmanagement.SmartDetectorAlertRule_Spec{
-			Location:     to.Ptr("Global"),
+			Location:     new("Global"),
 			Owner:        testcommon.AsOwner(rg),
 			State:        &state,
 			Severity:     &severity,
-			Frequency:    to.Ptr("PT1M"),
+			Frequency:    new("PT1M"),
 			Detector:     detectorId,
 			ActionGroups: actionGroup,
 			ScopeReferences: []genruntime.ResourceReference{

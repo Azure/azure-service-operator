@@ -9,37 +9,35 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/microsoftgraph/msgraph-beta-sdk-go/models"
-
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func TestServicePrincipalStatus_AssignFromServicePrincipal(t *testing.T) {
 	t.Parallel()
 	g := NewWithT(t)
 	model := models.NewServicePrincipal()
-	model.SetId(to.Ptr("tenant-object-id"))
-	model.SetAppId(to.Ptr("global-app-id"))
-	model.SetDisplayName(to.Ptr("Microsoft Service"))
+	model.SetId(new("tenant-object-id"))
+	model.SetAppId(new("global-app-id"))
+	model.SetDisplayName(new("Microsoft Service"))
 
 	status := ServicePrincipalStatus{}
 	status.AssignFromServicePrincipal(model)
-	g.Expect(status.EntraID).To(Equal(to.Ptr("tenant-object-id")))
-	g.Expect(status.AppId).To(Equal(to.Ptr("global-app-id")))
-	g.Expect(status.DisplayName).To(Equal(to.Ptr("Microsoft Service")))
+	g.Expect(status.EntraID).To(Equal(new("tenant-object-id")))
+	g.Expect(status.AppId).To(Equal(new("global-app-id")))
+	g.Expect(status.DisplayName).To(Equal(new("Microsoft Service")))
 }
 
 func TestServicePrincipalSpec_AssignToServicePrincipal(t *testing.T) {
 	t.Parallel()
 	g := NewWithT(t)
-	spec := ServicePrincipalSpec{AppId: to.Ptr("global-app-id")}
+	spec := ServicePrincipalSpec{AppId: new("global-app-id")}
 	model := models.NewServicePrincipal()
-	model.SetDisplayName(to.Ptr("existing name"))
+	model.SetDisplayName(new("existing name"))
 
 	spec.AssignToServicePrincipal(model)
 	g.Expect(model.GetAppId()).To(Equal(spec.AppId))
-	g.Expect(model.GetDisplayName()).To(Equal(to.Ptr("existing name")))
+	g.Expect(model.GetDisplayName()).To(Equal(new("existing name")))
 
-	spec.DisplayName = to.Ptr("new name")
+	spec.DisplayName = new("new name")
 	spec.AssignToServicePrincipal(model)
 	g.Expect(model.GetDisplayName()).To(Equal(spec.DisplayName))
 }
@@ -56,7 +54,7 @@ func TestServicePrincipalCreationModes(t *testing.T) {
 			adoptionAllowed: true,
 		},
 		"AdoptOnly": {
-			spec:            ServicePrincipalOperatorSpec{CreationMode: to.Ptr(AdoptOnly)},
+			spec:            ServicePrincipalOperatorSpec{CreationMode: new(AdoptOnly)},
 			creationAllowed: false,
 			adoptionAllowed: true,
 		},

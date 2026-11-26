@@ -10,14 +10,11 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
+// Test_ManagedClusterAzureMonitorProfileAppMonitoring_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ManagedClusterAzureMonitorProfileAppMonitoring can be assigned to storage and back losslessly
 func Test_ManagedClusterAzureMonitorProfileAppMonitoring_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -25,44 +22,34 @@ func Test_ManagedClusterAzureMonitorProfileAppMonitoring_WhenPropertiesConverted
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ManagedClusterAzureMonitorProfileAppMonitoring to ManagedClusterAzureMonitorProfileAppMonitoring via AssignProperties_To_ManagedClusterAzureMonitorProfileAppMonitoring & AssignProperties_From_ManagedClusterAzureMonitorProfileAppMonitoring returns original",
-		prop.ForAll(RunPropertyAssignmentTestForManagedClusterAzureMonitorProfileAppMonitoring, ManagedClusterAzureMonitorProfileAppMonitoringGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ManagedClusterAzureMonitorProfileAppMonitoringGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForManagedClusterAzureMonitorProfileAppMonitoring tests if a specific instance of ManagedClusterAzureMonitorProfileAppMonitoring can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForManagedClusterAzureMonitorProfileAppMonitoring(subject ManagedClusterAzureMonitorProfileAppMonitoring) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ManagedClusterAzureMonitorProfileAppMonitoring
+		err := copied.AssignProperties_To_ManagedClusterAzureMonitorProfileAppMonitoring(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedClusterAzureMonitorProfileAppMonitoring
-	err := copied.AssignProperties_To_ManagedClusterAzureMonitorProfileAppMonitoring(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ManagedClusterAzureMonitorProfileAppMonitoring
+		err = actual.AssignProperties_From_ManagedClusterAzureMonitorProfileAppMonitoring(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ManagedClusterAzureMonitorProfileAppMonitoring
-	err = actual.AssignProperties_From_ManagedClusterAzureMonitorProfileAppMonitoring(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ManagedClusterAzureMonitorProfileAppMonitoring_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -72,29 +59,23 @@ func Test_ManagedClusterAzureMonitorProfileAppMonitoring_WhenSerializedToJson_De
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedClusterAzureMonitorProfileAppMonitoring via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterAzureMonitorProfileAppMonitoring, ManagedClusterAzureMonitorProfileAppMonitoringGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForManagedClusterAzureMonitorProfileAppMonitoring)
 }
 
 // RunJSONSerializationTestForManagedClusterAzureMonitorProfileAppMonitoring runs a test to see if a specific instance of ManagedClusterAzureMonitorProfileAppMonitoring round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterAzureMonitorProfileAppMonitoring(subject ManagedClusterAzureMonitorProfileAppMonitoring) string {
+func RunJSONSerializationTestForManagedClusterAzureMonitorProfileAppMonitoring(t *rapid.T) {
+	subject := ManagedClusterAzureMonitorProfileAppMonitoringGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ManagedClusterAzureMonitorProfileAppMonitoring
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -103,36 +84,36 @@ func RunJSONSerializationTestForManagedClusterAzureMonitorProfileAppMonitoring(s
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ManagedClusterAzureMonitorProfileAppMonitoring instances for property testing - lazily instantiated by
 // ManagedClusterAzureMonitorProfileAppMonitoringGenerator()
-var managedClusterAzureMonitorProfileAppMonitoringGenerator gopter.Gen
+var managedClusterAzureMonitorProfileAppMonitoringGenerator *rapid.Generator[ManagedClusterAzureMonitorProfileAppMonitoring]
 
 // ManagedClusterAzureMonitorProfileAppMonitoringGenerator returns a generator of ManagedClusterAzureMonitorProfileAppMonitoring instances for property testing.
-func ManagedClusterAzureMonitorProfileAppMonitoringGenerator() gopter.Gen {
+func ManagedClusterAzureMonitorProfileAppMonitoringGenerator() *rapid.Generator[ManagedClusterAzureMonitorProfileAppMonitoring] {
 	if managedClusterAzureMonitorProfileAppMonitoringGenerator != nil {
 		return managedClusterAzureMonitorProfileAppMonitoringGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForManagedClusterAzureMonitorProfileAppMonitoring(generators)
-	managedClusterAzureMonitorProfileAppMonitoringGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAzureMonitorProfileAppMonitoring{}), generators)
+	autoInstrumentation := rapid.Ptr(ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentationGenerator(), true)
+	openTelemetryLogs := rapid.Ptr(ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsGenerator(), true)
+	openTelemetryMetrics := rapid.Ptr(ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetricsGenerator(), true)
+
+	managedClusterAzureMonitorProfileAppMonitoringGenerator = rapid.Custom(func(t *rapid.T) ManagedClusterAzureMonitorProfileAppMonitoring {
+		var result ManagedClusterAzureMonitorProfileAppMonitoring
+		result.AutoInstrumentation = autoInstrumentation.Draw(t, "AutoInstrumentation")
+		result.OpenTelemetryLogs = openTelemetryLogs.Draw(t, "OpenTelemetryLogs")
+		result.OpenTelemetryMetrics = openTelemetryMetrics.Draw(t, "OpenTelemetryMetrics")
+		return result
+	})
 
 	return managedClusterAzureMonitorProfileAppMonitoringGenerator
 }
 
-// AddRelatedPropertyGeneratorsForManagedClusterAzureMonitorProfileAppMonitoring is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedClusterAzureMonitorProfileAppMonitoring(gens map[string]gopter.Gen) {
-	gens["AutoInstrumentation"] = gen.PtrOf(ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentationGenerator())
-	gens["OpenTelemetryLogs"] = gen.PtrOf(ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsGenerator())
-	gens["OpenTelemetryMetrics"] = gen.PtrOf(ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetricsGenerator())
-}
-
+// Test_ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation can be assigned to storage and back losslessly
 func Test_ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
@@ -140,44 +121,34 @@ func Test_ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation_When
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation to ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation via AssignProperties_To_ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation & AssignProperties_From_ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation returns original",
-		prop.ForAll(RunPropertyAssignmentTestForManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation, ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentationGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
 
-// RunPropertyAssignmentTestForManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation tests if a specific instance of ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation(subject ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation
+		err := copied.AssignProperties_To_ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
 
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation
-	err := copied.AssignProperties_To_ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation(&other)
-	if err != nil {
-		return err.Error()
-	}
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation
+		err = actual.AssignProperties_From_ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
 
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation
-	err = actual.AssignProperties_From_ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -187,29 +158,23 @@ func Test_ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation_When
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation, ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation)
 }
 
 // RunJSONSerializationTestForManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation runs a test to see if a specific instance of ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation(subject ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation) string {
+func RunJSONSerializationTestForManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation(t *rapid.T) {
+	subject := ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentationGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -218,32 +183,29 @@ func RunJSONSerializationTestForManagedClusterAzureMonitorProfileAppMonitoringAu
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation instances for property testing -
 // lazily instantiated by ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentationGenerator()
-var managedClusterAzureMonitorProfileAppMonitoringAutoInstrumentationGenerator gopter.Gen
+var managedClusterAzureMonitorProfileAppMonitoringAutoInstrumentationGenerator *rapid.Generator[ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation]
 
 // ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentationGenerator returns a generator of ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation instances for property testing.
-func ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentationGenerator() gopter.Gen {
+func ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentationGenerator() *rapid.Generator[ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation] {
 	if managedClusterAzureMonitorProfileAppMonitoringAutoInstrumentationGenerator != nil {
 		return managedClusterAzureMonitorProfileAppMonitoringAutoInstrumentationGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation(generators)
-	managedClusterAzureMonitorProfileAppMonitoringAutoInstrumentationGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation{}), generators)
+	enabled := rapid.Ptr(rapid.Bool(), true)
+
+	managedClusterAzureMonitorProfileAppMonitoringAutoInstrumentationGenerator = rapid.Custom(func(t *rapid.T) ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation {
+		var result ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation
+		result.Enabled = enabled.Draw(t, "Enabled")
+		return result
+	})
 
 	return managedClusterAzureMonitorProfileAppMonitoringAutoInstrumentationGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation(gens map[string]gopter.Gen) {
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
 }
 
 func Test_ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -253,29 +215,23 @@ func Test_ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs_WhenSe
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs, ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs)
 }
 
 // RunJSONSerializationTestForManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs runs a test to see if a specific instance of ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs(subject ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs) string {
+func RunJSONSerializationTestForManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs(t *rapid.T) {
+	subject := ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -284,33 +240,31 @@ func RunJSONSerializationTestForManagedClusterAzureMonitorProfileAppMonitoringOp
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs instances for property testing - lazily
 // instantiated by ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsGenerator()
-var managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsGenerator gopter.Gen
+var managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsGenerator *rapid.Generator[ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs]
 
 // ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsGenerator returns a generator of ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs instances for property testing.
-func ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsGenerator() gopter.Gen {
+func ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsGenerator() *rapid.Generator[ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs] {
 	if managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsGenerator != nil {
 		return managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs(generators)
-	managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs{}), generators)
+	enabled := rapid.Ptr(rapid.Bool(), true)
+	port := rapid.Ptr(rapid.Int(), true)
+
+	managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsGenerator = rapid.Custom(func(t *rapid.T) ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs {
+		var result ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs
+		result.Enabled = enabled.Draw(t, "Enabled")
+		result.Port = port.Draw(t, "Port")
+		return result
+	})
 
 	return managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs(gens map[string]gopter.Gen) {
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["Port"] = gen.PtrOf(gen.Int())
 }
 
 func Test_ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -320,29 +274,23 @@ func Test_ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_Whe
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics, ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetricsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics)
 }
 
 // RunJSONSerializationTestForManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics runs a test to see if a specific instance of ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics(subject ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics) string {
+func RunJSONSerializationTestForManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics(t *rapid.T) {
+	subject := ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetricsGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -351,31 +299,29 @@ func RunJSONSerializationTestForManagedClusterAzureMonitorProfileAppMonitoringOp
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics instances for property testing -
 // lazily instantiated by ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetricsGenerator()
-var managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetricsGenerator gopter.Gen
+var managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetricsGenerator *rapid.Generator[ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics]
 
 // ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetricsGenerator returns a generator of ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics instances for property testing.
-func ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetricsGenerator() gopter.Gen {
+func ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetricsGenerator() *rapid.Generator[ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics] {
 	if managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetricsGenerator != nil {
 		return managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetricsGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics(generators)
-	managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetricsGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics{}), generators)
+	enabled := rapid.Ptr(rapid.Bool(), true)
+	port := rapid.Ptr(rapid.Int(), true)
+
+	managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetricsGenerator = rapid.Custom(func(t *rapid.T) ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics {
+		var result ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics
+		result.Enabled = enabled.Draw(t, "Enabled")
+		result.Port = port.Draw(t, "Port")
+		return result
+	})
 
 	return managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetricsGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics(gens map[string]gopter.Gen) {
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["Port"] = gen.PtrOf(gen.Int())
 }

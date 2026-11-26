@@ -32,7 +32,7 @@ func Test_EventGrid_Namespace_CRUD_20250215(t *testing.T) {
 			Tags:     map[string]string{"cheese": "blue"},
 			Sku: &eventgrid.NamespaceSku{
 				Name:     to.Ptr(eventgrid.NamespaceSku_Name_Standard),
-				Capacity: to.Ptr(1),
+				Capacity: new(1),
 			},
 		},
 	}

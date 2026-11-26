@@ -45,7 +45,7 @@ func ReplaceAnyTypeWithJSON() *Stage {
 				return it
 			}
 
-			replaceMapOfMapOfAnyWithJSON := func(v *astmodel.TypeVisitor[any], it *astmodel.MapType, ctx interface{}) (astmodel.Type, error) {
+			replaceMapOfMapOfAnyWithJSON := func(v *astmodel.TypeVisitor[any], it *astmodel.MapType, ctx any) (astmodel.Type, error) {
 				if astmodel.TypeEquals(it, mapOfMapOfAnyType) {
 					return mapOfJSON, nil
 				}

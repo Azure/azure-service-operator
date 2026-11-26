@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_AbsoluteMonthlySchedule_WhenSerializedToJson_DeserializesAsEqual(t *te
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AbsoluteMonthlySchedule via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAbsoluteMonthlySchedule, AbsoluteMonthlyScheduleGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAbsoluteMonthlySchedule)
 }
 
 // RunJSONSerializationTestForAbsoluteMonthlySchedule runs a test to see if a specific instance of AbsoluteMonthlySchedule round trips to JSON and back losslessly
-func RunJSONSerializationTestForAbsoluteMonthlySchedule(subject AbsoluteMonthlySchedule) string {
+func RunJSONSerializationTestForAbsoluteMonthlySchedule(t *rapid.T) {
+	subject := AbsoluteMonthlyScheduleGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AbsoluteMonthlySchedule
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,33 +45,30 @@ func RunJSONSerializationTestForAbsoluteMonthlySchedule(subject AbsoluteMonthlyS
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AbsoluteMonthlySchedule instances for property testing - lazily instantiated by
 // AbsoluteMonthlyScheduleGenerator()
-var absoluteMonthlyScheduleGenerator gopter.Gen
+var absoluteMonthlyScheduleGenerator *rapid.Generator[AbsoluteMonthlySchedule]
 
 // AbsoluteMonthlyScheduleGenerator returns a generator of AbsoluteMonthlySchedule instances for property testing.
-func AbsoluteMonthlyScheduleGenerator() gopter.Gen {
+func AbsoluteMonthlyScheduleGenerator() *rapid.Generator[AbsoluteMonthlySchedule] {
 	if absoluteMonthlyScheduleGenerator != nil {
 		return absoluteMonthlyScheduleGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAbsoluteMonthlySchedule(generators)
-	absoluteMonthlyScheduleGenerator = gen.Struct(reflect.TypeOf(AbsoluteMonthlySchedule{}), generators)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+
+	absoluteMonthlyScheduleGenerator = rapid.Custom(func(t *rapid.T) AbsoluteMonthlySchedule {
+		var result AbsoluteMonthlySchedule
+		result.DayOfMonth = ptrInt.Draw(t, "DayOfMonth")
+		result.IntervalMonths = ptrInt.Draw(t, "IntervalMonths")
+		return result
+	})
 
 	return absoluteMonthlyScheduleGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAbsoluteMonthlySchedule is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAbsoluteMonthlySchedule(gens map[string]gopter.Gen) {
-	gens["DayOfMonth"] = gen.PtrOf(gen.Int())
-	gens["IntervalMonths"] = gen.PtrOf(gen.Int())
 }
 
 func Test_AbsoluteMonthlySchedule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -91,29 +78,23 @@ func Test_AbsoluteMonthlySchedule_STATUS_WhenSerializedToJson_DeserializesAsEqua
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AbsoluteMonthlySchedule_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAbsoluteMonthlySchedule_STATUS, AbsoluteMonthlySchedule_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAbsoluteMonthlySchedule_STATUS)
 }
 
 // RunJSONSerializationTestForAbsoluteMonthlySchedule_STATUS runs a test to see if a specific instance of AbsoluteMonthlySchedule_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForAbsoluteMonthlySchedule_STATUS(subject AbsoluteMonthlySchedule_STATUS) string {
+func RunJSONSerializationTestForAbsoluteMonthlySchedule_STATUS(t *rapid.T) {
+	subject := AbsoluteMonthlySchedule_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AbsoluteMonthlySchedule_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -122,33 +103,30 @@ func RunJSONSerializationTestForAbsoluteMonthlySchedule_STATUS(subject AbsoluteM
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AbsoluteMonthlySchedule_STATUS instances for property testing - lazily instantiated by
 // AbsoluteMonthlySchedule_STATUSGenerator()
-var absoluteMonthlySchedule_STATUSGenerator gopter.Gen
+var absoluteMonthlySchedule_STATUSGenerator *rapid.Generator[AbsoluteMonthlySchedule_STATUS]
 
 // AbsoluteMonthlySchedule_STATUSGenerator returns a generator of AbsoluteMonthlySchedule_STATUS instances for property testing.
-func AbsoluteMonthlySchedule_STATUSGenerator() gopter.Gen {
+func AbsoluteMonthlySchedule_STATUSGenerator() *rapid.Generator[AbsoluteMonthlySchedule_STATUS] {
 	if absoluteMonthlySchedule_STATUSGenerator != nil {
 		return absoluteMonthlySchedule_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAbsoluteMonthlySchedule_STATUS(generators)
-	absoluteMonthlySchedule_STATUSGenerator = gen.Struct(reflect.TypeOf(AbsoluteMonthlySchedule_STATUS{}), generators)
+	ptrInt := rapid.Ptr(rapid.Int(), true)
+
+	absoluteMonthlySchedule_STATUSGenerator = rapid.Custom(func(t *rapid.T) AbsoluteMonthlySchedule_STATUS {
+		var result AbsoluteMonthlySchedule_STATUS
+		result.DayOfMonth = ptrInt.Draw(t, "DayOfMonth")
+		result.IntervalMonths = ptrInt.Draw(t, "IntervalMonths")
+		return result
+	})
 
 	return absoluteMonthlySchedule_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAbsoluteMonthlySchedule_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAbsoluteMonthlySchedule_STATUS(gens map[string]gopter.Gen) {
-	gens["DayOfMonth"] = gen.PtrOf(gen.Int())
-	gens["IntervalMonths"] = gen.PtrOf(gen.Int())
 }
 
 func Test_DailySchedule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -158,29 +136,23 @@ func Test_DailySchedule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DailySchedule via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDailySchedule, DailyScheduleGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDailySchedule)
 }
 
 // RunJSONSerializationTestForDailySchedule runs a test to see if a specific instance of DailySchedule round trips to JSON and back losslessly
-func RunJSONSerializationTestForDailySchedule(subject DailySchedule) string {
+func RunJSONSerializationTestForDailySchedule(t *rapid.T) {
+	subject := DailyScheduleGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DailySchedule
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -189,31 +161,28 @@ func RunJSONSerializationTestForDailySchedule(subject DailySchedule) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DailySchedule instances for property testing - lazily instantiated by DailyScheduleGenerator()
-var dailyScheduleGenerator gopter.Gen
+var dailyScheduleGenerator *rapid.Generator[DailySchedule]
 
 // DailyScheduleGenerator returns a generator of DailySchedule instances for property testing.
-func DailyScheduleGenerator() gopter.Gen {
+func DailyScheduleGenerator() *rapid.Generator[DailySchedule] {
 	if dailyScheduleGenerator != nil {
 		return dailyScheduleGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDailySchedule(generators)
-	dailyScheduleGenerator = gen.Struct(reflect.TypeOf(DailySchedule{}), generators)
+	intervalDays := rapid.Ptr(rapid.Int(), true)
+
+	dailyScheduleGenerator = rapid.Custom(func(t *rapid.T) DailySchedule {
+		var result DailySchedule
+		result.IntervalDays = intervalDays.Draw(t, "IntervalDays")
+		return result
+	})
 
 	return dailyScheduleGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDailySchedule is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDailySchedule(gens map[string]gopter.Gen) {
-	gens["IntervalDays"] = gen.PtrOf(gen.Int())
 }
 
 func Test_DailySchedule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -223,29 +192,23 @@ func Test_DailySchedule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testi
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DailySchedule_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDailySchedule_STATUS, DailySchedule_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDailySchedule_STATUS)
 }
 
 // RunJSONSerializationTestForDailySchedule_STATUS runs a test to see if a specific instance of DailySchedule_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDailySchedule_STATUS(subject DailySchedule_STATUS) string {
+func RunJSONSerializationTestForDailySchedule_STATUS(t *rapid.T) {
+	subject := DailySchedule_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DailySchedule_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -254,32 +217,29 @@ func RunJSONSerializationTestForDailySchedule_STATUS(subject DailySchedule_STATU
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DailySchedule_STATUS instances for property testing - lazily instantiated by
 // DailySchedule_STATUSGenerator()
-var dailySchedule_STATUSGenerator gopter.Gen
+var dailySchedule_STATUSGenerator *rapid.Generator[DailySchedule_STATUS]
 
 // DailySchedule_STATUSGenerator returns a generator of DailySchedule_STATUS instances for property testing.
-func DailySchedule_STATUSGenerator() gopter.Gen {
+func DailySchedule_STATUSGenerator() *rapid.Generator[DailySchedule_STATUS] {
 	if dailySchedule_STATUSGenerator != nil {
 		return dailySchedule_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDailySchedule_STATUS(generators)
-	dailySchedule_STATUSGenerator = gen.Struct(reflect.TypeOf(DailySchedule_STATUS{}), generators)
+	intervalDays := rapid.Ptr(rapid.Int(), true)
+
+	dailySchedule_STATUSGenerator = rapid.Custom(func(t *rapid.T) DailySchedule_STATUS {
+		var result DailySchedule_STATUS
+		result.IntervalDays = intervalDays.Draw(t, "IntervalDays")
+		return result
+	})
 
 	return dailySchedule_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDailySchedule_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDailySchedule_STATUS(gens map[string]gopter.Gen) {
-	gens["IntervalDays"] = gen.PtrOf(gen.Int())
 }
 
 func Test_DateSpan_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -289,29 +249,23 @@ func Test_DateSpan_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DateSpan via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDateSpan, DateSpanGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDateSpan)
 }
 
 // RunJSONSerializationTestForDateSpan runs a test to see if a specific instance of DateSpan round trips to JSON and back losslessly
-func RunJSONSerializationTestForDateSpan(subject DateSpan) string {
+func RunJSONSerializationTestForDateSpan(t *rapid.T) {
+	subject := DateSpanGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DateSpan
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -320,32 +274,29 @@ func RunJSONSerializationTestForDateSpan(subject DateSpan) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DateSpan instances for property testing - lazily instantiated by DateSpanGenerator()
-var dateSpanGenerator gopter.Gen
+var dateSpanGenerator *rapid.Generator[DateSpan]
 
 // DateSpanGenerator returns a generator of DateSpan instances for property testing.
-func DateSpanGenerator() gopter.Gen {
+func DateSpanGenerator() *rapid.Generator[DateSpan] {
 	if dateSpanGenerator != nil {
 		return dateSpanGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDateSpan(generators)
-	dateSpanGenerator = gen.Struct(reflect.TypeOf(DateSpan{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	dateSpanGenerator = rapid.Custom(func(t *rapid.T) DateSpan {
+		var result DateSpan
+		result.End = ptrString.Draw(t, "End")
+		result.Start = ptrString.Draw(t, "Start")
+		return result
+	})
 
 	return dateSpanGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDateSpan is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDateSpan(gens map[string]gopter.Gen) {
-	gens["End"] = gen.PtrOf(gen.AlphaString())
-	gens["Start"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_DateSpan_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -355,29 +306,23 @@ func Test_DateSpan_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DateSpan_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDateSpan_STATUS, DateSpan_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForDateSpan_STATUS)
 }
 
 // RunJSONSerializationTestForDateSpan_STATUS runs a test to see if a specific instance of DateSpan_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDateSpan_STATUS(subject DateSpan_STATUS) string {
+func RunJSONSerializationTestForDateSpan_STATUS(t *rapid.T) {
+	subject := DateSpan_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual DateSpan_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -386,32 +331,29 @@ func RunJSONSerializationTestForDateSpan_STATUS(subject DateSpan_STATUS) string 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of DateSpan_STATUS instances for property testing - lazily instantiated by DateSpan_STATUSGenerator()
-var dateSpan_STATUSGenerator gopter.Gen
+var dateSpan_STATUSGenerator *rapid.Generator[DateSpan_STATUS]
 
 // DateSpan_STATUSGenerator returns a generator of DateSpan_STATUS instances for property testing.
-func DateSpan_STATUSGenerator() gopter.Gen {
+func DateSpan_STATUSGenerator() *rapid.Generator[DateSpan_STATUS] {
 	if dateSpan_STATUSGenerator != nil {
 		return dateSpan_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDateSpan_STATUS(generators)
-	dateSpan_STATUSGenerator = gen.Struct(reflect.TypeOf(DateSpan_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	dateSpan_STATUSGenerator = rapid.Custom(func(t *rapid.T) DateSpan_STATUS {
+		var result DateSpan_STATUS
+		result.End = ptrString.Draw(t, "End")
+		result.Start = ptrString.Draw(t, "Start")
+		return result
+	})
 
 	return dateSpan_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDateSpan_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDateSpan_STATUS(gens map[string]gopter.Gen) {
-	gens["End"] = gen.PtrOf(gen.AlphaString())
-	gens["Start"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_MaintenanceConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -421,29 +363,23 @@ func Test_MaintenanceConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 20
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of MaintenanceConfiguration via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMaintenanceConfiguration, MaintenanceConfigurationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForMaintenanceConfiguration)
 }
 
 // RunJSONSerializationTestForMaintenanceConfiguration runs a test to see if a specific instance of MaintenanceConfiguration round trips to JSON and back losslessly
-func RunJSONSerializationTestForMaintenanceConfiguration(subject MaintenanceConfiguration) string {
+func RunJSONSerializationTestForMaintenanceConfiguration(t *rapid.T) {
+	subject := MaintenanceConfigurationGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual MaintenanceConfiguration
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -452,33 +388,31 @@ func RunJSONSerializationTestForMaintenanceConfiguration(subject MaintenanceConf
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of MaintenanceConfiguration instances for property testing - lazily instantiated by
 // MaintenanceConfigurationGenerator()
-var maintenanceConfigurationGenerator gopter.Gen
+var maintenanceConfigurationGenerator *rapid.Generator[MaintenanceConfiguration]
 
 // MaintenanceConfigurationGenerator returns a generator of MaintenanceConfiguration instances for property testing.
-func MaintenanceConfigurationGenerator() gopter.Gen {
+func MaintenanceConfigurationGenerator() *rapid.Generator[MaintenanceConfiguration] {
 	if maintenanceConfigurationGenerator != nil {
 		return maintenanceConfigurationGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForMaintenanceConfiguration(generators)
-	maintenanceConfigurationGenerator = gen.Struct(reflect.TypeOf(MaintenanceConfiguration{}), generators)
+	spec := MaintenanceConfiguration_SpecGenerator()
+	status := MaintenanceConfiguration_STATUSGenerator()
+
+	maintenanceConfigurationGenerator = rapid.Custom(func(t *rapid.T) MaintenanceConfiguration {
+		var result MaintenanceConfiguration
+		result.Spec = spec.Draw(t, "Spec")
+		result.Status = status.Draw(t, "Status")
+		return result
+	})
 
 	return maintenanceConfigurationGenerator
-}
-
-// AddRelatedPropertyGeneratorsForMaintenanceConfiguration is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForMaintenanceConfiguration(gens map[string]gopter.Gen) {
-	gens["Spec"] = MaintenanceConfiguration_SpecGenerator()
-	gens["Status"] = MaintenanceConfiguration_STATUSGenerator()
 }
 
 func Test_MaintenanceConfigurationOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -488,29 +422,23 @@ func Test_MaintenanceConfigurationOperatorSpec_WhenSerializedToJson_Deserializes
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of MaintenanceConfigurationOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMaintenanceConfigurationOperatorSpec, MaintenanceConfigurationOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForMaintenanceConfigurationOperatorSpec)
 }
 
 // RunJSONSerializationTestForMaintenanceConfigurationOperatorSpec runs a test to see if a specific instance of MaintenanceConfigurationOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForMaintenanceConfigurationOperatorSpec(subject MaintenanceConfigurationOperatorSpec) string {
+func RunJSONSerializationTestForMaintenanceConfigurationOperatorSpec(t *rapid.T) {
+	subject := MaintenanceConfigurationOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual MaintenanceConfigurationOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -519,24 +447,21 @@ func RunJSONSerializationTestForMaintenanceConfigurationOperatorSpec(subject Mai
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of MaintenanceConfigurationOperatorSpec instances for property testing - lazily instantiated by
 // MaintenanceConfigurationOperatorSpecGenerator()
-var maintenanceConfigurationOperatorSpecGenerator gopter.Gen
+var maintenanceConfigurationOperatorSpecGenerator *rapid.Generator[MaintenanceConfigurationOperatorSpec]
 
 // MaintenanceConfigurationOperatorSpecGenerator returns a generator of MaintenanceConfigurationOperatorSpec instances for property testing.
-func MaintenanceConfigurationOperatorSpecGenerator() gopter.Gen {
+func MaintenanceConfigurationOperatorSpecGenerator() *rapid.Generator[MaintenanceConfigurationOperatorSpec] {
 	if maintenanceConfigurationOperatorSpecGenerator != nil {
 		return maintenanceConfigurationOperatorSpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	maintenanceConfigurationOperatorSpecGenerator = gen.Struct(reflect.TypeOf(MaintenanceConfigurationOperatorSpec{}), generators)
+	maintenanceConfigurationOperatorSpecGenerator = rapid.Just(MaintenanceConfigurationOperatorSpec{})
 
 	return maintenanceConfigurationOperatorSpecGenerator
 }
@@ -548,29 +473,23 @@ func Test_MaintenanceConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqu
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of MaintenanceConfiguration_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMaintenanceConfiguration_STATUS, MaintenanceConfiguration_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForMaintenanceConfiguration_STATUS)
 }
 
 // RunJSONSerializationTestForMaintenanceConfiguration_STATUS runs a test to see if a specific instance of MaintenanceConfiguration_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForMaintenanceConfiguration_STATUS(subject MaintenanceConfiguration_STATUS) string {
+func RunJSONSerializationTestForMaintenanceConfiguration_STATUS(t *rapid.T) {
+	subject := MaintenanceConfiguration_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual MaintenanceConfiguration_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -579,51 +498,39 @@ func RunJSONSerializationTestForMaintenanceConfiguration_STATUS(subject Maintena
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of MaintenanceConfiguration_STATUS instances for property testing - lazily instantiated by
 // MaintenanceConfiguration_STATUSGenerator()
-var maintenanceConfiguration_STATUSGenerator gopter.Gen
+var maintenanceConfiguration_STATUSGenerator *rapid.Generator[MaintenanceConfiguration_STATUS]
 
 // MaintenanceConfiguration_STATUSGenerator returns a generator of MaintenanceConfiguration_STATUS instances for property testing.
-// We first initialize maintenanceConfiguration_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func MaintenanceConfiguration_STATUSGenerator() gopter.Gen {
+func MaintenanceConfiguration_STATUSGenerator() *rapid.Generator[MaintenanceConfiguration_STATUS] {
 	if maintenanceConfiguration_STATUSGenerator != nil {
 		return maintenanceConfiguration_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMaintenanceConfiguration_STATUS(generators)
-	maintenanceConfiguration_STATUSGenerator = gen.Struct(reflect.TypeOf(MaintenanceConfiguration_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	maintenanceWindow := rapid.Ptr(MaintenanceWindow_STATUSGenerator(), true)
+	notAllowedTime := rapid.SliceOf(TimeSpan_STATUSGenerator())
+	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
+	timeInWeek := rapid.SliceOf(TimeInWeek_STATUSGenerator())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMaintenanceConfiguration_STATUS(generators)
-	AddRelatedPropertyGeneratorsForMaintenanceConfiguration_STATUS(generators)
-	maintenanceConfiguration_STATUSGenerator = gen.Struct(reflect.TypeOf(MaintenanceConfiguration_STATUS{}), generators)
+	maintenanceConfiguration_STATUSGenerator = rapid.Custom(func(t *rapid.T) MaintenanceConfiguration_STATUS {
+		var result MaintenanceConfiguration_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.MaintenanceWindow = maintenanceWindow.Draw(t, "MaintenanceWindow")
+		result.Name = ptrString.Draw(t, "Name")
+		result.NotAllowedTime = notAllowedTime.Draw(t, "NotAllowedTime")
+		result.SystemData = systemData.Draw(t, "SystemData")
+		result.TimeInWeek = timeInWeek.Draw(t, "TimeInWeek")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return maintenanceConfiguration_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForMaintenanceConfiguration_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMaintenanceConfiguration_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForMaintenanceConfiguration_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForMaintenanceConfiguration_STATUS(gens map[string]gopter.Gen) {
-	gens["MaintenanceWindow"] = gen.PtrOf(MaintenanceWindow_STATUSGenerator())
-	gens["NotAllowedTime"] = gen.SliceOf(TimeSpan_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
-	gens["TimeInWeek"] = gen.SliceOf(TimeInWeek_STATUSGenerator())
 }
 
 func Test_MaintenanceConfiguration_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -633,29 +540,23 @@ func Test_MaintenanceConfiguration_Spec_WhenSerializedToJson_DeserializesAsEqual
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of MaintenanceConfiguration_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMaintenanceConfiguration_Spec, MaintenanceConfiguration_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForMaintenanceConfiguration_Spec)
 }
 
 // RunJSONSerializationTestForMaintenanceConfiguration_Spec runs a test to see if a specific instance of MaintenanceConfiguration_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForMaintenanceConfiguration_Spec(subject MaintenanceConfiguration_Spec) string {
+func RunJSONSerializationTestForMaintenanceConfiguration_Spec(t *rapid.T) {
+	subject := MaintenanceConfiguration_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual MaintenanceConfiguration_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -664,50 +565,38 @@ func RunJSONSerializationTestForMaintenanceConfiguration_Spec(subject Maintenanc
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of MaintenanceConfiguration_Spec instances for property testing - lazily instantiated by
 // MaintenanceConfiguration_SpecGenerator()
-var maintenanceConfiguration_SpecGenerator gopter.Gen
+var maintenanceConfiguration_SpecGenerator *rapid.Generator[MaintenanceConfiguration_Spec]
 
 // MaintenanceConfiguration_SpecGenerator returns a generator of MaintenanceConfiguration_Spec instances for property testing.
-// We first initialize maintenanceConfiguration_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func MaintenanceConfiguration_SpecGenerator() gopter.Gen {
+func MaintenanceConfiguration_SpecGenerator() *rapid.Generator[MaintenanceConfiguration_Spec] {
 	if maintenanceConfiguration_SpecGenerator != nil {
 		return maintenanceConfiguration_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMaintenanceConfiguration_Spec(generators)
-	maintenanceConfiguration_SpecGenerator = gen.Struct(reflect.TypeOf(MaintenanceConfiguration_Spec{}), generators)
+	genString := rapid.String()
+	maintenanceWindow := rapid.Ptr(MaintenanceWindowGenerator(), true)
+	notAllowedTime := rapid.SliceOf(TimeSpanGenerator())
+	operatorSpec := rapid.Ptr(MaintenanceConfigurationOperatorSpecGenerator(), true)
+	timeInWeek := rapid.SliceOf(TimeInWeekGenerator())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMaintenanceConfiguration_Spec(generators)
-	AddRelatedPropertyGeneratorsForMaintenanceConfiguration_Spec(generators)
-	maintenanceConfiguration_SpecGenerator = gen.Struct(reflect.TypeOf(MaintenanceConfiguration_Spec{}), generators)
+	maintenanceConfiguration_SpecGenerator = rapid.Custom(func(t *rapid.T) MaintenanceConfiguration_Spec {
+		var result MaintenanceConfiguration_Spec
+		result.AzureName = genString.Draw(t, "AzureName")
+		result.MaintenanceWindow = maintenanceWindow.Draw(t, "MaintenanceWindow")
+		result.NotAllowedTime = notAllowedTime.Draw(t, "NotAllowedTime")
+		result.OperatorSpec = operatorSpec.Draw(t, "OperatorSpec")
+		result.OriginalVersion = genString.Draw(t, "OriginalVersion")
+		result.TimeInWeek = timeInWeek.Draw(t, "TimeInWeek")
+		return result
+	})
 
 	return maintenanceConfiguration_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForMaintenanceConfiguration_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMaintenanceConfiguration_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["OriginalVersion"] = gen.AlphaString()
-}
-
-// AddRelatedPropertyGeneratorsForMaintenanceConfiguration_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForMaintenanceConfiguration_Spec(gens map[string]gopter.Gen) {
-	gens["MaintenanceWindow"] = gen.PtrOf(MaintenanceWindowGenerator())
-	gens["NotAllowedTime"] = gen.SliceOf(TimeSpanGenerator())
-	gens["OperatorSpec"] = gen.PtrOf(MaintenanceConfigurationOperatorSpecGenerator())
-	gens["TimeInWeek"] = gen.SliceOf(TimeInWeekGenerator())
 }
 
 func Test_MaintenanceWindow_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -717,29 +606,23 @@ func Test_MaintenanceWindow_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of MaintenanceWindow via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMaintenanceWindow, MaintenanceWindowGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForMaintenanceWindow)
 }
 
 // RunJSONSerializationTestForMaintenanceWindow runs a test to see if a specific instance of MaintenanceWindow round trips to JSON and back losslessly
-func RunJSONSerializationTestForMaintenanceWindow(subject MaintenanceWindow) string {
+func RunJSONSerializationTestForMaintenanceWindow(t *rapid.T) {
+	subject := MaintenanceWindowGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual MaintenanceWindow
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -748,49 +631,36 @@ func RunJSONSerializationTestForMaintenanceWindow(subject MaintenanceWindow) str
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of MaintenanceWindow instances for property testing - lazily instantiated by MaintenanceWindowGenerator()
-var maintenanceWindowGenerator gopter.Gen
+var maintenanceWindowGenerator *rapid.Generator[MaintenanceWindow]
 
 // MaintenanceWindowGenerator returns a generator of MaintenanceWindow instances for property testing.
-// We first initialize maintenanceWindowGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func MaintenanceWindowGenerator() gopter.Gen {
+func MaintenanceWindowGenerator() *rapid.Generator[MaintenanceWindow] {
 	if maintenanceWindowGenerator != nil {
 		return maintenanceWindowGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMaintenanceWindow(generators)
-	maintenanceWindowGenerator = gen.Struct(reflect.TypeOf(MaintenanceWindow{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	durationHours := rapid.Ptr(rapid.Int(), true)
+	notAllowedDates := rapid.SliceOf(DateSpanGenerator())
+	schedule := rapid.Ptr(ScheduleGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMaintenanceWindow(generators)
-	AddRelatedPropertyGeneratorsForMaintenanceWindow(generators)
-	maintenanceWindowGenerator = gen.Struct(reflect.TypeOf(MaintenanceWindow{}), generators)
+	maintenanceWindowGenerator = rapid.Custom(func(t *rapid.T) MaintenanceWindow {
+		var result MaintenanceWindow
+		result.DurationHours = durationHours.Draw(t, "DurationHours")
+		result.NotAllowedDates = notAllowedDates.Draw(t, "NotAllowedDates")
+		result.Schedule = schedule.Draw(t, "Schedule")
+		result.StartDate = ptrString.Draw(t, "StartDate")
+		result.StartTime = ptrString.Draw(t, "StartTime")
+		result.UtcOffset = ptrString.Draw(t, "UtcOffset")
+		return result
+	})
 
 	return maintenanceWindowGenerator
-}
-
-// AddIndependentPropertyGeneratorsForMaintenanceWindow is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMaintenanceWindow(gens map[string]gopter.Gen) {
-	gens["DurationHours"] = gen.PtrOf(gen.Int())
-	gens["StartDate"] = gen.PtrOf(gen.AlphaString())
-	gens["StartTime"] = gen.PtrOf(gen.AlphaString())
-	gens["UtcOffset"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForMaintenanceWindow is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForMaintenanceWindow(gens map[string]gopter.Gen) {
-	gens["NotAllowedDates"] = gen.SliceOf(DateSpanGenerator())
-	gens["Schedule"] = gen.PtrOf(ScheduleGenerator())
 }
 
 func Test_MaintenanceWindow_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -800,29 +670,23 @@ func Test_MaintenanceWindow_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *t
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of MaintenanceWindow_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMaintenanceWindow_STATUS, MaintenanceWindow_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForMaintenanceWindow_STATUS)
 }
 
 // RunJSONSerializationTestForMaintenanceWindow_STATUS runs a test to see if a specific instance of MaintenanceWindow_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForMaintenanceWindow_STATUS(subject MaintenanceWindow_STATUS) string {
+func RunJSONSerializationTestForMaintenanceWindow_STATUS(t *rapid.T) {
+	subject := MaintenanceWindow_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual MaintenanceWindow_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -831,50 +695,37 @@ func RunJSONSerializationTestForMaintenanceWindow_STATUS(subject MaintenanceWind
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of MaintenanceWindow_STATUS instances for property testing - lazily instantiated by
 // MaintenanceWindow_STATUSGenerator()
-var maintenanceWindow_STATUSGenerator gopter.Gen
+var maintenanceWindow_STATUSGenerator *rapid.Generator[MaintenanceWindow_STATUS]
 
 // MaintenanceWindow_STATUSGenerator returns a generator of MaintenanceWindow_STATUS instances for property testing.
-// We first initialize maintenanceWindow_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func MaintenanceWindow_STATUSGenerator() gopter.Gen {
+func MaintenanceWindow_STATUSGenerator() *rapid.Generator[MaintenanceWindow_STATUS] {
 	if maintenanceWindow_STATUSGenerator != nil {
 		return maintenanceWindow_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMaintenanceWindow_STATUS(generators)
-	maintenanceWindow_STATUSGenerator = gen.Struct(reflect.TypeOf(MaintenanceWindow_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	durationHours := rapid.Ptr(rapid.Int(), true)
+	notAllowedDates := rapid.SliceOf(DateSpan_STATUSGenerator())
+	schedule := rapid.Ptr(Schedule_STATUSGenerator(), true)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMaintenanceWindow_STATUS(generators)
-	AddRelatedPropertyGeneratorsForMaintenanceWindow_STATUS(generators)
-	maintenanceWindow_STATUSGenerator = gen.Struct(reflect.TypeOf(MaintenanceWindow_STATUS{}), generators)
+	maintenanceWindow_STATUSGenerator = rapid.Custom(func(t *rapid.T) MaintenanceWindow_STATUS {
+		var result MaintenanceWindow_STATUS
+		result.DurationHours = durationHours.Draw(t, "DurationHours")
+		result.NotAllowedDates = notAllowedDates.Draw(t, "NotAllowedDates")
+		result.Schedule = schedule.Draw(t, "Schedule")
+		result.StartDate = ptrString.Draw(t, "StartDate")
+		result.StartTime = ptrString.Draw(t, "StartTime")
+		result.UtcOffset = ptrString.Draw(t, "UtcOffset")
+		return result
+	})
 
 	return maintenanceWindow_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForMaintenanceWindow_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMaintenanceWindow_STATUS(gens map[string]gopter.Gen) {
-	gens["DurationHours"] = gen.PtrOf(gen.Int())
-	gens["StartDate"] = gen.PtrOf(gen.AlphaString())
-	gens["StartTime"] = gen.PtrOf(gen.AlphaString())
-	gens["UtcOffset"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForMaintenanceWindow_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForMaintenanceWindow_STATUS(gens map[string]gopter.Gen) {
-	gens["NotAllowedDates"] = gen.SliceOf(DateSpan_STATUSGenerator())
-	gens["Schedule"] = gen.PtrOf(Schedule_STATUSGenerator())
 }
 
 func Test_RelativeMonthlySchedule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -884,29 +735,23 @@ func Test_RelativeMonthlySchedule_WhenSerializedToJson_DeserializesAsEqual(t *te
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RelativeMonthlySchedule via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRelativeMonthlySchedule, RelativeMonthlyScheduleGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRelativeMonthlySchedule)
 }
 
 // RunJSONSerializationTestForRelativeMonthlySchedule runs a test to see if a specific instance of RelativeMonthlySchedule round trips to JSON and back losslessly
-func RunJSONSerializationTestForRelativeMonthlySchedule(subject RelativeMonthlySchedule) string {
+func RunJSONSerializationTestForRelativeMonthlySchedule(t *rapid.T) {
+	subject := RelativeMonthlyScheduleGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RelativeMonthlySchedule
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -915,34 +760,32 @@ func RunJSONSerializationTestForRelativeMonthlySchedule(subject RelativeMonthlyS
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RelativeMonthlySchedule instances for property testing - lazily instantiated by
 // RelativeMonthlyScheduleGenerator()
-var relativeMonthlyScheduleGenerator gopter.Gen
+var relativeMonthlyScheduleGenerator *rapid.Generator[RelativeMonthlySchedule]
 
 // RelativeMonthlyScheduleGenerator returns a generator of RelativeMonthlySchedule instances for property testing.
-func RelativeMonthlyScheduleGenerator() gopter.Gen {
+func RelativeMonthlyScheduleGenerator() *rapid.Generator[RelativeMonthlySchedule] {
 	if relativeMonthlyScheduleGenerator != nil {
 		return relativeMonthlyScheduleGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRelativeMonthlySchedule(generators)
-	relativeMonthlyScheduleGenerator = gen.Struct(reflect.TypeOf(RelativeMonthlySchedule{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	intervalMonths := rapid.Ptr(rapid.Int(), true)
+
+	relativeMonthlyScheduleGenerator = rapid.Custom(func(t *rapid.T) RelativeMonthlySchedule {
+		var result RelativeMonthlySchedule
+		result.DayOfWeek = ptrString.Draw(t, "DayOfWeek")
+		result.IntervalMonths = intervalMonths.Draw(t, "IntervalMonths")
+		result.WeekIndex = ptrString.Draw(t, "WeekIndex")
+		return result
+	})
 
 	return relativeMonthlyScheduleGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRelativeMonthlySchedule is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRelativeMonthlySchedule(gens map[string]gopter.Gen) {
-	gens["DayOfWeek"] = gen.PtrOf(gen.AlphaString())
-	gens["IntervalMonths"] = gen.PtrOf(gen.Int())
-	gens["WeekIndex"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_RelativeMonthlySchedule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -952,29 +795,23 @@ func Test_RelativeMonthlySchedule_STATUS_WhenSerializedToJson_DeserializesAsEqua
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RelativeMonthlySchedule_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRelativeMonthlySchedule_STATUS, RelativeMonthlySchedule_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForRelativeMonthlySchedule_STATUS)
 }
 
 // RunJSONSerializationTestForRelativeMonthlySchedule_STATUS runs a test to see if a specific instance of RelativeMonthlySchedule_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForRelativeMonthlySchedule_STATUS(subject RelativeMonthlySchedule_STATUS) string {
+func RunJSONSerializationTestForRelativeMonthlySchedule_STATUS(t *rapid.T) {
+	subject := RelativeMonthlySchedule_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual RelativeMonthlySchedule_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -983,34 +820,32 @@ func RunJSONSerializationTestForRelativeMonthlySchedule_STATUS(subject RelativeM
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of RelativeMonthlySchedule_STATUS instances for property testing - lazily instantiated by
 // RelativeMonthlySchedule_STATUSGenerator()
-var relativeMonthlySchedule_STATUSGenerator gopter.Gen
+var relativeMonthlySchedule_STATUSGenerator *rapid.Generator[RelativeMonthlySchedule_STATUS]
 
 // RelativeMonthlySchedule_STATUSGenerator returns a generator of RelativeMonthlySchedule_STATUS instances for property testing.
-func RelativeMonthlySchedule_STATUSGenerator() gopter.Gen {
+func RelativeMonthlySchedule_STATUSGenerator() *rapid.Generator[RelativeMonthlySchedule_STATUS] {
 	if relativeMonthlySchedule_STATUSGenerator != nil {
 		return relativeMonthlySchedule_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRelativeMonthlySchedule_STATUS(generators)
-	relativeMonthlySchedule_STATUSGenerator = gen.Struct(reflect.TypeOf(RelativeMonthlySchedule_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	intervalMonths := rapid.Ptr(rapid.Int(), true)
+
+	relativeMonthlySchedule_STATUSGenerator = rapid.Custom(func(t *rapid.T) RelativeMonthlySchedule_STATUS {
+		var result RelativeMonthlySchedule_STATUS
+		result.DayOfWeek = ptrString.Draw(t, "DayOfWeek")
+		result.IntervalMonths = intervalMonths.Draw(t, "IntervalMonths")
+		result.WeekIndex = ptrString.Draw(t, "WeekIndex")
+		return result
+	})
 
 	return relativeMonthlySchedule_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRelativeMonthlySchedule_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRelativeMonthlySchedule_STATUS(gens map[string]gopter.Gen) {
-	gens["DayOfWeek"] = gen.PtrOf(gen.AlphaString())
-	gens["IntervalMonths"] = gen.PtrOf(gen.Int())
-	gens["WeekIndex"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_Schedule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1020,29 +855,23 @@ func Test_Schedule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Schedule via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSchedule, ScheduleGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSchedule)
 }
 
 // RunJSONSerializationTestForSchedule runs a test to see if a specific instance of Schedule round trips to JSON and back losslessly
-func RunJSONSerializationTestForSchedule(subject Schedule) string {
+func RunJSONSerializationTestForSchedule(t *rapid.T) {
+	subject := ScheduleGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Schedule
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1051,34 +880,34 @@ func RunJSONSerializationTestForSchedule(subject Schedule) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Schedule instances for property testing - lazily instantiated by ScheduleGenerator()
-var scheduleGenerator gopter.Gen
+var scheduleGenerator *rapid.Generator[Schedule]
 
 // ScheduleGenerator returns a generator of Schedule instances for property testing.
-func ScheduleGenerator() gopter.Gen {
+func ScheduleGenerator() *rapid.Generator[Schedule] {
 	if scheduleGenerator != nil {
 		return scheduleGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForSchedule(generators)
-	scheduleGenerator = gen.Struct(reflect.TypeOf(Schedule{}), generators)
+	absoluteMonthly := rapid.Ptr(AbsoluteMonthlyScheduleGenerator(), true)
+	daily := rapid.Ptr(DailyScheduleGenerator(), true)
+	relativeMonthly := rapid.Ptr(RelativeMonthlyScheduleGenerator(), true)
+	weekly := rapid.Ptr(WeeklyScheduleGenerator(), true)
+
+	scheduleGenerator = rapid.Custom(func(t *rapid.T) Schedule {
+		var result Schedule
+		result.AbsoluteMonthly = absoluteMonthly.Draw(t, "AbsoluteMonthly")
+		result.Daily = daily.Draw(t, "Daily")
+		result.RelativeMonthly = relativeMonthly.Draw(t, "RelativeMonthly")
+		result.Weekly = weekly.Draw(t, "Weekly")
+		return result
+	})
 
 	return scheduleGenerator
-}
-
-// AddRelatedPropertyGeneratorsForSchedule is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSchedule(gens map[string]gopter.Gen) {
-	gens["AbsoluteMonthly"] = gen.PtrOf(AbsoluteMonthlyScheduleGenerator())
-	gens["Daily"] = gen.PtrOf(DailyScheduleGenerator())
-	gens["RelativeMonthly"] = gen.PtrOf(RelativeMonthlyScheduleGenerator())
-	gens["Weekly"] = gen.PtrOf(WeeklyScheduleGenerator())
 }
 
 func Test_Schedule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1088,29 +917,23 @@ func Test_Schedule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Schedule_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSchedule_STATUS, Schedule_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForSchedule_STATUS)
 }
 
 // RunJSONSerializationTestForSchedule_STATUS runs a test to see if a specific instance of Schedule_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSchedule_STATUS(subject Schedule_STATUS) string {
+func RunJSONSerializationTestForSchedule_STATUS(t *rapid.T) {
+	subject := Schedule_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Schedule_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1119,34 +942,34 @@ func RunJSONSerializationTestForSchedule_STATUS(subject Schedule_STATUS) string 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Schedule_STATUS instances for property testing - lazily instantiated by Schedule_STATUSGenerator()
-var schedule_STATUSGenerator gopter.Gen
+var schedule_STATUSGenerator *rapid.Generator[Schedule_STATUS]
 
 // Schedule_STATUSGenerator returns a generator of Schedule_STATUS instances for property testing.
-func Schedule_STATUSGenerator() gopter.Gen {
+func Schedule_STATUSGenerator() *rapid.Generator[Schedule_STATUS] {
 	if schedule_STATUSGenerator != nil {
 		return schedule_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForSchedule_STATUS(generators)
-	schedule_STATUSGenerator = gen.Struct(reflect.TypeOf(Schedule_STATUS{}), generators)
+	absoluteMonthly := rapid.Ptr(AbsoluteMonthlySchedule_STATUSGenerator(), true)
+	daily := rapid.Ptr(DailySchedule_STATUSGenerator(), true)
+	relativeMonthly := rapid.Ptr(RelativeMonthlySchedule_STATUSGenerator(), true)
+	weekly := rapid.Ptr(WeeklySchedule_STATUSGenerator(), true)
+
+	schedule_STATUSGenerator = rapid.Custom(func(t *rapid.T) Schedule_STATUS {
+		var result Schedule_STATUS
+		result.AbsoluteMonthly = absoluteMonthly.Draw(t, "AbsoluteMonthly")
+		result.Daily = daily.Draw(t, "Daily")
+		result.RelativeMonthly = relativeMonthly.Draw(t, "RelativeMonthly")
+		result.Weekly = weekly.Draw(t, "Weekly")
+		return result
+	})
 
 	return schedule_STATUSGenerator
-}
-
-// AddRelatedPropertyGeneratorsForSchedule_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSchedule_STATUS(gens map[string]gopter.Gen) {
-	gens["AbsoluteMonthly"] = gen.PtrOf(AbsoluteMonthlySchedule_STATUSGenerator())
-	gens["Daily"] = gen.PtrOf(DailySchedule_STATUSGenerator())
-	gens["RelativeMonthly"] = gen.PtrOf(RelativeMonthlySchedule_STATUSGenerator())
-	gens["Weekly"] = gen.PtrOf(WeeklySchedule_STATUSGenerator())
 }
 
 func Test_TimeInWeek_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1156,29 +979,23 @@ func Test_TimeInWeek_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of TimeInWeek via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForTimeInWeek, TimeInWeekGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForTimeInWeek)
 }
 
 // RunJSONSerializationTestForTimeInWeek runs a test to see if a specific instance of TimeInWeek round trips to JSON and back losslessly
-func RunJSONSerializationTestForTimeInWeek(subject TimeInWeek) string {
+func RunJSONSerializationTestForTimeInWeek(t *rapid.T) {
+	subject := TimeInWeekGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual TimeInWeek
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1187,32 +1004,30 @@ func RunJSONSerializationTestForTimeInWeek(subject TimeInWeek) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of TimeInWeek instances for property testing - lazily instantiated by TimeInWeekGenerator()
-var timeInWeekGenerator gopter.Gen
+var timeInWeekGenerator *rapid.Generator[TimeInWeek]
 
 // TimeInWeekGenerator returns a generator of TimeInWeek instances for property testing.
-func TimeInWeekGenerator() gopter.Gen {
+func TimeInWeekGenerator() *rapid.Generator[TimeInWeek] {
 	if timeInWeekGenerator != nil {
 		return timeInWeekGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForTimeInWeek(generators)
-	timeInWeekGenerator = gen.Struct(reflect.TypeOf(TimeInWeek{}), generators)
+	day := rapid.Ptr(rapid.String(), true)
+	hourSlots := rapid.SliceOf(rapid.Int())
+
+	timeInWeekGenerator = rapid.Custom(func(t *rapid.T) TimeInWeek {
+		var result TimeInWeek
+		result.Day = day.Draw(t, "Day")
+		result.HourSlots = hourSlots.Draw(t, "HourSlots")
+		return result
+	})
 
 	return timeInWeekGenerator
-}
-
-// AddIndependentPropertyGeneratorsForTimeInWeek is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForTimeInWeek(gens map[string]gopter.Gen) {
-	gens["Day"] = gen.PtrOf(gen.AlphaString())
-	gens["HourSlots"] = gen.SliceOf(gen.Int())
 }
 
 func Test_TimeInWeek_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1222,29 +1037,23 @@ func Test_TimeInWeek_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of TimeInWeek_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForTimeInWeek_STATUS, TimeInWeek_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForTimeInWeek_STATUS)
 }
 
 // RunJSONSerializationTestForTimeInWeek_STATUS runs a test to see if a specific instance of TimeInWeek_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForTimeInWeek_STATUS(subject TimeInWeek_STATUS) string {
+func RunJSONSerializationTestForTimeInWeek_STATUS(t *rapid.T) {
+	subject := TimeInWeek_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual TimeInWeek_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1253,32 +1062,30 @@ func RunJSONSerializationTestForTimeInWeek_STATUS(subject TimeInWeek_STATUS) str
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of TimeInWeek_STATUS instances for property testing - lazily instantiated by TimeInWeek_STATUSGenerator()
-var timeInWeek_STATUSGenerator gopter.Gen
+var timeInWeek_STATUSGenerator *rapid.Generator[TimeInWeek_STATUS]
 
 // TimeInWeek_STATUSGenerator returns a generator of TimeInWeek_STATUS instances for property testing.
-func TimeInWeek_STATUSGenerator() gopter.Gen {
+func TimeInWeek_STATUSGenerator() *rapid.Generator[TimeInWeek_STATUS] {
 	if timeInWeek_STATUSGenerator != nil {
 		return timeInWeek_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForTimeInWeek_STATUS(generators)
-	timeInWeek_STATUSGenerator = gen.Struct(reflect.TypeOf(TimeInWeek_STATUS{}), generators)
+	day := rapid.Ptr(rapid.String(), true)
+	hourSlots := rapid.SliceOf(rapid.Int())
+
+	timeInWeek_STATUSGenerator = rapid.Custom(func(t *rapid.T) TimeInWeek_STATUS {
+		var result TimeInWeek_STATUS
+		result.Day = day.Draw(t, "Day")
+		result.HourSlots = hourSlots.Draw(t, "HourSlots")
+		return result
+	})
 
 	return timeInWeek_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForTimeInWeek_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForTimeInWeek_STATUS(gens map[string]gopter.Gen) {
-	gens["Day"] = gen.PtrOf(gen.AlphaString())
-	gens["HourSlots"] = gen.SliceOf(gen.Int())
 }
 
 func Test_TimeSpan_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1288,29 +1095,23 @@ func Test_TimeSpan_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of TimeSpan via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForTimeSpan, TimeSpanGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForTimeSpan)
 }
 
 // RunJSONSerializationTestForTimeSpan runs a test to see if a specific instance of TimeSpan round trips to JSON and back losslessly
-func RunJSONSerializationTestForTimeSpan(subject TimeSpan) string {
+func RunJSONSerializationTestForTimeSpan(t *rapid.T) {
+	subject := TimeSpanGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual TimeSpan
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1319,32 +1120,29 @@ func RunJSONSerializationTestForTimeSpan(subject TimeSpan) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of TimeSpan instances for property testing - lazily instantiated by TimeSpanGenerator()
-var timeSpanGenerator gopter.Gen
+var timeSpanGenerator *rapid.Generator[TimeSpan]
 
 // TimeSpanGenerator returns a generator of TimeSpan instances for property testing.
-func TimeSpanGenerator() gopter.Gen {
+func TimeSpanGenerator() *rapid.Generator[TimeSpan] {
 	if timeSpanGenerator != nil {
 		return timeSpanGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForTimeSpan(generators)
-	timeSpanGenerator = gen.Struct(reflect.TypeOf(TimeSpan{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	timeSpanGenerator = rapid.Custom(func(t *rapid.T) TimeSpan {
+		var result TimeSpan
+		result.End = ptrString.Draw(t, "End")
+		result.Start = ptrString.Draw(t, "Start")
+		return result
+	})
 
 	return timeSpanGenerator
-}
-
-// AddIndependentPropertyGeneratorsForTimeSpan is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForTimeSpan(gens map[string]gopter.Gen) {
-	gens["End"] = gen.PtrOf(gen.AlphaString())
-	gens["Start"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_TimeSpan_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1354,29 +1152,23 @@ func Test_TimeSpan_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T)
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of TimeSpan_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForTimeSpan_STATUS, TimeSpan_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForTimeSpan_STATUS)
 }
 
 // RunJSONSerializationTestForTimeSpan_STATUS runs a test to see if a specific instance of TimeSpan_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForTimeSpan_STATUS(subject TimeSpan_STATUS) string {
+func RunJSONSerializationTestForTimeSpan_STATUS(t *rapid.T) {
+	subject := TimeSpan_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual TimeSpan_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1385,32 +1177,29 @@ func RunJSONSerializationTestForTimeSpan_STATUS(subject TimeSpan_STATUS) string 
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of TimeSpan_STATUS instances for property testing - lazily instantiated by TimeSpan_STATUSGenerator()
-var timeSpan_STATUSGenerator gopter.Gen
+var timeSpan_STATUSGenerator *rapid.Generator[TimeSpan_STATUS]
 
 // TimeSpan_STATUSGenerator returns a generator of TimeSpan_STATUS instances for property testing.
-func TimeSpan_STATUSGenerator() gopter.Gen {
+func TimeSpan_STATUSGenerator() *rapid.Generator[TimeSpan_STATUS] {
 	if timeSpan_STATUSGenerator != nil {
 		return timeSpan_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForTimeSpan_STATUS(generators)
-	timeSpan_STATUSGenerator = gen.Struct(reflect.TypeOf(TimeSpan_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+
+	timeSpan_STATUSGenerator = rapid.Custom(func(t *rapid.T) TimeSpan_STATUS {
+		var result TimeSpan_STATUS
+		result.End = ptrString.Draw(t, "End")
+		result.Start = ptrString.Draw(t, "Start")
+		return result
+	})
 
 	return timeSpan_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForTimeSpan_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForTimeSpan_STATUS(gens map[string]gopter.Gen) {
-	gens["End"] = gen.PtrOf(gen.AlphaString())
-	gens["Start"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_WeeklySchedule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1420,29 +1209,23 @@ func Test_WeeklySchedule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) 
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of WeeklySchedule via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWeeklySchedule, WeeklyScheduleGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForWeeklySchedule)
 }
 
 // RunJSONSerializationTestForWeeklySchedule runs a test to see if a specific instance of WeeklySchedule round trips to JSON and back losslessly
-func RunJSONSerializationTestForWeeklySchedule(subject WeeklySchedule) string {
+func RunJSONSerializationTestForWeeklySchedule(t *rapid.T) {
+	subject := WeeklyScheduleGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual WeeklySchedule
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1451,32 +1234,30 @@ func RunJSONSerializationTestForWeeklySchedule(subject WeeklySchedule) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of WeeklySchedule instances for property testing - lazily instantiated by WeeklyScheduleGenerator()
-var weeklyScheduleGenerator gopter.Gen
+var weeklyScheduleGenerator *rapid.Generator[WeeklySchedule]
 
 // WeeklyScheduleGenerator returns a generator of WeeklySchedule instances for property testing.
-func WeeklyScheduleGenerator() gopter.Gen {
+func WeeklyScheduleGenerator() *rapid.Generator[WeeklySchedule] {
 	if weeklyScheduleGenerator != nil {
 		return weeklyScheduleGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWeeklySchedule(generators)
-	weeklyScheduleGenerator = gen.Struct(reflect.TypeOf(WeeklySchedule{}), generators)
+	dayOfWeek := rapid.Ptr(rapid.String(), true)
+	intervalWeeks := rapid.Ptr(rapid.Int(), true)
+
+	weeklyScheduleGenerator = rapid.Custom(func(t *rapid.T) WeeklySchedule {
+		var result WeeklySchedule
+		result.DayOfWeek = dayOfWeek.Draw(t, "DayOfWeek")
+		result.IntervalWeeks = intervalWeeks.Draw(t, "IntervalWeeks")
+		return result
+	})
 
 	return weeklyScheduleGenerator
-}
-
-// AddIndependentPropertyGeneratorsForWeeklySchedule is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWeeklySchedule(gens map[string]gopter.Gen) {
-	gens["DayOfWeek"] = gen.PtrOf(gen.AlphaString())
-	gens["IntervalWeeks"] = gen.PtrOf(gen.Int())
 }
 
 func Test_WeeklySchedule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1486,29 +1267,23 @@ func Test_WeeklySchedule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of WeeklySchedule_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWeeklySchedule_STATUS, WeeklySchedule_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForWeeklySchedule_STATUS)
 }
 
 // RunJSONSerializationTestForWeeklySchedule_STATUS runs a test to see if a specific instance of WeeklySchedule_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForWeeklySchedule_STATUS(subject WeeklySchedule_STATUS) string {
+func RunJSONSerializationTestForWeeklySchedule_STATUS(t *rapid.T) {
+	subject := WeeklySchedule_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual WeeklySchedule_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -1517,31 +1292,29 @@ func RunJSONSerializationTestForWeeklySchedule_STATUS(subject WeeklySchedule_STA
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of WeeklySchedule_STATUS instances for property testing - lazily instantiated by
 // WeeklySchedule_STATUSGenerator()
-var weeklySchedule_STATUSGenerator gopter.Gen
+var weeklySchedule_STATUSGenerator *rapid.Generator[WeeklySchedule_STATUS]
 
 // WeeklySchedule_STATUSGenerator returns a generator of WeeklySchedule_STATUS instances for property testing.
-func WeeklySchedule_STATUSGenerator() gopter.Gen {
+func WeeklySchedule_STATUSGenerator() *rapid.Generator[WeeklySchedule_STATUS] {
 	if weeklySchedule_STATUSGenerator != nil {
 		return weeklySchedule_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWeeklySchedule_STATUS(generators)
-	weeklySchedule_STATUSGenerator = gen.Struct(reflect.TypeOf(WeeklySchedule_STATUS{}), generators)
+	dayOfWeek := rapid.Ptr(rapid.String(), true)
+	intervalWeeks := rapid.Ptr(rapid.Int(), true)
+
+	weeklySchedule_STATUSGenerator = rapid.Custom(func(t *rapid.T) WeeklySchedule_STATUS {
+		var result WeeklySchedule_STATUS
+		result.DayOfWeek = dayOfWeek.Draw(t, "DayOfWeek")
+		result.IntervalWeeks = intervalWeeks.Draw(t, "IntervalWeeks")
+		return result
+	})
 
 	return weeklySchedule_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForWeeklySchedule_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWeeklySchedule_STATUS(gens map[string]gopter.Gen) {
-	gens["DayOfWeek"] = gen.PtrOf(gen.AlphaString())
-	gens["IntervalWeeks"] = gen.PtrOf(gen.Int())
 }

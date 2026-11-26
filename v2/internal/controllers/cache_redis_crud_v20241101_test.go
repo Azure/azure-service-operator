@@ -13,7 +13,6 @@ import (
 	cache "github.com/Azure/azure-service-operator/v2/api/cache/v20241101"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_Cache_Redis_20241101_CRUD(t *testing.T) {
@@ -110,15 +109,15 @@ func newRedis20241101(tc *testcommon.KubePerTestContext, rg *resources.ResourceG
 			Sku: &cache.Sku{
 				Family:   &family,
 				Name:     &sku,
-				Capacity: to.Ptr(1),
+				Capacity: new(1),
 			},
-			EnableNonSslPort:  to.Ptr(false),
+			EnableNonSslPort:  new(false),
 			MinimumTlsVersion: &tls12,
 			RedisConfiguration: &cache.RedisCommonPropertiesRedisConfiguration{
-				MaxmemoryDelta:  to.Ptr("10"),
-				MaxmemoryPolicy: to.Ptr("allkeys-lru"),
+				MaxmemoryDelta:  new("10"),
+				MaxmemoryPolicy: new("allkeys-lru"),
 			},
-			RedisVersion: to.Ptr("6"),
+			RedisVersion: new("6"),
 		},
 	}
 }
@@ -129,7 +128,7 @@ func Redis_AccessPolicy_20241101_CRUD(tc *testcommon.KubePerTestContext, redis *
 		ObjectMeta: tc.MakeObjectMeta("testpolicy"),
 		Spec: cache.RedisAccessPolicy_Spec{
 			Owner:       testcommon.AsOwner(redis),
-			Permissions: to.Ptr("+get +set"),
+			Permissions: new("+get +set"),
 		},
 	}
 
@@ -142,7 +141,7 @@ func Redis_AccessPolicy_20241101_CRUD(tc *testcommon.KubePerTestContext, redis *
 
 	// Update the policy permissions
 	old := accessPolicy.DeepCopy()
-	accessPolicy.Spec.Permissions = to.Ptr("+get +set +del")
+	accessPolicy.Spec.Permissions = new("+get +set +del")
 	tc.PatchResourceAndWait(old, &accessPolicy)
 	tc.Expect(accessPolicy.Status.Permissions).ToNot(BeNil())
 	tc.Expect(*accessPolicy.Status.Permissions).To(Equal("+get +set +del allkeys")) // It looks like they add this "allkeys"
@@ -154,7 +153,7 @@ func Redis_AccessPolicyAssignment_20241101_CRUD(tc *testcommon.KubePerTestContex
 		ObjectMeta: tc.MakeObjectMeta("assignmentpolicy"),
 		Spec: cache.RedisAccessPolicy_Spec{
 			Owner:       testcommon.AsOwner(redis),
-			Permissions: to.Ptr("+get +set"),
+			Permissions: new("+get +set"),
 		},
 	}
 
@@ -163,9 +162,9 @@ func Redis_AccessPolicyAssignment_20241101_CRUD(tc *testcommon.KubePerTestContex
 		ObjectMeta: tc.MakeObjectMeta("testassignment"),
 		Spec: cache.RedisAccessPolicyAssignment_Spec{
 			Owner:            testcommon.AsOwner(redis),
-			AccessPolicyName: to.Ptr(accessPolicy.Name),
-			ObjectId:         to.Ptr("00000000-0000-0000-0000-000000000000"), // Dummy object ID
-			ObjectIdAlias:    to.Ptr("test-user"),
+			AccessPolicyName: new(accessPolicy.Name),
+			ObjectId:         new("00000000-0000-0000-0000-000000000000"), // Dummy object ID
+			ObjectIdAlias:    new("test-user"),
 		},
 	}
 
@@ -183,7 +182,7 @@ func Redis_AccessPolicyAssignment_20241101_CRUD(tc *testcommon.KubePerTestContex
 
 	// Update the object alias
 	old := assignment.DeepCopy()
-	assignment.Spec.ObjectIdAlias = to.Ptr("updated-user")
+	assignment.Spec.ObjectIdAlias = new("updated-user")
 	tc.PatchResourceAndWait(old, &assignment)
 	tc.Expect(assignment.Status.ObjectIdAlias).ToNot(BeNil())
 	tc.Expect(*assignment.Status.ObjectIdAlias).To(Equal("updated-user"))
@@ -218,8 +217,8 @@ func Redis_PatchSchedule_20241101_CRUD(tc *testcommon.KubePerTestContext, redis 
 			Owner: testcommon.AsOwner(redis),
 			ScheduleEntries: []cache.ScheduleEntry{{
 				DayOfWeek:         &monday,
-				MaintenanceWindow: to.Ptr("PT6H"),
-				StartHourUtc:      to.Ptr(6),
+				MaintenanceWindow: new("PT6H"),
+				StartHourUtc:      new(6),
 			}},
 		},
 	}
@@ -230,20 +229,20 @@ func Redis_PatchSchedule_20241101_CRUD(tc *testcommon.KubePerTestContext, redis 
 	old := schedule.DeepCopy()
 	schedule.Spec.ScheduleEntries = append(schedule.Spec.ScheduleEntries, cache.ScheduleEntry{
 		DayOfWeek:         &wednesday,
-		MaintenanceWindow: to.Ptr("PT6H30S"),
-		StartHourUtc:      to.Ptr(7),
+		MaintenanceWindow: new("PT6H30S"),
+		StartHourUtc:      new(7),
 	})
 	tc.PatchResourceAndWait(old, &schedule)
 	statusMonday := cache.DayOfWeek_STATUS_Monday
 	statusWednesday := cache.DayOfWeek_STATUS_Wednesday
 	tc.Expect(schedule.Status.ScheduleEntries).To(Equal([]cache.ScheduleEntry_STATUS{{
 		DayOfWeek:         &statusMonday,
-		MaintenanceWindow: to.Ptr("PT6H"),
-		StartHourUtc:      to.Ptr(6),
+		MaintenanceWindow: new("PT6H"),
+		StartHourUtc:      new(6),
 	}, {
 		DayOfWeek:         &statusWednesday,
-		MaintenanceWindow: to.Ptr("PT6H30S"),
-		StartHourUtc:      to.Ptr(7),
+		MaintenanceWindow: new("PT6H30S"),
+		StartHourUtc:      new(7),
 	}}))
 	// The patch schedule is always named default in Azure whatever we
 	// call it in k8s, and can't be deleted once it's created.
@@ -255,8 +254,8 @@ func Redis_FirewallRule_20241101_CRUD(tc *testcommon.KubePerTestContext, redis *
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("fwrule")),
 		Spec: cache.RedisFirewallRule_Spec{
 			Owner:   testcommon.AsOwner(redis),
-			StartIP: to.Ptr("1.2.3.4"),
-			EndIP:   to.Ptr("1.2.3.4"),
+			StartIP: new("1.2.3.4"),
+			EndIP:   new("1.2.3.4"),
 		},
 	}
 
@@ -264,7 +263,7 @@ func Redis_FirewallRule_20241101_CRUD(tc *testcommon.KubePerTestContext, redis *
 	defer tc.DeleteResourceAndWait(&rule)
 
 	old := rule.DeepCopy()
-	rule.Spec.EndIP = to.Ptr("1.2.3.5")
+	rule.Spec.EndIP = new("1.2.3.5")
 	tc.PatchResourceAndWait(old, &rule)
 	tc.Expect(rule.Status.EndIP).ToNot(BeNil())
 	tc.Expect(*rule.Status.EndIP).To(Equal("1.2.3.5"))

@@ -37,7 +37,7 @@ func Test_AzureSQL_Combined(t *testing.T) {
 	tc := globalTestContext.ForTest(t)
 
 	// Use a different region where we have quota
-	tc.AzureRegion = to.Ptr("australiaeast")
+	tc.AzureRegion = new("australiaeast")
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
@@ -247,13 +247,13 @@ func newAzureSQLAADServer(tc *testcommon.KubePerTestContext, rg *resources.Resou
 			Owner:    testcommon.AsOwner(rg),
 			Administrators: &sql.ServerExternalAdministrator{
 				AdministratorType:         to.Ptr(sql.ServerExternalAdministrator_AdministratorType_ActiveDirectory),
-				PrincipalType:             to.Ptr(admin.principalType),
-				AzureADOnlyAuthentication: to.Ptr(true),
-				Login:                     to.Ptr(admin.login),
-				Sid:                       to.Ptr(admin.objectID),
-				TenantId:                  to.Ptr(admin.tenantID),
+				PrincipalType:             new(admin.principalType),
+				AzureADOnlyAuthentication: new(true),
+				Login:                     new(admin.login),
+				Sid:                       new(admin.objectID),
+				TenantId:                  new(admin.tenantID),
 			},
-			Version: to.Ptr("12.0"),
+			Version: new("12.0"),
 		},
 	}
 
@@ -266,7 +266,7 @@ func newAzureSQLServerDatabase(tc *testcommon.KubePerTestContext, server *sql.Se
 		Spec: sql.ServersDatabase_Spec{
 			Owner:     testcommon.AsOwner(server),
 			Location:  tc.AzureRegion,
-			Collation: to.Ptr("SQL_Latin1_General_CP1_CI_AS"),
+			Collation: new("SQL_Latin1_General_CP1_CI_AS"),
 		},
 	}
 
@@ -278,8 +278,8 @@ func newSQLServerOpenFirewallRule(tc *testcommon.KubePerTestContext, server *sql
 		ObjectMeta: tc.MakeObjectMeta("firewall"),
 		Spec: sql.ServersFirewallRule_Spec{
 			Owner:          testcommon.AsOwner(server),
-			StartIpAddress: to.Ptr("0.0.0.0"),
-			EndIpAddress:   to.Ptr("255.255.255.255"),
+			StartIpAddress: new("0.0.0.0"),
+			EndIpAddress:   new("255.255.255.255"),
 		},
 	}
 

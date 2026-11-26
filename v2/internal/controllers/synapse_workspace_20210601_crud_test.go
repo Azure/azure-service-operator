@@ -33,7 +33,7 @@ func Test_Workspace_BigDataPool(t *testing.T) {
 			Owner:        testcommon.AsOwner(rg),
 			Kind:         to.Ptr(storage.StorageAccount_Kind_Spec_StorageV2),
 			Sku:          &storage.Sku{Name: to.Ptr(storage.SkuName_Standard_LRS)},
-			IsHnsEnabled: to.Ptr(true),
+			IsHnsEnabled: new(true),
 			OperatorSpec: &storage.StorageAccountOperatorSpec{
 				ConfigMaps: &storage.StorageAccountOperatorConfigMaps{
 					DfsEndpoint: &genruntime.ConfigMapDestination{
@@ -58,7 +58,7 @@ func Test_Workspace_BigDataPool(t *testing.T) {
 					Name: configMapName,
 					Key:  accountUrlKey,
 				},
-				Filesystem: to.Ptr("default"),
+				Filesystem: new("default"),
 			},
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
@@ -109,15 +109,15 @@ func WorkspacesBigDataPool_CRUD(tc *testcommon.KubePerTestContext, workspaces *s
 		Spec: synapse.WorkspacesBigDataPool_Spec{
 			Location:       tc.AzureRegion,
 			Owner:          testcommon.AsOwner(workspaces),
-			SparkVersion:   to.Ptr("3.3"),
-			NodeCount:      to.Ptr(4),
+			SparkVersion:   new("3.3"),
+			NodeCount:      new(4),
 			NodeSize:       &nodeSize,
 			NodeSizeFamily: &nodeSizeFamily,
 			AutoScale: &synapse.AutoScaleProperties{
-				Enabled: to.Ptr(false),
+				Enabled: new(false),
 			},
 			AutoPause: &synapse.AutoPauseProperties{
-				Enabled: to.Ptr(false),
+				Enabled: new(false),
 			},
 		},
 	}
