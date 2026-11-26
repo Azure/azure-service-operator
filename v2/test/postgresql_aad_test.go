@@ -7,6 +7,7 @@ package test
 
 import (
 	"database/sql"
+	"fmt"
 	"testing"
 	"time"
 
@@ -151,7 +152,7 @@ func Test_PostgreSQL_AADUser(t *testing.T) {
 }
 
 // PostgreSQL_AADUser_CRUD creates a role bound to a managed identity, updates its roles (which reconciles the existing
-// role, checking its binding), and deletes it.
+// role, checking its binding), disables its LOGIN, and deletes it.
 func PostgreSQL_AADUser_CRUD(
 	tc *testcommon.KubePerTestContext,
 	server *postgresql.FlexibleServer,
@@ -202,9 +203,14 @@ func PostgreSQL_AADUser_CRUD(
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(roles).To(Equal(set.Make(user.Spec.Roles...)))
 
+	// Disable LOGIN out of band (as roleOptions.login: false would) before deleting: a NOLOGIN role is absent from
+	// pg_user but still ours, so deleting the resource must still drop it
+	_, err = db.ExecContext(tc.Ctx, fmt.Sprintf(`ALTER ROLE "%s" NOLOGIN`, username))
+	tc.Expect(err).ToNot(HaveOccurred())
+
 	tc.DeleteResourceAndWait(user)
 
-	exists, err := postgresqlutil.DoesUserExist(tc.Ctx, db, username)
+	exists, err := postgresqlutil.RoleExists(tc.Ctx, db, username)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }

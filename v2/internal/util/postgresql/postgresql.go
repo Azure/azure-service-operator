@@ -103,8 +103,10 @@ func UpdateUser(ctx context.Context, db *sql.DB, user SQLUser, password string) 
 	return nil
 }
 
+// FindUserIfExist returns the role named username, or nil if there is none. It looks in pg_roles rather than pg_user,
+// so that a role with NOLOGIN (for example, a User with roleOptions.login set to false) is still found.
 func FindUserIfExist(ctx context.Context, db *sql.DB, username string) (*SQLUser, error) {
-	res, err := db.ExecContext(ctx, "SELECT usename FROM pg_user WHERE usename = $1", username)
+	res, err := db.ExecContext(ctx, "SELECT rolname FROM pg_roles WHERE rolname = $1", username)
 	if err != nil {
 		return nil, err
 	}
@@ -116,9 +118,9 @@ func FindUserIfExist(ctx context.Context, db *sql.DB, username string) (*SQLUser
 	}
 }
 
-// DoesUserExist checks if db contains user
+// DoesUserExist checks if db contains a role named username. Like FindUserIfExist, it includes roles with NOLOGIN.
 func DoesUserExist(ctx context.Context, db *sql.DB, username string) (bool, error) {
-	res, err := db.ExecContext(ctx, "SELECT usename FROM pg_user WHERE usename = $1", username)
+	res, err := db.ExecContext(ctx, "SELECT rolname FROM pg_roles WHERE rolname = $1", username)
 	if err != nil {
 		return false, err
 	}
