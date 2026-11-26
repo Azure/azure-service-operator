@@ -81,8 +81,9 @@ func TestGetAADPrincipal(t *testing.T) {
 
 	// The documented result of pgaadauth_list_principals:
 	// TABLE(rolename name, principalType text, objectId text, tenantId text, isMfa integer, isAdmin integer).
+	// The live server returns "rolname", despite the documentation calling it "rolename".
 	// See https://learn.microsoft.com/azure/postgresql/security/security-manage-entra-users#list-microsoft-entra-roles-using-sql.
-	columns := []string{"rolename", "principalType", "objectId", "tenantId", "isMfa", "isAdmin"}
+	columns := []string{"rolname", "principaltype", "objectid", "tenantid", "ismfa", "isadmin"}
 	rows := [][]driver.Value{
 		{"aad-admin", "service", "00000000-0000-0000-0000-00000000000a", "00000000-0000-0000-0000-0000000000ff", int64(0), int64(1)},
 		{"app-identity", "service", "00000000-0000-0000-0000-000000000001", "00000000-0000-0000-0000-0000000000ff", int64(0), int64(0)},

@@ -63,8 +63,8 @@ type AADPrincipal struct {
 // (for example a local role created with a password).
 // See https://learn.microsoft.com/azure/postgresql/flexible-server/how-to-manage-azure-ad-users.
 func GetAADPrincipal(ctx context.Context, db *sql.DB, roleName string) (*AADPrincipal, error) {
-	// pgaadauth_list_principals(false) lists every role bound to a Microsoft Entra principal, administrators included,
-	// as TABLE(rolename name, principalType text, objectId text, tenantId text, isMfa integer, isAdmin integer).
+	// pgaadauth_list_principals(false) lists every role bound to a Microsoft Entra principal, administrators included.
+	// The live server returns "rolname", despite the documentation calling it "rolename".
 	// Columns are matched by name, ignoring case, so the query doesn't depend on the extension's column order.
 	// See https://learn.microsoft.com/azure/postgresql/security/security-manage-entra-users#list-microsoft-entra-roles-using-sql.
 	rows, err := db.QueryContext(ctx, "SELECT * FROM pgaadauth_list_principals(false)")
@@ -94,7 +94,7 @@ func GetAADPrincipal(ctx context.Context, db *sql.DB, roleName string) (*AADPrin
 		for i, column := range columns {
 			principal[strings.ToLower(column)] = values[i].String
 		}
-		if principal["rolename"] == roleName {
+		if principal["rolname"] == roleName {
 			result = &AADPrincipal{
 				ObjectID:      principal["objectid"],
 				PrincipalType: principal["principaltype"],
@@ -128,7 +128,8 @@ func VerifyAADPrincipal(roleName string, actual *AADPrincipal, objectID string, 
 			"role %s already exists and is bound to Microsoft Entra object %s, not %s",
 			roleName,
 			actual.ObjectID,
-			objectID)
+			objectID,
+		)
 	}
 
 	if principalType != "" && !strings.EqualFold(actual.PrincipalType, principalType) {
@@ -136,7 +137,8 @@ func VerifyAADPrincipal(roleName string, actual *AADPrincipal, objectID string, 
 			"role %s already exists and is bound to a Microsoft Entra principal of type %s, not %s",
 			roleName,
 			actual.PrincipalType,
-			principalType)
+			principalType,
+		)
 	}
 
 	return nil

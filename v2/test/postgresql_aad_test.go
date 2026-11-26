@@ -22,19 +22,25 @@ import (
 	sqlv1 "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
 	postgresqlutil "github.com/Azure/azure-service-operator/v2/internal/util/postgresql"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
-// Test_PostgreSQL_AADUser makes the identity running the tests (which is also the operator's identity) the server's
-// Microsoft Entra administrator, then manages roles bound to a user-assigned managed identity. Roles are bound by object
-// ID (pgaadauth_create_principal_with_oid), which needs no extra directory permissions, so this runs in the CI
-// subscription. In CI, AZURE_TEST_IDENTITY_NAME names the managed identity the tests run as; locally, sign in as a user.
+// Test_PostgreSQL_AADUser uses a dedicated federated administrator identity through resource-scoped credentials to
+// manage roles bound to a separate user-assigned managed identity. The runner is also registered as an administrator
+// for SQL assertions, but need not share the operator's identity. Roles are bound by object ID
+// (pgaadauth_create_principal_with_oid), which needs no extra directory permissions. In CI, AZURE_TEST_IDENTITY_NAME
+// names the runner's managed identity; locally, sign in as a user. The cluster OIDC issuer is resolved by getOIDCIssuer.
 func Test_PostgreSQL_AADUser(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
 	tc.AzureRegion = to.Ptr(postgresqlTestRegion)
+
+	issuer, err := getOIDCIssuer()
+	tc.Expect(err).ToNot(HaveOccurred())
 
 	// Working out who the tests run as is the same as for Azure SQL; only the token scope differs.
 	adminIdentity, err := azureSQLAdminForTest(tc)
@@ -46,6 +52,9 @@ func Test_PostgreSQL_AADUser(t *testing.T) {
 	}
 
 	rg := tc.CreateTestResourceGroupAndWait()
+
+	adminMI := newManagedIdentity(tc, rg)
+	fic := newFederatedIdentityCredential(tc, adminMI, issuer)
 
 	adminPasswordKey := "adminPassword"
 	adminSecret := newPostgresSQLSecret(tc, adminPasswordKey, tc.Namer.GeneratePassword())
@@ -68,12 +77,31 @@ func Test_PostgreSQL_AADUser(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourcesAndWait(server, firewallRule, mi)
+	tc.CreateResourcesAndWait(server, firewallRule, mi, adminMI, fic)
 	tc.Expect(server.Status.FullyQualifiedDomainName).ToNot(BeNil())
 	tc.Expect(mi.Status.PrincipalId).ToNot(BeNil())
+	tc.Expect(adminMI.Status.PrincipalId).ToNot(BeNil())
+	tc.Expect(adminMI.Status.ClientId).ToNot(BeNil())
+
+	credentialSecret := creds.NewScopedManagedIdentitySecret(
+		tc.AzureSubscription, tc.AzureTenant, to.Value(adminMI.Status.ClientId), "aad-admin-credential", tc.Namespace,
+	)
+	tc.CreateResource(credentialSecret)
+
+	adminLogin := adminMI.AzureName()
 
 	administrator := &postgresql.FlexibleServersAdministrator{
 		ObjectMeta: tc.MakeObjectMeta("aadadmin"),
+		Spec: postgresql.FlexibleServersAdministrator_Spec{
+			Owner:         testcommon.AsOwner(server),
+			AzureName:     to.Value(adminMI.Status.PrincipalId),
+			PrincipalName: to.Ptr(adminLogin),
+			PrincipalType: to.Ptr(postgresql.PrincipalType_ServicePrincipal),
+			TenantId:      to.Ptr(tc.AzureTenant),
+		},
+	}
+	runnerAdministrator := &postgresql.FlexibleServersAdministrator{
+		ObjectMeta: tc.MakeObjectMeta("runner-aadadmin"),
 		Spec: postgresql.FlexibleServersAdministrator_Spec{
 			Owner:         testcommon.AsOwner(server),
 			AzureName:     adminIdentity.objectID,
@@ -82,7 +110,7 @@ func Test_PostgreSQL_AADUser(t *testing.T) {
 			TenantId:      to.Ptr(adminIdentity.tenantID),
 		},
 	}
-	tc.CreateResourceAndWait(administrator)
+	tc.CreateResourcesAndWait(administrator, runnerAdministrator)
 
 	admin := postgreSQLAADAdmin{
 		fqdn:  to.Value(server.Status.FullyQualifiedDomainName),
@@ -90,7 +118,7 @@ func Test_PostgreSQL_AADUser(t *testing.T) {
 		tc:    tc,
 	}
 
-	// Ensure that the firewall rule and the administrator have taken effect
+	// Ensure that the firewall rule and the runner's administrator registration have taken effect.
 	tc.G.Eventually(
 		func() error {
 			db, err := admin.connect()
@@ -110,13 +138,13 @@ func Test_PostgreSQL_AADUser(t *testing.T) {
 		testcommon.Subtest{
 			Name: "PostgreSQL AAD User CRUD",
 			Test: func(testContext *testcommon.KubePerTestContext) {
-				PostgreSQL_AADUser_CRUD(testContext, server, admin, principalID)
+				PostgreSQL_AADUser_CRUD(testContext, server, admin, principalID, adminLogin, credentialSecret.Name)
 			},
 		},
 		testcommon.Subtest{
 			Name: "PostgreSQL AAD User neither adopts nor drops a local role",
 			Test: func(testContext *testcommon.KubePerTestContext) {
-				PostgreSQL_AADUser_LocalRoleCollision(testContext, server, admin, principalID)
+				PostgreSQL_AADUser_LocalRoleCollision(testContext, server, admin, principalID, adminLogin, credentialSecret.Name)
 			},
 		},
 	)
@@ -129,6 +157,8 @@ func PostgreSQL_AADUser_CRUD(
 	server *postgresql.FlexibleServer,
 	admin postgreSQLAADAdmin,
 	principalID string,
+	adminLogin string,
+	credentialSecretName string,
 ) {
 	username := tc.NoSpaceNamer.GenerateName("aaduser")
 	user := &postgresqlv1.User{
@@ -137,13 +167,16 @@ func PostgreSQL_AADUser_CRUD(
 			Owner: testcommon.AsKubernetesOwner(server),
 			Roles: []string{"pg_read_all_stats"},
 			AADUser: &postgresqlv1.AADUserSpec{
-				ServerAdminUsername: admin.login,
+				ServerAdminUsername: adminLogin,
 				ObjectId:            principalID,
 				PrincipalType:       "service",
 			},
 		},
 	}
-	tc.CreateResourceAndWait(user)
+	user.Annotations = map[string]string{annotations.PerResourceSecret: credentialSecretName}
+	tc.CreateResource(user)
+	// Federation and the operator's administrator registration may still be propagating.
+	tc.Eventually(user).WithTimeout(5 * time.Minute).Should(tc.Match.BeProvisioned(0))
 
 	db, err := admin.connect()
 	tc.Expect(err).ToNot(HaveOccurred())
@@ -183,6 +216,8 @@ func PostgreSQL_AADUser_LocalRoleCollision(
 	server *postgresql.FlexibleServer,
 	admin postgreSQLAADAdmin,
 	principalID string,
+	adminLogin string,
+	credentialSecretName string,
 ) {
 	db, err := admin.connect()
 	tc.Expect(err).ToNot(HaveOccurred())
@@ -201,13 +236,15 @@ func PostgreSQL_AADUser_LocalRoleCollision(
 			Owner: testcommon.AsKubernetesOwner(server),
 			Roles: []string{"pg_read_all_stats"},
 			AADUser: &postgresqlv1.AADUserSpec{
-				ServerAdminUsername: admin.login,
+				ServerAdminUsername: adminLogin,
 				ObjectId:            principalID,
 				PrincipalType:       "service",
 			},
 		},
 	}
+	user.Annotations = map[string]string{annotations.PerResourceSecret: credentialSecretName}
 	tc.CreateResourceAndWaitForState(user, metav1.ConditionFalse, conditions.ConditionSeverityError)
+	tc.Expect(user.Status.Conditions[0].Message).To(ContainSubstring("already exists and is not bound to a Microsoft Entra principal"))
 
 	// The local role was neither bound nor granted anything
 	principal, err := postgresqlutil.GetAADPrincipal(tc.Ctx, db, username)
@@ -245,5 +282,6 @@ func (a postgreSQLAADAdmin) connect() (*sql.DB, error) {
 		postgresqlutil.DefaultMaintanenceDatabase,
 		postgresqlutil.PSqlServerPort,
 		a.login,
-		token.Token)
+		token.Token,
+	)
 }
