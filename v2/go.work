@@ -2,7 +2,7 @@
 // listed under use and keeps every go.mod/go.sum consistent in one PR.
 // Keep comments out of the use block: Dependabot's parser ends the block at
 // the first closing parenthesis. hack/crossplane and docs/hugo are not members.
-go 1.26.0
+go 1.27.0
 
 use (
 	.

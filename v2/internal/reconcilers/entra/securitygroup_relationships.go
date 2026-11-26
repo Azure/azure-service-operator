@@ -41,7 +41,7 @@ func orderedUnique(values []uuid.UUID) []uuid.UUID {
 // state. We bias toward availability: adds run before removes and, if an add fails,
 // we return without touching removes so the group cannot end up transiently empty
 // while we still cannot restore the intended members.
-func (r *EntraSecurityGroupReconciler) reconcileRelationship(
+func (r *SecurityGroupReconciler) reconcileRelationship(
 	ctx context.Context,
 	relationshipName string,
 	current []uuid.UUID,
@@ -78,7 +78,7 @@ func (r *EntraSecurityGroupReconciler) reconcileRelationship(
 	return nil
 }
 
-func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
+func (r *SecurityGroupReconciler) reconcileOwnersAndMembers(
 	ctx context.Context,
 	group *asoentrav1.SecurityGroup,
 	graphClient *msgraphsdkgo.GraphServiceClient,
@@ -150,7 +150,7 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 }
 
 // addOwner returns a function that can be used to add an owner to a group using the provided GroupItemRequestBuilder.
-func (r *EntraSecurityGroupReconciler) addOwner(
+func (r *SecurityGroupReconciler) addOwner(
 	groupRequestBuilder *groups.GroupItemRequestBuilder,
 ) func(ctx context.Context, objectID uuid.UUID) error {
 	ownersRefBuilder := groupRequestBuilder.Owners().Ref()
@@ -167,7 +167,7 @@ func (r *EntraSecurityGroupReconciler) addOwner(
 }
 
 // removeOwner returns a function that can be used to remove an owner from a group using the provided GroupItemRequestBuilder.
-func (r *EntraSecurityGroupReconciler) removeOwner(
+func (r *SecurityGroupReconciler) removeOwner(
 	groupRequestBuilder *groups.GroupItemRequestBuilder,
 	log logr.Logger,
 ) func(ctx context.Context, objectID uuid.UUID) error {
@@ -192,7 +192,7 @@ func (r *EntraSecurityGroupReconciler) removeOwner(
 }
 
 // addMember returns a function that can be used to add a member to a group using the provided GroupItemRequestBuilder.
-func (r *EntraSecurityGroupReconciler) addMember(
+func (r *SecurityGroupReconciler) addMember(
 	groupRequestBuilder *groups.GroupItemRequestBuilder,
 ) func(ctx context.Context, objectID uuid.UUID) error {
 	membersRefBuilder := groupRequestBuilder.Members().Ref()
@@ -204,7 +204,7 @@ func (r *EntraSecurityGroupReconciler) addMember(
 }
 
 // removeMember returns a function that can be used to remove a member from a group using the provided GroupItemRequestBuilder.
-func (r *EntraSecurityGroupReconciler) removeMember(
+func (r *SecurityGroupReconciler) removeMember(
 	groupRequestBuilder *groups.GroupItemRequestBuilder,
 ) func(ctx context.Context, objectID uuid.UUID) error {
 	membersBuilder := groupRequestBuilder.Members()
