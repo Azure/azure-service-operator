@@ -145,7 +145,7 @@ Adopt Option 4c, as it is a minimal change that fully addresses the issue withou
 
 ## Status
 
-Proposed.
+Implemented.
 
 ## Consequences
 

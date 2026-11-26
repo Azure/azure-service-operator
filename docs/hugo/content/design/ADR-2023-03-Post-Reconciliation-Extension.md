@@ -121,7 +121,7 @@ func (extension *PrivateEndpointExtension) PostReconcileCheck(
 
 ## Status
 
-TBC
+Implemented.
 
 ## Consequences
 

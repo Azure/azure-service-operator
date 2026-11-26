@@ -77,6 +77,8 @@ Recommendation: Option 2: Per-resource configuration
 
 ## Status
 
+Implemented.
+
 ## Consequences
 
 ## Experience Report

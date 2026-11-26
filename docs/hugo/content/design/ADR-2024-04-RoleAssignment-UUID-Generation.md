@@ -88,7 +88,7 @@ We retain how the resource shape looks like and suggest using OperatorSpec prope
 
 ## Status
 
-Proposed.
+Implemented.
 
 ## Consequences
 

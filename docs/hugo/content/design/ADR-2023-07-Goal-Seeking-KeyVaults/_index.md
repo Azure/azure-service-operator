@@ -161,7 +161,7 @@ We retain `createMode` with its existing semantics, and add new values to suppor
 
 ## Status
 
-TBC
+Implemented.
 
 ## Consequences
 

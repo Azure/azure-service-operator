@@ -390,7 +390,7 @@ Recommended.
 
 ## Status
 
-TBC
+Implemented.
 
 ## Consequences
 

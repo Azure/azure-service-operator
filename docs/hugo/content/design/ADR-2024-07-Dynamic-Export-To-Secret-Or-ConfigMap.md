@@ -456,7 +456,8 @@ A: **Open question:** I believe that `resource.spec.foo` is better, because:
 
 ## Status
 
-Proposed.
+Implemented using `operatorSpec.configMapExpressions` and `operatorSpec.secretExpressions`.
+See the [expressions guide]({{< relref "expressions" >}}).
 
 ## Consequences
 

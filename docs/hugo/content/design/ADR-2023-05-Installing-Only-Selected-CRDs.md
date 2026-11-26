@@ -255,7 +255,7 @@ Conclusion: No, users must list all resources they want explicitly. We strongly 
 
 ## Status
 
-Proposed.
+Implemented.
 
 ## Consequences
 

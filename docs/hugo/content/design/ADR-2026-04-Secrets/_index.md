@@ -160,7 +160,7 @@ Generation Option 1: Parallel Properties.
 
 ## Status
 
-Proposed.
+Implemented using `$importSecretMode` and parallel value and secret-reference properties.
 
 ## Consequences
 

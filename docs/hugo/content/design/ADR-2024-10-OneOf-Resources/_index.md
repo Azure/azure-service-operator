@@ -254,7 +254,7 @@ Proposed: Option 2: Loosen the rules on Name
 
 ## Status
 
-Discussion.
+Implemented with a different approach: the ARM spec retains a top-level name, which is pushed to the selected OneOf leaf during conversion.
 
 ## Consequences
 

@@ -264,7 +264,7 @@ customer need. If instead we allowed both to be set then it's hard to take it aw
 
 ## Status
 
-Proposed.
+Implemented.
 
 ## Consequences
 

@@ -282,7 +282,7 @@ solves the most user requests while also limiting downsides.
 
 ## Status
 
-Agreed. Implementation pending.
+Implemented using ConfigMaps.
 
 ## Consequences
 

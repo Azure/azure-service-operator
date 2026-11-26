@@ -250,7 +250,7 @@ The major downside of this is that we'd make the usual case (with just a single 
 
 ## Status
 
-Proposed.
+Implemented.
 
 ## Consequences
 

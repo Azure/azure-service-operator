@@ -56,7 +56,7 @@ Enhance the existing `objectModelConfiguration` structure to allow specifying `$
 
 ## Status
 
-Proposed.
+Implemented.
 
 ## Consequences
 
